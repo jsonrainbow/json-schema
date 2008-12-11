@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <link rel="selenium.base" href="http://jsonschemaphpvalidator" />
   <title>Test Suite</title>
 </head>
 <body>

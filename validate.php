@@ -1,5 +1,6 @@
 <?php
-require_once('../../plugins/JsSchema/lib/JsSchema.php');
+require_once('JsonSchema.php');
+require_once('JsonSchemaUndefined.php');
 Dbg::$quietMode = true;
 
 if($_REQUEST['schema']) {
@@ -17,7 +18,7 @@ if(!$json) {
   trigger_error('Could not parse the JSON object.',E_USER_ERROR);
 }
 
-$result = JsSchema::validate(
+$result = JsonSchema::validate(
   $json,
   $schema
 );
