@@ -1,0 +1,17 @@
+*{
+  font-family: verdana, arial, sans-serif;
+}
+.campo{
+  width:550px;
+  height:230px;
+  background-color:#eee;
+}
+.botao{
+  width:300px;
+  height:60px;
+}
+.comment{
+  background-color:#eee;
+  color:#363;
+  font-size: .7em;
+}

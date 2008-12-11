@@ -1,0 +1,47 @@
+<html>
+<head>
+<script type="text/javascript" src="jsonschema.js"></script>
+<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="interface.js"></script>
+<link rel="stylesheet" type="text/css" href="interface.css" />
+
+</head>
+
+<body>
+<table>
+	<tr>
+		<td>
+		  <h3>JSON</h3> 
+		  <textarea class='campo' id='json'>
+{
+  "a":1,
+  "b":"thing I know is that",
+  "c":"I do exist"
+}		  </textarea>
+		</td>
+		<td rowspan="2" valign="top">
+  		  <h3>Schema:</h3>
+<textarea class='campo' id='schema'> 
+{
+  "type":"object",
+  "properties":{
+    "a":{"type":"number"},
+    "b":{"type":"string"}
+  },
+  "additionalProperties":false
+}
+</textarea>
+		</td>
+	</tr>
+</table>
+<button id='bt-validate-js' class='botao'>
+  Validate With Js
+</button>
+<button id='bt-validate-php' class='botao'>
+  Validate With PHP
+</button>
+<br/>
+<div id='resultados'>...</div>
+</body>
+</html>
