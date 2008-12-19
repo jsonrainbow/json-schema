@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <link rel="selenium.base" href="http://jsonschemaphpvalidator" />
   <title>Test Suite</title>
 </head>
 <body>
@@ -26,6 +25,7 @@
 <tr><td><a href="maxDecimal">maxDecimal</a></td></tr>
 <tr><td><a href="selfDefinedSchema">selfDefinedSchema</a></td></tr>
 <tr><td><a href="extends">extends</a></td></tr>
+<tr><td><a href="phpTypeCastMode">phpTypeCastMode</a></td></tr>
 <tr><td><a href="disallow">disallow</a></td></tr>
 <tr><td><a href="wrongMessagesFailingTestCase">wrongMessagesFailingTestCase</a></td></tr>
 </tbody></table>

@@ -1,17 +1,29 @@
 $(document).ready(function(){
   $("#bt-validate-js").click(validateJs);
   $("#bt-validate-php").click(validatePhp);
+  $("#bt-validate-php-type-cast-mode").click(validatePhpTypeCastMode);
 });
 
 
-function validatePhp() {
+function validatePhpTypeCastMode() {
+  validatePhp(true);
+}
+
+function validatePhp(typeCastMode) {
+  if(typeCastMode == true) {
+    typeCastMode = true;
+  }
+  else {
+    typeCastMode = false;
+  }
+  
   $('#resultados').html('. . . w o r k i n g . . . ');
   schema = $('#schema').val();
   json    = $('#json').val();
   
   $.getJSON(
     "validate.php",
-    {"schema":schema,"json":json},
+    {"schema":schema,"json":json,"typeCastMode":typeCastMode},
     phpCallback
   );
 }

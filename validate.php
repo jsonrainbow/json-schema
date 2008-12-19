@@ -18,6 +18,9 @@ if(!$json) {
   trigger_error('Could not parse the JSON object.',E_USER_ERROR);
 }
 
+if($_REQUEST['typeCastMode'] == 'true') {
+  JsonSchema::$checkMode = JsonSchema::CHECK_MODE_TYPE_CAST;
+}
 $result = JsonSchema::validate(
   $json,
   $schema

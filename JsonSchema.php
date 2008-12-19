@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2008 Gradua Networks (www.gradua.net)
+Copyright (c) 2008 Gradua Networks
 Author: Bruno Prieto Reis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,12 +21,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-*/
+Usage:
+
+//this optional check mode may be set so that strings containing doubles or integers are
+//validated ok against a schema defining an integer or a double.
+//JsonSchema::$checkMode = JsonSchema::CHECK_MODE_TYPE_CAST;
+ 
+$result = JsonSchema::validate(
+  $json,
+  $schema
+);
+* */
 
 class JsonSchema {
   
   static $errors = array();
   static $formatValidator;
+  
+  const CHECK_MODE_NORMAL = 1;
+  const CHECK_MODE_TYPE_CAST = 2;
+  public static $checkMode = self::CHECK_MODE_NORMAL;
   
   /**
    * Validates a php object against a schema. Both the php object and the schema
@@ -172,9 +186,7 @@ class JsonSchema {
     }
     if(array_key_exists('disallow',$schema)) {
       $errorsBeforeDisallowCheck = self::$errors;
-      Dbg::object($errorsBeforeDisallowCheck,'$errorsBeforeDisallowCheck');
       $response = self::checkType($schema->disallow, $value, $path);
-      Dbg::object(count(self::$errors),'after errors');
       if(
         ( count($errorsBeforeDisallowCheck) == count(self::$errors) )  &&
         !count($response)
@@ -210,7 +222,12 @@ class JsonSchema {
     if( isset($schema->minLength) && is_string($value) && strlen($value) < $schema->minLength) {
       self::adderror($path,"must be at least " . $schema->minLength . " characters long");
     }
-    if( isset($schema->minimum) && gettype($value) == gettype($schema->minimum) && $value < $schema->minimum) {
+    
+    if( 
+      isset($schema->minimum) && 
+      gettype($value) == gettype($schema->minimum) && 
+      $value < $schema->minimum
+    ) {
       self::adderror($path,"must have a minimum value of " . $schema->minimum);
     }
     if( isset($schema->maximum) && gettype($value) == gettype($schema->maximum) && $value > $schema->maximum) {
@@ -251,9 +268,10 @@ class JsonSchema {
   }
   
   /**
+   * Take Care: Value is being passed by ref to continue validation with proper format.
    * @return array
    */
-  static function checkType($type, $value, $path) {
+  static function checkType($type, &$value, $path) {
     if($type) {
       $wrongType = false;
       if(is_string($type) && $type !== 'any') {
@@ -264,11 +282,21 @@ class JsonSchema {
         } 
         else {
           if($type == 'number') {
-          	if(!in_array(gettype($value),array('integer','double'))) {
+            if(self::$checkMode == self::CHECK_MODE_TYPE_CAST) {
+              $wrongType = !self::checkTypeCast($type,$value);
+            }
+          	elseif(!in_array(gettype($value),array('integer','double'))) {
           	  $wrongType = true;	
           	}
-          } elseif( $type !== gettype($value) ) {
-          	$wrongType = true;
+          } else{
+            if(
+              self::$checkMode == self::CHECK_MODE_TYPE_CAST
+              && $type == 'integer'
+            ) {
+              $wrongType = !self::checkTypeCast($type,$value);
+            } elseif($type !== gettype($value)) {
+          	  $wrongType = true;
+            }
           }  
         } 
       }
@@ -304,6 +332,31 @@ class JsonSchema {
       }
     }
     return array();
+  }
+  
+  /**
+   * Take Care: Value is being passed by ref to continue validation with proper format.
+   */
+  static function checkTypeCast($type,&$value) {
+    switch($type) {
+  	  case 'integer':
+  	    $castValue = (integer)$value;
+  	    break;
+  	  case 'number':
+  		$castValue = (double)$value;
+  		break;
+  	  default:
+  	    trigger_error('this method should only be called for the above supported types.');
+  	    break;
+  	}
+  	if( (string)$value == (string)$castValue ) {
+  	  $res = true;
+  	  $value = $castValue;
+  	}
+  	else {
+  	  $res = false;
+  	}
+  	return $res;
   }
   
   static function checkObj($instance, $objTypeDef, $path, $additionalProp,$_changing) {

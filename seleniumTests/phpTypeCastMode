@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://jsonschemaphpv/" />
+<title>phpTypeCastMode</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">phpTypeCastMode</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/validator.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema</td>
+	<td>{<br />&nbsp;&nbsp;&quot;type&quot;:&quot;object&quot;,<br />&nbsp;&nbsp;&quot;properties&quot;:{<br />&nbsp;&nbsp;&nbsp;&nbsp;&quot;a&quot;:{&quot;type&quot;:&quot;number&quot;}<br />&nbsp;&nbsp;}<br />}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>json</td>
+	<td>{<br />&nbsp;&nbsp;&quot;a&quot;:&quot;c&quot;<br />}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bt-validate-php</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>JSON:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>JSON: INVALID</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bt-validate-php-type-cast-mode</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>JSON:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>JSON: INVALID</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>json</td>
+	<td>{<br />&nbsp;&nbsp;&quot;a&quot;:&quot;9&quot;<br />}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bt-validate-php</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>JSON:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>JSON: INVALID</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bt-validate-php-type-cast-mode</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>JSON:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>JSON: VALID</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema</td>
+	<td>{<br />&nbsp;&nbsp;&quot;type&quot;:&quot;object&quot;,<br />&nbsp;&nbsp;&quot;properties&quot;:{<br />&nbsp;&nbsp;&nbsp;&nbsp;&quot;a&quot;:{&quot;type&quot;:&quot;integer&quot;,&quot;maximum&quot;:8}<br />&nbsp;&nbsp;}<br />}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bt-validate-php-type-cast-mode</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>JSON:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>must have a maximum value of 8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>schema</td>
+	<td>{<br />&nbsp;&nbsp;&quot;type&quot;:&quot;object&quot;,<br />&nbsp;&nbsp;&quot;properties&quot;:{<br />&nbsp;&nbsp;&nbsp;&nbsp;&quot;a&quot;:{&quot;type&quot;:&quot;integer&quot;,&quot;maximum&quot;:8.0}<br />&nbsp;&nbsp;}<br />}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bt-validate-php-type-cast-mode</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>JSON:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>JSON: VALID</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
