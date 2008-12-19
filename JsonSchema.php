@@ -66,11 +66,11 @@ class JsonSchema {
   }
   
   static function incrementPath($path,$i) {
-    if($path) {
+    if($path !== '') {
 	  if(is_int($i)) {
 	    $path .= '['.$i.']';
 	  }
-	  elseif($i = '') {
+	  elseif($i == '') {
 	    $path .= '';
 	  }
 	  else {
