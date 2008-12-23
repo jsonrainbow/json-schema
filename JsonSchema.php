@@ -56,6 +56,9 @@ class JsonSchema {
    * @return unknown
    */
   static public function validate($instance, $schema = null, $formatValidator = null) {
+    self::$errors = array();
+    self::$formatValidator = null;
+    
     if($formatValidator) self::$formatValidator = $formatValidator;
     $res = self::_validate($instance,$schema,false);
     self::$formatValidator = null;
@@ -146,6 +149,7 @@ class JsonSchema {
   }
   
   static function checkProp($value, $schema, $path, $i = '', $_changing = false) {
+    Dbg::func(1,3);
     if (!is_object($schema)) {
     	return;
     }
@@ -199,10 +203,23 @@ class JsonSchema {
     }
     //verify the itens on an array and min and max number of items.
     if(is_array($value)) {
+      if(
+        self::$checkMode == self::CHECK_MODE_TYPE_CAST &&
+        $schema->type == 'object'
+      ) {
+        self::checkObj(
+          $value,
+          $schema->properties,
+          $path,
+          isset($schema->additionalProperties) ? $schema->additionalProperties : null,
+          $_changing 
+        );
+      }
       self::checkArray($value,$schema,$path,$i,$_changing);
     }
     ############ verificar!
     elseif(isset($schema->properties) && is_object($value)) {
+      Dbg::mark('calling checkObj');
       self::checkObj(
         $value,
         $schema->properties,
@@ -294,7 +311,12 @@ class JsonSchema {
               && $type == 'integer'
             ) {
               $wrongType = !self::checkTypeCast($type,$value);
-            } elseif($type !== gettype($value)) {
+            } elseif (
+              self::$checkMode == self::CHECK_MODE_TYPE_CAST
+              && $type == 'object' && is_array($value)
+            ) {
+              $wrongType = false;
+            } elseif ($type !== gettype($value)) {
           	  $wrongType = true;
             }
           }  
@@ -361,7 +383,7 @@ class JsonSchema {
   
   static function checkObj($instance, $objTypeDef, $path, $additionalProp,$_changing) {
     if($objTypeDef instanceOf StdClass) {
-      if( ! ($instance instanceOf StdClass) || is_array($instance) ) {
+      if( ! (($instance instanceOf StdClass) || is_array($instance)) ) {
       	self::$errors[] = array(
       	  'property'=>$path,
       	  'message'=>"an object is required"
@@ -370,7 +392,7 @@ class JsonSchema {
       foreach($objTypeDef as $i=>$value) {
         $value = 
           array_key_exists($i,$instance) ? 
-            $instance->$i : 
+            (is_array($instance) ? $instance[$i] : $instance->$i) : 
             new JsonSchemaUndefined();
         $propDef = $objTypeDef->$i;
         self::checkProp($value,$propDef,$path,$i,$_changing);
@@ -395,7 +417,7 @@ class JsonSchema {
       	  );
         }	
       }
-	  $value = $instance->$i;
+	  $value = is_array($instance) ? $instance[$i] : $instance->$i;
 	  
 	  // To verify additional properties types. 
 	  if ($objTypeDef && is_object($objTypeDef) && !isset($objTypeDef->$i)) {
@@ -417,6 +439,10 @@ class JsonSchema {
 class Dbg {
 	
   static public $quietMode = false;
+  
+  static function includeJqueryJs() {
+    echo "<script type='text/javascript' src='/js/jquery.js'></script>";
+  }
   
   static function func($print = true, $numStackSteps = 1) {
   	$ar = debug_backtrace();
@@ -440,7 +466,7 @@ class Dbg {
   	return $ret;
   }
   
-  static function object($object,$linkTitle,$varDump = false,$print = true) {
+  static function object($object,$linkTitle = 'object',$varDump = false,$print = true) {
   	static $divCount = 0;
   	$divCount++;
   	$ar = debug_backtrace();
