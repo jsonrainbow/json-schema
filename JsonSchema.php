@@ -149,7 +149,6 @@ class JsonSchema {
   }
   
   static function checkProp($value, $schema, $path, $i = '', $_changing = false) {
-    Dbg::func(1,3);
     if (!is_object($schema)) {
     	return;
     }
@@ -219,7 +218,6 @@ class JsonSchema {
     }
     ############ verificar!
     elseif(isset($schema->properties) && is_object($value)) {
-      Dbg::mark('calling checkObj');
       self::checkObj(
         $value,
         $schema->properties,
