@@ -317,7 +317,7 @@ class JsonSchema {
       	return array(
       	  array(
       	    'property'=>$path,
-      	    'message'=>gettype($value)." value found, but a ".$type." is required "
+      	    'message'=>gettype($value)." value found, but a ".$type." is required"
       	  )
       	);
       }

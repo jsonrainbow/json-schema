@@ -14,18 +14,14 @@ class PhpTypeCastModeTest extends BaseTestCase
                   "properties":{
                     "a":{"type":"number"}
                   }
-                }'
-            ),
-            array(
-                '{
-                  "a":"9"
                 }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "a":{"type":"number"}
-                  }
-                }'
+                null,
+                array(
+                    array(
+                        'property' => 'a',
+                        'message'  => 'string value found, but a number is required'
+                    )
+                )
             ),
             array(
                 '{
@@ -55,7 +51,19 @@ class PhpTypeCastModeTest extends BaseTestCase
                   }
                 }',
                 JsonSchema::CHECK_MODE_TYPE_CAST
-            )
+            ),
+            array(
+                '{
+                  "a":"9"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "a":{"type":"number"}
+                  }
+                }',
+                JsonSchema::CHECK_MODE_TYPE_CAST
+            ),
         );
     }
 }

@@ -21,6 +21,20 @@ class AdditionalPropertiesTest extends BaseTestCase
             array(
                 '{
                   "prop":"1",
+                  "additionalProp":"2"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "prop":{"type":"string"}
+                  },
+                  "additionalProperties": false
+                }',
+                JsonSchema::CHECK_MODE_TYPE_CAST
+            ),
+            array(
+                '{
+                  "prop":"1",
                   "additionalProp":2
                 }',
                 '{
@@ -30,6 +44,20 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
+            ),
+            array(
+                '{
+                  "prop":"1",
+                  "additionalProp":2
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "prop":{"type":"string"}
+                  },
+                  "additionalProperties": {"type":"string"}
+                }',
+                JsonSchema::CHECK_MODE_TYPE_CAST
             )
         );
     }
@@ -48,6 +76,19 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   }
                 }'
+            ),
+            array(
+                '{
+                  "prop":"1",
+                  "additionalProp":"2"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "prop":{"type":"string"}
+                  }
+                }',
+                JsonSchema::CHECK_MODE_TYPE_CAST
             ),
             array(
                 '{
