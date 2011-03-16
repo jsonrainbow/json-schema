@@ -1,6 +1,6 @@
 <?php
-require_once('JsonSchema.php');
-require_once('JsonSchemaUndefined.php');
+require_once('../../libs/JsonSchema.php');
+require_once('../../libs/JsonSchemaUndefined.php');
 Dbg::$quietMode = true;
 
 if($_REQUEST['schema']) {

@@ -16,7 +16,14 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   },
                   "additionalProperties": false
-                }'
+                }',
+                null,
+                array(
+                    array(
+                        'property' => '',
+                        'message'  => 'The property additionalProp is not defined in the objTypeDef and the objTypeDef does not allow additional properties'
+                    )
+                )
             ),
             array(
                 '{

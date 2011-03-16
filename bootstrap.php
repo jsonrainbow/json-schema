@@ -1,5 +1,5 @@
 <?php
 
-require 'JsonSchema.php';
-require 'JsonSchemaUndefined.php';
+require 'libs/JsonSchema.php';
+require 'libs/JsonSchemaUndefined.php';
 require 'tests/BaseTestCase.php';
