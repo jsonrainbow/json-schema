@@ -30,12 +30,11 @@ namespace JsonSchema;
 
 class Validator {
 
+    public $checkMode = self::CHECK_MODE_NORMAL;
     private $errors = array();
-    private $formatValidator;
 
     const CHECK_MODE_NORMAL = 1;
     const CHECK_MODE_TYPE_CAST = 2;
-    public $checkMode = self::CHECK_MODE_NORMAL;
 
     /**
      * Validates a php object against a schema. Both the php object and the schema
@@ -45,22 +44,13 @@ class Validator {
      *
      * @param \stdClass $instance
      * @param \stdClass $schema
-     * @param JsonFormatValidator $formatValidator an optional class that have methods to validate the format definitions.
-     * If this is null, so format validation will not be applied, but if its true, then the validation will throw
-     * an error if any format defined on the schema is not supported by the validator.
      * @return unknown
      */
-    public function validate($instance, $schema = null, $formatValidator = null) {
+    public function validate($instance, $schema = null) {
         $this->errors = array();
-        $this->formatValidator = null;
 
-        if($formatValidator) $this->formatValidator = $formatValidator;
-        $res = $this->_validate($instance,$schema,false);
-        $this->formatValidator = null;
-        return $res;
-    }
+        $_changing = false;
 
-    function _validate($instance,$schema = null,$_changing) {
         // verify passed schema
         if ($schema) {
             $this->checkProp($instance,$schema,'','',$_changing);
@@ -261,12 +251,6 @@ class Validator {
             (  ($value * pow(10,$schema->maxDecimal)) != (int)($value * pow(10,$schema->maxDecimal))  )
         ) {
             $this->adderror($path,"may only have " . $schema->maxDecimal . " digits of decimal places");
-        }
-        if( isset($schema->format) && isset($this->formatValidator) ) {
-            $error = $this->formatValidator->validate($value,$schema->format);
-            if($error) {
-                $this->adderror($path,$error);
-            }
         }
     }
 
