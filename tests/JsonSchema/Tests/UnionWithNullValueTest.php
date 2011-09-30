@@ -1,46 +1,41 @@
 <?php
 
-class NumberAndIntegerTypesTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class UnionWithNullValueTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "number": 1.4
+                  "stringOrNumber":null,
+                  "booleanOrNull":null
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"integer"}
+                    "stringOrNumber":{"type":["string","number"]},
+                    "booleanOrNull":{"type":["boolean","null"]}
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "number": 1
+                  "stringOrNumber":12,
+                  "booleanOrNull":null
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"number"}
-                  }
-                }'
-            ),
-            array(
-                '{
-                  "number": 1.4
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number"}
+                    "stringOrNumber":{"type":["string","number"]},
+                    "booleanOrNull":{"type":["boolean","null"]}
                   }
                 }'
             )

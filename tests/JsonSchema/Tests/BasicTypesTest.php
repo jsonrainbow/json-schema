@@ -1,12 +1,14 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class BasicTypesTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
-                '{ 
+                '{
                   "string":null,
                   "number":null,
                   "integer":null,
@@ -15,7 +17,7 @@ class BasicTypesTest extends BaseTestCase
                   "array":null,
                   "null":1
                 }',
-                '{ 
+                '{
                   "type":"object",
                   "properties":{
                     "string":{"type":"string"},
@@ -31,12 +33,12 @@ class BasicTypesTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
-                '{ 
+                '{
                   "string":"string test",
                   "number":1,
                   "integer":1,
@@ -52,7 +54,7 @@ class BasicTypesTest extends BaseTestCase
                   "any5": [],
                   "any6": null
                 }',
-                '{ 
+                '{
                   "type":"object",
                   "properties":{
                     "string":{"type":"string"},

@@ -1,38 +1,48 @@
 <?php
 
-class RequireTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class NumberAndIntegerTypesTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "state":"DF"
+                  "number": 1.4
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "state":{"type":"string","optional":true,"requires":"city"},
-                    "city":{"type":"string","optional":true}
+                    "number":{"type":"integer"}
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "state":"DF",
-                  "city":"Brasília"
+                  "number": 1
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "state":{"type":"string","optional":true,"requires":"city"},
-                    "city":{"type":"string","optional":true}
+                    "number":{"type":"number"}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "number": 1.4
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "number":{"type":"number"}
                   }
                 }'
             )

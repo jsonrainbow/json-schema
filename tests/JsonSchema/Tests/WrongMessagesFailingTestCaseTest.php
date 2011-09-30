@@ -1,14 +1,16 @@
 <?php
 
-class UnionWithNullValueTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class WrongMessagesFailingTestCaseTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "stringOrNumber":null,
-                  "booleanOrNull":null
+                  "stringOrNumber":4.8,
+                  "booleanOrNull":["A","B"]
                 }',
                 '{
                   "type":"object",
@@ -20,14 +22,14 @@ class UnionWithNullValueTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "stringOrNumber":12,
-                  "booleanOrNull":null
+                  "stringOrNumber":4.8,
+                  "booleanOrNull":true
                 }',
                 '{
                   "type":"object",

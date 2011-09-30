@@ -1,57 +1,54 @@
 <?php
 
-class MinimumMaximumTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class ArraysTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":2
+                  "array":[1,2,"a"]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","minimum":4}
+                    "array":{
+                      "type":"array",
+                      "items":{"type":"number"}
+                    }
                   }
                 }'
             ),
             array(
                 '{
-                  "value":16
+                  "array":[1,2,null]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","maximum":8}
+                    "array":{
+                      "type":"array",
+                      "items":{"type":["number","boolean"]}
+                    }
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "value":6
+                  "array":[1,2,"a"]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","minimum":4}
-                  }
-                }'
-            ),
-            array(
-                '{
-                  "value":6
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"integer","maximum":8}
+                    "array":{"type":"array"}
                   }
                 }'
             )

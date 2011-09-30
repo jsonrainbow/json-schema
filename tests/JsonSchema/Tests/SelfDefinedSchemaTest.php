@@ -1,5 +1,7 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class SelfDefinedSchemaTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -10,14 +12,14 @@ class SelfDefinedSchemaTest extends BaseTestCase
                     "$schema": {
                         "properties": {
                             "name": {
-                                "type": "string" 
+                                "type": "string"
                             },
                             "age" : {
                                 "type": "integer",
                                 "maximum": 25,
-                                "optional": true 
-                            } 
-                        } 
+                                "optional": true
+                            }
+                        }
                     },
                     "name" : "John Doe",
                     "age" : 30,
@@ -27,7 +29,7 @@ class SelfDefinedSchemaTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
@@ -36,14 +38,14 @@ class SelfDefinedSchemaTest extends BaseTestCase
                     "$schema": {
                         "properties": {
                             "name": {
-                                "type": "string" 
+                                "type": "string"
                             },
                             "age" : {
                                 "type": "integer",
                                 "maximum": 125,
-                                "optional": true 
-                            } 
-                        } 
+                                "optional": true
+                            }
+                        }
                     },
                     "name" : "John Doe",
                     "age" : 30,

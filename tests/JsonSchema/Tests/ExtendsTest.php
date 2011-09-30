@@ -1,5 +1,7 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class ExtendsTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -15,18 +17,18 @@ class ExtendsTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "name": {
-                            "type": "string" 
+                            "type": "string"
                         },
                         "age" : {
                             "type": "integer",
                              "maximum":120
-                        } 
+                        }
                     },
                     "extends": {
                         "id": "oldPerson",
                         "type": "object",
                         "properties": {
-                            "age" : {"minimum":70} 
+                            "age" : {"minimum":70}
                         }
                     }
                 }'
@@ -41,25 +43,25 @@ class ExtendsTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "name": {
-                            "type": "string" 
+                            "type": "string"
                         },
                         "age" : {
                             "type": "integer",
                              "maximum":120
-                        } 
+                        }
                     },
                     "extends": {
                         "id": "oldPerson",
                         "type": "object",
                         "properties": {
-                            "age" : {"minimum":70} 
+                            "age" : {"minimum":70}
                         }
                     }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
@@ -73,18 +75,18 @@ class ExtendsTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "name": {
-                            "type": "string" 
+                            "type": "string"
                         },
                         "age" : {
                             "type": "integer",
                              "maximum":120
-                        } 
+                        }
                     },
                     "extends": {
                         "id": "oldPerson",
                         "type": "object",
                         "properties": {
-                            "age" : {"minimum":70} 
+                            "age" : {"minimum":70}
                         }
                     }
                 }'

@@ -1,61 +1,62 @@
 <?php
 
-class MinLengthMaxLengthTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class MinimumMaximumTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":"w" 
+                  "value":2
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"integer","minimum":4}
                   }
                 }'
             ),
             array(
                 '{
-                  "value":"wo7us"
+                  "value":16
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"integer","maximum":8}
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "value":"wo"
+                  "value":6
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"integer","minimum":4}
                   }
                 }'
             ),
             array(
                 '{
-                  "value":"wo7u"
+                  "value":6
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"integer","maximum":8}
                   }
                 }'
-            ),
-            
+            )
         );
     }
 }

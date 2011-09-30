@@ -1,33 +1,40 @@
 <?php
 
-class OptionalPropertyTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class RequireTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
-                '{}',
+                '{
+                  "state":"DF"
+                }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","optional":false}
+                    "state":{"type":"string","optional":true,"requires":"city"},
+                    "city":{"type":"string","optional":true}
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "number": "1.4"
+                  "state":"DF",
+                  "city":"Brasília"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","optional":false}
+                    "state":{"type":"string","optional":true,"requires":"city"},
+                    "city":{"type":"string","optional":true}
                   }
                 }'
             )

@@ -1,38 +1,38 @@
 <?php
 
-class EnumTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class MaxDecimalTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":"Morango"
+                  "value":5.6333
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","enum":["Abacate","Manga","Pitanga"]}
-                  },
-                  "additionalProperties":false
+                    "value":{"type":"number","maxDecimal":3}
+                  }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "value":"Abacate"
+                  "value":5.633
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","enum":["Abacate","Manga","Pitanga"]}
-                  },
-                  "additionalProperties":false
+                    "value":{"type":"number","maxDecimal":3}
+                  }
                 }'
             )
         );

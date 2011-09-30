@@ -1,5 +1,7 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class AdditionalPropertiesTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -68,7 +70,7 @@ class AdditionalPropertiesTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(

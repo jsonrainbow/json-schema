@@ -1,5 +1,7 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class PatternTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -19,7 +21,7 @@ class PatternTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(

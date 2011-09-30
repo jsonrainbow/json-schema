@@ -1,5 +1,7 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class TupleTypingTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -17,7 +19,7 @@ class TupleTypingTest extends BaseTestCase
                       "items":[
                         {"type":"string"},
                         {"type":"number"}
-                      ] 
+                      ]
                     }
                   }
                 }'
@@ -70,14 +72,14 @@ class TupleTypingTest extends BaseTestCase
                       "items":[
                         {"type":"string"},
                         {"type":"number"}
-                      ] 
+                      ]
                     }
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
@@ -94,7 +96,7 @@ class TupleTypingTest extends BaseTestCase
                         {"type":"string"},
                         {"type":"number","optional":true},
                         {"type":"number","optional":true}
-                      ] 
+                      ]
                     }
                   }
                 }'

@@ -1,5 +1,7 @@
 <?php
 
+namespace JsonSchema\Tests;
+
 class UnionTypesTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -20,7 +22,7 @@ class UnionTypesTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(

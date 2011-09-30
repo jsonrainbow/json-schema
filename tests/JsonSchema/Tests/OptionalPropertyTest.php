@@ -1,39 +1,35 @@
 <?php
 
-class WrongMessagesFailingTestCaseTest extends BaseTestCase
+namespace JsonSchema\Tests;
+
+class OptionalPropertyTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
-                '{
-                  "stringOrNumber":4.8,
-                  "booleanOrNull":["A","B"]
-                }',
+                '{}',
                 '{
                   "type":"object",
                   "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
+                    "number":{"type":"string","optional":false}
                   }
                 }'
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
             array(
                 '{
-                  "stringOrNumber":4.8,
-                  "booleanOrNull":true
+                  "number": "1.4"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
+                    "number":{"type":"string","optional":false}
                   }
                 }'
             )
