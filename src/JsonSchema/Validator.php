@@ -43,8 +43,8 @@ class Validator {
    * The validation works as defined by the schema proposal in
    * http://www.json.com/json-schema-proposal/
    *
-   * @param StdClass $instance
-   * @param StdClass $schema
+   * @param \stdClass $instance
+   * @param \stdClass $schema
    * @param JsonFormatValidator $formatValidator an optional class that have methods to validate the format definitions.
    * If this is null, so format validation will not be applied, but if its true, then the validation will throw
    * an error if any format defined on the schema is not supported by the validator.
@@ -71,7 +71,7 @@ class Validator {
 	  $this->checkProp($instance,$instance->$propName,'','',$_changing);
 	}
 	// show results
-	$obj = new stdClass();
+	$obj = new \stdClass();
 	$obj->valid = ! ((boolean)count($this->errors));
 	$obj->errors = $this->errors;
 	return $obj;
@@ -198,7 +198,7 @@ class Validator {
     //verify the itens on an array and min and max number of items.
     if(is_array($value)) {
       if(
-        $this->checkMode == $this->CHECK_MODE_TYPE_CAST &&
+        $this->checkMode == $this::CHECK_MODE_TYPE_CAST &&
         $schema->type == 'object'
       ) {
         $this->checkObj(
@@ -292,7 +292,7 @@ class Validator {
         }
         else {
           if($type == 'number') {
-            if($this->checkMode == $this->CHECK_MODE_TYPE_CAST) {
+            if($this->checkMode == $this::CHECK_MODE_TYPE_CAST) {
               $wrongType = !$this->checkTypeCast($type,$value);
             }
           	elseif(!in_array(gettype($value),array('integer','double'))) {
@@ -300,12 +300,12 @@ class Validator {
           	}
           } else{
             if(
-              $this->checkMode == $this->CHECK_MODE_TYPE_CAST
+              $this->checkMode == $this::CHECK_MODE_TYPE_CAST
               && $type == 'integer'
             ) {
               $wrongType = !$this->checkTypeCast($type,$value);
             } elseif (
-              $this->checkMode == $this->CHECK_MODE_TYPE_CAST
+              $this->checkMode == $this::CHECK_MODE_TYPE_CAST
               && $type == 'object' && is_array($value)
             ) {
               $wrongType = false;
@@ -375,8 +375,8 @@ class Validator {
   }
 
   function checkObj($instance, $objTypeDef, $path, $additionalProp,$_changing) {
-    if($objTypeDef instanceOf StdClass) {
-      if( ! (($instance instanceOf StdClass) || is_array($instance)) ) {
+    if($objTypeDef instanceOf \stdClass) {
+      if( ! (($instance instanceOf \stdClass) || is_array($instance)) ) {
       	$this->errors[] = array(
       	  'property'=>$path,
       	  'message'=>"an object is required"

@@ -2,6 +2,8 @@
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\Validator;
+
 class AdditionalPropertiesTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -39,7 +41,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": false
                 }',
-                JsonSchema::CHECK_MODE_TYPE_CAST
+                Validator::CHECK_MODE_TYPE_CAST
             ),
             array(
                 '{
@@ -66,7 +68,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }',
-                JsonSchema::CHECK_MODE_TYPE_CAST
+                Validator::CHECK_MODE_TYPE_CAST
             )
         );
     }
@@ -97,7 +99,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   }
                 }',
-                JsonSchema::CHECK_MODE_TYPE_CAST
+                Validator::CHECK_MODE_TYPE_CAST
             ),
             array(
                 '{

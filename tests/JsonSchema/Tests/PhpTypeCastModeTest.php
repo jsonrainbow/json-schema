@@ -1,5 +1,9 @@
 <?php
 
+namespace JsonSchema\Tests;
+
+use JsonSchema\Validator;
+
 class PhpTypeCastModeTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -36,7 +40,7 @@ class PhpTypeCastModeTest extends BaseTestCase
             )
         );
     }
-    
+
     public function getValidTests()
     {
         return array(
@@ -50,7 +54,7 @@ class PhpTypeCastModeTest extends BaseTestCase
                     "a":{"type":"integer","maximum":8.0}
                   }
                 }',
-                JsonSchema::CHECK_MODE_TYPE_CAST
+                Validator::CHECK_MODE_TYPE_CAST
             ),
             array(
                 '{
@@ -62,7 +66,7 @@ class PhpTypeCastModeTest extends BaseTestCase
                     "a":{"type":"number"}
                   }
                 }',
-                JsonSchema::CHECK_MODE_TYPE_CAST
+                Validator::CHECK_MODE_TYPE_CAST
             ),
         );
     }
