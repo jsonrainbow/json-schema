@@ -28,7 +28,7 @@ $result = JsonSchema::validate(
 
 namespace JsonSchema;
 
-class JsonSchema {
+class Validator {
 
   static $errors = array();
   static $formatValidator;
