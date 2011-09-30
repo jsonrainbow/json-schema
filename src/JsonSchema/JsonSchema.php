@@ -19,31 +19,33 @@ Usage:
 //this optional check mode may be set so that strings containing doubles or integers are
 //validated ok against a schema defining an integer or a double.
 //JsonSchema::$checkMode = JsonSchema::CHECK_MODE_TYPE_CAST;
- 
+
 $result = JsonSchema::validate(
   $json,
   $schema
 );
 * */
 
+namespace JsonSchema;
+
 class JsonSchema {
-  
+
   static $errors = array();
   static $formatValidator;
-  
+
   const CHECK_MODE_NORMAL = 1;
   const CHECK_MODE_TYPE_CAST = 2;
   public static $checkMode = self::CHECK_MODE_NORMAL;
-  
+
   /**
    * Validates a php object against a schema. Both the php object and the schema
-   * are supposed to be a result of a json_decode call. 
+   * are supposed to be a result of a json_decode call.
    * The validation works as defined by the schema proposal in
    * http://www.json.com/json-schema-proposal/
    *
    * @param StdClass $instance
    * @param StdClass $schema
-   * @param JsonFormatValidator $formatValidator an optional class that have methods to validate the format definitions. 
+   * @param JsonFormatValidator $formatValidator an optional class that have methods to validate the format definitions.
    * If this is null, so format validation will not be applied, but if its true, then the validation will throw
    * an error if any format defined on the schema is not supported by the validator.
    * @return unknown
@@ -51,13 +53,13 @@ class JsonSchema {
   static public function validate($instance, $schema = null, $formatValidator = null) {
     self::$errors = array();
     self::$formatValidator = null;
-    
+
     if($formatValidator) self::$formatValidator = $formatValidator;
     $res = self::_validate($instance,$schema,false);
     self::$formatValidator = null;
     return $res;
   }
-  
+
   static function _validate($instance,$schema = null,$_changing) {
   	// verify passed schema
     if ($schema) {
@@ -74,7 +76,7 @@ class JsonSchema {
 	$obj->errors = self::$errors;
 	return $obj;
   }
-  
+
   static function incrementPath($path,$i) {
     if($path !== '') {
 	  if(is_int($i)) {
@@ -92,7 +94,7 @@ class JsonSchema {
     }
     return $path;
   }
-  
+
   static function checkArray($value,$schema,$path,$i,$_changing) {
     //verify items
     if(isset($schema->items)) {
@@ -104,22 +106,22 @@ class JsonSchema {
           }
           else {
             // aditional array properties
-            if(array_key_exists('additionalProperties',$schema)) { 
-              if($schema->additionalProperties === false) { 	
+            if(array_key_exists('additionalProperties',$schema)) {
+              if($schema->additionalProperties === false) {
                 self::adderror(
                   $path,
                   'The item '.$i.'['.$k.'] is not defined in the objTypeDef and the objTypeDef does not allow additional properties'
                 );
               }
               else {
-                self::checkProp($v,$schema->additionalProperties,$path,$k,$_changing);	
+                self::checkProp($v,$schema->additionalProperties,$path,$k,$_changing);
               }
             }
           }
         }//foreach($value as $k=>$v) {
         // treat when we have more schema definitions than values
         for($k = count($value); $k < count($schema->items); $k++) {
-          self::checkProp( 
+          self::checkProp(
             new JsonSchemaUndefined(),
             $schema->items[$k], $path, $k, $_changing
           );
@@ -140,7 +142,7 @@ class JsonSchema {
       self::adderror($path,"There must be a maximum of " . $schema->maxItems . " in the array");
     }
   }
-  
+
   static function checkProp($value, $schema, $path, $i = '', $_changing = false) {
     if (!is_object($schema)) {
     	return;
@@ -172,7 +174,7 @@ class JsonSchema {
   	  if ( isset($schema->optional) ? !$schema->optional : true) {
 	    self::adderror($path,"is missing and it is not optional");
 	  }
-    } 
+    }
     // normal verifications
     else {
       self::$errors = array_merge(
@@ -204,7 +206,7 @@ class JsonSchema {
           $schema->properties,
           $path,
           isset($schema->additionalProperties) ? $schema->additionalProperties : null,
-          $_changing 
+          $_changing
         );
       }
       self::checkArray($value,$schema,$path,$i,$_changing);
@@ -216,13 +218,13 @@ class JsonSchema {
         $schema->properties,
         $path,
         isset($schema->additionalProperties) ? $schema->additionalProperties : null,
-        $_changing 
+        $_changing
       );
     }
     // verify a regex pattern
     if( isset($schema->pattern) && is_string($value) && !preg_match('/'.$schema->pattern.'/',$value)) {
       self::adderror($path,"does not match the regex pattern " . $schema->pattern);
-    }  
+    }
     // verify maxLength, minLength, maximum and minimum values
     if( isset($schema->maxLength) && is_string($value) && (strlen($value) > $schema->maxLength)) {
       self::adderror($path,"must be at most " . $schema->maxLength . " characters long");
@@ -230,10 +232,10 @@ class JsonSchema {
     if( isset($schema->minLength) && is_string($value) && strlen($value) < $schema->minLength) {
       self::adderror($path,"must be at least " . $schema->minLength . " characters long");
     }
-    
-    if( 
-      isset($schema->minimum) && 
-      gettype($value) == gettype($schema->minimum) && 
+
+    if(
+      isset($schema->minimum) &&
+      gettype($value) == gettype($schema->minimum) &&
       $value < $schema->minimum
     ) {
       self::adderror($path,"must have a minimum value of " . $schema->minimum);
@@ -254,8 +256,8 @@ class JsonSchema {
         self::adderror($path,"does not have a value in the enumeration " . implode(', ',$schema->enum));
       }
     }
-    if( 
-      isset($schema->maxDecimal) && 
+    if(
+      isset($schema->maxDecimal) &&
       (  ($value * pow(10,$schema->maxDecimal)) != (int)($value * pow(10,$schema->maxDecimal))  )
     ) {
       self::adderror($path,"may only have " . $schema->maxDecimal . " digits of decimal places");
@@ -267,14 +269,14 @@ class JsonSchema {
       }
     }
   }
-  
+
   static function adderror($path,$message) {
   	self::$errors[] = array(
       'property'=>$path,
       'message'=>$message
     );
   }
-  
+
   /**
    * Take Care: Value is being passed by ref to continue validation with proper format.
    * @return array
@@ -285,16 +287,16 @@ class JsonSchema {
       if(is_string($type) && $type !== 'any') {
         if($type == 'null') {
           if (!is_null($value)) {
-            $wrongType = true;	
+            $wrongType = true;
           }
-        } 
+        }
         else {
           if($type == 'number') {
             if(self::$checkMode == self::CHECK_MODE_TYPE_CAST) {
               $wrongType = !self::checkTypeCast($type,$value);
             }
           	elseif(!in_array(gettype($value),array('integer','double'))) {
-          	  $wrongType = true;	
+          	  $wrongType = true;
           	}
           } else{
             if(
@@ -310,8 +312,8 @@ class JsonSchema {
             } elseif ($type !== gettype($value)) {
           	  $wrongType = true;
             }
-          }  
-        } 
+          }
+        }
       }
       if($wrongType) {
       	return array(
@@ -337,7 +339,7 @@ class JsonSchema {
           }
         }
         if(!$validatedOneType) {
-          return $errors; 
+          return $errors;
         }
       }
       elseif(is_object($type)) {
@@ -346,7 +348,7 @@ class JsonSchema {
     }
     return array();
   }
-  
+
   /**
    * Take Care: Value is being passed by ref to continue validation with proper format.
    */
@@ -371,7 +373,7 @@ class JsonSchema {
   	}
   	return $res;
   }
-  
+
   static function checkObj($instance, $objTypeDef, $path, $additionalProp,$_changing) {
     if($objTypeDef instanceOf StdClass) {
       if( ! (($instance instanceOf StdClass) || is_array($instance)) ) {
@@ -381,9 +383,9 @@ class JsonSchema {
       	);
       }
       foreach($objTypeDef as $i=>$value) {
-        $value = 
-          array_key_exists($i,$instance) ? 
-            (is_array($instance) ? $instance[$i] : $instance->$i) : 
+        $value =
+          array_key_exists($i,$instance) ?
+            (is_array($instance) ? $instance[$i] : $instance->$i) :
             new JsonSchemaUndefined();
         $propDef = $objTypeDef->$i;
         self::checkProp($value,$propDef,$path,$i,$_changing);
@@ -406,15 +408,15 @@ class JsonSchema {
       	    'property'=>$path,
       	    'message'=>"the presence of the property " . $i . " requires that " . $requires . " also be present"
       	  );
-        }	
+        }
       }
 	  $value = is_array($instance) ? $instance[$i] : $instance->$i;
-	  
-	  // To verify additional properties types. 
+
+	  // To verify additional properties types.
 	  if ($objTypeDef && is_object($objTypeDef) && !isset($objTypeDef->$i)) {
-	    self::checkProp($value,$additionalProp,$path,$i); 
+	    self::checkProp($value,$additionalProp,$path,$i);
       }
-      // Verify inner schema definitions 			
+      // Verify inner schema definitions
 	  $schemaPropName = '$schema';
 	  if (!$_changing && $value && isset($value->$schemaPropName)) {
         self::$errors = array_merge(
@@ -428,26 +430,26 @@ class JsonSchema {
 }
 
 class Dbg {
-	
+
   static public $quietMode = false;
-  
+
   static function includeJqueryJs() {
     echo "<script type='text/javascript' src='/js/jquery.js'></script>";
   }
-  
+
   static function func($print = true, $numStackSteps = 1) {
   	$ar = debug_backtrace();
   	$ret = '';
-  	
+
   	for($a = $numStackSteps; $a >= 1; $a--) {
   	  $line = $ar[$a-1]['line'];
   	  $step = $ar[$a];
-  	  $ret .= str_repeat('&nbsp;&nbsp;&nbsp;',$a).self::showStep($step,$print,$line);	
+  	  $ret .= str_repeat('&nbsp;&nbsp;&nbsp;',$a).self::showStep($step,$print,$line);
   	}
   	if($print && !self::$quietMode) echo $ret;
   	return $ret;
   }
-  
+
   static function mark($title,$print = true) {
   	$ar = debug_backtrace();
   	$ret = '';
@@ -456,7 +458,7 @@ class Dbg {
   	if($print && !self::$quietMode) echo $ret;
   	return $ret;
   }
-  
+
   static function object($object,$linkTitle = 'object',$varDump = false,$print = true) {
   	static $divCount = 0;
   	$divCount++;
@@ -472,13 +474,13 @@ class Dbg {
   	  $ret .= ob_get_clean();
   	}
   	else {
-  	  $ret .= print_r($object,true); 
+  	  $ret .= print_r($object,true);
   	}
   	$ret .= '</div>';
   	if($print && !self::$quietMode) echo $ret;
   	return $ret;
   }
-  
+
   static function showStep($step,$print,$line) {
   	static $divCount = 0;
     $ret = '[STEP]'.$step['class'] . $step['type'] . $step['function'];
@@ -496,7 +498,7 @@ class Dbg {
   	  	  	$type = gettype($arg);
   	  	  }
   	  	  $argVal = '<a href="javascript:void(0);" onclick="$(\'#div-step-'.$divCount.'\').toggle()">click to see</a>';
-  	  	  $exp[] = 
+  	  	  $exp[] =
   	  	    '<div id=\'div-step-'.$divCount.'\' style="display:none;">'
   	  	    .print_r($arg,true)
   	  	    .'</div>';
@@ -522,4 +524,3 @@ class Dbg {
   	return $ret;
   }
 }
-?>
