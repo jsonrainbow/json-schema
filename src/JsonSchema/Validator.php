@@ -112,7 +112,7 @@ class Validator {
                 // treat when we have more schema definitions than values
                 for($k = count($value); $k < count($schema->items); $k++) {
                     $this->checkProp(
-                        new JsonSchemaUndefined(),
+                        new Undefined(),
                         $schema->items[$k], $path, $k, $_changing
                     );
                 }
@@ -160,7 +160,7 @@ class Validator {
             $this->checkProp($value,$schema->extends,$path,$i,$_changing);
         }
         // verify optional values
-        if (is_object($value) && $value instanceOf JsonSchemaUndefined) {
+        if (is_object($value) && $value instanceOf Undefined) {
             if ( isset($schema->optional) ? !$schema->optional : true) {
                 $this->adderror($path,"is missing and it is not optional");
             }
@@ -370,7 +370,7 @@ class Validator {
                 $value =
                     array_key_exists($i,$instance) ?
                         (is_array($instance) ? $instance[$i] : $instance->$i) :
-                        new JsonSchemaUndefined();
+                        new Undefined();
                 $propDef = $objTypeDef->$i;
                 $this->checkProp($value,$propDef,$path,$i,$_changing);
             }
@@ -412,4 +412,3 @@ class Validator {
         return $this->errors;
     }
 }
-

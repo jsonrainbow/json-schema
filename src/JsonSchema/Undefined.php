@@ -2,4 +2,6 @@
 
 namespace JsonSchema;
 
-class JsonSchemaUndefined {}
+class Undefined
+{
+}
