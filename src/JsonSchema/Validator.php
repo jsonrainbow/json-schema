@@ -159,10 +159,10 @@ class Validator {
         if(isset($schema->extends)) {
             $this->checkProp($value,$schema->extends,$path,$i,$_changing);
         }
-        // verify optional values
+        // verify required values
         if (is_object($value) && $value instanceOf Undefined) {
-            if ( isset($schema->optional) ? !$schema->optional : true) {
-                $this->adderror($path,"is missing and it is not optional");
+            if (isset($schema->required) && $schema->required) {
+                $this->adderror($path,"is missing and it is required");
             }
         }
         // normal verifications

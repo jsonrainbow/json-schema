@@ -2,7 +2,7 @@
 
 namespace JsonSchema\Tests;
 
-class OptionalPropertyTest extends BaseTestCase
+class RequiredPropertyTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
@@ -12,7 +12,7 @@ class OptionalPropertyTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","optional":false}
+                    "number":{"type":"string","required":true}
                   }
                 }'
             )
@@ -29,7 +29,7 @@ class OptionalPropertyTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","optional":false}
+                    "number":{"type":"string","required":true}
                   }
                 }'
             )

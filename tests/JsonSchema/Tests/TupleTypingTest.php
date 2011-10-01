@@ -71,7 +71,8 @@ class TupleTypingTest extends BaseTestCase
                       "type":"array",
                       "items":[
                         {"type":"string"},
-                        {"type":"number"}
+                        {"type":"number"},
+                        {"required":true}
                       ]
                     }
                   }
@@ -94,8 +95,8 @@ class TupleTypingTest extends BaseTestCase
                       "type":"array",
                       "items":[
                         {"type":"string"},
-                        {"type":"number","optional":true},
-                        {"type":"number","optional":true}
+                        {"type":"number","required":false},
+                        {"type":"number","required":false}
                       ]
                     }
                   }

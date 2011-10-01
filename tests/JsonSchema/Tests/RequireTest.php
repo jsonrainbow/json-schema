@@ -14,8 +14,8 @@ class RequireTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "state":{"type":"string","optional":true,"requires":"city"},
-                    "city":{"type":"string","optional":true}
+                    "state":{"type":"string","requires":"city"},
+                    "city":{"type":"string"}
                   }
                 }'
             )
@@ -33,8 +33,8 @@ class RequireTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "state":{"type":"string","optional":true,"requires":"city"},
-                    "city":{"type":"string","optional":true}
+                    "state":{"type":"string","requires":"city"},
+                    "city":{"type":"string"}
                   }
                 }'
             )

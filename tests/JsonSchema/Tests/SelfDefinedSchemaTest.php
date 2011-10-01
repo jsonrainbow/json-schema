@@ -16,8 +16,7 @@ class SelfDefinedSchemaTest extends BaseTestCase
                             },
                             "age" : {
                                 "type": "integer",
-                                "maximum": 25,
-                                "optional": true
+                                "maximum": 25
                             }
                         }
                     },
@@ -42,8 +41,7 @@ class SelfDefinedSchemaTest extends BaseTestCase
                             },
                             "age" : {
                                 "type": "integer",
-                                "maximum": 125,
-                                "optional": true
+                                "maximum": 125
                             }
                         }
                     },
