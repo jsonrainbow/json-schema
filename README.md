@@ -2,13 +2,17 @@
 
 ## Usage
 
-  $json = json_decode($input_json);
-  $schema = json_decode($input_schema);
-  $result = JsonSchema::validate($json, $schema);
-  
-  if ($result->valid) {
+```php
+<?php
+
+$json = json_decode($input_json);
+$schema = json_decode($input_schema);
+$result = JsonSchema::validate($json, $schema);
+
+if ($result->valid) {
     die('success!');
-  }
-  else {
+}
+else {
     die('fail...');
-  }
+}
+```
