@@ -169,7 +169,7 @@ class JsonSchema {
     }
     // verify optional values
     if (is_object($value) && $value instanceOf JsonSchemaUndefined) {
-  	  if ( isset($schema->optional) ? !$schema->optional : true) {
+  	  if ( isset($schema->required) ? !$schema->required : true) {
 	    self::adderror($path,"is missing and it is not optional");
 	  }
     } 
