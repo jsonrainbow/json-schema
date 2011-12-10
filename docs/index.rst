@@ -16,9 +16,23 @@ Installation
 ------------
 
 .. code-block:: console
-   
+
    git clone --recursive https://github.com/justinrainbow/json-schema.git
 
+Composer method
+^^^^^^^^^^^^^^^
+
+Add the `justinrainbow/json-schema` package to your `composer.json` file.
+
+.. code-block:: javascript
+   
+   {
+       "require": {
+           "justinrainbow/json-schema": ">=1.0.0-dev"
+       }
+   }
+
+Then just run the usual `php composer.phar install` to install.
 
 Usage
 -----
