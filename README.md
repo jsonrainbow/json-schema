@@ -1,4 +1,4 @@
-# JSON Schema for PHP
+# JSON Schema for PHP [![Build status...](https://secure.travis-ci.org/justinrainbow/json-schema.png)](http://travis-ci.org/justinrainbow/json-schema)
 
 Documentation can be found at http://jsonschema.readthedocs.org/
 
