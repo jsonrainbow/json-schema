@@ -16,3 +16,8 @@ else {
     die('fail...');
 }
 ```
+
+## Running the tests
+
+    $ git submodule update --init
+    $ phpunit
