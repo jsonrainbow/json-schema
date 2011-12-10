@@ -1,18 +1,22 @@
 {
     "name": "justinrainbow/json-schema",
-    "description": "a library to validate a json schema"
+    "description": "A library to validate a json schema.",
     "keywords": ["json", "schema"],
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
-    "license": "MIT",
+    "license": "NewBSD",
     "version": "1.0.0",
     "authors": [
         {
-            "name": "Justin Rainbow"
+            "name": "Bruno Prieto Reis",
+            "email": "bruno.p.reis@gmail.com"
+        },
+        {
+            "name": "Justin Rainbow",
+            "email": "justin.rainbow@gmail.com"
         }
     ],
     "autoload": {
         "psr-0": { "JsonSchema": "src/" }
     }
 }
-    
