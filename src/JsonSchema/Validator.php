@@ -37,12 +37,12 @@ class Validator
 
         // verify passed schema
         if ($schema) {
-            $this->checkProp($instance, $schema,'','', $_changing);
+            $this->checkProp($instance, $schema, '', '', $_changing);
         }
         // verify "inline" schema
         $propName = '$schema';
         if (!$_changing && isset($instance->$propName)) {
-            $this->checkProp($instance, $instance->$propName,'','', $_changing);
+            $this->checkProp($instance, $instance->$propName, '', '', $_changing);
         }
         // show results
         $obj = new \stdClass();
@@ -73,7 +73,7 @@ class Validator
         if (isset($schema->items)) {
             //tuple typing
             if (is_array($schema->items)) {
-                foreach ($value as $k=>$v) {
+                foreach ($value as $k => $v) {
                     if (array_key_exists($k, $schema->items)) {
                         $this->checkProp($v, $schema->items[$k], $path, $k, $_changing);
                     }
@@ -91,7 +91,7 @@ class Validator
                             }
                         }
                     }
-                }//foreach ($value as $k=>$v) {
+                }//foreach ($value as $k => $v) {
                 // treat when we have more schema definitions than values
                 for ($k = count($value); $k < count($schema->items); $k++) {
                     $this->checkProp(
@@ -102,7 +102,7 @@ class Validator
             }
             // just one type definition for the whole array
             else {
-                foreach ($value as $k=>$v) {
+                foreach ($value as $k => $v) {
                     $this->checkProp($v, $schema->items, $path, $k, $_changing);
                 }
             }
@@ -129,7 +129,7 @@ class Validator
         // I think a schema cant be an array, only the items property
         /*if (is_array($schema)) {
             if (!is_array($value)) {
-                return array(array('property'=>$path,'message'=>'An array tuple is required'));
+                return array(array('property' => $path,'message' => 'An array tuple is required'));
             }
             for ($a = 0; $a < count($schema); $a++) {
                 $this->errors = array_merge(
@@ -148,12 +148,11 @@ class Validator
             if (isset($schema->required) && $schema->required) {
                 $this->adderror($path,"is missing and it is required");
             }
-        }
-        // normal verifications
-        else {
+        } else {
+            // normal verifications
             $this->errors = array_merge(
                 $this->errors,
-                $this->checkType( isset($schema->type) ? $schema->type : null , $value, $path)
+                $this->checkType(isset($schema->type) ? $schema->type : null , $value, $path)
             );
         }
         if (array_key_exists('disallow', $schema)) {
@@ -184,9 +183,8 @@ class Validator
                 );
             }
             $this->checkArray($value, $schema, $path, $i, $_changing);
-        }
-        ############ verificar!
-        else if (isset($schema->properties) && is_object($value)) {
+        } else if (isset($schema->properties) && is_object($value)) {
+            ############ verificar!
             $this->checkObj(
                 $value,
                 $schema->properties,
@@ -241,8 +239,8 @@ class Validator
     protected function adderror($path, $message)
     {
         $this->errors[] = array(
-            'property'=>$path,
-            'message'=>$message
+            'property' => $path,
+            'message' => $message
         );
     }
 
@@ -265,7 +263,7 @@ class Validator
                         if ($this->checkMode == $this::CHECK_MODE_TYPE_CAST) {
                             $wrongType = !$this->checkTypeCast($type, $value);
                         }
-                        else if (!in_array(gettype($value),array('integer','double'))) {
+                        else if (!in_array(gettype($value), array('integer','double'))) {
                             $wrongType = true;
                         }
                     } else{
@@ -288,8 +286,8 @@ class Validator
             if ($wrongType) {
                 return array(
                     array(
-                        'property'=>$path,
-                        'message'=>gettype($value)." value found, but a ".$type." is required"
+                        'property' => $path,
+                        'message' => gettype($value)." value found, but a ".$type." is required"
                     )
                 );
             }
@@ -347,11 +345,11 @@ class Validator
         if ($objTypeDef instanceOf \stdClass) {
             if (! (($instance instanceOf \stdClass) || is_array($instance)) ) {
                 $this->errors[] = array(
-                    'property'=>$path,
-                    'message'=>"an object is required"
+                    'property' => $path,
+                    'message' => "an object is required"
                 );
             }
-            foreach ($objTypeDef as $i=>$value) {
+            foreach ($objTypeDef as $i => $value) {
                 $value =
                     array_key_exists($i, $instance) ?
                         (is_array($instance) ? $instance[$i] : $instance->$i) :
@@ -361,12 +359,12 @@ class Validator
             }
         }
         // additional properties and requires
-        foreach ($instance as $i=>$value) {
+        foreach ($instance as $i => $value) {
             // verify additional properties, when its not allowed
             if (!isset($objTypeDef->$i) && ($additionalProp === false) && $i !== '$schema' ) {
                 $this->errors[] = array(
-                    'property'=>$path,
-                    'message'=>"The property " . $i . " is not defined in the objTypeDef and the objTypeDef does not allow additional properties"
+                    'property' => $path,
+                    'message' => "The property " . $i . " is not defined in the objTypeDef and the objTypeDef does not allow additional properties"
                 );
             }
             // verify requires
@@ -374,8 +372,8 @@ class Validator
                 $requires = $objTypeDef->$i->requires;
                 if (!array_key_exists($requires, $instance)) {
                     $this->errors[] = array(
-                        'property'=>$path,
-                        'message'=>"the presence of the property " . $i . " requires that " . $requires . " also be present"
+                        'property' => $path,
+                        'message' => "the presence of the property " . $i . " requires that " . $requires . " also be present"
                     );
                 }
             }
