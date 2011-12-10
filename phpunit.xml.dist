@@ -14,7 +14,7 @@
 >
   <testsuites>
       <testsuite name="JSON Schema Test Suite">
-          <directory suffix="Test.php">tests</directory>
+          <directory>tests</directory>
       </testsuite>
   </testsuites>
 </phpunit>
