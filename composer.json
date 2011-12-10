@@ -11,9 +11,8 @@
             "name": "Justin Rainbow"
         }
     ],
-    
     "autoload": {
-        "psr-0": { "JsonSchema": "libs/", "JsonSchemaUndefined": "libs/"}
+        "psr-0": { "JsonSchema": "src/" }
     }
 }
     
