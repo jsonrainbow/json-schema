@@ -1,5 +1,7 @@
 # JSON Schema for PHP
 
+Documentation can be found at http://jsonschema.readthedocs.org/
+
 ## Usage
 
 ```php
