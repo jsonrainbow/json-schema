@@ -23,25 +23,26 @@ class Validator
      * Validates a php object against a schema. Both the php object and the schema
      * are supposed to be a result of a json_decode call.
      * The validation works as defined by the schema proposal in
-     * http://www.json.com/json-schema-proposal/
+     * http://json-schema.org
      *
      * @param \stdClass $instance
      * @param \stdClass $schema
      * @return unknown
      */
-    public function validate($instance, $schema = null) {
+    public function validate($instance, $schema = null)
+    {
         $this->errors = array();
 
         $_changing = false;
 
         // verify passed schema
         if ($schema) {
-            $this->checkProp($instance,$schema,'','',$_changing);
+            $this->checkProp($instance, $schema,'','', $_changing);
         }
         // verify "inline" schema
         $propName = '$schema';
         if (!$_changing && isset($instance->$propName)) {
-            $this->checkProp($instance,$instance->$propName,'','',$_changing);
+            $this->checkProp($instance, $instance->$propName,'','', $_changing);
         }
         // show results
         $obj = new \stdClass();
@@ -50,50 +51,49 @@ class Validator
         return $obj;
     }
 
-    function incrementPath($path,$i) {
-        if($path !== '') {
-            if(is_int($i)) {
+    protected function incrementPath($path, $i)
+    {
+        if ($path !== '') {
+            if (is_int($i)) {
                 $path .= '['.$i.']';
-            }
-            elseif($i == '') {
+            } else if ($i == '') {
                 $path .= '';
-            }
-            else {
+            } else {
                 $path .= '.'.$i;
             }
-        }
-        else {
+        } else {
             $path = $i;
         }
         return $path;
     }
 
-    function checkArray($value,$schema,$path,$i,$_changing) {
+    protected function checkArray($value, $schema, $path, $i, $_changing)
+    {
         //verify items
-        if(isset($schema->items)) {
+        if (isset($schema->items)) {
             //tuple typing
-            if(is_array($schema->items)) {
-                foreach($value as $k=>$v) {
-                    if(array_key_exists($k,$schema->items)) {
-                        $this->checkProp($v,$schema->items[$k],$path,$k,$_changing);
+            if (is_array($schema->items)) {
+                foreach ($value as $k=>$v) {
+                    if (array_key_exists($k, $schema->items)) {
+                        $this->checkProp($v, $schema->items[$k], $path, $k, $_changing);
                     }
                     else {
                         // aditional array properties
-                        if(array_key_exists('additionalProperties',$schema)) {
-                            if($schema->additionalProperties === false) {
+                        if (array_key_exists('additionalProperties', $schema)) {
+                            if ($schema->additionalProperties === false) {
                                 $this->adderror(
                                     $path,
                                     'The item '.$i.'['.$k.'] is not defined in the objTypeDef and the objTypeDef does not allow additional properties'
                                 );
                             }
                             else {
-                                $this->checkProp($v,$schema->additionalProperties,$path,$k,$_changing);
+                                $this->checkProp($v, $schema->additionalProperties, $path, $k, $_changing);
                             }
                         }
                     }
-                }//foreach($value as $k=>$v) {
+                }//foreach ($value as $k=>$v) {
                 // treat when we have more schema definitions than values
-                for($k = count($value); $k < count($schema->items); $k++) {
+                for ($k = count($value); $k < count($schema->items); $k++) {
                     $this->checkProp(
                         new Undefined(),
                         $schema->items[$k], $path, $k, $_changing
@@ -102,45 +102,46 @@ class Validator
             }
             // just one type definition for the whole array
             else {
-                foreach($value as $k=>$v) {
-                    $this->checkProp($v,$schema->items,$path,$k,$_changing);
+                foreach ($value as $k=>$v) {
+                    $this->checkProp($v, $schema->items, $path, $k, $_changing);
                 }
             }
         }
         // verify number of array items
-        if(isset($schema->minItems) && count($value) < $schema->minItems) {
+        if (isset($schema->minItems) && count($value) < $schema->minItems) {
             $this->adderror($path,"There must be a minimum of " . $schema->minItems . " in the array");
         }
-        if(isset($schema->maxItems) && count($value) > $schema->maxItems) {
+        if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
             $this->adderror($path,"There must be a maximum of " . $schema->maxItems . " in the array");
         }
     }
 
-    function checkProp($value, $schema, $path, $i = '', $_changing = false) {
+    protected function checkProp($value, $schema, $path, $i = '', $_changing = false)
+    {
         if (!is_object($schema)) {
                 return;
         }
-        $path = $this->incrementPath($path,$i);
+        $path = $this->incrementPath($path, $i);
         // verify readonly
-        if($_changing && $schema.readonly) {
+        if ($_changing && $schema->readonly) {
             $this->adderror($path,'is a readonly field, it can not be changed');
         }
         // I think a schema cant be an array, only the items property
-        /*if(is_array($schema)) {
-            if(!is_array($value)) {
+        /*if (is_array($schema)) {
+            if (!is_array($value)) {
                 return array(array('property'=>$path,'message'=>'An array tuple is required'));
             }
-            for($a = 0; $a < count($schema); $a++) {
+            for ($a = 0; $a < count($schema); $a++) {
                 $this->errors = array_merge(
                     $this->errors,
-                    $this->checkProp($value->$a,$schema->$a,$path,$i,$_changing)
+                    $this->checkProp($value->$a, $schema->$a, $path, $i, $_changing)
                 );
                 return $this->errors;
             }
         }*/
         // if it extends another schema, it must pass that schema as well
-        if(isset($schema->extends)) {
-            $this->checkProp($value,$schema->extends,$path,$i,$_changing);
+        if (isset($schema->extends)) {
+            $this->checkProp($value, $schema->extends, $path, $i, $_changing);
         }
         // verify required values
         if (is_object($value) && $value instanceOf Undefined) {
@@ -155,10 +156,10 @@ class Validator
                 $this->checkType( isset($schema->type) ? $schema->type : null , $value, $path)
             );
         }
-        if(array_key_exists('disallow',$schema)) {
+        if (array_key_exists('disallow', $schema)) {
             $errorsBeforeDisallowCheck = $this->errors;
             $response = $this->checkType($schema->disallow, $value, $path);
-            if(
+            if (
                 ( count($errorsBeforeDisallowCheck) == count($this->errors) )  &&
                 !count($response)
             ) {
@@ -169,8 +170,8 @@ class Validator
             }
         }
         //verify the itens on an array and min and max number of items.
-        if(is_array($value)) {
-            if(
+        if (is_array($value)) {
+            if (
                 $this->checkMode == $this::CHECK_MODE_TYPE_CAST &&
                 $schema->type == 'object'
             ) {
@@ -182,10 +183,10 @@ class Validator
                     $_changing
                 );
             }
-            $this->checkArray($value,$schema,$path,$i,$_changing);
+            $this->checkArray($value, $schema, $path, $i, $_changing);
         }
         ############ verificar!
-        elseif(isset($schema->properties) && is_object($value)) {
+        else if (isset($schema->properties) && is_object($value)) {
             $this->checkObj(
                 $value,
                 $schema->properties,
@@ -195,49 +196,50 @@ class Validator
             );
         }
         // verify a regex pattern
-        if( isset($schema->pattern) && is_string($value) && !preg_match('/'.$schema->pattern.'/',$value)) {
+        if (isset($schema->pattern) && is_string($value) && !preg_match('/'.$schema->pattern.'/', $value)) {
             $this->adderror($path,"does not match the regex pattern " . $schema->pattern);
         }
         // verify maxLength, minLength, maximum and minimum values
-        if( isset($schema->maxLength) && is_string($value) && (strlen($value) > $schema->maxLength)) {
+        if (isset($schema->maxLength) && is_string($value) && (strlen($value) > $schema->maxLength)) {
             $this->adderror($path,"must be at most " . $schema->maxLength . " characters long");
         }
-        if( isset($schema->minLength) && is_string($value) && strlen($value) < $schema->minLength) {
+        if (isset($schema->minLength) && is_string($value) && strlen($value) < $schema->minLength) {
             $this->adderror($path,"must be at least " . $schema->minLength . " characters long");
         }
 
-        if(
+        if (
             isset($schema->minimum) &&
             gettype($value) == gettype($schema->minimum) &&
             $value < $schema->minimum
         ) {
             $this->adderror($path,"must have a minimum value of " . $schema->minimum);
         }
-        if( isset($schema->maximum) && gettype($value) == gettype($schema->maximum) && $value > $schema->maximum) {
+        if (isset($schema->maximum) && gettype($value) == gettype($schema->maximum) && $value > $schema->maximum) {
             $this->adderror($path,"must have a maximum value of " . $schema->maximum);
         }
         // verify enum values
-        if(isset($schema->enum)) {
+        if (isset($schema->enum)) {
             $found = false;
-            foreach($schema->enum as $possibleValue) {
-                if($possibleValue == $value) {
+            foreach ($schema->enum as $possibleValue) {
+                if ($possibleValue == $value) {
                     $found = true;
                     break;
                 }
             }
-            if(!$found) {
-                $this->adderror($path,"does not have a value in the enumeration " . implode(', ',$schema->enum));
+            if (!$found) {
+                $this->adderror($path,"does not have a value in the enumeration " . implode(', ', $schema->enum));
             }
         }
-        if(
+        if (
             isset($schema->maxDecimal) &&
-            (  ($value * pow(10,$schema->maxDecimal)) != (int)($value * pow(10,$schema->maxDecimal))  )
+            (  ($value * pow(10, $schema->maxDecimal)) != (int)($value * pow(10, $schema->maxDecimal))  )
         ) {
             $this->adderror($path,"may only have " . $schema->maxDecimal . " digits of decimal places");
         }
     }
 
-    function adderror($path,$message) {
+    protected function adderror($path, $message)
+    {
         $this->errors[] = array(
             'property'=>$path,
             'message'=>$message
@@ -248,41 +250,42 @@ class Validator
      * Take Care: Value is being passed by ref to continue validation with proper format.
      * @return array
      */
-    function checkType($type, &$value, $path) {
-        if($type) {
+    protected function checkType($type, &$value, $path)
+    {
+        if ($type) {
             $wrongType = false;
-            if(is_string($type) && $type !== 'any') {
-                if($type == 'null') {
+            if (is_string($type) && $type !== 'any') {
+                if ($type == 'null') {
                     if (!is_null($value)) {
                         $wrongType = true;
                     }
                 }
                 else {
-                    if($type == 'number') {
-                        if($this->checkMode == $this::CHECK_MODE_TYPE_CAST) {
-                            $wrongType = !$this->checkTypeCast($type,$value);
+                    if ($type == 'number') {
+                        if ($this->checkMode == $this::CHECK_MODE_TYPE_CAST) {
+                            $wrongType = !$this->checkTypeCast($type, $value);
                         }
-                        elseif(!in_array(gettype($value),array('integer','double'))) {
+                        else if (!in_array(gettype($value),array('integer','double'))) {
                             $wrongType = true;
                         }
                     } else{
-                        if(
+                        if (
                             $this->checkMode == $this::CHECK_MODE_TYPE_CAST
                             && $type == 'integer'
                         ) {
-                            $wrongType = !$this->checkTypeCast($type,$value);
-                        } elseif (
+                            $wrongType = !$this->checkTypeCast($type, $value);
+                        } else if (
                             $this->checkMode == $this::CHECK_MODE_TYPE_CAST
                             && $type == 'object' && is_array($value)
                         ) {
                             $wrongType = false;
-                        } elseif ($type !== gettype($value)) {
+                        } else if ($type !== gettype($value)) {
                             $wrongType = true;
                         }
                     }
                 }
             }
-            if($wrongType) {
+            if ($wrongType) {
                 return array(
                     array(
                         'property'=>$path,
@@ -291,26 +294,24 @@ class Validator
                 );
             }
             // Union Types  :: for now, just return the message for the last expected type!!
-            if(is_array($type)) {
+            if (is_array($type)) {
                 $validatedOneType = false;
                 $errors = array();
-                foreach($type as $tp) {
-                    $error = $this->checkType($tp,$value,$path);
-                    if(!count($error)) {
+                foreach ($type as $tp) {
+                    $error = $this->checkType($tp, $value, $path);
+                    if (!count($error)) {
                         $validatedOneType = true;
                         break;
-                    }
-                    else {
+                    } else {
                         $errors[] = $error;
                         $errors = $error;
                     }
                 }
-                if(!$validatedOneType) {
+                if (!$validatedOneType) {
                     return $errors;
                 }
-            }
-            elseif(is_object($type)) {
-                $this->checkProp($value,$type,$path);
+            } else if (is_object($type)) {
+                $this->checkProp($value, $type, $path);
             }
         }
         return array();
@@ -319,8 +320,9 @@ class Validator
     /**
      * Take Care: Value is being passed by ref to continue validation with proper format.
      */
-    function checkTypeCast($type,&$value) {
-        switch($type) {
+    protected function checkTypeCast($type, &$value)
+    {
+        switch ($type) {
             case 'integer':
                 $castValue = (integer)$value;
                 break;
@@ -331,46 +333,46 @@ class Validator
                 trigger_error('this method should only be called for the above supported types.');
                 break;
         }
-        if( (string)$value == (string)$castValue ) {
+        if ((string)$value == (string)$castValue ) {
             $res = true;
             $value = $castValue;
-        }
-        else {
+        } else {
             $res = false;
         }
         return $res;
     }
 
-    function checkObj($instance, $objTypeDef, $path, $additionalProp,$_changing) {
-        if($objTypeDef instanceOf \stdClass) {
-            if( ! (($instance instanceOf \stdClass) || is_array($instance)) ) {
+    protected function checkObj($instance, $objTypeDef, $path, $additionalProp, $_changing)
+    {
+        if ($objTypeDef instanceOf \stdClass) {
+            if (! (($instance instanceOf \stdClass) || is_array($instance)) ) {
                 $this->errors[] = array(
                     'property'=>$path,
                     'message'=>"an object is required"
                 );
             }
-            foreach($objTypeDef as $i=>$value) {
+            foreach ($objTypeDef as $i=>$value) {
                 $value =
-                    array_key_exists($i,$instance) ?
+                    array_key_exists($i, $instance) ?
                         (is_array($instance) ? $instance[$i] : $instance->$i) :
                         new Undefined();
                 $propDef = $objTypeDef->$i;
-                $this->checkProp($value,$propDef,$path,$i,$_changing);
+                $this->checkProp($value, $propDef, $path, $i, $_changing);
             }
         }
         // additional properties and requires
-        foreach($instance as $i=>$value) {
+        foreach ($instance as $i=>$value) {
             // verify additional properties, when its not allowed
-            if( !isset($objTypeDef->$i) && ($additionalProp === false) && $i !== '$schema' ) {
+            if (!isset($objTypeDef->$i) && ($additionalProp === false) && $i !== '$schema' ) {
                 $this->errors[] = array(
                     'property'=>$path,
                     'message'=>"The property " . $i . " is not defined in the objTypeDef and the objTypeDef does not allow additional properties"
                 );
             }
             // verify requires
-            if($objTypeDef && isset($objTypeDef->$i) && isset($objTypeDef->$i->requires)) {
+            if ($objTypeDef && isset($objTypeDef->$i) && isset($objTypeDef->$i->requires)) {
                 $requires = $objTypeDef->$i->requires;
-                if(!array_key_exists($requires,$instance)) {
+                if (!array_key_exists($requires, $instance)) {
                     $this->errors[] = array(
                         'property'=>$path,
                         'message'=>"the presence of the property " . $i . " requires that " . $requires . " also be present"
@@ -381,14 +383,14 @@ class Validator
 
             // To verify additional properties types.
             if ($objTypeDef && is_object($objTypeDef) && !isset($objTypeDef->$i)) {
-                $this->checkProp($value,$additionalProp,$path,$i);
+                $this->checkProp($value, $additionalProp, $path, $i);
             }
             // Verify inner schema definitions
             $schemaPropName = '$schema';
             if (!$_changing && $value && isset($value->$schemaPropName)) {
                 $this->errors = array_merge(
                     $this->errors,
-                    checkProp($value,$value->$schemaPropname,$path,$i)
+                    checkProp($value, $value->$schemaPropname, $path, $i)
                 );
             }
         }
