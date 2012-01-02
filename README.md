@@ -1,4 +1,4 @@
-# JSON Schema for PHP [![Build Status](https://secure.travis-ci.org/digitalkaoz/json-schema.png)](http://travis-ci.org/digitalkaoz/json-schema)
+# JSON Schema for PHP [![Build Status](https://secure.travis-ci.org/justinrainbow/json-schema.png)](http://travis-ci.org/justinrainbow/json-schema)
 
 A PHP Implementation for validating `JSON` Structures against a given `Schema`.
 
