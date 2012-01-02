@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The String Validator, validates an string against a given schema
+ * The String Constraints, validates an string against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class String extends Validator
+class String extends Constraint
 {
     /**
      * {inheritDoc}

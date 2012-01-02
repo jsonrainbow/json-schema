@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Type Validator, validates an element against a given type
+ * The Type Constraints, validates an element against a given type
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Type extends Validator
+class Type extends Constraint
 {
     /**
      * {inheritDoc}

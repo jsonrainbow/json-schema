@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Enum Validator, validates an element against a given set of possibilities
+ * The Enum Constraints, validates an element against a given set of possibilities
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Enum extends Validator
+class Enum extends Constraint
 {
     /**
      * {inheritDoc}

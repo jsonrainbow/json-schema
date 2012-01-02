@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Object Validator, validates an object against a given schema
+ * The Object Constraints, validates an object against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Object extends Validator
+class Object extends Constraint
 {
     /**
      * {inheritDoc}

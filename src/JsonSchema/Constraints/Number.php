@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Number Validator, validates an number against a given schema
+ * The Number Constraints, validates an number against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Number extends Validator
+class Number extends Constraint
 {
     /**
      * {inheritDoc}

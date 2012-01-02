@@ -2,17 +2,17 @@
 
 namespace JsonSchema;
 
-use JsonSchema\Validator\Schema;
-use JsonSchema\Validator\Validator as BaseValidator;
+use JsonSchema\Constraints\Schema;
+use JsonSchema\Constraints\Constraint;
 
 /**
- * A JsonSchema Validator
+ * A JsonSchema Constraint
  *
  * @see README.md
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Validator extends BaseValidator
+class Validator extends Constraint
 {
     /**
      * validates the given data against the schema and returns an object containing the results

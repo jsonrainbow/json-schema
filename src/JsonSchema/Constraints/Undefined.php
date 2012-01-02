@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Undefined Validator
+ * The Undefined Constraints
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Undefined extends Validator
+class Undefined extends Constraint
 {
     /**
      * {inheritDoc}

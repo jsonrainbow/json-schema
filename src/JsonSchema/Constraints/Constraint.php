@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Base Validator, all Validators should extend this class
+ * The Base Constraints, all Validators should extend this class
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-abstract class Validator implements ValidatorInterface
+abstract class Constraint implements ConstraintInterface
 {
     protected $checkMode = self::CHECK_MODE_NORMAL;
     protected $errors = array();
@@ -193,6 +193,6 @@ abstract class Validator implements ValidatorInterface
      */
     public function isValid()
     {
-        return !!!$this->getErrors();
+        return !$this->getErrors();
     }
 }

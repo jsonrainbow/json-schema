@@ -1,14 +1,14 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Collection Validator, validates an array against a given schema
+ * The Collection Constraints, validates an array against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Collection extends Validator
+class Collection extends Constraint
 {
     /**
      * {inheritDoc}

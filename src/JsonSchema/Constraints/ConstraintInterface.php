@@ -1,13 +1,13 @@
 <?php
 
-namespace JsonSchema\Validator;
+namespace JsonSchema\Constraints;
 
 /**
- * The Validator Interface
+ * The Constraints Interface
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  */
-interface ValidatorInterface
+interface ConstraintInterface
 {
     /**
      * returns all collected errors
