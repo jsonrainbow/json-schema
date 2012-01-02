@@ -5,7 +5,7 @@
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
     "license": "NewBSD",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "authors": [
         {
             "name": "Bruno Prieto Reis",
@@ -14,6 +14,14 @@
         {
             "name": "Justin Rainbow",
             "email": "justin.rainbow@gmail.com"
+        },
+        {
+            "name": "Igor Wiedler",
+            "email": "igor@wiedler.ch"
+        },
+        {
+            "name": "Robert Schönthal",
+            "email": "seroscho@googlemail.com"
         }
     ],
     "require": {

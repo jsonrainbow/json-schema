@@ -51,7 +51,22 @@ class ArraysTest extends BaseTestCase
                     "array":{"type":"array"}
                   }
                 }'
-            )
+            ),
+            array(
+                '{
+                  "array":[1,2,"a"]
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "array":{
+                      "type":"array",
+                      "items":{"type":"number"},
+                      "additionalItems": {"type": "string"}
+                    }
+                  }
+                }'
+            ),
         );
     }
 }
