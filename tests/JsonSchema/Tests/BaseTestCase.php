@@ -9,36 +9,27 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($input, $schema, $checkMode = null, $errors = array())
+    public function testInvalidCases($input, $schema, $checkMode = Validator::CHECK_MODE_NORMAL, $errors = array())
     {
-        if (null === $checkMode) {
-            $checkMode = Validator::CHECK_MODE_NORMAL;
-        }
+        $validator = new Validator($checkMode);
 
-        $validator = new Validator();
-        $validator->checkMode = $checkMode;
+        $validator->check(json_decode($input), json_decode($schema));
 
-        $result = $validator->validate(json_decode($input), json_decode($schema));
         if (array() !== $errors) {
-            $this->assertEquals($errors, $result->errors, var_export($result, true));
+            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
         }
-        $this->assertFalse($result->valid, var_export($result, true));
+        $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCases($input, $schema, $checkMode = null)
+    public function testValidCases($input, $schema, $checkMode = Validator::CHECK_MODE_NORMAL)
     {
-        if (null === $checkMode) {
-            $checkMode = Validator::CHECK_MODE_NORMAL;
-        }
+        $validator = new Validator($checkMode);
 
-        $validator = new Validator();
-        $validator->checkMode = $checkMode;
-
-        $result = $validator->validate(json_decode($input), json_decode($schema));
-        $this->assertTrue($result->valid, var_export($result, true));
+        $validator->check(json_decode($input), json_decode($schema));
+        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
     abstract public function getValidTests();

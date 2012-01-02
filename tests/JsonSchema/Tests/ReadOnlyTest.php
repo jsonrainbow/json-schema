@@ -2,19 +2,18 @@
 
 namespace JsonSchema\Tests;
 
-class MaxDecimalTest extends BaseTestCase
+class ReadOnlyTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
+        //is readonly really required?
         return array(
             array(
-                '{
-                  "value":5.6333
-                }',
+                '{ "number": [] }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"number","maxDecimal":3}
+                    "number":{"type":"string","readonly":true}
                   }
                 }'
             )
@@ -26,12 +25,12 @@ class MaxDecimalTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":5.633
+                  "number": "1.4"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"number","maxDecimal":3}
+                    "number":{"type":"string","readonly":true}
                   }
                 }'
             )
