@@ -20,7 +20,7 @@ class MinItemsMaxItemsTest extends BaseTestCase
             ),
             array(
                 '{
-                  "value":2,2,5,8,5]
+                  "value":[2,2,5,8,5]
                 }',
                 '{
                   "type":"object",

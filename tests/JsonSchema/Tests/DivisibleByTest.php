@@ -2,17 +2,19 @@
 
 namespace JsonSchema\Tests;
 
-class RequiredPropertyTest extends BaseTestCase
+class DivisibleByTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
-                '{}',
+                '{
+                  "value":5.6333
+                }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","required":true}
+                    "value":{"type":"number","divisibleBy":3}
                   }
                 }'
             )
@@ -24,21 +26,12 @@ class RequiredPropertyTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "number": "1.4"
+                  "value":6
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","required":true}
-                  }
-                }'
-            ),
-            array(
-                '{}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"string"}
+                    "value":{"type":"number","divisibleBy":3}
                   }
                 }'
             )

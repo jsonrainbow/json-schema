@@ -12,9 +12,15 @@
          bootstrap="tests/bootstrap.php"
          verbose="true"
 >
-  <testsuites>
-      <testsuite name="JSON Schema Test Suite">
-          <directory>tests</directory>
-      </testsuite>
-  </testsuites>
+    <testsuites>
+        <testsuite name="JSON Schema Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/JsonSchema/</directory>
+        </whitelist>
+    </filter>
 </phpunit>

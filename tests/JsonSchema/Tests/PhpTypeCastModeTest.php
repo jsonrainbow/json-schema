@@ -34,7 +34,7 @@ class PhpTypeCastModeTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "a":{"type":"integer","maximum":8}
+                    "a":{"type":"integer","maximum":"8"}
                   }
                 }'
             )
@@ -46,19 +46,31 @@ class PhpTypeCastModeTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "a":"9"
+                  "a":"7"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "a":{"type":"integer","maximum":8.0}
+                    "a":{"type":"integer","maximum":8}
                   }
                 }',
                 Validator::CHECK_MODE_TYPE_CAST
             ),
             array(
                 '{
-                  "a":"9"
+                  "a":1.337
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "a":{"type":"number","maximum":8.0}
+                  }
+                }',
+                Validator::CHECK_MODE_TYPE_CAST
+            ),
+            array(
+                '{
+                  "a":"9e42"
                 }',
                 '{
                   "type":"object",
