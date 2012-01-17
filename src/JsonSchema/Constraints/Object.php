@@ -38,7 +38,7 @@ class Object extends Constraint
             $definition = $this->getProperty($objectDefinition, $i);
 
             //required property
-            if ($this->getProperty($definition, 'required') && !$property) {
+            if ($this->getProperty($definition, 'required') && $property instanceof Undefined) {
                 $this->addError($path, "the property " . $i . " is required");
             }
 
@@ -91,8 +91,10 @@ class Object extends Constraint
     {
         if (is_array($element) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
             return array_key_exists($property, $element) ? $element[$property] : $fallback;
-        } else {
-            return isset($element->$property) ? $element->$property : $fallback;
+        } else if (is_object($element)) {
+            return property_exists($element, $property) ? $element->$property : $fallback;
         }
+
+        return $fallback;
     }
 }

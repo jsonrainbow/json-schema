@@ -84,7 +84,7 @@ class Type extends Constraint
             case 'any' :
                 return true;
             default:
-                throw new \InvalidArgumentException((is_object($value) ? 'object' : $value) . ' is a invalid type for ' . $type);
+                throw new \InvalidArgumentException((is_object($value) ? 'object' : $value) . ' is an invalid type for ' . $type);
         }
     }
 }

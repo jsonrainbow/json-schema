@@ -18,7 +18,7 @@ class Schema extends Constraint
         if ($schema !== null) {
             // passed schema
             $this->checkUndefined($element, $schema, '', '');
-        } elseif (isset($element->{$this->inlineSchemaProperty})) {
+        } else if (property_exists($element, $this->inlineSchemaProperty)) {
             // inline schema
             $this->checkUndefined($element, $element->{$this->inlineSchemaProperty}, '', '');
         } else {
