@@ -11,11 +11,11 @@ namespace JsonSchema\Constraints;
 class String extends Constraint
 {
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     public function check($element, $schema = null, $path = null, $i = null)
     {
-        // verify maxLength
+        // Verify maxLength
         if (isset($schema->maxLength) && strlen($element) > $schema->maxLength) {
             $this->addError($path, "must be at most " . $schema->maxLength . " characters long");
         }
@@ -25,7 +25,7 @@ class String extends Constraint
             $this->addError($path, "must be at least " . $schema->minLength . " characters long");
         }
 
-        // verify a regex pattern
+        // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('/' . $schema->pattern . '/', $element)) {
             $this->addError($path, "does not match the regex pattern " . $schema->pattern);
         }

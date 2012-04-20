@@ -11,14 +11,14 @@ namespace JsonSchema\Constraints;
 class Schema extends Constraint
 {
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     public function check($element, $schema = null, $path = null, $i = null)
     {
         if ($schema !== null) {
             // passed schema
             $this->checkUndefined($element, $schema, '', '');
-        } else if (property_exists($element, $this->inlineSchemaProperty)) {
+        } elseif (property_exists($element, $this->inlineSchemaProperty)) {
             // inline schema
             $this->checkUndefined($element, $element->{$this->inlineSchemaProperty}, '', '');
         } else {

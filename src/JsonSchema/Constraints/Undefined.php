@@ -11,9 +11,9 @@ namespace JsonSchema\Constraints;
 class Undefined extends Constraint
 {
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
-    function check($value, $schema = null, $path = null, $i = null)
+    public function check($value, $schema = null, $path = null, $i = null)
     {
         if (!is_object($schema)) {
             return;
@@ -26,12 +26,10 @@ class Undefined extends Constraint
 
         // check known types
         $this->validateTypes($value, $schema, $path, $i);
-
-
     }
 
     /**
-     * validates the value against the types
+     * Validates the value against the types
      *
      * @param $value
      * @param null $schema
@@ -73,7 +71,7 @@ class Undefined extends Constraint
     }
 
     /**
-     * validates common properties
+     * Validates common properties
      *
      * @param $value
      * @param null $schema
@@ -87,7 +85,7 @@ class Undefined extends Constraint
             $this->checkUndefined($value, $schema->extends, $path, $i);
         }
 
-        // verify required values
+        // Verify required values
         if (is_object($value) && $value instanceOf Undefined) {
             if (isset($schema->required) && $schema->required) {
                 $this->addError($path, "is missing and it is required");
@@ -96,13 +94,13 @@ class Undefined extends Constraint
             $this->checkType($value, $schema, $path);
         }
 
-        //verify disallowed items
+        // Verify disallowed items
         if (isset($schema->disallow)) {
             $initErrors = $this->getErrors();
 
             $this->checkUndefined($value, $schema->disallow, $path);
 
-            //if no new errors were raised it must be a disallowed value
+            // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
                 $this->addError($path, " disallowed value was matched");
             } else {

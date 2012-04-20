@@ -11,7 +11,7 @@ namespace JsonSchema\Constraints;
 class Enum extends Constraint
 {
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     public function check($element, $schema = null, $path = null, $i = null)
     {

@@ -11,7 +11,7 @@ namespace JsonSchema\Constraints;
 class Object extends Constraint
 {
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
@@ -41,12 +41,12 @@ class Object extends Constraint
     }
 
     /**
-     * validates the element properties
+     * Validates the element properties
      *
-     * @param \stdClass $element
-     * @param \stdClass $objectDefinition
-     * @param string $path
-     * @param mixed $additionalProp
+     * @param \stdClass $element          Element to validate
+     * @param \stdClass $objectDefinition Object definition
+     * @param string    $path             Path to test?
+     * @param mixed     $additionalProp   Additional properties
      */
     public function validateElement($element, $objectDefinition = null, $path = null, $additionalProp = null)
     {
@@ -82,11 +82,11 @@ class Object extends Constraint
     }
 
     /**
-     * validates the definition properties
+     * Validates the definition properties
      *
-     * @param \stdClass $element
-     * @param \stdClass $objectDefinition
-     * @param string $path
+     * @param \stdClass $element          Element to validate
+     * @param \stdClass $objectDefinition Object definition
+     * @param string    $path             Path?
      */
     public function validateDefinition($element, $objectDefinition = null, $path = null)
     {
@@ -100,16 +100,17 @@ class Object extends Constraint
     /**
      * retrieves a property from an object or array
      *
-     * @param mixed $element
-     * @param string $property
-     * @param mixed $fallback
+     * @param mixed  $element  Element to validate
+     * @param string $property Property to retrieve
+     * @param mixed  $fallback Default value if property is not found
+     *
      * @return mixed
      */
     protected function getProperty($element, $property, $fallback = null)
     {
         if (is_array($element) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
             return array_key_exists($property, $element) ? $element[$property] : $fallback;
-        } else if (is_object($element)) {
+        } elseif (is_object($element)) {
             return property_exists($element, $property) ? $element->$property : $fallback;
         }
 

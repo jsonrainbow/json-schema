@@ -26,7 +26,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     public function addError($path, $message)
     {
@@ -37,7 +37,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     public function addErrors(array $errors)
     {
@@ -45,7 +45,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     public function getErrors()
     {
@@ -53,10 +53,19 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * bubble down the path
+     * {@inheritDoc}
+     */
+    public function isValid()
+    {
+        return !$this->getErrors();
+    }
+
+    /**
+     * Bubble down the path
      *
-     * @param string $path
-     * @param mixed $i
+     * @param string $path Current path
+     * @param mixed  $i    What to append to the path
+     *
      * @return string
      */
     protected function incrementPath($path, $i)
@@ -64,7 +73,7 @@ abstract class Constraint implements ConstraintInterface
         if ($path !== '') {
             if (is_int($i)) {
                 $path .= '[' . $i . ']';
-            } else if ($i == '') {
+            } elseif ($i == '') {
                 $path .= '';
             } else {
                 $path .= '.' . $i;
@@ -77,7 +86,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * validates an array
+     * Validates an array
      *
      * @param mixed $value
      * @param mixed $schema
@@ -93,7 +102,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * validates an object
+     * Validates an object
      *
      * @param mixed $value
      * @param mixed $schema
@@ -109,7 +118,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * validates the type of a property
+     * Validates the type of a property
      *
      * @param mixed $value
      * @param mixed $schema
@@ -125,7 +134,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * checks a undefined element
+     * Checks a undefined element
      *
      * @param mixed $value
      * @param mixed $schema
@@ -141,7 +150,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * checks a string element
+     * Checks a string element
      *
      * @param mixed $value
      * @param mixed $schema
@@ -157,7 +166,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * checks a number element
+     * Checks a number element
      *
      * @param mixed $value
      * @param mixed $schema
@@ -173,7 +182,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * checks a enum element
+     * Checks a enum element
      *
      * @param mixed $value
      * @param mixed $schema
@@ -186,13 +195,5 @@ abstract class Constraint implements ConstraintInterface
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
-    }
-
-    /**
-     * {inheritDoc}
-     */
-    public function isValid()
-    {
-        return !$this->getErrors();
     }
 }
