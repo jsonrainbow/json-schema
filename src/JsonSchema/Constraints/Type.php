@@ -2,6 +2,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Exception\InvalidArgumentException;
+
 /**
  * The Type Constraints, validates an element against a given type
  *
@@ -58,7 +60,8 @@ class Type extends Constraint
      * @param string $type  Type to check against
      *
      * @return boolean
-     * @throws \InvalidArgumentException
+     *
+     * @throws InvalidArgumentException
      */
     protected function validateType($value, $type)
     {

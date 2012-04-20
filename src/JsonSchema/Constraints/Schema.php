@@ -2,6 +2,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Exception\InvalidArgumentException;
+
 /**
  * The Schema Constraints, validates an element against a given schema
  *
@@ -22,7 +24,7 @@ class Schema extends Constraint
             // inline schema
             $this->checkUndefined($element, $element->{$this->inlineSchemaProperty}, '', '');
         } else {
-            throw new \InvalidArgumentException('no schema found to verify against');
+            throw new InvalidArgumentException('no schema found to verify against');
         }
     }
 }
