@@ -13,13 +13,31 @@ class Object extends Constraint
     /**
      * {inheritDoc}
      */
-    function check($element, $definition = null, $path = null, $additionalProp = null)
+    function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
-        // validate the definition properties
-        $this->validateDefinition($element, $definition, $path);
+        if ($patternProperties) {
+            $this->validatePatternProperties($element, $path, $additionalProp, $patternProperties);
+        }
+
+        if ($definition) {
+            // validate the definition properties
+            $this->validateDefinition($element, $definition, $path);
+        }
 
         // additional the element properties
         $this->validateElement($element, $definition, $path, $additionalProp);
+    }
+
+    public function validatePatternProperties($element, $path, $additionalProp, $patternProperties)
+    {
+        foreach ($patternProperties as $pregex => $schema) {
+
+            foreach ($element as $i => $value) {
+                if (preg_match('/'.$pregex.'/', $i)) {
+                    $this->checkUndefined($value, $schema ? : new \stdClass(), $path, $i);
+                }
+            }
+        }
     }
 
     /**

@@ -46,8 +46,14 @@ class Undefined extends Constraint
         }
 
         // check object
-        if (is_object($value) && isset($schema->properties)) {
-            $this->checkObject($value, $schema->properties, $path, isset($schema->additionalProperties) ? $schema->additionalProperties : null);
+        if (is_object($value) && (isset($schema->properties) || isset($schema->patternProperties))) {
+            $this->checkObject(
+                $value, 
+                isset($schema->properties) ? $schema->properties : null, 
+                $path, 
+                isset($schema->additionalProperties) ? $schema->additionalProperties : null,
+                isset($schema->patternProperties) ? $schema->patternProperties : null
+            );
         }
 
         // check string
