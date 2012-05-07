@@ -12,11 +12,7 @@ See [json-schema](http://json-schema.org/) for more details.
 
 ### Dependencies
 
-#### via `submodules` (*will use the Symfony ClassLoader Component*)
-
-    $ git submodule update --init
-
-#### via [`composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
+#### [`Composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
 
     $ wget http://getcomposer.org/composer.phar
     $ php composer.phar install

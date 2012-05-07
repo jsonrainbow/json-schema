@@ -4,4 +4,6 @@ php:
   - 5.3
   - 5.4
 
-before_script: git submodule update --init
+before_script:
+  - wget --quiet http://getcomposer.org/composer.phar
+  - php composer.phar install --install-suggests

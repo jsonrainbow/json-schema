@@ -108,6 +108,7 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed $schema
      * @param mixed $path
      * @param mixed $i
+     * @param mixed $patternProperties
      */
     protected function checkObject($value, $schema = null, $path = null, $i = null, $patternProperties = null)
     {

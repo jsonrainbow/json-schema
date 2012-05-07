@@ -1,3 +1,2 @@
 /composer.lock
-/vendor/*
-!/vendor/symfony
+/vendor
