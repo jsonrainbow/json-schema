@@ -4,7 +4,7 @@
     "keywords": ["json", "schema"],
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
-    "license": "NewBSD",
+    "license": "BSD-3-Clause",
     "version": "1.1.0",
     "authors": [
         {
