@@ -7,23 +7,21 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class UnionTypesTest extends BaseTestCase
+class DivisibleByTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "stringOrNumber":4.8,
-                  "booleanOrNull":5
+                  "value":5.6333
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
+                    "value":{"type":"number","divisibleBy":3}
                   }
                 }'
             )
@@ -35,14 +33,12 @@ class UnionTypesTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "stringOrNumber":4.8,
-                  "booleanOrNull":false
+                  "value":6
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
+                    "value":{"type":"number","divisibleBy":3}
                   }
                 }'
             )

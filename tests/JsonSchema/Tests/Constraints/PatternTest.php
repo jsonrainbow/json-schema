@@ -7,21 +7,21 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class EnumTest extends BaseTestCase
+class PatternTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":"Morango"
+                  "value":"Abacates"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","enum":["Abacate","Manga","Pitanga"]}
+                    "value":{"type":"string","pattern":"^cat"}
                   },
                   "additionalProperties":false
                 }'
@@ -34,12 +34,24 @@ class EnumTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":"Abacate"
+                  "value":"Abacates"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","enum":["Abacate","Manga","Pitanga"]}
+                    "value":{"type":"string","pattern":"tes$"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "value":"Abacates"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","pattern":"cat"}
                   },
                   "additionalProperties":false
                 }'

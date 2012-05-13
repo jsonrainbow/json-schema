@@ -7,32 +7,21 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class MinItemsMaxItemsTest extends BaseTestCase
+class NumberAndIntegerTypesTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":[2]
+                  "number": 1.4
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"array","minItems":2,"maxItems":4}
-                  }
-                }'
-            ),
-            array(
-                '{
-                  "value":[2,2,5,8,5]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"array","minItems":2,"maxItems":4}
+                    "number":{"type":"integer"}
                   }
                 }'
             )
@@ -44,23 +33,23 @@ class MinItemsMaxItemsTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":[2,2]
+                  "number": 1
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"array","minItems":2,"maxItems":4}
+                    "number":{"type":"number"}
                   }
                 }'
             ),
             array(
                 '{
-                  "value":[2,2,5,8]
+                  "number": 1.4
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"array","minItems":2,"maxItems":4}
+                    "number":{"type":"number"}
                   }
                 }'
             )

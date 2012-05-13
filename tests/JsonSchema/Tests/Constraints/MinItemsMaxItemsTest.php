@@ -7,32 +7,32 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class MinLengthMaxLengthTest extends BaseTestCase
+class MinItemsMaxItemsTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":"w"
+                  "value":[2]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
             ),
             array(
                 '{
-                  "value":"wo7us"
+                  "value":[2,2,5,8,5]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
             )
@@ -44,27 +44,26 @@ class MinLengthMaxLengthTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":"wo"
+                  "value":[2,2]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
             ),
             array(
                 '{
-                  "value":"wo7u"
+                  "value":[2,2,5,8]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
+                    "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
-            ),
-
+            )
         );
     }
 }

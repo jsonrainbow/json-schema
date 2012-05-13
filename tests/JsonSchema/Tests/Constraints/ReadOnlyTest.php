@@ -7,23 +7,20 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class WrongMessagesFailingTestCaseTest extends BaseTestCase
+class ReadOnlyTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
+        //is readonly really required?
         return array(
             array(
-                '{
-                  "stringOrNumber":4.8,
-                  "booleanOrNull":["A","B"]
-                }',
+                '{ "number": [] }',
                 '{
                   "type":"object",
                   "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
+                    "number":{"type":"string","readonly":true}
                   }
                 }'
             )
@@ -35,14 +32,12 @@ class WrongMessagesFailingTestCaseTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "stringOrNumber":4.8,
-                  "booleanOrNull":true
+                  "number": "1.4"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
+                    "number":{"type":"string","readonly":true}
                   }
                 }'
             )

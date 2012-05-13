@@ -7,32 +7,38 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class MinimumMaximumTest extends BaseTestCase
+class ArraysTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":2
+                  "array":[1,2,"a"]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","minimum":4}
+                    "array":{
+                      "type":"array",
+                      "items":{"type":"number"}
+                    }
                   }
                 }'
             ),
             array(
                 '{
-                  "value":16
+                  "array":[1,2,null]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","maximum":8}
+                    "array":{
+                      "type":"array",
+                      "items":{"type":["number","boolean"]}
+                    }
                   }
                 }'
             )
@@ -44,26 +50,30 @@ class MinimumMaximumTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":6
+                  "array":[1,2,"a"]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","minimum":4}
+                    "array":{"type":"array"}
                   }
                 }'
             ),
             array(
                 '{
-                  "value":6
+                  "array":[1,2,"a"]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","maximum":8}
+                    "array":{
+                      "type":"array",
+                      "items":{"type":"number"},
+                      "additionalItems": {"type": "string"}
+                    }
                   }
                 }'
-            )
+            ),
         );
     }
 }

@@ -7,17 +7,17 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class UnionWithNullValueTest extends BaseTestCase
+class UnionTypesTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "stringOrNumber":null,
-                  "booleanOrNull":null
+                  "stringOrNumber":4.8,
+                  "booleanOrNull":5
                 }',
                 '{
                   "type":"object",
@@ -35,8 +35,8 @@ class UnionWithNullValueTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "stringOrNumber":12,
-                  "booleanOrNull":null
+                  "stringOrNumber":4.8,
+                  "booleanOrNull":false
                 }',
                 '{
                   "type":"object",

@@ -7,21 +7,23 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class DivisibleByTest extends BaseTestCase
+class WrongMessagesFailingTestCaseTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":5.6333
+                  "stringOrNumber":4.8,
+                  "booleanOrNull":["A","B"]
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"number","divisibleBy":3}
+                    "stringOrNumber":{"type":["string","number"]},
+                    "booleanOrNull":{"type":["boolean","null"]}
                   }
                 }'
             )
@@ -33,12 +35,14 @@ class DivisibleByTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":6
+                  "stringOrNumber":4.8,
+                  "booleanOrNull":true
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"number","divisibleBy":3}
+                    "stringOrNumber":{"type":["string","number"]},
+                    "booleanOrNull":{"type":["boolean","null"]}
                   }
                 }'
             )

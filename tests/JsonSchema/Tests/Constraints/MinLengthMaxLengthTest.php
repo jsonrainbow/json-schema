@@ -7,23 +7,33 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema\Tests\Constraints;
 
-class PatternTest extends BaseTestCase
+class MinLengthMaxLengthTest extends BaseTestCase
 {
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
-                  "value":"Abacates"
+                  "value":"w"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","pattern":"^cat"}
-                  },
-                  "additionalProperties":false
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "value":"wo7us"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
                 }'
             )
         );
@@ -34,28 +44,27 @@ class PatternTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":"Abacates"
+                  "value":"wo"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","pattern":"tes$"}
-                  },
-                  "additionalProperties":false
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
                 }'
             ),
             array(
                 '{
-                  "value":"Abacates"
+                  "value":"wo7u"
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"string","pattern":"cat"}
-                  },
-                  "additionalProperties":false
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
                 }'
-            )
+            ),
+
         );
     }
 }
