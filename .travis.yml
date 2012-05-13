@@ -6,4 +6,7 @@ php:
 
 before_script:
   - wget --quiet http://getcomposer.org/composer.phar
-  - php composer.phar install
+  - php composer.phar install --install-suggests
+  - cp phpunit.xml.dist phpunit.xml
+
+script: phpunit

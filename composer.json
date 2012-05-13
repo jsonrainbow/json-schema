@@ -29,5 +29,6 @@
     },
     "autoload": {
         "psr-0": { "JsonSchema": "src/" }
-    }
+    },
+    "bin": ["bin/jsonschema"]
 }
