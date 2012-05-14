@@ -36,5 +36,7 @@ class String extends Constraint
         if (isset($schema->pattern) && !preg_match('/' . $schema->pattern . '/', $element)) {
             $this->addError($path, "does not match the regex pattern " . $schema->pattern);
         }
+
+        $this->checkFormat($element, $schema, $path, $i);
     }
 }

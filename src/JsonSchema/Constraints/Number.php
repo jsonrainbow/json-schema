@@ -36,5 +36,7 @@ class Number extends Constraint
         if (isset($schema->divisibleBy) && $element % $schema->divisibleBy != 0) {
             $this->addError($path, "is not divisible by " . $schema->divisibleBy);
         }
+
+        $this->checkFormat($element, $schema, $path, $i);
     }
 }

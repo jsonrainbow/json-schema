@@ -53,9 +53,9 @@ class Undefined extends Constraint
         // check object
         if (is_object($value) && (isset($schema->properties) || isset($schema->patternProperties))) {
             $this->checkObject(
-                $value, 
-                isset($schema->properties) ? $schema->properties : null, 
-                $path, 
+                $value,
+                isset($schema->properties) ? $schema->properties : null,
+                $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
                 isset($schema->patternProperties) ? $schema->patternProperties : null
             );
@@ -93,7 +93,7 @@ class Undefined extends Constraint
         }
 
         // Verify required values
-        if (is_object($value) && $value instanceOf Undefined) {
+        if (is_object($value) && $value instanceof Undefined) {
             if (isset($schema->required) && $schema->required) {
                 $this->addError($path, "is missing and it is required");
             }

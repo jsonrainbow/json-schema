@@ -68,6 +68,15 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
+     * Clears any reported errors.  Should be used between
+     * multiple validation checks.
+     */
+    public function reset()
+    {
+        $this->errors = array();
+    }
+
+    /**
      * Bubble down the path
      *
      * @param string $path Current path
@@ -200,6 +209,14 @@ abstract class Constraint implements ConstraintInterface
     protected function checkEnum($value, $schema = null, $path = null, $i = null)
     {
         $validator = new Enum($this->checkMode);
+        $validator->check($value, $schema, $path, $i);
+
+        $this->addErrors($validator->getErrors());
+    }
+
+    protected function checkFormat($value, $schema = null, $path = null, $i = null)
+    {
+        $validator = new Format($this->checkMode);
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());

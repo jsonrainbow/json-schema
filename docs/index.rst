@@ -17,7 +17,7 @@ Installation
 
 .. code-block:: console
 
-   git clone --recursive https://github.com/justinrainbow/json-schema.git
+   git clone https://github.com/justinrainbow/json-schema.git
 
 Composer method
 ^^^^^^^^^^^^^^^
@@ -28,7 +28,7 @@ Add the `justinrainbow/json-schema` package to your `composer.json` file.
    
    {
        "require": {
-           "justinrainbow/json-schema": ">=1.0.0-dev"
+           "justinrainbow/json-schema": "1.1.*"
        }
    }
 
