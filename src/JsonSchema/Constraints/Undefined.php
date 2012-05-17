@@ -24,9 +24,6 @@ class Undefined extends Constraint
      */
     public function check($value, $schema = null, $path = null, $i = null)
     {
-        if (is_string($schema)) {
-            $schema = $this->validateUri($value, $schema, $path, $i);
-        }
         if (!is_object($schema)) {
             return;
         }
@@ -94,6 +91,9 @@ class Undefined extends Constraint
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
+            if (is_string($schema->extends)) {
+                $schema->extends = $this->validateUri($schema->extends, $schema, $path, $i);
+            }
             $this->checkUndefined($value, $schema->extends, $path, $i);
         }
 
@@ -121,12 +121,13 @@ class Undefined extends Constraint
         }
     }
     
-    protected function validateUri($value, $schemaUri = null, $path = null, $i = null)
+    protected function validateUri($schemaUri = null, $schema, $path = null, $i = null)
     {
         $resolver = new \JsonSchema\Uri\UriResolver();
         
         if ($resolver->isValid($schemaUri)) {
-            return Validator::retrieveUri($schemaUri);
+            $schemaId = property_exists($schema, 'id') ? $schema->id : null;
+            return Validator::retrieveUri($resolver->resolve($schemaUri, $schemaId));
         }
     }
 }

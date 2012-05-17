@@ -24,12 +24,12 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
     {
         $curlRetriever = $this->getMock('JsonSchema\Uri\Retrievers\Curl', array('retrieve', 'getContentType'));
         
-        $curlRetriever->expects($this->once())
+        $curlRetriever->expects($this->at(0))
                       ->method('retrieve')
                       ->with($this->equalTo('http://some.host.at/somewhere/parent'))
                       ->will($this->returnValue($returnSchema));
         
-        $curlRetriever->expects($this->once())
+        $curlRetriever->expects($this->atLeastOnce()) // index 1 and/or 3
                       ->method('getContentType')
                       ->will($this->returnValue($returnMediaType));
         
@@ -56,9 +56,31 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider jsonProvider 
      */
-    public function testResolveRelativeUri()
+    public function testResolveRelativeUri($childSchema, $parentSchema)
     {
-        $this->markTestIncomplete();
+        self::setParentSchemaExtendsValue($parentSchema, 'grandparent');
+        $curlRetrieverMock = $this->getCurlRetrieverMock($parentSchema);
+        
+        $curlRetrieverMock->expects($this->at(2))
+                          ->method('retrieve')
+                          ->with($this->equalTo('http://some.host.at/somewhere/grandparent'))
+                          ->will($this->returnValue('{"type":"object","title":"grand-parent"}'));
+        
+        Validator::setUriRetriever($curlRetrieverMock);
+        
+        $json = '{"childProp":"infant", "parentProp":false}';
+        $decodedJson = json_decode($json);
+        $decodedJsonSchema = json_decode($childSchema);
+        
+        $this->validator->check($decodedJson, $decodedJsonSchema);
+        $this->assertTrue($this->validator->isValid());
+    }
+    
+    private static function setParentSchemaExtendsValue(&$parentSchema, $value)
+    {
+        $parentSchemaDecoded = json_decode($parentSchema, true);
+        $parentSchemaDecoded['extends'] = $value;
+        $parentSchema = json_encode($parentSchemaDecoded);
     }
     
     /**
@@ -71,7 +93,7 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
         
         Validator::setUriRetriever($curlRetrieverMock);
         
-        $json = '{}';
+        $json = '{"childProp":"infant", "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
         

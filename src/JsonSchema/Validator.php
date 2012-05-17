@@ -75,7 +75,7 @@ class Validator extends Constraint
         }
         
         // TODO validate using schema)
-        $jsonSchema->_id = $uri;
+        $jsonSchema->id = $uri;
         return $jsonSchema;
     }
 }
