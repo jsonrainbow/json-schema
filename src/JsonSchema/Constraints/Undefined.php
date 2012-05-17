@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Validator;
+
 /**
  * The Undefined Constraints
  *
@@ -22,6 +24,9 @@ class Undefined extends Constraint
      */
     public function check($value, $schema = null, $path = null, $i = null)
     {
+        if (is_string($schema)) {
+            $schema = $this->validateUri($value, $schema, $path, $i);
+        }
         if (!is_object($schema)) {
             return;
         }
@@ -113,6 +118,15 @@ class Undefined extends Constraint
             } else {
                 $this->errors = $initErrors;
             }
+        }
+    }
+    
+    protected function validateUri($value, $schemaUri = null, $path = null, $i = null)
+    {
+        $resolver = new \JsonSchema\Uri\UriResolver();
+        
+        if ($resolver->isValid($schemaUri)) {
+            return Validator::retrieveUri($schemaUri);
         }
     }
 }
