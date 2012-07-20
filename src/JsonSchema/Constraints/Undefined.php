@@ -127,7 +127,7 @@ class Undefined extends Constraint
         
         if ($resolver->isValid($schemaUri)) {
             $schemaId = property_exists($schema, 'id') ? $schema->id : null;
-            return Validator::retrieveUri($resolver->resolve($schemaUri, $schemaId));
+            return $this->retrieveUri($resolver->resolve($schemaUri, $schemaId));
         }
     }
 }
