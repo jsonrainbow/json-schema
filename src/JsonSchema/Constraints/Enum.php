@@ -22,6 +22,11 @@ class Enum extends Constraint
      */
     public function check($element, $schema = null, $path = null, $i = null)
     {
+        // Only validate enum if the attribute exists
+        if ($element instanceof Undefined && (!isset($schema->required) || !$schema->required))  {
+            return;
+        }
+
         if (!in_array($element, $schema->enum)) {
             $this->addError($path, "does not have a value in the enumeration " . implode(', ', $schema->enum));
         }
