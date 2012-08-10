@@ -25,6 +25,20 @@ class EnumTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
+            ),
+            array(
+                '{}',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{
+                      "type":"string",
+                      "enum":["Abacate","Manga","Pitanga"],
+                      "required":true
+                    }
+                  },
+                  "additionalProperties":false
+                }'
             )
         );
     }
@@ -40,6 +54,30 @@ class EnumTest extends BaseTestCase
                   "type":"object",
                   "properties":{
                     "value":{"type":"string","enum":["Abacate","Manga","Pitanga"]}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{}',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","enum":["Abacate","Manga","Pitanga"]}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{}',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{
+                      "type":"string",
+                      "enum":["Abacate","Manga","Pitanga"],
+                      "required":false
+                    }
                   },
                   "additionalProperties":false
                 }'
