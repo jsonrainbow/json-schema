@@ -5,7 +5,7 @@
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
     "license": "BSD-3-Clause",
-    "version": "1.1.0",
+    "version": "1.2.1",
     "authors": [
         {
             "name": "Bruno Prieto Reis",
