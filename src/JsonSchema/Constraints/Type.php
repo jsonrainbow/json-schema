@@ -78,7 +78,7 @@ class Type extends Constraint
         }
 
         if ('integer' === $type) {
-            return (integer) $value == $value ? true : is_int($value);
+            return is_int($value) || ctype_digit($value);
         }
 
         if ('number' === $type) {
