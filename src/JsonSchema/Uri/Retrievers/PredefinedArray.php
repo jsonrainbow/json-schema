@@ -2,6 +2,7 @@
 
 namespace JsonSchema\Uri\Retrievers;
 
+use JsonSchema\Validator;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\Exception\ResourceNotFoundException;
 
