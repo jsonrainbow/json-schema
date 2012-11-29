@@ -22,6 +22,10 @@ class Object extends Constraint
      */
     function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
+        if ($element instanceof Undefined) {
+            return;
+        }
+
         if ($patternProperties) {
             $this->validatePatternProperties($element, $path, $additionalProp, $patternProperties);
         }
