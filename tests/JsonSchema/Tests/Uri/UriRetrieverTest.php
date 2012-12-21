@@ -22,16 +22,12 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
     
     private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
     {
-        $retriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('retrieve', 'getContentType'));
+        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
         
         $retriever->expects($this->at(0))
                   ->method('retrieve')
-                  ->with($this->equalTo('http://some.host.at/somewhere/parent'))
+                  ->with($this->equalTo(null), $this->equalTo('http://some.host.at/somewhere/parent'))
                   ->will($this->returnValue($returnSchema));
-        
-        $retriever->expects($this->atLeastOnce()) // index 1 and/or 3
-                  ->method('getContentType')
-                  ->will($this->returnValue($returnMediaType));
         
         return $retriever;
     }
@@ -59,12 +55,6 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
     {
         self::setParentSchemaExtendsValue($parentSchema, 'grandparent');
         $retrieverMock = $this->getRetrieverMock($parentSchema);
-        
-        $retrieverMock->expects($this->at(2))
-                          ->method('retrieve')
-                          ->with($this->equalTo('http://some.host.at/somewhere/grandparent'))
-                          ->will($this->returnValue('{"type":"object","title":"grand-parent"}'));
-        
         $json = '{"childProp":"infant", "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
@@ -79,38 +69,6 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
         $parentSchemaDecoded = json_decode($parentSchema, true);
         $parentSchemaDecoded['extends'] = $value;
         $parentSchema = json_encode($parentSchemaDecoded);
-    }
-    
-    /**
-     * @dataProvider jsonProvider
-     * @expectedException JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
-    public function testInvalidSchemaMediaType($childSchema, $parentSchema)
-    {
-        $retrieverMock = $this->getRetrieverMock($parentSchema, 'text/html');
-        
-        $json = '{"childProp":"infant", "parentProp":false}';
-        $decodedJson = json_decode($json);
-        $decodedJsonSchema = json_decode($childSchema);
-        
-        $this->validator->setUriRetriever($retrieverMock);
-        $this->validator->check($decodedJson, $decodedJsonSchema);
-    }
-    
-    /**
-     * @dataProvider jsonProvider
-     * @expectedException JsonSchema\Exception\JsonDecodingException
-     */
-    public function testParentJsonError($childSchema, $parentSchema)
-    {
-        $retrieverMock = $this->getRetrieverMock('<html>', 'application/schema+json');
-        
-        $json = '{}';
-        $decodedJson = json_decode($json);
-        $decodedJsonSchema = json_decode($childSchema);
-        
-        $this->validator->setUriRetriever($retrieverMock);
-        $this->validator->check($decodedJson, $decodedJsonSchema);
     }
     
     public function jsonProvider()
