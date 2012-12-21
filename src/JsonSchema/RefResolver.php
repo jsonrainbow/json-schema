@@ -38,9 +38,9 @@ class RefResolver
 	public function fetchRef($ref, $sourceUri)
 	{
 		$retriever = $this->getUriRetriever();
-		$jsonSchema = $retriever->retrieveUri($ref, $sourceUri);
+		$jsonSchema = $retriever->retrieve($ref, $sourceUri);
 		$this->resolve($jsonSchema);
-		return $schema;
+		return $jsonSchema;
 	}
 
 	/**
@@ -190,7 +190,7 @@ class RefResolver
 		unset($schema->$ref);
 	
 		// Augment the current $schema object with properties fetched
-		foreach (get_object_vars($schema->$propertyName) as $prop => $value)
+		foreach (get_object_vars($refSchema) as $prop => $value)
 		{
 			$schema->$prop = $value;
 		}
