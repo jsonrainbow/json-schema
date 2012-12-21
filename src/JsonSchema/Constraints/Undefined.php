@@ -124,10 +124,12 @@ class Undefined extends Constraint
     protected function validateUri($schemaUri = null, $schema, $path = null, $i = null)
     {
         $resolver = new \JsonSchema\Uri\UriResolver();
+		$retriever = $this->getUriRetriever();
         
         if ($resolver->isValid($schemaUri)) {
             $schemaId = property_exists($schema, 'id') ? $schema->id : null;
-            return $this->retrieveUri($resolver->resolve($schemaUri, $schemaId));
+			$jsonSchema = $retriever->retrieve($schemaId, $schemaUri);
+			return $jsonSchema;
         }
     }
 }
