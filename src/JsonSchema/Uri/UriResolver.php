@@ -80,7 +80,7 @@ class UriResolver
         $components = $this->parse($uri);
         $path = $components['path'];
         
-        if ((array_key_exists('scheme', $components)) && ('http' === $components['scheme'])) {
+        if (! empty($components['scheme'])) {
             return $uri;
         }
         $baseComponents = $this->parse($baseUri);
