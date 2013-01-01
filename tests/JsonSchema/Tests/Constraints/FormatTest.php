@@ -73,6 +73,7 @@ class FormatTest extends BaseTestCase
             array('23:59:59', 'time'),
 
             array('2000-05-01T12:12:12Z', 'date-time'),
+            array('2000-05-01T12:12:12+01:00', 'date-time'),
 
             array('0', 'utc-millisec'),
 
@@ -127,6 +128,7 @@ class FormatTest extends BaseTestCase
             array('25:00:00', 'time'),
 
             array('1999-1-11T00:00:00Z', 'date-time'),
+            array('1999-01-11T00:00:00+1:00', 'date-time'),
 
             array('-1', 'utc-millisec'),
             array(PHP_INT_MAX, 'utc-millisec'),
