@@ -115,8 +115,9 @@ class RefResolver
 	 * Given an object and a property name, that property should be an
 	 * array whose values can be schemas.
 	 *
-     * @param object $schema    JSON Schema to flesh out
-	 * @param string $sourceUri URI where this schema was located
+	 * @param object $schema       JSON Schema to flesh out
+	 * @param string $propertyName Property to work on
+	 * @param string $sourceUri    URI where this schema was located
 	 */
 	public function resolveArrayOfSchemas($schema, $propertyName, $sourceUri) {
 		if (! isset($schema->$propertyName) || ! is_array($schema->$propertyName))
