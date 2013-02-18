@@ -46,7 +46,7 @@ function showJsonError()
 }
 
 
-//support running this tool from git checkout
+// support running this tool from git checkout
 if (is_dir(__DIR__ . '/../src/JsonSchema')) {
     set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
 }
@@ -63,18 +63,22 @@ if (!is_readable($pathSchema)) {
     echo "Schema file is not readable.\n";
     exit(2);
 }
+
 if (!is_readable($pathData)) {
     echo "Data file is not readable.\n";
     exit(3);
 }
 
 $data = json_decode(file_get_contents($pathData));
+
 if ($data === null) {
     echo "Error loading JSON data file\n";
     showJsonError();
     exit(5);
 }
+
 $schema = json_decode(file_get_contents($pathSchema));
+
 if ($schema === null) {
     echo "Error loading JSON schema file\n";
     showJsonError();
@@ -93,4 +97,3 @@ if ($validator->isValid()) {
     }
     exit(23);
 }
-?>
