@@ -1,0 +1,99 @@
+#!/usr/bin/env php
+<?php
+/**
+ * JSON schema validator
+ *
+ * @author Christian Weiske <christian.weiske@netresearch.de>
+ */
+
+/**
+ * Dead simple autoloader
+ *
+ * @param string $className Name of class to load
+ *
+ * @return void
+ */
+function __autoload($className)
+{
+    $className = ltrim($className, '\\');
+    $fileName  = '';
+    $namespace = '';
+    if ($lastNsPos = strrpos($className, '\\')) {
+        $namespace = substr($className, 0, $lastNsPos);
+        $className = substr($className, $lastNsPos + 1);
+        $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+    }
+    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+    require_once $fileName;
+}
+
+/**
+ * Show the json parse error that happened last
+ *
+ * @return void
+ */
+function showJsonError()
+{
+    $constants = get_defined_constants(true);
+    $json_errors = array();
+    foreach ($constants['json'] as $name => $value) {
+        if (!strncmp($name, 'JSON_ERROR_', 11)) {
+            $json_errors[$value] = $name;
+        }
+    }
+
+    echo 'JSON parse error: ' . $json_errors[json_last_error()] . "\n";
+}
+
+
+// support running this tool from git checkout
+if (is_dir(__DIR__ . '/../src/JsonSchema')) {
+    set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
+}
+
+if ($argc < 3) {
+    echo "Usage: validate-json schema.json data.json\n";
+    exit(1);
+}
+
+$pathSchema = $argv[1];
+$pathData   = $argv[2];
+
+if (!is_readable($pathSchema)) {
+    echo "Schema file is not readable.\n";
+    exit(2);
+}
+
+if (!is_readable($pathData)) {
+    echo "Data file is not readable.\n";
+    exit(3);
+}
+
+$data = json_decode(file_get_contents($pathData));
+
+if ($data === null) {
+    echo "Error loading JSON data file\n";
+    showJsonError();
+    exit(5);
+}
+
+$schema = json_decode(file_get_contents($pathSchema));
+
+if ($schema === null) {
+    echo "Error loading JSON schema file\n";
+    showJsonError();
+    exit(6);
+}
+
+$validator = new JsonSchema\Validator();
+$validator->check($data, $schema);
+
+if ($validator->isValid()) {
+    echo "OK. The supplied JSON validates against the schema.\n";
+} else {
+    echo "JSON does not validate. Violations:\n";
+    foreach ($validator->getErrors() as $error) {
+        echo sprintf("[%s] %s\n", $error['property'], $error['message']);
+    }
+    exit(23);
+}
