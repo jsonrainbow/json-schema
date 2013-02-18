@@ -77,6 +77,18 @@ class PhpTypeCastModeTest extends BaseTestCase
             ),
             array(
                 '{
+                  "a":"1.337"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "a":{"type":"number","maximum":8.0}
+                  }
+                }',
+                Validator::CHECK_MODE_TYPE_CAST
+            ),
+            array(
+                '{
                   "a":"9e42"
                 }',
                 '{
