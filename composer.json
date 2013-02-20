@@ -5,7 +5,6 @@
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
     "license": "BSD-3-Clause",
-    "version": "1.2.1",
     "authors": [
         {
             "name": "Bruno Prieto Reis",
@@ -29,5 +28,6 @@
     },
     "autoload": {
         "psr-0": { "JsonSchema": "src/" }
-    }
+    },
+    "bin": ["bin/validate-json"]
 }

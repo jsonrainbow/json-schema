@@ -40,8 +40,11 @@ class Format extends Constraint
                 break;
 
             case 'date-time':
-                if (!$this->validateDateTime($element, 'Y-m-d\TH:i:s\Z')) {
-                    $this->addError($path, sprintf('Invalid date time %s, expected format YYYY-MM-DDTHH:MM:SSZ', json_encode($element)));
+                if (!$this->validateDateTime($element, 'Y-m-d\TH:i:s\Z') &&
+                    !$this->validateDateTime($element, 'Y-m-d\TH:i:sP') &&
+                    !$this->validateDateTime($element, 'Y-m-d\TH:i:sO')
+                ) {
+                    $this->addError($path, sprintf('Invalid date time %s, expected format YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DDTHH:MM:SS+HH:MM', json_encode($element)));
                 }
                 break;
 
