@@ -1,2 +1,4 @@
 /composer.lock
 /vendor
+/bin
+!/bin/validate-json
