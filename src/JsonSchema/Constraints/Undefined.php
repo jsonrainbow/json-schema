@@ -120,16 +120,17 @@ class Undefined extends Constraint
             }
         }
     }
-    
+
     protected function validateUri($schemaUri = null, $schema, $path = null, $i = null)
     {
         $resolver = new \JsonSchema\Uri\UriResolver();
-		$retriever = $this->getUriRetriever();
-        
+        $retriever = $this->getUriRetriever();
+
         if ($resolver->isValid($schemaUri)) {
             $schemaId = property_exists($schema, 'id') ? $schema->id : null;
-			$jsonSchema = $retriever->retrieve($schemaId, $schemaUri);
-			return $jsonSchema;
+            $jsonSchema = $retriever->retrieve($schemaId, $schemaUri);
+
+            return $jsonSchema;
         }
     }
 }

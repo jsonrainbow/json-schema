@@ -19,193 +19,186 @@ use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
  */
 class RefResolver
 {
-	protected $uriRetriever = null;
+    /**
+     * @var UriRetrieverInterface
+     */
+    protected $uriRetriever = null;
 
-	/**
-	 * @param UriRetriever $uriRetriever
-	 */
-	public function __construct($retriever = null) {
-		$this->uriRetriever = $retriever;
-	}
+    /**
+     * @param UriRetriever $retriever
+     */
+    public function __construct($retriever = null)
+    {
+        $this->uriRetriever = $retriever;
+    }
 
-	/**
-	 * Retrieves a given schema given a ref and a source URI
-	 *
-	 * @param  string $ref       Reference from schema
-	 * @param  string $sourceUri URI where original schema was located
-	 * @return object            Schema
-	 */
-	public function fetchRef($ref, $sourceUri)
-	{
-		$retriever = $this->getUriRetriever();
-		$jsonSchema = $retriever->retrieve($ref, $sourceUri);
-		$this->resolve($jsonSchema);
-		return $jsonSchema;
-	}
+    /**
+     * Retrieves a given schema given a ref and a source URI
+     *
+     * @param  string $ref       Reference from schema
+     * @param  string $sourceUri URI where original schema was located
+     * @return object            Schema
+     */
+    public function fetchRef($ref, $sourceUri)
+    {
+        $retriever = $this->getUriRetriever();
+        $jsonSchema = $retriever->retrieve($ref, $sourceUri);
+        $this->resolve($jsonSchema);
 
-	/**
-	 * Return the URI Retriever, defaulting to making a new one if one
-	 * was not yet set.
-	 *
-	 * @return UriRetriever
-	 */
-	public function getUriRetriever()
-	{
-		if (is_null($this->uriRetriever))
-		{
-			$this->setUriRetriever(new UriRetriever);
-		}
+        return $jsonSchema;
+    }
 
-		return $this->uriRetriever;
-	}
+    /**
+     * Return the URI Retriever, defaulting to making a new one if one
+     * was not yet set.
+     *
+     * @return UriRetriever
+     */
+    public function getUriRetriever()
+    {
+        if (is_null($this->uriRetriever)) {
+            $this->setUriRetriever(new UriRetriever);
+        }
+
+        return $this->uriRetriever;
+    }
 
     /**
      * Resolves all $ref references for a given schema.  Recurses through
-	 * the object to resolve references of any child schemas.
+     * the object to resolve references of any child schemas.
      *
-	 * The 'format' property is omitted because it isn't required for
-	 * validation.  Theoretically, this class could be extended to look
-	 * for URIs in formats: "These custom formats MAY be expressed as
-	 * an URI, and this URI MAY reference a schema of that format."
-	 *
-	 * The 'id' property is not filled in, but that could be made to happen.
-	 *
+     * The 'format' property is omitted because it isn't required for
+     * validation.  Theoretically, this class could be extended to look
+     * for URIs in formats: "These custom formats MAY be expressed as
+     * an URI, and this URI MAY reference a schema of that format."
+     *
+     * The 'id' property is not filled in, but that could be made to happen.
+     *
      * @param object $schema    JSON Schema to flesh out
-	 * @param string $sourceUri URI where this schema was located
+     * @param string $sourceUri URI where this schema was located
      */
     public function resolve($schema, $sourceUri = null)
     {
-		if (! is_object($schema))
-		{
-			return;
-		}
+        if (! is_object($schema)) {
+            return;
+        }
 
-		if (is_null($sourceUri)) {
-			if (! empty($schema->id)) {
-				$sourceUri = $schema->id;
-			}
-		}
+        if (null === $sourceUri && ! empty($schema->id)) {
+            $sourceUri = $schema->id;
+        }
 
-		// Resolve $ref first
-		$this->resolveRef($schema, $sourceUri);
+        // Resolve $ref first
+        $this->resolveRef($schema, $sourceUri);
 
-		// These properties are just schemas
-		// eg.  items can be a schema or an array of schemas
-		foreach (array('additionalItems', 'additionalProperties', 'extends', 'items') as $propertyName)
-		{
-			$this->resolveProperty($schema, $propertyName, $sourceUri);
-		}
+        // These properties are just schemas
+        // eg.  items can be a schema or an array of schemas
+        foreach (array('additionalItems', 'additionalProperties', 'extends', 'items') as $propertyName) {
+            $this->resolveProperty($schema, $propertyName, $sourceUri);
+        }
 
-		// These are all potentially arrays that contain schema objects
-		// eg.  type can be a value or an array of values/schemas
-		// eg.  items can be a schema or an array of schemas
-		foreach (array('disallow', 'extends', 'items', 'type') as $propertyName)
-		{
-			$this->resolveArrayOfSchemas($schema, $propertyName, $sourceUri);
-		}
+        // These are all potentially arrays that contain schema objects
+        // eg.  type can be a value or an array of values/schemas
+        // eg.  items can be a schema or an array of schemas
+        foreach (array('disallow', 'extends', 'items', 'type') as $propertyName) {
+            $this->resolveArrayOfSchemas($schema, $propertyName, $sourceUri);
+        }
 
-		// These are all objects containing properties whose values are schemas
-		foreach (array('dependencies', 'patternProperties', 'properties') as $propertyName)
-		{
-			$this->resolveObjectOfSchemas($schema, $propertyName, $sourceUri);
-		}
+        // These are all objects containing properties whose values are schemas
+        foreach (array('dependencies', 'patternProperties', 'properties') as $propertyName) {
+            $this->resolveObjectOfSchemas($schema, $propertyName, $sourceUri);
+        }
     }
 
-	/**
-	 * Given an object and a property name, that property should be an
-	 * array whose values can be schemas.
-	 *
-	 * @param object $schema       JSON Schema to flesh out
-	 * @param string $propertyName Property to work on
-	 * @param string $sourceUri    URI where this schema was located
-	 */
-	public function resolveArrayOfSchemas($schema, $propertyName, $sourceUri) {
-		if (! isset($schema->$propertyName) || ! is_array($schema->$propertyName))
-		{
-			return;
-		}
+    /**
+     * Given an object and a property name, that property should be an
+     * array whose values can be schemas.
+     *
+     * @param object $schema       JSON Schema to flesh out
+     * @param string $propertyName Property to work on
+     * @param string $sourceUri    URI where this schema was located
+     */
+    public function resolveArrayOfSchemas($schema, $propertyName, $sourceUri)
+    {
+        if (! isset($schema->$propertyName) || ! is_array($schema->$propertyName)) {
+            return;
+        }
 
-		foreach ($schema->$propertyName as $possiblySchema)
-		{
-			$this->resolve($possiblySchema, $sourceUri);
-		}
-	}
+        foreach ($schema->$propertyName as $possiblySchema) {
+            $this->resolve($possiblySchema, $sourceUri);
+        }
+    }
 
-	/**
-	 * Given an object and a property name, that property should be an
-	 * object whose properties are schema objects.
-	 *
-	 * @param object $schema       JSON Schema to flesh out
-	 * @param string $propertyName Property to work on
-	 * @param string $sourceUri    URI where this schema was located
-	 */
-	public function resolveObjectOfSchemas($schema, $propertyName, $sourceUri)
-	{
-		if (! isset($schema->$propertyName) || ! is_object($schema->$propertyName))
-		{
-			return;
-		}
+    /**
+     * Given an object and a property name, that property should be an
+     * object whose properties are schema objects.
+     *
+     * @param object $schema       JSON Schema to flesh out
+     * @param string $propertyName Property to work on
+     * @param string $sourceUri    URI where this schema was located
+     */
+    public function resolveObjectOfSchemas($schema, $propertyName, $sourceUri)
+    {
+        if (! isset($schema->$propertyName) || ! is_object($schema->$propertyName)) {
+            return;
+        }
 
-		foreach (get_object_vars($schema->$propertyName) as $possiblySchema)
-		{
-			$this->resolve($possiblySchema, $sourceUri);
-		}
-	}
+        foreach (get_object_vars($schema->$propertyName) as $possiblySchema) {
+            $this->resolve($possiblySchema, $sourceUri);
+        }
+    }
 
-	/**
-	 * Given an object and a property name, that property should be a
-	 * schema object.
-	 *
-	 * @param object $schema       JSON Schema to flesh out
-	 * @param string $propertyName Property to work on
-	 * @param string $sourceUri    URI where this schema was located
-	 */
-	public function resolveProperty($schema, $propertyName, $sourceUri)
-	{
-		if (! isset($schema->$propertyName))
-		{
-			return;
-		}
+    /**
+     * Given an object and a property name, that property should be a
+     * schema object.
+     *
+     * @param object $schema       JSON Schema to flesh out
+     * @param string $propertyName Property to work on
+     * @param string $sourceUri    URI where this schema was located
+     */
+    public function resolveProperty($schema, $propertyName, $sourceUri)
+    {
+        if (! isset($schema->$propertyName)) {
+            return;
+        }
 
-		$this->resolve($schema->$propertyName, $sourceUri);
-	}
+        $this->resolve($schema->$propertyName, $sourceUri);
+    }
 
-	/**
-	 * Look for the $ref property in the object.  If found, remove the
-	 * reference and augment this object with the contents of another
-	 * schema.
-	 *
-	 * @param object $schema    JSON Schema to flesh out
-	 * @param string $sourceUri URI where this schema was located
-	 */
-	public function resolveRef($schema, $sourceUri)
-	{
-		$ref = '$ref';
+    /**
+     * Look for the $ref property in the object.  If found, remove the
+     * reference and augment this object with the contents of another
+     * schema.
+     *
+     * @param object $schema    JSON Schema to flesh out
+     * @param string $sourceUri URI where this schema was located
+     */
+    public function resolveRef($schema, $sourceUri)
+    {
+        $ref = '$ref';
 
-		if (empty($schema->$ref))
-		{
-			return;
-		}
+        if (empty($schema->$ref)) {
+            return;
+        }
 
-		$refSchema = $this->fetchRef($schema->$ref, $sourceUri);
-		unset($schema->$ref);
-	
-		// Augment the current $schema object with properties fetched
-		foreach (get_object_vars($refSchema) as $prop => $value)
-		{
-			$schema->$prop = $value;
-		}
-	}
+        $refSchema = $this->fetchRef($schema->$ref, $sourceUri);
+        unset($schema->$ref);
 
-	/**
-	 * Set URI Retriever for use with the Ref Resolver
-	 *
-	 * @param UriRetriever
-	 * @return $this for chaining
-	 */
-	public function setUriRetriever(UriRetriever $retriever)
-	{
-		$this->uriRetriever = $retriever;
-		return $this;
-	}
+        // Augment the current $schema object with properties fetched
+        foreach (get_object_vars($refSchema) as $prop => $value) {
+            $schema->$prop = $value;
+        }
+    }
+
+    /**
+     * Set URI Retriever for use with the Ref Resolver
+     *
+     * @param UriRetriever $retriever
+     * @return $this for chaining
+     */
+    public function setUriRetriever(UriRetriever $retriever)
+    {
+        $this->uriRetriever = $retriever;
+
+        return $this;
+    }
 }
