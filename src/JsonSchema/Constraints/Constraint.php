@@ -9,11 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Uri\Retrievers\FileGetContents;
-use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
-use JsonSchema\Validator;
-use JsonSchema\Exception\InvalidSchemaMediaTypeException;
-use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\Uri;
 
 /**
  * The Base Constraints, all Validators should extend this class
@@ -32,19 +28,32 @@ abstract class Constraint implements ConstraintInterface
     const CHECK_MODE_TYPE_CAST = 2;
 
     /**
-     * @param int                   $checkMode
-     * @param UriRetrieverInterface $uriRetriever
+     * @param int          $checkMode
+     * @param UriRetriever $uriRetriever
      */
-    public function __construct($checkMode = self::CHECK_MODE_NORMAL, UriRetrieverInterface $uriRetriever = null)
+    public function __construct($checkMode = self::CHECK_MODE_NORMAL, \JsonSchema\Uri\UriRetriever $uriRetriever = null)
     {
         $this->checkMode    = $checkMode;
         $this->uriRetriever = $uriRetriever;
     }
 
+	/**
+	 * @return UriRetriever $uriRetriever
+	 */
+	public function getUriRetriever() 
+	{
+		if (is_null($this->uriRetriever))
+		{
+			$this->setUriRetriever(new \JsonSchema\Uri\UriRetriever);
+		}
+
+		return $this->uriRetriever;
+	}
+
     /**
-     * @param  UriRetrieverInterface $uriRetriever
+     * @param UriRetriever $uriRetriever
      */
-    public function setUriRetriever(UriRetrieverInterface $uriRetriever)
+    public function setUriRetriever(\JsonSchema\Uri\UriRetriever $uriRetriever)
     {
         $this->uriRetriever = $uriRetriever;
     }
@@ -242,24 +251,14 @@ abstract class Constraint implements ConstraintInterface
     /**
      * @param string $uri JSON Schema URI
      * @return string JSON Schema contents
-     * @throws InvalidSchemaMediaType for invalid media types
      */
     protected function retrieveUri($uri)
     {
         if (null === $this->uriRetriever) {
-            $this->setUriRetriever(new FileGetContents);
+            $this->setUriRetriever(new \JsonSchema\Uri\UriRetriever);
         }
-        $contents = $this->uriRetriever->retrieve($uri);
-        if (Validator::SCHEMA_MEDIA_TYPE !== $this->uriRetriever->getContentType()) {
-            throw new InvalidSchemaMediaTypeException(sprintf('Media type %s expected', Validator::SCHEMA_MEDIA_TYPE));
-        }
-        $jsonSchema = json_decode($contents);
-        if (JSON_ERROR_NONE < $error = json_last_error()) {
-            throw new JsonDecodingException($error);
-        }
-
-        // TODO validate using schema)
-        $jsonSchema->id = $uri;
+		$jsonSchema = $this->uriRetriever->retrieve($uri);
+        // TODO validate using schema
         return $jsonSchema;
     }
 }
