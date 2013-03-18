@@ -35,7 +35,12 @@ class FileGetContents implements UriRetrieverInterface
         }
         
         $this->messageBody = $response;
-        $this->fetchContentType($http_response_header);
+		if (! empty($http_response_header)) {
+			$this->fetchContentType($http_response_header);
+		} else {
+			// Could be a "file://" url or something else - fake up the response
+			$this->contentType = null;
+		}
         
         return $this->messageBody;
     }
