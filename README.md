@@ -34,7 +34,7 @@ $refResolver->resolve($schema, 'file://' . __DIR__);
 
 // Validate
 $validator = new JsonSchema\Validator();
-$validator->check($data, $resolvedSchema);
+$validator->check($data, $schema);
 
 if ($validator->isValid()) {
     echo "The supplied JSON validates against the schema.\n";
