@@ -1,9 +1,11 @@
 <?php
-		/**
-		 * Runs the JSON Schema Test Suite
-		 * Install JSON-Schema-Test-Suite git submodele:
-		 * $> git submodule update --init
-		 */
+/**
+ * Work in progress!
+ * Runs the JSON Schema Test Suite
+ * Install JSON-Schema-Test-Suite git submodele:
+ * $> git submodule update --init
+ * @author Jan Mentzel <jan@hypercharge.net>
+ */
 class SuiteTest extends \PHPUnit_Framework_TestCase {
 
 
