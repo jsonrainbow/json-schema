@@ -2,3 +2,4 @@
 /vendor
 /bin
 !/bin/validate-json
+composer.phar

@@ -33,9 +33,15 @@ class Collection extends Constraint
         }
 
         // Verify uniqueItems
-        // @TODO array_unique doesnt work with objects
-        if (isset($schema->uniqueItems) && array_unique($value) != $value) {
-            $this->addError($path, "There are no duplicates allowed in the array");
+        if (isset($schema->uniqueItems)) {
+            $uniquable = $value;
+            if(is_array($value) && sizeof($value)) {
+                // array_unique doesnt work with objects of stdClass because of missing stdClass::__toString :-|
+                $uniquable = array_map(function($e) { return print_r($e, true); }, $value);
+            }
+            if(sizeof(array_unique($uniquable)) != sizeof($value)) {
+                $this->addError($path, "There are no duplicates allowed in the array");
+            }
         }
 
         // Verify items
