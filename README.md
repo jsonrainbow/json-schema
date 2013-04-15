@@ -17,7 +17,8 @@ See [json-schema](http://json-schema.org/) for more details.
 	wget http://getcomposer.org/composer.phar
 	php composer.phar install
 
-or if you don't have wget you can do same with curl
+Or if you don't have wget you can do same with curl
+
 	curl -o composer.phar http://getcomposer.org/composer.phar
 	php composer.phar install
 
