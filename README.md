@@ -14,10 +14,12 @@ See [json-schema](http://json-schema.org/) for more details.
 
 #### [`Composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
 
-```
-wget http://getcomposer.org/composer.phar
-php composer.phar install
-```
+	wget http://getcomposer.org/composer.phar
+	php composer.phar install
+
+or if you don't have wget you can do same with curl
+	curl -o composer.phar http://getcomposer.org/composer.phar
+	php composer.phar install
 
 ## Usage
 
@@ -57,6 +59,7 @@ Uses https://github.com/Julian/JSON-Schema-Test-Suite as well as our own. You'll
 	git submodule update --init
 
 install phpunit
+
 
 	php composer.phar install --dev
 
