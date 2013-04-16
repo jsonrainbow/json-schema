@@ -102,6 +102,32 @@ class UriResolver
         return $this->generate($baseComponents);
     }
 
+    public function resolveWithoutFragment($uri, $baseUri = null)
+    {
+        // echo "\n uri: "; print_r($uri);
+        // echo "\n baseUri: "; print_r($baseUri);
+
+        $components = $this->parse($uri);
+        // echo "\n components: "; print_r($components);
+        $path = $components['path'];
+        // echo "\n path: "; print_r($path);
+
+
+        if (! empty($components['scheme'])) {
+            // echo "\n returning uri: $uri\n";
+            return $uri;
+        }
+        $baseComponents = $this->parse($baseUri);
+        // echo "\n baseComponents: "; print_r($baseComponents);
+        $basePath = $baseComponents['path'];
+
+        $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
+
+        unset($baseComponents['fragment']);
+        echo "\n baseComponents after combine: "; print_r($baseComponents);
+
+        return $this->generate($baseComponents);
+    }
     /**
      * Tries to glue a relative path onto an absolute one
      *
