@@ -56,7 +56,6 @@ class UriResolver
         $uri = '';
         if(!empty($components['scheme'])) $uri = $components['scheme'] . '://';
 
-
         $uri .= $components['authority']
              . $components['path'];
 

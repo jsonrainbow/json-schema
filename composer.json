@@ -1,5 +1,5 @@
 {
-    "name": "justinrainbow/json-schema",
+    "name": "hypercharge/json-schema",
     "description": "A library to validate a json schema.",
     "keywords": ["json", "schema"],
     "homepage": "https://github.com/justinrainbow/json-schema",
@@ -21,6 +21,10 @@
         {
             "name": "Robert Schönthal",
             "email": "seroscho@googlemail.com"
+        },
+        {
+            "name": "Jan Mentzel",
+            "email": "jan@islandofwaiting.de"
         }
     ],
     "require": {
