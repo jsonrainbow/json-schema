@@ -8,6 +8,7 @@
  */
 class SuiteTest extends \PHPUnit_Framework_TestCase {
 
+	private $draft3Dir;
 
 	public static function schemaSuiteTestProvider() {
 		//error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
@@ -20,7 +21,7 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 		}
 		$tests = array();
 		$paths = array(
-				 __DIR__.'/suite/tests/draft3'
+				__DIR__.'/suite/tests/draft3'
 				,__DIR__.'/suite/tests/draft3/optional'
 		);
 		$ignoredFiles = array('optional', 'zeroTerminatedFloats.json');
@@ -46,7 +47,7 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 		//print_r($tests);
-		//return array($tests[242]);
+		//return array($tests[145]);
 		return $tests;
 	}
 
@@ -57,8 +58,16 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 	 		//echo "\n"; print_r($test);
 	 		$this->setName($test->suite->description.': '.($test->valid?'valid':'not valid').' : '.$test->description.' |');
 			$validator = new JsonSchema\Validator();
+
+			// $refResolver = new JsonSchema\RefResolver($retriever);
+			// $refResolver->resolve($schema, 'file:///Users/janmentzel/work/hypercharge-schema/json/MobilePayment.schema.json');
+
+			// resolve http:// refs
+			$refResolver = new JsonSchema\RefResolver();
+			$refResolver->resolve($test->suite->schema);
+
+
 			$validator->check($test->data, $test->suite->schema);
-			// test.valid, result.valid, util.inspect(result, true, null))
 			if($test->valid) {
 				$this->assertTrue($validator->isValid()
 					,"data: ".print_r($test->data, true)
@@ -67,7 +76,9 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 				);
 			} else {
 				$this->assertFalse($validator->isValid()
-					,"data: ".print_r($test->data, true)."\nschema: ".print_r($test->suite->schema, true)
+					,"data: ".print_r($test->data, true)
+						."\nschema: ".print_r($test->suite->schema, true)
+						."\nerrors: ".print_r($validator->getErrors(), true)
 				);
 			}
 	 }

@@ -8,7 +8,7 @@ See [json-schema](http://json-schema.org/) for more details.
 
 ### Library
 
-	git clone https://github.com/justinrainbow/json-schema.git
+	git clone git://github.com/Hypercharge/json-schema.git
 
 ### Dependencies
 
@@ -66,5 +66,10 @@ install phpunit
 
 run tests
 
-	./vendor/phpunit/phpunit/phpunit.php
+	./vendor/bin/phpunit.php
+
+
+install the testserver
+	cd testserver
+	npm install
 

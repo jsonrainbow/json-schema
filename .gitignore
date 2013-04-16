@@ -3,3 +3,4 @@
 /bin
 !/bin/validate-json
 composer.phar
+testserver/node_modules

@@ -19,37 +19,37 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator = new Validator();
     }
-    
+
     private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
     {
         $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
-        
+
         $retriever->expects($this->at(0))
                   ->method('retrieve')
                   ->with($this->equalTo(null), $this->equalTo('http://some.host.at/somewhere/parent'))
                   ->will($this->returnValue($returnSchema));
-        
+
         return $retriever;
     }
-    
+
     /**
-     * @dataProvider jsonProvider 
+     * @dataProvider jsonProvider
      */
     public function testChildExtendsParent($childSchema, $parentSchema)
     {
         $retrieverMock = $this->getRetrieverMock($parentSchema);
-        
+
         $json = '{"childProp":"infant", "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
-        
+
         $this->validator->setUriRetriever($retrieverMock);
         $this->validator->check($decodedJson, $decodedJsonSchema);
         $this->assertTrue($this->validator->isValid());
     }
-    
+
     /**
-     * @dataProvider jsonProvider 
+     * @dataProvider jsonProvider
      */
     public function testResolveRelativeUri($childSchema, $parentSchema)
     {
@@ -58,24 +58,24 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
         $json = '{"childProp":"infant", "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
-        
+
         $this->validator->setUriRetriever($retrieverMock);
         $this->validator->check($decodedJson, $decodedJsonSchema);
         $this->assertTrue($this->validator->isValid());
     }
-    
+
     private static function setParentSchemaExtendsValue(&$parentSchema, $value)
     {
         $parentSchemaDecoded = json_decode($parentSchema, true);
         $parentSchemaDecoded['extends'] = $value;
         $parentSchema = json_encode($parentSchemaDecoded);
     }
-    
+
     public function jsonProvider()
     {
         $childSchema = <<<EOF
 {
-    "type":"object",    
+    "type":"object",
     "title":"child",
     "extends":"http://some.host.at/somewhere/parent",
     "properties":
@@ -89,7 +89,7 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
 EOF;
         $parentSchema = <<<EOF
 {
-    "type":"object",    
+    "type":"object",
     "title":"parent",
     "properties":
     {

@@ -40,7 +40,7 @@ abstract class Constraint implements ConstraintInterface
 	/**
 	 * @return UriRetriever $uriRetriever
 	 */
-	public function getUriRetriever() 
+	public function getUriRetriever()
 	{
 		if (is_null($this->uriRetriever))
 		{
