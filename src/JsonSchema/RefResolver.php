@@ -90,6 +90,9 @@ class RefResolver
 
         // Resolve $ref first
         $this->resolveRef($schema, $sourceUri);
+        // Resolve extends first
+        $this->resolveExtends($schema, $sourceUri);
+
 
         // These properties are just schemas
         // eg.  items can be a schema or an array of schemas
@@ -161,7 +164,6 @@ class RefResolver
         if (! isset($schema->$propertyName)) {
             return;
         }
-
         $this->resolve($schema->$propertyName, $sourceUri);
     }
 
@@ -187,6 +189,55 @@ class RefResolver
         // Augment the current $schema object with properties fetched
         foreach (get_object_vars($refSchema) as $prop => $value) {
             $schema->$prop = $value;
+        }
+    }
+
+    /**
+     * Look for the $ref property in the object.  If found, remove the
+     * reference and augment this object with the contents of another
+     * schema.
+     *
+     * @param object $schema    JSON Schema to flesh out
+     * @param string $sourceUri URI where this schema was located
+     */
+    public function resolveExtends($schema, $sourceUri)
+    {
+        if (empty($schema->extends)) {
+            return;
+        }
+
+        $refSchema = $this->fetchRef($schema->extends, $sourceUri);
+
+        $refSchema = $this->getUriRetriever()->resolvePointer($refSchema, $schema->extends);
+
+        unset($schema->extends);
+
+        self::merge($schema, $refSchema);
+    }
+
+    /**
+    * recursively merges all fields of $b into $a
+    * fields in a win
+    * @param stdObject $a
+    * @param stdObject $b
+    * @return void
+    */
+    static function merge($a, $b) {
+        if(!$b) return;
+        foreach($b as $k=>$v) {
+            if(is_object($v)) {
+                if(!isset($a->$k)) $a->$k = new \stdClass;
+                self::merge($a->$k, $b->$k);
+            } elseif(is_array($v)) {
+                if(!isset($a->$k)) {
+                    $a->$k = $b->$k;
+                } elseif(is_array($a->$k)) {
+                    $a->$k = array_merge_recursive($b->$k, $a->$k); // a should win
+                }
+            } else {
+                if(isset($a->$k)) continue; // a should win
+                $a->$k = $b->$k;
+            }
         }
     }
 

@@ -14,8 +14,8 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 		//error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 		if(!is_dir(__DIR__.'/suite/tests/draft3')) {
-			$this->markTestSkipped(
-				'The language independent JSON-Schema-Test-Suite is not installed. See README.md.'
+			self::markTestSkipped(
+				"The language independent JSON-Schema-Test-Suite is not installed.\nSee README.md for install instructions."
 			);
 			return;
 		}
@@ -62,7 +62,7 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			// $refResolver = new JsonSchema\RefResolver($retriever);
 			// $refResolver->resolve($schema, 'file:///Users/janmentzel/work/hypercharge-schema/json/MobilePayment.schema.json');
 
-			// resolve http:// refs
+			// resolve http:// refs and extends
 			$refResolver = new JsonSchema\RefResolver();
 			$refResolver->resolve($test->suite->schema);
 

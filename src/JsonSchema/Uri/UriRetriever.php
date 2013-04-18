@@ -113,17 +113,10 @@ class UriRetriever
     public function retrieve($uri, $baseUri = null)
     {
         $resolver = new UriResolver();
-        echo "\n";
-        var_dump('uri', $uri, 'baseUri', $baseUri);
         $baseUri = preg_replace('/#.*$/', '', $baseUri);
-        var_dump('stripped baseUri', $baseUri);
 
         $resolvedUri = $resolver->resolveWithoutFragment($uri, $baseUri);
         $uriRetriever = $this->getUriRetriever();
-
-        echo "\n";
-        var_dump('resolvedUri', $resolvedUri);
-        echo "\n################### ##################\n";
 
         $contents = $this->uriRetriever->retrieve($resolvedUri);
         $this->confirmMediaType($uriRetriever);
