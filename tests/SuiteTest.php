@@ -47,7 +47,7 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 		//print_r($tests);
-		//return array($tests[145]);
+		//return array($tests[56]);
 		return $tests;
 	}
 
@@ -66,19 +66,21 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			$refResolver = new JsonSchema\RefResolver();
 			$refResolver->resolve($test->suite->schema);
 
+			// echo "\nresolved schema: ";
+			// print_r($test->suite->schema);
 
 			$validator->check($test->data, $test->suite->schema);
 			if($test->valid) {
 				$this->assertTrue($validator->isValid()
-					,"data: ".print_r($test->data, true)
-						."\nschema: ".print_r($test->suite->schema, true)
-						."\nerrors: ".print_r($validator->getErrors(), true)
+					// ,"data: ".print_r($test->data, true)
+					// 	."\nschema: ".print_r($test->suite->schema, true)
+					// 	."\nerrors: ".print_r($validator->getErrors(), true)
 				);
 			} else {
 				$this->assertFalse($validator->isValid()
-					,"data: ".print_r($test->data, true)
-						."\nschema: ".print_r($test->suite->schema, true)
-						."\nerrors: ".print_r($validator->getErrors(), true)
+					// ,"data: ".print_r($test->data, true)
+					// 	."\nschema: ".print_r($test->suite->schema, true)
+					// 	."\nerrors: ".print_r($validator->getErrors(), true)
 				);
 			}
 	 }

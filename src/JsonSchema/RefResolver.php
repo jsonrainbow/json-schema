@@ -205,14 +205,27 @@ class RefResolver
         if (empty($schema->extends)) {
             return;
         }
-
-        $refSchema = $this->fetchRef($schema->extends, $sourceUri);
-
-        $refSchema = $this->getUriRetriever()->resolvePointer($refSchema, $schema->extends);
-
+        if(is_object($schema->extends)) {
+            self::merge($schema, $schema->extends);
+        } else {
+            if(is_array($schema->extends)) {
+                foreach($schema->extends as $extends) {
+                    // yeah, some copy paste here
+                    if(is_object($schema)) {
+                        self::merge($schema, $schema);
+                    } else {
+                        $refSchema = $this->fetchRef($extends, $sourceUri);
+                        $refSchema = $this->getUriRetriever()->resolvePointer($refSchema, $extends);
+                        self::merge($schema, $refSchema);
+                    }
+                }
+            } else {
+                $refSchema = $this->fetchRef($schema->extends, $sourceUri);
+                $refSchema = $this->getUriRetriever()->resolvePointer($refSchema, $schema->extends);
+                self::merge($schema, $refSchema);
+            }
+        }
         unset($schema->extends);
-
-        self::merge($schema, $refSchema);
     }
 
     /**
