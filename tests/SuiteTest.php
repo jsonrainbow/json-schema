@@ -11,8 +11,6 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 	private $draft3Dir;
 
 	public static function schemaSuiteTestProvider() {
-		//error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
-
 		if(!is_dir(__DIR__.'/suite/tests/draft3')) {
 			self::markTestSkipped(
 				"The language independent JSON-Schema-Test-Suite is not installed.\nSee README.md for install instructions."
@@ -47,7 +45,7 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 		//print_r($tests);
-		//return array($tests[56]);
+		//return array($tests[130]);
 		return $tests;
 	}
 
@@ -69,7 +67,14 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			// echo "\nresolved schema: ";
 			// print_r($test->suite->schema);
 
+			// suppress errors because of php wargings of invalid-regexp tests
+			$turnOffWarnings = preg_match('/regular expression/', $test->description) && !$test->valid;
+			if($turnOffWarnings) $flags = error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+
 			$validator->check($test->data, $test->suite->schema);
+
+			if($turnOffWarnings) error_reporting($flags);
+
 			if($test->valid) {
 				$this->assertTrue($validator->isValid()
 					// ,"data: ".print_r($test->data, true)

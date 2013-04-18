@@ -113,7 +113,6 @@ class UriRetriever
     public function retrieve($uri, $baseUri = null)
     {
         $resolver = new UriResolver();
-        $baseUri = preg_replace('/#.*$/', '', $baseUri);
 
         $resolvedUri = $resolver->resolveWithoutFragment($uri, $baseUri);
         $uriRetriever = $this->getUriRetriever();
