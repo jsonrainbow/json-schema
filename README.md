@@ -61,7 +61,6 @@ Uses https://github.com/Julian/JSON-Schema-Test-Suite as well as our own. You'll
 
 install phpunit
 
-
 	php composer.phar install --dev
 
 run tests
@@ -69,7 +68,12 @@ run tests
 	./vendor/bin/phpunit.php
 
 
-install the testserver
+install the testserver - install [node.js](http://nodejs.org/) first
+
 	cd testserver
 	npm install
+
+start the testserver
+
+	node testserver/server.js
 
