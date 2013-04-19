@@ -85,12 +85,7 @@ class RefResolver
         }
 
         if (!empty($schema->id)) {
-            $parsedId = $this->getUriRetriever()->parse($schema->id);
-            if(empty($parsedId['schema'])) {
-                $sourceUri .= $schema->id;
-            } else {
-                $sourceUri = $schema->id;
-            }
+            $sourceUri = $this->getUriRetriever()->resolve($schema->id, $sourceUri);
         }
 
         // Resolve $ref first
