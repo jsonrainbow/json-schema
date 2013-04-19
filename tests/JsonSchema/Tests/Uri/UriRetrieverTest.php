@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests\Uri;
+namespace JsonSchema\Uri;
 
 use JsonSchema\Validator;
 
@@ -104,4 +104,20 @@ EOF;
             array($childSchema, $parentSchema)
         );
     }
+
+    function testResolve() {
+        $retriever = new UriRetriever();
+
+        $this->assertEquals('http://me.com/base/uri/foo.json'   , $retriever->resolve('foo.json', 'http://me.com/base/uri/dir.json'));
+        $this->assertEquals('https://mee.com/base/uri/foo.json' , $retriever->resolve('foo.json', 'https://mee.com/base/uri/dir.json'));
+        $this->assertEquals('http://you.net/other-dir/foo.json' , $retriever->resolve('http://you.net/other-dir/foo.json', 'http://mee.com/base/uri/dir.json'));
+        $this->assertEquals('https://you.net/other-dir/foo.json', $retriever->resolve('https://you.net/other-dir/foo.json', 'http:///base/uri/dir.json'));
+        $this->assertEquals('https://you.net/other-dir/foo.json', $retriever->resolve('https://you.net/other-dir/foo.json', 'https:///base/uri/dir.json'));
+        $this->assertEquals('file:///other-dir/foo.json'        , $retriever->resolve('file:///other-dir/foo.json', 'file:///base/uri/dir.json'));
+
+        // question: query and fragmet are dropped. Is this the desired behaviour?
+        $this->assertEquals('http://me.com/base/uri/foo.json'   , $retriever->resolve('foo.json?query#fragment', 'http://me.com/base/uri/dir.json'));
+
+    }
+
 }

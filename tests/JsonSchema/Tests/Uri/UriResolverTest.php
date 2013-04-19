@@ -56,10 +56,9 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase {
 
 	function testResolveWithValidFileBaseUri() {
 		$resolver = new UriResolver();
+		$this->assertEquals('file:///base/uri/foo.json', $resolver->resolve('foo.json', 'file:///base/uri/dir.json'));
+		$this->assertEquals('file:///other-dir/foo.json', $resolver->resolve('file:///other-dir/foo.json', 'file:///base/uri/dir.json'));
 
-		// didnt read the spec but somehow strange behaviour here
-
-		$this->assertEquals('file:///base/uri/foo.json'             , $resolver->resolve('foo.json'       , 'file:///base/uri/dir.json'));
 	}
 
 	function testCombineRelativePathWithBasePath() {
