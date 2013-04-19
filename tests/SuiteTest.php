@@ -8,6 +8,22 @@
  */
 class SuiteTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	* mixed
+	*  int
+	*     -1     ... run all test cases. or use false
+	*     0 to n ... run only one speciffic testcase, will switch to verbose=true
+	*                e.g.  PICK = 145;  run test case #145
+	*  string
+	*     regexp ... run tests with suite.description matching the regexp
+	*                e.g.  PICK = '/multiple dependencies/';
+	*
+	* Hint: you can turn off SuiteTest with something like PICK = '/^NO TESTS$/'
+	*/
+	const PICK = -1;
+
+	static private $verbose = false;
+
 	private $draft3Dir;
 
 	public static function schemaSuiteTestProvider() {
@@ -32,6 +48,9 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 				//echo "\nfile: $file\n";
 				$suites = json_decode(file_get_contents($file));
 				foreach($suites as $suite) {
+					// pick speciffic tests if wanted
+					if(is_string(self::PICK) && !preg_match(self::PICK, $suite->description)) continue;
+
 					//echo "\nsuite: ",$suite->description, "\n";
 					foreach($suite->tests as $test) {
 						if(!$test->description) continue;
@@ -45,7 +64,14 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 		//print_r($tests);
-		//return array($tests[130]);
+
+		if(self::PICK < 0 || self::PICK === false) {
+			return $tests;
+		}
+		self::$verbose = true;
+		if(is_int(self::PICK)) {
+			return array($tests[self::PICK]);
+		}
 		return $tests;
 	}
 
@@ -53,14 +79,13 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider schemaSuiteTestProvider
 	 */
 	 function testSchemaSuite($test) {
-	 		//echo "\n"; print_r($test);
+	 		if(self::$verbose) {
+	 			echo "\n"; print_r($test);
+	 		}
 	 		$this->setName($test->suite->description.': '.($test->valid?'valid':'not valid').' : '.$test->description.' |');
 			$validator = new JsonSchema\Validator();
 
-			// $refResolver = new JsonSchema\RefResolver($retriever);
-			// $refResolver->resolve($schema, 'file:///Users/janmentzel/work/hypercharge-schema/json/MobilePayment.schema.json');
-
-			// resolve http:// refs and extends
+			// resolve http:// or file:// $ref and extends
 			$refResolver = new JsonSchema\RefResolver();
 			$refResolver->resolve($test->suite->schema);
 
@@ -76,17 +101,18 @@ class SuiteTest extends \PHPUnit_Framework_TestCase {
 			if($turnOffWarnings) error_reporting($flags);
 
 			if($test->valid) {
-				$this->assertTrue($validator->isValid()
-					// ,"data: ".print_r($test->data, true)
-					// 	."\nschema: ".print_r($test->suite->schema, true)
-					// 	."\nerrors: ".print_r($validator->getErrors(), true)
-				);
+				$msg = self::$verbose
+					? "data: ".print_r($test->data, true)
+					 	."\nschema: ".print_r($test->suite->schema, true)
+					 	."\nerrors: ".print_r($validator->getErrors(), true)
+					: null;
+				$this->assertTrue($validator->isValid(), $msg);
 			} else {
-				$this->assertFalse($validator->isValid()
-					// ,"data: ".print_r($test->data, true)
-					// 	."\nschema: ".print_r($test->suite->schema, true)
-					// 	."\nerrors: ".print_r($validator->getErrors(), true)
-				);
+				$msg = self::$verbose
+					? "data: ".print_r($test->data, true)
+					 	."\nschema: ".print_r($test->suite->schema, true)
+					: null;
+				$this->assertFalse($validator->isValid(), $msg);
 			}
 	 }
 }
