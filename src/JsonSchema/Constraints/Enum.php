@@ -26,9 +26,8 @@ class Enum extends Constraint
         if ($element instanceof Undefined && (!isset($schema->required) || !$schema->required))  {
             return;
         }
-
-        if (!in_array($element, $schema->enum)) {
-            $this->addError($path, "does not have a value in the enumeration " . implode(', ', $schema->enum));
+        if (!in_array($element, $schema->enum, true)) {
+            $this->addError($path, "does not have a value in the enumeration " . print_r($schema->enum, true));
         }
     }
 }

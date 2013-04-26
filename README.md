@@ -8,14 +8,19 @@ See [json-schema](http://json-schema.org/) for more details.
 
 ### Library
 
-    $ git clone https://github.com/justinrainbow/json-schema.git
+	git clone git://github.com/Hypercharge/json-schema.git
 
 ### Dependencies
 
 #### [`Composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
 
-    $ wget http://getcomposer.org/composer.phar
-    $ php composer.phar install
+	wget http://getcomposer.org/composer.phar
+	php composer.phar install
+
+Or if you don't have wget you can do same with curl
+
+	curl -o composer.phar http://getcomposer.org/composer.phar
+	php composer.phar install
 
 ## Usage
 
@@ -23,14 +28,16 @@ See [json-schema](http://json-schema.org/) for more details.
 <?php
 
 // Get the schema and data as objects
-$retriever = new JsonSchema\Uri\UriRetriever;
-$schema = $retriever->retrieve('file://' . realpath('schema.json'));
 $data = json_decode(file_get_contents('data.json'));
+$schemaUri = 'file://' . realpath('schema.json');
+
+$retriever = new JsonSchema\Uri\UriRetriever;
+$schema = $retriever->retrieve($schemaUri);
 
 // If you use $ref or if you are unsure, resolve those references here
 // This modifies the $schema object
 $refResolver = new JsonSchema\RefResolver($retriever);
-$refResolver->resolve($schema, 'file://' . __DIR__);
+$refResolver->resolve($schema, $schemaUri);
 
 // Validate
 $validator = new JsonSchema\Validator();
@@ -46,6 +53,27 @@ if ($validator->isValid()) {
 }
 ```
 
-## Running the tests
+## Tests
 
-    $ phpunit
+Uses https://github.com/Julian/JSON-Schema-Test-Suite as well as our own. You'll need to update and init the git submodules:
+
+	git submodule update --init
+
+install phpunit
+
+	php composer.phar install --dev
+
+run tests
+
+	./vendor/bin/phpunit.php
+
+
+install the testserver - install [node.js](http://nodejs.org/) first
+
+	cd testserver
+	npm install
+
+start the testserver
+
+	node testserver/server.js
+

@@ -27,13 +27,15 @@ class FormatTest extends BaseTestCase
         $validator = new Format();
         $schema = new \stdClass;
         $schema->format = 'regex';
-        $schema->pattern = '\d+';
 
-        $validator->check('10', $schema);
+        $validator->check('\d+', $schema);
         $this->assertEmpty($validator->getErrors());
 
-        $validator->check('ten', $schema);
+        // turn off "preg_match(): Compilation failed" warnigs
+        $flags = error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+        $validator->check('+', $schema);
         $this->assertCount(1, $validator->getErrors());
+        error_reporting($flags);
     }
 
     /**
@@ -104,6 +106,7 @@ class FormatTest extends BaseTestCase
             array('555 320 1212', 'phone'),
 
             array('http://bluebox.org', 'uri'),
+            array('https://www.foo-bar.de/the/foler.rb/?with=a&query=string#/and/anchor', 'uri'),
 
             array('info@something.edu', 'email'),
 
@@ -113,6 +116,8 @@ class FormatTest extends BaseTestCase
             array('::ff', 'ipv6'),
 
             array('www.example.com', 'host-name'),
+
+            array('.*', 'regex')
         );
     }
 
@@ -145,6 +150,7 @@ class FormatTest extends BaseTestCase
             array('1 123 4424', 'phone'),
 
             array('htt:/bluebox.org', 'uri'),
+            array('/home/homer', 'uri'),
 
             array('info@somewhere', 'email'),
 
@@ -154,7 +160,7 @@ class FormatTest extends BaseTestCase
 
             array('localhost', 'host-name'),
 
-            array('anything', '*'),
+            array('anything', '*')
         );
     }
 
@@ -172,7 +178,7 @@ class FormatTest extends BaseTestCase
                             "pattern": "[0-9]+"
                         }
                     }
-                }'),
+                }')
         );
     }
 

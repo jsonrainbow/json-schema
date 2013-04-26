@@ -1,0 +1,47 @@
+{
+  "description" : "Employee schema inherits from Person.json; Uses custom types from types.json",
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "< should be the same absolute URI as Employee.json. Set it manually in your test! >",
+  "additionalProperties":false,
+  "properties": {
+    "person": {
+      "type":"object",
+      "additionalProperties":false,
+      "required":true,
+      "properties": {
+        "id": {
+          "description" : "ID",
+          "type" : "integer",
+          "minimum": 1,
+          "exclusiveMinimum": false,
+          "required": true
+        },
+        "type" :{
+          "type": "string",
+          "required": true,
+          "enum": ["Employee"]
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "office_address": {
+          "type": "object",
+          "required": true,
+          "properties": {
+            "street": {
+              "type":"string",
+              "required": true
+            },
+            "city" : {
+              "type":"string",
+              "required": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

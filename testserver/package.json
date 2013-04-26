@@ -1,0 +1,9 @@
+{
+  "name": "schema-suite-test-server",
+  "description": "json schema suite test server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "connect": "*"
+  }
+}

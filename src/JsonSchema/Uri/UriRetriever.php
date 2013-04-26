@@ -23,6 +23,7 @@ use JsonSchema\Exception\JsonDecodingException;
 class UriRetriever
 {
     protected $uriRetriever = null;
+    protected $currentSchema = null;
 
     /**
      * Guarantee the correct media type was encountered
@@ -112,8 +113,10 @@ class UriRetriever
     public function retrieve($uri, $baseUri = null)
     {
         $resolver = new UriResolver();
-        $resolvedUri = $resolver->resolve($uri, $baseUri);
+
+        $resolvedUri = $resolver->resolveWithoutFragment($uri, $baseUri);
         $uriRetriever = $this->getUriRetriever();
+
         $contents = $this->uriRetriever->retrieve($resolvedUri);
         $this->confirmMediaType($uriRetriever);
         $jsonSchema = json_decode($contents);
@@ -207,7 +210,7 @@ class UriRetriever
         $components = $this->parse($uri);
         $path = $components['path'];
 
-        if ((array_key_exists('scheme', $components)) && ('http' === $components['scheme'])) {
+        if (!empty($components['scheme'])) {
             return $uri;
         }
 
