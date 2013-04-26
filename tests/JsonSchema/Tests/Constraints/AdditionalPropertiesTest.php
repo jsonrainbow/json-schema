@@ -19,12 +19,16 @@ class AdditionalPropertiesTest extends BaseTestCase
             array(
                 '{
                   "prop":"1",
+                  "patternProp":"3",
                   "additionalProp":"2"
                 }',
                 '{
                   "type":"object",
                   "properties":{
                     "prop":{"type":"string"}
+                  },
+                  "patternProperties":{
+                      "^patternProp$":{"type":"string"}
                   },
                   "additionalProperties": false
                 }',
