@@ -26,8 +26,9 @@ class Object extends Constraint
             return;
         }
 
+        $matches = array();
         if ($patternProperties) {
-            $this->validatePatternProperties($element, $path, $additionalProp, $patternProperties);
+            $matches = $this->validatePatternProperties($element, $path, $patternProperties);
         }
 
         if ($definition) {
@@ -36,30 +37,38 @@ class Object extends Constraint
         }
 
         // additional the element properties
-        $this->validateElement($element, $definition, $path, $additionalProp);
+        $this->validateElement($element, $matches, $definition, $path, $additionalProp);
     }
 
-    public function validatePatternProperties($element, $path, $additionalProp, $patternProperties)
+    public function validatePatternProperties($element, $path, $patternProperties)
     {
+        $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
-
+            // Validate the pattern before using it to test for matches
+            if (@preg_match('/'. $pregex . '/', '') === false) {
+                $this->addError($path, 'The pattern "' . $pregex . '" is invalid');
+                continue;
+            }
             foreach ($element as $i => $value) {
-                if (preg_match('/'.$pregex.'/', $i)) {
+                if (preg_match('/' . $pregex . '/', $i)) {
+                    $matches[] = $i;
                     $this->checkUndefined($value, $schema ? : new \stdClass(), $path, $i);
                 }
             }
         }
+        return $matches;
     }
 
     /**
      * Validates the element properties
      *
      * @param \stdClass $element          Element to validate
+     * @param array     $matches          Matches from patternProperties (if any)
      * @param \stdClass $objectDefinition Object definition
      * @param string    $path             Path to test?
      * @param mixed     $additionalProp   Additional properties
      */
-    public function validateElement($element, $objectDefinition = null, $path = null, $additionalProp = null)
+    public function validateElement($element, $matches, $objectDefinition = null, $path = null, $additionalProp = null)
     {
         foreach ($element as $i => $value) {
 
@@ -72,12 +81,12 @@ class Object extends Constraint
             }
 
             //no additional properties allowed
-            if ($additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
+            if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
                 $this->addError($path, "The property " . $i . " is not defined and the definition does not allow additional properties");
             }
 
             // additional properties defined
-            if ($additionalProp && !$definition) {
+            if (!in_array($i, $matches) && $additionalProp && !$definition) {
                 $this->checkUndefined($value, $additionalProp, $path, $i);
             }
 
