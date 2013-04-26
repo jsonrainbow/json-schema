@@ -37,6 +37,36 @@ class PatternPropertiesTest extends BaseTestCase
                     )
                 ))
             ),
+            // Does not match pattern
+            array(
+                json_encode(array(
+                        'regex_us' => false,
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'patternProperties' => array(
+                            '^[a-z]+_(jp|de)$' => array(
+                                'type' => array('boolean')
+                            )
+                        ),
+                        "additionalProperties" => false
+                    ))
+            ),
+            // An invalid regular expression pattern
+            array(
+                json_encode(array(
+                        'regex_us' => false,
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'patternProperties' => array(
+                            '^[a-z+_jp|de)$' => array(
+                                'type' => array('boolean')
+                            )
+                        ),
+                        "additionalProperties" => false
+                    ))
+            ),
         );
     }
 
@@ -72,6 +102,25 @@ class PatternPropertiesTest extends BaseTestCase
                         ),
                     )
                 ))
+            ),
+            array(
+                json_encode(array(
+                        'foobar' => true,
+                        'regex_us' => 'foo',
+                        'regex_de' => 1234
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'properties' => array(
+                            'foobar' => array('type' => 'boolean')
+                        ),
+                        'patternProperties' => array(
+                            '^[a-z]+_(us|de)$' => array(
+                                'type' => array('string', 'integer')
+                            )
+                        ),
+                        "additionalProperties" => false
+                    ))
             ),
         );
     }
