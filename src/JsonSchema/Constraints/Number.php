@@ -33,7 +33,7 @@ class Number extends Constraint
         }
 
         // Verify divisibleBy
-        if (isset($schema->divisibleBy) && $element % $schema->divisibleBy != 0) {
+        if (isset($schema->divisibleBy) && fmod($element, $schema->divisibleBy) != 0) {
             $this->addError($path, "is not divisible by " . $schema->divisibleBy);
         }
 

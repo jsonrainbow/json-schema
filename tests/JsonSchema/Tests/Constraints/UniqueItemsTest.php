@@ -21,13 +21,20 @@ class UniqueItemsTest extends BaseTestCase
                   "uniqueItems": true
                 }'
             ),
-/*            array(
+            array(
                 '[{"a":"b"},{"a":"c"},{"a":"b"}]',
                 '{
                   "type":"array",
                   "uniqueItems": true
                 }'
-            )*/
+            ),
+            array(
+                '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : true}}}]',
+                '{
+                    "type": "array",
+                    "uniqueItems": true
+                }'
+            )
         );
     }
 
@@ -39,6 +46,13 @@ class UniqueItemsTest extends BaseTestCase
                 '{
                   "type":"array",
                   "uniqueItems": true
+                }'
+            ),
+            array(
+                '[{"foo": 12}, {"bar": false}]',
+                '{
+                    "type": "array",
+                    "uniqueItems": true
                 }'
             )
         );

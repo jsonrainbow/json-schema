@@ -73,8 +73,9 @@ class FormatTest extends BaseTestCase
             array('23:59:59', 'time'),
 
             array('2000-05-01T12:12:12Z', 'date-time'),
-			array('2000-05-01T12:12:12+0100', 'date-time'),
+            array('2000-05-01T12:12:12+0100', 'date-time'),
             array('2000-05-01T12:12:12+01:00', 'date-time'),
+            array('2000-05-01T12:12:12.123456Z', 'date-time'),
 
             array('0', 'utc-millisec'),
 

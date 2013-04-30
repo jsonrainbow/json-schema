@@ -33,9 +33,14 @@ class Collection extends Constraint
         }
 
         // Verify uniqueItems
-        // @TODO array_unique doesnt work with objects
-        if (isset($schema->uniqueItems) && array_unique($value) != $value) {
-            $this->addError($path, "There are no duplicates allowed in the array");
+        if (isset($schema->uniqueItems)) {
+            $unique = $value;
+            if (is_array($value) && count($value)) {
+                $unique = array_map(function($e) { return print_r($e, true); }, $value);
+            }
+            if (count(array_unique($unique)) != count($value)) {
+                $this->addError($path, "There are no duplicates allowed in the array");
+            }
         }
 
         // Verify items
