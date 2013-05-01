@@ -59,7 +59,8 @@ class Undefined extends Constraint
                 isset($schema->properties) ? $schema->properties : null,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
-                isset($schema->patternProperties) ? $schema->patternProperties : null
+                isset($schema->patternProperties) ? $schema->patternProperties : null,
+                isset($schema->required) ? $schema->required : null
             );
         }
 

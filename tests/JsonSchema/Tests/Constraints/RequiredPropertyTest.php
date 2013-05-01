@@ -19,8 +19,48 @@ class RequiredPropertyTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","required":true}
+                    "number":{"type":"number","required":true}
                   }
+                }'
+            ),
+            array(
+                '{}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "number": {"type": "number"}
+                    },
+                    "required": ["number"]
+                }'
+            ),
+            array(
+                '{
+                    "foo": {}
+                }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "foo": {
+                            "type": "object",
+                            "properties": {
+                                "bar": {"type": "number"}
+                            },
+                            "required": ["bar"]
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{
+                    "bar": 1.4
+                 }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "foo": {"type": "string", "required": true},
+                        "bar": {"type": "number"}
+                    },
+                    "required": ["bar"]
                 }'
             )
         );
@@ -31,12 +71,12 @@ class RequiredPropertyTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "number": "1.4"
+                  "number": 1.4
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string","required":true}
+                    "number":{"type":"number","required":true}
                   }
                 }'
             ),
@@ -45,14 +85,23 @@ class RequiredPropertyTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"string"}
+                    "number":{"type":"number"}
                   }
                 }'
             ),
-    		array(
+            array(
+                '{}',
                 '{
-				 "number": 0
-				}',
+                  "type":"object",
+                  "properties":{
+                    "number":{"type":"number","required":false}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "number": 0
+                }',
                 '{
                   "type":"object",
                   "properties":{
@@ -60,10 +109,10 @@ class RequiredPropertyTest extends BaseTestCase
                   }
                 }'
             ),
-			array(
+            array(
                 '{
-				 "is_active": false
-				}',
+                  "is_active": false
+                }',
                 '{
                   "type":"object",
                   "properties":{
@@ -71,10 +120,10 @@ class RequiredPropertyTest extends BaseTestCase
                   }
                 }'
             ),
-			array(
+            array(
                 '{
-				 "status": null
-				}',
+                  "status": null
+                }',
                 '{
                   "type":"object",
                   "properties":{
@@ -82,15 +131,47 @@ class RequiredPropertyTest extends BaseTestCase
                   }
                 }'
             ),
-			array(
+            array(
                 '{
-				 "users": []
-				}',
+                  "users": []
+                }',
                 '{
                   "type":"object",
                   "properties":{
                     "users":{"type":"array","required":true}
                   }
+                }'
+            ),
+            array(
+                '{
+                    "foo": "foo",
+                    "bar": 1.4
+                 }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "foo": {"type": "string", "required": true},
+                        "bar": {"type": "number"}
+                    },
+                    "required": ["bar"]
+                }'
+            ),
+            array(
+                '{
+                    "foo": {"bar": 1.5}
+                }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "foo": {
+                            "type": "object",
+                            "properties": {
+                                "bar": {"type": "number"}
+                            },
+                            "required": ["bar"]
+                        }
+                    },
+                    "required": ["foo"]
                 }'
             )
         );
