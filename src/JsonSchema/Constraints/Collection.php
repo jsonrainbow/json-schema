@@ -36,7 +36,7 @@ class Collection extends Constraint
         if (isset($schema->uniqueItems)) {
             $unique = $value;
             if (is_array($value) && count($value)) {
-                $unique = array_map(function($e) { return print_r($e, true); }, $value);
+                $unique = array_map(function($e) { return var_export($e, true); }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
                 $this->addError($path, "There are no duplicates allowed in the array");
