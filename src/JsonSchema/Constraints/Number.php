@@ -23,12 +23,32 @@ class Number extends Constraint
     public function check($element, $schema = null, $path = null, $i = null)
     {
         // Verify minimum
-        if (isset($schema->minimum) && $element < $schema->minimum) {
+        if (isset($schema->exclusiveMinimum)) {
+            if (isset($schema->minimum)) {
+                if ($schema->exclusiveMinimum && $element === $schema->minimum) {
+                    $this->addError($path, "must have a minimum value greater than boundary value of " . $schema->minimum);
+                } else if ($element < $schema->minimum) {
+                    $this->addError($path, "must have a minimum value of " . $schema->minimum);
+                }
+            } else {
+                $this->addError($path, "use of exclusiveMinimum requires presence of minimum");
+            }
+        } else if (isset($schema->minimum) && $element < $schema->minimum) {
             $this->addError($path, "must have a minimum value of " . $schema->minimum);
         }
 
         // Verify maximum
-        if (isset($schema->maximum) && $element > $schema->maximum) {
+        if (isset($schema->exclusiveMaximum)) {
+            if (isset($schema->maximum)) {
+                if ($schema->exclusiveMaximum && $element === $schema->maximum) {
+                    $this->addError($path, "must have a maximum value less than boundary value of " . $schema->maximum);
+                } else if ($element > $schema->maximum) {
+                    $this->addError($path, "must have a maximum value of " . $schema->maximum);
+                }
+            } else {
+                $this->addError($path, "use of exclusiveMaximum requires presence of maximum");
+            }
+        } else if (isset($schema->maximum) && $element > $schema->maximum) {
             $this->addError($path, "must have a maximum value of " . $schema->maximum);
         }
 
