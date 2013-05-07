@@ -111,7 +111,9 @@ class Undefined extends Constraint
         if (isset($schema->disallow)) {
             $initErrors = $this->getErrors();
 
-            $this->checkUndefined($value, $schema->disallow, $path);
+            $typeSchema = new \stdClass();
+            $typeSchema->type = $schema->disallow;
+            $this->checkType($value, $typeSchema, $path);
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
