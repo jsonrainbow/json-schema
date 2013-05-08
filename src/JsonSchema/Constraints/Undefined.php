@@ -40,10 +40,10 @@ class Undefined extends Constraint
     /**
      * Validates the value against the types
      *
-     * @param mixed     $value
-     * @param \stdClass $schema
-     * @param string    $path
-     * @param string    $i
+     * @param $value
+     * @param null $schema
+     * @param null $path
+     * @param null $i
      */
     public function validateTypes($value, $schema = null, $path = null, $i = null)
     {
@@ -82,10 +82,10 @@ class Undefined extends Constraint
     /**
      * Validates common properties
      *
-     * @param mixed     $value
-     * @param \stdClass $schema
-     * @param string    $path
-     * @param string    $i
+     * @param $value
+     * @param null $schema
+     * @param null $path
+     * @param null $i
      */
     protected function validateCommonProperties($value, $schema = null, $path = null, $i = null)
     {
@@ -141,9 +141,11 @@ class Undefined extends Constraint
     }
 
     /**
-     * @param \stdClass $value        Element to validate
-     * @param mixed     $dependencies Dependencies
-     * @param string    $path         Path?
+     * Validate dependencies
+     *
+     * @param $value
+     * @param null $dependencies
+     * @param null $path
      */
     protected function validateDependencies($value, $dependencies, $path)
     {
