@@ -151,13 +151,11 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed $path
      * @param mixed $i
      * @param mixed $patternProperties
-     * @param mixed $requiredProp
      */
-    protected function checkObject(
-        $value, $schema = null, $path = null, $i = null, $patternProperties = null, $requiredProp = null)
+    protected function checkObject($value, $schema = null, $path = null, $i = null, $patternProperties = null)
     {
         $validator = new Object($this->checkMode, $this->uriRetriever);
-        $validator->check($value, $schema, $path, $i, $patternProperties, $requiredProp);
+        $validator->check($value, $schema, $path, $i, $patternProperties);
 
         $this->addErrors($validator->getErrors());
     }

@@ -62,6 +62,12 @@ class RequiredPropertyTest extends BaseTestCase
                     },
                     "required": ["bar"]
                 }'
+            ),
+            array(
+                '{}',
+                '{
+                    "required": ["foo"]
+                }'
             )
         );
     }

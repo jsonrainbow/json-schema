@@ -20,9 +20,7 @@ class Object extends Constraint
     /**
      * {@inheritDoc}
      */
-    function check(
-        $element, $definition = null,
-        $path = null, $additionalProp = null, $patternProperties = null, $requiredProp = null)
+    function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
         if ($element instanceof Undefined) {
             return;
@@ -35,7 +33,7 @@ class Object extends Constraint
 
         if ($definition) {
             // validate the definition properties
-            $this->validateDefinition($element, $definition, $requiredProp, $path);
+            $this->validateDefinition($element, $definition, $path);
         }
 
         // additional the element properties
@@ -108,23 +106,14 @@ class Object extends Constraint
      *
      * @param \stdClass $element          Element to validate
      * @param \stdClass $objectDefinition Object definition
-     * @param array     $requiredProp     Required properties
      * @param string    $path             Path?
      */
-    public function validateDefinition($element, $objectDefinition = null, $requiredProp = null, $path = null)
+    public function validateDefinition($element, $objectDefinition = null, $path = null)
     {
         foreach ($objectDefinition as $i => $value) {
             $property = $this->getProperty($element, $i, new Undefined());
             $definition = $this->getProperty($objectDefinition, $i);
             $this->checkUndefined($property, $definition, $path, $i);
-        }
-
-        if ($requiredProp) {
-            foreach ($requiredProp as $required) {
-                if (!$this->getProperty($element, $required)) {
-                    $this->addError($path, "the property " . $required . " is required");
-                }
-            }
         }
     }
 

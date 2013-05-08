@@ -40,10 +40,10 @@ class Undefined extends Constraint
     /**
      * Validates the value against the types
      *
-     * @param $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed     $value
+     * @param \stdClass $schema
+     * @param string    $path
+     * @param string    $i
      */
     public function validateTypes($value, $schema = null, $path = null, $i = null)
     {
@@ -59,8 +59,7 @@ class Undefined extends Constraint
                 isset($schema->properties) ? $schema->properties : null,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
-                isset($schema->patternProperties) ? $schema->patternProperties : null,
-                isset($schema->required) ? $schema->required : null
+                isset($schema->patternProperties) ? $schema->patternProperties : null
             );
         }
 
@@ -83,10 +82,10 @@ class Undefined extends Constraint
     /**
      * Validates common properties
      *
-     * @param $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed     $value
+     * @param \stdClass $schema
+     * @param string    $path
+     * @param string    $i
      */
     protected function validateCommonProperties($value, $schema = null, $path = null, $i = null)
     {
@@ -99,9 +98,21 @@ class Undefined extends Constraint
         }
 
         // Verify required values
-        if (is_object($value) && $value instanceof Undefined) {
-            if (isset($schema->required) && $schema->required) {
-                $this->addError($path, "is missing and it is required");
+        if (is_object($value)) {
+            if ($value instanceof Undefined) {
+                // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
+                if (isset($schema->required) && $schema->required) {
+                    $this->addError($path, "is missing and it is required");
+                }
+            } else if (isset($schema->required)) {
+                // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
+                foreach ($schema->required as $required) {
+                    if (!property_exists($value, $required)) {
+                        $this->addError($path, "the property " . $required . " is required");
+                    }
+                }
+            } else {
+                $this->checkType($value, $schema, $path);
             }
         } else {
             $this->checkType($value, $schema, $path);
@@ -120,6 +131,40 @@ class Undefined extends Constraint
                 $this->addError($path, " disallowed value was matched");
             } else {
                 $this->errors = $initErrors;
+            }
+        }
+
+        // Verify that dependencies are met
+        if (is_object($value) && isset($schema->dependencies)) {
+            $this->validateDependencies($value, $schema->dependencies, $path);
+        }
+    }
+
+    /**
+     * @param \stdClass $value        Element to validate
+     * @param mixed     $dependencies Dependencies
+     * @param string    $path         Path?
+     */
+    protected function validateDependencies($value, $dependencies, $path)
+    {
+        foreach ($dependencies as $key => $dependency) {
+            if (property_exists($value, $key)) {
+                if (is_string($dependency)) {
+                    // Draft 3 string is allowed - e.g. "dependencies": "foo"
+                    if (!property_exists($value, $dependency)) {
+                        $this->addError($path, "$key depends on $dependency and $dependency is missing");
+                    }
+                } else if (is_array($dependency)) {
+                    // Draft 4 doesn't allow string so must be an array - e.g. "dependencies": ["foo"]
+                    foreach ($dependency as $d) {
+                        if (!property_exists($value, $d)) {
+                            $this->addError($path, "$key depends on $d and $d is missing");
+                        }
+                    }
+                } else if (is_object($dependency)) {
+                    // The dependency is a schema - e.g. "dependencies": {"properties": {"foo": {...}}}
+                    $this->checkUndefined($value, $dependency, $path, "");
+                }
             }
         }
     }
