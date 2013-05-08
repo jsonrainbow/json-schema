@@ -9,8 +9,6 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Validator;
-
 /**
  * The Undefined Constraints
  *
@@ -40,10 +38,10 @@ class Undefined extends Constraint
     /**
      * Validates the value against the types
      *
-     * @param $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $path
+     * @param string $i
      */
     public function validateTypes($value, $schema = null, $path = null, $i = null)
     {
@@ -82,10 +80,10 @@ class Undefined extends Constraint
     /**
      * Validates common properties
      *
-     * @param $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $path
+     * @param string $i
      */
     protected function validateCommonProperties($value, $schema = null, $path = null, $i = null)
     {
@@ -143,9 +141,9 @@ class Undefined extends Constraint
     /**
      * Validate dependencies
      *
-     * @param $value
-     * @param null $dependencies
-     * @param null $path
+     * @param mixed  $value
+     * @param mixed  $dependencies
+     * @param string $path
      */
     protected function validateDependencies($value, $dependencies, $path)
     {
