@@ -90,9 +90,16 @@ class Undefined extends Constraint
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
             if (is_string($schema->extends)) {
-                $schema->extends = $this->validateUri($schema->extends, $schema, $path, $i);
+                $schema->extends = $this->validateUri($schema, $schema->extends);
             }
-            $this->checkUndefined($value, $schema->extends, $path, $i);
+            $increment = is_null($i) ? "" : $i;
+            if (is_array($schema->extends)) {
+                foreach ($schema->extends as $extends) {
+                    $this->checkUndefined($value, $extends, $path, $increment);
+                }
+            } else {
+                $this->checkUndefined($value, $schema->extends, $path, $increment);
+            }
         }
 
         // Verify required values
@@ -150,26 +157,26 @@ class Undefined extends Constraint
         foreach ($dependencies as $key => $dependency) {
             if (property_exists($value, $key)) {
                 if (is_string($dependency)) {
-                    // Draft 3 string is allowed - e.g. "dependencies": "foo"
+                    // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!property_exists($value, $dependency)) {
                         $this->addError($path, "$key depends on $dependency and $dependency is missing");
                     }
                 } else if (is_array($dependency)) {
-                    // Draft 4 doesn't allow string so must be an array - e.g. "dependencies": ["foo"]
+                    // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!property_exists($value, $d)) {
                             $this->addError($path, "$key depends on $d and $d is missing");
                         }
                     }
                 } else if (is_object($dependency)) {
-                    // The dependency is a schema - e.g. "dependencies": {"properties": {"foo": {...}}}
+                    // Schema - e.g. "dependencies": {"bar": {"properties": {"foo": {...}}}}
                     $this->checkUndefined($value, $dependency, $path, "");
                 }
             }
         }
     }
 
-    protected function validateUri($schemaUri = null, $schema, $path = null, $i = null)
+    protected function validateUri($schema, $schemaUri = null)
     {
         $resolver = new \JsonSchema\Uri\UriResolver();
         $retriever = $this->getUriRetriever();
