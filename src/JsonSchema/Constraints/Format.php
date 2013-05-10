@@ -56,7 +56,9 @@ class Format extends Constraint
                 break;
 
             case 'regex':
-                $this->validateRegex($path, $element, $schema->pattern);
+                if (!$this->validateRegex($element)) {
+                    $this->addError($path, 'Invalid regex format ' . $element);
+                }
                 break;
 
             case 'color':
@@ -124,13 +126,9 @@ class Format extends Constraint
         return $datetime === $dt->format($format);
     }
 
-    protected function validateRegex($path, $element, $regex)
+    protected function validateRegex($regex)
     {
-        if (false === @preg_match('/' . $regex . '/', '')) {
-            $this->addError($path, 'Invalid regex format ' . $regex);
-        } else if (!preg_match('/' . $regex . '/', $element)) {
-            $this->addError($path, sprintf('%s does not match regex format %s', json_encode($element), $regex));
-        }
+        return false !== @preg_match('/' . $regex . '/', '');
     }
 
     protected function validateColor($color)

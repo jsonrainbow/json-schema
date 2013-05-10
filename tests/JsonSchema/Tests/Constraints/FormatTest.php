@@ -27,12 +27,11 @@ class FormatTest extends BaseTestCase
         $validator = new Format();
         $schema = new \stdClass;
         $schema->format = 'regex';
-        $schema->pattern = '\d+';
 
-        $validator->check('10', $schema);
+        $validator->check('\d+', $schema);
         $this->assertEmpty($validator->getErrors());
 
-        $validator->check('ten', $schema);
+        $validator->check('^(abc]', $schema);
         $this->assertCount(1, $validator->getErrors());
     }
 
