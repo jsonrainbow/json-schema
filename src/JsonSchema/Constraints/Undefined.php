@@ -9,8 +9,6 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Validator;
-
 /**
  * The Undefined Constraints
  *
@@ -40,10 +38,10 @@ class Undefined extends Constraint
     /**
      * Validates the value against the types
      *
-     * @param $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $path
+     * @param string $i
      */
     public function validateTypes($value, $schema = null, $path = null, $i = null)
     {
@@ -82,25 +80,44 @@ class Undefined extends Constraint
     /**
      * Validates common properties
      *
-     * @param $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $path
+     * @param string $i
      */
     protected function validateCommonProperties($value, $schema = null, $path = null, $i = null)
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
             if (is_string($schema->extends)) {
-                $schema->extends = $this->validateUri($schema->extends, $schema, $path, $i);
+                $schema->extends = $this->validateUri($schema, $schema->extends);
             }
-            $this->checkUndefined($value, $schema->extends, $path, $i);
+            $increment = is_null($i) ? "" : $i;
+            if (is_array($schema->extends)) {
+                foreach ($schema->extends as $extends) {
+                    $this->checkUndefined($value, $extends, $path, $increment);
+                }
+            } else {
+                $this->checkUndefined($value, $schema->extends, $path, $increment);
+            }
         }
 
         // Verify required values
-        if (is_object($value) && $value instanceof Undefined) {
-            if (isset($schema->required) && $schema->required) {
-                $this->addError($path, "is missing and it is required");
+        if (is_object($value)) {
+            if ($value instanceof Undefined) {
+                // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
+                if (isset($schema->required) && $schema->required) {
+                    $this->addError($path, "is missing and it is required");
+                }
+            } else if (isset($schema->required)) {
+                // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
+                foreach ($schema->required as $required) {
+                    if (!property_exists($value, $required)) {
+                        $this->addError($path, "the property " . $required . " is required");
+                    }
+                }
+            } else {
+                $this->checkType($value, $schema, $path);
             }
         } else {
             $this->checkType($value, $schema, $path);
@@ -110,7 +127,9 @@ class Undefined extends Constraint
         if (isset($schema->disallow)) {
             $initErrors = $this->getErrors();
 
-            $this->checkUndefined($value, $schema->disallow, $path);
+            $typeSchema = new \stdClass();
+            $typeSchema->type = $schema->disallow;
+            $this->checkType($value, $typeSchema, $path);
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
@@ -119,9 +138,45 @@ class Undefined extends Constraint
                 $this->errors = $initErrors;
             }
         }
+
+        // Verify that dependencies are met
+        if (is_object($value) && isset($schema->dependencies)) {
+            $this->validateDependencies($value, $schema->dependencies, $path);
+        }
     }
 
-    protected function validateUri($schemaUri = null, $schema, $path = null, $i = null)
+    /**
+     * Validate dependencies
+     *
+     * @param mixed  $value
+     * @param mixed  $dependencies
+     * @param string $path
+     */
+    protected function validateDependencies($value, $dependencies, $path)
+    {
+        foreach ($dependencies as $key => $dependency) {
+            if (property_exists($value, $key)) {
+                if (is_string($dependency)) {
+                    // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
+                    if (!property_exists($value, $dependency)) {
+                        $this->addError($path, "$key depends on $dependency and $dependency is missing");
+                    }
+                } else if (is_array($dependency)) {
+                    // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
+                    foreach ($dependency as $d) {
+                        if (!property_exists($value, $d)) {
+                            $this->addError($path, "$key depends on $d and $d is missing");
+                        }
+                    }
+                } else if (is_object($dependency)) {
+                    // Schema - e.g. "dependencies": {"bar": {"properties": {"foo": {...}}}}
+                    $this->checkUndefined($value, $dependency, $path, "");
+                }
+            }
+        }
+    }
+
+    protected function validateUri($schema, $schemaUri = null)
     {
         $resolver = new \JsonSchema\Uri\UriResolver();
         $retriever = $this->getUriRetriever();

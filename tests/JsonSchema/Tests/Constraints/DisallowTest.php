@@ -16,7 +16,7 @@ class DisallowTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":" The xpto is weird"
+                  "value":"The xpto is weird"
                 }',
                 '{
                   "type":"object",
@@ -41,6 +41,60 @@ class DisallowTest extends BaseTestCase
                     }
                   }
                 }'
+            ),
+            array(
+                '{"value": 1}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "any", "disallow": "integer"}
+                    }
+                }'
+            ),
+            array(
+                '{"value": true}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "any", "disallow": ["integer", "boolean"]}
+                    }
+                }'
+            ),
+            array(
+                '{"value": "foo"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "any",
+                            "disallow":
+                                ["string", {
+                                    "type": "object",
+                                    "properties": {
+                                        "foo": {"type": "string"}
+                                    }
+                                }]
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"value": {"foo": "bar"}}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "any",
+                            "disallow":
+                                ["string", {
+                                    "type": "object",
+                                    "properties": {
+                                        "foo": {"type": "string"}
+                                    }
+                                }]
+                        }
+                    }
+                }'
             )
         );
     }
@@ -50,7 +104,7 @@ class DisallowTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value":" The xpto is weird"
+                  "value":"The xpto is weird"
                 }',
                 '{
                   "type":"object",
@@ -74,6 +128,33 @@ class DisallowTest extends BaseTestCase
                       "disallow":{"type":"null"}
                     }
                   }
+                }'
+            ),
+            array(
+                '{"value": {"foo": 1}}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "any",
+                            "disallow":
+                                ["string", {
+                                    "type": "object",
+                                    "properties": {
+                                        "foo": {"type": "string"}
+                                    }
+                                }]
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"value": true}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "any", "disallow": "string"}
+                    }
                 }'
             )
         );

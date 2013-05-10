@@ -20,22 +20,16 @@ class ExtendsTest extends BaseTestCase
                   "age":50
                 }',
                 '{
-                    "id": "person",
-                    "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "age" : {
+                        "name": {"type": "string"},
+                        "age": {
                             "type": "integer",
-                             "maximum":120
+                            "maximum": 120
                         }
                     },
                     "extends": {
-                        "id": "oldPerson",
-                        "type": "object",
                         "properties": {
-                            "age" : {"minimum":70}
+                            "age": {"minimum": 70}
                         }
                     }
                 }'
@@ -46,24 +40,51 @@ class ExtendsTest extends BaseTestCase
                   "age":180
                 }',
                 '{
-                    "id": "person",
-                    "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "age" : {
+                        "name": {"type": "string"},
+                        "age": {
                             "type": "integer",
-                             "maximum":120
+                            "maximum": 120
                         }
                     },
                     "extends": {
-                        "id": "oldPerson",
-                        "type": "object",
                         "properties": {
-                            "age" : {"minimum":70}
+                            "age": {"minimum":70}
                         }
                     }
+                }'
+            ),
+            array(
+                '{"foo": 2, "bar": "baz"}',
+                '{
+                    "properties": {
+                        "bar": {"type": "integer", "required": true}
+                    },
+                    "extends": {
+                        "properties": {
+                            "foo": {"type": "string", "required": true}
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"bar": 2}',
+                '{
+                    "properties": {
+                        "bar": {"type": "integer", "required": true}
+                    },
+                    "extends" : [
+                        {
+                            "properties": {
+                                "foo": {"type": "string", "required": true}
+                            }
+                        },
+                        {
+                            "properties": {
+                                "baz": {"type": "null", "required": true}
+                            }
+                        }
+                    ]
                 }'
             )
         );
@@ -78,24 +99,51 @@ class ExtendsTest extends BaseTestCase
                   "age":80
                 }',
                 '{
-                    "id": "person",
-                    "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "age" : {
+                        "name": {"type": "string"},
+                        "age": {
                             "type": "integer",
-                             "maximum":120
+                            "maximum": 120
                         }
                     },
                     "extends": {
-                        "id": "oldPerson",
-                        "type": "object",
                         "properties": {
-                            "age" : {"minimum":70}
+                            "age": {"minimum": 70}
                         }
                     }
+                }'
+            ),
+            array(
+                '{"foo": "baz", "bar": 2}',
+                '{
+                    "properties": {
+                        "bar": {"type": "integer", "required": true}
+                    },
+                    "extends": {
+                        "properties": {
+                            "foo": {"type": "string", "required": true}
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"foo": "ick", "bar": 2, "baz": null}',
+                '{
+                    "properties": {
+                        "bar": {"type": "integer", "required": true}
+                    },
+                    "extends" : [
+                        {
+                            "properties": {
+                                "foo": {"type": "string", "required": true}
+                            }
+                        },
+                        {
+                            "properties": {
+                                "baz": {"type": "null", "required": true}
+                            }
+                        }
+                    ]
                 }'
             )
         );

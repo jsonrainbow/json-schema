@@ -78,11 +78,11 @@ class Type extends Constraint
         }
 
         if ('integer' === $type) {
-            return is_int($value) || ctype_digit($value);
+            return is_int($value);
         }
 
         if ('number' === $type) {
-            return is_numeric($value);
+            return is_numeric($value) && !is_string($value);
         }
 
         if ('boolean' === $type) {

@@ -50,9 +50,9 @@ interface ConstraintInterface
      *
      * @abstract
      * @param mixed $value
-     * @param null $schema
-     * @param null $path
-     * @param null $i
+     * @param mixed $schema
+     * @param mixed $path
+     * @param mixed $i
      */
     function check($value, $schema = null, $path = null, $i = null);
 }

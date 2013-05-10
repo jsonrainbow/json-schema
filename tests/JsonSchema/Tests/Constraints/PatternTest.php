@@ -25,6 +25,16 @@ class PatternTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
+            ),
+            array(
+                '{"value": "abc"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "string", "pattern": "^a*$"}
+                    },
+                    "additionalProperties": false
+                }'
             )
         );
     }
@@ -54,6 +64,16 @@ class PatternTest extends BaseTestCase
                     "value":{"type":"string","pattern":"cat"}
                   },
                   "additionalProperties":false
+                }'
+            ),
+            array(
+                '{"value": "aaa"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "string", "pattern": "^a*$"}
+                    },
+                    "additionalProperties": false
                 }'
             )
         );
