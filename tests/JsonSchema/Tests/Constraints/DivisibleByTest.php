@@ -73,6 +73,22 @@ class DivisibleByTest extends BaseTestCase
                         "value": {"type": "number", "divisibleBy": 1.5}
                     }
                 }'
+            ),
+            array(
+                '{"value": 0.0075}',
+                '{
+                    "properties": {
+                        "value": {"type": "number", "divisibleBy": 0.0001}
+                    }
+                }'
+            ),
+            array(
+                '{"value": 1}',
+                '{
+                    "properties": {
+                        "value": {"type": "number", "divisibleBy": 0.02}
+                    }
+                }'
             )
         );
     }

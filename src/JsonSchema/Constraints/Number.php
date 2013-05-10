@@ -53,10 +53,26 @@ class Number extends Constraint
         }
 
         // Verify divisibleBy
-        if (isset($schema->divisibleBy) && fmod($element, $schema->divisibleBy) != 0) {
+        if (isset($schema->divisibleBy) && $this->fmod($element, $schema->divisibleBy) != 0) {
             $this->addError($path, "is not divisible by " . $schema->divisibleBy);
         }
 
         $this->checkFormat($element, $schema, $path, $i);
+    }
+
+    private function fmod($number1, $number2)
+    {
+        $modulus = fmod($number1, $number2);
+        $precision = abs(0.0000000001);
+        $diff = (float)($modulus - $number2);
+
+        if (-$precision < $diff && $diff < $precision) {
+            return 0.0;
+        }
+
+        $decimals1 = mb_strpos($number1, ".") ? mb_strlen($number1) - mb_strpos($number1, ".") - 1 : 0;
+        $decimals2 = mb_strpos($number2, ".") ? mb_strlen($number2) - mb_strpos($number2, ".") - 1 : 0;
+
+        return (float)round($modulus, max($decimals1, $decimals2));
     }
 }
