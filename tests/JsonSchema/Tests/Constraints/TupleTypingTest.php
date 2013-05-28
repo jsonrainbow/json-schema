@@ -33,7 +33,7 @@ class TupleTypingTest extends BaseTestCase
             ),
             array(
                 '{
-                  "tupleTyping":["2",2,3]
+                  "tupleTyping":["2",2,true]
                 }',
                 '{
                   "type":"object",
@@ -44,7 +44,7 @@ class TupleTypingTest extends BaseTestCase
                         {"type":"string"},
                         {"type":"number"}
                       ] ,
-                      "additionalProperties":false
+                      "additionalItems":false
                     }
                   }
                 }'
@@ -62,27 +62,22 @@ class TupleTypingTest extends BaseTestCase
                         {"type":"string"},
                         {"type":"number"}
                       ] ,
-                      "additionalProperties":{"type":"string"}
+                      "additionalItems":{"type":"string"}
                     }
                   }
                 }'
             ),
             array(
+                '{"data": [1, "foo", true, 1.5]}',
                 '{
-                  "tupleTyping":["2"]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"string"},
-                        {"type":"number"},
-                        {"required":true}
-                      ]
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": [{}, {}, {}],
+                            "additionalItems": false
+                        }
                     }
-                  }
                 }'
             )
         );
@@ -93,7 +88,7 @@ class TupleTypingTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "tupleTyping":["2"]
+                  "tupleTyping":["2", 1]
                 }',
                 '{
                   "type":"object",
@@ -102,11 +97,40 @@ class TupleTypingTest extends BaseTestCase
                       "type":"array",
                       "items":[
                         {"type":"string"},
-                        {"type":"number","required":false},
-                        {"type":"number","required":false}
+                        {"type":"number"}
                       ]
                     }
                   }
+                }'
+            ),
+            array(
+                '{
+                  "tupleTyping":["2",2,3]
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "tupleTyping":{
+                      "type":"array",
+                      "items":[
+                        {"type":"string"},
+                        {"type":"number"}
+                      ]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{"data": [1, "foo", true]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": [{}, {}, {}],
+                            "additionalItems": false
+                        }
+                    }
                 }'
             )
         );

@@ -27,8 +27,12 @@ class Enum extends Constraint
             return;
         }
 
-        if (!in_array($element, $schema->enum)) {
-            $this->addError($path, "does not have a value in the enumeration " . implode(', ', $schema->enum));
+        foreach ($schema->enum as $enum) {
+            if ((gettype($element) === gettype($enum)) && ($element == $enum)) {
+                return;
+            }
         }
+
+        $this->addError($path, "does not have a value in the enumeration " . print_r($schema->enum, true));
     }
 }

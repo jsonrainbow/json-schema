@@ -15,14 +15,39 @@ class DivisibleByTest extends BaseTestCase
     {
         return array(
             array(
-                '{
-                  "value":5.6333
-                }',
+                '{"value": 5.6333}',
                 '{
                   "type":"object",
                   "properties":{
                     "value":{"type":"number","divisibleBy":3}
                   }
+                }'
+            ),
+            array(
+                '{"value": 35}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "integer", "divisibleBy": 1.5}
+                    }
+                }'
+            ),
+            array(
+                '{"value": 0.00751}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "number", "divisibleBy": 0.0001}
+                    }
+                }'
+            ),
+            array(
+                '{"value": 7}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "integer", "divisibleBy": 2}
+                    }
                 }'
             )
         );
@@ -32,14 +57,37 @@ class DivisibleByTest extends BaseTestCase
     {
         return array(
             array(
-                '{
-                  "value":6
-                }',
+                '{"value": 6}',
                 '{
                   "type":"object",
                   "properties":{
                     "value":{"type":"number","divisibleBy":3}
                   }
+                }'
+            ),
+            array(
+                '{"value": 4.5}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "number", "divisibleBy": 1.5}
+                    }
+                }'
+            ),
+            array(
+                '{"value": 0.0075}',
+                '{
+                    "properties": {
+                        "value": {"type": "number", "divisibleBy": 0.0001}
+                    }
+                }'
+            ),
+            array(
+                '{"value": 1}',
+                '{
+                    "properties": {
+                        "value": {"type": "number", "divisibleBy": 0.02}
+                    }
                 }'
             )
         );

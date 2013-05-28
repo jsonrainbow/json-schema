@@ -16,13 +16,58 @@ class NumberAndIntegerTypesTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "number": 1.4
+                  "integer": 1.4
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"integer"}
+                    "integer":{"type":"integer"}
                   }
+                }'
+            ),
+            array(
+                '{"number": "1.5"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "number": {"type": "number"}
+                    }
+                }'
+            ),
+            array(
+                '{"integer": "1"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "integer": {"type": "integer"}
+                    }
+                }'
+            ),
+            array(
+                '{"integer": 1.001}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "integer": {"type": "integer"}
+                    }
+                }'
+            ),
+            array(
+                '{"integer": true}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "integer": {"type": "integer"}
+                    }
+                }'
+            ),
+            array(
+                '{"number": "x"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "number": {"type": "number"}
+                    }
                 }'
             )
         );
@@ -33,12 +78,12 @@ class NumberAndIntegerTypesTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "number": 1
+                  "integer": 1
                 }',
                 '{
                   "type":"object",
                   "properties":{
-                    "number":{"type":"number"}
+                    "integer":{"type":"integer"}
                   }
                 }'
             ),
@@ -54,14 +99,21 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ),
             array(
+                '{"number": 1e5}',
                 '{
-                  "number": "1.4"
-                }',
+                    "type": "object",
+                    "properties": {
+                        "number": {"type": "number"}
+                    }
+                }'
+            ),
+            array(
+                '{"number": 1}',
                 '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number"}
-                  }
+                    "type": "object",
+                    "properties": {
+                        "number": {"type": "number"}
+                    }
                 }'
             )
         );

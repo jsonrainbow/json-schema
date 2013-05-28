@@ -33,9 +33,14 @@ class Collection extends Constraint
         }
 
         // Verify uniqueItems
-        // @TODO array_unique doesnt work with objects
-        if (isset($schema->uniqueItems) && array_unique($value) != $value) {
-            $this->addError($path, "There are no duplicates allowed in the array");
+        if (isset($schema->uniqueItems)) {
+            $unique = $value;
+            if (is_array($value) && count($value)) {
+                $unique = array_map(function($e) { return var_export($e, true); }, $value);
+            }
+            if (count(array_unique($unique)) != count($value)) {
+                $this->addError($path, "There are no duplicates allowed in the array");
+            }
         }
 
         // Verify items
@@ -54,15 +59,13 @@ class Collection extends Constraint
      */
     protected function validateItems($value, $schema = null, $path = null, $i = null)
     {
-        if (!is_array($schema->items)) {
+        if (is_object($schema->items)) {
             // just one type definition for the whole array
             foreach ($value as $k => $v) {
                 $initErrors = $this->getErrors();
 
                 // First check if its defined in "items"
-                if (!isset($schema->additionalItems) || $schema->additionalItems === false) {
-                    $this->checkUndefined($v, $schema->items, $path, $k);
-                }
+                $this->checkUndefined($v, $schema->items, $path, $k);
 
                 // Recheck with "additionalItems" if the first test fails
                 if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
@@ -71,9 +74,9 @@ class Collection extends Constraint
                 }
 
                 // Reset errors if needed
-                if (isset($secondErrors) && count($secondErrors) < $this->getErrors()) {
+                if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
                     $this->errors = $secondErrors;
-                } elseif (isset($secondErrors) && count($secondErrors) == count($this->getErrors())) {
+                } else if (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
                     $this->errors = $initErrors;
                 }
             }
@@ -84,13 +87,16 @@ class Collection extends Constraint
                     $this->checkUndefined($v, $schema->items[$k], $path, $k);
                 } else {
                     // Additional items
-                    if (array_key_exists('additionalItems', $schema) && $schema->additionalItems !== false) {
-                        $this->checkUndefined($v, $schema->additionalItems, $path, $k);
+                    if (property_exists($schema, 'additionalItems')) {
+                        if ($schema->additionalItems !== false) {
+                            $this->checkUndefined($v, $schema->additionalItems, $path, $k);
+                        } else {
+                            $this->addError(
+                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items');
+                        }
                     } else {
-                        $this->addError(
-                            $path,
-                            'The item ' . $i . '[' . $k . '] is not defined in the objTypeDef and the objTypeDef does not allow additional properties'
-                        );
+                        // Should be valid against an empty schema
+                        $this->checkUndefined($v, new \stdClass(), $path, $k);
                     }
                 }
             }

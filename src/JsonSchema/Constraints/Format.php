@@ -35,16 +35,17 @@ class Format extends Constraint
 
             case 'time':
                 if (!$this->validateDateTime($element, 'H:i:s')) {
-                    $this->addError($path, sprintf('Invalid time %s, expected format HH:MM:SS', json_encode($element)));
+                    $this->addError($path, sprintf('Invalid time %s, expected format hh:mm:ss', json_encode($element)));
                 }
                 break;
 
             case 'date-time':
                 if (!$this->validateDateTime($element, 'Y-m-d\TH:i:s\Z') &&
+                    !$this->validateDateTime($element, 'Y-m-d\TH:i:s.u\Z') &&
                     !$this->validateDateTime($element, 'Y-m-d\TH:i:sP') &&
                     !$this->validateDateTime($element, 'Y-m-d\TH:i:sO')
                 ) {
-                    $this->addError($path, sprintf('Invalid date time %s, expected format YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DDTHH:MM:SS+HH:MM', json_encode($element)));
+                    $this->addError($path, sprintf('Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm', json_encode($element)));
                 }
                 break;
 
@@ -55,8 +56,8 @@ class Format extends Constraint
                 break;
 
             case 'regex':
-                if (!$this->validateRegex($element, $schema->pattern)) {
-                    $this->addError($path, "Invalid regex format");
+                if (!$this->validateRegex($element)) {
+                    $this->addError($path, 'Invalid regex format ' . $element);
                 }
                 break;
 
@@ -125,9 +126,9 @@ class Format extends Constraint
         return $datetime === $dt->format($format);
     }
 
-    protected function validateRegex($string, $regex)
+    protected function validateRegex($regex)
     {
-        return preg_match('/' . $regex . '/', $string);
+        return false !== @preg_match('/' . $regex . '/', '');
     }
 
     protected function validateColor($color)

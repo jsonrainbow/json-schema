@@ -30,6 +30,21 @@ class ArraysTest extends BaseTestCase
             ),
             array(
                 '{
+                  "array":[1,2,"a"]
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "array":{
+                      "type":"array",
+                      "items":{"type":"number"},
+                      "additionalItems":{"type":"boolean"}
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{
                   "array":[1,2,null]
                 }',
                 '{
@@ -40,6 +55,19 @@ class ArraysTest extends BaseTestCase
                       "items":{"type":["number","boolean"]}
                     }
                   }
+                }'
+            ),
+            array(
+                '{"data": [1, 2, 3, "foo"]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": [],
+                            "additionalItems": {"type": "integer"}
+                        }
+                    }
                 }'
             )
         );
@@ -74,6 +102,55 @@ class ArraysTest extends BaseTestCase
                   }
                 }'
             ),
+            array(
+                '{"data": [1, 2, 3, 4]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": [],
+                            "additionalItems": {"type": "integer"}
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"data": [1, "foo", false]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": []
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"data": [1, "foo", false]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {}
+                        }
+                    }
+                }'
+            ),
+            array(
+                '{"data": [1, 2, 3, 4, 5]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "additionalItems": false
+                        }
+                    }
+                }'
+            )
         );
     }
 }
