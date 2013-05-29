@@ -1,0 +1,24 @@
+{
+    "hash": "4443ffc1580dcdbd4883a4e898e8ee9e",
+    "packages": [
+        {
+            "name": "json-schema/JSON-Schema-Test-Suite",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
+                "reference": "1.1.0"
+            },
+            "type": "library",
+            "installation-source": "source"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ]
+}
