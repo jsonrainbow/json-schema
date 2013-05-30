@@ -92,6 +92,7 @@ class Format extends Constraint
                 break;
 
             case 'ip-address':
+            case 'ipv4':
                 if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV4)) {
                     $this->addError($path, "Invalid IP address");
                 }
@@ -104,6 +105,7 @@ class Format extends Constraint
                 break;
 
             case 'host-name':
+            case 'hostname':
                 if (!$this->validateHostname($element)) {
                     $this->addError($path, "Invalid hostname");
                 }
