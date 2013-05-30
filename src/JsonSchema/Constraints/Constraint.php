@@ -26,6 +26,7 @@ abstract class Constraint implements ConstraintInterface
 
     const CHECK_MODE_NORMAL = 1;
     const CHECK_MODE_TYPE_CAST = 2;
+    const CHECK_MODE_ARR_AS_OBJ = 3;
 
     /**
      * @param int          $checkMode

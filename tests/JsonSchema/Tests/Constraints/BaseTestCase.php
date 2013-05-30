@@ -20,7 +20,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     {
         $validator = new Validator($checkMode);
 
-        $validator->check(json_decode($input), json_decode($schema));
+        if ($checkMode === Validator::CHECK_MODE_ARR_AS_OBJ) {
+            $validator->check(json_decode($input, true), json_decode($schema, true));
+        } else {
+            $validator->check(json_decode($input), json_decode($schema));
+        }
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
@@ -35,7 +39,12 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     {
         $validator = new Validator($checkMode);
 
-        $validator->check(json_decode($input), json_decode($schema));
+        if ($checkMode === Validator::CHECK_MODE_ARR_AS_OBJ) {
+            $validator->check(json_decode($input, true), json_decode($schema, true));
+        } else {
+            $validator->check(json_decode($input), json_decode($schema));
+        }
+
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
