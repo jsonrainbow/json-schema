@@ -1,0 +1,5 @@
+before_commands:
+  - composer install --dev
+
+tools:
+  php_analyzer: true
