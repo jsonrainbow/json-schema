@@ -19,8 +19,6 @@ class Draft4Test extends BaseDraftTestCase
             'allOf.json',
             'anyOf.json',
             'definitions.json',
-            'maxProperties.json',
-            'minProperties.json',
             'multipleOf.json',
             'not.json',
             'oneOf.json',
