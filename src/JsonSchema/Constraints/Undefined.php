@@ -139,6 +139,20 @@ class Undefined extends Constraint
             }
         }
 
+        // Verify minimum and maximum number of properties
+        if (is_object($value)) {
+            if (isset($schema->minProperties)) {
+                if (count(get_object_vars($value)) < $schema->minProperties) {
+                    $this->addError($path, "must contain a minimum of " + $schema->minProperties + " properties");
+                }
+            }
+            if (isset($schema->maxProperties)) {
+                if (count(get_object_vars($value)) > $schema->maxProperties) {
+                    $this->addError($path, "must contain no more than " + $schema->maxProperties + " properties");
+                }
+            }
+        }
+
         // Verify that dependencies are met
         if (is_object($value) && isset($schema->dependencies)) {
             $this->validateDependencies($value, $schema->dependencies, $path);
