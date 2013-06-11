@@ -27,3 +27,10 @@ spl_autoload_register(function ($class)
         require __DIR__ . '/' . $classFile;
     }
 });
+
+// to avoid the following warning incl. fail of all date-using tests:
+//
+// DateTime::createFromFormat(): It is not safe to rely on the system's timezone settings.
+// You are *required* to use the date.timezone setting or the date_default_timezone_set() function.
+//
+date_default_timezone_set('UTC');
