@@ -10,6 +10,7 @@
 namespace JsonSchema\Uri\Retrievers;
 
 use JsonSchema\Validator;
+use JsonSchema\Exception\ResourceNotFoundException;
 
 /**
  * Tries to retrieve JSON schemas from a URI using file_get_contents()

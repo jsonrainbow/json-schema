@@ -52,12 +52,12 @@ class RefResolver
      * Return the URI Retriever, defaulting to making a new one if one
      * was not yet set.
      *
-     * @return UriRetriever
+     * @return Uri\UriRetriever
      */
     public function getUriRetriever()
     {
         if (is_null($this->uriRetriever)) {
-            $this->setUriRetriever(new UriRetriever);
+            $this->setUriRetriever(new Uri\UriRetriever);
         }
 
         return $this->uriRetriever;
@@ -258,10 +258,10 @@ class RefResolver
     /**
      * Set URI Retriever for use with the Ref Resolver
      *
-     * @param UriRetriever $retriever
+     * @param Uri\UriRetriever $retriever
      * @return $this for chaining
      */
-    public function setUriRetriever(UriRetriever $retriever)
+    public function setUriRetriever(Uri\UriRetriever $retriever)
     {
         $this->uriRetriever = $retriever;
 
