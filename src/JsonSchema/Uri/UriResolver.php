@@ -54,15 +54,17 @@ class UriResolver
      */
     public function generate(array $components)
     {
-        $uri = $components['scheme'] . '://' 
-             . $components['authority']
+        $uri = '';
+        if(!empty($components['scheme'])) $uri = $components['scheme'] . '://';
+
+        $uri .= $components['authority']
              . $components['path'];
-        
-        if (array_key_exists('query', $components)) {
-            $uri .= $components['query'];
+
+        if (array_key_exists('query', $components) && !empty($components['query'])) {
+            $uri .= '?'.$components['query'];
         }
-        if (array_key_exists('fragment', $components)) {
-            $uri .= $components['fragment'];
+        if (array_key_exists('fragment', $components) && !empty($components['fragment'])) {
+            $uri .= '#'.$components['fragment'];
         }
         
         return $uri;
@@ -87,10 +89,28 @@ class UriResolver
         $basePath = $baseComponents['path'];
         
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
-        
+        if(!empty($components['fragment'])) $baseComponents['fragment'] = $components['fragment'];
+
         return $this->generate($baseComponents);
     }
-    
+
+    public function resolveWithoutFragment($uri, $baseUri = null)
+    {
+        $components = $this->parse($uri);
+        $path = $components['path'];
+
+        if (! empty($components['scheme'])) {
+            return $uri;
+        }
+        $baseComponents = $this->parse($baseUri);
+        $basePath = $baseComponents['path'];
+
+        $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
+
+        unset($baseComponents['fragment']);
+
+        return $this->generate($baseComponents);
+    }
     /**
      * Tries to glue a relative path onto an absolute one
      * 
@@ -99,11 +119,12 @@ class UriResolver
      * @return string Merged path
      * @throws UriResolverException 
      */
-    private static function combineRelativePathWithBasePath($relativePath, $basePath)
+    static function combineRelativePathWithBasePath($relativePath, $basePath)
     {
         $relativePath = self::normalizePath($relativePath);
         $basePathSegments = self::getPathSegments($basePath);
-        
+
+        if($relativePath == '') return $basePath;
         preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
         $numLevelUp = strlen($match[0]) /3 + 1;
         if ($numLevelUp >= count($basePathSegments)) {
