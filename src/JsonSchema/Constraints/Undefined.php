@@ -109,7 +109,7 @@ class Undefined extends Constraint
                 if (isset($schema->required) && $schema->required) {
                     $this->addError($path, "is missing and it is required");
                 }
-            } else if (isset($schema->required)) {
+            } else if (isset($schema->required) && is_array($schema->required)) {
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {

@@ -1,0 +1,24 @@
+{
+  "description": "Employee schema inherits from Person.json; Uses custom types from types.json",
+  "extends": "Person.json",
+  "properties": {
+    "person": {
+      "type":"object",
+      "additionalProperties":false,
+      "properties": {
+        "type" :{
+          "enum": ["Employee"]
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "office_address": {
+          "extends" : "types.json#/postal_address",
+          "required": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+	"person": {
+		"id": 123456
+		,"type": "Employee"
+		,"department": "Business Intelligence"
+		,"office_address": {
+			"street":"Main Avenue 3",
+			"city": "Cubertino"
+		}
+	}
+}
