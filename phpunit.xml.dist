@@ -14,7 +14,7 @@
 >
     <testsuites>
         <testsuite name="JSON Schema Test Suite">
-            <directory>tests</directory>
+            <directory>tests/JsonSchema</directory>
         </testsuite>
     </testsuites>
 

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Tests;
+namespace JsonSchema;
 
 class RefResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -183,5 +183,72 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
 				)
 			),
 		);
+	}
+
+	public function testMerge() {
+		$a = (object) array('a' => '1');
+		$b = new \stdClass;
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object)array('a'=>'1'), $a);
+
+		$a = (object) array('a' => '1');
+		$b = (object) array('a' => '2');
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object)array('a'=>'1'), $a);
+
+		$a = (object) array('a' => array(1,2,3));
+		$b = (object) array('a' => array(4));
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object)array('a'=>array(4,1,2,3)), $a); // $b values are prependet :(  not nice but no issue
+
+		$a = new \stdClass;
+		$b = (object) array('a' => array(4));
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object)array('a'=>array(4)), $a);
+
+		$a = (object) array('a' => array(1,2,3));
+		$b = new \stdClass;
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object)array('a'=>array(1,2,3)), $a);
+
+		$a = (object) array('a' => 'in a');
+		$b = (object) array('b' => 'from b');
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object)array('a' => 'in a', 'b' => 'from b'), $a);
+
+		$a = null;
+		$b = (object) array('b' => 'from b');
+		RefResolver::merge($a, $b);
+		$this->assertEquals(null, $a);
+
+		$a = (object) array('a' => 'in a');
+		$b = null;
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object) array('a' => 'in a'), $a);
+
+		$a = (object) array('a' => '1', 'c'=>(object)array('d'=>'from a'));
+		$b = (object) array('a' => '1', 'c'=>(object)array('d'=>'from b'));
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object) array('a' => '1', 'c'=>(object)array('d'=>'from a')), $a);
+
+		$a = (object) array('a' => '1');
+		$b = (object) array('a' => '1', 'c'=>(object)array('d'=>'from b'));
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object) array('a' => '1', 'c'=>(object)array('d'=>'from b')), $a);
+
+		$a = (object) array('a' => '1');
+		$b = (object) array('a' => '1', 'c'=>'from b');
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object) array('a' => '1', 'c'=>'from b'), $a);
+
+		$a = (object) array('a' => '1', 'c'=>'from a');
+		$b = (object) array('a' => '1');
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object) array('a' => '1', 'c'=>'from a'), $a);
+
+		$a = (object) array('fields' => array('1 from a', '2 from a'));
+		$b = (object) array('fields' => array('1 from b', '2 from b'));
+		RefResolver::merge($a, $b);
+		$this->assertEquals((object) array('fields' => array('1 from b', '2 from b', '1 from a', '2 from a')), $a);
 	}
 }

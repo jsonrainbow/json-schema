@@ -1,0 +1,22 @@
+{
+  "description" : "Person schema is abstract base schema for Employee and others; Uses custom types from types.json",
+  "type":"object",
+  "additionalProperties":false,
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "properties": {
+    "person": {
+      "type":"object",
+      "required":true,
+      "properties": {
+        "id": {
+          "extends": "types.json#/id_type",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+}

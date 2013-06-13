@@ -1,0 +1,23 @@
+{
+  "description" : "custom type definitions",
+  "type":"object",
+  "id_type": {
+    "description" : "ID",
+    "type" : "integer",
+    "minimum": 1,
+    "exclusiveMinimum": false
+  },
+  "postal_address" : {
+  	"type": "object",
+  	"properties": {
+  		"street": {
+  			"type":"string",
+  			"required": true
+  		},
+  		"city" : {
+  			"type":"string",
+  			"required": true
+  		}
+  	}
+  }
+}

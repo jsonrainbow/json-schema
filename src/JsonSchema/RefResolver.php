@@ -52,12 +52,12 @@ class RefResolver
      * Return the URI Retriever, defaulting to making a new one if one
      * was not yet set.
      *
-     * @return UriRetriever
+     * @return Uri\UriRetriever
      */
     public function getUriRetriever()
     {
         if (is_null($this->uriRetriever)) {
-            $this->setUriRetriever(new UriRetriever);
+            $this->setUriRetriever(new Uri\UriRetriever);
         }
 
         return $this->uriRetriever;
@@ -83,12 +83,15 @@ class RefResolver
             return;
         }
 
-        if (null === $sourceUri && ! empty($schema->id)) {
-            $sourceUri = $schema->id;
+        if (!empty($schema->id)) {
+            $sourceUri = $this->getUriRetriever()->resolve($schema->id, $sourceUri);
         }
 
         // Resolve $ref first
         $this->resolveRef($schema, $sourceUri);
+        // Resolve extends first
+        $this->resolveExtends($schema, $sourceUri);
+
 
         // These properties are just schemas
         // eg.  items can be a schema or an array of schemas
@@ -190,12 +193,75 @@ class RefResolver
     }
 
     /**
+     * Look for the $ref property in the object.  If found, remove the
+     * reference and augment this object with the contents of another
+     * schema.
+     *
+     * @param object $schema    JSON Schema to flesh out
+     * @param string $sourceUri URI where this schema was located
+     */
+    public function resolveExtends($schema, $sourceUri)
+    {
+        if (empty($schema->extends)) {
+            return;
+        }
+        if(is_object($schema->extends)) {
+            self::merge($schema, $schema->extends);
+        } else {
+            if(is_array($schema->extends)) {
+                foreach($schema->extends as $extends) {
+                    // yeah, some copy paste here
+                    if(is_object($schema)) {
+                        self::merge($schema, $schema);
+                    } else {
+                        $refSchema = $this->fetchRef($extends, $sourceUri);
+                        $refSchema = $this->getUriRetriever()->resolvePointer($refSchema, $extends);
+                        self::merge($schema, $refSchema);
+                    }
+                }
+            } else {
+                $refSchema = $this->fetchRef($schema->extends, $sourceUri);
+                $refSchema = $this->getUriRetriever()->resolvePointer($refSchema, $schema->extends);
+                self::merge($schema, $refSchema);
+            }
+        }
+        unset($schema->extends);
+    }
+
+    /**
+    * recursively merges all fields of $b into $a
+    * fields in a win
+    * @param stdObject $a
+    * @param stdObject $b
+    * @return void
+    */
+    static function merge($a, $b) {
+        if(!$a) return;
+        if(!$b) return;
+        foreach($b as $k=>$v) {
+            if(is_object($v)) {
+                if(!isset($a->$k)) $a->$k = new \stdClass;
+                self::merge($a->$k, $b->$k);
+            } elseif(is_array($v)) {
+                if(!isset($a->$k)) {
+                    $a->$k = $b->$k;
+                } elseif(is_array($a->$k)) {
+                    $a->$k = array_merge_recursive($b->$k, $a->$k); // a should win
+                }
+            } else {
+                if(isset($a->$k)) continue; // a should win
+                $a->$k = $b->$k;
+            }
+        }
+    }
+
+    /**
      * Set URI Retriever for use with the Ref Resolver
      *
-     * @param UriRetriever $retriever
+     * @param Uri\UriRetriever $retriever
      * @return $this for chaining
      */
-    public function setUriRetriever(UriRetriever $retriever)
+    public function setUriRetriever(Uri\UriRetriever $retriever)
     {
         $this->uriRetriever = $retriever;
 
