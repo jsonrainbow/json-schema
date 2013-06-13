@@ -1,8 +1,8 @@
 {
-    "name": "hypercharge/json-schema",
+    "name": "hypercharge/json-schema-php",
     "description": "A library to validate a json schema.",
     "keywords": ["json", "schema"],
-    "homepage": "https://github.com/hypercharge/json-schema",
+    "homepage": "https://github.com/hypercharge/json-schema-php",
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
