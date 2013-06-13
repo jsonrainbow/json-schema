@@ -1,8 +1,8 @@
 {
-    "name": "justinrainbow/json-schema",
+    "name": "hypercharge/json-schema",
     "description": "A library to validate a json schema.",
     "keywords": ["json", "schema"],
-    "homepage": "https://github.com/justinrainbow/json-schema",
+    "homepage": "https://github.com/hypercharge/json-schema",
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
