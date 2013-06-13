@@ -19,7 +19,6 @@ class Draft4Test extends BaseDraftTestCase
             'allOf.json',
             'anyOf.json',
             'definitions.json',
-            'not.json',
             'oneOf.json',
             // Partially Implemented
             'ref.json',

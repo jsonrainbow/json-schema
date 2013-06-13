@@ -139,6 +139,18 @@ class Undefined extends Constraint
             }
         }
 
+        if (isset($schema->not)) {
+            $initErrors = $this->getErrors();
+            $this->checkUndefined($value, $schema->not, $path, is_null($i) ? "" : $i);
+
+            // if no new errors were raised then the instance validated against the "not" schema
+            if (count($this->getErrors()) == count($initErrors)) {
+                $this->addError($path, "matches a schema which it should not");
+            } else {
+                $this->errors = $initErrors;
+            }
+        }
+
         // Verify minimum and maximum number of properties
         if (is_object($value)) {
             if (isset($schema->minProperties)) {
