@@ -202,8 +202,8 @@ class Undefined extends Constraint
             foreach ($schema->anyOf as $anyOf) {
                 $initErrors = $this->getErrors();
                 $this->checkUndefined($value, $anyOf, $path, $i);
-                if (!$isValid) {
-                    $isValid = (count($this->getErrors()) == count($initErrors));
+                if ($isValid = (count($this->getErrors()) == count($initErrors))) {
+                    break;
                 }
             }
             if (!$isValid) {
