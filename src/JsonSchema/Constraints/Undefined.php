@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Uri\UriResolver;
+
 /**
  * The Undefined Constraints
  *
@@ -30,10 +32,10 @@ class Undefined extends Constraint
         $path = $this->incrementPath($path, $i);
 
         // check special properties
-        $this->validateCommonProperties($value, $schema, $path, $i);
+        $this->validateCommonProperties($value, $schema, $path);
 
         // check allOf, anyOf, and oneOf properties
-        $this->validateOfProperties($value, $schema, $path, $i);
+        $this->validateOfProperties($value, $schema, $path);
 
         // check known types
         $this->validateTypes($value, $schema, $path, $i);
@@ -89,7 +91,7 @@ class Undefined extends Constraint
      * @param string $path
      * @param string $i
      */
-    protected function validateCommonProperties($value, $schema = null, $path = null, $i = null)
+    protected function validateCommonProperties($value, $schema = null, $path = null, $i = "")
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
@@ -120,10 +122,10 @@ class Undefined extends Constraint
                     }
                 }
             } else {
-                $this->checkType($value, $schema, $path, $i);
+                $this->checkType($value, $schema, $path);
             }
         } else {
-            $this->checkType($value, $schema, $path, $i);
+            $this->checkType($value, $schema, $path);
         }
 
         // Verify disallowed items
@@ -132,7 +134,7 @@ class Undefined extends Constraint
 
             $typeSchema = new \stdClass();
             $typeSchema->type = $schema->disallow;
-            $this->checkType($value, $typeSchema, $path, $i);
+            $this->checkType($value, $typeSchema, $path);
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
@@ -170,7 +172,7 @@ class Undefined extends Constraint
 
         // Verify that dependencies are met
         if (is_object($value) && isset($schema->dependencies)) {
-            $this->validateDependencies($value, $schema->dependencies, $path, $i);
+            $this->validateDependencies($value, $schema->dependencies, $path);
         }
     }
 
@@ -182,7 +184,7 @@ class Undefined extends Constraint
      * @param string $path
      * @param string $i
      */
-    protected function validateOfProperties($value, $schema, $path, $i)
+    protected function validateOfProperties($value, $schema, $path, $i = "")
     {
         if (isset($schema->allOf)) {
             $isValid = true;
@@ -239,7 +241,7 @@ class Undefined extends Constraint
      * @param string $path
      * @param string $i
      */
-    protected function validateDependencies($value, $dependencies, $path, $i)
+    protected function validateDependencies($value, $dependencies, $path, $i = "")
     {
         foreach ($dependencies as $key => $dependency) {
             if (property_exists($value, $key)) {
@@ -265,14 +267,15 @@ class Undefined extends Constraint
 
     protected function validateUri($schema, $schemaUri = null)
     {
-        $resolver = new \JsonSchema\Uri\UriResolver();
+        $resolver = new UriResolver();
         $retriever = $this->getUriRetriever();
 
+        $jsonSchema = null;
         if ($resolver->isValid($schemaUri)) {
             $schemaId = property_exists($schema, 'id') ? $schema->id : null;
             $jsonSchema = $retriever->retrieve($schemaId, $schemaUri);
-
-            return $jsonSchema;
         }
+
+        return $jsonSchema;
     }
 }
