@@ -52,9 +52,14 @@ class Number extends Constraint
             $this->addError($path, "must have a maximum value of " . $schema->maximum);
         }
 
-        // Verify divisibleBy
+        // Verify divisibleBy - Draft v3
         if (isset($schema->divisibleBy) && $this->fmod($element, $schema->divisibleBy) != 0) {
             $this->addError($path, "is not divisible by " . $schema->divisibleBy);
+        }
+
+        // Verify multipleOf - Draft v4
+        if (isset($schema->multipleOf) && $this->fmod($element, $schema->multipleOf) != 0) {
+            $this->addError($path, "must be a multiple of " . $schema->multipleOf);
         }
 
         $this->checkFormat($element, $schema, $path, $i);

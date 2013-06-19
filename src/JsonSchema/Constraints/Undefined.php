@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Uri\UriResolver;
+
 /**
  * The Undefined Constraints
  *
@@ -26,10 +28,14 @@ class Undefined extends Constraint
             return;
         }
 
+        $i = is_null($i) ? "" : $i;
         $path = $this->incrementPath($path, $i);
 
         // check special properties
         $this->validateCommonProperties($value, $schema, $path);
+
+        // check allOf, anyOf, and oneOf properties
+        $this->validateOfProperties($value, $schema, $path);
 
         // check known types
         $this->validateTypes($value, $schema, $path, $i);
@@ -85,20 +91,19 @@ class Undefined extends Constraint
      * @param string $path
      * @param string $i
      */
-    protected function validateCommonProperties($value, $schema = null, $path = null, $i = null)
+    protected function validateCommonProperties($value, $schema = null, $path = null, $i = "")
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
             if (is_string($schema->extends)) {
                 $schema->extends = $this->validateUri($schema, $schema->extends);
             }
-            $increment = is_null($i) ? "" : $i;
             if (is_array($schema->extends)) {
                 foreach ($schema->extends as $extends) {
-                    $this->checkUndefined($value, $extends, $path, $increment);
+                    $this->checkUndefined($value, $extends, $path, $i);
                 }
             } else {
-                $this->checkUndefined($value, $schema->extends, $path, $increment);
+                $this->checkUndefined($value, $schema->extends, $path, $i);
             }
         }
 
@@ -133,7 +138,19 @@ class Undefined extends Constraint
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, " disallowed value was matched");
+                $this->addError($path, "disallowed value was matched");
+            } else {
+                $this->errors = $initErrors;
+            }
+        }
+
+        if (isset($schema->not)) {
+            $initErrors = $this->getErrors();
+            $this->checkUndefined($value, $schema->not, $path, $i);
+
+            // if no new errors were raised then the instance validated against the "not" schema
+            if (count($this->getErrors()) == count($initErrors)) {
+                $this->addError($path, "matched a schema which it should not");
             } else {
                 $this->errors = $initErrors;
             }
@@ -143,12 +160,12 @@ class Undefined extends Constraint
         if (is_object($value)) {
             if (isset($schema->minProperties)) {
                 if (count(get_object_vars($value)) < $schema->minProperties) {
-                    $this->addError($path, "must contain a minimum of " + $schema->minProperties + " properties");
+                    $this->addError($path, "must contain a minimum of " . $schema->minProperties . " properties");
                 }
             }
             if (isset($schema->maxProperties)) {
                 if (count(get_object_vars($value)) > $schema->maxProperties) {
-                    $this->addError($path, "must contain no more than " + $schema->maxProperties + " properties");
+                    $this->addError($path, "must contain no more than " . $schema->maxProperties . " properties");
                 }
             }
         }
@@ -160,13 +177,71 @@ class Undefined extends Constraint
     }
 
     /**
+     * Validate allOf, anyOf, and oneOf properties
+     *
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $path
+     * @param string $i
+     */
+    protected function validateOfProperties($value, $schema, $path, $i = "")
+    {
+        if (isset($schema->allOf)) {
+            $isValid = true;
+            foreach ($schema->allOf as $allOf) {
+                $initErrors = $this->getErrors();
+                $this->checkUndefined($value, $allOf, $path, $i);
+                $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
+            }
+            if (!$isValid) {
+                $this->addError($path, "failed to match all schemas");
+            }
+        }
+
+        if (isset($schema->anyOf)) {
+            $isValid = false;
+            $startErrors = $this->getErrors();
+            foreach ($schema->anyOf as $anyOf) {
+                $initErrors = $this->getErrors();
+                $this->checkUndefined($value, $anyOf, $path, $i);
+                if ($isValid = (count($this->getErrors()) == count($initErrors))) {
+                    break;
+                }
+            }
+            if (!$isValid) {
+                $this->addError($path, "failed to match at least one schema");
+            } else {
+                $this->errors = $startErrors;
+            }
+        }
+
+        if (isset($schema->oneOf)) {
+            $matchedSchemas = 0;
+            $startErrors = $this->getErrors();
+            foreach ($schema->oneOf as $oneOf) {
+                $initErrors = $this->getErrors();
+                $this->checkUndefined($value, $oneOf, $path, $i);
+                if (count($this->getErrors()) == count($initErrors)) {
+                    $matchedSchemas++;
+                }
+            }
+            if ($matchedSchemas !== 1) {
+                $this->addError($path, "failed to match exactly one schema");
+            } else {
+                $this->errors = $startErrors;
+            }
+        }
+    }
+
+    /**
      * Validate dependencies
      *
      * @param mixed  $value
      * @param mixed  $dependencies
      * @param string $path
+     * @param string $i
      */
-    protected function validateDependencies($value, $dependencies, $path)
+    protected function validateDependencies($value, $dependencies, $path, $i = "")
     {
         foreach ($dependencies as $key => $dependency) {
             if (property_exists($value, $key)) {
@@ -184,7 +259,7 @@ class Undefined extends Constraint
                     }
                 } else if (is_object($dependency)) {
                     // Schema - e.g. "dependencies": {"bar": {"properties": {"foo": {...}}}}
-                    $this->checkUndefined($value, $dependency, $path, "");
+                    $this->checkUndefined($value, $dependency, $path, $i);
                 }
             }
         }
@@ -192,14 +267,15 @@ class Undefined extends Constraint
 
     protected function validateUri($schema, $schemaUri = null)
     {
-        $resolver = new \JsonSchema\Uri\UriResolver();
+        $resolver = new UriResolver();
         $retriever = $this->getUriRetriever();
 
+        $jsonSchema = null;
         if ($resolver->isValid($schemaUri)) {
             $schemaId = property_exists($schema, 'id') ? $schema->id : null;
             $jsonSchema = $retriever->retrieve($schemaId, $schemaUri);
-
-            return $jsonSchema;
         }
+
+        return $jsonSchema;
     }
 }
