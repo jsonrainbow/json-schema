@@ -121,12 +121,11 @@ class Undefined extends Constraint
                 if ( $schema->required && $value instanceof Undefined) {
                     $this->addError($path, "is missing and it is required");
                 }
-            } else if ($value instanceof Undefined) {
-                // don't check type of Undefined value
-            } else {
-                $this->checkType($value, $schema, $path);
             }
-        } else {
+        }
+
+        // Verify type
+        if( ($value instanceof Undefined) === false) {
             $this->checkType($value, $schema, $path);
         }
 
