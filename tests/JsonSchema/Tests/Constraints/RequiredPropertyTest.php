@@ -78,6 +78,72 @@ class RequiredPropertyTest extends BaseTestCase
                         "foo": { "required": true }
                     }
                 }'
+            ),
+            array(
+                '{
+                  "string":{}
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "string":{"type":"string", "required": true}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "number":{}
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "number":{"type":"number", "required": true}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "integer":{}
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "integer":{"type":"integer", "required": true}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "boolean":{}
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "boolean":{"type":"boolean", "required": true}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "array":{}
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "array":{"type":"array", "required": true}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "null":{}
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "null":{"type":"null", "required": true}
+                  }
+                }'
             )
         );
     }
