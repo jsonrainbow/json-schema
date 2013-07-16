@@ -125,7 +125,7 @@ class Undefined extends Constraint
         }
 
         // Verify type
-        if( ($value instanceof Undefined) === false) {
+        if (!($value instanceof Undefined)) {
             $this->checkType($value, $schema, $path);
         }
 
