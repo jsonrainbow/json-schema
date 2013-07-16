@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Tests\Uri;
 
+use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Validator;
 
 class UriRetrieverTest extends \PHPUnit_Framework_TestCase
@@ -22,12 +23,19 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
 
     private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
     {
+
+        $jsonSchema = json_decode($returnSchema);
+
+        if (JSON_ERROR_NONE < $error = json_last_error()) {
+            throw new JsonDecodingException($error);
+        }
+
         $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
 
         $retriever->expects($this->at(0))
                   ->method('retrieve')
                   ->with($this->equalTo(null), $this->equalTo('http://some.host.at/somewhere/parent'))
-                  ->will($this->returnValue($returnSchema));
+                  ->will($this->returnValue($jsonSchema));
 
         return $retriever;
     }
