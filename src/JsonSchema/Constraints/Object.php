@@ -75,7 +75,7 @@ class Object extends Constraint
             $property = $this->getProperty($element, $i, new Undefined());
             $definition = $this->getProperty($objectDefinition, $i);
 
-            //no additional properties allowed
+            // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
                 $this->addError($path, "The property " . $i . " is not defined and the definition does not allow additional properties");
             }
@@ -91,8 +91,10 @@ class Object extends Constraint
                 $this->addError($path, "the presence of the property " . $i . " requires that " . $require . " also be present");
             }
 
-            //normal property verification
-            $this->checkUndefined($value, $definition ? : new \stdClass(), $path, $i);
+            if( !$definition) {
+                // normal property verification
+                $this->checkUndefined($value, new \stdClass(), $path, $i);
+            }
         }
     }
 
