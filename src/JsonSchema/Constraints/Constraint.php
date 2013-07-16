@@ -9,7 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Uri;
+use JsonSchema\Uri\UriRetriever;
 
 /**
  * The Base Constraints, all Validators should extend this class
@@ -31,7 +31,7 @@ abstract class Constraint implements ConstraintInterface
      * @param int          $checkMode
      * @param UriRetriever $uriRetriever
      */
-    public function __construct($checkMode = self::CHECK_MODE_NORMAL, \JsonSchema\Uri\UriRetriever $uriRetriever = null)
+    public function __construct($checkMode = self::CHECK_MODE_NORMAL, UriRetriever $uriRetriever = null)
     {
         $this->checkMode    = $checkMode;
         $this->uriRetriever = $uriRetriever;
@@ -40,11 +40,11 @@ abstract class Constraint implements ConstraintInterface
 	/**
 	 * @return UriRetriever $uriRetriever
 	 */
-	public function getUriRetriever() 
+	public function getUriRetriever()
 	{
 		if (is_null($this->uriRetriever))
 		{
-			$this->setUriRetriever(new \JsonSchema\Uri\UriRetriever);
+			$this->setUriRetriever(new UriRetriever);
 		}
 
 		return $this->uriRetriever;
@@ -53,7 +53,7 @@ abstract class Constraint implements ConstraintInterface
     /**
      * @param UriRetriever $uriRetriever
      */
-    public function setUriRetriever(\JsonSchema\Uri\UriRetriever $uriRetriever)
+    public function setUriRetriever(UriRetriever $uriRetriever)
     {
         $this->uriRetriever = $uriRetriever;
     }
@@ -255,7 +255,7 @@ abstract class Constraint implements ConstraintInterface
     protected function retrieveUri($uri)
     {
         if (null === $this->uriRetriever) {
-            $this->setUriRetriever(new \JsonSchema\Uri\UriRetriever);
+            $this->setUriRetriever(new UriRetriever);
         }
 		$jsonSchema = $this->uriRetriever->retrieve($uri);
         // TODO validate using schema
