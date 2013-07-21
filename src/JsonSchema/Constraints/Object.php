@@ -91,7 +91,7 @@ class Object extends Constraint
                 $this->addError($path, "the presence of the property " . $i . " requires that " . $require . " also be present");
             }
 
-            if( !$definition) {
+            if (!$definition) {
                 // normal property verification
                 $this->checkUndefined($value, new \stdClass(), $path, $i);
             }
