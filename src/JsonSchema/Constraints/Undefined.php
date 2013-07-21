@@ -25,7 +25,7 @@ class Undefined extends Constraint
      */
     public function check($value, $schema = null, $path = null, $i = null)
     {
-        if( is_null($schema)) {
+        if (is_null($schema)) {
             return;
         }
 
