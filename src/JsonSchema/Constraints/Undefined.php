@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Uri\UriResolver;
 
 /**
@@ -24,8 +25,12 @@ class Undefined extends Constraint
      */
     public function check($value, $schema = null, $path = null, $i = null)
     {
-        if (!is_object($schema)) {
+        if (is_null($schema)) {
             return;
+        }
+
+        if (!is_object($schema)) {
+            throw new InvalidArgumentException('Given schema must be an object.');
         }
 
         $i = is_null($i) ? "" : $i;
