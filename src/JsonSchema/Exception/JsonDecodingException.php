@@ -30,7 +30,7 @@ class JsonDecodingException extends \RuntimeException
                 $message = 'Malformed UTF-8 characters, possibly incorrectly encoded';
                 break;
             case JSON_ERROR_SYNTAX:
-                $message = 'The maximum stack depth has been exceeded';
+                $message = 'JSON syntax is malformed';
                 break;
             default:
                 $message = 'Syntax error';
