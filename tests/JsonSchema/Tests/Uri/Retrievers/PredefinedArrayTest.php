@@ -4,6 +4,9 @@ namespace JsonSchema\Tests\Uri\Retrievers;
 
 use JsonSchema\Uri\Retrievers\PredefinedArray;
 
+/**
+ * @group PredefinedArray
+ */
 class PredefinedArrayTest extends \PHPUnit_Framework_TestCase
 {
     private $retriever;

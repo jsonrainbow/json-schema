@@ -1,3 +1,7 @@
 /vendor
 /bin
 !/bin/validate-json
+coverage
+.buildpath
+.project
+.settings

@@ -18,9 +18,8 @@ use JsonSchema\Exception\ResourceNotFoundException;
  *
  * @author Sander Coolen <sander@jibber.nl>
  */
-class Curl implements UriRetrieverInterface
+class Curl extends AbstractRetriever
 {
-    protected $contentType;
     protected $messageBody;
 
     public function __construct()
@@ -30,6 +29,10 @@ class Curl implements UriRetrieverInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
+     */
     public function retrieve($uri)
     {
         $ch = curl_init();
@@ -74,10 +77,5 @@ class Curl implements UriRetrieverInterface
         }
 
         return false;
-    }
-
-    public function getContentType()
-    {
-        return $this->contentType;
     }
 }

@@ -12,6 +12,9 @@ namespace JsonSchema\Tests\Uri;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Validator;
 
+/**
+ * @group UriRetriever
+ */
 class UriRetrieverTest extends \PHPUnit_Framework_TestCase
 {
     protected $validator;
