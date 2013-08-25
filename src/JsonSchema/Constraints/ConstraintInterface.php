@@ -21,14 +21,14 @@ interface ConstraintInterface
      *
      * @return array
      */
-    function getErrors();
+    public function getErrors();
 
     /**
      * adds errors to this validator
      *
      * @param array $errors
      */
-    function addErrors(array $errors);
+    public function addErrors(array $errors);
 
     /**
      * adds an error
@@ -36,14 +36,14 @@ interface ConstraintInterface
      * @param $path
      * @param $message
      */
-    function addError($path, $message);
+    public function addError($path, $message);
 
     /**
      * checks if the validator has not raised errors
      *
      * @return boolean
      */
-    function isValid();
+    public function isValid();
 
     /**
      * invokes the validation of an element
@@ -54,5 +54,5 @@ interface ConstraintInterface
      * @param mixed $path
      * @param mixed $i
      */
-    function check($value, $schema = null, $path = null, $i = null);
+    public function check($value, $schema = null, $path = null, $i = null);
 }
