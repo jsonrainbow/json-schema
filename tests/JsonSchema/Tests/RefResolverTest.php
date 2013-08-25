@@ -156,37 +156,37 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $input);
     }
 
-	public function refProvider() {
-		return array(
-			'no ref' => array(
-				(object) array('test' => 'one'),
-				(object) array('test' => 'one')
-			),
-			// The $ref is not removed here
-			'empty ref' => array(
-				(object) array(
-					'test' => 'two',
-					'$ref' => ''
-				),
-				(object) array(
-					'test' => 'two',
-					'$ref' => ''
-				)
-			),
-			// $ref is removed
-			'qualified ref' => array(
-				(object) array(
-					'this is' => 'another test',
-					'this was' => array('added', 'because'),
-					'the' => (object) array('$ref resolved' => true)
-				),
-				(object) array(
-					'$ref' => 'http://example.com/',
-					'this is' => 'another test'
-				)
-			),
-		);
-	}
+    public function refProvider() {
+        return array(
+            'no ref' => array(
+                (object) array('test' => 'one'),
+                (object) array('test' => 'one')
+            ),
+            // The $ref is not removed here
+            'empty ref' => array(
+                (object) array(
+                    'test' => 'two',
+                    '$ref' => ''
+                ),
+                (object) array(
+                    'test' => 'two',
+                    '$ref' => ''
+                )
+            ),
+            // $ref is removed
+            'qualified ref' => array(
+                (object) array(
+                    'this is' => 'another test',
+                    'this was' => array('added', 'because'),
+                    'the' => (object) array('$ref resolved' => true)
+                ),
+                (object) array(
+                    '$ref' => 'http://example.com/',
+                    'this is' => 'another test'
+                )
+            ),
+        );
+    }
 
     public function testFetchRefAbsolute()
     {
