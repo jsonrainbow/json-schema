@@ -34,7 +34,7 @@ class FileGetContents extends AbstractRetriever
         
         $response = file_get_contents($uri);
         if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema not found');
+            throw new \JsonSchema\Exception\ResourceNotFoundException('JSON schema not found');
         }
         
         $this->messageBody = $response;
