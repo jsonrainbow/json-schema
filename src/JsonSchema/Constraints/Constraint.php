@@ -37,18 +37,18 @@ abstract class Constraint implements ConstraintInterface
         $this->uriRetriever = $uriRetriever;
     }
 
-	/**
-	 * @return UriRetriever $uriRetriever
-	 */
-	public function getUriRetriever()
-	{
-		if (is_null($this->uriRetriever))
-		{
-			$this->setUriRetriever(new UriRetriever);
-		}
+    /**
+     * @return UriRetriever $uriRetriever
+     */
+    public function getUriRetriever()
+    {
+        if (is_null($this->uriRetriever))
+        {
+            $this->setUriRetriever(new UriRetriever);
+        }
 
-		return $this->uriRetriever;
-	}
+        return $this->uriRetriever;
+    }
 
     /**
      * @param UriRetriever $uriRetriever
@@ -257,7 +257,7 @@ abstract class Constraint implements ConstraintInterface
         if (null === $this->uriRetriever) {
             $this->setUriRetriever(new UriRetriever);
         }
-		$jsonSchema = $this->uriRetriever->retrieve($uri);
+        $jsonSchema = $this->uriRetriever->retrieve($uri);
         // TODO validate using schema
         return $jsonSchema;
     }
