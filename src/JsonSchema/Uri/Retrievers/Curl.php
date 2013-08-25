@@ -11,16 +11,13 @@ namespace JsonSchema\Uri\Retrievers;
 
 use JsonSchema\Validator;
 
-use JsonSchema\Exception\ResourceNotFoundException;
-
 /**
  * Tries to retrieve JSON schemas from a URI using cURL library
  *
  * @author Sander Coolen <sander@jibber.nl>
  */
-class Curl implements UriRetrieverInterface
+class Curl extends AbstractRetriever
 {
-    protected $contentType;
     protected $messageBody;
 
     public function __construct()
@@ -30,6 +27,10 @@ class Curl implements UriRetrieverInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
+     */
     public function retrieve($uri)
     {
         $ch = curl_init();
@@ -41,7 +42,7 @@ class Curl implements UriRetrieverInterface
 
         $response = curl_exec($ch);
         if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema not found');
+            throw new \JsonSchema\Exception\ResourceNotFoundException('JSON schema not found');
         }
 
         $this->fetchMessageBody($response);
@@ -74,10 +75,5 @@ class Curl implements UriRetrieverInterface
         }
 
         return false;
-    }
-
-    public function getContentType()
-    {
-        return $this->contentType;
     }
 }

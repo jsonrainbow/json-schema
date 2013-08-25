@@ -9,7 +9,7 @@
 
 namespace JsonSchema;
 
-use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
+use JsonSchema\Uri\UriRetriever;
 
 /**
  * Take in an object that's a JSON schema and take care of all $ref references
