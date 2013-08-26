@@ -6,12 +6,10 @@ php:
   - 5.5
 
 before_script:
-  - sudo apt-get install pypy
+  - sudo apt-get -y install pypy
+  - sudo apt-get -y install python-sphinx
   - composer selfupdate
   - composer install
-  
-install:
-  - pip install -q Sphinx
 
 script:
   - cd docs
