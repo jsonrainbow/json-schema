@@ -51,17 +51,18 @@ if (is_dir(__DIR__ . '/../src/JsonSchema')) {
     set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
 }
 
-if ($argc < 3) {
-    echo "Usage: validate-json schema.json data.json\n";
+if ($argc < 2) {
+    echo "Usage: validate-json data.json\n";
+    echo "   or: validate-json data.json schema.json\n";
     exit(1);
 }
 
-$pathSchema = $argv[1];
-$pathData   = $argv[2];
-
-if (!is_readable($pathSchema)) {
-    echo "Schema file is not readable.\n";
-    exit(2);
+if ($argc == 2) {
+    $pathData   = $argv[1];
+    $pathSchema = null;
+} else {
+    $pathData   = $argv[1];
+    $pathSchema = $argv[2];
 }
 
 if (!is_readable($pathData)) {
@@ -75,6 +76,21 @@ if ($data === null) {
     echo "Error loading JSON data file\n";
     showJsonError();
     exit(5);
+}
+
+if ($pathSchema === null) {
+    //autodetect schema
+    if (!is_object($data) || !property_exists($data, '$schema')) {
+        echo "JSON data must be an object and have a \$schema property.\n";
+        echo "You can pass the schema file on the command line as well.\n";
+        echo "Schema autodetection failed.\n";
+        exit(6);
+    }
+    $pathSchema = $data->{'$schema'};
+}
+if (!is_readable($pathSchema)) {
+    echo "Schema file is not readable.\n";
+    exit(2);
 }
 
 $schema = json_decode(file_get_contents($pathSchema));
