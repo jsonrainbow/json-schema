@@ -87,16 +87,21 @@ if ($pathSchema === null) {
         exit(6);
     }
     $pathSchema = $data->{'$schema'};
-    if ($pathSchema{0} != '/') {
+    if ($pathSchema{0} != '/'
+        && parse_url($pathSchema, PHP_URL_SCHEME) === false
+    ) {
         $pathSchema = dirname($pathData) . '/' . $pathSchema;
     }
 }
-if (!is_readable($pathSchema)) {
+
+$schemaData = file_get_contents($pathSchema);
+if ($schemaData === false) {
     echo "Schema file '$pathSchema' is not readable.\n";
     exit(2);
 }
 
-$schema = json_decode(file_get_contents($pathSchema));
+$schema = json_decode($schemaData);
+unset($schemaData);
 
 if ($schema === null) {
     echo "Error loading JSON schema file\n";
