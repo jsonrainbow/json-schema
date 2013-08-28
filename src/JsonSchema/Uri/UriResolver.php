@@ -73,10 +73,17 @@ class UriResolver
      * 
      * @param string $uri Absolute or relative
      * @param type $baseUri Optional base URI
-     * @return string
+     * @return string Absolute URI
      */
     public function resolve($uri, $baseUri = null)
     {
+        if ($uri == '') {
+            return $baseUri;
+        }
+        if ($uri{0} == '#') {
+            return $baseUri . $uri;
+        }
+
         $components = $this->parse($uri);
         $path = $components['path'];
         
