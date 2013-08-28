@@ -9,6 +9,7 @@
 
 namespace JsonSchema;
 
+use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 
 /**
@@ -42,7 +43,26 @@ class RefResolver
     public function fetchRef($ref, $sourceUri)
     {
         $retriever = $this->getUriRetriever();
-        $jsonSchema = $retriever->retrieve($ref, $sourceUri);
+
+        $frag = parse_url($ref, PHP_URL_FRAGMENT);
+        if ($frag == '') {
+            $jsonSchema = $retriever->retrieve($ref, $sourceUri);
+        } else {
+            $refNoFrag = substr($ref, 0, -strlen($frag) - 1);
+            $jsonSchema = $retriever->retrieve($refNoFrag, $sourceUri);
+
+            $parts = explode('/', $frag);
+            array_shift($parts);//first is empty for "/definitions/foo"
+            //resolve path in anchor/fragment
+            foreach ($parts as $part) {
+                if (!property_exists($jsonSchema, $part)) {
+                    throw new ResourceNotFoundException(
+                        'JSON schema not found: ' . $ref
+                    );
+                }
+                $jsonSchema = $jsonSchema->$part;
+            }
+        }
         $this->resolve($jsonSchema);
 
         return $jsonSchema;
