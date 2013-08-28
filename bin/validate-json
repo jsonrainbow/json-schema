@@ -87,9 +87,12 @@ if ($pathSchema === null) {
         exit(6);
     }
     $pathSchema = $data->{'$schema'};
+    if ($pathSchema{0} != '/') {
+        $pathSchema = dirname($pathData) . '/' . $pathSchema;
+    }
 }
 if (!is_readable($pathSchema)) {
-    echo "Schema file is not readable.\n";
+    echo "Schema file '$pathSchema' is not readable.\n";
     exit(2);
 }
 
