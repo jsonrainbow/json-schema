@@ -144,4 +144,79 @@ EOF;
             array($childSchema, $parentSchema)
         );
     }
+
+    public function testResolvePointerNoFragment()
+    {
+        $schema = (object) array(
+            'title' => 'schema'
+        );
+
+        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $this->assertEquals(
+            $schema,
+            $retriever->resolvePointer(
+                $schema, 'http://example.org/schema.json'
+            )
+        );
+    }
+
+    public function testResolvePointerFragment()
+    {
+        $schema = (object) array(
+            'definitions' => (object) array(
+                'foo' => (object) array(
+                    'title' => 'foo'
+                )
+            ),
+            'title' => 'schema'
+        );
+
+        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $this->assertEquals(
+            $schema->definitions->foo,
+            $retriever->resolvePointer(
+                $schema, 'http://example.org/schema.json#/definitions/foo'
+            )
+        );
+    }
+
+    /**
+     * @expectedException JsonSchema\Exception\ResourceNotFoundException
+     */
+    public function testResolvePointerFragmentNotFound()
+    {
+        $schema = (object) array(
+            'definitions' => (object) array(
+                'foo' => (object) array(
+                    'title' => 'foo'
+                )
+            ),
+            'title' => 'schema'
+        );
+
+        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever->resolvePointer(
+            $schema, 'http://example.org/schema.json#/definitions/bar'
+        );
+    }
+
+    /**
+     * @expectedException JsonSchema\Exception\ResourceNotFoundException
+     */
+    public function testResolvePointerFragmentNoArray()
+    {
+        $schema = (object) array(
+            'definitions' => (object) array(
+                'foo' => array(
+                    'title' => 'foo'
+                )
+            ),
+            'title' => 'schema'
+        );
+
+        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever->resolvePointer(
+            $schema, 'http://example.org/schema.json#/definitions/foo'
+        );
+    }
 }

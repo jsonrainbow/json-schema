@@ -72,6 +72,8 @@ class UriRetriever
      * @param object $jsonSchema JSON Schema contents
      * @param string $uri JSON Schema URI
      * @return object JSON Schema after walking down the fragment pieces
+     *
+     * @throws \JsonSchema\Exception\ResourceNotFoundException
      */
     public function resolvePointer($jsonSchema, $uri)
     {
@@ -90,11 +92,17 @@ class UriRetriever
                 if (! empty($jsonSchema->$pathElement)) {
                     $jsonSchema = $jsonSchema->$pathElement;
                 } else {
-                    $jsonSchema = new \stdClass();
+                    throw new \JsonSchema\Exception\ResourceNotFoundException(
+                        'Fragment "' . $parsed['fragment'] . '" not found'
+                        . ' in ' . $uri
+                    );
                 }
 
                 if (! is_object($jsonSchema)) {
-                    $jsonSchema = new \stdClass();
+                    throw new \JsonSchema\Exception\ResourceNotFoundException(
+                        'Fragment part "' . $pathElement . '" is no object '
+                        . ' in ' . $uri
+                    );
                 }
             }
         }
@@ -112,9 +120,17 @@ class UriRetriever
     public function retrieve($uri, $baseUri = null)
     {
         $resolver = new UriResolver();
-        $resolvedUri = $resolver->resolve($uri, $baseUri);
+        $resolvedUri = $fetchUri = $resolver->resolve($uri, $baseUri);
+
+        //fetch URL without #fragment
+        $arParts = $resolver->parse($resolvedUri);
+        if (isset($arParts['fragment'])) {
+            unset($arParts['fragment']);
+            $fetchUri = $resolver->generate($arParts);
+        }
+
         $uriRetriever = $this->getUriRetriever();
-        $contents = $this->uriRetriever->retrieve($resolvedUri);
+        $contents = $this->uriRetriever->retrieve($fetchUri);
         $this->confirmMediaType($uriRetriever);
         $jsonSchema = json_decode($contents);
 
