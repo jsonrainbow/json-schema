@@ -129,6 +129,29 @@ class UriRetriever
             $fetchUri = $resolver->generate($arParts);
         }
 
+        $jsonSchema = $this->loadSchema($fetchUri);
+
+        // Use the JSON pointer if specified
+        $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
+        $jsonSchema->id = $resolvedUri;
+
+        return $jsonSchema;
+    }
+
+    /**
+     * Fetch a schema from the given URI, json-decode it and return it.
+     * Caches schema objects.
+     *
+     * @param string $fetchUri Absolute URI
+     *
+     * @return object JSON schema object
+     */
+    protected function loadSchema($fetchUri)
+    {
+        if (isset($this->schemaCache[$fetchUri])) {
+            return $this->schemaCache[$fetchUri];
+        }
+
         $uriRetriever = $this->getUriRetriever();
         $contents = $this->uriRetriever->retrieve($fetchUri);
         $this->confirmMediaType($uriRetriever);
@@ -138,10 +161,7 @@ class UriRetriever
             throw new JsonDecodingException($error);
         }
 
-        // Use the JSON pointer if specified
-        $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
-        $jsonSchema->id = $resolvedUri;
-
+        $this->schemaCache[$fetchUri] = $jsonSchema;
         return $jsonSchema;
     }
 
