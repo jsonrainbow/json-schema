@@ -29,7 +29,7 @@ class UriRetriever
      *
      * @throws InvalidSchemaMediaTypeException
      */
-    public function confirmMediaType($uriRetriever)
+    public function confirmMediaType($uriRetriever, $uri)
     {
         $contentType = $uriRetriever->getContentType();
 
@@ -40,6 +40,11 @@ class UriRetriever
 
         if (Validator::SCHEMA_MEDIA_TYPE === $contentType) {
             return;
+        }
+
+        if (substr($uri, 0, 23) == 'http://json-schema.org/') {
+            //HACK; they deliver broken content types
+            return true;
         }
 
         throw new InvalidSchemaMediaTypeException(sprintf('Media type %s expected', Validator::SCHEMA_MEDIA_TYPE));
@@ -131,7 +136,7 @@ class UriRetriever
 
         $uriRetriever = $this->getUriRetriever();
         $contents = $this->uriRetriever->retrieve($fetchUri);
-        $this->confirmMediaType($uriRetriever);
+        $this->confirmMediaType($uriRetriever, $fetchUri);
         $jsonSchema = json_decode($contents);
 
         if (JSON_ERROR_NONE < $error = json_last_error()) {
