@@ -130,7 +130,10 @@ $urlData = getUrlFromPath($pathData);
 $context = stream_context_create(
     array(
         'http' => array(
-            'header'        => 'Accept: */*',
+            'header'        => array(
+                'Accept: */*',
+                'Connection: Close'
+            ),
             'max_redirects' => 5
         )
     )
