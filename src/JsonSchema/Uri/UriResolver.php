@@ -62,7 +62,7 @@ class UriResolver
             $uri .= $components['query'];
         }
         if (array_key_exists('fragment', $components)) {
-            $uri .= $components['fragment'];
+            $uri .= '#' . $components['fragment'];
         }
         
         return $uri;
@@ -73,10 +73,14 @@ class UriResolver
      * 
      * @param string $uri Absolute or relative
      * @param type $baseUri Optional base URI
-     * @return string
+     * @return string Absolute URI
      */
     public function resolve($uri, $baseUri = null)
     {
+        if ($uri == '') {
+            return $baseUri;
+        }
+
         $components = $this->parse($uri);
         $path = $components['path'];
         
@@ -87,7 +91,10 @@ class UriResolver
         $basePath = $baseComponents['path'];
         
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
-        
+        if (isset($components['fragment'])) {
+            $baseComponents['fragment'] = $components['fragment'];
+        }
+
         return $this->generate($baseComponents);
     }
     
@@ -99,9 +106,16 @@ class UriResolver
      * @return string Merged path
      * @throws UriResolverException 
      */
-    private static function combineRelativePathWithBasePath($relativePath, $basePath)
+    public static function combineRelativePathWithBasePath($relativePath, $basePath)
     {
         $relativePath = self::normalizePath($relativePath);
+        if ($relativePath == '') {
+            return $basePath;
+        }
+        if ($relativePath{0} == '/') {
+            return $relativePath;
+        }
+
         $basePathSegments = self::getPathSegments($basePath);
         
         preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
@@ -111,13 +125,13 @@ class UriResolver
         }
         $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);
         $path = preg_replace('|^/?(\.\./(\./)*)*|', '', $relativePath);
-        
+
         return implode(DIRECTORY_SEPARATOR, $basePathSegments) . '/' . $path;
     }
-    
+
     /**
      * Normalizes a URI path component by removing dot-slash and double slashes
-     * 
+     *
      * @param string $path
      * @return string
      */

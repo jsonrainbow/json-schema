@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Uri\Retrievers;
 
+use JsonSchema\Exception\ResourceNotFoundException;
 use JsonSchema\Validator;
 
 /**
@@ -31,9 +32,14 @@ class FileGetContents implements UriRetrieverInterface
         
         $response = file_get_contents($uri);
         if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema not found');
+            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
         }
-        
+        if ($response == ''
+            && substr($uri, 0, 7) == 'file://' && substr($uri, -1) == '/'
+        ) {
+            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
+        }
+
         $this->messageBody = $response;
 		if (! empty($http_response_header)) {
 			$this->fetchContentType($http_response_header);

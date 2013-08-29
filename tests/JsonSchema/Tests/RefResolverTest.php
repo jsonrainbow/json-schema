@@ -184,4 +184,103 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
 			),
 		);
 	}
+
+    public function testFetchRefAbsolute()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "title": "schema",
+    "type": "object",
+    "id": "http://example.org/schema"
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            (object) array(
+                'title' => 'schema',
+                'type'  => 'object',
+                'id'    => 'http://example.org/schema'
+            ),
+            $res->fetchRef('http://example.org/schema', 'http://example.org/schema')
+        );
+    }
+
+    public function testFetchRefAbsoluteAnchor()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "title": "schema",
+    "type": "object",
+    "id": "http://example.org/schema",
+    "definitions": {
+        "foo": {
+            "type": "object",
+            "title": "foo"
+        }
+    }
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            (object) array(
+                'title' => 'foo',
+                'type'  => 'object',
+                'id'    => 'http://example.org/schema#/definitions/foo',
+            ),
+            $res->fetchRef(
+                'http://example.org/schema#/definitions/foo',
+                'http://example.org/schema'
+            )
+        );
+    }
+
+    public function testFetchRefRelativeAnchor()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "title": "schema",
+    "type": "object",
+    "id": "http://example.org/schema",
+    "definitions": {
+        "foo": {
+            "type": "object",
+            "title": "foo"
+        }
+    }
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            (object) array(
+                'title' => 'foo',
+                'type'  => 'object',
+                'id'    => 'http://example.org/schema#/definitions/foo',
+            ),
+            $res->fetchRef(
+                '#/definitions/foo',
+                'http://example.org/schema'
+            )
+        );
+    }
 }
