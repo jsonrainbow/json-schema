@@ -18,10 +18,13 @@ use JsonSchema\Exception\ResourceNotFoundException;
  *
  *      $schema = $retriever->retrieve('http://acme.com/schemas/person#');
  */
-class PredefinedArray implements UriRetrieverInterface
+class PredefinedArray extends AbstractRetriever
 {
+    /**
+     * Contains schemas as URI => JSON
+     * @var array
+     */
     private $schemas;
-    private $contentType;
 
     /**
      * Constructor
@@ -34,9 +37,10 @@ class PredefinedArray implements UriRetrieverInterface
         $this->schemas     = $schemas;
         $this->contentType = $contentType;
     }
-
+    
     /**
      * {@inheritDoc}
+     * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
      */
     public function retrieve($uri)
     {
@@ -48,13 +52,5 @@ class PredefinedArray implements UriRetrieverInterface
         }
 
         return $this->schemas[$uri];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getContentType()
-    {
-        return $this->contentType;
     }
 }

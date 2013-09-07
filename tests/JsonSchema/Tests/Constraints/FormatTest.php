@@ -13,6 +13,11 @@ use JsonSchema\Constraints\Format;
 
 class FormatTest extends BaseTestCase
 {
+    public function setUp()
+    {
+        date_default_timezone_set('UTC');
+    }
+    
     public function testNullThing()
     {
         $validator = new Format();
