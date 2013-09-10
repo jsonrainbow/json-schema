@@ -122,7 +122,7 @@ if (count($arArgs) == 1) {
     $pathSchema = null;
 } else {
     $pathData   = $arArgs[0];
-    $pathSchema = $arArgs[1];
+    $pathSchema = getUrlFromPath($arArgs[1]);
 }
 
 $urlData = getUrlFromPath($pathData);
