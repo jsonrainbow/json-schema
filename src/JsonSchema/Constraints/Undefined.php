@@ -30,7 +30,10 @@ class Undefined extends Constraint
         }
 
         if (!is_object($schema)) {
-            throw new InvalidArgumentException('Given schema must be an object.');
+            throw new InvalidArgumentException(
+                'Given schema must be an object in ' . $path
+                . ' but is a ' . gettype($schema)
+            );
         }
 
         $i = is_null($i) ? "" : $i;

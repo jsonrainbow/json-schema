@@ -4,7 +4,6 @@ namespace JsonSchema\Uri\Retrievers;
 
 use JsonSchema\Validator;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
-use JsonSchema\Exception\ResourceNotFoundException;
 
 /**
  * URI retrieved based on a predefined array of schemas
@@ -45,7 +44,7 @@ class PredefinedArray extends AbstractRetriever
     public function retrieve($uri)
     {
         if (!array_key_exists($uri, $this->schemas)) {
-            throw new ResourceNotFoundException(sprintf(
+            throw new \JsonSchema\Exception\ResourceNotFoundException(sprintf(
                 'The JSON schema "%s" was not found.',
                 $uri
             ));

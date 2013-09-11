@@ -20,6 +20,15 @@ use JsonSchema\Uri\UriRetriever;
 class RefResolver
 {
     /**
+     * HACK to prevent too many recursive expansions.
+     * Happens e.g. when you want to validate a schema against the schema
+     * definition.
+     *
+     * @var integer
+     */
+    protected static $depth = 0;
+
+    /**
      * @var UriRetrieverInterface
      */
     protected $uriRetriever = null;
@@ -41,7 +50,7 @@ class RefResolver
      */
     public function fetchRef($ref, $sourceUri)
     {
-        $retriever = $this->getUriRetriever();
+        $retriever  = $this->getUriRetriever();
         $jsonSchema = $retriever->retrieve($ref, $sourceUri);
         $this->resolve($jsonSchema);
 
@@ -79,7 +88,13 @@ class RefResolver
      */
     public function resolve($schema, $sourceUri = null)
     {
+        if (self::$depth > 7) {
+            return;
+        }
+        ++self::$depth;
+
         if (! is_object($schema)) {
+            --self::$depth;
             return;
         }
 
@@ -107,6 +122,8 @@ class RefResolver
         foreach (array('dependencies', 'patternProperties', 'properties') as $propertyName) {
             $this->resolveObjectOfSchemas($schema, $propertyName, $sourceUri);
         }
+
+        --self::$depth;
     }
 
     /**
