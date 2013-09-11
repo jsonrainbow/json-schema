@@ -187,7 +187,106 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
-    
+
+    public function testFetchRefAbsolute()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "title": "schema",
+    "type": "object",
+    "id": "http://example.org/schema"
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            (object) array(
+                'title' => 'schema',
+                'type'  => 'object',
+                'id'    => 'http://example.org/schema'
+            ),
+            $res->fetchRef('http://example.org/schema', 'http://example.org/schema')
+        );
+    }
+
+    public function testFetchRefAbsoluteAnchor()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "title": "schema",
+    "type": "object",
+    "id": "http://example.org/schema",
+    "definitions": {
+        "foo": {
+            "type": "object",
+            "title": "foo"
+        }
+    }
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            (object) array(
+                'title' => 'foo',
+                'type'  => 'object',
+                'id'    => 'http://example.org/schema#/definitions/foo',
+            ),
+            $res->fetchRef(
+                'http://example.org/schema#/definitions/foo',
+                'http://example.org/schema'
+            )
+        );
+    }
+
+    public function testFetchRefRelativeAnchor()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "title": "schema",
+    "type": "object",
+    "id": "http://example.org/schema",
+    "definitions": {
+        "foo": {
+            "type": "object",
+            "title": "foo"
+        }
+    }
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            (object) array(
+                'title' => 'foo',
+                'type'  => 'object',
+                'id'    => 'http://example.org/schema#/definitions/foo',
+            ),
+            $res->fetchRef(
+                '#/definitions/foo',
+                'http://example.org/schema'
+            )
+        );
+    }
+
     public function testSetGetUriRetriever()
     {
         $retriever = new \JsonSchema\Uri\UriRetriever;
@@ -195,7 +294,7 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('JsonSchema\Uri\UriRetriever', $resolver->getUriRetriever());
         $this->assertInstanceOf('JsonSchema\RefResolver', $resolver->setUriRetriever($retriever));
     }
-    
+
     public function testFetchRef()
     {
         // stub schema
@@ -204,15 +303,16 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         $jsonSchema->additionalItems = 'stub';
         $ref        = 'ref';
         $sourceUri  = null;
-        
+
+
         // mock retriever
         $retriever  = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
         $retriever->expects($this->any())->method('retrieve')->will($this->returnValue($jsonSchema));
-        
+
         // stub resolver
         $resolver   = new \JsonSchema\RefResolver;
         $resolver->setUriRetriever($retriever);
-        
+
         $this->assertEquals($jsonSchema, $resolver->fetchRef($ref, $sourceUri));
     }
 }

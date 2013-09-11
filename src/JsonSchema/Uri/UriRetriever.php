@@ -29,7 +29,7 @@ class UriRetriever
      *
      * @throws InvalidSchemaMediaTypeException
      */
-    public function confirmMediaType($uriRetriever)
+    public function confirmMediaType($uriRetriever, $uri)
     {
         $contentType = $uriRetriever->getContentType();
 
@@ -40,6 +40,11 @@ class UriRetriever
 
         if (Validator::SCHEMA_MEDIA_TYPE === $contentType) {
             return;
+        }
+
+        if (substr($uri, 0, 23) == 'http://json-schema.org/') {
+            //HACK; they deliver broken content types
+            return true;
         }
 
         throw new InvalidSchemaMediaTypeException(sprintf('Media type %s expected', Validator::SCHEMA_MEDIA_TYPE));
@@ -72,6 +77,8 @@ class UriRetriever
      * @param object $jsonSchema JSON Schema contents
      * @param string $uri JSON Schema URI
      * @return object JSON Schema after walking down the fragment pieces
+     *
+     * @throws \JsonSchema\Exception\ResourceNotFoundException
      */
     public function resolvePointer($jsonSchema, $uri)
     {
@@ -90,11 +97,17 @@ class UriRetriever
                 if (! empty($jsonSchema->$pathElement)) {
                     $jsonSchema = $jsonSchema->$pathElement;
                 } else {
-                    $jsonSchema = new \stdClass();
+                    throw new \JsonSchema\Exception\ResourceNotFoundException(
+                        'Fragment "' . $parsed['fragment'] . '" not found'
+                        . ' in ' . $uri
+                    );
                 }
 
                 if (! is_object($jsonSchema)) {
-                    $jsonSchema = new \stdClass();
+                    throw new \JsonSchema\Exception\ResourceNotFoundException(
+                        'Fragment part "' . $pathElement . '" is no object '
+                        . ' in ' . $uri
+                    );
                 }
             }
         }
@@ -112,20 +125,48 @@ class UriRetriever
     public function retrieve($uri, $baseUri = null)
     {
         $resolver = new UriResolver();
-        $resolvedUri = $resolver->resolve($uri, $baseUri);
+        $resolvedUri = $fetchUri = $resolver->resolve($uri, $baseUri);
+
+        //fetch URL without #fragment
+        $arParts = $resolver->parse($resolvedUri);
+        if (isset($arParts['fragment'])) {
+            unset($arParts['fragment']);
+            $fetchUri = $resolver->generate($arParts);
+        }
+
+        $jsonSchema = $this->loadSchema($fetchUri);
+
+        // Use the JSON pointer if specified
+        $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
+        $jsonSchema->id = $resolvedUri;
+
+        return $jsonSchema;
+    }
+
+    /**
+     * Fetch a schema from the given URI, json-decode it and return it.
+     * Caches schema objects.
+     *
+     * @param string $fetchUri Absolute URI
+     *
+     * @return object JSON schema object
+     */
+    protected function loadSchema($fetchUri)
+    {
+        if (isset($this->schemaCache[$fetchUri])) {
+            return $this->schemaCache[$fetchUri];
+        }
+
         $uriRetriever = $this->getUriRetriever();
-        $contents = $this->uriRetriever->retrieve($resolvedUri);
-        $this->confirmMediaType($uriRetriever);
+        $contents = $this->uriRetriever->retrieve($fetchUri);
+        $this->confirmMediaType($uriRetriever, $fetchUri);
         $jsonSchema = json_decode($contents);
 
         if (JSON_ERROR_NONE < $error = json_last_error()) {
             throw new JsonDecodingException($error);
         }
 
-        // Use the JSON pointer if specified
-        $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
-        $jsonSchema->id = $resolvedUri;
-
+        $this->schemaCache[$fetchUri] = $jsonSchema;
         return $jsonSchema;
     }
 
