@@ -101,9 +101,11 @@ class Collection extends Constraint
                 }
             }
 
-            // Treat when we have more schema definitions than values
-            for ($k = count($value); $k < count($schema->items); $k++) {
-                $this->checkUndefined(new Undefined(), $schema->items[$k], $path, $k);
+            // Treat when we have more schema definitions than values, not for empty arrays
+            if(count($value) > 0) {
+                for ($k = count($value); $k < count($schema->items); $k++) {
+                    $this->checkUndefined(new Undefined(), $schema->items[$k], $path, $k);
+                }
             }
         }
     }
