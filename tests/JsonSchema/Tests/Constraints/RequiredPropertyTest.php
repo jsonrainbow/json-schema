@@ -266,6 +266,28 @@ class RequiredPropertyTest extends BaseTestCase
                         "foo": { "required": true }
                     }
                 }'
+            ),
+            array(
+                '{
+                    "prop1": "abc"
+                }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "prop1": {"type": "string"},
+                        "prop2": {
+                            "oneOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "required": ["prop1"]
+                }'
             )
         );
     }
