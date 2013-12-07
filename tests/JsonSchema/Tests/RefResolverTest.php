@@ -43,7 +43,7 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
                 array(
                     'resolveRef' => 1,
                     'resolveProperty' => 4,
-                    'resolveArrayOfSchemas' => 4,
+                    'resolveArrayOfSchemas' => 7,
                     'resolveObjectOfSchemas' => 3
                 )
             )
