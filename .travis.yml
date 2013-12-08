@@ -6,6 +6,11 @@ php:
   - 5.5
 
 before_script:
-  - composer install --dev
+  - sudo apt-get -y install pypy python-sphinx graphviz
+  - composer selfupdate
+  - composer install
 
-script: phpunit --coverage-text
+script:
+  - cd docs && make linkcheck && cd ..
+  - vendor/bin/phpdoc.php -d src -t docs-api
+  - vendor/bin/phpunit --coverage-text

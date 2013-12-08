@@ -304,6 +304,7 @@ JSN
         $ref        = 'ref';
         $sourceUri  = null;
 
+
         // mock retriever
         $retriever  = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
         $retriever->expects($this->any())->method('retrieve')->will($this->returnValue($jsonSchema));

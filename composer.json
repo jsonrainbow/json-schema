@@ -40,7 +40,8 @@
     },
     "require-dev": {
         "json-schema/JSON-Schema-Test-Suite": "1.1.0",
-        "phpunit/phpunit": "~3.7.0"
+        "phpunit/phpunit": "~3.7",
+        "phpdocumentor/phpdocumentor": "~2"
     },
     "autoload": {
         "psr-0": { "JsonSchema": "src/" }

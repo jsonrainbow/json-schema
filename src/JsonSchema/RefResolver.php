@@ -10,8 +10,6 @@
 namespace JsonSchema;
 
 use JsonSchema\Uri\UriRetriever;
-use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
-use JsonSchema\Exception\ResourceNotFoundException;
 
 /**
  * Take in an object that's a JSON schema and take care of all $ref references
