@@ -195,6 +195,11 @@ class Undefined extends Constraint
      */
     protected function validateOfProperties($value, $schema, $path, $i = "")
     {
+        // Verify type
+        if ($value instanceof Undefined) {
+            return;
+        }
+
         if (isset($schema->allOf)) {
             $isValid = true;
             foreach ($schema->allOf as $allOf) {
