@@ -17,13 +17,7 @@ abstract class AbstractRetriever implements UriRetrieverInterface
      * @var string
      */
     protected $contentType;
-    
-    /**
-     * {@inheritDoc}
-     * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
-     */
-    public abstract function retrieve($uri);
-    
+
     /**
      * {@inheritDoc}
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::getContentType()
