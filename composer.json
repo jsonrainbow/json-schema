@@ -26,12 +26,12 @@
     "repositories": [{
         "type": "package",
         "package": {
-            "name": "json-schema/JSON-Schema-Test-Suite",
+            "name": "bighappyface/JSON-Schema-Test-Suite",
             "version": "1.1.0",
             "source": {
-                "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
+                "url": "https://github.com/bighappyface/JSON-Schema-Test-Suite",
                 "type": "git",
-                "reference": "1.1.0"
+                "reference": "draft5"
             }
         }
     }],
@@ -39,7 +39,7 @@
         "php": ">=5.3.0"
     },
     "require-dev": {
-        "json-schema/JSON-Schema-Test-Suite": "1.1.0",
+        "bighappyface/JSON-Schema-Test-Suite": "1.1.0",
         "phpunit/phpunit": "~3.7",
         "phpdocumentor/phpdocumentor": "~2"
     },
