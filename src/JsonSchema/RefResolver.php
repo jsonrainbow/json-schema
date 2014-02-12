@@ -27,6 +27,11 @@ class RefResolver
      * @var integer
      */
     protected static $depth = 0;
+	/**
+	 * maximum references depth
+	 * @var integer
+	 */
+	public static $maxDepth = 7;
 
     /**
      * @var UriRetrieverInterface
@@ -88,7 +93,7 @@ class RefResolver
      */
     public function resolve($schema, $sourceUri = null)
     {
-        if (self::$depth > 7) {
+        if (self::$depth > self::$maxDepth) {
             return;
         }
         ++self::$depth;
