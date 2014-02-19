@@ -124,6 +124,19 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
+            ),
+            array(
+                '{
+                  "prop":"1",
+                  "additionalProp":[]
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "prop":{"type":"string"}
+                  },
+                  "additionalProperties": true
+                }'
             )
         );
     }

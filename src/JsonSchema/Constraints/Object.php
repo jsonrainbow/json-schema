@@ -82,7 +82,11 @@ class Object extends Constraint
 
             // additional properties defined
             if (!in_array($i, $matches) && $additionalProp && !$definition) {
-                $this->checkUndefined($value, $additionalProp, $path, $i);
+                if ($additionalProp === true) {
+                    $this->checkUndefined($value, null, $path, $i);
+                } else {
+                    $this->checkUndefined($value, $additionalProp, $path, $i);
+                }
             }
 
             // property requires presence of another
