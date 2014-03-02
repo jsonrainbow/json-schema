@@ -43,6 +43,45 @@ class Collection extends Constraint
             }
         }
 
+        // Verify entries contain schema(s)
+        if (isset($schema->contains)) {
+            // Confirm value is an array and has items
+            if (is_array($value) && count($value)) {
+                // Confirm multiple schemas can describe distinct items
+                if (is_array($schema->contains) && (count($value) < count($schema->contains))) {
+                    $this->addError($path, "Entries in contains must describe different items");
+                } else {
+                    // Isolate errors
+                    $initErrors = $this->getErrors();
+                    // Build array when single schema is given
+                    $containsSchemas = is_array($schema->contains) ? $schema->contains : array($schema->contains);
+                    foreach ($containsSchemas as $containsSchema) {
+                        // Reset errors and match flag
+                        $this->errors = array();
+                        $matchFound = false;
+                        foreach ($value as $k => $v) {
+                            // Validate schema on item
+                            $this->checkUndefined($v, $containsSchema, $path, $k);
+                            // Skip unmatched item
+                            if (count($this->getErrors())) {
+                                $this->errors = array();
+                                continue;
+                            }
+                            $matchFound = true;
+                        }
+                        // Issue Error for no matches
+                        if (!$matchFound) {
+                            $this->errors = $initErrors;
+                            $this->addError($path, "The array must contain a matching item");
+                            $initErrors = $initErrors + $this->errors;
+                        }
+                    }
+                }
+            } else {
+                $this->addError($path, "An empty array does not contain any items");
+            }
+        }
+
         // Verify items
         if (isset($schema->items)) {
             $this->validateItems($value, $schema, $path, $i);
