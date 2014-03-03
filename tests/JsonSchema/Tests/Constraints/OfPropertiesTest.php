@@ -75,11 +75,12 @@ class OfPropertiesTest extends BaseTestCase
                 array(
                     array(
                         "property" => "prop2",
-                        "message"  => "array value found, but a number is required",
+                        "message"  => "array value found, but a string is required",
+
                     ),
                     array(
                         "property" => "prop2",
-                        "message"  => "array value found, but a string is required",
+                        "message"  => "array value found, but a number is required",
                     ),
                     array(
                         "property" => "prop2",

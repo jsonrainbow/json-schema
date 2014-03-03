@@ -230,17 +230,28 @@ class Undefined extends Constraint
         }
 
         if (isset($schema->oneOf)) {
+            $allErrors = array();
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
-                $initErrors = $this->getErrors();
+                $this->errors = array();
                 $this->checkUndefined($value, $oneOf, $path, $i);
-                if (count($this->getErrors()) == count($initErrors)) {
+                if (count($this->getErrors()) == 0) {
                     $matchedSchemas++;
                 }
+                $allErrors = array_merge($allErrors, array_values($this->getErrors()));
             }
             if ($matchedSchemas !== 1) {
-                $this->addError($path, "failed to match exactly one schema");
+                $this->addErrors(
+                    array_merge(
+                        $allErrors,
+                        array(array(
+                            'property' => $path,
+                            'message' => "failed to match exactly one schema"
+                        ),),
+                        $startErrors
+                    )
+                );
             } else {
                 $this->errors = $startErrors;
             }

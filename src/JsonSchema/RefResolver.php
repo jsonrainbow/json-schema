@@ -9,6 +9,7 @@
 
 namespace JsonSchema;
 
+use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\Uri\UriRetriever;
 
 /**
