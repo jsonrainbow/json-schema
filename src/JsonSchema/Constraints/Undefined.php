@@ -230,7 +230,7 @@ class Undefined extends Constraint
         }
 
         if (isset($schema->oneOf)) {
-            $allErrors = [];
+            $allErrors = array();
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
