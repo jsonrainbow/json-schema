@@ -234,7 +234,7 @@ class Undefined extends Constraint
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
-                $this->errors = [];
+                $this->errors = array();
                 $this->checkUndefined($value, $oneOf, $path, $i);
                 if (count($this->getErrors()) == 0) {
                     $matchedSchemas++;
