@@ -23,12 +23,12 @@ class String extends Constraint
     public function check($element, $schema = null, $path = null, $i = null)
     {
         // Verify maxLength
-        if (isset($schema->maxLength) && strlen($element) > $schema->maxLength) {
+        if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
             $this->addError($path, "must be at most " . $schema->maxLength . " characters long");
         }
 
         //verify minLength
-        if (isset($schema->minLength) && strlen($element) < $schema->minLength) {
+        if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
             $this->addError($path, "must be at least " . $schema->minLength . " characters long");
         }
 
@@ -38,5 +38,14 @@ class String extends Constraint
         }
 
         $this->checkFormat($element, $schema, $path, $i);
+    }
+
+    private function strlen($string)
+    {
+        if (extension_loaded('mbstring')) {
+            return mb_strlen($string, mb_detect_encoding($string));
+        } else {
+            return strlen($string);
+        }
     }
 }
