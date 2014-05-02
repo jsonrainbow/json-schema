@@ -282,7 +282,7 @@ class UriRetriever
         $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);
         $path = preg_replace('|^/?(\.\./(\./)*)*|', '', $relativePath);
 
-        return implode(DIRECTORY_SEPARATOR, $basePathSegments) . '/' . $path;
+        return implode('/', $basePathSegments) . '/' . $path;
     }
 
     /**
@@ -304,7 +304,7 @@ class UriRetriever
      */
     private static function getPathSegments($path)
     {
-        return explode(DIRECTORY_SEPARATOR, $path);
+        return explode('/', $path);
     }
 
     /**
