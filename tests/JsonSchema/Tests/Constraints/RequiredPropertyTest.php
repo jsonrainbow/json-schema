@@ -144,7 +144,40 @@ class RequiredPropertyTest extends BaseTestCase
                     "null":{"type":"null", "required": true}
                   }
                 }'
-            )
+            ),
+            array(
+                '{
+                  "foo": {"baz": 1.5}
+                }',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "foo": {
+                      "type": "object",
+                      "properties": {
+                        "bar": {"type": "number"}
+                      },
+                      "required": ["bar"]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "foo": {"baz": 1.5}
+                }',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "foo": {
+                      "type": "object",
+                      "properties": {
+                        "bar": {"type": "number", "required": true}
+                      }
+                    }
+                  }
+                }'
+            ),
         );
     }
 
@@ -266,7 +299,40 @@ class RequiredPropertyTest extends BaseTestCase
                         "foo": { "required": true }
                     }
                 }'
-            )
+            ),
+            array(
+                '{
+                  "boo": {"bar": 1.5}
+                }',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "foo": {
+                      "type": "object",
+                      "properties": {
+                        "bar": {"type": "number"}
+                      },
+                      "required": ["bar"]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "boo": {"bar": 1.5}
+                }',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "foo": {
+                      "type": "object",
+                      "properties": {
+                        "bar": {"type": "number", "required": true}
+                      }
+                    }
+                  }
+                }'
+            ),
         );
     }
 }
