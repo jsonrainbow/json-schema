@@ -16,23 +16,83 @@ class BasicTypesTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "string":null,
-                  "number":null,
-                  "integer":null,
-                  "boolean":null,
-                  "object":null,
-                  "array":null,
+                  "string":null
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "string":{"type":"string"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "number":null
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "number":{"type":"number"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "integer":null
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "integer":{"type":"integer"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "boolean":null
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "boolean":{"type":"boolean"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "object":null
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "object":{"type":"object"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "array":null
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "array":{"type":"array"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
                   "null":1
                 }',
                 '{
                   "type":"object",
-                  "properties":{
-                    "string":{"type":"string"},
-                    "number":{"type":"number"},
-                    "integer":{"type":"integer"},
-                    "boolean":{"type":"boolean"},
-                    "object":{"type":"object"},
-                    "array":{"type":"array"},
+                  "properties": {
                     "null":{"type":"null"}
                   },
                   "additionalProperties":false
