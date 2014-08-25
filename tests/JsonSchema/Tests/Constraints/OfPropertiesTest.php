@@ -88,6 +88,121 @@ class OfPropertiesTest extends BaseTestCase
                     ),
                 ),
             ),
+            array(
+                '{"prop1": [1,2]}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z]*$"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Z]*$"
+                        }
+                      ]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{"prop1": [1,2]}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Z]*$"
+                        }
+                      ]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{"prop1": [1,2]}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Z]*$"
+                        }
+                      ]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{"prop1": [1,2]}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Z]*$"
+                        }
+                      ]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{"prop1": [1,2]}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z]*$"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^[A-Z]*$"
+                        }
+                      ]
+                    }
+                  }
+                }'
+            ),
+            array(
+                '{"prop1": [1,2]}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }'
+            )
         );
     }
 }

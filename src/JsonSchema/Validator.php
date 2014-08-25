@@ -40,6 +40,6 @@ class Validator extends Constraint
         $validator = new Schema($this->checkMode, $this->uriRetriever);
         $validator->check($value, $schema);
 
-        $this->addErrors($validator->getErrors());
+        $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
     }
 }

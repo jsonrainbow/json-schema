@@ -82,7 +82,7 @@ abstract class Constraint implements ConstraintInterface
      */
     public function getErrors()
     {
-        return array_unique($this->errors, SORT_REGULAR);
+        return $this->errors;
     }
 
     /**
