@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
+use UnexpectedValueException as StandardUnexpectedValueException;
 
 /**
  * The Type Constraints, validates an element against a given type
@@ -19,6 +20,21 @@ use JsonSchema\Exception\InvalidArgumentException;
  */
 class Type extends Constraint
 {
+    /**
+     * @var array|string[] type wordings for validation error messages
+     */
+    static $wording = array(
+        'integer' => 'an integer',
+        'number'  => 'a number',
+        'boolean' => 'a boolean',
+        'object'  => 'an object',
+        'array'   => 'an array',
+        'string'  => 'a string',
+        'null'    => 'a null',
+        'any'     => NULL, // validation of 'any' is always true so is not needed in message wording
+        0         => NULL, // validation of a false-y value is always true, so not needed as well
+    );
+
     /**
      * {@inheritDoc}
      */
@@ -56,7 +72,15 @@ class Type extends Constraint
         }
 
         if ($isValid === false) {
-            $this->addError($path, gettype($value) . " value found, but a " . $type . " is required");
+            if (!isset(self::$wording[$type])) {
+                throw new StandardUnexpectedValueException(
+                    sprintf(
+                        "No wording for %s available, expected wordings are: [%s]",
+                        var_export($type, true),
+                        implode(', ', array_filter(self::$wording)))
+                );
+            }
+            $this->addError($path, gettype($value) . " value found, but " . self::$wording[$type] . " is required");
         }
     }
 
