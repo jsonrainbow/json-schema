@@ -218,7 +218,8 @@ $refResolver = new JsonSchema\RefResolver($retriever);
 $refResolver->resolve($schema, $urlSchema);
 
 if (isset($arOptions['--dump-schema'])) {
-    echo json_encode($schema, JSON_PRETTY_PRINT) . "\n";
+    $options = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0;
+    echo json_encode($schema, $options) . "\n";
     exit();
 }
 
