@@ -39,6 +39,10 @@ class RefResolver
      * @var UriRetrieverInterface
      */
     protected $uriRetriever = null;
+    
+    
+    protected $innerDefinitions = array();
+    
 
     /**
      * @param UriRetriever $retriever
@@ -109,6 +113,10 @@ class RefResolver
             $sourceUri = $schema->id;
         }
 
+        if(isset($schema->definitions)){
+            $this->innerDefinitions = $schema->definitions;
+        }
+        
         // Resolve $ref first
         $this->resolveRef($schema, $sourceUri);
 
@@ -203,9 +211,16 @@ class RefResolver
         if (empty($schema->$ref)) {
             return;
         }
-
-        $refSchema = $this->fetchRef($schema->$ref, $sourceUri);
+        
+        if(strpos($schema->$ref, '#/definitions/') === 0){
+            //inline definition
+            $tag = preg_replace('/^#\/definitions\//', '', $schema->$ref);
+            $refSchema = $this->innerDefinitions->$tag;
+        } else {
+            $refSchema = $this->fetchRef($schema->$ref, $sourceUri);
+        }
         unset($schema->$ref);
+        
 
         // Augment the current $schema object with properties fetched
         foreach (get_object_vars($refSchema) as $prop => $value) {
