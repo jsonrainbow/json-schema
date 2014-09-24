@@ -106,6 +106,8 @@ abstract class Constraint implements ConstraintInterface
 
     /**
      * Shared function to call the user property callback
+     * user function returns an associative error array
+     *
      * @param $schema
      * @param $element
      * @param $path
@@ -115,7 +117,12 @@ abstract class Constraint implements ConstraintInterface
         if (count($GLOBALS['Validator_Properties'])>0){
             foreach($GLOBALS['Validator_Properties'] as $key=>$value){
                 if (isset($schema->$key)) {
-                    call_user_func($value, $key, $element, $schema, $path, $i);
+                    $result = call_user_func($value, $key, $element, $schema, $path, $i);
+                    if (is_array($result) && count($result)>0){
+                        foreach($result as $rkey=>$rvalue){
+                            $this->addError($rkey, $rvalue);
+                        }
+                    }
                 }
             }
         }
