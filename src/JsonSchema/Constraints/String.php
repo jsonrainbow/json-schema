@@ -37,6 +37,8 @@ class String extends Constraint
             $this->addError($path, "does not match the regex pattern " . $schema->pattern);
         }
 
+        $this->call_user_properties($schema, $element, $path, $i);
+
         $this->checkFormat($element, $schema, $path, $i);
     }
 
