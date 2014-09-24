@@ -114,7 +114,7 @@ abstract class Constraint implements ConstraintInterface
      * @param $i
      */
     protected function call_user_properties($schema, $element, $path, $i){
-        if (count($GLOBALS['Validator_Properties'])>0){
+        if (isset($GLOBALS['Validator_Properties']) && count($GLOBALS['Validator_Properties'])>0){
             foreach($GLOBALS['Validator_Properties'] as $key=>$value){
                 if (isset($schema->$key)) {
                     $result = call_user_func($value, $key, $element, $schema, $path, $i);
