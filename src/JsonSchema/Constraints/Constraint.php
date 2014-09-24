@@ -94,6 +94,34 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
+     * Registers properties into a global (so it doesn't have to be pulled everywhere)
+     * @param $property_name - name to register
+     * @param $callback - callback function to register
+     */
+    public function register_property($property_name, $callback)
+    {
+        if (is_callable($callback))
+            $GLOBALS['Validator_Properties'][$property_name] = $callback;
+    }
+
+    /**
+     * Shared function to call the user property callback
+     * @param $schema
+     * @param $element
+     * @param $path
+     * @param $i
+     */
+    protected function call_user_properties($schema, $element, $path, $i){
+        if (count($GLOBALS['Validator_Properties'])>0){
+            foreach($GLOBALS['Validator_Properties'] as $key=>$value){
+                if (isset($schema->$key)) {
+                    call_user_func($value, $key, $element, $schema, $path, $i);
+                }
+            }
+        }
+    }
+
+    /**
      * Clears any reported errors.  Should be used between
      * multiple validation checks.
      */

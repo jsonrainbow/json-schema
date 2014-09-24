@@ -62,6 +62,8 @@ class Number extends Constraint
             $this->addError($path, "must be a multiple of " . $schema->multipleOf);
         }
 
+        $this->call_user_properties($schema, $element, $path, $i);
+
         $this->checkFormat($element, $schema, $path, $i);
     }
 
