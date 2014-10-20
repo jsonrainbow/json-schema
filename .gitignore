@@ -5,3 +5,6 @@ coverage
 .buildpath
 .project
 .settings
+/nbproject/
+composer.lock
+phpunit.xml
