@@ -32,7 +32,8 @@ class Draft4Test extends BaseDraftTestCase
     "type": "object",
     "additionalProperties":false,
     "properties": {
-        "person": { "\$ref": "#/definitions/persondef" }
+        "person": { "\$ref": "#/definitions/persondef" },
+        "person-age": { "\$ref": "#/definitions/persondef/properties/age" }
     },
     "definitions": {
         "persondef": {
@@ -58,6 +59,8 @@ JSN;
         
         $this->testValidCases('{"person": {"name" : "John Doe", "age" : 30} }', $schema);
         $this->testInvalidCases('{"person": {"name" : "John Doe", "age" : "wrong"} }', $schema);
+        $this->testValidCases('{"person-age": 30 }', $schema);
+        $this->testInvalidCases('{"person-age": "wrong" }', $schema);
     }
 
 }

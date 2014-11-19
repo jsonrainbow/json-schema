@@ -41,7 +41,7 @@ class RefResolver
     protected $uriRetriever = null;
     
     
-    protected $innerDefinitions = array();
+    protected $rootSchema;
     
 
     /**
@@ -113,8 +113,8 @@ class RefResolver
             $sourceUri = $schema->id;
         }
 
-        if(isset($schema->definitions)){
-            $this->innerDefinitions = $schema->definitions;
+        if (!$this->rootSchema) {
+            $this->rootSchema = $schema;
         }
         
         // Resolve $ref first
@@ -211,11 +211,21 @@ class RefResolver
         if (empty($schema->$ref)) {
             return;
         }
-        
-        if(strpos($schema->$ref, '#/definitions/') === 0){
-            //inline definition
-            $tag = preg_replace('/^#\/definitions\//', '', $schema->$ref);
-            $refSchema = $this->innerDefinitions->$tag;
+
+        if ($schema->{$ref}[0] === '#') {
+            $path = substr($schema->$ref, 1);
+            if (empty($path)) {
+                return;
+            }
+
+            if ($path[0] !== '/') {
+                return;
+            }
+
+            $pathParts = explode('/', $path);
+            array_shift($pathParts);
+
+            $refSchema = $this->resolveRefSegment($this->rootSchema, $pathParts);
         } else {
             $refSchema = $this->fetchRef($schema->$ref, $sourceUri);
         }
@@ -226,6 +236,17 @@ class RefResolver
         foreach (get_object_vars($refSchema) as $prop => $value) {
             $schema->$prop = $value;
         }
+    }
+
+    protected function resolveRefSegment($data, $pathParts)
+    {
+        if (empty($pathParts) || empty($data)) {
+            return $data;
+        }
+
+        $key = array_shift($pathParts);
+
+        return $this->resolveRefSegment(is_array($data) ? $data[$key] : $data->$key,  $pathParts);
     }
 
     /**
