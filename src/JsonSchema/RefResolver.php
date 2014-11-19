@@ -244,7 +244,7 @@ class RefResolver
             return $data;
         }
 
-        $key = array_shift($pathParts);
+        $key = $this->transformKey(array_shift($pathParts));
 
         return $this->resolveRefSegment(is_array($data) ? $data[$key] : $data->$key,  $pathParts);
     }
@@ -260,5 +260,13 @@ class RefResolver
         $this->uriRetriever = $retriever;
 
         return $this;
+    }
+
+    protected function transformKey($key)
+    {
+        return strtr($key, [
+            '~1' => '/',
+            '~0' => '~',
+        ]);
     }
 }
