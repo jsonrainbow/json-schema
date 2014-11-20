@@ -264,9 +264,9 @@ class RefResolver
 
     protected function transformKey($key)
     {
-        return strtr($key, [
+        return strtr($key, array(
             '~1' => '/',
             '~0' => '~',
-        ]);
+        ));
     }
 }
