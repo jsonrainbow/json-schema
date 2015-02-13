@@ -114,7 +114,7 @@ class RefResolver
 
         // These properties are just schemas
         // eg.  items can be a schema or an array of schemas
-        foreach (array('additionalItems', 'additionalProperties', 'extends', 'items') as $propertyName) {
+        foreach (array('additionalItems', 'additionalProperties', 'extends', 'items', 'properties') as $propertyName) {
             $this->resolveProperty($schema, $propertyName, $sourceUri);
         }
 
