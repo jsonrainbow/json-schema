@@ -28,7 +28,7 @@ class EnumConstraint extends Constraint
         }
 
         foreach ($schema->enum as $enum) {
-            if ((gettype($element) === gettype($enum)) && ($element == $enum)) {
+            if ((gettype($element) === gettype($enum)) && ($element === $enum)) {
                 return;
             }
         }
