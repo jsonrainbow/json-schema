@@ -15,7 +15,7 @@ namespace JsonSchema\Constraints;
  * @author Justin Rainbow <justin.rainbow@gmail.com>
  * @link   http://tools.ietf.org/html/draft-zyp-json-schema-03#section-5.23
  */
-class Format extends Constraint
+class FormatConstraint extends Constraint
 {
     /**
      * {@inheritDoc}

@@ -9,7 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-use JsonSchema\Constraints\Format;
+use JsonSchema\Constraints\FormatConstraint;
 
 class FormatTest extends BaseTestCase
 {
@@ -20,7 +20,7 @@ class FormatTest extends BaseTestCase
     
     public function testNullThing()
     {
-        $validator = new Format();
+        $validator = new FormatConstraint();
         $schema = new \stdClass;
 
         $validator->check('10', $schema);
@@ -29,7 +29,7 @@ class FormatTest extends BaseTestCase
 
     public function testRegex()
     {
-        $validator = new Format();
+        $validator = new FormatConstraint();
         $schema = new \stdClass;
         $schema->format = 'regex';
 
@@ -45,7 +45,7 @@ class FormatTest extends BaseTestCase
      */
     public function testValidFormat($string, $format)
     {
-        $validator = new Format();
+        $validator = new FormatConstraint();
         $schema = new \stdClass;
         $schema->format = $format;
 
@@ -58,7 +58,7 @@ class FormatTest extends BaseTestCase
      */
     public function testInvalidFormat($string, $format)
     {
-        $validator = new Format();
+        $validator = new FormatConstraint();
         $schema = new \stdClass;
         $schema->format = $format;
 

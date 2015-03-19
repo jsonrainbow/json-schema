@@ -13,12 +13,12 @@ use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Uri\UriResolver;
 
 /**
- * The Undefined Constraints
+ * The UndefinedConstraint Constraints
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Undefined extends Constraint
+class UndefinedConstraint extends Constraint
 {
     /**
      * {@inheritDoc}
@@ -118,7 +118,7 @@ class Undefined extends Constraint
         // Verify required values
         if (is_object($value)) {
 
-            if (!($value instanceof Undefined) && isset($schema->required) && is_array($schema->required) ) {
+            if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required) ) {
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
@@ -127,14 +127,14 @@ class Undefined extends Constraint
                 }
             } else if (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
-                if ( $schema->required && $value instanceof Undefined) {
+                if ( $schema->required && $value instanceof UndefinedConstraint) {
                     $this->addError($path, "is missing and it is required");
                 }
             }
         }
 
         // Verify type
-        if (!($value instanceof Undefined)) {
+        if (!($value instanceof UndefinedConstraint)) {
             $this->checkType($value, $schema, $path);
         }
 
@@ -197,7 +197,7 @@ class Undefined extends Constraint
     protected function validateOfProperties($value, $schema, $path, $i = "")
     {
         // Verify type
-        if ($value instanceof Undefined) {
+        if ($value instanceof UndefinedConstraint) {
             return;
         }
 

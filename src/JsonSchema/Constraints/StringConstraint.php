@@ -10,12 +10,12 @@
 namespace JsonSchema\Constraints;
 
 /**
- * The String Constraints, validates an string against a given schema
+ * The StringConstraint Constraints, validates an string against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class String extends Constraint
+class StringConstraint extends Constraint
 {
     /**
      * {@inheritDoc}
