@@ -10,19 +10,19 @@
 namespace JsonSchema\Constraints;
 
 /**
- * The Object Constraints, validates an object against a given schema
+ * The ObjectConstraint Constraints, validates an object against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Object extends Constraint
+class ObjectConstraint extends Constraint
 {
     /**
      * {@inheritDoc}
      */
     function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
-        if ($element instanceof Undefined) {
+        if ($element instanceof UndefinedConstraint) {
             return;
         }
 
@@ -64,7 +64,7 @@ class Object extends Constraint
      *
      * @param \stdClass $element          Element to validate
      * @param array     $matches          Matches from patternProperties (if any)
-     * @param \stdClass $objectDefinition Object definition
+     * @param \stdClass $objectDefinition ObjectConstraint definition
      * @param string    $path             Path to test?
      * @param mixed     $additionalProp   Additional properties
      */
@@ -72,7 +72,7 @@ class Object extends Constraint
     {
         foreach ($element as $i => $value) {
 
-            $property = $this->getProperty($element, $i, new Undefined());
+            $property = $this->getProperty($element, $i, new UndefinedConstraint());
             $definition = $this->getProperty($objectDefinition, $i);
 
             // no additional properties allowed
@@ -106,13 +106,13 @@ class Object extends Constraint
      * Validates the definition properties
      *
      * @param \stdClass $element          Element to validate
-     * @param \stdClass $objectDefinition Object definition
+     * @param \stdClass $objectDefinition ObjectConstraint definition
      * @param string    $path             Path?
      */
     public function validateDefinition($element, $objectDefinition = null, $path = null)
     {
         foreach ($objectDefinition as $i => $value) {
-            $property = $this->getProperty($element, $i, new Undefined());
+            $property = $this->getProperty($element, $i, new UndefinedConstraint());
             $definition = $this->getProperty($objectDefinition, $i);
             $this->checkUndefined($property, $definition, $path, $i);
         }

@@ -10,12 +10,12 @@
 namespace JsonSchema\Constraints;
 
 /**
- * The Number Constraints, validates an number against a given schema
+ * The NumberConstraint Constraints, validates an number against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Number extends Constraint
+class NumberConstraint extends Constraint
 {
     /**
      * {@inheritDoc}
