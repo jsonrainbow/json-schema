@@ -23,7 +23,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $validator->check(json_decode($input), json_decode($schema));
 
         if (array() !== $errors) {
-            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
+            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
         }
         $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
     }

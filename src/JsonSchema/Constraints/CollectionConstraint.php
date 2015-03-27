@@ -36,7 +36,7 @@ class CollectionConstraint extends Constraint
         if (isset($schema->uniqueItems)) {
             $unique = $value;
             if (is_array($value) && count($value)) {
-                $unique = array_map(function($e) { return var_export($e, true); }, $value);
+                $unique = array_map(function ($e) { return var_export($e, true); }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
                 $this->addError($path, "There are no duplicates allowed in the array");
@@ -76,7 +76,7 @@ class CollectionConstraint extends Constraint
                 // Reset errors if needed
                 if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
                     $this->errors = $secondErrors;
-                } else if (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
+                } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
                     $this->errors = $initErrors;
                 }
             }
@@ -102,7 +102,7 @@ class CollectionConstraint extends Constraint
             }
 
             // Treat when we have more schema definitions than values, not for empty arrays
-            if(count($value) > 0) {
+            if (count($value) > 0) {
                 for ($k = count($value); $k < count($schema->items); $k++) {
                     $this->checkUndefined(new UndefinedConstraint(), $schema->items[$k], $path, $k);
                 }

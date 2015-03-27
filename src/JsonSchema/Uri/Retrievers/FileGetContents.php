@@ -14,8 +14,8 @@ use JsonSchema\Validator;
 
 /**
  * Tries to retrieve JSON schemas from a URI using file_get_contents()
- * 
- * @author Sander Coolen <sander@jibber.nl> 
+ *
+ * @author Sander Coolen <sander@jibber.nl>
  */
 class FileGetContents extends AbstractRetriever
 {

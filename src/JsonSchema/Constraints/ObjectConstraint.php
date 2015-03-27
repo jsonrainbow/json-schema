@@ -20,7 +20,7 @@ class ObjectConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
+    public function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -71,7 +71,6 @@ class ObjectConstraint extends Constraint
     public function validateElement($element, $matches, $objectDefinition = null, $path = null, $additionalProp = null)
     {
         foreach ($element as $i => $value) {
-
             $property = $this->getProperty($element, $i, new UndefinedConstraint());
             $definition = $this->getProperty($objectDefinition, $i);
 

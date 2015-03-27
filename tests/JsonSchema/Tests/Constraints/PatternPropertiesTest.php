@@ -125,4 +125,3 @@ class PatternPropertiesTest extends BaseTestCase
         );
     }
 }
-

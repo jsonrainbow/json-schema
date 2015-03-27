@@ -27,13 +27,13 @@ class NumberConstraint extends Constraint
             if (isset($schema->minimum)) {
                 if ($schema->exclusiveMinimum && $element === $schema->minimum) {
                     $this->addError($path, "must have a minimum value greater than boundary value of " . $schema->minimum);
-                } else if ($element < $schema->minimum) {
+                } elseif ($element < $schema->minimum) {
                     $this->addError($path, "must have a minimum value of " . $schema->minimum);
                 }
             } else {
                 $this->addError($path, "use of exclusiveMinimum requires presence of minimum");
             }
-        } else if (isset($schema->minimum) && $element < $schema->minimum) {
+        } elseif (isset($schema->minimum) && $element < $schema->minimum) {
             $this->addError($path, "must have a minimum value of " . $schema->minimum);
         }
 
@@ -42,13 +42,13 @@ class NumberConstraint extends Constraint
             if (isset($schema->maximum)) {
                 if ($schema->exclusiveMaximum && $element === $schema->maximum) {
                     $this->addError($path, "must have a maximum value less than boundary value of " . $schema->maximum);
-                } else if ($element > $schema->maximum) {
+                } elseif ($element > $schema->maximum) {
                     $this->addError($path, "must have a maximum value of " . $schema->maximum);
                 }
             } else {
                 $this->addError($path, "use of exclusiveMaximum requires presence of maximum");
             }
-        } else if (isset($schema->maximum) && $element > $schema->maximum) {
+        } elseif (isset($schema->maximum) && $element > $schema->maximum) {
             $this->addError($path, "must have a maximum value of " . $schema->maximum);
         }
 

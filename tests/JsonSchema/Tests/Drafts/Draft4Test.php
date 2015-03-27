@@ -25,5 +25,4 @@ class Draft4Test extends BaseDraftTestCase
             'zeroTerminatedFloats.json'
         );
     }
-
 }
