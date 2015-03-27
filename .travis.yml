@@ -16,8 +16,10 @@ install:
   - sudo apt-get -y install pypy python-sphinx graphviz
   - composer selfupdate
   - travis_retry composer update --no-interaction --prefer-source
+  - curl http://get.sensiolabs.org/php-cs-fixer.phar -o php-cs-fixer.phar
 
 script:
   - cd docs && make linkcheck && cd ..
   - vendor/bin/phpdoc.php -d src -t docs-api
   - vendor/bin/phpunit --coverage-text
+  - if [[ `php -r "echo version_compare(PHP_VERSION, '5.3.6', '>=') && !defined('HHVM_VERSION');"` ]]; then php php-cs-fixer.phar --diff --dry-run -vv fix; fi

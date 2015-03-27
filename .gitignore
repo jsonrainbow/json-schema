@@ -3,6 +3,7 @@
 !/bin/validate-json
 coverage
 .buildpath
+.php_cs.cache
 .project
 .settings
 composer.lock
