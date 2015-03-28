@@ -20,8 +20,7 @@ EOT;
 // Include the Composer generated autoloader
 require_once $autoloadFile;
 
-spl_autoload_register(function ($class)
-{
+spl_autoload_register(function ($class) {
     if (0 === strpos($class, 'JsonSchema\\Tests')) {
         $classFile = str_replace('\\', '/', $class) . '.php';
         require __DIR__ . '/' . $classFile;

@@ -31,12 +31,13 @@ class EnumConstraint extends Constraint
             $type = gettype($element);
             if ($type === gettype($enum)) {
                 if ($type == "object") {
-                    if ($element == $enum)
+                    if ($element == $enum) {
                         return;
+                    }
                 } else {
-                    if ($element === $enum)
+                    if ($element === $enum) {
                         return;
-
+                    }
                 }
             }
         }

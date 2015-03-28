@@ -22,7 +22,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
                         foreach ($suite->tests as $test) {
                             if ($isValid === $test->valid) {
                                 $tests[] = array(json_encode($test->data), json_encode($suite->schema));
-                           }
+                            }
                         }
                     }
                 }
@@ -42,7 +42,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
         return $this->setUpTests(true);
     }
 
-    protected abstract function getFilePaths();
+    abstract protected function getFilePaths();
 
-    protected abstract function getSkippedTests();
+    abstract protected function getSkippedTests();
 }

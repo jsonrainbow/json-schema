@@ -26,7 +26,6 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
 
     private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
     {
-
         $jsonSchema = json_decode($returnSchema);
 
         if (JSON_ERROR_NONE < $error = json_last_error()) {

@@ -27,7 +27,8 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         $resolver->resolve($input);
     }
 
-    public function resolveProvider() {
+    public function resolveProvider()
+    {
         return array(
             'non-object' => array(
                 'string',
@@ -53,7 +54,8 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * Helper method for resolve* methods
      */
-    public function helperResolveMethods($method, $input, $calls) {
+    public function helperResolveMethods($method, $input, $calls)
+    {
         $resolver = $this->getMock('JsonSchema\RefResolver', array('resolve'));
         $resolver->expects($this->exactly($calls[$method]))
             ->method('resolve');
@@ -63,18 +65,21 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider testSchemas
      */
-    public function testResolveArrayOfSchemas($input, $calls) {
+    public function testResolveArrayOfSchemas($input, $calls)
+    {
         $this->helperResolveMethods('resolveArrayOfSchemas', $input, $calls);
     }
 
     /**
      * @dataProvider testSchemas
      */
-    public function testResolveObjectOfSchemas($input, $calls) {
+    public function testResolveObjectOfSchemas($input, $calls)
+    {
         $this->helperResolveMethods('resolveObjectOfSchemas', $input, $calls);
     }
 
-    public function testSchemas() {
+    public function testSchemas()
+    {
         return array(
             'non-object' => array(
                 (object) array(
@@ -144,7 +149,8 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider refProvider
      */
-    public function testResolveRef($expected, $input) {
+    public function testResolveRef($expected, $input)
+    {
         $resolver = $this->getMock('JsonSchema\RefResolver', array('fetchRef'));
         $resolver->expects($this->any())
             ->method('fetchRef')
@@ -156,7 +162,8 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $input);
     }
 
-    public function refProvider() {
+    public function refProvider()
+    {
         return array(
             'no ref' => array(
                 (object) array('test' => 'one'),

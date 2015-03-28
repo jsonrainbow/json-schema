@@ -13,16 +13,16 @@ use JsonSchema\Exception\UriResolverException;
 
 /**
  * Resolves JSON Schema URIs
- * 
- * @author Sander Coolen <sander@jibber.nl> 
+ *
+ * @author Sander Coolen <sander@jibber.nl>
  */
 class UriResolver
 {
     /**
      * Parses a URI into five main components
-     * 
+     *
      * @param string $uri
-     * @return array 
+     * @return array
      */
     public function parse($uri)
     {
@@ -35,7 +35,7 @@ class UriResolver
                 'authority' => $match[4],
                 'path'      => $match[5]
             );
-        } 
+        }
         if (7 < count($match)) {
             $components['query'] = $match[7];
         }
@@ -48,13 +48,13 @@ class UriResolver
     
     /**
      * Builds a URI based on n array with the main components
-     * 
+     *
      * @param array $components
-     * @return string 
+     * @return string
      */
     public function generate(array $components)
     {
-        $uri = $components['scheme'] . '://' 
+        $uri = $components['scheme'] . '://'
              . $components['authority']
              . $components['path'];
         
@@ -70,7 +70,7 @@ class UriResolver
     
     /**
      * Resolves a URI
-     * 
+     *
      * @param string $uri Absolute or relative
      * @param string $baseUri Optional base URI
      * @return string Absolute URI
@@ -146,7 +146,7 @@ class UriResolver
     
     /**
      * @param string $uri
-     * @return boolean 
+     * @return boolean
      */
     public function isValid($uri)
     {

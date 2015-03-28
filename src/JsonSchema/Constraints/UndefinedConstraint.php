@@ -117,17 +117,16 @@ class UndefinedConstraint extends Constraint
 
         // Verify required values
         if (is_object($value)) {
-
-            if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required) ) {
+            if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required)) {
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
                         $this->addError($path, "the property " . $required . " is required");
                     }
                 }
-            } else if (isset($schema->required) && !is_array($schema->required)) {
+            } elseif (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
-                if ( $schema->required && $value instanceof UndefinedConstraint) {
+                if ($schema->required && $value instanceof UndefinedConstraint) {
                     $this->addError($path, "is missing and it is required");
                 }
             }
@@ -249,7 +248,7 @@ class UndefinedConstraint extends Constraint
                         array(array(
                             'property' => $path,
                             'message' => "failed to match exactly one schema"
-                        ),),
+                        ), ),
                         $startErrors
                     )
                 );
@@ -276,14 +275,14 @@ class UndefinedConstraint extends Constraint
                     if (!property_exists($value, $dependency)) {
                         $this->addError($path, "$key depends on $dependency and $dependency is missing");
                     }
-                } else if (is_array($dependency)) {
+                } elseif (is_array($dependency)) {
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!property_exists($value, $d)) {
                             $this->addError($path, "$key depends on $d and $d is missing");
                         }
                     }
-                } else if (is_object($dependency)) {
+                } elseif (is_object($dependency)) {
                     // Schema - e.g. "dependencies": {"bar": {"properties": {"foo": {...}}}}
                     $this->checkUndefined($value, $dependency, $path, $i);
                 }

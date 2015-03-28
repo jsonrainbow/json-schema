@@ -23,7 +23,7 @@ class TypeConstraint extends Constraint
     /**
      * @var array|string[] type wordings for validation error messages
      */
-    static $wording = array(
+    public static $wording = array(
         'integer' => 'an integer',
         'number'  => 'a number',
         'boolean' => 'a boolean',
@@ -31,8 +31,8 @@ class TypeConstraint extends Constraint
         'array'   => 'an array',
         'string'  => 'a string',
         'null'    => 'a null',
-        'any'     => NULL, // validation of 'any' is always true so is not needed in message wording
-        0         => NULL, // validation of a false-y value is always true, so not needed as well
+        'any'     => null, // validation of 'any' is always true so is not needed in message wording
+        0         => null, // validation of a false-y value is always true, so not needed as well
     );
 
     /**
