@@ -14,6 +14,7 @@ use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\Validator;
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
 use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\Exception\ResourceNotFoundException;
 
 /**
  * Retrieves JSON Schema URIs
@@ -22,12 +23,23 @@ use JsonSchema\Exception\JsonDecodingException;
  */
 class UriRetriever
 {
+    /**
+     * @var null|UriRetrieverInterface
+     */
     protected $uriRetriever = null;
+
+    /**
+     * @var array|object[]
+     * @see loadSchema
+     */
+    private $schemaCache = array();
 
     /**
      * Guarantee the correct media type was encountered
      *
-     * @throws InvalidSchemaMediaTypeException
+     * @param UriRetrieverInterface $uriRetriever
+     * @param string $uri
+     * @return bool|void
      */
     public function confirmMediaType($uriRetriever, $uri)
     {
@@ -78,13 +90,13 @@ class UriRetriever
      * @param string $uri JSON Schema URI
      * @return object JSON Schema after walking down the fragment pieces
      *
-     * @throws \JsonSchema\Exception\ResourceNotFoundException
+     * @throws ResourceNotFoundException
      */
     public function resolvePointer($jsonSchema, $uri)
     {
         $resolver = new UriResolver();
         $parsed = $resolver->parse($uri);
-        if (empty($parsed['fragment']))  {
+        if (empty($parsed['fragment'])) {
             return $jsonSchema;
         }
 
@@ -97,14 +109,14 @@ class UriRetriever
                 if (! empty($jsonSchema->$pathElement)) {
                     $jsonSchema = $jsonSchema->$pathElement;
                 } else {
-                    throw new \JsonSchema\Exception\ResourceNotFoundException(
+                    throw new ResourceNotFoundException(
                         'Fragment "' . $parsed['fragment'] . '" not found'
                         . ' in ' . $uri
                     );
                 }
 
                 if (! is_object($jsonSchema)) {
-                    throw new \JsonSchema\Exception\ResourceNotFoundException(
+                    throw new ResourceNotFoundException(
                         'Fragment part "' . $pathElement . '" is no object '
                         . ' in ' . $uri
                     );
@@ -119,8 +131,8 @@ class UriRetriever
      * Retrieve a URI
      *
      * @param string $uri JSON Schema URI
+     * @param string|null $baseUri
      * @return object JSON Schema contents
-     * @throws InvalidSchemaMediaType for invalid media tyeps
      */
     public function retrieve($uri, $baseUri = null)
     {
@@ -167,6 +179,7 @@ class UriRetriever
         }
 
         $this->schemaCache[$fetchUri] = $jsonSchema;
+
         return $jsonSchema;
     }
 
@@ -240,7 +253,7 @@ class UriRetriever
      * Resolves a URI
      *
      * @param string $uri Absolute or relative
-     * @param type $baseUri Optional base URI
+     * @param string $baseUri Optional base URI
      * @return string
      */
     public function resolve($uri, $baseUri = null)
@@ -255,56 +268,9 @@ class UriRetriever
         $baseComponents = $this->parse($baseUri);
         $basePath = $baseComponents['path'];
 
-        $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
+        $baseComponents['path'] = UriResolver::combineRelativePathWithBasePath($path, $basePath);
 
         return $this->generate($baseComponents);
-    }
-
-    /**
-     * Tries to glue a relative path onto an absolute one
-     *
-     * @param string $relativePath
-     * @param string $basePath
-     * @return string Merged path
-     * @throws UriResolverException
-     */
-    private static function combineRelativePathWithBasePath($relativePath, $basePath)
-    {
-        $relativePath = self::normalizePath($relativePath);
-        $basePathSegments = self::getPathSegments($basePath);
-
-        preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
-        $numLevelUp = strlen($match[0]) /3 + 1;
-        if ($numLevelUp >= count($basePathSegments)) {
-            throw new \JsonSchema\Exception\UriResolverException(sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
-        }
-
-        $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);
-        $path = preg_replace('|^/?(\.\./(\./)*)*|', '', $relativePath);
-
-        return implode('/', $basePathSegments) . '/' . $path;
-    }
-
-    /**
-     * Normalizes a URI path component by removing dot-slash and double slashes
-     *
-     * @param string $path
-     * @return string
-     */
-    private static function normalizePath($path)
-    {
-        $path = preg_replace('|((?<!\.)\./)*|', '', $path);
-        $path = preg_replace('|//|', '/', $path);
-
-        return $path;
-    }
-
-    /**
-     * @return array
-     */
-    private static function getPathSegments($path)
-    {
-        return explode('/', $path);
     }
 
     /**
