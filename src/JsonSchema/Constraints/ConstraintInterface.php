@@ -33,10 +33,12 @@ interface ConstraintInterface
     /**
      * adds an error
      *
-     * @param $path
-     * @param $message
+     * @param string $path
+     * @param string $message
+     * @param string $constraint the constraint/rule that is broken, e.g.: 'minLength'
+     * @param array $more more array elements to add to the error
      */
-    public function addError($path, $message);
+    public function addError($path, $message, $constraint='', array $more=null);
 
     /**
      * checks if the validator has not raised errors

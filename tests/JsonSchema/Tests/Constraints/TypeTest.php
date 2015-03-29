@@ -43,7 +43,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new TypeConstraint();
         $constraint->check($value, (object)array('type' => $type));
-        $this->assertTypeConstraintError("$label value found, but $wording $type is required", $constraint);
+        $this->assertTypeConstraintError(ucwords($label)." value found, but $wording $type is required", $constraint);
     }
 
     /**
