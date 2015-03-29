@@ -80,7 +80,7 @@ class TypeConstraint extends Constraint
                         implode(', ', array_filter(self::$wording)))
                 );
             }
-            $this->addError($path, gettype($value) . " value found, but " . self::$wording[$type] . " is required");
+            $this->addError($path, gettype($value) . " value found, but " . self::$wording[$type] . " is required", 'type');
         }
     }
 

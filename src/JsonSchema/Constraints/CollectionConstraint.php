@@ -24,12 +24,12 @@ class CollectionConstraint extends Constraint
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError($path, "There must be a minimum of " . $schema->minItems . " in the array");
+            $this->addError($path, "There must be a minimum of " . $schema->minItems . " in the array", 'minItems');
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " in the array");
+            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " in the array", 'maxItems');
         }
 
         // Verify uniqueItems
@@ -39,7 +39,7 @@ class CollectionConstraint extends Constraint
                 $unique = array_map(function($e) { return var_export($e, true); }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
-                $this->addError($path, "There are no duplicates allowed in the array");
+                $this->addError($path, "There are no duplicates allowed in the array", 'uniqueItems');
             }
         }
 
@@ -92,7 +92,7 @@ class CollectionConstraint extends Constraint
                             $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                         } else {
                             $this->addError(
-                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items');
+                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items', 'additionalItems');
                         }
                     } else {
                         // Should be valid against an empty schema
