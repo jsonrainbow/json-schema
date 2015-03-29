@@ -41,6 +41,6 @@ class EnumConstraint extends Constraint
             }
         }
 
-        $this->addError($path, "value is not in enumeration: [" . implode(', ', $schema->enum) . "]");
+        $this->addError($path, "value is not in enumeration: [" . implode(', ', $schema->enum) . "]", 'enum', array('enum' => $schema->enum,));
     }
 }
