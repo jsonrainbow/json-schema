@@ -46,7 +46,7 @@ class ObjectConstraint extends Constraint
         foreach ($patternProperties as $pregex => $schema) {
             // Validate the pattern before using it to test for matches
             if (@preg_match('/'. $pregex . '/', '') === false) {
-                $this->addError($path, 'The pattern "' . $pregex . '" is invalid', 'pregex');
+                $this->addError($path, 'The pattern "' . $pregex . '" is invalid', 'pregex', array('pregex' => $pregex,));
                 continue;
             }
             foreach ($element as $i => $value) {

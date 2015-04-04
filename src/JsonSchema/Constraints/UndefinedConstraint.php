@@ -170,12 +170,12 @@ class UndefinedConstraint extends Constraint
         if (is_object($value)) {
             if (isset($schema->minProperties)) {
                 if (count(get_object_vars($value)) < $schema->minProperties) {
-                    $this->addError($path, "must contain a minimum of " . $schema->minProperties . " properties", 'minProperties');
+                    $this->addError($path, "must contain a minimum of " . $schema->minProperties . " properties", 'minProperties', array('minProperties' => $schema->minProperties,));
                 }
             }
             if (isset($schema->maxProperties)) {
                 if (count(get_object_vars($value)) > $schema->maxProperties) {
-                    $this->addError($path, "must contain no more than " . $schema->maxProperties . " properties", 'maxProperties');
+                    $this->addError($path, "must contain no more than " . $schema->maxProperties . " properties", 'maxProperties', array('maxProperties' => $schema->maxProperties,));
                 }
             }
         }

@@ -26,40 +26,40 @@ class NumberConstraint extends Constraint
         if (isset($schema->exclusiveMinimum)) {
             if (isset($schema->minimum)) {
                 if ($schema->exclusiveMinimum && $element === $schema->minimum) {
-                    $this->addError($path, "must have a minimum value greater than boundary value of " . $schema->minimum, 'exclusiveMinimum');
+                    $this->addError($path, "must have a minimum value greater than boundary value of " . $schema->minimum, 'exclusiveMinimum', array('minimum' => $schema->minimum,));
                 } else if ($element < $schema->minimum) {
-                    $this->addError($path, "must have a minimum value of " . $schema->minimum, 'minimum');
+                    $this->addError($path, "must have a minimum value of " . $schema->minimum, 'minimum', array('minimum' => $schema->minimum,));
                 }
             } else {
                 $this->addError($path, "use of exclusiveMinimum requires presence of minimum", 'missingMinimum');
             }
         } else if (isset($schema->minimum) && $element < $schema->minimum) {
-            $this->addError($path, "must have a minimum value of " . $schema->minimum, 'minimum');
+            $this->addError($path, "must have a minimum value of " . $schema->minimum, 'minimum', array('minimum' => $schema->minimum,));
         }
 
         // Verify maximum
         if (isset($schema->exclusiveMaximum)) {
             if (isset($schema->maximum)) {
                 if ($schema->exclusiveMaximum && $element === $schema->maximum) {
-                    $this->addError($path, "must have a maximum value less than boundary value of " . $schema->maximum, 'exclusiveMaximum');
+                    $this->addError($path, "must have a maximum value less than boundary value of " . $schema->maximum, 'exclusiveMaximum', array('maximum' => $schema->maximum,));
                 } else if ($element > $schema->maximum) {
-                    $this->addError($path, "must have a maximum value of " . $schema->maximum, 'maximum');
+                    $this->addError($path, "must have a maximum value of " . $schema->maximum, 'maximum', array('maximum' => $schema->maximum,));
                 }
             } else {
                 $this->addError($path, "use of exclusiveMaximum requires presence of maximum", 'missingMinimum');
             }
         } else if (isset($schema->maximum) && $element > $schema->maximum) {
-            $this->addError($path, "must have a maximum value of " . $schema->maximum, 'maximum');
+            $this->addError($path, "must have a maximum value of " . $schema->maximum, 'maximum', array('maximum' => $schema->maximum,));
         }
 
         // Verify divisibleBy - Draft v3
         if (isset($schema->divisibleBy) && $this->fmod($element, $schema->divisibleBy) != 0) {
-            $this->addError($path, "is not divisible by " . $schema->divisibleBy, 'divisibleBy');
+            $this->addError($path, "is not divisible by " . $schema->divisibleBy, 'divisibleBy', array('divisibleBy' => $schema->divisibleBy,));
         }
 
         // Verify multipleOf - Draft v4
         if (isset($schema->multipleOf) && $this->fmod($element, $schema->multipleOf) != 0) {
-            $this->addError($path, "must be a multiple of " . $schema->multipleOf, 'multipleOf');
+            $this->addError($path, "must be a multiple of " . $schema->multipleOf, 'multipleOf', array('multipleOf' => $schema->multipleOf,));
         }
 
         $this->checkFormat($element, $schema, $path, $i);
