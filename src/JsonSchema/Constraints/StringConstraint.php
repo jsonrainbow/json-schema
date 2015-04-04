@@ -22,25 +22,25 @@ class StringConstraint extends Constraint
      */
     public function check($element, $schema = null, $path = null, $i = null)
     {
-        $more = array(
-            'minLength' => $schema->minLength,
-            'maxLength' => $schema->maxLength,
-            'pattern' => $schema->pattern,
-        );
-
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError($path, "must be at most " . $schema->maxLength . " characters long", 'maxLength', $more);
+            $this->addError($path, "must be at most " . $schema->maxLength . " characters long", 'maxLength', array(
+                'maxLength' => $schema->maxLength,
+            ));
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError($path, "must be at least " . $schema->minLength . " characters long", 'minLength', $more);
+            $this->addError($path, "must be at least " . $schema->minLength . " characters long", 'minLength', array(
+                'minLength' => $schema->minLength,
+            ));
         }
 
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#', $element)) {
-            $this->addError($path, "does not match the regex pattern " . $schema->pattern, 'pattern', $more);
+            $this->addError($path, "does not match the regex pattern " . $schema->pattern, 'pattern', array(
+                'pattern' => $schema->pattern,
+            ));
         }
 
         $this->checkFormat($element, $schema, $path, $i);
