@@ -112,7 +112,12 @@ class FormatConstraint extends Constraint
                 break;
 
             default:
-                $this->addError($path, "Unknown format: " . json_encode($schema->format), 'format', array('format' => $schema->format,));
+                // Empty as it should be:
+                // The value of this keyword is called a format attribute. It MUST be a string.
+                // A format attribute can generally only validate a given set of instance types.
+                // If the type of the instance to validate is not in this set, validation for
+                // this format attribute and instance SHOULD succeed.
+                // http://json-schema.org/latest/json-schema-validation.html#anchor105
                 break;
         }
     }
