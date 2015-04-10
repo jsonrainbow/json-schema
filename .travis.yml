@@ -12,10 +12,10 @@ matrix:
     allow_failures:
         - php: hhvm
 
-before_script:
+install:
   - sudo apt-get -y install pypy python-sphinx graphviz
   - composer selfupdate
-  - composer install --prefer-source
+  - travis_retry composer update --no-interaction --prefer-source
 
 script:
   - cd docs && make linkcheck && cd ..

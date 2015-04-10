@@ -10,12 +10,12 @@
 namespace JsonSchema\Constraints;
 
 /**
- * The Collection Constraints, validates an array against a given schema
+ * The CollectionConstraint Constraints, validates an array against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Collection extends Constraint
+class CollectionConstraint extends Constraint
 {
     /**
      * {@inheritDoc}
@@ -104,7 +104,7 @@ class Collection extends Constraint
             // Treat when we have more schema definitions than values, not for empty arrays
             if(count($value) > 0) {
                 for ($k = count($value); $k < count($schema->items); $k++) {
-                    $this->checkUndefined(new Undefined(), $schema->items[$k], $path, $k);
+                    $this->checkUndefined(new UndefinedConstraint(), $schema->items[$k], $path, $k);
                 }
             }
         }

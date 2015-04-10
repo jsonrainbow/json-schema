@@ -13,12 +13,12 @@ use JsonSchema\Exception\InvalidArgumentException;
 use UnexpectedValueException as StandardUnexpectedValueException;
 
 /**
- * The Type Constraints, validates an element against a given type
+ * The TypeConstraint Constraints, validates an element against a given type
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Type extends Constraint
+class TypeConstraint extends Constraint
 {
     /**
      * @var array|string[] type wordings for validation error messages
@@ -48,7 +48,7 @@ class Type extends Constraint
             $validatedOneType = false;
             $errors = array();
             foreach ($type as $tp) {
-                $validator = new Type($this->checkMode);
+                $validator = new TypeConstraint($this->checkMode);
                 $subSchema = new \stdClass();
                 $subSchema->type = $tp;
                 $validator->check($value, $subSchema, $path, null);
@@ -88,7 +88,7 @@ class Type extends Constraint
      * Verifies that a given value is of a certain type
      *
      * @param mixed  $value Value to validate
-     * @param string $type  Type to check against
+     * @param string $type  TypeConstraint to check against
      *
      * @return boolean
      *

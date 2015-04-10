@@ -12,12 +12,12 @@ namespace JsonSchema\Constraints;
 use JsonSchema\Exception\InvalidArgumentException;
 
 /**
- * The Schema Constraints, validates an element against a given schema
+ * The SchemaConstraint Constraints, validates an element against a given schema
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-class Schema extends Constraint
+class SchemaConstraint extends Constraint
 {
     /**
      * {@inheritDoc}
