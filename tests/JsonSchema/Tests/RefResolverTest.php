@@ -287,6 +287,25 @@ JSN
         );
     }
 
+    public function testFetchRefArray()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/array' => <<<JSN
+[1,2,3]
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $this->assertEquals(
+            array(1, 2, 3),
+            $res->fetchRef('http://example.org/array', 'http://example.org/array')
+        );
+    }
+
     public function testSetGetUriRetriever()
     {
         $retriever = new \JsonSchema\Uri\UriRetriever;
