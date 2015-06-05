@@ -122,7 +122,7 @@ class UndefinedConstraint extends Constraint
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
-                        $this->addError($path, "the property " . $required . " is required");
+                        $this->addError($required, "the property " . $required . " is required");
                     }
                 }
             } else if (isset($schema->required) && !is_array($schema->required)) {
