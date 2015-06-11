@@ -112,7 +112,7 @@ class FormatConstraint extends Constraint
                 break;
 
             default:
-                $this->addError($path, "Unknown format: " . json_encode($schema->format));
+                // Do nothing so that custom formats can be used.
                 break;
         }
     }
