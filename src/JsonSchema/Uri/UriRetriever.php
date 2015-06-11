@@ -150,7 +150,10 @@ class UriRetriever
 
         // Use the JSON pointer if specified
         $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
-        $jsonSchema->id = $resolvedUri;
+        
+        if($jsonSchema instanceOf \StdClass) {
+            $jsonSchema->id = $resolvedUri;
+        }
 
         return $jsonSchema;
     }
