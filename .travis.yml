@@ -19,5 +19,5 @@ install:
 
 script:
   - cd docs && make linkcheck && cd ..
-  - vendor/bin/phpdoc.php -d src -t docs-api
+  - vendor/bin/phpdoc -d src -t docs-api
   - vendor/bin/phpunit --coverage-text
