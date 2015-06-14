@@ -6,3 +6,4 @@ coverage
 .project
 .settings
 composer.lock
+docs-api
