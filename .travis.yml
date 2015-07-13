@@ -8,6 +8,7 @@ matrix:
     - php: 5.4
     - php: 5.5
     - php: 5.6
+      env: CHECK_LINKS=true
     - php: 7
     - php: hhvm
   allow_failures:
@@ -17,10 +18,10 @@ before_install:
   - composer selfupdate
 
 install:
-  - sudo apt-get -y install pypy python-sphinx graphviz
+  - if [[ "$CHECK_LINKS" == "true" ]]; then sudo apt-get -y install pypy python-sphinx graphviz; fi
   - travis_retry composer install --no-interaction --prefer-source
 
 script:
-  - cd docs && make linkcheck && cd ..
+  - if [[ "$CHECK_LINKS" == "true" ]]; then cd docs && make linkcheck && cd ..; fi
   - vendor/bin/phpdoc -d src -t docs-api
   - vendor/bin/phpunit --coverage-text
