@@ -3,7 +3,6 @@
 namespace JsonSchema\Uri\Retrievers;
 
 use JsonSchema\Validator;
-use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 
 /**
  * URI retrieved based on a predefined array of schemas
@@ -36,7 +35,7 @@ class PredefinedArray extends AbstractRetriever
         $this->schemas     = $schemas;
         $this->contentType = $contentType;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
