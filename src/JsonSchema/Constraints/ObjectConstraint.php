@@ -92,7 +92,7 @@ class ObjectConstraint extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError($path, "the presence of the property " . $i . " requires that " . $require . " also be present");
+                $this->addError($path, "The presence of the property " . $i . " requires that " . $require . " also be present");
             }
 
             if (!$definition) {
