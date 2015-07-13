@@ -44,10 +44,10 @@
         "phpdocumentor/phpdocumentor": "~2"
     },
     "autoload": {
-        "psr-0": { "JsonSchema": "src/" }
+        "psr-4": { "JsonSchema\\": "src/JsonSchema/" }
     },
     "autoload-dev": {
-        "psr-0": { "JsonSchema": "tests/" }
+        "psr-4": { "JsonSchema\\Tests\\": "tests/JsonSchema/Tests/" }
     },
     "bin": ["bin/validate-json"],
     "extra": {
