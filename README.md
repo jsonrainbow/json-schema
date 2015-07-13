@@ -52,4 +52,4 @@ if ($validator->isValid()) {
 
 ## Running the tests
 
-    $ phpunit
+    $ vendor/bin/phpunit
