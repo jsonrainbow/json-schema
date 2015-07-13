@@ -46,6 +46,9 @@
     "autoload": {
         "psr-0": { "JsonSchema": "src/" }
     },
+    "autoload-dev": {
+        "psr-0": { "JsonSchema": "tests/" }
+    },
     "bin": ["bin/validate-json"],
     "extra": {
         "branch-alias": {
