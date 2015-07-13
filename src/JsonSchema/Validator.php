@@ -12,11 +12,6 @@ namespace JsonSchema;
 use JsonSchema\Constraints\SchemaConstraint;
 use JsonSchema\Constraints\Constraint;
 
-use JsonSchema\Exception\InvalidSchemaMediaTypeException;
-use JsonSchema\Exception\JsonDecodingException;
-
-use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
-
 /**
  * A JsonSchema Constraint
  *
