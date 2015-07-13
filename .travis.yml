@@ -14,9 +14,11 @@ matrix:
   allow_failures:
     - php: 7
 
+before_install:
+  - composer selfupdate
+
 install:
   - sudo apt-get -y install pypy python-sphinx graphviz
-  - composer selfupdate
   - travis_retry composer update --no-interaction --prefer-source
 
 script:
