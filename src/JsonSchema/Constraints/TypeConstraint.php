@@ -63,7 +63,9 @@ class TypeConstraint extends Constraint
             }
 
             if (!$validatedOneType) {
-                return $this->addErrors($errors);
+                $this->addErrors($errors);
+
+                return;
             }
         } elseif (is_object($type)) {
             $this->checkUndefined($value, $type, $path);
