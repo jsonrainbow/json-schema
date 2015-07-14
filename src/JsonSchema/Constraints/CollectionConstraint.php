@@ -24,12 +24,18 @@ class CollectionConstraint extends Constraint
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError($path, "There must be a minimum of " . $schema->minItems . " items in the array");
+            $this->addError($path, sprintf(
+                "There must be a minimum of %s items in the array",
+                $schema->minItems
+            ));
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " items in the array");
+            $this->addError($path, sprintf(
+                "There must be a maximum of %s items in the array",
+                $schema->maxItems
+            ));
         }
 
         // Verify uniqueItems
@@ -91,8 +97,11 @@ class CollectionConstraint extends Constraint
                         if ($schema->additionalItems !== false) {
                             $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                         } else {
-                            $this->addError(
-                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items');
+                            $this->addError($path, sprintf(
+                                'The item %s[%s] is not defined and the definition does not allow additional items',
+                                $i,
+                                $k
+                            ));
                         }
                     } else {
                         // Should be valid against an empty schema

@@ -46,7 +46,10 @@ class ObjectConstraint extends Constraint
         foreach ($patternProperties as $pregex => $schema) {
             // Validate the pattern before using it to test for matches
             if (@preg_match('/'. $pregex . '/', '') === false) {
-                $this->addError($path, 'The pattern "' . $pregex . '" is invalid');
+                $this->addError($path, sprintf(
+                    'The pattern "%s" is invalid',
+                    $pregex
+                ));
                 continue;
             }
             foreach ($element as $i => $value) {
@@ -77,7 +80,10 @@ class ObjectConstraint extends Constraint
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
-                $this->addError($path, "The property - " . $i . " - is not defined and the definition does not allow additional properties");
+                $this->addError($path, sprintf(
+                    "The property - %s - is not defined and the definition does not allow additional properties",
+                    $i
+                ));
             }
 
             // additional properties defined
@@ -92,7 +98,11 @@ class ObjectConstraint extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError($path, "The presence of the property " . $i . " requires that " . $require . " also be present");
+                $this->addError($path, sprintf(
+                    "The presence of the property %s requires that %s also be present",
+                    $i,
+                    $require
+                ));
             }
 
             if (!$definition) {

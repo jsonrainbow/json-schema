@@ -122,7 +122,10 @@ class UndefinedConstraint extends Constraint
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
-                        $this->addError($required, "The property " . $required . " is required");
+                        $this->addError($required, sprintf(
+                            "The property %s is required",
+                            $required
+                        ));
                     }
                 }
             } else if (isset($schema->required) && !is_array($schema->required)) {
@@ -170,12 +173,18 @@ class UndefinedConstraint extends Constraint
         if (is_object($value)) {
             if (isset($schema->minProperties)) {
                 if (count(get_object_vars($value)) < $schema->minProperties) {
-                    $this->addError($path, "Must contain a minimum of " . $schema->minProperties . " properties");
+                    $this->addError($path, sprintf(
+                        "Must contain a minimum of % properties",
+                        $schema->minProperties
+                    ));
                 }
             }
             if (isset($schema->maxProperties)) {
                 if (count(get_object_vars($value)) > $schema->maxProperties) {
-                    $this->addError($path, "Must contain no more than " . $schema->maxProperties . " properties");
+                    $this->addError($path, sprintf(
+                        "Must contain no more than %s properties",
+                        $schema->maxProperties
+                    ));
                 }
             }
         }
@@ -274,13 +283,23 @@ class UndefinedConstraint extends Constraint
                 if (is_string($dependency)) {
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!property_exists($value, $dependency)) {
-                        $this->addError($path, "$key depends on $dependency and $dependency is missing");
+                        $this->addError($path, sprintf(
+                            "%s depends on %s and %s is missing",
+                            $key,
+                            $dependency,
+                            $dependency
+                        ));
                     }
                 } else if (is_array($dependency)) {
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!property_exists($value, $d)) {
-                            $this->addError($path, "$key depends on $d and $d is missing");
+                            $this->addError($path, sprintf(
+                                "%s depends on %s and %s is missing",
+                                $key,
+                                $d,
+                                $d
+                            ));
                         }
                     }
                 } else if (is_object($dependency)) {

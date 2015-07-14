@@ -29,13 +29,19 @@ class FormatConstraint extends Constraint
         switch ($schema->format) {
             case 'date':
                 if (!$date = $this->validateDateTime($element, 'Y-m-d')) {
-                    $this->addError($path, sprintf('Invalid date %s, expected format YYYY-MM-DD', json_encode($element)));
+                    $this->addError($path, sprintf(
+                        'Invalid date %s, expected format YYYY-MM-DD', 
+                        json_encode($element)
+                    ));
                 }
                 break;
 
             case 'time':
                 if (!$this->validateDateTime($element, 'H:i:s')) {
-                    $this->addError($path, sprintf('Invalid time %s, expected format hh:mm:ss', json_encode($element)));
+                    $this->addError($path, sprintf(
+                        'Invalid time %s, expected format hh:mm:ss', 
+                        json_encode($element)
+                    ));
                 }
                 break;
 
@@ -45,19 +51,28 @@ class FormatConstraint extends Constraint
                     !$this->validateDateTime($element, 'Y-m-d\TH:i:sP') &&
                     !$this->validateDateTime($element, 'Y-m-d\TH:i:sO')
                 ) {
-                    $this->addError($path, sprintf('Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm', json_encode($element)));
+                    $this->addError($path, sprintf(
+                        'Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm', 
+                        json_encode($element)
+                    ));
                 }
                 break;
 
             case 'utc-millisec':
                 if (!$this->validateDateTime($element, 'U')) {
-                    $this->addError($path, sprintf('Invalid time %s, expected integer of milliseconds since Epoch', json_encode($element)));
+                    $this->addError($path, sprintf(
+                        'Invalid time %s, expected integer of milliseconds since Epoch', 
+                        json_encode($element)
+                    ));
                 }
                 break;
 
             case 'regex':
                 if (!$this->validateRegex($element)) {
-                    $this->addError($path, 'Invalid regex format ' . $element);
+                    $this->addError($path, sprintf(
+                        'Invalid regex format %s', 
+                        $element
+                    ));
                 }
                 break;
 
