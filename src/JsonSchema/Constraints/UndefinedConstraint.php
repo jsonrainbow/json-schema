@@ -123,7 +123,7 @@ class UndefinedConstraint extends Constraint
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
                         $this->addError($required, sprintf(
-                            "The property %s is required",
+                            'The property %s is required',
                             $required
                         ));
                     }
@@ -131,7 +131,7 @@ class UndefinedConstraint extends Constraint
             } else if (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
                 if ( $schema->required && $value instanceof UndefinedConstraint) {
-                    $this->addError($path, "Is missing and it is required");
+                    $this->addError($path, 'Is missing and it is required');
                 }
             }
         }
@@ -151,7 +151,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Disallowed value was matched");
+                $this->addError($path, 'Disallowed value was matched');
             } else {
                 $this->errors = $initErrors;
             }
@@ -163,7 +163,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised then the instance validated against the "not" schema
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Matched a schema which it should not");
+                $this->addError($path, 'Matched a schema which it should not');
             } else {
                 $this->errors = $initErrors;
             }
@@ -174,7 +174,7 @@ class UndefinedConstraint extends Constraint
             if (isset($schema->minProperties)) {
                 if (count(get_object_vars($value)) < $schema->minProperties) {
                     $this->addError($path, sprintf(
-                        "Must contain a minimum of % properties",
+                        'Must contain a minimum of % properties',
                         $schema->minProperties
                     ));
                 }
@@ -182,7 +182,7 @@ class UndefinedConstraint extends Constraint
             if (isset($schema->maxProperties)) {
                 if (count(get_object_vars($value)) > $schema->maxProperties) {
                     $this->addError($path, sprintf(
-                        "Must contain no more than %s properties",
+                        'Must contain no more than %s properties',
                         $schema->maxProperties
                     ));
                 }
@@ -218,7 +218,7 @@ class UndefinedConstraint extends Constraint
                 $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match all schemas");
+                $this->addError($path, 'Failed to match all schemas');
             }
         }
 
@@ -233,7 +233,7 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match at least one schema");
+                $this->addError($path, 'Failed to match at least one schema');
             } else {
                 $this->errors = $startErrors;
             }
@@ -284,7 +284,7 @@ class UndefinedConstraint extends Constraint
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!property_exists($value, $dependency)) {
                         $this->addError($path, sprintf(
-                            "%s depends on %s and %s is missing",
+                            '%s depends on %s and %s is missing',
                             $key,
                             $dependency,
                             $dependency
@@ -295,7 +295,7 @@ class UndefinedConstraint extends Constraint
                     foreach ($dependency as $d) {
                         if (!property_exists($value, $d)) {
                             $this->addError($path, sprintf(
-                                "%s depends on %s and %s is missing",
+                                '%s depends on %s and %s is missing',
                                 $key,
                                 $d,
                                 $d

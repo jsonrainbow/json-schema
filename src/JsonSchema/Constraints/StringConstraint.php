@@ -25,7 +25,7 @@ class StringConstraint extends Constraint
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
             $this->addError($path, sprintf(
-                "Must be at most %s characters long",
+                'Must be at most %s characters long',
                 $schema->maxLength
             ));
         }
@@ -33,7 +33,7 @@ class StringConstraint extends Constraint
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
             $this->addError($path, sprintf(
-                "Must be at least %s characters long",
+                'Must be at least %s characters long',
                 $schema->minLength
             ));
         }
@@ -41,7 +41,7 @@ class StringConstraint extends Constraint
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#', $element)) {
             $this->addError($path, sprintf(
-                "Does not match the regex pattern %s",
+                'Does not match the regex pattern %s',
                 $schema->pattern
             ));
         }

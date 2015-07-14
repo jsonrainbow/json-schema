@@ -83,7 +83,7 @@ class TypeConstraint extends Constraint
                 );
             }
             $this->addError($path, sprintf(
-                "%s value found, but %s is required",
+                '%s value found, but %s is required',
                 gettype($value),
                 self::$wording[$type]
             ));

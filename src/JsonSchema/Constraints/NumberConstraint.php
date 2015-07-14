@@ -27,21 +27,21 @@ class NumberConstraint extends Constraint
             if (isset($schema->minimum)) {
                 if ($schema->exclusiveMinimum && $element === $schema->minimum) {
                     $this->addError($path, sprintf(
-                        "Must have a minimum value greater than boundary value of %s", 
+                        'Must have a minimum value greater than boundary value of %s', 
                         $schema->minimum
                     ));
                 } else if ($element < $schema->minimum) {
                     $this->addError($path, sprintf(
-                        "Must have a minimum value of %s", 
+                        'Must have a minimum value of %s', 
                         $schema->minimum
                     ));
                 }
             } else {
-                $this->addError($path, "Use of exclusiveMinimum requires presence of minimum");
+                $this->addError($path, 'Use of exclusiveMinimum requires presence of minimum');
             }
         } else if (isset($schema->minimum) && $element < $schema->minimum) {
             $this->addError($path, sprintf(
-                "Must have a minimum value of %s", 
+                'Must have a minimum value of %s', 
                 $schema->minimum
             ));
         }
@@ -51,21 +51,21 @@ class NumberConstraint extends Constraint
             if (isset($schema->maximum)) {
                 if ($schema->exclusiveMaximum && $element === $schema->maximum) {
                     $this->addError($path, sprintf(
-                        "Must have a maximum value less than boundary value of %s", 
+                        'Must have a maximum value less than boundary value of %s', 
                         $schema->maximum
                     ));
                 } else if ($element > $schema->maximum) {
                     $this->addError($path, sprintf(
-                        "Must have a maximum value of %s", 
+                        'Must have a maximum value of %s', 
                         $schema->maximum
                     ));
                 }
             } else {
-                $this->addError($path, "Use of exclusiveMaximum requires presence of maximum");
+                $this->addError($path, 'Use of exclusiveMaximum requires presence of maximum');
             }
         } else if (isset($schema->maximum) && $element > $schema->maximum) {
             $this->addError($path, sprintf(
-                "Must have a maximum value of %s", 
+                'Must have a maximum value of %s', 
                 $schema->maximum
             ));
         }
@@ -73,7 +73,7 @@ class NumberConstraint extends Constraint
         // Verify divisibleBy - Draft v3
         if (isset($schema->divisibleBy) && $this->fmod($element, $schema->divisibleBy) != 0) {
             $this->addError($path, sprintf(
-                "Is not divisible by %s", 
+                'Is not divisible by %s', 
                 $schema->divisibleBy
             ));
         }
@@ -81,7 +81,7 @@ class NumberConstraint extends Constraint
         // Verify multipleOf - Draft v4
         if (isset($schema->multipleOf) && $this->fmod($element, $schema->multipleOf) != 0) {
             $this->addError($path, sprintf(
-                "Must be a multiple of %s", 
+                'Must be a multiple of %s', 
                 $schema->multipleOf
             ));
         }

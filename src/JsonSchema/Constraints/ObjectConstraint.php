@@ -81,7 +81,7 @@ class ObjectConstraint extends Constraint
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
                 $this->addError($path, sprintf(
-                    "The property - %s - is not defined and the definition does not allow additional properties",
+                    'The property - %s - is not defined and the definition does not allow additional properties',
                     $i
                 ));
             }
@@ -99,7 +99,7 @@ class ObjectConstraint extends Constraint
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
                 $this->addError($path, sprintf(
-                    "The presence of the property %s requires that %s also be present",
+                    'The presence of the property %s requires that %s also be present',
                     $i,
                     $require
                 ));

@@ -25,7 +25,7 @@ class CollectionConstraint extends Constraint
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
             $this->addError($path, sprintf(
-                "There must be a minimum of %s items in the array",
+                'There must be a minimum of %s items in the array',
                 $schema->minItems
             ));
         }
@@ -33,7 +33,7 @@ class CollectionConstraint extends Constraint
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
             $this->addError($path, sprintf(
-                "There must be a maximum of %s items in the array",
+                'There must be a maximum of %s items in the array',
                 $schema->maxItems
             ));
         }
@@ -45,7 +45,7 @@ class CollectionConstraint extends Constraint
                 $unique = array_map(function($e) { return var_export($e, true); }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
-                $this->addError($path, "There are no duplicates allowed in the array");
+                $this->addError($path, 'There are no duplicates allowed in the array');
             }
         }
 
