@@ -24,12 +24,12 @@ class CollectionConstraint extends Constraint
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError($path, "There must be a minimum of " . $schema->minItems . " in the array");
+            $this->addError($path, "There must be a minimum of " . $schema->minItems . " items in the array");
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " in the array");
+            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " items in the array");
         }
 
         // Verify uniqueItems
