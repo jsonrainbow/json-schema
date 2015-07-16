@@ -40,6 +40,10 @@ class RefResolver
      * @var UriRetrieverInterface
      */
     protected $uriRetriever = null;
+    
+    
+    protected $rootSchema;
+    
 
     /**
      * @param UriRetriever $retriever
@@ -110,6 +114,10 @@ class RefResolver
             $sourceUri = $schema->id;
         }
 
+        if (!$this->rootSchema) {
+            $this->rootSchema = $schema;
+        }
+        
         // Resolve $ref first
         $this->resolveRef($schema, $sourceUri);
 
@@ -205,13 +213,41 @@ class RefResolver
             return;
         }
 
-        $refSchema = $this->fetchRef($schema->$ref, $sourceUri);
+        if ($schema->{$ref}[0] === '#') {
+            $path = substr($schema->$ref, 1);
+            if (empty($path)) {
+                return;
+            }
+
+            if ($path[0] !== '/') {
+                return;
+            }
+
+            $pathParts = explode('/', $path);
+            array_shift($pathParts);
+
+            $refSchema = $this->resolveRefSegment($this->rootSchema, $pathParts);
+        } else {
+            $refSchema = $this->fetchRef($schema->$ref, $sourceUri);
+        }
         unset($schema->$ref);
+        
 
         // Augment the current $schema object with properties fetched
         foreach (get_object_vars($refSchema) as $prop => $value) {
             $schema->$prop = $value;
         }
+    }
+
+    protected function resolveRefSegment($data, $pathParts)
+    {
+        if (empty($pathParts) || empty($data)) {
+            return $data;
+        }
+
+        $key = $this->transformKey(array_shift($pathParts));
+
+        return $this->resolveRefSegment(is_array($data) ? $data[$key] : $data->$key,  $pathParts);
     }
 
     /**
@@ -225,5 +261,13 @@ class RefResolver
         $this->uriRetriever = $retriever;
 
         return $this;
+    }
+
+    protected function transformKey($key)
+    {
+        return strtr($key, array(
+            '~1' => '/',
+            '~0' => '~',
+        ));
     }
 }
