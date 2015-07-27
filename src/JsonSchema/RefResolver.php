@@ -48,7 +48,10 @@ class RefResolver
     public function __construct($retriever = null, $maxDepth = 7)
     {
         $this->uriRetriever = $retriever;
-        self::$maxDepth = $maxDepth;
+
+        if (null === self::$maxDepth) {
+            self::$maxDepth = $maxDepth;
+        }
     }
 
     /**

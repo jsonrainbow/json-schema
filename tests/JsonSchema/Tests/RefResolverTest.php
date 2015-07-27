@@ -349,7 +349,9 @@ JSN
         $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
         $retriever->expects($this->any())->method('retrieve')->will($this->returnValue($jsonSchema));
 
-        $resolver = new \JsonSchema\RefResolver($retriever, 0);
+        // stub resolver
+        \JsonSchema\RefResolver::$maxDepth = 0;
+        $resolver = new \JsonSchema\RefResolver($retriever);
 
         $resolver->resolve($jsonSchema);
     }
