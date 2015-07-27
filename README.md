@@ -32,7 +32,8 @@ $schema = $retriever->retrieve('file://' . realpath('schema.json'));
 $data = json_decode(file_get_contents('data.json'));
 
 // If you use $ref or if you are unsure, resolve those references here
-// This modifies the $schema object
+// This modifies the $schema object, if the schema has a max depth greater than 7 
+// you can pass as an additional value in the RefResolver
 $refResolver = new JsonSchema\RefResolver($retriever);
 $refResolver->resolve($schema, 'file://' . __DIR__);
 
