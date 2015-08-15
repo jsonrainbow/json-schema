@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\RefResolver;
+use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
@@ -18,9 +20,14 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidCases($input, $schema, $checkMode = Validator::CHECK_MODE_NORMAL, $errors = array())
     {
+        $schema = json_decode($schema);
+
+        $refResolver = new RefResolver(new UriRetriever);
+        $refResolver->resolve($schema);
+
         $validator = new Validator($checkMode);
 
-        $validator->check(json_decode($input), json_decode($schema));
+        $validator->check(json_decode($input), $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
@@ -33,9 +40,14 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testValidCases($input, $schema, $checkMode = Validator::CHECK_MODE_NORMAL)
     {
+        $schema = json_decode($schema);
+
+        $refResolver = new RefResolver(new UriRetriever);
+        $refResolver->resolve($schema);
+
         $validator = new Validator($checkMode);
 
-        $validator->check(json_decode($input), json_decode($schema));
+        $validator->check(json_decode($input), $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
