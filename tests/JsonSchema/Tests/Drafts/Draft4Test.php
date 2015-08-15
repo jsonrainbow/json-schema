@@ -18,7 +18,7 @@ class Draft4Test extends BaseDraftTestCase
             // Not Yet Implemented
             'definitions.json',
             // Partially Implemented
-            //'ref.json',
+            'ref.json',
             'refRemote.json',
             // Optional
             'bignum.json',
