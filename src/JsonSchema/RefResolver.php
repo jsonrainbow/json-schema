@@ -226,4 +226,9 @@ class RefResolver
 
         return $this;
     }
+
+    public function setMaxDepth($maxDepth)
+    {
+        self::$maxDepth = $maxDepth;
+    }
 }
