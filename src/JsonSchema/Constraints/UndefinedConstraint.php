@@ -65,7 +65,7 @@ class UndefinedConstraint extends Constraint
         }
 
         // check object
-        if (is_object($value) && (isset($schema->properties) || isset($schema->patternProperties))) {
+        if (is_object($value) && (isset($schema->properties) || isset($schema->patternProperties) || isset($schema->additionalProperties))) {
             $this->checkObject(
                 $value,
                 isset($schema->properties) ? $schema->properties : null,
