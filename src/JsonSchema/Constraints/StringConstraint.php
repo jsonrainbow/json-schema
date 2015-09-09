@@ -24,17 +24,26 @@ class StringConstraint extends Constraint
     {
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError($path, "Must be at most " . $schema->maxLength . " characters long");
+            $this->addError($path, sprintf(
+                'Must be at most %s characters long',
+                $schema->maxLength
+            ));
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError($path, "Must be at least " . $schema->minLength . " characters long");
+            $this->addError($path, sprintf(
+                'Must be at least %s characters long',
+                $schema->minLength
+            ));
         }
 
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#', $element)) {
-            $this->addError($path, "Does not match the regex pattern " . $schema->pattern);
+            $this->addError($path, sprintf(
+                'Does not match the regex pattern %s',
+                $schema->pattern
+            ));
         }
 
         $this->checkFormat($element, $schema, $path, $i);
