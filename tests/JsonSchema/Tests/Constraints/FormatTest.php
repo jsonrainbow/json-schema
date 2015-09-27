@@ -109,6 +109,7 @@ class FormatTest extends BaseTestCase
             array('555 320 1212', 'phone'),
 
             array('http://bluebox.org', 'uri'),
+            array('tel:+1-816-555-1212', 'uri'),
 
             array('info@something.edu', 'email'),
 
@@ -151,7 +152,7 @@ class FormatTest extends BaseTestCase
 
             array('1 123 4424', 'phone'),
 
-            array('htt:/bluebox.org', 'uri'),
+            array('0:/bluebox.org', 'uri'),
 
             array('info@somewhere', 'email'),
 
