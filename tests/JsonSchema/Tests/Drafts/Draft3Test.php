@@ -12,7 +12,7 @@ class Draft3Test extends BaseDraftTestCase
         );
     }
 
-    protected function getSkippedTests()
+    protected function getBlackList()
     {
         return array(
             'ref.json',

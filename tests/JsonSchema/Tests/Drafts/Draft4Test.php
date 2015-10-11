@@ -12,7 +12,7 @@ class Draft4Test extends BaseDraftTestCase
         );
     }
 
-    protected function getSkippedTests()
+    protected function getBlackList()
     {
         return array(
             // Not Yet Implemented
@@ -25,5 +25,4 @@ class Draft4Test extends BaseDraftTestCase
             'zeroTerminatedFloats.json'
         );
     }
-
 }
