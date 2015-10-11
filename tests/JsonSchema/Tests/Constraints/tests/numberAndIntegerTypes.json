@@ -1,0 +1,152 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "integer": 1.4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "integer": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "number": "1.5"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "integer": "1"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "integer": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "integer": 1.001
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "integer": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "integer": true
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "integer": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "number": "x"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "integer": 1
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "integer": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "number": 1.4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "number": 100000.0
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "number": 1
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

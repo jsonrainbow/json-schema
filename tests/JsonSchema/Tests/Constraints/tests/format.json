@@ -1,0 +1,55 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "counter": "blue"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "counter": {
+                        "type": "string",
+                        "format": "regex",
+                        "pattern": "[0-9]+"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "color": "blueberry"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "color": {
+                        "type": "string",
+                        "format": "color"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "counter": "10"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "counter": {
+                        "type": "string",
+                        "format": "regex",
+                        "pattern": "[0-9]+"
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

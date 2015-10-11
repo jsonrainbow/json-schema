@@ -1,0 +1,457 @@
+{
+    "invalid": [
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "number"
+                ]
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "foo": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "bar"
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 1.4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "bar": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "bar"
+                ]
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {},
+            "schema": {
+                "required": [
+                    "foo"
+                ]
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "string": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "string": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "number": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "integer": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "integer": {
+                        "type": "integer",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "boolean": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "boolean": {
+                        "type": "boolean",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "array": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "array": {
+                        "type": "array",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "null": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "null": {
+                        "type": "null",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "foo": {
+                    "baz": 1.5
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "bar"
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "foo": {
+                    "baz": 1.5
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {
+                                "type": "number",
+                                "required": true
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "number": 1.4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number"
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "number",
+                        "required": false
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "number": 0
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "is_active": false
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "is_active": {
+                        "type": "boolean",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "status": null
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "null",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "users": []
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "users": {
+                        "type": "array",
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": "foo",
+                "bar": 1.4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "bar": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "bar"
+                ]
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": {
+                    "bar": 1.5
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "bar"
+                        ]
+                    }
+                },
+                "required": [
+                    "foo"
+                ]
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": {}
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "required": true
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "boo": {
+                    "bar": 1.5
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "bar"
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "boo": {
+                    "bar": 1.5
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {
+                                "type": "number",
+                                "required": true
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

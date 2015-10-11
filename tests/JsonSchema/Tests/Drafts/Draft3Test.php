@@ -2,14 +2,11 @@
 
 namespace JsonSchema\Tests\Drafts;
 
-class Draft3Test extends BaseDraftTestCase
+class Draft3Test extends DraftTestCase
 {
-    protected function getFilePaths()
+    protected function getDirectories()
     {
-        return array(
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft3'),
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft3/optional')
-        );
+        return array('/draft3', '/draft3/optional');
     }
 
     protected function getBlackList()

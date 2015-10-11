@@ -1,0 +1,251 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "bar": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": "foo"
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": [
+                        "foo"
+                    ]
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 1,
+                "foo": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": [
+                        "foo",
+                        "baz"
+                    ]
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 1,
+                "foo": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": {
+                        "properties": {
+                            "foo": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": {
+                        "properties": {
+                            "foo": {
+                                "type": "integer",
+                                "required": true
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": {
+                        "properties": {
+                            "foo": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "foo"
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": true,
+                "foo": "ick"
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": {
+                        "properties": {
+                            "bar": {
+                                "type": "integer"
+                            },
+                            "foo": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {},
+            "schema": {
+                "dependencies": {
+                    "bar": "foo"
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": "foo"
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": "foo",
+            "schema": {
+                "dependencies": {
+                    "bar": "foo"
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "bar": 1,
+                "foo": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": "foo"
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "bar": 1,
+                "foo": 1,
+                "baz": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": [
+                        "foo",
+                        "baz"
+                    ]
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {},
+            "schema": {
+                "dependencies": {
+                    "bar": [
+                        "foo",
+                        "baz"
+                    ]
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": 1,
+                "baz": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": [
+                        "foo",
+                        "baz"
+                    ]
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "bar": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": {
+                        "properties": {
+                            "foo": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "bar": 1,
+                "foo": 1
+            },
+            "schema": {
+                "dependencies": {
+                    "bar": {
+                        "properties": {
+                            "bar": {
+                                "type": "integer"
+                            },
+                            "foo": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

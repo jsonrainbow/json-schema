@@ -1,0 +1,128 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "value": 5.6333
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "divisibleBy": 3
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 35
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "divisibleBy": 1.5
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 0.00751
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "divisibleBy": 0.0001
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 7
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "divisibleBy": 2
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "divisibleBy": 3
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 4.5
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "divisibleBy": 1.5
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 0.0075
+            },
+            "schema": {
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "divisibleBy": 0.0001
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 1
+            },
+            "schema": {
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "divisibleBy": 0.02
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

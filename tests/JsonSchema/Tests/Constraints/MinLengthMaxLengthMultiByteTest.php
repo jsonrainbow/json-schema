@@ -9,68 +9,19 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-class MinLengthMaxLengthMultiByteTest extends BaseTestCase
+class MinLengthMaxLengthMultiByteTest extends ConstraintsDataTest
 {
     protected function setUp()
     {
-        if (! extension_loaded('mbstring')) {
+        if (!extension_loaded('mbstring')) {
             $this->markTestSkipped('mbstring extension is not available');
         }
     }
 
-    public function getInvalidTests()
+    protected function getTests()
     {
-        return array(
-            array(
-                '{
-                  "value":"☀"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ),
-            array(
-                '{
-                  "value":"☀☁☂☃☺"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            )
-        );
-    }
+        $tests = array();
 
-    public function getValidTests()
-    {
-        return array(
-            array(
-                '{
-                  "value":"☀☁"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ),
-            array(
-                '{
-                  "value":"☀☁☂☃"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            )
-        );
+        return $this->loadTest(__DIR__ . '/tests/minLengthMaxLengthMultiByte.json', $tests);
     }
 }

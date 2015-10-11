@@ -1,0 +1,72 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "value": "w"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "minLength": 2,
+                        "maxLength": 4
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": "wo7us"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "minLength": 2,
+                        "maxLength": 4
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "value": "wo"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "minLength": 2,
+                        "maxLength": 4
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": "wo7u"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "minLength": 2,
+                        "maxLength": 4
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

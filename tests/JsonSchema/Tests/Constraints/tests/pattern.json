@@ -1,0 +1,88 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "value": "Abacates"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "pattern": "^cat"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": "abc"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "pattern": "^a*$"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "value": "Abacates"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "pattern": "tes$"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": "Abacates"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "pattern": "cat"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": "aaa"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "pattern": "^a*$"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        }
+    ]
+}
