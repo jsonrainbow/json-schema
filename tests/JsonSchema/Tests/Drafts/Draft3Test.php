@@ -15,8 +15,7 @@ class Draft3Test extends DraftTestCase
             'ref.json',
             'refRemote.json',
             'bignum.json',
-            'jsregex.json',
-            'zeroTerminatedFloats.json'
+            'jsregex.json'
         );
     }
 }

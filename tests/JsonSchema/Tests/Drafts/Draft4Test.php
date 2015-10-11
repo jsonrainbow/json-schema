@@ -18,8 +18,7 @@ class Draft4Test extends DraftTestCase
             'ref.json',
             'refRemote.json',
             // Optional
-            'bignum.json',
-            'zeroTerminatedFloats.json'
+            'bignum.json'
         );
     }
 }
