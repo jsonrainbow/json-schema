@@ -82,10 +82,29 @@ class PatternPropertiesTest extends BaseTestCase
                     ),
                     'someotherobject' => array(
                         'foobar' => 1234,
+                    ),
+                    '/products' => array(
+                        'get' => array()
+                    ),
+                    '#products' => array(
+                        'get' => array()
+                    ),
+                    '+products' => array(
+                        'get' => array()
+                    ),
+                    '~products' => array(
+                        'get' => array()
+                    ),
+                    '*products' => array(
+                        'get' => array()
+                    ),
+                    '%products' => array(
+                        'get' => array()
                     )
                 )),
                 json_encode(array(
                     'type' => 'object',
+                    'additionalProperties' => false,
                     'patternProperties' => array(
                         '^someobject$' => array(
                             'type' => 'object',
@@ -100,6 +119,42 @@ class PatternPropertiesTest extends BaseTestCase
                                 'foobar' => array('type' => 'number'),
                             ),
                         ),
+                        '^/' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^#' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^\+' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^~' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^\*' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^%' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        )
                     )
                 ))
             ),
