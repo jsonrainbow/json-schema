@@ -13,66 +13,19 @@ use JsonSchema\Exception\UriResolverException;
 
 /**
  * Resolves JSON Schema URIs
- * 
- * @author Sander Coolen <sander@jibber.nl> 
+ *
+ * @author Sander Coolen <sander@jibber.nl>
  */
 class UriResolver
 {
     /**
-     * Parses a URI into five main components
-     * 
-     * @param string $uri
-     * @return array 
-     */
-    public function parse($uri)
-    {
-        preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', $uri, $match);
-
-        $components = array();
-        if (5 < count($match)) {
-            $components =  array(
-                'scheme'    => $match[2],
-                'authority' => $match[4],
-                'path'      => $match[5]
-            );
-        } 
-        if (7 < count($match)) {
-            $components['query'] = $match[7];
-        }
-        if (9 < count($match)) {
-            $components['fragment'] = $match[9];
-        }
-        
-        return $components;
-    }
-    
-    /**
-     * Builds a URI based on n array with the main components
-     * 
-     * @param array $components
-     * @return string 
-     */
-    public function generate(array $components)
-    {
-        $uri = $components['scheme'] . '://' 
-             . $components['authority']
-             . $components['path'];
-        
-        if (array_key_exists('query', $components)) {
-            $uri .= $components['query'];
-        }
-        if (array_key_exists('fragment', $components)) {
-            $uri .= '#' . $components['fragment'];
-        }
-        
-        return $uri;
-    }
-    
-    /**
      * Resolves a URI
-     * 
-     * @param string $uri Absolute or relative
-     * @param string $baseUri Optional base URI
+     *
+     * @param string $uri     Absolute or relative
+     * @param string $baseUri Base URI (required to resolve relative URIs)
+     *
+     * @throws UriResolverException
+     *
      * @return string Absolute URI
      */
     public function resolve($uri, $baseUri = null)
@@ -81,77 +34,124 @@ class UriResolver
             return $baseUri;
         }
 
-        $components = $this->parse($uri);
-        $path = $components['path'];
-        
-        if (! empty($components['scheme'])) {
+        $parts = $this->parse($uri);
+
+        // Return if uri is already absolute
+        if (isset($parts['scheme'])) {
             return $uri;
         }
-        $baseComponents = $this->parse($baseUri);
-        $basePath = $baseComponents['path'];
-        
-        $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
-        if (isset($components['fragment'])) {
-            $baseComponents['fragment'] = $components['fragment'];
+
+        $uri = $this->parse($baseUri);
+
+        // Replace scheme and host if specified in the new uri
+        if (isset($parts['scheme'])) {
+            $uri['scheme'] = $parts['scheme'];
+        }
+        if (isset($parts['host'])) {
+            $uri['host'] = $parts['host'];
         }
 
-        return $this->generate($baseComponents);
+        // Join the base URI path with the new path
+        if (isset($parts['path'])) {
+            if (isset($uri['path'])) {
+                if (substr($uri['path'], -1) !== '/') {
+                    $uri['path'] = rtrim(str_replace(basename($uri['path']), '', $uri['path']), '/') . '/';
+                }
+                $uri['path'] .= ltrim($parts['path'], '/');
+            } else {
+                $uri['path'] = $parts['path'];
+            }
+        }
+
+        // Replace query and fragments
+        if (isset($parts['query'])) {
+            $uri['query'] = $parts['query'];
+        }
+        if (isset($parts['fragment'])) {
+            $uri['fragment'] = $parts['fragment'];
+        }
+
+        return $this->build($uri);
     }
-    
-    /**
-     * Tries to glue a relative path onto an absolute one
-     *
-     * @param string $relativePath
-     * @param string $basePath
-     * @return string Merged path
-     * @throws UriResolverException
-     */
-    public static function combineRelativePathWithBasePath($relativePath, $basePath)
+
+    public function extractLocation($uri)
     {
-        $relativePath = self::normalizePath($relativePath);
-        if ($relativePath == '') {
-            return $basePath;
-        }
-        if ($relativePath{0} == '/') {
-            return $relativePath;
-        }
+        $parts = $this->parse($uri);
+        unset($parts['fragment']);
 
-        $basePathSegments = explode('/', $basePath);
-
-        preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
-        $numLevelUp = strlen($match[0]) /3 + 1;
-        if ($numLevelUp >= count($basePathSegments)) {
-            throw new UriResolverException(sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
-        }
-
-        $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);
-        $path = preg_replace('|^/?(\.\./(\./)*)*|', '', $relativePath);
-
-        return implode('/', $basePathSegments) . '/' . $path;
+        return $this->build($parts);
     }
 
-    /**
-     * Normalizes a URI path component by removing dot-slash and double slashes
-     *
-     * @param string $path
-     * @return string
-     */
-    private static function normalizePath($path)
+    public function extractFragment($uri)
     {
-        $path = preg_replace('|((?<!\.)\./)*|', '', $path);
-        $path = preg_replace('|//|', '/', $path);
-        
-        return $path;
+        $parts = $this->parse($uri);
+
+        if (isset($parts['fragment'])) {
+            $fragment = $this->build(array('fragment' => $parts['fragment']));
+        } else {
+            $fragment = null;
+        }
+
+        return $fragment;
     }
-    
+
     /**
      * @param string $uri
-     * @return boolean 
+     * @return boolean
      */
     public function isValid($uri)
     {
-        $components = $this->parse($uri);
-        
-        return !empty($components);
+        try {
+            $this->parse($uri);
+            $valid = true;
+        } catch (UriResolverException $e) {
+            $valid = false;
+        }
+
+        return $valid;
     }
+
+    /**
+     * Builds a URI based on URL parts
+     *
+     * @param  array  $parts
+     * @return string
+     */
+    protected function build(array $parts)
+    {
+        $scheme   = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
+        $host     = isset($parts['host']) ? $parts['host'] : '';
+        $port     = isset($parts['port']) ? ':' . $parts['port'] : '';
+        $user     = isset($parts['user']) ? $parts['user'] : '';
+        $pass     = isset($parts['pass']) ? ':' . $parts['pass']  : '';
+        $pass     = ($user || $pass) ? "$pass@" : '';
+        $path     = isset($parts['path']) ? $parts['path'] : '';
+        $query    = isset($parts['query']) ? '?' . $parts['query'] : '';
+        $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
+
+        return "$scheme$user$pass$host$port$path$query$fragment";
+    }
+
+    /**
+     * Parses a URI into parts
+     *
+     * @param  string $uri
+     * @return array
+     */
+    protected function parse($uri)
+    {
+        $parts = parse_url($uri);
+        if (false === $parts) {
+            throw new UriResolverException("URI $uri was malformed and could not be parsed");
+        }
+
+        // Deal with special case where we are self-referencing - parse_url
+        // does not handle this well (empty array)
+        if (trim($uri) === '#') {
+            $parts['fragment'] = '';
+        }
+
+        return $parts;
+    }
+
 }

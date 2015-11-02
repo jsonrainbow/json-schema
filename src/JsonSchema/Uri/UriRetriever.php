@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Uri;
 
+use JsonSchema\Pointer;
 use JsonSchema\Uri\Retrievers\FileGetContents;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\Validator;
@@ -95,36 +96,20 @@ class UriRetriever
     public function resolvePointer($jsonSchema, $uri)
     {
         $resolver = new UriResolver();
-        $parsed = $resolver->parse($uri);
+        $parsed = $this->parse($uri);
         if (empty($parsed['fragment'])) {
             return $jsonSchema;
         }
 
-        $path = explode('/', $parsed['fragment']);
-        while ($path) {
-            $pathElement = array_shift($path);
-            if (! empty($pathElement)) {
-                $pathElement = str_replace('~1', '/', $pathElement);
-                $pathElement = str_replace('~0', '~', $pathElement);
-                if (! empty($jsonSchema->$pathElement)) {
-                    $jsonSchema = $jsonSchema->$pathElement;
-                } else {
-                    throw new ResourceNotFoundException(
-                        'Fragment "' . $parsed['fragment'] . '" not found'
-                        . ' in ' . $uri
-                    );
-                }
+        $pointer = new Pointer($jsonSchema);
 
-                if (! is_object($jsonSchema)) {
-                    throw new ResourceNotFoundException(
-                        'Fragment part "' . $pathElement . '" is no object '
-                        . ' in ' . $uri
-                    );
-                }
-            }
+        $reference = $pointer->get($parsed['fragment']);
+
+        if (!is_object($reference)) {
+            throw new ResourceNotFoundException("Pointer was not an object");
         }
 
-        return $jsonSchema;
+        return $reference;
     }
 
     /**
@@ -140,10 +125,10 @@ class UriRetriever
         $resolvedUri = $fetchUri = $resolver->resolve($uri, $baseUri);
 
         //fetch URL without #fragment
-        $arParts = $resolver->parse($resolvedUri);
+        $arParts = $this->parse($resolvedUri);
         if (isset($arParts['fragment'])) {
             unset($arParts['fragment']);
-            $fetchUri = $resolver->generate($arParts);
+            $fetchUri = $this->generate($arParts);
         }
 
         $jsonSchema = $this->loadSchema($fetchUri);
@@ -250,30 +235,6 @@ class UriRetriever
         }
 
         return $uri;
-    }
-
-    /**
-     * Resolves a URI
-     *
-     * @param string $uri Absolute or relative
-     * @param string $baseUri Optional base URI
-     * @return string
-     */
-    public function resolve($uri, $baseUri = null)
-    {
-        $components = $this->parse($uri);
-        $path = $components['path'];
-
-        if ((array_key_exists('scheme', $components)) && ('http' === $components['scheme'])) {
-            return $uri;
-        }
-
-        $baseComponents = $this->parse($baseUri);
-        $basePath = $baseComponents['path'];
-
-        $baseComponents['path'] = UriResolver::combineRelativePathWithBasePath($path, $basePath);
-
-        return $this->generate($baseComponents);
     }
 
     /**
