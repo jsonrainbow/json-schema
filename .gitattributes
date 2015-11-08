@@ -1,6 +1,5 @@
-/doc                export-ignore
+/docs               export-ignore
 /tests              export-ignore
 .gitignore          export-ignore
 .travis.yml         export-ignore
-REAMDME.md          export-ignore
 phpunit.dist.xml    export-ignore
