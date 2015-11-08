@@ -74,17 +74,19 @@ class OfPropertiesTest extends BaseTestCase
                 Validator::CHECK_MODE_NORMAL,
                 array(
                     array(
-                        "property" => "prop2",
-                        "message"  => "array value found, but a string is required",
-
+                        "property"   => "prop2",
+                        "message"    => "Array value found, but a string is required",
+                        "constraint" => "type",
                     ),
                     array(
-                        "property" => "prop2",
-                        "message"  => "array value found, but a number is required",
+                        "property"   => "prop2",
+                        "message"    => "Array value found, but a number is required",
+                        "constraint" => "type",
                     ),
                     array(
-                        "property" => "prop2",
-                        "message"  => "failed to match exactly one schema",
+                        "property"   => "prop2",
+                        "message"    => "Failed to match exactly one schema",
+                        "constraint" => "oneOf",
                     ),
                 ),
             ),

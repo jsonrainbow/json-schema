@@ -120,6 +120,7 @@ class FormatTest extends BaseTestCase
             array('www.example.com', 'host-name'),
 
             array('anything', '*'),
+            array('unknown', '*'),
         );
     }
 
@@ -160,6 +161,7 @@ class FormatTest extends BaseTestCase
             array(':::ff', 'ipv6'),
 
             array('localhost', 'host-name'),
+
         );
     }
 

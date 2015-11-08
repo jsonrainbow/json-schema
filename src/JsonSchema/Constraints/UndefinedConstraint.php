@@ -117,18 +117,17 @@ class UndefinedConstraint extends Constraint
 
         // Verify required values
         if (is_object($value)) {
-
             if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required) ) {
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
-                        $this->addError($required, "The property " . $required . " is required");
+                        $this->addError($required, "The property " . $required . " is required", 'required');
                     }
                 }
             } else if (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
                 if ( $schema->required && $value instanceof UndefinedConstraint) {
-                    $this->addError($path, "Is missing and it is required");
+                    $this->addError($path, "Is missing and it is required", 'required');
                 }
             }
         }
@@ -148,7 +147,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Disallowed value was matched");
+                $this->addError($path, "Disallowed value was matched", 'disallow');
             } else {
                 $this->errors = $initErrors;
             }
@@ -160,7 +159,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised then the instance validated against the "not" schema
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Matched a schema which it should not");
+                $this->addError($path, "Matched a schema which it should not", 'not');
             } else {
                 $this->errors = $initErrors;
             }
@@ -170,12 +169,12 @@ class UndefinedConstraint extends Constraint
         if (is_object($value)) {
             if (isset($schema->minProperties)) {
                 if (count(get_object_vars($value)) < $schema->minProperties) {
-                    $this->addError($path, "Must contain a minimum of " . $schema->minProperties . " properties");
+                    $this->addError($path, "Must contain a minimum of " . $schema->minProperties . " properties", 'minProperties', array('minProperties' => $schema->minProperties,));
                 }
             }
             if (isset($schema->maxProperties)) {
                 if (count(get_object_vars($value)) > $schema->maxProperties) {
-                    $this->addError($path, "Must contain no more than " . $schema->maxProperties . " properties");
+                    $this->addError($path, "Must contain no more than " . $schema->maxProperties . " properties", 'maxProperties', array('maxProperties' => $schema->maxProperties,));
                 }
             }
         }
@@ -209,7 +208,7 @@ class UndefinedConstraint extends Constraint
                 $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match all schemas");
+                $this->addError($path, "Failed to match all schemas", 'allOf');
             }
         }
 
@@ -224,7 +223,7 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match at least one schema");
+                $this->addError($path, "Failed to match at least one schema", 'anyOf');
             } else {
                 $this->errors = $startErrors;
             }
@@ -248,7 +247,8 @@ class UndefinedConstraint extends Constraint
                         $allErrors,
                         array(array(
                             'property' => $path,
-                            'message' => "failed to match exactly one schema"
+                            'message' => "Failed to match exactly one schema",
+                            'constraint' => 'oneOf',
                         ),),
                         $startErrors
                     )
@@ -274,13 +274,13 @@ class UndefinedConstraint extends Constraint
                 if (is_string($dependency)) {
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!property_exists($value, $dependency)) {
-                        $this->addError($path, "$key depends on $dependency and $dependency is missing");
+                        $this->addError($path, "$key depends on $dependency and $dependency is missing", 'dependencies');
                     }
                 } else if (is_array($dependency)) {
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!property_exists($value, $d)) {
-                            $this->addError($path, "$key depends on $d and $d is missing");
+                            $this->addError($path, "$key depends on $d and $d is missing", 'dependencies');
                         }
                     }
                 } else if (is_object($dependency)) {

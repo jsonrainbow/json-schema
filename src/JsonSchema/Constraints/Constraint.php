@@ -61,12 +61,20 @@ abstract class Constraint implements ConstraintInterface
     /**
      * {@inheritDoc}
      */
-    public function addError($path, $message)
+    public function addError($path, $message, $constraint='', array $more=null)
     {
-        $this->errors[] = array(
+        $error = array(
             'property' => $path,
-            'message' => $message
+            'message' => $message,
+            'constraint' => $constraint,
         );
+
+        if (is_array($more) && count($more) > 0)
+        {
+            $error += $more;
+        }
+
+        $this->errors[] = $error;
     }
 
     /**
