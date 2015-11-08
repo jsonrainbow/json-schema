@@ -81,7 +81,29 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "additionalProperties": {"type":"string"}
                 }',
                 Validator::CHECK_MODE_TYPE_CAST
-            )
+            ),
+            array(
+                '{
+                  "prop1": "a",
+                  "prop2": "b"
+                }',
+                '{
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "prop1": "a",
+                  "prop2": "b"
+                }',
+                '{
+                  "type": "object",
+                  "additionalProperties": false
+                }'
+            ),
         );
     }
 
@@ -138,7 +160,29 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": true
                 }'
-            )
+            ),
+            array(
+                '{
+                  "prop1": "a",
+                  "prop2": "b"
+                }',
+                '{
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "prop1": "a",
+                  "prop2": "b"
+                }',
+                '{
+                  "type": "object",
+                  "additionalProperties": true
+                }'
+            ),
         );
     }
 }
