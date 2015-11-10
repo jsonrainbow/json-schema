@@ -59,7 +59,7 @@ class EnumConstraint extends Constraint
             }
 
             if (is_object($value)) {
-                $enumString += print_r($value, true) . ', ';
+                $enumString += '[' . $this->enumToString((array) $value) . ']' . ', ';
                 continue;
             }
 
