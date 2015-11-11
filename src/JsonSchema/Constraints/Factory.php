@@ -26,7 +26,7 @@ class Factory
     /**
      * @var array
      */
-    private $constraints = [];
+    private $constraints = array();
 
     /**
      * @param UriRetriever $uriRetriever
