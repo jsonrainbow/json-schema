@@ -10,7 +10,6 @@
 namespace JsonSchema;
 
 use JsonSchema\Constraints\ConstraintInterface;
-use JsonSchema\Constraints\SchemaConstraint;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\InvalidArgumentException;
 
