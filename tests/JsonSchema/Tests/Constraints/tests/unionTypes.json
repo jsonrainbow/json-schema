@@ -1,0 +1,55 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "stringOrNumber": 4.8,
+                "booleanOrNull": 5
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "stringOrNumber": {
+                        "type": [
+                            "string",
+                            "number"
+                        ]
+                    },
+                    "booleanOrNull": {
+                        "type": [
+                            "boolean",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "stringOrNumber": 4.8,
+                "booleanOrNull": false
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "stringOrNumber": {
+                        "type": [
+                            "string",
+                            "number"
+                        ]
+                    },
+                    "booleanOrNull": {
+                        "type": [
+                            "boolean",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

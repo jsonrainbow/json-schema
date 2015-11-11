@@ -2,17 +2,14 @@
 
 namespace JsonSchema\Tests\Drafts;
 
-class Draft4Test extends BaseDraftTestCase
+class Draft4Test extends DraftTestCase
 {
-    protected function getFilePaths()
+    protected function getDirectories()
     {
-        return array(
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft4'),
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft4/optional')
-        );
+        return array('draft4', 'draft4/optional');
     }
 
-    protected function getSkippedTests()
+    protected function getBlackList()
     {
         return array(
             // Not Yet Implemented
@@ -21,9 +18,7 @@ class Draft4Test extends BaseDraftTestCase
             'ref.json',
             'refRemote.json',
             // Optional
-            'bignum.json',
-            'zeroTerminatedFloats.json'
+            'bignum.json'
         );
     }
-
 }

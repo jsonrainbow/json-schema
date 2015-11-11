@@ -1,0 +1,127 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "someobject": {
+                    "foobar": "foo",
+                    "barfoo": "bar"
+                }
+            },
+            "schema": {
+                "type": "object",
+                "patternProperties": {
+                    "^someobject$": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "barfoo": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "regex_us": false
+            },
+            "schema": {
+                "type": "object",
+                "patternProperties": {
+                    "^[a-z]+_(jp|de)$": {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "regex_us": false
+            },
+            "schema": {
+                "type": "object",
+                "patternProperties": {
+                    "^[a-z+_jp|de)$": {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "someobject": {
+                    "foobar": "foo",
+                    "barfoo": "bar"
+                },
+                "someotherobject": {
+                    "foobar": 1234
+                }
+            },
+            "schema": {
+                "type": "object",
+                "patternProperties": {
+                    "^someobject$": {
+                        "type": "object",
+                        "properties": {
+                            "foobar": {
+                                "type": "string"
+                            },
+                            "barfoo": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "^someotherobject$": {
+                        "type": "object",
+                        "properties": {
+                            "foobar": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foobar": true,
+                "regex_us": "foo",
+                "regex_de": 1234
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "foobar": {
+                        "type": "boolean"
+                    }
+                },
+                "patternProperties": {
+                    "^[a-z]+_(us|de)$": {
+                        "type": [
+                            "string",
+                            "integer"
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        }
+    ]
+}

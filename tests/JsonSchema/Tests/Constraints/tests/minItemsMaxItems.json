@@ -1,0 +1,88 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "value": [
+                    2
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 4
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": [
+                    2,
+                    2,
+                    5,
+                    8,
+                    5
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 4
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "value": [
+                    2,
+                    2
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 4
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": [
+                    2,
+                    2,
+                    5,
+                    8
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 4
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

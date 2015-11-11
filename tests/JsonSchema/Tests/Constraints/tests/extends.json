@@ -1,0 +1,197 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "name": "bruno",
+                "age": 50
+            },
+            "schema": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "maximum": 120
+                    }
+                },
+                "extends": {
+                    "properties": {
+                        "age": {
+                            "minimum": 70
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "name": "bruno",
+                "age": 180
+            },
+            "schema": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "maximum": 120
+                    }
+                },
+                "extends": {
+                    "properties": {
+                        "age": {
+                            "minimum": 70
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "foo": 2,
+                "bar": "baz"
+            },
+            "schema": {
+                "properties": {
+                    "bar": {
+                        "type": "integer",
+                        "required": true
+                    }
+                },
+                "extends": {
+                    "properties": {
+                        "foo": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "bar": 2
+            },
+            "schema": {
+                "properties": {
+                    "bar": {
+                        "type": "integer",
+                        "required": true
+                    }
+                },
+                "extends": [
+                    {
+                        "properties": {
+                            "foo": {
+                                "type": "string",
+                                "required": true
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "baz": {
+                                "type": "null",
+                                "required": true
+                            }
+                        }
+                    }
+                ]
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "name": "bruno",
+                "age": 80
+            },
+            "schema": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "maximum": 120
+                    }
+                },
+                "extends": {
+                    "properties": {
+                        "age": {
+                            "minimum": 70
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": "baz",
+                "bar": 2
+            },
+            "schema": {
+                "properties": {
+                    "bar": {
+                        "type": "integer",
+                        "required": true
+                    }
+                },
+                "extends": {
+                    "properties": {
+                        "foo": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "foo": "ick",
+                "bar": 2,
+                "baz": null
+            },
+            "schema": {
+                "properties": {
+                    "bar": {
+                        "type": "integer",
+                        "required": true
+                    }
+                },
+                "extends": [
+                    {
+                        "properties": {
+                            "foo": {
+                                "type": "string",
+                                "required": true
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "baz": {
+                                "type": "null",
+                                "required": true
+                            }
+                        }
+                    }
+                ]
+            },
+            "checkMode": 1
+        }
+    ]
+}

@@ -1,0 +1,212 @@
+{
+    "invalid": [
+        {
+            "data": [
+                1,
+                2,
+                2
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": [
+                {
+                    "a": "b"
+                },
+                {
+                    "a": "c"
+                },
+                {
+                    "a": "b"
+                }
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": [
+                {
+                    "foo": {
+                        "bar": {
+                            "baz": true
+                        }
+                    }
+                },
+                {
+                    "foo": {
+                        "bar": {
+                            "baz": true
+                        }
+                    }
+                }
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": [
+                1.0,
+                1.0,
+                1
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": [
+                [
+                    "foo"
+                ],
+                [
+                    "foo"
+                ]
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": [
+                {},
+                [
+                    1
+                ],
+                true,
+                null,
+                {},
+                1
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": [
+                1,
+                2,
+                3
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        },
+        {
+            "data": [
+                {
+                    "foo": 12
+                },
+                {
+                    "bar": false
+                }
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        },
+        {
+            "data": [
+                1,
+                true
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        },
+        {
+            "data": [
+                0,
+                false
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        },
+        {
+            "data": [
+                {
+                    "foo": {
+                        "bar": {
+                            "baz": true
+                        }
+                    }
+                },
+                {
+                    "foo": {
+                        "bar": {
+                            "baz": false
+                        }
+                    }
+                }
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        },
+        {
+            "data": [
+                [
+                    "foo"
+                ],
+                [
+                    "bar"
+                ]
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        },
+        {
+            "data": [
+                {},
+                [
+                    1
+                ],
+                true,
+                null,
+                1
+            ],
+            "schema": {
+                "type": "array",
+                "uniqueItems": true
+            },
+            "checkMode": 1
+        }
+    ]
+}

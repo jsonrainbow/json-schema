@@ -1,0 +1,226 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "array": [
+                    1,
+                    2,
+                    "a"
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "array": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "array": [
+                    1,
+                    2,
+                    "a"
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "array": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        },
+                        "additionalItems": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "array": [
+                    1,
+                    2,
+                    null
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "array": {
+                        "type": "array",
+                        "items": {
+                            "type": [
+                                "number",
+                                "boolean"
+                            ]
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    2,
+                    3,
+                    "foo"
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": [],
+                        "additionalItems": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "array": [
+                    1,
+                    2,
+                    "a"
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "array": {
+                        "type": "array"
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "array": [
+                    1,
+                    2,
+                    "a"
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "array": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        },
+                        "additionalItems": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": [],
+                        "additionalItems": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    "foo",
+                    false
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": []
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    "foo",
+                    false
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {}
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "additionalItems": false
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

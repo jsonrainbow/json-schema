@@ -11,7 +11,7 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\FormatConstraint;
 
-class FormatTest extends BaseTestCase
+class FormatTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -162,55 +162,6 @@ class FormatTest extends BaseTestCase
 
             array('localhost', 'host-name'),
 
-        );
-    }
-
-    public function getValidTests()
-    {
-        return array(
-            array(
-                '{ "counter": "10" }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "counter": {
-                            "type": "string",
-                            "format": "regex",
-                            "pattern": "[0-9]+"
-                        }
-                    }
-                }'),
-        );
-    }
-
-    public function getInvalidTests()
-    {
-        return array(
-            array(
-                '{ "counter": "blue" }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "counter": {
-                            "type": "string",
-                            "format": "regex",
-                            "pattern": "[0-9]+"
-                        }
-                    }
-                }'
-            ),
-            array(
-                '{ "color": "blueberry" }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "color": {
-                            "type": "string",
-                            "format": "color"
-                        }
-                    }
-                }'
-            )
         );
     }
 }

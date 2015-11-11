@@ -1,0 +1,44 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "state": "DF"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "type": "string",
+                        "requires": "city"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "state": "DF",
+                "city": "Bras\u00edlia"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "type": "string",
+                        "requires": "city"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

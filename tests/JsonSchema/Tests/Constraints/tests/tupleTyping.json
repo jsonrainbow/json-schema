@@ -1,0 +1,191 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "tupleTyping": [
+                    2,
+                    "a"
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "tupleTyping": {
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "tupleTyping": [
+                    "2",
+                    2,
+                    true
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "tupleTyping": {
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ],
+                        "additionalItems": false
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "tupleTyping": [
+                    "2",
+                    2,
+                    3
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "tupleTyping": {
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ],
+                        "additionalItems": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    "foo",
+                    true,
+                    1.5
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": [
+                            {},
+                            {},
+                            {}
+                        ],
+                        "additionalItems": false
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "tupleTyping": [
+                    "2",
+                    1
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "tupleTyping": {
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "tupleTyping": [
+                    "2",
+                    2,
+                    3
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "tupleTyping": {
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "data": [
+                    1,
+                    "foo",
+                    true
+                ]
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": [
+                            {},
+                            {},
+                            {}
+                        ],
+                        "additionalItems": false
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

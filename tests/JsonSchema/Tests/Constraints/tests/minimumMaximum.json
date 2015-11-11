@@ -1,0 +1,229 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "value": 2
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": 4
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 3
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": 3,
+                        "exclusiveMinimum": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 16
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "maximum": 8
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 8
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "maximum": 8,
+                        "exclusiveMaximum": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "exclusiveMinimum": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "exclusiveMaximum": true
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": 5,
+                        "exclusiveMinimum": false
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 4
+            },
+            "schema": {
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "maximum": 3,
+                        "exclusiveMaximum": false
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": 4
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "maximum": 8
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": 6,
+                        "exclusiveMinimum": false
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "maximum": 6,
+                        "exclusiveMaximum": false
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": 6
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 6
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "maximum": 6
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}

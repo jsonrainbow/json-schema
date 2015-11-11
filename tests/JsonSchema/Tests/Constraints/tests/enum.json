@@ -1,0 +1,221 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "value": "Morango"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "Abacate",
+                            "Manga",
+                            "Pitanga"
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "Abacate",
+                            "Manga",
+                            "Pitanga"
+                        ],
+                        "required": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": 4
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        },
+        {
+            "data": {
+                "value": {
+                    "foo": false
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "any",
+                        "enum": [
+                            6,
+                            "foo",
+                            [],
+                            true,
+                            {
+                                "foo": 12
+                            }
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "value": "Abacate"
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "Abacate",
+                            "Manga",
+                            "Pitanga"
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "Abacate",
+                            "Manga",
+                            "Pitanga"
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {},
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "Abacate",
+                            "Manga",
+                            "Pitanga"
+                        ],
+                        "required": false
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": 1
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ]
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": []
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "any",
+                        "enum": [
+                            6,
+                            "foo",
+                            [],
+                            true,
+                            {
+                                "foo": 12
+                            }
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "value": {
+                    "foo": 12
+                }
+            },
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "any",
+                        "enum": [
+                            6,
+                            "foo",
+                            [],
+                            true,
+                            {
+                                "foo": 12
+                            }
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            },
+            "checkMode": 1
+        }
+    ]
+}

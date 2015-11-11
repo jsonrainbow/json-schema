@@ -1,0 +1,72 @@
+{
+    "invalid": [
+        {
+            "data": {
+                "x": [
+                    1,
+                    2
+                ]
+            },
+            "schema": {
+                "properties": {
+                    "x": {
+                        "not": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            },
+                            "minItems": 2
+                        }
+                    }
+                }
+            },
+            "checkMode": 1,
+            "errors": []
+        }
+    ],
+    "valid": [
+        {
+            "data": {
+                "x": [
+                    1
+                ]
+            },
+            "schema": {
+                "properties": {
+                    "x": {
+                        "not": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            },
+                            "minItems": 2
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        },
+        {
+            "data": {
+                "x": [
+                    "foo",
+                    2
+                ]
+            },
+            "schema": {
+                "properties": {
+                    "x": {
+                        "not": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            },
+                            "minItems": 2
+                        }
+                    }
+                }
+            },
+            "checkMode": 1
+        }
+    ]
+}
