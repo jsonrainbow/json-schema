@@ -55,24 +55,38 @@ class Factory
      *    $factory->addConstraint('name', new \FQCN(...)); // need to provide own ctr params
      *
      * By class name:
-     *    $factory->addConstraint('name', '\FQCN'); // inherits ctr params from current instance
+     *    $factory->addConstraint('name', '\FQCN'); // inherits ctr params from current
+     *
+     * As a \Callable (the Constraint::checks() method):
+     *    $factory->addConstraint('name', \Callable); // inherits ctr params from current
+     *
+     * NOTE: By class-name or as a Callable will inherit the current configuration (uriRetriever, factory)
      *
      * @param string $name
-     * @param ConstraintInterface|string $constraint
+     * @param ConstraintInterface|string|\Callable $constraint
      *
      * @throws InvalidArgumentException if the $constraint is either not a class or not a ConstraintInterface
      */
     public function addConstraint($name, $constraint)
     {
+
+        if (is_callable($constraint)) {
+            $this->constraints[$name] = new CallableConstraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever,
+                $this, $constraint);
+
+            return;
+        }
+
         if (is_string($constraint)) {
-            if (!class_exists($constraint)) {
+            if ( ! class_exists($constraint)) {
                 throw new InvalidArgumentException('Constraint class "' . $constraint . '" is not a Class');
             }
             $constraint = new $constraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
-            if (!$constraint instanceof ConstraintInterface) {
+            if ( ! $constraint instanceof ConstraintInterface) {
                 throw new InvalidArgumentException('Constraint class "' . get_class($constraint) . '" is not an instance of ConstraintInterface');
             }
         }
+
         $this->constraints[$name] = $constraint;
     }
 

@@ -111,4 +111,14 @@ class CustomConstraintTest extends TestCase
         $factory->createInstanceFor($name);
     }
 
+    /**
+     *
+     */
+    public function testConstraintCallable()
+    {
+        $factory = new Factory();
+        $factory->addConstraint('callable', function () {});
+        $this->assertInstanceOf('JsonSchema\Constraints\CallableConstraint', $factory->createInstanceFor('callable'));
+    }
+
 }
