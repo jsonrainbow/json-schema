@@ -65,6 +65,8 @@ class Factory
      * @param string $name
      * @param ConstraintInterface|string|\Callable $constraint
      *
+     * @todo possible own exception?
+     *
      * @throws InvalidArgumentException if the $constraint is either not a class or not a ConstraintInterface
      */
     public function addConstraint($name, $constraint)
@@ -79,10 +81,12 @@ class Factory
 
         if (is_string($constraint)) {
             if ( ! class_exists($constraint)) {
+                // @todo possible own exception?
                 throw new InvalidArgumentException('Constraint class "' . $constraint . '" is not a Class');
             }
             $constraint = new $constraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
             if ( ! $constraint instanceof ConstraintInterface) {
+                // @todo possible own exception?
                 throw new InvalidArgumentException('Constraint class "' . get_class($constraint) . '" is not an instance of ConstraintInterface');
             }
         }
