@@ -15,49 +15,6 @@ use JsonSchema\Constraints\Constraint;
 
 class CustomConstraintTest extends TestCase
 {
-    /**
-     * @var Factory
-     */
-    protected $factory;
-
-    protected function setUp()
-    {
-        $this->factory = new Factory();
-    }
-
-    /**
-     * @dataProvider constraintNameProvider
-     *
-     * @param string $constraintName
-     * @param string $expectedClass
-     */
-    public function testConstraintInstanceWithoutCtrParams($constraintName, $expectedClass)
-    {
-        $this->factory->addConstraint($constraintName, new $expectedClass());
-        $constraint = $this->factory->createInstanceFor($constraintName);
-
-        $this->assertInstanceOf($expectedClass, $constraint);
-        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
-        $this->assertNotSame($this->factory->getUriRetriever(), $constraint->getUriRetriever());
-    }
-
-    /**
-     * @dataProvider constraintNameProvider
-     *
-     * @param string $constraintName
-     * @param string $expectedClass
-     */
-    public function testConstraintInstanceWithCtrParams($constraintName, $expectedClass)
-    {
-        $this->factory->addConstraint($constraintName,
-            new $expectedClass(Constraint::CHECK_MODE_NORMAL, $this->factory->getUriRetriever(), $this->factory));
-        $constraint = $this->factory->createInstanceFor($constraintName);
-
-        $this->assertInstanceOf($expectedClass, $constraint);
-        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
-        $this->assertSame($this->factory->getUriRetriever(), $constraint->getUriRetriever());
-        $this->assertSame($this->factory, $constraint->getFactory());
-    }
 
     /**
      * @return array
@@ -68,6 +25,90 @@ class CustomConstraintTest extends TestCase
             array('exists', 'JsonSchema\Constraints\StringConstraint'),
             array('custom', 'JsonSchema\Tests\Constraints\Fixtures\CustomConstraint'),
         );
+    }
+
+    /**
+     * @dataProvider constraintNameProvider
+     *
+     * @param string $constraintName
+     * @param string $className
+     */
+    public function testConstraintInstanceWithoutCtrParams($constraintName, $className)
+    {
+        $factory = new Factory();
+
+        // NOTE the uriRetriever and factory will be new instances; this is due to the Constraint class..
+        $factory->addConstraint($constraintName, new $className());
+
+        $constraint = $factory->createInstanceFor($constraintName);
+
+        $this->assertInstanceOf($className, $constraint);
+        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+
+        $this->assertNotSame($factory->getUriRetriever(), $constraint->getUriRetriever());
+    }
+
+    /**
+     * @dataProvider constraintNameProvider
+     *
+     * @param string $constraintName
+     * @param string $className
+     */
+    public function testConstraintInstanceWithCtrParams($constraintName, $className)
+    {
+        $factory = new Factory();
+        $factory->addConstraint($constraintName,
+            new $className(Constraint::CHECK_MODE_NORMAL, $factory->getUriRetriever(), $factory));
+        $constraint = $factory->createInstanceFor($constraintName);
+
+        $this->assertInstanceOf($className, $constraint);
+        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+        $this->assertSame($factory->getUriRetriever(), $constraint->getUriRetriever());
+        $this->assertSame($factory, $constraint->getFactory());
+    }
+
+    /**
+     * @dataProvider constraintNameProvider
+     *
+     * @param string $constraintName
+     * @param string $className
+     */
+    public function testConstraintClassNameStringInjectingCtrParamsHasSame($constraintName, $className)
+    {
+        $factory = new Factory();
+        $factory->addConstraint($constraintName, $className);
+        $constraint = $factory->createInstanceFor($constraintName);
+
+        $this->assertInstanceOf($className, $constraint);
+        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+        $this->assertSame($factory->getUriRetriever(), $constraint->getUriRetriever());
+        $this->assertSame($factory, $constraint->getFactory());
+    }
+
+    /**
+     * @todo possible own exception?
+     * @expectedException \JsonSchema\Exception\InvalidArgumentException
+     */
+    public function testConstraintClassNameStringIsNotAClass()
+    {
+        $name = 'NotAClass';
+
+        $factory = new Factory();
+        $factory->addConstraint($name, $name);
+        $factory->createInstanceFor($name);
+    }
+
+    /**
+     * @todo possible own exception?
+     * @expectedException \JsonSchema\Exception\InvalidArgumentException
+     */
+    public function testConstraintClassNameStringIsAClassButNotAConstraint()
+    {
+        $name = 'JsonSchema\RefResolver'; // Class but not ConstraintInterface
+
+        $factory = new Factory();
+        $factory->addConstraint($name, $name);
+        $factory->createInstanceFor($name);
     }
 
 }

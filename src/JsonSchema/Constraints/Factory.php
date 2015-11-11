@@ -51,13 +51,28 @@ class Factory
     /**
      * Add a custom constraint
      *
-     *    $factory->addConstraint('name', new MyCustomConstraint(...));
+     * By instance:
+     *    $factory->addConstraint('name', new \FQCN(...)); // need to provide own ctr params
+     *
+     * By class name:
+     *    $factory->addConstraint('name', '\FQCN'); // inherits ctr params from current instance
      *
      * @param string $name
-     * @param ConstraintInterface $constraint
+     * @param ConstraintInterface|string $constraint
+     *
+     * @throws InvalidArgumentException if the $constraint is either not a class or not a ConstraintInterface
      */
     public function addConstraint($name, $constraint)
     {
+        if (is_string($constraint)) {
+            if (!class_exists($constraint)) {
+                throw new InvalidArgumentException('Constraint class "' . $constraint . '" is not a Class');
+            }
+            $constraint = new $constraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
+            if (!$constraint instanceof ConstraintInterface) {
+                throw new InvalidArgumentException('Constraint class "' . get_class($constraint) . '" is not an instance of ConstraintInterface');
+            }
+        }
         $this->constraints[$name] = $constraint;
     }
 

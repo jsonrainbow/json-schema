@@ -12,6 +12,7 @@ namespace JsonSchema;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\SchemaConstraint;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Exception\InvalidArgumentException;
 
 /**
  * A JsonSchema Constraint
@@ -42,11 +43,16 @@ class Validator extends Constraint
     /**
      * Add a custom constraint
      *
-     *    // extends Constraint or implements ConstraintInterface
-     *    $factory->addConstraint('name', new MyCustomConstraint(...));
+     * By instance:
+     *    $factory->addConstraint('name', new \FQCN(...)); // need to provide own ctr params
+     *
+     * By class name:
+     *    $factory->addConstraint('name', '\FQCN'); // inherits ctr params from current instance
      *
      * @param string $name
-     * @param ConstraintInterface $constraint
+     * @param ConstraintInterface|string $constraint
+     *
+     * @throws InvalidArgumentException if the $constraint is either not a class or not a ConstraintInterface
      */
     public function addConstraint($name, $constraint)
     {
