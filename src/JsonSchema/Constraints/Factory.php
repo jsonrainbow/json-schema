@@ -24,11 +24,16 @@ class Factory
     protected $uriRetriever;
 
     /**
+     * @var array
+     */
+    private $constraints = [];
+
+    /**
      * @param UriRetriever $uriRetriever
      */
     public function __construct(UriRetriever $uriRetriever = null)
     {
-        if (!$uriRetriever) {
+        if ( ! $uriRetriever) {
             $uriRetriever = new UriRetriever();
         }
 
@@ -44,9 +49,34 @@ class Factory
     }
 
     /**
+     * Add a custom constraint
+     *
+     *    $factory->addConstraint('name', new MyCustomConstraint(...));
+     *
+     * @param string $name
+     * @param ConstraintInterface $constraint
+     */
+    public function addConstraint($name, $constraint)
+    {
+        $this->constraints[$name] = $constraint;
+    }
+
+    /**
+     * @param $constraintName
+     *
+     * @return bool
+     */
+    public function hasConstraint($constraintName)
+    {
+        return ! empty($this->constraints[$constraintName])
+               && $this->constraints[$constraintName] instanceof ConstraintInterface;
+    }
+
+    /**
      * Create a constraint instance for the given constraint name.
      *
      * @param string $constraintName
+     *
      * @return ConstraintInterface|ObjectConstraint
      * @throws InvalidArgumentException if is not possible create the constraint instance.
      */
@@ -76,6 +106,11 @@ class Factory
                 return new Validator(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
         }
 
+        if ($this->hasConstraint($constraintName)) {
+            return $this->constraints[$constraintName];
+        }
+
         throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
     }
+
 }

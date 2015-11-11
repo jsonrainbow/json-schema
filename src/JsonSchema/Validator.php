@@ -9,6 +9,7 @@
 
 namespace JsonSchema;
 
+use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\SchemaConstraint;
 use JsonSchema\Constraints\Constraint;
 
@@ -36,5 +37,19 @@ class Validator extends Constraint
         $validator->check($value, $schema);
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
+    }
+
+    /**
+     * Add a custom constraint
+     *
+     *    // extends Constraint or implements ConstraintInterface
+     *    $factory->addConstraint('name', new MyCustomConstraint(...));
+     *
+     * @param string $name
+     * @param ConstraintInterface $constraint
+     */
+    public function addConstraint($name, $constraint)
+    {
+        $this->getFactory()->addConstraint($name, $constraint);
     }
 }
