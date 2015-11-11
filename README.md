@@ -50,6 +50,32 @@ if ($validator->isValid()) {
 }
 ```
 
+## Custom Constraints
+Add custom constraints via `$validator->addConstraint($name, $constraint)`;
+
+The given `$constraint` is applied when `$name` is found within the current evaluated schema path.
+
+### Add a callable constraint
+
+	$validator->addConstraint('test', \Callable);
+
+ * Inherits _current_ ctr params (uriRetriever, factory)
+ * The callable is the `ConstraintInterface->check` signature `function check($value, $schema = null, $path = null, $i = null)`
+
+### Add by custom Constraint instance
+	
+	$validator->addConstraint('test', new MyCustomConstraint(...));
+
+ * Requires adding the correct ctr params (uriRetriever, factory et al)
+ * `MyCustomConstraint` must be of type `JsonSchema\Constraints\ConstraintInterface`
+
+### Add by custom Constraint class-name
+
+	$validator->addConstraint('test', 'FQCN');
+
+ * Inherits _current_ ctr params (uriRetriever, factory)
+ * `FQCN` must be of type `JsonSchema\Constraints\ConstraintInterface`
+
 ## Running the tests
 
     $ vendor/bin/phpunit
