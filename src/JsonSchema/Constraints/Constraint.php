@@ -275,6 +275,14 @@ abstract class Constraint implements ConstraintInterface
         $this->addErrors($validator->getErrors());
     }
 
+    protected function checkCustom($constraint, $value, $schema = null, $path = null, $i = null)
+    {
+        $validator = $this->getFactory()->createInstanceFor($constraint);
+        $validator->check($value, $schema, $path, $i);
+
+        $this->addErrors($validator->getErrors());
+    }
+
     /**
      * @param string $uri JSON Schema URI
      * @return string JSON Schema contents

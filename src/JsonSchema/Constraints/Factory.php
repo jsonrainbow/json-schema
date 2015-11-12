@@ -85,10 +85,11 @@ class Factory
                 throw new InvalidArgumentException('Constraint class "' . $constraint . '" is not a Class');
             }
             $constraint = new $constraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
-            if ( ! $constraint instanceof ConstraintInterface) {
-                // @todo possible own exception?
-                throw new InvalidArgumentException('Constraint class "' . get_class($constraint) . '" is not an instance of ConstraintInterface');
-            }
+        }
+
+        if ( ! $constraint instanceof ConstraintInterface) {
+            // @todo possible own exception?
+            throw new InvalidArgumentException('Constraint class "' . get_class($constraint) . '" is not an instance of ConstraintInterface');
         }
 
         $this->constraints[$name] = $constraint;

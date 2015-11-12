@@ -47,6 +47,24 @@ class UndefinedConstraint extends Constraint
 
         // check known types
         $this->validateTypes($value, $schema, $path, $i);
+
+        // check custom
+        $this->validateCustom($value, $schema, $path, $i);
+    }
+
+    /**
+     * @param $value
+     * @param null $schema
+     * @param null $path
+     * @param null $i
+     */
+    public function validateCustom($value, $schema = null, $path = null, $i = null)
+    {
+        foreach (array_keys((array)$schema) as $check) {
+            if ($this->getFactory()->hasConstraint($check)) {
+                $this->checkCustom($check, $value, $check, $path, $i);
+            }
+        }
     }
 
     /**
