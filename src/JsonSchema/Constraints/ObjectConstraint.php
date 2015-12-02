@@ -45,6 +45,7 @@ class ObjectConstraint extends Constraint
         $try = array('/','#','+','~','%');
         $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
+            $delimiter = '/';
             // Choose delimiter. Necessary for patterns like ^/ , otherwise you get error
             foreach ($try as $delimiter) {
                 if (strpos($pregex, $delimiter) === false) { // safe to use
