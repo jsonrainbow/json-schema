@@ -33,7 +33,7 @@ class CollectionConstraint extends Constraint
         }
 
         // Verify uniqueItems
-        if (isset($schema->uniqueItems)) {
+        if (isset($schema->uniqueItems) && $schema->uniqueItems) {
             $unique = $value;
             if (is_array($value) && count($value)) {
                 $unique = array_map(function($e) { return var_export($e, true); }, $value);
