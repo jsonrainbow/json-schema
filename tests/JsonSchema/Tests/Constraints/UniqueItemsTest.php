@@ -110,6 +110,49 @@ class UniqueItemsTest extends BaseTestCase
                     "type": "array",
                     "uniqueItems": true
                 }'
+            ),
+            // below equals the invalid tests, but with uniqueItems set to false
+            array(
+                '[1,2,2]',
+                '{
+                  "type":"array",
+                  "uniqueItems": false
+                }'
+            ),
+            array(
+                '[{"a":"b"},{"a":"c"},{"a":"b"}]',
+                '{
+                  "type":"array",
+                  "uniqueItems": false
+                }'
+            ),
+            array(
+                '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : true}}}]',
+                '{
+                    "type": "array",
+                    "uniqueItems": false
+                }'
+            ),
+            array(
+                '[1.0, 1.00, 1]',
+                '{
+                    "type": "array",
+                    "uniqueItems": false
+                }'
+            ),
+            array(
+                '[["foo"], ["foo"]]',
+                '{
+                    "type": "array",
+                    "uniqueItems": false
+                }'
+            ),
+            array(
+                '[{}, [1], true, null, {}, 1]',
+                '{
+                    "type": "array",
+                    "uniqueItems": false
+                }'
             )
         );
     }
