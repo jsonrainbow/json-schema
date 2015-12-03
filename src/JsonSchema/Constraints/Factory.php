@@ -24,11 +24,16 @@ class Factory
     protected $uriRetriever;
 
     /**
+     * @var array
+     */
+    private $constraints = array();
+
+    /**
      * @param UriRetriever $uriRetriever
      */
     public function __construct(UriRetriever $uriRetriever = null)
     {
-        if (!$uriRetriever) {
+        if ( ! $uriRetriever) {
             $uriRetriever = new UriRetriever();
         }
 
@@ -44,9 +49,68 @@ class Factory
     }
 
     /**
+     * Add a custom constraint
+     *
+     * By instance:
+     *    $factory->addConstraint('name', new \FQCN(...)); // need to provide own ctr params
+     *
+     * By class name:
+     *    $factory->addConstraint('name', '\FQCN'); // inherits ctr params from current
+     *
+     * As a \Callable (the Constraint::checks() method):
+     *    $factory->addConstraint('name', \Callable); // inherits ctr params from current
+     *
+     * NOTE: By class-name or as a Callable will inherit the current configuration (uriRetriever, factory)
+     *
+     * @param string $name
+     * @param ConstraintInterface|string|\Callable $constraint
+     *
+     * @todo possible own exception?
+     *
+     * @throws InvalidArgumentException if the $constraint is either not a class or not a ConstraintInterface
+     */
+    public function addConstraint($name, $constraint)
+    {
+
+        if (is_callable($constraint)) {
+            $this->constraints[$name] = new CallableConstraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever,
+                $this, $constraint);
+
+            return;
+        }
+
+        if (is_string($constraint)) {
+            if ( ! class_exists($constraint)) {
+                // @todo possible own exception?
+                throw new InvalidArgumentException('Constraint class "' . $constraint . '" is not a Class');
+            }
+            $constraint = new $constraint(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
+        }
+
+        if ( ! $constraint instanceof ConstraintInterface) {
+            // @todo possible own exception?
+            throw new InvalidArgumentException('Constraint class "' . get_class($constraint) . '" is not an instance of ConstraintInterface');
+        }
+
+        $this->constraints[$name] = $constraint;
+    }
+
+    /**
+     * @param $constraintName
+     *
+     * @return bool
+     */
+    public function hasConstraint($constraintName)
+    {
+        return ! empty($this->constraints[$constraintName])
+               && $this->constraints[$constraintName] instanceof ConstraintInterface;
+    }
+
+    /**
      * Create a constraint instance for the given constraint name.
      *
      * @param string $constraintName
+     *
      * @return ConstraintInterface|ObjectConstraint
      * @throws InvalidArgumentException if is not possible create the constraint instance.
      */
@@ -76,6 +140,11 @@ class Factory
                 return new Validator(Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
         }
 
+        if ($this->hasConstraint($constraintName)) {
+            return $this->constraints[$constraintName];
+        }
+
         throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
     }
+
 }

@@ -9,8 +9,9 @@
 
 namespace JsonSchema;
 
-use JsonSchema\Constraints\SchemaConstraint;
+use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Exception\InvalidArgumentException;
 
 /**
  * A JsonSchema Constraint
@@ -36,5 +37,29 @@ class Validator extends Constraint
         $validator->check($value, $schema);
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
+    }
+
+    /**
+     * Add a custom constraint
+     *
+     * By instance:
+     *    $factory->addConstraint('name', new \FQCN(...)); // need to provide own ctr params
+     *
+     * By class name:
+     *    $factory->addConstraint('name', '\FQCN'); // inherits ctr params from current
+     *
+     * As a \Callable (the Constraint::checks() method):
+     *    $factory->addConstraint('name', \Callable); // inherits ctr params from current
+     *
+     * NOTE: By class-name or as a Callable will inherit the current configuration (uriRetriever, factory)
+     *
+     * @param string $name
+     * @param ConstraintInterface|string|\Callable $constraint
+     *
+     * @throws InvalidArgumentException if the $constraint is either not a class or not a ConstraintInterface
+     */
+    public function addConstraint($name, $constraint)
+    {
+        $this->getFactory()->addConstraint($name, $constraint);
     }
 }
