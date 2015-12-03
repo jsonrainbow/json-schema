@@ -42,15 +42,24 @@ class ObjectConstraint extends Constraint
 
     public function validatePatternProperties($element, $path, $patternProperties)
     {
+        $try = array('/','#','+','~','%');
         $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
+            $delimiter = '/';
+            // Choose delimiter. Necessary for patterns like ^/ , otherwise you get error
+            foreach ($try as $delimiter) {
+                if (strpos($pregex, $delimiter) === false) { // safe to use
+                    break;
+                }
+            }
+
             // Validate the pattern before using it to test for matches
-            if (@preg_match('/'. $pregex . '/', '') === false) {
+            if (@preg_match($delimiter. $pregex . $delimiter, '') === false) {
                 $this->addError($path, 'The pattern "' . $pregex . '" is invalid', 'pregex', array('pregex' => $pregex,));
                 continue;
             }
             foreach ($element as $i => $value) {
-                if (preg_match('/' . $pregex . '/', $i)) {
+                if (preg_match($delimiter . $pregex . $delimiter, $i)) {
                     $matches[] = $i;
                     $this->checkUndefined($value, $schema ? : new \stdClass(), $path, $i);
                 }
