@@ -38,6 +38,39 @@ class RequiredPropertyTest extends BaseTestCase
         $this->assertErrorHasExpectedPropertyValue($error, "foo");
     }
 
+    public function testPathErrorPropertyIsPopulatedForRequiredIfMissingInInput()
+    {
+        $validator = new UndefinedConstraint();
+        $document = json_decode(
+            '{
+                "foo": [{"baz": 1.5}]
+            }'
+        );
+        $schema = json_decode(
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "bar": {"type": "number"},
+                                "baz": {"type": "number"}
+                            },
+                            "required": ["bar"]
+                        }
+                    }
+                },
+                "required": ["foo"]
+            }'
+        );
+
+        $validator->check($document, $schema);
+        $error = $validator->getErrors();
+        $this->assertErrorHasExpectedPropertyValue($error, "foo[0].bar");
+    }
+
     public function testErrorPropertyIsPopulatedForRequiredIfEmptyValueInInput()
     {
         $validator = new UndefinedConstraint();
