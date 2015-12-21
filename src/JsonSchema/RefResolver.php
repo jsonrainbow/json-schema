@@ -102,6 +102,7 @@ class RefResolver
     public function resolve($schema, $sourceUri = null)
     {
         if (self::$depth > self::$maxDepth) {
+            self::$depth = 0;
             throw new JsonDecodingException(JSON_ERROR_DEPTH);
         }
         ++self::$depth;
