@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\Exception\JsonDecodingException;
+
 /**
  * @group RefResolver
  */
@@ -354,5 +356,28 @@ JSN
         $resolver = new \JsonSchema\RefResolver($retriever);
 
         $resolver->resolve($jsonSchema);
+    }
+
+    public function testDepthRestoration()
+    {
+        // stub schema
+        $jsonSchema = new \stdClass;
+        $jsonSchema->id = 'stub';
+        $jsonSchema->additionalItems = new \stdClass();
+        $jsonSchema->additionalItems->additionalItems = 'stub';
+
+        // stub resolver
+        \JsonSchema\RefResolver::$maxDepth = 1;
+        $resolver = new \JsonSchema\RefResolver();
+
+        try {
+            $resolver->resolve($jsonSchema);
+        } catch (JsonDecodingException $e) {
+
+        }
+
+        $reflection = new \ReflectionProperty('\JsonSchema\RefResolver', 'depth');
+        $reflection->setAccessible(true);
+        $this->assertEquals(0, $reflection->getValue());
     }
 }
