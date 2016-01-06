@@ -88,6 +88,22 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "maximum": 3, "exclusiveMaximum": false}
                     }
                 }'
+            ),
+            array(
+                '{"value": 0.00}',
+                '{
+                    "properties": {
+                        "value": {"type": "number", "minimum": 0, "exclusiveMinimum": true}
+                    }
+                }'
+            ),
+            array(
+                '{"value": 0.00}',
+                '{
+                    "properties": {
+                        "value": {"type": "number", "maximum": 0, "exclusiveMaximum": true}
+                    }
+                }'
             )
         );
     }
