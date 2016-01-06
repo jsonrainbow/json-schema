@@ -8,7 +8,6 @@ matrix:
     - php: 5.4
     - php: 5.5
     - php: 5.6
-      env: CHECK_LINKS=true BUILD_DOCS=true
     - php: 7
     - php: hhvm
   allow_failures:
