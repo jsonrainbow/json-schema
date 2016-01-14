@@ -99,7 +99,7 @@ class RefResolver
      * @param object $schema    JSON Schema to flesh out
      * @param string $sourceUri URI where this schema was located
      */
-    public function resolve($schema, $sourceUri = null)
+    public function resolve($schema, $sourceUri = null, $rootSchema = null)
     {
         if (self::$depth > self::$maxDepth) {
             self::$depth = 0;
@@ -116,12 +116,8 @@ class RefResolver
             $sourceUri = $schema->id;
         }
 
-        if (null === $this->rootSchema) {
-            $this->rootSchema = $schema;
-        }
-
         // Resolve $ref first
-        $this->resolveRef($schema, $sourceUri);
+        $this->resolveRef($schema, $sourceUri, $rootSchema ?: $schema);
 
         // These properties are just schemas
         // eg.  items can be a schema or an array of schemas
@@ -159,7 +155,7 @@ class RefResolver
         }
 
         foreach ($schema->$propertyName as $possiblySchema) {
-            $this->resolve($possiblySchema, $sourceUri);
+            $this->resolve($possiblySchema, $sourceUri, $schema);
         }
     }
 
@@ -178,7 +174,7 @@ class RefResolver
         }
 
         foreach (get_object_vars($schema->$propertyName) as $possiblySchema) {
-            $this->resolve($possiblySchema, $sourceUri);
+            $this->resolve($possiblySchema, $sourceUri, $schema);
         }
     }
 
@@ -196,7 +192,7 @@ class RefResolver
             return;
         }
 
-        $this->resolve($schema->$propertyName, $sourceUri);
+        $this->resolve($schema->$propertyName, $sourceUri, $schema);
     }
 
     /**
@@ -207,7 +203,7 @@ class RefResolver
      * @param object $schema    JSON Schema to flesh out
      * @param string $sourceUri URI where this schema was located
      */
-    public function resolveRef($schema, $sourceUri)
+    public function resolveRef($schema, $sourceUri, $rootSchema = null)
     {
         $ref = '$ref';
 
@@ -232,7 +228,7 @@ class RefResolver
         if (!empty($refDoc)) {
             $refSchema = $this->fetchRef($refDoc, $sourceUri);
         } else {
-            $refSchema = $this->rootSchema;
+            $refSchema = $rootSchema ?: $schema;
         }
 
         if (null !== $refPath) {
