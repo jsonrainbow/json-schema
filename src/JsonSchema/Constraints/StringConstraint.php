@@ -37,10 +37,10 @@ class StringConstraint extends Constraint
         }
 
         // Verify a regex pattern
-        if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#', $element)) {
-            $this->addError($path, "Does not match the regex pattern " . $schema->pattern, 'pattern', array(
+        if ( isset( $schema->pattern ) && !@preg_match( $schema->pattern, $element )) {
+            $this->addError( $path, "Does not match the regex pattern " . $schema->pattern, 'pattern', array(
                 'pattern' => $schema->pattern,
-            ));
+            ) );
         }
 
         $this->checkFormat($element, $schema, $path, $i);
