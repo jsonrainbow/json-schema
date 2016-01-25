@@ -9,8 +9,24 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use PHPUnit_Framework_TestCase as TestCase;
+
+
+/**
+ * Class MyBadConstraint
+ * @package JsonSchema\Tests\Constraints
+ */
+class MyBadConstraint {}
+
+/**
+ * Class MyStringConstraint
+ * @package JsonSchema\Tests\Constraints
+ */
+class MyStringConstraint extends Constraint {
+  public function check($value, $schema = null, $path = null, $i = null){}
+}
 
 class FactoryTest extends TestCase
 {
@@ -69,10 +85,34 @@ class FactoryTest extends TestCase
         $this->factory->createInstanceFor($constraintName);
     }
 
-    public function invalidConstraintNameProvider()
+    public function invalidConstraintNameProvider() {
+      return array(
+        array('invalidConstraintName'),
+      );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetConstraintClassExistsCondition()
     {
-        return array(
-            array('invalidConstraintName'),
-        );
+      $this->factory->setConstraintClass('string', 'SomeConstraint');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetConstraintClassImplementsCondition()
+    {
+      $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
+    }
+
+    public function testSetConstraintClassInstance()
+    {
+      $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyStringConstraint');
+      $constraint = $this->factory->createInstanceFor('string');
+      $this->assertInstanceOf('JsonSchema\Tests\Constraints\MyStringConstraint', $constraint);
+      $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+      $this->assertSame($this->factory->getUriRetriever(), $constraint->getUriRetriever());
     }
 }
