@@ -18,9 +18,6 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
-  - if [[ "$CHECK_LINKS" == "true" ]]; then sudo apt-get -y install pypy python-sphinx graphviz; fi
 
 script:
   - vendor/bin/phpunit --coverage-text
-  - if [[ "$CHECK_LINKS" == "true" ]]; then cd docs && make linkcheck && cd ..; fi
-  - if [[ "$BUILD_DOCS" == "true" ]]; then vendor/bin/phpdoc -d src -t docs-api; fi
