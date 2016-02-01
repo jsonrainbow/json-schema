@@ -10,6 +10,7 @@ use JsonSchema\Exception\ResourceNotFoundException;
  */
 class Pointer
 {
+    const EMPTY_ELEMENT = '_empty_';
     const LAST_ELEMENT = '-';
     const SEPARATOR = '/';
 
@@ -36,6 +37,7 @@ class Pointer
      *
      * @param string $pointer The Json Pointer.
      *
+     * @throws InvalidPointerException
      * @throws ResourceNotFoundException
      *
      * @return mixed
@@ -94,11 +96,16 @@ class Pointer
 
         $part = array_shift($parts);
 
-        if (is_object($json) && isset($json->$part)) {
+        // Ensure we deal with empty keys the same way as json_decode does
+        if ($part === '') {
+            $part = self::EMPTY_ELEMENT;
+        }
+
+        if (is_object($json) && property_exists($json, $part)) {
             return $this->resolve($json->$part, $parts);
         } elseif (is_array($json)) {
             if ($part === self::LAST_ELEMENT) {
-                return $this->resolve(end($json));
+                return $this->resolve(end($json), $parts);
             }
             if (filter_var($part, FILTER_VALIDATE_INT) !== false &&
                 array_key_exists($part, $json)
@@ -107,7 +114,9 @@ class Pointer
             }
         }
 
-        throw new ResourceNotFoundException('Failed to resolve pointer ' . $this->pointer);
+        $message = 'Failed to resolve pointer ' . $this->pointer .
+            ' from document id ' . (isset($json->id) ? $json->id : '');
+        throw new ResourceNotFoundException($message);
     }
 
     /**
