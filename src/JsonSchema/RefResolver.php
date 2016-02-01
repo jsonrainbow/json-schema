@@ -11,6 +11,7 @@ namespace JsonSchema;
 
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
+use JsonSchema\Uri\UriResolver;
 use JsonSchema\Uri\UriRetriever;
 
 /**
@@ -42,9 +43,9 @@ class RefResolver
     protected $uriRetriever = null;
 
     /**
-     * @var object
+     * @var object[]
      */
-    protected $rootSchema = null;
+    protected $schemaStack = array();
 
     /**
      * @param UriRetriever $retriever
@@ -65,7 +66,11 @@ class RefResolver
     {
         $retriever  = $this->getUriRetriever();
         $jsonSchema = $retriever->retrieve($ref, $sourceUri);
+
+        // Switch context to retrieved schema
+        $this->schemaStack[] = $jsonSchema;
         $this->resolve($jsonSchema);
+        array_pop($this->schemaStack);
 
         return $jsonSchema;
     }
@@ -101,6 +106,11 @@ class RefResolver
      */
     public function resolve($schema, $sourceUri = null)
     {
+        if (0 === self::$depth) {
+            // Reset stack to contain this schema only
+            $this->schemaStack = array($schema);
+        }
+
         if (self::$depth > self::$maxDepth) {
             self::$depth = 0;
             throw new JsonDecodingException(JSON_ERROR_DEPTH);
@@ -114,10 +124,6 @@ class RefResolver
 
         if (null === $sourceUri && ! empty($schema->id)) {
             $sourceUri = $schema->id;
-        }
-
-        if (null === $this->rootSchema) {
-            $this->rootSchema = $schema;
         }
 
         // Resolve $ref first
@@ -229,10 +235,11 @@ class RefResolver
             return;
         }
 
-        if (!empty($refDoc)) {
-            $refSchema = $this->fetchRef($refDoc, $sourceUri);
+        if (empty($refDoc)) {
+            // Resolve relative to current base schema
+            $refSchema = end($this->schemaStack);
         } else {
-            $refSchema = $this->rootSchema;
+            $refSchema = $this->fetchRef($refDoc, $sourceUri);
         }
 
         if (null !== $refPath) {

@@ -52,6 +52,114 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testResolveSchemaWithRelativeReference()
+    {
+        $res = new \JsonSchema\RefResolver();
+
+        $schema = (object) array(
+            'definitions' => (object) array(
+                'foo' => (object) array(
+                    'type' => 'object',
+                    'title' => 'foo'
+                ),
+            ),
+            '$ref' => '#/definitions/foo',
+        );
+
+        $res->resolve($schema);
+
+        $this->assertEquals(
+            (object) array(
+                'type'  => 'object',
+                'title' => 'foo',
+                'definitions' => (object) array(
+                    'foo' => (object) array(
+                        'type' => 'object',
+                        'title' => 'foo'
+                    ),
+                ),
+            ),
+            $schema
+        );
+    }
+
+    public function testResolveSchemaWithAbsoluteReference()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "id": "http://example.org/schema",
+    "definitions": {
+        "foo": {
+            "type": "object",
+            "title": "foo"
+        }
+    }
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $schema = (object) array(
+            '$ref' => 'http://example.org/schema#/definitions/foo',
+        );
+
+        $res->resolve($schema);
+
+        $this->assertEquals(
+            (object) array(
+                'type'  => 'object',
+                'title' => 'foo',
+            ),
+            $schema
+        );
+    }
+
+    public function testResolveSchemaWithReferenceToSchemaWithRelativeReference()
+    {
+        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
+            array(
+                'http://example.org/schema' => <<<JSN
+{
+    "id": "http://example.org/schema",
+    "definitions": {
+        "foo": {
+            "type": "object",
+            "title": "foo"
+        }
+    },
+    "properties": {
+        "bar": {
+            "\$ref": "#/definitions/foo"
+        }
+    }
+}
+JSN
+            )
+        );
+
+        $res = new \JsonSchema\RefResolver();
+        $res->getUriRetriever()->setUriRetriever($retr);
+
+        $schema = (object) array(
+            '$ref' => 'http://example.org/schema#/properties/bar',
+        );
+
+        $res->resolve($schema);
+
+        $this->assertEquals(
+            (object) array(
+                'type'  => 'object',
+                'title' => 'foo',
+            ),
+            $schema
+        );
+    }
+
     /**
      * Helper method for resolve* methods
      */
