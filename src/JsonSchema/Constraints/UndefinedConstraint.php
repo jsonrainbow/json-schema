@@ -166,7 +166,7 @@ class UndefinedConstraint extends Constraint
         }
 
         // Verify minimum and maximum number of properties
-        if (is_object($value)) {
+        if (is_object($value) && !($value instanceof UndefinedConstraint)) {
             if (isset($schema->minProperties)) {
                 if (count(get_object_vars($value)) < $schema->minProperties) {
                     $this->addError($path, "Must contain a minimum of " . $schema->minProperties . " properties", 'minProperties', array('minProperties' => $schema->minProperties,));

@@ -63,6 +63,30 @@ class MinItemsMaxItemsTest extends BaseTestCase
                     "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
+            ),
+            // Regression test for issue 215
+            array(
+                '{}',
+                '{
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "rooms": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "minProperties": 1,
+                      "maxProperties": 2,
+                      "properties": {
+                        "size_1": {
+                          "type": "number"
+                        },
+                        "size_2": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }'
             )
         );
     }
