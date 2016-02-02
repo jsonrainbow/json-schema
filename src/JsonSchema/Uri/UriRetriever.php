@@ -9,7 +9,7 @@
 
 namespace JsonSchema\Uri;
 
-use JsonSchema\Pointer;
+use JsonSchema\PointerResolver;
 use JsonSchema\Uri\Retrievers\FileGetContents;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\Validator;
@@ -101,9 +101,9 @@ class UriRetriever
             return $jsonSchema;
         }
 
-        $pointer = new Pointer($jsonSchema);
+        $pointerResolver = new PointerResolver();
 
-        $reference = $pointer->get($parsed['fragment']);
+        $reference = $pointerResolver->resolvePointer($jsonSchema, $parsed['fragment']);
 
         if (!is_object($reference)) {
             throw new ResourceNotFoundException("Pointer was not an object");

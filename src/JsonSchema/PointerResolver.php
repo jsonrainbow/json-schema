@@ -8,16 +8,11 @@ use JsonSchema\Exception\ResourceNotFoundException;
 /**
  * Resolve JSON Pointers (RFC 6901)
  */
-class Pointer
+class PointerResolver
 {
     const EMPTY_ELEMENT = '_empty_';
     const LAST_ELEMENT = '-';
     const SEPARATOR = '/';
-
-    /**
-     * @var object
-     */
-    private $json;
 
     /**
      * @var string
@@ -25,16 +20,9 @@ class Pointer
     private $pointer;
 
     /**
-     * @param object $json The json document to resolve within.
-     */
-    public function __construct($json)
-    {
-        $this->json = $json;
-    }
-
-    /**
      * Get the part of the document which the pointer points to.
      *
+     * @param object $json    The json document to resolve within.
      * @param string $pointer The Json Pointer.
      *
      * @throws InvalidPointerException
@@ -42,10 +30,10 @@ class Pointer
      *
      * @return mixed
      */
-    public function get($pointer)
+    public function resolvePointer($json, $pointer)
     {
         if ($pointer === '') {
-            return $this->json;
+            return $json;
         }
 
         $this->validatePointer($pointer);
@@ -53,7 +41,7 @@ class Pointer
 
         $parts = array_slice(array_map('urldecode', explode('/', $pointer)), 1);
 
-        return $this->resolve($this->json, $this->decodeParts($parts));
+        return $this->resolve($json, $this->decodeParts($parts));
     }
 
     /**
