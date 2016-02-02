@@ -13,11 +13,15 @@ matrix:
   allow_failures:
     - php: 7
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 before_install:
   - composer selfupdate
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer install --no-interaction --prefer-dist
 
 script:
   - vendor/bin/phpunit --coverage-text
