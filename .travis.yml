@@ -1,6 +1,10 @@
 sudo: false
 language: php
 
+env:
+  global:
+    - secure: "foo"
+
 matrix:
   fast_finish: true
   include:
@@ -19,6 +23,7 @@ cache:
 
 before_install:
   - composer selfupdate
+  - composer config github-oauth.github.com $GITHUB_TOKEN
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist
