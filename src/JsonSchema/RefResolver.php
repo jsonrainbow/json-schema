@@ -127,7 +127,7 @@ class RefResolver
         }
 
         // First determine our resolution scope
-        $scope = $this->getResolutionScope($schema, $sourceUri);
+        $scope = $this->enterResolutionScope($schema, $sourceUri);
 
         // These properties are just schemas
         // eg.  items can be a schema or an array of schemas
@@ -151,18 +151,19 @@ class RefResolver
         $this->resolveRef($schema, $scope);
 
         // Pop back out of our scope
-        array_pop($this->scopes);
+        $this->leaveResolutionScope();
     }
 
     /**
-     * Returns the resolution scope for the given schema. Inspects the partial
-     * for the presence of 'id' and then returns that as a absolute uri.
+     * Enters a new resolution scope for the given schema.  Inspects the
+     * partial for the presence of 'id' and then returns that as a absolute
+     * uri.  Returns the new scope.
      *
      * @param  object $schemaPartial JSON Schema to get the resolution scope for
      * @param  string $sourceUri     URI where this schema was located
      * @return string
      */
-    private function getResolutionScope($schemaPartial, $sourceUri)
+    private function enterResolutionScope($schemaPartial, $sourceUri)
     {
         if (count($this->scopes) === 0) {
             $this->scopes[] = '#';
@@ -177,6 +178,14 @@ class RefResolver
         }
 
         return end($this->scopes);
+    }
+
+    /**
+     * Leaves the current resolution scope.
+     */
+    private function leaveResolutionScope()
+    {
+        array_pop($this->scopes);
     }
 
     /**
