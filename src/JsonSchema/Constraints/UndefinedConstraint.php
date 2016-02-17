@@ -25,15 +25,8 @@ class UndefinedConstraint extends Constraint
      */
     public function check($value, $schema = null, $path = null, $i = null)
     {
-        if (is_null($schema)) {
+        if (is_null($schema) || !is_object($schema)) {
             return;
-        }
-
-        if (!is_object($schema)) {
-            throw new InvalidArgumentException(
-                'Given schema must be an object in ' . $path
-                . ' but is a ' . gettype($schema)
-            );
         }
 
         $i = is_null($i) ? "" : $i;
@@ -65,10 +58,10 @@ class UndefinedConstraint extends Constraint
         }
 
         // check object
-        if (is_object($value) && (isset($schema->properties) || isset($schema->patternProperties) || isset($schema->additionalProperties))) {
+        if (is_object($value)) {
             $this->checkObject(
                 $value,
-                isset($schema->properties) ? $schema->properties : null,
+                isset($schema->properties) ? $schema->properties : $schema,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
                 isset($schema->patternProperties) ? $schema->patternProperties : null
@@ -162,20 +155,6 @@ class UndefinedConstraint extends Constraint
                 $this->addError($path, "Matched a schema which it should not", 'not');
             } else {
                 $this->errors = $initErrors;
-            }
-        }
-
-        // Verify minimum and maximum number of properties
-        if (is_object($value)) {
-            if (isset($schema->minProperties)) {
-                if (count(get_object_vars($value)) < $schema->minProperties) {
-                    $this->addError($path, "Must contain a minimum of " . $schema->minProperties . " properties", 'minProperties', array('minProperties' => $schema->minProperties,));
-                }
-            }
-            if (isset($schema->maxProperties)) {
-                if (count(get_object_vars($value)) > $schema->maxProperties) {
-                    $this->addError($path, "Must contain no more than " . $schema->maxProperties . " properties", 'maxProperties', array('maxProperties' => $schema->maxProperties,));
-                }
             }
         }
 
