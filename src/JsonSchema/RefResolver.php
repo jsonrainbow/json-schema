@@ -22,6 +22,8 @@ use JsonSchema\Uri\UriResolver;
  */
 class RefResolver
 {
+    const SELF_REF_LOCATION = '#';
+
     /**
      * @var UriRetrieverInterface
      */
@@ -64,7 +66,7 @@ class RefResolver
 
         // Retrieve dereferenced schema
         if ($location == null) {
-            $schema = end($this->schemas);
+            $schema = $this->schemas[self::SELF_REF_LOCATION];
         } elseif (array_key_exists($location, $this->schemas)) {
             $schema = $this->schemas[$location];
         } else {
@@ -166,8 +168,8 @@ class RefResolver
     private function enterResolutionScope($schemaPartial, $sourceUri)
     {
         if (count($this->scopes) === 0) {
-            $this->scopes[] = '#';
-            $this->schemas[] = $schemaPartial;
+            $this->scopes[] = self::SELF_REF_LOCATION;
+            $this->schemas[self::SELF_REF_LOCATION] = $schemaPartial;
         }
 
         if (!empty($schemaPartial->id)) {
