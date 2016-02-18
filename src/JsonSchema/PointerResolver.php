@@ -15,11 +15,6 @@ class PointerResolver
     const SEPARATOR = '/';
 
     /**
-     * @var string
-     */
-    private $pointer;
-
-    /**
      * Get the part of the document which the pointer points to.
      *
      * @param object $json    The json document to resolve within.
@@ -37,11 +32,10 @@ class PointerResolver
         }
 
         $this->validatePointer($pointer);
-        $this->pointer = $pointer;
 
         $parts = array_slice(array_map('urldecode', explode('/', $pointer)), 1);
 
-        return $this->resolve($json, $this->decodeParts($parts));
+        return $this->resolve($json, $pointer, $this->decodeParts($parts));
     }
 
     /**
@@ -68,14 +62,15 @@ class PointerResolver
     /**
      * Recurse through $json until location described by $parts is found.
      *
-     * @param mixed $json  The json document.
-     * @param array $parts The parts of the pointer.
+     * @param mixed  $json  The json document.
+     * @param string $json  The original json pointer.
+     * @param array  $parts The (remaining) parts of the pointer.
      *
      * @throws ResourceNotFoundException
      *
      * @return mixed
      */
-    private function resolve($json, array $parts)
+    private function resolve($json, $pointer, array $parts)
     {
         // Check for completion
         if (count($parts) === 0) {
@@ -90,20 +85,20 @@ class PointerResolver
         }
 
         if (is_object($json) && property_exists($json, $part)) {
-            return $this->resolve($json->$part, $parts);
+            return $this->resolve($json->$part, $pointer, $parts);
         } elseif (is_array($json)) {
             if ($part === self::LAST_ELEMENT) {
-                return $this->resolve(end($json), $parts);
+                return $this->resolve(end($json), $pointer, $parts);
             }
             if (filter_var($part, FILTER_VALIDATE_INT) !== false &&
                 array_key_exists($part, $json)
             ) {
-                return $this->resolve($json[$part], $parts);
+                return $this->resolve($json[$part], $pointer, $parts);
             }
         }
 
-        $message = 'Failed to resolve pointer ' . $this->pointer .
-            ' from document id ' . (isset($json->id) ? $json->id : '');
+        $message = "Failed to resolve pointer $pointer from document id"
+            . (isset($json->id) ? $json->id : '');
         throw new ResourceNotFoundException($message);
     }
 
