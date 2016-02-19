@@ -41,6 +41,31 @@ class EnumConstraint extends Constraint
             }
         }
 
-        $this->addError($path, "Does not have a value in the enumeration " . print_r($schema->enum, true), 'enum', array('enum' => $schema->enum,));
+        $this->addError($path, "value is not in enumeration: [" . $this->enumToString($schema->enum) . "]", 'enum', array('enum' => $schema->enum,));
+    }
+
+    /**
+     * @param array $enum
+     * @return string
+     */
+    private function enumToString(array $enum)
+    {
+        $enumString = '';
+
+        foreach ($enum as $value) {
+            if (is_array($value)) {
+                $enumString += '[' . $this->enumToString($value) . ']' . ', ';
+                continue;
+            }
+
+            if (is_object($value)) {
+                $enumString += '[' . $this->enumToString((array) $value) . ']' . ', ';
+                continue;
+            }
+
+            $enumString += $value . ', ';
+        }
+
+        return rtrim($enumString, ', ');
     }
 }
