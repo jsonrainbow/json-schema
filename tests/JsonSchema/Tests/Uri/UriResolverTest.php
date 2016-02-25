@@ -93,7 +93,7 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException JsonSchema\Exception\UriResolverException
+     * @expectedException \JsonSchema\Exception\UriResolverException
      */
     public function testResolveRelativeUriNoBase()
     {
@@ -149,6 +149,18 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    public function testResolveRelativeUriBaseFileAnchored()
+    {
+        $this->assertEquals(
+            'http://example.org/foo/baz.json',
+            $this->resolver->resolve(
+                'baz.json',
+                'http://example.org/foo/bar.json#baz'
+            )
+        );
+    }
+
     public function testResolveAnchorAnchor()
     {
         $this->assertEquals(
