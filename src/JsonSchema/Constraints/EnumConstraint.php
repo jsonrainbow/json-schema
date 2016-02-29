@@ -41,6 +41,6 @@ class EnumConstraint extends Constraint
             }
         }
 
-        $this->addError($path, "Does not have a value in the enumeration " . print_r($schema->enum, true), 'enum', array('enum' => $schema->enum,));
+        $this->addError($path, "Does not have a value in the enumeration " . json_encode($schema->enum), 'enum', array('enum' => $schema->enum,));
     }
 }
