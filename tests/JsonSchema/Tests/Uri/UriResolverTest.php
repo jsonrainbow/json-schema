@@ -10,99 +10,35 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         $this->resolver = new UriResolver();
     }
 
-    public function testParse()
+    /**
+     * @dataProvider uriProvider
+     */
+    public function testExtractLocation($uri, $location, $fragment)
     {
-        $this->assertEquals(
-            array(
-                'scheme'    => 'http',
-                'authority' => 'example.org',
-                'path'      => '/path/to/file.json'
-            ),
-            $this->resolver->parse('http://example.org/path/to/file.json')
-        );
-    }
-
-    public function testParseAnchor()
-    {
-        $this->assertEquals(
-            array(
-                'scheme'    => 'http',
-                'authority' => 'example.org',
-                'path'      => '/path/to/file.json',
-                'query'     => '',
-                'fragment'  => 'foo'
-            ),
-            $this->resolver->parse('http://example.org/path/to/file.json#foo')
-        );
-    }
-
-    public function testCombineRelativePathWithBasePath()
-    {
-        $this->assertEquals(
-            '/foo/baz.json',
-            UriResolver::combineRelativePathWithBasePath(
-                'baz.json',
-                '/foo/bar.json'
-            )
-        );
-    }
-
-    public function testCombineRelativePathWithBasePathAbsolute()
-    {
-        $this->assertEquals(
-            '/baz/data.json',
-            UriResolver::combineRelativePathWithBasePath(
-                '/baz/data.json',
-                '/foo/bar.json'
-            )
-        );
-    }
-
-    public function testCombineRelativePathWithBasePathRelativeSub()
-    {
-        $this->assertEquals(
-            '/foo/baz/data.json',
-            UriResolver::combineRelativePathWithBasePath(
-                'baz/data.json',
-                '/foo/bar.json'
-            )
-        );
-    }
-
-    public function testCombineRelativePathWithBasePathNoPath()
-    {
-        //needed for anchor-only urls
-        $this->assertEquals(
-            '/foo/bar.json',
-            UriResolver::combineRelativePathWithBasePath(
-                '',
-                '/foo/bar.json'
-            )
-        );
-    }
-
-    public function testResolveAbsoluteUri()
-    {
-        $this->assertEquals(
-            'http://example.org/foo/bar.json',
-            $this->resolver->resolve(
-                'http://example.org/foo/bar.json',
-                null
-            )
-        );
+        $this->assertEquals($location, $this->resolver->extractLocation($uri));
     }
 
     /**
-     * @expectedException JsonSchema\Exception\UriResolverException
+     * @dataProvider uriProvider
      */
-    public function testResolveRelativeUriNoBase()
+    public function testExtractFragment($uri, $location, $fragment)
     {
-        $this->assertEquals(
-            'http://example.org/foo/bar.json',
-            $this->resolver->resolve(
-                'bar.json',
-                null
-            )
+        $this->assertEquals($fragment, $this->resolver->extractFragment($uri));
+    }
+
+    public function uriProvider()
+    {
+        return array(
+            'No Fragment' => array(
+                'http://example.org/path/to/file.json',
+                'http://example.org/path/to/file.json',
+                '',
+            ),
+            'With Fragment' => array(
+                'http://example.org/path/to/file.json#foo',
+                'http://example.org/path/to/file.json',
+                '#foo',
+            ),
         );
     }
 
