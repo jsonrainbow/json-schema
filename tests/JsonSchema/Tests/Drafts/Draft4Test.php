@@ -1,9 +1,22 @@
 <?php
 
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace JsonSchema\Tests\Drafts;
 
+/**
+ * @package JsonSchema\Tests\Drafts
+ */
 class Draft4Test extends BaseDraftTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function getFilePaths()
     {
         return array(
@@ -12,18 +25,15 @@ class Draft4Test extends BaseDraftTestCase
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSkippedTests()
     {
         return array(
-            // Not Yet Implemented
-            'definitions.json',
-            // Partially Implemented
-            'ref.json',
-            'refRemote.json',
             // Optional
             'bignum.json',
             'zeroTerminatedFloats.json'
         );
     }
-
 }

@@ -4,8 +4,12 @@ namespace JsonSchema\Tests\Drafts;
 
 use JsonSchema\Tests\Constraints\BaseTestCase;
 
+/**
+ * @package JsonSchema\Tests\Drafts
+ */
 abstract class BaseDraftTestCase extends BaseTestCase
 {
+    /** @var string  */
     protected $relativeTestsRoot = '/../../../../vendor/json-schema/JSON-Schema-Test-Suite/tests';
 
     private function setUpTests($isValid)
@@ -32,17 +36,29 @@ abstract class BaseDraftTestCase extends BaseTestCase
         return $tests;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getInvalidTests()
     {
         return $this->setUpTests(false);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getValidTests()
     {
         return $this->setUpTests(true);
     }
 
+    /**
+     * @return string[]
+     */
     protected abstract function getFilePaths();
 
+    /**
+     * @return string[]
+     */
     protected abstract function getSkippedTests();
 }
