@@ -4,7 +4,7 @@
     "keywords": ["json", "schema"],
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "authors": [
         {
             "name": "Bruno Prieto Reis",
