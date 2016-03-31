@@ -34,7 +34,7 @@ class RefResolver
      * maximum references depth
      * @var integer
      */
-    public static $maxDepth = 7;
+    public static $maxDepth;
 
     /**
      * @var UriRetrieverInterface
@@ -48,10 +48,15 @@ class RefResolver
 
     /**
      * @param UriRetriever $retriever
+     * @param int $maxDepth
      */
-    public function __construct($retriever = null)
+    public function __construct($retriever = null, $maxDepth = 7)
     {
         $this->uriRetriever = $retriever;
+
+        if (null === self::$maxDepth) {
+            self::$maxDepth = $maxDepth;
+        }
     }
 
     /**
