@@ -222,15 +222,4 @@ EOF;
             $schema, 'http://example.org/schema.json#/definitions/foo'
         );
     }
-    
-    /**
-     * @expectedException JsonSchema\Exception\UriResolverException
-     */
-    public function testResolveExcessLevelUp()
-    {
-        $retriever = new \JsonSchema\Uri\UriRetriever();
-        $retriever->resolve(
-            '../schema.json#', 'http://example.org/schema.json#'
-        );
-    }
 }
