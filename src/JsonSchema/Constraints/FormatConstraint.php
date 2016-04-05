@@ -8,6 +8,7 @@
  */
 
 namespace JsonSchema\Constraints;
+use JsonSchema\Rfc3339;
 
 /**
  * Validates against the "format" property
@@ -40,11 +41,7 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'date-time':
-                if (!$this->validateDateTime($element, 'Y-m-d\TH:i:s\Z') &&
-                    !$this->validateDateTime($element, 'Y-m-d\TH:i:s.u\Z') &&
-                    !$this->validateDateTime($element, 'Y-m-d\TH:i:sP') &&
-                    !$this->validateDateTime($element, 'Y-m-d\TH:i:sO')
-                ) {
+                if (null === Rfc3339::createFromString($element)) {
                     $this->addError($path, sprintf('Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm', json_encode($element)), 'format', array('format' => $schema->format,));
                 }
                 break;
@@ -130,19 +127,7 @@ class FormatConstraint extends Constraint
             return false;
         }
 
-        if ($datetime === $dt->format($format)) {
-            return true;
-        }
-
-        // handles the case where a non-6 digit microsecond datetime is passed
-        // which will fail the above string comparison because the passed
-        // $datetime may be '2000-05-01T12:12:12.123Z' but format() will return
-        // '2000-05-01T12:12:12.123000Z'
-        if ((strpos('u', $format) !== -1) && (intval($dt->format('u')) > 0)) {
-            return true;
-        }
-
-        return false;
+        return $datetime === $dt->format($format);
     }
 
     protected function validateRegex($regex)
