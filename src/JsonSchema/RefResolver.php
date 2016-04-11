@@ -34,7 +34,7 @@ class RefResolver
      * maximum references depth
      * @var integer
      */
-    public static $maxDepth = 7;
+    public static $maxDepth = 10;
 
     /**
      * @var UriRetrieverInterface
