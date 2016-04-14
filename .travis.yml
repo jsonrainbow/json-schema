@@ -1,6 +1,10 @@
 sudo: false
 language: php
 
+env:
+  global:
+    - secure: "foo"
+
 matrix:
   fast_finish: true
   include:
@@ -14,12 +18,17 @@ matrix:
   allow_failures:
     - php: 7
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 before_install:
   - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm" ]]; then phpenv config-rm xdebug.ini; fi
   - composer selfupdate
+  - composer config github-oauth.github.com $GITHUB_TOKEN
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer install --no-interaction --prefer-dist
 
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then vendor/bin/phpunit --coverage-text; else vendor/bin/phpunit; fi
