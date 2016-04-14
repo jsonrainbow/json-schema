@@ -85,8 +85,9 @@ class UriResolver implements UriResolverInterface
             return $uri;
         }
         $baseComponents = $this->parse($baseUri);
+        unset($baseComponents['fragment']);
         $basePath = $baseComponents['path'];
-        
+
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
         if (isset($components['fragment'])) {
             $baseComponents['fragment'] = $components['fragment'];
