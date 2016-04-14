@@ -50,6 +50,58 @@ class OfPropertiesTest extends BaseTestCase
                   "required": ["prop1"]
                 }'
             ),
+            array(
+                '{"prop1": "abc", "prop2": { "nested": true }}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {"type": "string"},
+                    "prop2": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "nested": {"type": "boolean"}
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "nested": {"type": "string"}
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["prop1"]
+                }'
+            ),
+            array(
+                '{"prop1": "abc", "prop2": { "another": "asdf" }}',
+                '{
+                  "type": "object",
+                  "properties": {
+                    "prop1": {"type": "string"},
+                    "prop2": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "nested": {"type": "boolean"}
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "another": {"type": "string"}
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["prop1"]
+                }'
+            ),
         );
     }
 
