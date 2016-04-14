@@ -200,22 +200,14 @@ try {
         echo $urlSchema . "\n";
         exit();
     }
-
-    $schema = $retriever->retrieve($urlSchema);
-    if ($schema === null) {
-        echo "Error loading JSON schema file\n";
-        echo $urlSchema . "\n";
-        showJsonError();
-        exit(2);
-    }
 } catch (Exception $e) {
     echo "Error loading JSON schema file\n";
     echo $urlSchema . "\n";
     echo $e->getMessage() . "\n";
     exit(2);
 }
-$refResolver = new JsonSchema\RefResolver($retriever);
-$refResolver->resolve($schema, $urlSchema);
+$refResolver = new JsonSchema\RefResolver($retriever, $resolver);
+$schema = $refResolver->resolve($urlSchema);
 
 if (isset($arOptions['--dump-schema'])) {
     $options = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0;
@@ -242,4 +234,3 @@ try {
     echo "Error code: " . $e->getCode() . "\n";
     exit(24);
 }
-?>

@@ -9,375 +9,237 @@
 
 namespace JsonSchema\Tests;
 
-use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\RefResolver;
+use JsonSchema\Uri\UriResolver;
+use JsonSchema\Uri\UriRetriever;
+use Prophecy\Argument;
 
 /**
+ * @package JsonSchema\Tests
+ * @author Joost Nijhuis <jnijhuis81@gmail.com>
+ * @author Rik Jansen <rikjansen@gmail.com>
  * @group RefResolver
  */
 class RefResolverTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var RefResolver */
+    private $refResolver;
+
     /**
-     * @dataProvider resolveProvider
+     * {@inheritdoc}
      */
-    public function testResolve($input, $methods)
+    public function setUp()
     {
-        $resolver = $this->getMock('JsonSchema\RefResolver', array_keys($methods));
-        foreach ($methods as $methodName => $methodInvocationCount) {
-            $resolver->expects($this->exactly($methodInvocationCount))
-                ->method($methodName);
-        }
-        $resolver->resolve($input);
+        parent::setUp();
+
+        $this->refResolver = new RefResolver(new UriRetriever(), new UriResolver());
     }
 
-    public function resolveProvider() {
-        return array(
-            'non-object' => array(
-                'string',
-                array(
-                    'resolveRef' => 0,
-                    'resolveProperty' => 0,
-                    'resolveArrayOfSchemas' => 0,
-                    'resolveObjectOfSchemas' => 0
-                )
-            ),
-            'empty object' => array(
-                (object) array(),
-                array(
-                    'resolveRef' => 1,
-                    'resolveProperty' => 4,
-                    'resolveArrayOfSchemas' => 7,
-                    'resolveObjectOfSchemas' => 3
-                )
-            )
+    public function testSchemaWithLocalAndExternalReferencesWithCircularReference()
+    {
+        $mainSchema = $this->getMainSchema();
+        $schema2 = $this->getSchema2();
+        $schema3 = $this->getSchema3();
+
+        /** @var UriRetriever $uriRetriever */
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve('http://www.example.com/schema.json')
+            ->willReturn($mainSchema)
+            ->shouldBeCalled($mainSchema);
+        $uriRetriever->retrieve('http://www.my-domain.com/schema2.json')
+            ->willReturn($schema2)
+            ->shouldBeCalled();
+        $uriRetriever->retrieve('http://www.my-domain.com/schema3.json')
+            ->willReturn($schema3)
+            ->shouldBeCalled();
+
+        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
+        $refResolver->resolve('http://www.example.com/schema.json');
+
+        // ref schema merged into schema
+        $this->assertSame($schema2->definitions->car->type, $mainSchema->properties->car->type);
+        $this->assertSame(
+            $schema2->definitions->car->additionalProperties,
+            $mainSchema->properties->car->additionalProperties
         );
+        $this->assertSame($schema2->definitions->car->properties, $mainSchema->properties->car->properties);
+        $this->assertFalse(property_exists($mainSchema->properties->car, '$ref'));
+
+        // ref schema combined with current schema
+        $this->assertFalse(property_exists($mainSchema->properties->house, '$ref'));
+        $this->assertSame(true, $mainSchema->properties->house->allOf[0]->additionalProperties);
+        $this->assertSame($mainSchema->definitions->house, $mainSchema->properties->house->allOf[1]);
+
+        $this->assertNotSame($mainSchema->definitions->house, $mainSchema->definitions->house->properties->house);
+        $this->assertNotSame(
+            $mainSchema->definitions->house,
+            $mainSchema->definitions->house->properties->house->properties->house
+        );
+        $this->assertSame(
+            $mainSchema->definitions->house->properties->house,
+            $mainSchema->definitions->house->properties->house->properties->house->properties->house
+        );
+        $this->assertSame(
+            $mainSchema->definitions->house->properties->house,
+            $mainSchema->definitions->house->properties->house->properties->house->properties->house->properties->house
+        );
+
+        $this->assertNotSame($schema3->wheel, $mainSchema->properties->car->properties->wheel);
+        $this->assertSame(
+            $schema3->wheel->properties->spokes,
+            $mainSchema->properties->car->properties->wheel->properties->spokes
+        );
+
+        $this->assertNotSame($schema3->wheel->properties->car, $mainSchema->properties->car);
+        $this->assertSame($schema3->wheel->properties->car->properties, $mainSchema->properties->car->properties);
+    }
+
+    function testUnresolvableJsonPointExceptionShouldBeThrown()
+    {
+        $this->setExpectedException(
+            'JsonSchema\Exception\UnresolvableJsonPointerException',
+            'File: http://www.example.com/schema.json is found, but could not resolve fragment: #/definitions/car'
+        );
+
+        $mainSchema = $this->getInvalidSchema();
+
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve('http://www.example.com/schema.json')
+            ->willReturn($mainSchema)
+            ->shouldBeCalled($mainSchema);
+
+        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
+        $refResolver->resolve('http://www.example.com/schema.json');
     }
 
     /**
-     * Helper method for resolve* methods
+     * @return object
      */
-    public function helperResolveMethods($method, $input, $calls) {
-        $resolver = $this->getMock('JsonSchema\RefResolver', array('resolve'));
-        $resolver->expects($this->exactly($calls[$method]))
-            ->method('resolve');
-        $resolver->$method($input, 'testProp', 'http://example.com/');
-    }
-
-    /**
-     * @dataProvider testSchemas
-     */
-    public function testResolveArrayOfSchemas($input, $calls) {
-        $this->helperResolveMethods('resolveArrayOfSchemas', $input, $calls);
-    }
-
-    /**
-     * @dataProvider testSchemas
-     */
-    public function testResolveObjectOfSchemas($input, $calls) {
-        $this->helperResolveMethods('resolveObjectOfSchemas', $input, $calls);
-    }
-
-    public function testSchemas() {
-        return array(
-            'non-object' => array(
-                (object) array(
-                    'testProp' => 'string'
+    private function getMainSchema()
+    {
+        return (object) array(
+            'version' => 'v1',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'id' => 'http://www.example.com/schema.json',
+            'type' => 'object',
+            'additionalProperties' => true,
+            'required' => array(
+                'car'
+            ),
+            'properties' => (object) array(
+                'car' => (object) array(
+                    '$ref' => 'http://www.my-domain.com/schema2.json#/definitions/car'
                 ),
-                array(
-                    'resolveArrayOfSchemas' => 0,
-                    'resolveObjectOfSchemas' => 0,
-                    'resolveProperty' => 0
+                'house' => (object) array(
+                    'additionalProperties' => true,
+                    '$ref' => '#/definitions/house'
                 )
             ),
-            'undefined' => array(
-                (object) array(
-                ),
-                array(
-                    'resolveArrayOfSchemas' => 0,
-                    'resolveObjectOfSchemas' => 0,
-                    'resolveProperty' => 0
-                )
-            ),
-            'empty object' => array(
-                (object) array(
-                    'testProp' => (object) array()
-                ),
-                array(
-                    'resolveArrayOfSchemas' => 0,
-                    'resolveObjectOfSchemas' => 0,
-                    'resolveProperty' => 1
-                )
-            ),
-            'filled object' => array(
-                (object) array(
-                    'testProp' => (object) array(
-                        'one' => array(),
-                        'two' => array()
+            'definitions' => (object) array(
+                'house'  => (object) array(
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                    'required' => array(
+                        'door',
+                        'window'
+                    ),
+                    'properties' => (object) array(
+                        'door' => (object) array(
+                            'type' => 'string'
+                        ),
+                        'window' => (object) array(
+                            'type' => 'string'
+                        ),
+                        'house' => (object) array(
+                            '$ref' => '#/definitions/house'
+                        )
                     )
-                ),
-                array(
-                    'resolveArrayOfSchemas' => 0,
-                    'resolveObjectOfSchemas' => 2,
-                    'resolveProperty' => 1
-                )
-            ),
-            'empty array' => array(
-                (object) array(
-                    'testProp' => array()
-                ),
-                array(
-                    'resolveArrayOfSchemas' => 0,
-                    'resolveObjectOfSchemas' => 0,
-                    'resolveProperty' => 1
-                )
-            ),
-            'filled array' => array(
-                (object) array(
-                    'testProp' => array(1, 2, 3)
-                ),
-                array(
-                    'resolveArrayOfSchemas' => 3,
-                    'resolveObjectOfSchemas' => 0,
-                    'resolveProperty' => 1
                 )
             )
         );
     }
 
     /**
-     * @dataProvider refProvider
+     * @return object
      */
-    public function testResolveRef($expected, $input) {
-        $resolver = $this->getMock('JsonSchema\RefResolver', array('fetchRef'));
-        $resolver->expects($this->any())
-            ->method('fetchRef')
-            ->will($this->returnValue((object) array(
-                'this was' => array('added', 'because'),
-                'the' => (object) array('$ref resolved' => true)
-            )));
-        $resolver->resolveRef($input, 'http://example.com');
-        $this->assertEquals($expected, $input);
-    }
-
-    public function refProvider() {
-        return array(
-            'no ref' => array(
-                (object) array('test' => 'one'),
-                (object) array('test' => 'one')
-            ),
-            // The $ref is not removed here
-            'empty ref' => array(
-                (object) array(
-                    'test' => 'two',
-                    '$ref' => ''
-                ),
-                (object) array(
-                    'test' => 'two',
-                    '$ref' => ''
+    private function getSchema2()
+    {
+        return (object) array(
+            'version' => 'v1',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'id' => 'http://www.my-domain.com/schema2.json',
+            'definitions' => (object) array(
+                'car' => (object) array(
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                    'properties' => (object) array(
+                        'id' => (object) array(
+                            'type' => 'integer'
+                        ),
+                        'name' => (object) array(
+                            'type' => 'string',
+                            'minLength' => 1
+                        ),
+                        'wheel' => (object) array(
+                            '$ref' => './schema3.json#/wheel'
+                        )
+                    )
                 )
-            ),
-            // $ref is removed
-            'qualified ref' => array(
-                (object) array(
-                    'this is' => 'another test',
-                    'this was' => array('added', 'because'),
-                    'the' => (object) array('$ref resolved' => true)
-                ),
-                (object) array(
-                    '$ref' => 'http://example.com/',
-                    'this is' => 'another test'
-                )
-            ),
-        );
-    }
-
-    public function testFetchRefAbsolute()
-    {
-        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
-            array(
-                'http://example.org/schema' => <<<JSN
-{
-    "title": "schema",
-    "type": "object",
-    "id": "http://example.org/schema"
-}
-JSN
             )
         );
-
-        $res = new \JsonSchema\RefResolver();
-        $res->getUriRetriever()->setUriRetriever($retr);
-
-        $this->assertEquals(
-            (object) array(
-                'title' => 'schema',
-                'type'  => 'object',
-                'id'    => 'http://example.org/schema'
-            ),
-            $res->fetchRef('http://example.org/schema', 'http://example.org/schema')
-        );
-    }
-
-    public function testFetchRefAbsoluteAnchor()
-    {
-        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
-            array(
-                'http://example.org/schema' => <<<JSN
-{
-    "title": "schema",
-    "type": "object",
-    "id": "http://example.org/schema",
-    "definitions": {
-        "foo": {
-            "type": "object",
-            "title": "foo"
-        }
-    }
-}
-JSN
-            )
-        );
-
-        $res = new \JsonSchema\RefResolver();
-        $res->getUriRetriever()->setUriRetriever($retr);
-
-        $this->assertEquals(
-            (object) array(
-                'title' => 'foo',
-                'type'  => 'object',
-                'id'    => 'http://example.org/schema#/definitions/foo',
-            ),
-            $res->fetchRef(
-                'http://example.org/schema#/definitions/foo',
-                'http://example.org/schema'
-            )
-        );
-    }
-
-    public function testFetchRefRelativeAnchor()
-    {
-        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
-            array(
-                'http://example.org/schema' => <<<JSN
-{
-    "title": "schema",
-    "type": "object",
-    "id": "http://example.org/schema",
-    "definitions": {
-        "foo": {
-            "type": "object",
-            "title": "foo"
-        }
-    }
-}
-JSN
-            )
-        );
-
-        $res = new \JsonSchema\RefResolver();
-        $res->getUriRetriever()->setUriRetriever($retr);
-
-        $this->assertEquals(
-            (object) array(
-                'title' => 'foo',
-                'type'  => 'object',
-                'id'    => 'http://example.org/schema#/definitions/foo',
-            ),
-            $res->fetchRef(
-                '#/definitions/foo',
-                'http://example.org/schema'
-            )
-        );
-    }
-
-    public function testFetchRefArray()
-    {
-        $retr = new \JsonSchema\Uri\Retrievers\PredefinedArray(
-            array(
-                'http://example.org/array' => <<<JSN
-[1,2,3]
-JSN
-            )
-        );
-
-        $res = new \JsonSchema\RefResolver();
-        $res->getUriRetriever()->setUriRetriever($retr);
-
-        $this->assertEquals(
-            array(1, 2, 3),
-            $res->fetchRef('http://example.org/array', 'http://example.org/array')
-        );
-    }
-
-    public function testSetGetUriRetriever()
-    {
-        $retriever = new \JsonSchema\Uri\UriRetriever;
-        $resolver  = new \JsonSchema\RefResolver;
-        $this->assertInstanceOf('JsonSchema\Uri\UriRetriever', $resolver->getUriRetriever());
-        $this->assertInstanceOf('JsonSchema\RefResolver', $resolver->setUriRetriever($retriever));
-    }
-
-    public function testFetchRef()
-    {
-        // stub schema
-        $jsonSchema = new \stdClass;
-        $jsonSchema->id = 'stub';
-        $jsonSchema->additionalItems = 'stub';
-        $ref        = 'ref';
-        $sourceUri  = null;
-
-
-        // mock retriever
-        $retriever  = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
-        $retriever->expects($this->any())->method('retrieve')->will($this->returnValue($jsonSchema));
-
-        // stub resolver
-        $resolver   = new \JsonSchema\RefResolver;
-        $resolver->setUriRetriever($retriever);
-
-        $this->assertEquals($jsonSchema, $resolver->fetchRef($ref, $sourceUri));
     }
 
     /**
-     * @expectedException \JsonSchema\Exception\JsonDecodingException
+     * @return object
      */
-    public function testMaxDepthExceeded()
+    private function getSchema3()
     {
-        // stub schema
-        $jsonSchema = new \stdClass;
-        $jsonSchema->id = 'stub';
-        $jsonSchema->additionalItems = 'stub';
-
-        // mock retriever
-        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
-        $retriever->expects($this->any())->method('retrieve')->will($this->returnValue($jsonSchema));
-
-        // stub resolver
-        \JsonSchema\RefResolver::$maxDepth = 0;
-        $resolver = new \JsonSchema\RefResolver($retriever);
-
-        $resolver->resolve($jsonSchema);
+        return (object) array(
+            'version' => 'v1',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'wheel',
+            'wheel' => (object) array(
+                'properties' => (object) array(
+                    'spokes' => (object) array(
+                        'type' => 'integer'
+                    ),
+                    'size' => (object) array(
+                        'type' => 'integer'
+                    ),
+                    'car' => (object) array(
+                        '$ref' => './schema2.json#/definitions/car'
+                    )
+                )
+            )
+        );
     }
 
-    public function testDepthRestoration()
+    /**
+     * @return object
+     */
+    private function getInvalidSchema()
     {
-        // stub schema
-        $jsonSchema = new \stdClass;
-        $jsonSchema->id = 'stub';
-        $jsonSchema->additionalItems = new \stdClass();
-        $jsonSchema->additionalItems->additionalItems = 'stub';
-
-        // stub resolver
-        \JsonSchema\RefResolver::$maxDepth = 1;
-        $resolver = new \JsonSchema\RefResolver();
-
-        try {
-            $resolver->resolve($jsonSchema);
-        } catch (JsonDecodingException $e) {
-
-        }
-
-        $reflection = new \ReflectionProperty('\JsonSchema\RefResolver', 'depth');
-        $reflection->setAccessible(true);
-        $this->assertEquals(0, $reflection->getValue());
+        return (object) array(
+            'version' => 'v1',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'type' => 'object',
+            'properties' => (object) array(
+                'spokes' => (object) array(
+                    'type' => 'integer'
+                ),
+                'size' => (object) array(
+                    'type' => 'integer'
+                ),
+                'car' => (object) array(
+                    '$ref' => '#/definitions/car'
+                )
+            ),
+            'definitions' => (object) array(
+                'date' => (object) array(
+                    'type' => 'string',
+                    'pattern' => '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$'
+                )
+            )
+        );
     }
 }

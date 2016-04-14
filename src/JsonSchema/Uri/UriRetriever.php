@@ -11,6 +11,7 @@ namespace JsonSchema\Uri;
 
 use JsonSchema\Uri\Retrievers\FileGetContents;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
+use JsonSchema\UriRetrieverInterface as BaseUriRetrieverInterface;
 use JsonSchema\Validator;
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
 use JsonSchema\Exception\JsonDecodingException;
@@ -21,7 +22,7 @@ use JsonSchema\Exception\ResourceNotFoundException;
  *
  * @author Tyler Akins <fidian@rumkin.com>
  */
-class UriRetriever
+class UriRetriever implements BaseUriRetrieverInterface
 {
     /**
      * @var null|UriRetrieverInterface
@@ -128,11 +129,7 @@ class UriRetriever
     }
 
     /**
-     * Retrieve a URI
-     *
-     * @param string $uri JSON Schema URI
-     * @param string|null $baseUri
-     * @return object JSON Schema contents
+     * {@inheritdoc}
      */
     public function retrieve($uri, $baseUri = null)
     {

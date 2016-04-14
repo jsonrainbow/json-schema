@@ -9,269 +9,177 @@
 
 namespace JsonSchema;
 
-use JsonSchema\Exception\JsonDecodingException;
-use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
-use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Exception\UnresolvableJsonPointerException;
+use JsonSchema\Iterator\ObjectIterator;
+use JsonSchema\Entity\JsonPointer;
 
 /**
- * Take in an object that's a JSON schema and take care of all $ref references
+ * Take in a source uri to locate a JSON schema and retrieve it and take care of all $ref references.
+ * Try to update the resolved schema which looks like a tree, but can be a graph. (so cyclic schema's are allowed).
+ * This way the current validator does not need to be changed and can work as well with the updated schema.
  *
- * @author Tyler Akins <fidian@rumkin.com>
- * @see    README.md
+ * @package JsonSchema
+ * @author Joost Nijhuis <jnijhuis81@gmail.com>
+ * @author Rik Jansen <rikjansen@gmail.com>
  */
 class RefResolver
 {
-    /**
-     * HACK to prevent too many recursive expansions.
-     * Happens e.g. when you want to validate a schema against the schema
-     * definition.
-     *
-     * @var integer
-     */
-    protected static $depth = 0;
+    /** @var UriRetrieverInterface */
+    private $uriRetriever;
+
+    /** @var UriResolverInterface */
+    private $uriResolver;
 
     /**
-     * maximum references depth
-     * @var integer
+     * @param UriRetrieverInterface $retriever
+     * @param UriResolverInterface $uriResolver
      */
-    public static $maxDepth = 7;
-
-    /**
-     * @var UriRetrieverInterface
-     */
-    protected $uriRetriever = null;
-
-    /**
-     * @var object
-     */
-    protected $rootSchema = null;
-
-    /**
-     * @param UriRetriever $retriever
-     */
-    public function __construct($retriever = null)
+    public function __construct(UriRetrieverInterface $retriever, UriResolverInterface $uriResolver)
     {
         $this->uriRetriever = $retriever;
+        $this->uriResolver = $uriResolver;
     }
 
     /**
-     * Retrieves a given schema given a ref and a source URI
+     * Resolves all schema and all $ref references for the give $sourceUri. Recurse through the object to resolve
+     * references of any child schemas and return the schema.
      *
-     * @param  string $ref       Reference from schema
-     * @param  string $sourceUri URI where original schema was located
-     * @return object            Schema
-     */
-    public function fetchRef($ref, $sourceUri)
-    {
-        $retriever  = $this->getUriRetriever();
-        $jsonSchema = $retriever->retrieve($ref, $sourceUri);
-        $this->resolve($jsonSchema);
-
-        return $jsonSchema;
-    }
-
-    /**
-     * Return the URI Retriever, defaulting to making a new one if one
-     * was not yet set.
-     *
-     * @return UriRetriever
-     */
-    public function getUriRetriever()
-    {
-        if (is_null($this->uriRetriever)) {
-            $this->setUriRetriever(new UriRetriever);
-        }
-
-        return $this->uriRetriever;
-    }
-
-    /**
-     * Resolves all $ref references for a given schema.  Recurses through
-     * the object to resolve references of any child schemas.
-     *
-     * The 'format' property is omitted because it isn't required for
-     * validation.  Theoretically, this class could be extended to look
-     * for URIs in formats: "These custom formats MAY be expressed as
-     * an URI, and this URI MAY reference a schema of that format."
-     *
-     * The 'id' property is not filled in, but that could be made to happen.
-     *
-     * @param object $schema    JSON Schema to flesh out
      * @param string $sourceUri URI where this schema was located
+     * @return object
      */
-    public function resolve($schema, $sourceUri = null)
+    public function resolve($sourceUri)
     {
-        if (self::$depth > self::$maxDepth) {
-            self::$depth = 0;
-            throw new JsonDecodingException(JSON_ERROR_DEPTH);
-        }
-        ++self::$depth;
-
-        if (! is_object($schema)) {
-            --self::$depth;
-            return;
-        }
-
-        if (null === $sourceUri && ! empty($schema->id)) {
-            $sourceUri = $schema->id;
-        }
-
-        if (null === $this->rootSchema) {
-            $this->rootSchema = $schema;
-        }
-
-        // Resolve $ref first
-        $this->resolveRef($schema, $sourceUri);
-
-        // These properties are just schemas
-        // eg.  items can be a schema or an array of schemas
-        foreach (array('additionalItems', 'additionalProperties', 'extends', 'items') as $propertyName) {
-            $this->resolveProperty($schema, $propertyName, $sourceUri);
-        }
-
-        // These are all potentially arrays that contain schema objects
-        // eg.  type can be a value or an array of values/schemas
-        // eg.  items can be a schema or an array of schemas
-        foreach (array('disallow', 'extends', 'items', 'type', 'allOf', 'anyOf', 'oneOf') as $propertyName) {
-            $this->resolveArrayOfSchemas($schema, $propertyName, $sourceUri);
-        }
-
-        // These are all objects containing properties whose values are schemas
-        foreach (array('dependencies', 'patternProperties', 'properties') as $propertyName) {
-            $this->resolveObjectOfSchemas($schema, $propertyName, $sourceUri);
-        }
-
-        --self::$depth;
+        return $this->resolveCached($sourceUri, array());
     }
 
     /**
-     * Given an object and a property name, that property should be an
-     * array whose values can be schemas.
-     *
-     * @param object $schema       JSON Schema to flesh out
-     * @param string $propertyName Property to work on
-     * @param string $sourceUri    URI where this schema was located
-     */
-    public function resolveArrayOfSchemas($schema, $propertyName, $sourceUri)
-    {
-        if (! isset($schema->$propertyName) || ! is_array($schema->$propertyName)) {
-            return;
-        }
-
-        foreach ($schema->$propertyName as $possiblySchema) {
-            $this->resolve($possiblySchema, $sourceUri);
-        }
-    }
-
-    /**
-     * Given an object and a property name, that property should be an
-     * object whose properties are schema objects.
-     *
-     * @param object $schema       JSON Schema to flesh out
-     * @param string $propertyName Property to work on
-     * @param string $sourceUri    URI where this schema was located
-     */
-    public function resolveObjectOfSchemas($schema, $propertyName, $sourceUri)
-    {
-        if (! isset($schema->$propertyName) || ! is_object($schema->$propertyName)) {
-            return;
-        }
-
-        foreach (get_object_vars($schema->$propertyName) as $possiblySchema) {
-            $this->resolve($possiblySchema, $sourceUri);
-        }
-    }
-
-    /**
-     * Given an object and a property name, that property should be a
-     * schema object.
-     *
-     * @param object $schema       JSON Schema to flesh out
-     * @param string $propertyName Property to work on
-     * @param string $sourceUri    URI where this schema was located
-     */
-    public function resolveProperty($schema, $propertyName, $sourceUri)
-    {
-        if (! isset($schema->$propertyName)) {
-            return;
-        }
-
-        $this->resolve($schema->$propertyName, $sourceUri);
-    }
-
-    /**
-     * Look for the $ref property in the object.  If found, remove the
-     * reference and augment this object with the contents of another
-     * schema.
-     *
-     * @param object $schema    JSON Schema to flesh out
      * @param string $sourceUri URI where this schema was located
+     * @param array $paths
+     * @return object
      */
-    public function resolveRef($schema, $sourceUri)
+    private function resolveCached($sourceUri, array $paths)
     {
-        $ref = '$ref';
+        $jsonPointer = new JsonPointer($sourceUri);
 
-        if (empty($schema->$ref)) {
-            return;
+        $fileName = $jsonPointer->getFilename();
+        if (!array_key_exists($fileName, $paths)) {
+            $schema = $this->uriRetriever->retrieve($jsonPointer->getFilename());
+            $paths[$jsonPointer->getFilename()] = $schema;
+            $this->resolveSchemas($schema, $jsonPointer->getFilename(), $paths);
         }
+        $schema = $paths[$fileName];
 
-        $splitRef = explode('#', $schema->$ref, 2);
+        return $this->getRefSchema($jsonPointer, $schema);
+    }
 
-        $refDoc = $splitRef[0];
-        $refPath = null;
-        if (count($splitRef) === 2) {
-            $refPath = explode('/', $splitRef[1]);
-            array_shift($refPath);
-        }
-
-        if (empty($refDoc) && empty($refPath)) {
-            // TODO: Not yet implemented - root pointer ref, causes recursion issues
-            return;
-        }
-
-        if (!empty($refDoc)) {
-            $refSchema = $this->fetchRef($refDoc, $sourceUri);
-        } else {
-            $refSchema = $this->rootSchema;
-        }
-
-        if (null !== $refPath) {
-            $refSchema = $this->resolveRefSegment($refSchema, $refPath);
-        }
-
-        unset($schema->$ref);
-
-        // Augment the current $schema object with properties fetched
-        foreach (get_object_vars($refSchema) as $prop => $value) {
-            $schema->$prop = $value;
+    /**
+     * Recursive resolve schema by traversing through al nodes
+     *
+     * @param object $unresolvedSchema
+     * @param string $fileName
+     * @param array $paths
+     */
+    private function resolveSchemas($unresolvedSchema, $fileName, array $paths)
+    {
+        $objectIterator = new ObjectIterator($unresolvedSchema);
+        foreach ($objectIterator as $toResolveSchema) {
+            if (property_exists($toResolveSchema, '$ref') && is_string($toResolveSchema->{'$ref'})) {
+                $jsonPointer = new JsonPointer($this->uriResolver->resolve($toResolveSchema->{'$ref'}, $fileName));
+                $refSchema = $this->resolveCached((string) $jsonPointer, $paths);
+                $this->unionSchemas($refSchema, $toResolveSchema, $fileName, $paths);
+            }
         }
     }
 
     /**
-     * Set URI Retriever for use with the Ref Resolver
-     *
-     * @param UriRetriever $retriever
-     * @return $this for chaining
+     * @param JsonPointer $jsonPointer
+     * @param object $refSchema
+     * @throws UnresolvableJsonPointerException when json schema file is found but reference can not be resolved
+     * @return object
      */
-    public function setUriRetriever(UriRetriever $retriever)
+    private function getRefSchema(JsonPointer $jsonPointer, $refSchema)
     {
-        $this->uriRetriever = $retriever;
-
-        return $this;
-    }
-
-    protected function resolveRefSegment($data, $pathParts)
-    {
-        foreach ($pathParts as $path) {
-            $path = strtr($path, array('~1' => '/', '~0' => '~', '%25' => '%'));
-
-            if (is_array($data)) {
-                $data = $data[$path];
+        foreach ($jsonPointer->getPropertyPaths() as $path) {
+            if (is_object($refSchema) && property_exists($refSchema, $path)) {
+                $refSchema = $refSchema->{$path};
+            } elseif (is_array($refSchema) && array_key_exists($path, $refSchema)) {
+                $refSchema = $refSchema[$path];
             } else {
-                $data = $data->{$path};
+                throw new UnresolvableJsonPointerException(sprintf(
+                    'File: %s is found, but could not resolve fragment: %s',
+                    $jsonPointer->getFilename(),
+                    $jsonPointer->getPropertyPathAsString()
+                ));
             }
         }
 
-        return $data;
+        return $refSchema;
+    }
+
+    /**
+     * @param object $refSchema
+     * @param object $schema
+     * @param string $fileName
+     * @param array $paths
+     */
+    private function unionSchemas($refSchema, $schema, $fileName, array $paths)
+    {
+        if (property_exists($refSchema, '$ref')) {
+            $jsonPointer = new JsonPointer($this->uriResolver->resolve($refSchema->{'$ref'}, $fileName));
+            $newSchema = $this->resolveCached((string) $jsonPointer, $paths);
+            $this->unionSchemas($newSchema, $refSchema, $fileName, $paths);
+        }
+
+        unset($schema->{'$ref'});
+        if (!$this->hasSubSchemas($schema)) {
+            foreach (get_object_vars($refSchema) as $prop => $value) {
+                $schema->$prop = $value;
+            }
+        } else {
+            $newSchema = new \stdClass();
+            foreach (get_object_vars($schema) as $prop => $value) {
+                $newSchema->$prop = $value;
+                unset($schema->$prop);
+            }
+            $schema->allOf = array($newSchema, $refSchema);
+        }
+    }
+
+    /**
+     * @param object $schema
+     * @return bool
+     */
+    private function hasSubSchemas($schema)
+    {
+        foreach (array_keys(get_object_vars($schema)) as $propertyName) {
+            if (in_array($propertyName, $this->getReservedKeysWhichAreInFactSubSchemas())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getReservedKeysWhichAreInFactSubSchemas()
+    {
+        return array(
+            'additionalItems',
+            'additionalProperties',
+            'extends',
+            'items',
+            'disallow',
+            'extends',
+            'items',
+            'type',
+            'allOf',
+            'anyOf',
+            'oneOf',
+            'dependencies',
+            'patternProperties',
+            'properties'
+        );
     }
 }
