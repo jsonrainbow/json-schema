@@ -19,7 +19,7 @@ See [json-schema](http://json-schema.org/) for more details.
 #### [`Composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
 
     $ wget http://getcomposer.org/composer.phar
-    $ php composer.phar require justinrainbow/json-schema:~1.3
+    $ php composer.phar require justinrainbow/json-schema:~2.0
 
 ## Usage
 
