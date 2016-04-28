@@ -51,7 +51,7 @@ class UriRetriever implements BaseUriRetrieverInterface
             return;
         }
 
-        if (Validator::SCHEMA_MEDIA_TYPE === $contentType) {
+        if (in_array($contentType, array(Validator::SCHEMA_MEDIA_TYPE, 'application/json'))) {
             return;
         }
 
