@@ -222,7 +222,7 @@ EOF;
             $schema, 'http://example.org/schema.json#/definitions/foo'
         );
     }
-    
+
     /**
      * @expectedException JsonSchema\Exception\UriResolverException
      */
@@ -232,5 +232,41 @@ EOF;
         $retriever->resolve(
             '../schema.json#', 'http://example.org/schema.json#'
         );
+    }
+
+    public function testConfirmMediaTypeAcceptsJsonSchemaType()
+    {
+      $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+
+      $retriever->expects($this->at(0))
+                ->method('getContentType')
+                ->will($this->returnValue('application/schema+json'));
+
+      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
+    }
+
+    public function testConfirmMediaTypeAcceptsJsonType()
+    {
+      $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+
+      $retriever->expects($this->at(0))
+                ->method('getContentType')
+                ->will($this->returnValue('application/json'));
+
+      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
+    }
+
+    /**
+     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
+     */
+    public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
+    {
+      $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+
+      $retriever->expects($this->at(0))
+                ->method('getContentType')
+                ->will($this->returnValue('text/html'));
+
+      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 }
