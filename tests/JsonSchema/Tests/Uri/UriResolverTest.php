@@ -36,6 +36,33 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGenerate()
+    {
+        $this->assertEquals(
+            'http://example.org/path/to/file.json?name=value#anchor',
+            $this->resolver->generate(array(
+                'scheme' => 'http',
+                'authority' => 'example.org',
+                'path' => '/path/to/file.json',
+                'query' => 'name=value',
+                'fragment' => 'anchor'
+            ))
+        );
+    }
+
+    public function testGenerateWithEmptyQueryAndWithoutFragment()
+    {
+        $this->assertEquals(
+            'http://example.org/path/to/file.json',
+            $this->resolver->generate(array(
+                'scheme' => 'http',
+                'authority' => 'example.org',
+                'path' => '/path/to/file.json',
+                'query' => '',
+            ))
+        );
+    }
+
     public function testCombineRelativePathWithBasePath()
     {
         $this->assertEquals(

@@ -59,10 +59,10 @@ class UriResolver implements UriResolverInterface
              . $components['authority']
              . $components['path'];
         
-        if (array_key_exists('query', $components)) {
-            $uri .= $components['query'];
+        if (!empty($components['query'])) {
+            $uri .= '?' . $components['query'];
         }
-        if (array_key_exists('fragment', $components)) {
+        if (!empty($components['fragment'])) {
             $uri .= '#' . $components['fragment'];
         }
         
