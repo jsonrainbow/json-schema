@@ -31,7 +31,7 @@ class RefResolver
     private $uriResolver;
 
     /** @var JsonPointer[]  */
-    private $cache = [];
+    private $cache = array();
 
     /**
      * @param UriRetrieverInterface $retriever
