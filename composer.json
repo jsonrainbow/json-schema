@@ -28,11 +28,11 @@
         "type": "package",
         "package": {
             "name": "json-schema/JSON-Schema-Test-Suite",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
                 "type": "git",
-                "reference": "1.1.0"
+                "reference": "1.1.2"
             }
         }
     }],
@@ -40,7 +40,7 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "json-schema/JSON-Schema-Test-Suite": "1.1.0",
+        "json-schema/JSON-Schema-Test-Suite": "1.1.2",
         "phpunit/phpunit": "^4.8.22",
         "phpdocumentor/phpdocumentor": "~2"
     },
