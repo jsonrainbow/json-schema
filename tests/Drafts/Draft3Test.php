@@ -31,7 +31,9 @@ class Draft3Test extends BaseDraftTestCase
     protected function getSkippedTests()
     {
         return array(
+            // Optional
             'bignum.json',
+            'format.json',
             'jsregex.json',
             'zeroTerminatedFloats.json'
         );

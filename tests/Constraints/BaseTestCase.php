@@ -79,7 +79,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
      */
     private function resolveSchema($schema)
     {
-        $relativeTestsRoot = realpath(__DIR__ . '/../../../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
+        $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
 
         $jsonSchemaDraft03 = $this->getJsonSchemaDraft03();
         $jsonSchemaDraft04 = $this->getJsonSchemaDraft04();
