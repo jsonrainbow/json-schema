@@ -1,7 +1,7 @@
 {
     "name": "justinrainbow/json-schema",
     "description": "A library to validate a json schema.",
-    "version": "2.0.1",
+    "version": "2.0.3",
     "keywords": ["json", "schema"],
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
@@ -28,11 +28,11 @@
         "type": "package",
         "package": {
             "name": "json-schema/JSON-Schema-Test-Suite",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
                 "type": "git",
-                "reference": "1.1.0"
+                "reference": "1.2.0"
             }
         }
     }],
@@ -40,7 +40,7 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "json-schema/JSON-Schema-Test-Suite": "1.1.0",
+        "json-schema/JSON-Schema-Test-Suite": "1.2.0",
         "phpunit/phpunit": "^4.8.22",
         "phpdocumentor/phpdocumentor": "~2"
     },
@@ -48,7 +48,7 @@
         "psr-4": { "JsonSchema\\": "src/JsonSchema/" }
     },
     "autoload-dev": {
-        "psr-4": { "JsonSchema\\Tests\\": "tests/JsonSchema/Tests/" }
+        "psr-4": { "JsonSchema\\Tests\\": "tests/" }
     },
     "bin": ["bin/validate-json"],
     "extra": {

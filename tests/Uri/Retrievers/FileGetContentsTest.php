@@ -21,7 +21,7 @@ class FileGetContentsTest extends \PHPUnit_Framework_TestCase
     public function testFetchFile()
     {
         $res = new FileGetContents();
-        $result = $res->retrieve(__DIR__.'/../Fixture/child.json');
+        $result = $res->retrieve(__DIR__ . '/../Fixture/child.json');
         $this->assertNotEmpty($result);
     }
 }

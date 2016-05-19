@@ -81,11 +81,7 @@ class ObjectConstraint extends Constraint
     {
         $this->validateMinMaxConstraint($element, $objectDefinition, $path);
         foreach ($element as $i => $value) {
-
-            $property = $this->getProperty($element, $i, new UndefinedConstraint());
             $definition = $this->getProperty($objectDefinition, $i);
-
-            $this->validateMinMaxConstraint(!($property instanceof UndefinedConstraint) ? $property : $element, $definition, $path);
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
@@ -110,6 +106,11 @@ class ObjectConstraint extends Constraint
             if (!$definition) {
                 // normal property verification
                 $this->checkUndefined($value, new \stdClass(), $path, $i);
+            }
+
+            $property = $this->getProperty($element, $i, new UndefinedConstraint());
+            if (is_object($property)) {
+                $this->validateMinMaxConstraint(!($property instanceof UndefinedConstraint) ? $property : $element, $definition, $path);
             }
         }
     }

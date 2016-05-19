@@ -33,7 +33,10 @@ class Draft4Test extends BaseDraftTestCase
         return array(
             // Optional
             'bignum.json',
-            'zeroTerminatedFloats.json'
+            'format.json',
+            'zeroTerminatedFloats.json',
+            // Required
+            'not.json' // only one test case failing
         );
     }
 }
