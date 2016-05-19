@@ -144,9 +144,9 @@ class TypeConstraint extends Constraint
     }
 
     /**
-     * Check is the provided array is associative or not
+     * Check if the provided array is associative or not
      *
-     * @param $arr
+     * @param array $arr
      *
      * @return bool
      */
