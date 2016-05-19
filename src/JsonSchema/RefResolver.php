@@ -75,6 +75,14 @@ class RefResolver
     }
 
     /**
+     * Removes all resolved schemas from cache.
+     */
+    public function clearCache()
+    {
+        $this->cache = [];
+    }
+
+    /**
      * Recursive resolve schema by traversing through al nodes
      *
      * @param object $unresolvedSchema
