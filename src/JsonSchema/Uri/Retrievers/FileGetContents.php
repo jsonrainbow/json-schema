@@ -14,29 +14,34 @@ use JsonSchema\Validator;
 
 /**
  * Tries to retrieve JSON schemas from a URI using file_get_contents()
- *
- * @author Sander Coolen <sander@jibber.nl>
+ * 
+ * @author Sander Coolen <sander@jibber.nl> 
  */
 class FileGetContents extends AbstractRetriever
 {
     protected $messageBody;
-
+    
     /**
      * {@inheritDoc}
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
      */
     public function retrieve($uri)
     {
-        if (!file_exists($uri)) {
-            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
-        }
+        $context = stream_context_create(array(
+            'http' => array(
+                'method' => 'GET',
+                'header' => "Accept: " . Validator::SCHEMA_MEDIA_TYPE
+            )));
 
+        set_error_handler(function() use ($uri) {
+            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
+        });
         $response = file_get_contents($uri);
+        restore_error_handler();
 
         if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema was not retrieved at ' . $uri);
+            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
         }
-
         if ($response == ''
             && substr($uri, 0, 7) == 'file://' && substr($uri, -1) == '/'
         ) {
@@ -50,10 +55,10 @@ class FileGetContents extends AbstractRetriever
             // Could be a "file://" url or something else - fake up the response
             $this->contentType = null;
         }
-
+        
         return $this->messageBody;
     }
-
+    
     /**
      * @param array $headers HTTP Response Headers
      * @return boolean Whether the Content-Type header was found or not
@@ -65,10 +70,10 @@ class FileGetContents extends AbstractRetriever
                 return true;
             }
         }
-
+        
         return false;
     }
-
+    
     /**
      * @param string $header
      * @return string|null
