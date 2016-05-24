@@ -1,7 +1,7 @@
 {
     "name": "justinrainbow/json-schema",
     "description": "A library to validate a json schema.",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "keywords": ["json", "schema"],
     "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
