@@ -14,51 +14,51 @@ use JsonSchema\Validator;
 
 /**
  * Tries to retrieve JSON schemas from a URI using file_get_contents()
- * 
- * @author Sander Coolen <sander@jibber.nl> 
+ *
+ * @author Sander Coolen <sander@jibber.nl>
  */
 class FileGetContents extends AbstractRetriever
 {
     protected $messageBody;
-    
+
     /**
      * {@inheritDoc}
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
      */
     public function retrieve($uri)
     {
-        $context = stream_context_create(array(
-            'http' => array(
-                'method' => 'GET',
-                'header' => "Accept: " . Validator::SCHEMA_MEDIA_TYPE
-            )));
-
-        set_error_handler(function() use ($uri) {
-            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
+        $errorMessage = null;
+        set_error_handler(function ($errno, $errstr) use (&$errorMessage) {
+            $errorMessage = $errstr;
         });
         $response = file_get_contents($uri);
         restore_error_handler();
 
-        if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
+        if ($errorMessage) {
+            throw new ResourceNotFoundException($errorMessage);
         }
+
+        if (false === $response) {
+            throw new ResourceNotFoundException('JSON schema not found at '.$uri);
+        }
+
         if ($response == ''
             && substr($uri, 0, 7) == 'file://' && substr($uri, -1) == '/'
         ) {
-            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
+            throw new ResourceNotFoundException('JSON schema not found at '.$uri);
         }
 
         $this->messageBody = $response;
-        if (! empty($http_response_header)) {
+        if (!empty($http_response_header)) {
             $this->fetchContentType($http_response_header);
         } else {
             // Could be a "file://" url or something else - fake up the response
             $this->contentType = null;
         }
-        
+
         return $this->messageBody;
     }
-    
+
     /**
      * @param array $headers HTTP Response Headers
      * @return boolean Whether the Content-Type header was found or not
@@ -70,10 +70,10 @@ class FileGetContents extends AbstractRetriever
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * @param string $header
      * @return string|null
