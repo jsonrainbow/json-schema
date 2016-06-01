@@ -79,7 +79,7 @@ class RefResolver
      */
     public function clearCache()
     {
-        $this->cache = [];
+        $this->cache = array();
     }
 
     /**
