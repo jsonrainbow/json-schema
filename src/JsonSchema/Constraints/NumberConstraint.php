@@ -46,7 +46,7 @@ class NumberConstraint extends Constraint
                     $this->addError($path, "Must have a maximum value of " . $schema->maximum, 'maximum', array('maximum' => $schema->maximum,));
                 }
             } else {
-                $this->addError($path, "Use of exclusiveMaximum requires presence of maximum", 'missingMinimum');
+                $this->addError($path, "Use of exclusiveMaximum requires presence of maximum", 'missingMaximum');
             }
         } else if (isset($schema->maximum) && $element > $schema->maximum) {
             $this->addError($path, "Must have a maximum value of " . $schema->maximum, 'maximum', array('maximum' => $schema->maximum,));
