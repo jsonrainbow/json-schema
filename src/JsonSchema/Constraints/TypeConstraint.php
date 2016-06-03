@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
+use JsonSchema\Entity\JsonPointer;
 use UnexpectedValueException as StandardUnexpectedValueException;
 
 /**
@@ -38,7 +39,7 @@ class TypeConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($value = null, $schema = null, $path = null, $i = null)
+    public function check($value = null, $schema = null, JsonPointer $path = null, $i = null)
     {
         $type = isset($schema->type) ? $schema->type : null;
         $isValid = true;

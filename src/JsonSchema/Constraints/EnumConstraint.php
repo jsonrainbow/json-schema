@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 use JsonSchema\Validator;
+use JsonSchema\Entity\JsonPointer;
 
 /**
  * The EnumConstraint Constraints, validates an element against a given set of possibilities
@@ -21,7 +22,7 @@ class EnumConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $schema = null, $path = null, $i = null)
+    public function check($element, $schema = null, JsonPointer $path = null, $i = null)
     {
         // Only validate enum if the attribute exists
         if ($element instanceof UndefinedConstraint && (!isset($schema->required) || !$schema->required)) {

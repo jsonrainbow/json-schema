@@ -92,4 +92,22 @@ class JsonPointerTest extends \PHPUnit_Framework_TestCase
 
         );
     }
+
+    public function testJsonPointerWithPropertyPaths()
+    {
+        $initial = new JsonPointer('#/definitions/date');
+
+        $this->assertEquals(array('definitions', 'date'), $initial->getPropertyPaths());
+        $this->assertEquals('#/definitions/date', $initial->getPropertyPathAsString());
+
+        $modified = $initial->withPropertyPaths(array('~definitions/general', '%custom%'));
+
+        $this->assertNotSame($initial, $modified);
+
+        $this->assertEquals(array('definitions', 'date'), $initial->getPropertyPaths());
+        $this->assertEquals('#/definitions/date', $initial->getPropertyPathAsString());
+
+        $this->assertEquals(array('~definitions/general', '%custom%'), $modified->getPropertyPaths());
+        $this->assertEquals('#/~0definitions~1general/%25custom%25', $modified->getPropertyPathAsString());
+    }
 }

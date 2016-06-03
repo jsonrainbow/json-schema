@@ -34,6 +34,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                 array(
                     array(
                         'property'   => '',
+                        'pointer'    => '',
                         'message'    => 'The property additionalProp is not defined and the definition does not allow additional properties',
                         'constraint' => 'additionalProp',
                     )
