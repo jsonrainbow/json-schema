@@ -8,7 +8,9 @@
  */
 
 namespace JsonSchema\Constraints;
+
 use JsonSchema\Rfc3339;
+use InvalidArgumentException;
 
 /**
  * Validates against the "format" property
@@ -18,12 +20,24 @@ use JsonSchema\Rfc3339;
  */
 class FormatConstraint extends Constraint
 {
+    protected $map = array(
+        'phone' => 'JsonSchema\Constraints\Validators\PhoneValidator'
+    );
     /**
      * {@inheritDoc}
      */
     public function check($element, $schema = null, $path = null, $i = null)
     {
         if (!isset($schema->format)) {
+            return;
+        }
+
+        if(array_key_exists($schema->format, $this->map)) {
+            try {
+                (new $this->map[$schema->format])($element);
+            } catch(InvalidArgumentException $e) {
+                $this->addError($path, $e->getMessage(), 'format', array('format' => $schema->format,));
+            }
             return;
         }
 
@@ -67,12 +81,6 @@ class FormatConstraint extends Constraint
             case 'style':
                 if (!$this->validateStyle($element)) {
                     $this->addError($path, "Invalid style", 'format', array('format' => $schema->format,));
-                }
-                break;
-
-            case 'phone':
-                if (!$this->validatePhone($element)) {
-                    $this->addError($path, "Invalid phone number", 'format', array('format' => $schema->format,));
                 }
                 break;
 
@@ -152,11 +160,6 @@ class FormatConstraint extends Constraint
         $invalidEntries = preg_grep('/^\s*[-a-z]+\s*:\s*.+$/i', $properties, PREG_GREP_INVERT);
 
         return empty($invalidEntries);
-    }
-
-    protected function validatePhone($phone)
-    {
-        return preg_match('/^\+?(\(\d{3}\)|\d{3}) \d{3} \d{4}$/', $phone);
     }
 
     protected function validateHostname($host)
