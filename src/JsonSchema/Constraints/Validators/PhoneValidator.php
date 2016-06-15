@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace JsonSchema\Constraints\Formats;
+namespace JsonSchema\Constraints\Validators;
 
 use InvalidArgumentException;
 
