@@ -11,6 +11,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
 use UnexpectedValueException as StandardUnexpectedValueException;
+use robotdance\I18n;
 
 /**
  * The TypeConstraint Constraints, validates an element against a given type
@@ -82,7 +83,8 @@ class TypeConstraint extends Constraint
                         implode(', ', array_filter(self::$wording)))
                 );
             }
-            $this->addError($path, ucwords(gettype($value)) . " value found, but " . self::$wording[$type] . " is required", 'type');
+            $errorMsg = I18n::t("constraints.type.required", ['actual' => ucwords(gettype($value)), 'required' => self::$wording[$type]]);
+            $this->addError($path, $errorMsg, 'type');
         }
     }
 

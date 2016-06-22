@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use robotdance\I18n;
+
 /**
  * The EnumConstraint Constraints, validates an element against a given set of possibilities
  *
@@ -40,7 +42,7 @@ class EnumConstraint extends Constraint
                 }
             }
         }
-
-        $this->addError($path, "Does not have a value in the enumeration " . json_encode($schema->enum), 'enum', array('enum' => $schema->enum,));
+        $errorMsg = I18n::t("constraints.enum.element_does_not_belong", ['enum' => json_encode($schema->enum)]);
+        $this->addError($path, $errorMsg, 'enum', array('enum' => $schema->enum,));
     }
 }
