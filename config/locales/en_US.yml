@@ -1,0 +1,51 @@
+en_US:
+  constraints:
+    collection:
+      min_items: "There must be a minimum of %{minItems} in the array"
+      max_items: "There must be a maximum of %{maxItems} in the array"
+      unique_items: "There are no duplicates allowed in the array"
+      additional_items: "The item %{item}[%{index}] is not defined and the definition does not allow additional items"
+    object:
+      additional_properties: "The property %{property} is not defined and the definition does not allow additional properties"
+      property_requires_another: "The presence of the property %{property} requires that %{required} also be present"
+      pattern: "The pattern %{pattern} is invalid"
+      min_properties: "Must contain a minimum of %{count} properties"
+      max_properties: "Must contain a maximum of %{count} properties"
+    string:
+      min_length: "Must be at least %{minLength} characters long"
+      max_length: "Must be at most %{maxLength} characters long"
+      pattern: "Does not match the regex pattern %{pattern}"
+    enum:
+      element_does_not_belong: "Does not have a value in the enumeration %{enum}"
+    format:
+      date: "Invalid date %{date}, expected format YYYY-MM-DD"
+      time: "Invalid time %{time}, expected format hh:mm:ss"
+      datetime: "Invalid date-time %{datetime}, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm"
+      utcmilli: "Invalid time %{utcmilli}, expected integer of milliseconds since Epoch"
+      regex: "Invalid regex format %{regex}"
+      color: "Invalid color"
+      style: "Invalid style"
+      phone: "Invalid phone"
+      url: "Invalid URL format"
+      email: "Invalid email"
+      ipv4: "Invalid IP address"
+      ipv6: "Invalid IP address"
+      hostname: "Invalid hostname"
+    number:
+      minimum: "Must have a minimum value of %{value}"
+      exclusive_minimum: "Use of exclusiveMinimum requires presence of minimum"
+      maximum: "Must have a maximum value of %{value}"
+      exclusive_maximum: "Use of exclusiveMaximum requires presence of maximum"
+      divisible_by: "Is not divisible by %{value}"
+      multiple_by: "Must be multiple of %{value}"
+    type:
+      required: "%{actual} value found, but %{required} is required"
+    undefined:
+      required: "The property %{property} is required"
+      required_missing: "Is missing and it is required"
+      disallowed_matched: "Disallowed value was matched"
+      not_schema: "Matched a schema wich it should not"
+      failed_match_all: "Failed to match all schemas"
+      failed_match_at_least_one: "Failed to match at least one schema"
+      failed_match_one: "Failed to match exactly one schema"
+      depends_on: "%{key} depends on %{dependency} and %{dependency} is missing"

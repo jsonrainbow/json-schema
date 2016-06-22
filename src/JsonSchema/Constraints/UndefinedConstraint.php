@@ -11,6 +11,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Uri\UriResolver;
+use robotdance\I18n;
 
 /**
  * The UndefinedConstraint Constraints
@@ -114,13 +115,15 @@ class UndefinedConstraint extends Constraint
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!property_exists($value, $required)) {
-                        $this->addError((!$path) ? $required : "$path.$required", "The property " . $required . " is required", 'required');
+                        $errorMsg = I18n::t("constraints.undefined.required", ['property' => $required]);
+                        $this->addError((!$path) ? $required : "$path.$required", $errorMsg, 'required');
                     }
                 }
             } else if (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
                 if ( $schema->required && $value instanceof UndefinedConstraint) {
-                    $this->addError($path, "Is missing and it is required", 'required');
+                    $errorMsg = I18n::t("constraints.undefined.required_missing");
+                    $this->addError($path, $errorMsg, 'required');
                 }
             }
         }
@@ -140,7 +143,8 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Disallowed value was matched", 'disallow');
+                $errorMsg = I18n::t("constraints.undefined.disallowed_matched");
+                $this->addError($path, $errorMsg, 'disallow');
             } else {
                 $this->errors = $initErrors;
             }
@@ -152,7 +156,8 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised then the instance validated against the "not" schema
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Matched a schema which it should not", 'not');
+                $errorMsg = I18n::t("constraints.undefined.not_schema");
+                $this->addError($path, $errorMsg, 'not');
             } else {
                 $this->errors = $initErrors;
             }
@@ -187,7 +192,8 @@ class UndefinedConstraint extends Constraint
                 $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match all schemas", 'allOf');
+                $errorMsg = I18n::t("constraints.undefined.failed_match_all");
+                $this->addError($path, $errorMsg, 'allOf');
             }
         }
 
@@ -202,7 +208,8 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match at least one schema", 'anyOf');
+                $errorMsg = I18n::t("constraints.undefined.failed_match_at_least_one");
+                $this->addError($path, $errorMsg, 'anyOf');
             } else {
                 $this->errors = $startErrors;
             }
@@ -221,12 +228,13 @@ class UndefinedConstraint extends Constraint
                 $allErrors = array_merge($allErrors, array_values($this->getErrors()));
             }
             if ($matchedSchemas !== 1) {
+                $errorMsg = I18n::t("constraints.undefined.failed_match_one");
                 $this->addErrors(
                     array_merge(
                         $allErrors,
                         array(array(
                             'property' => $path,
-                            'message' => "Failed to match exactly one schema",
+                            'message' => $errorMsg,
                             'constraint' => 'oneOf',
                         ),),
                         $startErrors
@@ -253,13 +261,15 @@ class UndefinedConstraint extends Constraint
                 if (is_string($dependency)) {
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!property_exists($value, $dependency)) {
-                        $this->addError($path, "$key depends on $dependency and $dependency is missing", 'dependencies');
+                        $errorMsg = I18n::t('constraints.undefined.depends_on', ['key' => $key, 'dependency' => $dependency]);
+                        $this->addError($path, $errorMsg, 'dependencies');
                     }
                 } else if (is_array($dependency)) {
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!property_exists($value, $d)) {
-                            $this->addError($path, "$key depends on $d and $d is missing", 'dependencies');
+                            $errorMsg = I18n::t('constraints.undefined.depends_on', ['key' => $key, 'dependency' => $d]);
+                            $this->addError($path, $errorMsg, 'dependencies');
                         }
                     }
                 } else if (is_object($dependency)) {

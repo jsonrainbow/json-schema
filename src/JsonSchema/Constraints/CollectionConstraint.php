@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use robotdance\I18n;
+
 /**
  * The CollectionConstraint Constraints, validates an array against a given schema
  *
@@ -24,12 +26,14 @@ class CollectionConstraint extends Constraint
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError($path, "There must be a minimum of " . $schema->minItems . " items in the array", 'minItems', array('minItems' => $schema->minItems,));
+            $errorMsg = I18n::t("constraints.collection.min_items", ['minItems' => $schema->minItems]);
+            $this->addError($path, $errorMsg, 'minItems', array('minItems' => $schema->minItems,));
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " items in the array", 'maxItems', array('maxItems' => $schema->maxItems,));
+            $errorMsg = I18n::t("constraints.collection.max_items", ['maxItems' => $schema->maxItems]);
+            $this->addError($path, $errorMsg, 'maxItems', array('maxItems' => $schema->maxItems,));
         }
 
         // Verify uniqueItems
@@ -39,7 +43,8 @@ class CollectionConstraint extends Constraint
                 $unique = array_map(function($e) { return var_export($e, true); }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
-                $this->addError($path, "There are no duplicates allowed in the array", 'uniqueItems');
+                $errorMsg = I18n::t("constraints.collection.unique_items");
+                $this->addError($path, $errorMsg, 'uniqueItems');
             }
         }
 
@@ -91,8 +96,9 @@ class CollectionConstraint extends Constraint
                         if ($schema->additionalItems !== false) {
                             $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                         } else {
+                            $errorMsg = I18n::t("constraints.collection.additional_items", ['item' => $i, 'index' => $k]);
                             $this->addError(
-                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items', 'additionalItems', array('additionalItems' => $schema->additionalItems,));
+                                $path, $errorMsg, 'additionalItems', array('additionalItems' => $schema->additionalItems,));
                         }
                     } else {
                         // Should be valid against an empty schema

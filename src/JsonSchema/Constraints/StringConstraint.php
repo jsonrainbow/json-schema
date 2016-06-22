@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use robotdance\I18n;
+
 /**
  * The StringConstraint Constraints, validates an string against a given schema
  *
@@ -24,21 +26,24 @@ class StringConstraint extends Constraint
     {
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError($path, "Must be at most " . $schema->maxLength . " characters long", 'maxLength', array(
+            $errorMsg = I18n::t("constraints.string.max_length", ['maxLength' => $schema->maxLength]);
+            $this->addError($path, $errorMsg, 'maxLength', array(
                 'maxLength' => $schema->maxLength,
             ));
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError($path, "Must be at least " . $schema->minLength . " characters long", 'minLength', array(
+            $errorMsg = I18n::t("constraints.string.min_length", ['minLength' => $schema->minLength]);
+            $this->addError($path, $errorMsg, 'minLength', array(
                 'minLength' => $schema->minLength,
             ));
         }
 
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#', $element)) {
-            $this->addError($path, "Does not match the regex pattern " . $schema->pattern, 'pattern', array(
+            $errorMsg = I18n::t("constraints.string.pattern", ['pattern' => $schema->pattern]);
+            $this->addError($path, $errorMsg, 'pattern', array(
                 'pattern' => $schema->pattern,
             ));
         }
