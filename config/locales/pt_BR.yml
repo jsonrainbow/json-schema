@@ -1,0 +1,51 @@
+pt_BR:
+  constraints:
+    collection:
+      min_items: "É preciso haver um mínimo de %{minItems} items no vetor"
+      max_items: "É preciso haver um máximo de %{maxItems} item no vetor"
+      unique_items: "Não são permitidos elementos duplicados"
+      additional_items: "O item %{item}[%{index}] não está definido e o schema não permite items adicionais"
+    object:
+      additional_properties: "A propriedade %{property} não está definida e o schema não permite propriedades adicionais"
+      property_requires_another: "A presença da propriedade %{property} requer que %{required} também esteja presente"
+      pattern: "O padrão %{pattern} é inválido"
+      min_properties: "Deve conter um mínimo de %{count} propriedades"
+      max_properties: "Deve conter um máximo de %{count} propriedades"
+    string:
+      min_length: "Precisa conter no mínimo %{minLength} caracteres"
+      max_length: "Precisa conter no máximo %{maxLength} caracteres"
+      pattern: "Não corresponde ao padrão %{pattern}"
+    enum:
+      element_does_not_belong: "Não possui um valor na enumeração %{enum}"
+    format:
+      date: "Data inválida: %{date}, esperado formato YYYY-MM-DD"
+      time: "Hora inválida: %{time}, esperado formato hh:mm:ss"
+      datetime: "Data-hora inválida: %{datetime}, esperado formato YYYY-MM-DDThh:mm:ssZ ou YYYY-MM-DDThh:mm:ss+hh:mm"
+      utcmilli: "Hora em milissegundos inválida: %{utcmilli}, esperado numero inteiro de milissegundos do Unix Epoch"
+      regex: "Formato de espressão regular inválido: %{regex}"
+      color: "Cor inválida"
+      style: "Estilo inválido"
+      phone: "Telefone inválido"
+      url: "Formato de URL inválida"
+      email: "email inválido"
+      ipv4: "Endereço de IP inválido"
+      ipv6: "Endereço de IP inválido"
+      hostname: "Hostname inválido"
+    number:
+      minimum: "Precisa de um valor mínimo de %{value}"
+      exclusive_minimum: "O uso de exclusiveMinimum requer a presença de minimum"
+      maximum: "Precisa de um valor máximo de %{value}"
+      exclusive_maximum: "O uso de exclusiveMaximum requer a presença de maximum"
+      divisible_by: "Não é divisível por %{value}"
+      multiple_by: "Precisa ser múltiplo de %{value}"
+    type:
+      required: "Encontrado %{actual} porém %{required} é requerido"
+    undefined:
+      required: "A propriedade %{property} é requerida"
+      required_missing: "Não está presente e é requerido"
+      disallowed_matched: "Um valor não permitido foi encontrado"
+      not_schema: "Correspondeu a um esquema que não deveria"
+      failed_match_all: "Falhou em corresponder a todos os esquemas"
+      failed_match_at_least_one: "Falhou em corresponder a pelo menos um esquema"
+      failed_match_one: "Falhou em corresponder a exatamente um esquema"
+      depends_on: "%{key} depende de %{dependency} e %{dependency} não está presente"
