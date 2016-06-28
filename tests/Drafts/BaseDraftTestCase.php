@@ -21,17 +21,19 @@ abstract class BaseDraftTestCase extends BaseTestCase
         foreach ($filePaths as $path) {
             foreach (glob($path . '/*.json') as $file) {
                 $filename = basename($file);
-                if (!in_array($filename, $skippedTests)) {
-                    $suites = json_decode(file_get_contents($file));
-                    foreach ($suites as $suite) {
-                        $suiteDescription = $suite->description;
-                        foreach ($suite->tests as $test) {
-                            $testCaseDescription = $test->description;
-                            if ($isValid === $test->valid) {
-                                $tests[
-                                    $this->createDataSetPath($filename, $suiteDescription, $testCaseDescription)
-                                ] = array(json_encode($test->data), json_encode($suite->schema));
-                            }
+                if (in_array($filename, $skippedTests)) {
+                    continue;
+                }
+
+                $suites = json_decode(file_get_contents($file));
+                foreach ($suites as $suite) {
+                    $suiteDescription = $suite->description;
+                    foreach ($suite->tests as $test) {
+                        $testCaseDescription = $test->description;
+                        if ($isValid === $test->valid) {
+                            $tests[
+                                $this->createDataSetPath($filename, $suiteDescription, $testCaseDescription)
+                            ] = array(json_encode($test->data), json_encode($suite->schema));
                         }
                     }
                 }

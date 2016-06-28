@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\RefResolver;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
@@ -28,8 +29,10 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($input, $jsonSchema, $checkMode = Validator::CHECK_MODE_NORMAL, $errors = array())
+    public function testInvalidCases($input, $jsonSchema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = array())
     {
+        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
+
         $schema = json_decode($jsonSchema);
         if (is_object($schema)) {
             $schema = $this->resolveSchema($schema);
@@ -47,9 +50,35 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getInvalidForAssocTests
+     */
+    public function testInvalidCasesUsingAssoc($input, $jsonSchema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
+    {
+        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;
+        if ($checkMode !== Constraint::CHECK_MODE_TYPE_CAST) {
+            $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
+        }
+
+        $schema = json_decode($jsonSchema);
+        if (is_object($schema)) {
+            $schema = $this->resolveSchema($schema);
+        }
+
+        $value = json_decode($input, true);
+
+        $validator = new Validator($checkMode);
+        $validator->check($value, $schema);
+
+        if (array() !== $errors) {
+            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
+        }
+        $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
+    }
+
+    /**
      * @dataProvider getValidTests
      */
-    public function testValidCases($input, $schema, $checkMode = Validator::CHECK_MODE_NORMAL)
+    public function testValidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL)
     {
         $schema = json_decode($schema);
         if (is_object($schema)) {
@@ -64,6 +93,27 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getValidForAssocTests
+     */
+    public function testValidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST)
+    {
+        if ($checkMode !== Constraint::CHECK_MODE_TYPE_CAST) {
+            $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
+        }
+
+        $schema = json_decode($schema);
+        if (is_object($schema)) {
+            $schema = $this->resolveSchema($schema);
+        }
+
+        $value = json_decode($input, true);
+        $validator = new Validator($checkMode);
+
+        $validator->check($value, $schema);
+        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
+    }
+
+    /**
      * @return array[]
      */
     abstract public function getValidTests();
@@ -71,7 +121,23 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return array[]
      */
+    public function getValidForAssocTests()
+    {
+        return $this->getValidTests();
+    }
+
+    /**
+     * @return array[]
+     */
     abstract public function getInvalidTests();
+
+    /**
+     * @return array[]
+     */
+    public function getInvalidForAssocTests()
+    {
+        return $this->getInvalidTests();
+    }
 
     /**
      * @param object $schema
