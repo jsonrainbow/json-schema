@@ -49,7 +49,7 @@ class TypeConstraint extends Constraint
             $validatedOneType = false;
             $errors = array();
             foreach ($type as $tp) {
-                $validator = new TypeConstraint($this->checkMode);
+                $validator = new static($this->checkMode);
                 $subSchema = new \stdClass();
                 $subSchema->type = $tp;
                 $validator->check($value, $subSchema, $path, null);
