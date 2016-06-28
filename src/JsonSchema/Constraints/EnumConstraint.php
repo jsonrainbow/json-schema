@@ -8,6 +8,7 @@
  */
 
 namespace JsonSchema\Constraints;
+use JsonSchema\Validator;
 
 /**
  * The EnumConstraint Constraints, validates an element against a given set of possibilities
@@ -26,17 +27,23 @@ class EnumConstraint extends Constraint
         if ($element instanceof UndefinedConstraint && (!isset($schema->required) || !$schema->required)) {
             return;
         }
+        $type = gettype($element);
 
         foreach ($schema->enum as $enum) {
-            $type = gettype($element);
+            $enumType = gettype($enum);
+            if ($this->checkMode === self::CHECK_MODE_TYPE_CAST && $type == "array" && $enumType == "object") {
+                if ((object)$element == $enum) {
+                    return;
+                }
+            }
+
             if ($type === gettype($enum)) {
                 if ($type == "object") {
-                    if ($element == $enum)
+                    if ($element == $enum) {
                         return;
-                } else {
-                    if ($element === $enum)
-                        return;
-
+                    }
+                } elseif ($element === $enum) {
+                    return;
                 }
             }
         }

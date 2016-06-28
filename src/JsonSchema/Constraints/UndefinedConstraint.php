@@ -9,7 +9,6 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Uri\UriResolver;
 
 /**
@@ -53,12 +52,12 @@ class UndefinedConstraint extends Constraint
     public function validateTypes($value, $schema = null, $path = null, $i = null)
     {
         // check array
-        if (is_array($value)) {
+        if ($this->getTypeCheck()->isArray($value)) {
             $this->checkArray($value, $schema, $path, $i);
         }
 
         // check object
-        if (is_object($value)) {
+        if ($this->getTypeCheck()->isObject($value)) {
             $this->checkObject(
                 $value,
                 isset($schema->properties) ? $schema->properties : $schema,
@@ -109,17 +108,17 @@ class UndefinedConstraint extends Constraint
         }
 
         // Verify required values
-        if (is_object($value)) {
-            if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required) ) {
+        if ($this->getTypeCheck()->isObject($value)) {
+            if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required)) {
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
-                    if (!property_exists($value, $required)) {
+                    if (!$this->getTypeCheck()->propertyExists($value, $required)) {
                         $this->addError((!$path) ? $required : "$path.$required", "The property " . $required . " is required", 'required');
                     }
                 }
-            } else if (isset($schema->required) && !is_array($schema->required)) {
+            } elseif (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
-                if ( $schema->required && $value instanceof UndefinedConstraint) {
+                if ($schema->required && $value instanceof UndefinedConstraint) {
                     $this->addError($path, "Is missing and it is required", 'required');
                 }
             }
@@ -159,7 +158,7 @@ class UndefinedConstraint extends Constraint
         }
 
         // Verify that dependencies are met
-        if (is_object($value) && isset($schema->dependencies)) {
+        if (isset($schema->dependencies) && $this->getTypeCheck()->isObject($value)) {
             $this->validateDependencies($value, $schema->dependencies, $path);
         }
     }
@@ -249,20 +248,20 @@ class UndefinedConstraint extends Constraint
     protected function validateDependencies($value, $dependencies, $path, $i = "")
     {
         foreach ($dependencies as $key => $dependency) {
-            if (property_exists($value, $key)) {
+            if ($this->getTypeCheck()->propertyExists($value, $key)) {
                 if (is_string($dependency)) {
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
-                    if (!property_exists($value, $dependency)) {
+                    if (!$this->getTypeCheck()->propertyExists($value, $dependency)) {
                         $this->addError($path, "$key depends on $dependency and $dependency is missing", 'dependencies');
                     }
-                } else if (is_array($dependency)) {
+                } elseif (is_array($dependency)) {
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
-                        if (!property_exists($value, $d)) {
+                        if (!$this->getTypeCheck()->propertyExists($value, $d)) {
                             $this->addError($path, "$key depends on $d and $d is missing", 'dependencies');
                         }
                     }
-                } else if (is_object($dependency)) {
+                } elseif (is_object($dependency)) {
                     // Schema - e.g. "dependencies": {"bar": {"properties": {"foo": {...}}}}
                     $this->checkUndefined($value, $dependency, $path, $i);
                 }

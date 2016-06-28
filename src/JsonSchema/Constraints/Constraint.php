@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Validator;
 
 /**
  * The Base Constraints, all Validators should extend this class
@@ -49,8 +50,7 @@ abstract class Constraint implements ConstraintInterface
      */
     public function getUriRetriever()
     {
-        if (is_null($this->uriRetriever))
-        {
+        if (is_null($this->uriRetriever)) {
             $this->setUriRetriever(new UriRetriever);
         }
 
@@ -63,7 +63,7 @@ abstract class Constraint implements ConstraintInterface
     public function getFactory()
     {
         if (!$this->factory) {
-            $this->factory = new Factory($this->getUriRetriever());
+            $this->factory = new Factory($this->getUriRetriever(), $this->checkMode);
         }
 
         return $this->factory;
@@ -287,5 +287,15 @@ abstract class Constraint implements ConstraintInterface
         $jsonSchema = $this->uriRetriever->retrieve($uri);
         // TODO validate using schema
         return $jsonSchema;
+    }
+
+    /**
+     * Get the type check based on the set check mode.
+     *
+     * @return TypeCheck\TypeCheckInterface
+     */
+    protected function getTypeCheck()
+    {
+        return $this->getFactory()->getTypeCheck();
     }
 }

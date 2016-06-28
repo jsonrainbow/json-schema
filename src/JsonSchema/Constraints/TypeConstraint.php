@@ -116,12 +116,11 @@ class TypeConstraint extends Constraint
         }
 
         if ('object' === $type) {
-            return is_object($value);
-            //return ($this::CHECK_MODE_TYPE_CAST == $this->checkMode) ? is_array($value) : is_object($value);
+            return $this->getTypeCheck()->isObject($value);
         }
 
         if ('array' === $type) {
-            return is_array($value);
+            return $this->getTypeCheck()->isArray($value);
         }
 
         if ('string' === $type) {

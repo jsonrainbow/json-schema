@@ -20,7 +20,7 @@ class ObjectConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
+    public function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -161,13 +161,13 @@ class ObjectConstraint extends Constraint
     protected function validateMinMaxConstraint($element, $objectDefinition, $path) {
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
-            if (count(get_object_vars($element)) < $objectDefinition->minProperties) {
+            if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {
                 $this->addError($path, "Must contain a minimum of " . $objectDefinition->minProperties . " properties", 'minProperties', array('minProperties' => $objectDefinition->minProperties,));
             }
         }
         // Verify maximum number of properties
         if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
-            if (count(get_object_vars($element)) > $objectDefinition->maxProperties) {
+            if ($this->getTypeCheck()->propertyCount($element) > $objectDefinition->maxProperties) {
                 $this->addError($path, "Must contain no more than " . $objectDefinition->maxProperties . " properties", 'maxProperties', array('maxProperties' => $objectDefinition->maxProperties,));
             }
         }
