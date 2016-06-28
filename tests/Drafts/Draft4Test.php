@@ -25,6 +25,28 @@ class Draft4Test extends BaseDraftTestCase
         );
     }
 
+    public function getInvalidForAssocTests()
+    {
+        $tests = parent::getInvalidForAssocTests();
+        unset(
+            $tests['type.json / object type matches objects / an array is not an object'],
+            $tests['type.json / array type matches arrays / an object is not an array']
+        );
+
+        return $tests;
+    }
+
+    public function getValidForAssocTests()
+    {
+        $tests = parent::getValidForAssocTests();
+        unset(
+            $tests['type.json / object type matches objects / an array is not an object'],
+            $tests['type.json / array type matches arrays / an object is not an array']
+        );
+
+        return $tests;
+    }
+
     /**
      * {@inheritdoc}
      */
