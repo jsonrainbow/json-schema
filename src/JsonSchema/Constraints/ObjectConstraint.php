@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use robotdance\I18n;
+
 /**
  * The ObjectConstraint Constraints, validates an object against a given schema
  *
@@ -55,7 +57,8 @@ class ObjectConstraint extends Constraint
 
             // Validate the pattern before using it to test for matches
             if (@preg_match($delimiter. $pregex . $delimiter, '') === false) {
-                $this->addError($path, 'The pattern "' . $pregex . '" is invalid', 'pregex', array('pregex' => $pregex,));
+                $errorMsg = I18n::t("constraints.object.pattern", ['pattern' => $pregex]);
+                $this->addError($path, $errorMsg, 'pregex', array('pregex' => $pregex,));
                 continue;
             }
             foreach ($element as $i => $value) {
@@ -85,7 +88,8 @@ class ObjectConstraint extends Constraint
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
-                $this->addError($path, "The property " . $i . " is not defined and the definition does not allow additional properties", 'additionalProp');
+                $errorMsg = I18n::t("constraints.object.additional_properties", ['property' => $i]);
+                $this->addError($path, $errorMsg, 'additionalProp');
             }
 
             // additional properties defined
@@ -100,7 +104,8 @@ class ObjectConstraint extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError($path, "The presence of the property " . $i . " requires that " . $require . " also be present", 'requires');
+                $errorMsg = I18n::t("constraints.object.property_requires_another", ['property' => $i, 'required' => $require]);
+                $this->addError($path, $errorMsg, 'requires');
             }
 
             if (!$definition) {
@@ -162,13 +167,15 @@ class ObjectConstraint extends Constraint
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if (count(get_object_vars($element)) < $objectDefinition->minProperties) {
+                $errorMsg = I18n::t("constraints.object.min_properties", ['count' => $objectDefinition->minProperties]);
                 $this->addError($path, "Must contain a minimum of " . $objectDefinition->minProperties . " properties", 'minProperties', array('minProperties' => $objectDefinition->minProperties,));
             }
         }
         // Verify maximum number of properties
         if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
             if (count(get_object_vars($element)) > $objectDefinition->maxProperties) {
-                $this->addError($path, "Must contain no more than " . $objectDefinition->maxProperties . " properties", 'maxProperties', array('maxProperties' => $objectDefinition->maxProperties,));
+                $errorMsg = I18n::t("constraints.object.max_properties", ['count' => $objectDefinition->maxProperties]);
+                $this->addError($path, $errorMsg, 'maxProperties', array('maxProperties' => $objectDefinition->maxProperties,));
             }
         }
     }
