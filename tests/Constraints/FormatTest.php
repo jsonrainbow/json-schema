@@ -123,6 +123,9 @@ class FormatTest extends BaseTestCase
             array('::ff', 'ipv6'),
 
             array('www.example.com', 'host-name'),
+            array('3v4l.org', 'host-name'),
+            array('a-valid-host.com', 'host-name'),
+            array('localhost', 'host-name'),
 
             array('anything', '*'),
             array('unknown', '*'),
@@ -166,7 +169,8 @@ class FormatTest extends BaseTestCase
 
             array(':::ff', 'ipv6'),
 
-            array('localhost', 'host-name'),
+            array('@localhost', 'host-name'),
+            array('..nohost', 'host-name'),
 
         );
     }
