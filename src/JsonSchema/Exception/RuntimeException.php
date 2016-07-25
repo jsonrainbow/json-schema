@@ -10,8 +10,8 @@
 namespace JsonSchema\Exception;
 
 /**
- * Wrapper for the ResourceNotFoundException
+ * Wrapper for the RuntimeException
  */
-class ResourceNotFoundException extends RuntimeException
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }

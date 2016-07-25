@@ -55,6 +55,7 @@ interface ConstraintInterface
      * @param mixed $schema
      * @param mixed $path
      * @param mixed $i
+     * @throws \JsonSchema\Exception\ExceptionInterface
      */
     public function check($value, $schema = null, $path = null, $i = null);
 }

@@ -12,7 +12,7 @@ namespace JsonSchema\Exception;
 /**
  * Wrapper for the JsonDecodingException
  */
-class JsonDecodingException extends \RuntimeException
+class JsonDecodingException extends RuntimeException
 {
     public function __construct($code = JSON_ERROR_NONE, \Exception $previous = null)
     {
