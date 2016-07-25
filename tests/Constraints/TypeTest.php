@@ -26,13 +26,16 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function provideIndefiniteArticlesForTypes()
     {
         return array(
-            array('integer', 'an',),
-            array('number', 'a',),
-            array('boolean', 'a',),
-            array('object', 'an',),
-            array('array', 'an',),
-            array('string', 'a',),
-            array('null', 'a', array(), 'array',),
+            array('integer', 'an integer',),
+            array('number', 'a number',),
+            array('boolean', 'a boolean',),
+            array('object', 'an object',),
+            array('array', 'an array',),
+            array('string', 'a string',),
+            array('null', 'a null', array(), 'array',),
+            array(array('string', 'boolean', 'integer'), 'a string, a boolean or an integer',),
+            array(array('string', 'boolean'), 'a string or a boolean',),
+            array(array('string'), 'a string',),
         );
     }
 
@@ -43,7 +46,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $constraint = new TypeConstraint();
         $constraint->check($value, (object)array('type' => $type));
-        $this->assertTypeConstraintError(ucwords($label)." value found, but $wording $type is required", $constraint);
+        $this->assertTypeConstraintError(ucwords($label)." value found, but $wording is required", $constraint);
     }
 
     /**

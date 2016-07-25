@@ -41,48 +41,99 @@ class TypeConstraint extends Constraint
     public function check($value = null, $schema = null, $path = null, $i = null)
     {
         $type = isset($schema->type) ? $schema->type : null;
-        $isValid = true;
+        $isValid = false;
+        $wording = array();
 
         if (is_array($type)) {
-            // @TODO refactor
-            $validatedOneType = false;
-            $errors = array();
-            foreach ($type as $tp) {
-                $validator = new static($this->checkMode);
-                $subSchema = new \stdClass();
-                $subSchema->type = $tp;
-                $validator->check($value, $subSchema, $path, null);
-                $error = $validator->getErrors();
-
-                if (!count($error)) {
-                    $validatedOneType = true;
-                    break;
-                }
-
-                $errors = $error;
-            }
-
-            if (!$validatedOneType) {
-                $this->addErrors($errors);
-
-                return;
-            }
+            $this->validateTypesArray($value, $type, $wording, $isValid, $path);
         } elseif (is_object($type)) {
             $this->checkUndefined($value, $type, $path);
+            return;
         } else {
             $isValid = $this->validateType($value, $type);
         }
 
         if ($isValid === false) {
-            if (!isset(self::$wording[$type])) {
-                throw new StandardUnexpectedValueException(
-                    sprintf(
-                        "No wording for %s available, expected wordings are: [%s]",
-                        var_export($type, true),
-                        implode(', ', array_filter(self::$wording)))
-                );
+            if (!is_array($type)) {
+                $this->validateTypeNameWording($type);
+                $wording[] = self::$wording[$type];
             }
-            $this->addError($path, ucwords(gettype($value)) . " value found, but " . self::$wording[$type] . " is required", 'type');
+            $this->addError($path, ucwords(gettype($value)) . " value found, but " .
+                $this->implodeWith($wording, ', ', 'or') . " is required", 'type');
+        }
+    }
+
+    /**
+     * Validates the given $value against the array of types in $type. Sets the value
+     * of $isValid to true, if at least one $type mateches the type of $value or the value
+     * passed as $isValid is already true.
+     *
+     * @param mixed $value Value to validate
+     * @param array $type TypeConstraints to check agains
+     * @param array $wording An array of wordings of the valid types of the array $type
+     * @param boolean $isValid The current validation value
+     */
+    protected function validateTypesArray($value, array $type, &$validTypesWording, &$isValid,
+                                          $path) {
+        foreach ($type as $tp) {
+            // $tp can be an object, if it's a schema instead of a simple type, validate it
+            // with a new type constraint
+            if (is_object($tp)) {
+                if (!$isValid) {
+                    $validator = new static($this->checkMode);
+                    $subSchema = new \stdClass();
+                    $subSchema->type = $tp;
+                    $validator->check($value, $subSchema, $path, null);
+                    $error = $validator->getErrors();
+                    $isValid = !(bool)$error;
+                    $validTypesWording[] = self::$wording['object'];
+                }
+            } else {
+                $this->validateTypeNameWording( $tp );
+                $validTypesWording[] = self::$wording[$tp];
+                if (!$isValid) {
+                    $isValid = $this->validateType( $value, $tp );
+                }
+            }
+        }
+    }
+
+    /**
+     * Implodes the given array like implode() with turned around parameters and with the
+     * difference, that, if $listEnd isn't false, the last element delimiter is $listEnd instead of
+     * $delimiter.
+     *
+     * @param array $elements The elements to implode
+     * @param string $delimiter The delimiter to use
+     * @param bool $listEnd The last delimiter to use (defaults to $delimiter)
+     * @return string
+     */
+    protected function implodeWith(array $elements, $delimiter = ', ', $listEnd = false) {
+        if ($listEnd === false || !isset($elements[1])) {
+            return implode(', ', $elements);
+        }
+        $lastElement  = array_slice($elements, -1);
+        $firsElements = join(', ', array_slice($elements, 0, -1));
+        $implodedElements = array_merge(array($firsElements), $lastElement);
+        return join(" $listEnd ", $implodedElements);
+    }
+
+    /**
+     * Validates the given $type, if there's an associated self::$wording. If not, throws an
+     * exception.
+     *
+     * @param string $type The type to validate
+     *
+     * @throws StandardUnexpectedValueException
+     */
+    protected function validateTypeNameWording( $type) {
+        if (!isset(self::$wording[$type])) {
+            throw new StandardUnexpectedValueException(
+                sprintf(
+                    "No wording for %s available, expected wordings are: [%s]",
+                    var_export($type, true),
+                    implode(', ', array_filter(self::$wording)))
+            );
         }
     }
 
@@ -126,7 +177,7 @@ class TypeConstraint extends Constraint
         if ('string' === $type) {
             return is_string($value);
         }
-        
+
         if ('email' === $type) {
             return is_string($value);
         }
