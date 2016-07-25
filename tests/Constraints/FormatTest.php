@@ -146,7 +146,6 @@ class FormatTest extends BaseTestCase
             array('1999-01-11T00:00:00+1:00', 'date-time'),
             array('1999.000Z-01-11T00:00:00+1:00', 'date-time'),
 
-            array('-1', 'utc-millisec'),
             array(PHP_INT_MAX, 'utc-millisec'),
 
             array('grey', 'color'),
