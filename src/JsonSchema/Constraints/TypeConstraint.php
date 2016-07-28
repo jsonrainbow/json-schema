@@ -116,18 +116,18 @@ class TypeConstraint extends Constraint
         }
 
         if ('object' === $type) {
-            return is_object($value);
+            return is_object($value) || (is_array($value) && (count($value) == 0 || $this->isAssociativeArray($value)));
             //return ($this::CHECK_MODE_TYPE_CAST == $this->checkMode) ? is_array($value) : is_object($value);
         }
 
         if ('array' === $type) {
-            return is_array($value);
+            return is_array($value) && (count($value) == 0 || !$this->isAssociativeArray($value));
         }
 
         if ('string' === $type) {
             return is_string($value);
         }
-        
+
         if ('email' === $type) {
             return is_string($value);
         }
@@ -141,5 +141,17 @@ class TypeConstraint extends Constraint
         }
 
         throw new InvalidArgumentException((is_object($value) ? 'object' : $value) . ' is an invalid type for ' . $type);
+    }
+
+    /**
+     * Check if the provided array is associative or not
+     *
+     * @param array $arr
+     *
+     * @return bool
+     */
+    private function isAssociativeArray($arr)
+    {
+        return (array_keys($arr) !== range(0, count($arr) - 1));
     }
 }
