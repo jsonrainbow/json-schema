@@ -76,7 +76,7 @@ class CollectionConstraint extends Constraint
                 // Reset errors if needed
                 if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
                     $this->errors = $secondErrors;
-                } else if (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
+                } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
                     $this->errors = $initErrors;
                 }
             }
@@ -102,7 +102,7 @@ class CollectionConstraint extends Constraint
             }
 
             // Treat when we have more schema definitions than values, not for empty arrays
-            if(count($value) > 0) {
+            if (count($value) > 0) {
                 for ($k = count($value); $k < count($schema->items); $k++) {
                     $this->checkUndefined(new UndefinedConstraint(), $schema->items[$k], $path, $k);
                 }

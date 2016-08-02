@@ -9,8 +9,6 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-use JsonSchema\Validator;
-
 class AdditionalPropertiesTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -52,8 +50,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   },
                   "additionalProperties": false
-                }',
-                Validator::CHECK_MODE_TYPE_CAST
+                }'
             ),
             array(
                 '{
@@ -79,8 +76,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   },
                   "additionalProperties": {"type":"string"}
-                }',
-                Validator::CHECK_MODE_TYPE_CAST
+                }'
             ),
             array(
                 '{
@@ -132,8 +128,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "properties":{
                     "prop":{"type":"string"}
                   }
-                }',
-                Validator::CHECK_MODE_TYPE_CAST
+                }'
             ),
             array(
                 '{

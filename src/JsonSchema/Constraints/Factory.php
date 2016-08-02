@@ -11,7 +11,6 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Uri\UriRetriever;
-use JsonSchema\Validator;
 
 /**
  * Factory for centralize constraint initialization.
@@ -22,6 +21,16 @@ class Factory
      * @var UriRetriever $uriRetriever
      */
     protected $uriRetriever;
+
+    /**
+     * @var int
+     */
+    private $checkMode;
+
+    /**
+     * @var TypeCheck\TypeCheckInterface[]
+     */
+    private $typeCheck = array();
 
     /**
      * @var array $constraintMap
@@ -43,13 +52,14 @@ class Factory
     /**
      * @param UriRetriever $uriRetriever
      */
-    public function __construct(UriRetriever $uriRetriever = null)
+    public function __construct(UriRetriever $uriRetriever = null, $checkMode = Constraint::CHECK_MODE_NORMAL)
     {
         if (!$uriRetriever) {
             $uriRetriever = new UriRetriever();
         }
 
         $this->uriRetriever = $uriRetriever;
+        $this->checkMode = $checkMode;
     }
 
     /**
@@ -60,6 +70,19 @@ class Factory
         return $this->uriRetriever;
     }
 
+    public function getTypeCheck()
+    {
+        if (!isset($this->typeCheck[$this->checkMode])) {
+            if ($this->checkMode === Constraint::CHECK_MODE_TYPE_CAST) {
+                $this->typeCheck[Constraint::CHECK_MODE_TYPE_CAST] = new TypeCheck\LooseTypeCheck();
+            } else {
+                $this->typeCheck[$this->checkMode] = new TypeCheck\StrictTypeCheck();
+            }
+        }
+
+        return $this->typeCheck[$this->checkMode];
+    }
+
     /**
      * @param string $name
      * @param string $class
@@ -67,16 +90,16 @@ class Factory
      */
     public function setConstraintClass($name, $class)
     {
-      // Ensure class exists
-      if (!class_exists($class)) {
-        throw new InvalidArgumentException('Unknown constraint ' . $name);
-      }
-      // Ensure class is appropriate
-      if (!in_array('JsonSchema\Constraints\ConstraintInterface', class_implements($class))) {
-        throw new InvalidArgumentException('Invalid class ' . $name);
-      }
-      $this->constraintMap[$name] = $class;
-      return $this;
+        // Ensure class exists
+        if (!class_exists($class)) {
+            throw new InvalidArgumentException('Unknown constraint ' . $name);
+        }
+        // Ensure class is appropriate
+        if (!in_array('JsonSchema\Constraints\ConstraintInterface', class_implements($class))) {
+            throw new InvalidArgumentException('Invalid class ' . $name);
+        }
+        $this->constraintMap[$name] = $class;
+        return $this;
     }
 
     /**
@@ -89,7 +112,7 @@ class Factory
     public function createInstanceFor($constraintName)
     {
         if (array_key_exists($constraintName, $this->constraintMap)) {
-          return new $this->constraintMap[$constraintName](Constraint::CHECK_MODE_NORMAL, $this->uriRetriever, $this);
+            return new $this->constraintMap[$constraintName]($this->checkMode, $this->uriRetriever, $this);
         }
         throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
     }

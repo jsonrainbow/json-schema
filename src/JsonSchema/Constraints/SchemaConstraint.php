@@ -27,9 +27,14 @@ class SchemaConstraint extends Constraint
         if ($schema !== null) {
             // passed schema
             $this->checkUndefined($element, $schema, '', '');
-        } elseif (property_exists($element, $this->inlineSchemaProperty)) {
+        } elseif ($this->getTypeCheck()->propertyExists($element, $this->inlineSchemaProperty)) {
+            $inlineSchema = $this->getTypeCheck()->propertyGet($element, $this->inlineSchemaProperty);
+            if (is_array($inlineSchema)) {
+                $inlineSchema = json_decode(json_encode($inlineSchema));
+            }
+
             // inline schema
-            $this->checkUndefined($element, $element->{$this->inlineSchemaProperty}, '', '');
+            $this->checkUndefined($element, $inlineSchema, '', '');
         } else {
             throw new InvalidArgumentException('no schema found to verify against');
         }

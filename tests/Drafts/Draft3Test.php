@@ -8,6 +8,7 @@
  */
 
 namespace JsonSchema\Tests\Drafts;
+use JsonSchema\Constraints\Constraint;
 
 /**
  * @package JsonSchema\Tests\Drafts
@@ -23,6 +24,28 @@ class Draft3Test extends BaseDraftTestCase
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft3'),
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft3/optional')
         );
+    }
+
+    public function getInvalidForAssocTests()
+    {
+        $tests = parent::getInvalidForAssocTests();
+        unset(
+            $tests['type.json / object type matches objects / an array is not an object'],
+            $tests['type.json / array type matches arrays / an object is not an array']
+        );
+
+        return $tests;
+    }
+
+    public function getValidForAssocTests()
+    {
+        $tests = parent::getValidForAssocTests();
+        unset(
+            $tests['type.json / object type matches objects / an array is not an object'],
+            $tests['type.json / array type matches arrays / an object is not an array']
+        );
+
+        return $tests;
     }
 
     /**

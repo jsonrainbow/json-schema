@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\UndefinedConstraint;
 
 class RequiredPropertyTest extends BaseTestCase
@@ -229,7 +230,8 @@ class RequiredPropertyTest extends BaseTestCase
                   "properties": {
                     "array":{"type":"array", "required": true}
                   }
-                }'
+                }',
+                Constraint::CHECK_MODE_NORMAL
             ),
             array(
                 '{

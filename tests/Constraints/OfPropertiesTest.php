@@ -7,8 +7,6 @@
  */
 namespace JsonSchema\Tests\Constraints;
 
-use JsonSchema\Validator;
-
 /**
  * Class OfPropertiesTest
  */
@@ -71,7 +69,7 @@ class OfPropertiesTest extends BaseTestCase
                   },
                   "required": ["prop1"]
                 }',
-                Validator::CHECK_MODE_NORMAL,
+                null,
                 array(
                     array(
                         "property"   => "prop2",

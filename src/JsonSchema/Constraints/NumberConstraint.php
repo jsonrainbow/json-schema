@@ -27,13 +27,13 @@ class NumberConstraint extends Constraint
             if (isset($schema->minimum)) {
                 if ($schema->exclusiveMinimum && $element <= $schema->minimum) {
                     $this->addError($path, "Must have a minimum value of " . $schema->minimum, 'exclusiveMinimum', array('minimum' => $schema->minimum,));
-                } else if ($element < $schema->minimum) {
+                } elseif ($element < $schema->minimum) {
                     $this->addError($path, "Must have a minimum value of " . $schema->minimum, 'minimum', array('minimum' => $schema->minimum,));
                 }
             } else {
                 $this->addError($path, "Use of exclusiveMinimum requires presence of minimum", 'missingMinimum');
             }
-        } else if (isset($schema->minimum) && $element < $schema->minimum) {
+        } elseif (isset($schema->minimum) && $element < $schema->minimum) {
             $this->addError($path, "Must have a minimum value of " . $schema->minimum, 'minimum', array('minimum' => $schema->minimum,));
         }
 
@@ -42,13 +42,13 @@ class NumberConstraint extends Constraint
             if (isset($schema->maximum)) {
                 if ($schema->exclusiveMaximum && $element >= $schema->maximum) {
                     $this->addError($path, "Must have a maximum value of " . $schema->maximum, 'exclusiveMaximum', array('maximum' => $schema->maximum,));
-                } else if ($element > $schema->maximum) {
+                } elseif ($element > $schema->maximum) {
                     $this->addError($path, "Must have a maximum value of " . $schema->maximum, 'maximum', array('maximum' => $schema->maximum,));
                 }
             } else {
                 $this->addError($path, "Use of exclusiveMaximum requires presence of maximum", 'missingMaximum');
             }
-        } else if (isset($schema->maximum) && $element > $schema->maximum) {
+        } elseif (isset($schema->maximum) && $element > $schema->maximum) {
             $this->addError($path, "Must have a maximum value of " . $schema->maximum, 'maximum', array('maximum' => $schema->maximum,));
         }
 
