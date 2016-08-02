@@ -265,7 +265,7 @@ abstract class Constraint implements ConstraintInterface
     }
 
     /**
-     * Checks format of a element
+     * Checks format of an element
      *
      * @param mixed            $value
      * @param mixed            $schema
