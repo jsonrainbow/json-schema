@@ -23,7 +23,7 @@ class Factory
      * @var SchemaStorage
      */
     protected $schemaStorage;
-   
+
     /**
      * @var UriRetriever $uriRetriever
      */
@@ -57,6 +57,11 @@ class Factory
     );
 
     /**
+     * @var array<ConstraintInterface>
+     */
+    private $instanceCache = array();
+
+    /**
      * @param SchemaStorage $schemaStorage
      * @param UriRetrieverInterface $uriRetriever
      * @param int $checkMode
@@ -78,7 +83,7 @@ class Factory
     {
         return $this->uriRetriever;
     }
-    
+
     public function getSchemaStorage()
     {
         return $this->schemaStorage;
@@ -124,12 +129,15 @@ class Factory
     public function createInstanceFor($constraintName)
     {
         if (array_key_exists($constraintName, $this->constraintMap)) {
-            return new $this->constraintMap[$constraintName](
-                $this->checkMode,
-                $this->schemaStorage,
-                $this->uriRetriever,
-                $this
-            );
+            if (!isset($this->instanceCache[$constraintName])) {
+                $this->instanceCache[$constraintName] = new $this->constraintMap[$constraintName](
+                    $this->checkMode,
+                    $this->schemaStorage,
+                    $this->uriRetriever,
+                    $this
+                );
+            }
+            return clone $this->instanceCache[$constraintName];
         }
         throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
     }

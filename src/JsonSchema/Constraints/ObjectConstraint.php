@@ -105,11 +105,6 @@ class ObjectConstraint extends Constraint
                 $this->addError($path, "The presence of the property " . $i . " requires that " . $require . " also be present", 'requires');
             }
 
-            if (!$definition) {
-                // normal property verification
-                $this->checkUndefined($value, new \stdClass(), $path, $i);
-            }
-
             $property = $this->getProperty($element, $i, new UndefinedConstraint());
             if (is_object($property)) {
                 $this->validateMinMaxConstraint(!($property instanceof UndefinedConstraint) ? $property : $element, $definition, $path);
@@ -129,7 +124,11 @@ class ObjectConstraint extends Constraint
         foreach ($objectDefinition as $i => $value) {
             $property = $this->getProperty($element, $i, $this->getFactory()->createInstanceFor('undefined'));
             $definition = $this->getProperty($objectDefinition, $i);
-            $this->checkUndefined($property, $definition, $path, $i);
+
+            if (is_object($definition)) {
+                // Undefined constraint will check for is_object() and quit if is not - so why pass it?
+                $this->checkUndefined($property, $definition, $path, $i);
+            }
         }
     }
 
