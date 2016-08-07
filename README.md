@@ -48,6 +48,12 @@ if ($validator->isValid()) {
 }
 ```
 
+`RefResolver` keeps a cache of downloaded references. If you wish to clean the cache, you can use
+
+```
+$refResolver->cleanCache();
+```
+
 ## Running the tests
 
     $ vendor/bin/phpunit
