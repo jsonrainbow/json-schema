@@ -30,6 +30,8 @@ class RefResolver
     /** @var UriResolverInterface */
     private $uriResolver;
 
+    private $paths = array();
+
     /**
      * @param UriRetrieverInterface $retriever
      * @param UriResolverInterface $uriResolver
@@ -49,25 +51,15 @@ class RefResolver
      */
     public function resolve($sourceUri)
     {
-        return $this->resolveCached($sourceUri, array());
-    }
-
-    /**
-     * @param string $sourceUri URI where this schema was located
-     * @param array $paths
-     * @return object
-     */
-    private function resolveCached($sourceUri, array $paths)
-    {
         $jsonPointer = new JsonPointer($sourceUri);
 
         $fileName = $jsonPointer->getFilename();
-        if (!array_key_exists($fileName, $paths)) {
+        if (!array_key_exists($fileName, $this->paths)) {
             $schema = $this->uriRetriever->retrieve($jsonPointer->getFilename());
-            $paths[$jsonPointer->getFilename()] = $schema;
-            $this->resolveSchemas($schema, $jsonPointer->getFilename(), $paths);
+            $this->paths[$jsonPointer->getFilename()] = $schema;
+            $this->resolveSchemas($schema, $jsonPointer->getFilename());
         }
-        $schema = $paths[$fileName];
+        $schema = $this->paths[$fileName];
 
         return $this->getRefSchema($jsonPointer, $schema);
     }
@@ -77,16 +69,15 @@ class RefResolver
      *
      * @param object $unresolvedSchema
      * @param string $fileName
-     * @param array $paths
      */
-    private function resolveSchemas($unresolvedSchema, $fileName, array $paths)
+    private function resolveSchemas($unresolvedSchema, $fileName)
     {
         $objectIterator = new ObjectIterator($unresolvedSchema);
         foreach ($objectIterator as $toResolveSchema) {
             if (property_exists($toResolveSchema, '$ref') && is_string($toResolveSchema->{'$ref'})) {
                 $jsonPointer = new JsonPointer($this->uriResolver->resolve($toResolveSchema->{'$ref'}, $fileName));
-                $refSchema = $this->resolveCached((string) $jsonPointer, $paths);
-                $this->unionSchemas($refSchema, $toResolveSchema, $fileName, $paths);
+                $refSchema = $this->resolve((string) $jsonPointer);
+                $this->unionSchemas($refSchema, $toResolveSchema, $fileName);
             }
         }
     }
@@ -120,14 +111,13 @@ class RefResolver
      * @param object $refSchema
      * @param object $schema
      * @param string $fileName
-     * @param array $paths
      */
-    private function unionSchemas($refSchema, $schema, $fileName, array $paths)
+    private function unionSchemas($refSchema, $schema, $fileName)
     {
         if (property_exists($refSchema, '$ref')) {
             $jsonPointer = new JsonPointer($this->uriResolver->resolve($refSchema->{'$ref'}, $fileName));
-            $newSchema = $this->resolveCached((string) $jsonPointer, $paths);
-            $this->unionSchemas($newSchema, $refSchema, $fileName, $paths);
+            $newSchema = $this->resolve((string) $jsonPointer);
+            $this->unionSchemas($newSchema, $refSchema, $fileName);
         }
 
         unset($schema->{'$ref'});
