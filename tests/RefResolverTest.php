@@ -112,6 +112,29 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         $refResolver->resolve('http://www.example.com/schema.json');
     }
 
+    public function testExternalReferencesLoadedOnlyOnce()
+    {
+        $mainSchema = $this->getMainSchema();
+        $schema2 = $this->getSchema2();
+        $schema3 = $this->getSchema3();
+
+        /** @var UriRetriever $uriRetriever */
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve('http://www.example.com/schema.json')
+            ->willReturn($mainSchema)
+            ->shouldBeCalledTimes(1);
+        $uriRetriever->retrieve('http://www.my-domain.com/schema2.json')
+            ->willReturn($schema2)
+            ->shouldBeCalledTimes(1);
+        $uriRetriever->retrieve('http://www.my-domain.com/schema3.json')
+            ->willReturn($schema3)
+            ->shouldBeCalledTimes(1);
+
+        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
+        $refResolver->resolve('http://www.example.com/schema.json');
+        $refResolver->resolve('http://www.example.com/schema.json');
+    }
+
     /**
      * @return object
      */
