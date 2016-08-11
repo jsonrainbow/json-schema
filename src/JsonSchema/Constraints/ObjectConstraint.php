@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Entity\JsonPointer;
+
 /**
  * The ObjectConstraint Constraints, validates an object against a given schema
  *
@@ -20,7 +22,7 @@ class ObjectConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $definition = null, $path = null, $additionalProp = null, $patternProperties = null)
+    public function check($element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -40,7 +42,7 @@ class ObjectConstraint extends Constraint
         $this->validateElement($element, $matches, $definition, $path, $additionalProp);
     }
 
-    public function validatePatternProperties($element, $path, $patternProperties)
+    public function validatePatternProperties($element, JsonPointer $path = null, $patternProperties)
     {
         $try = array('/','#','+','~','%');
         $matches = array();
@@ -71,13 +73,13 @@ class ObjectConstraint extends Constraint
     /**
      * Validates the element properties
      *
-     * @param \stdClass $element          Element to validate
-     * @param array     $matches          Matches from patternProperties (if any)
-     * @param \stdClass $objectDefinition ObjectConstraint definition
-     * @param string    $path             Path to test?
-     * @param mixed     $additionalProp   Additional properties
+     * @param \stdClass        $element          Element to validate
+     * @param array            $matches          Matches from patternProperties (if any)
+     * @param \stdClass        $objectDefinition ObjectConstraint definition
+     * @param JsonPointer|null $path             Path to test?
+     * @param mixed            $additionalProp   Additional properties
      */
-    public function validateElement($element, $matches, $objectDefinition = null, $path = null, $additionalProp = null)
+    public function validateElement($element, $matches, $objectDefinition = null, JsonPointer $path = null, $additionalProp = null)
     {
         $this->validateMinMaxConstraint($element, $objectDefinition, $path);
         foreach ($element as $i => $value) {
@@ -118,11 +120,11 @@ class ObjectConstraint extends Constraint
     /**
      * Validates the definition properties
      *
-     * @param \stdClass $element          Element to validate
-     * @param \stdClass $objectDefinition ObjectConstraint definition
-     * @param string    $path             Path?
+     * @param \stdClass         $element          Element to validate
+     * @param \stdClass         $objectDefinition ObjectConstraint definition
+     * @param JsoinPointer|null $path             Path?
      */
-    public function validateDefinition($element, $objectDefinition = null, $path = null)
+    public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
     {
         foreach ($objectDefinition as $i => $value) {
             $property = $this->getProperty($element, $i, new UndefinedConstraint());
@@ -154,11 +156,11 @@ class ObjectConstraint extends Constraint
     /**
      * validating minimum and maximum property constraints (if present) against an element
      *
-     * @param \stdClass $element          Element to validate
-     * @param \stdClass $objectDefinition ObjectConstraint definition
-     * @param string    $path             Path to test?
+     * @param \stdClass        $element          Element to validate
+     * @param \stdClass        $objectDefinition ObjectConstraint definition
+     * @param JsonPointer|null $path             Path to test?
      */
-    protected function validateMinMaxConstraint($element, $objectDefinition, $path) {
+    protected function validateMinMaxConstraint($element, $objectDefinition, JsonPointer $path = null) {
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {

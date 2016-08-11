@@ -8,7 +8,9 @@
  */
 
 namespace JsonSchema\Constraints;
+
 use JsonSchema\Rfc3339;
+use JsonSchema\Entity\JsonPointer;
 
 /**
  * Validates against the "format" property
@@ -21,7 +23,7 @@ class FormatConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $schema = null, $path = null, $i = null)
+    public function check($element, $schema = null, JsonPointer $path = null, $i = null)
     {
         if (!isset($schema->format)) {
             return;

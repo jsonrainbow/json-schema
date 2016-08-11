@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Entity\JsonPointer;
+
 /**
  * The CollectionConstraint Constraints, validates an array against a given schema
  *
@@ -20,7 +22,7 @@ class CollectionConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($value, $schema = null, $path = null, $i = null)
+    public function check($value, $schema = null, JsonPointer $path = null, $i = null)
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
@@ -52,12 +54,12 @@ class CollectionConstraint extends Constraint
     /**
      * Validates the items
      *
-     * @param array     $value
-     * @param \stdClass $schema
-     * @param string    $path
-     * @param string    $i
+     * @param array            $value
+     * @param \stdClass        $schema
+     * @param JsonPointer|null $path
+     * @param string           $i
      */
-    protected function validateItems($value, $schema = null, $path = null, $i = null)
+    protected function validateItems($value, $schema = null, JsonPointer $path = null, $i = null)
     {
         if (is_object($schema->items)) {
             // just one type definition for the whole array

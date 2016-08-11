@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Uri\UriResolver;
+use JsonSchema\Entity\JsonPointer;
 
 /**
  * The UndefinedConstraint Constraints
@@ -22,14 +23,13 @@ class UndefinedConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($value, $schema = null, $path = null, $i = null)
+    public function check($value, $schema = null, JsonPointer $path = null, $i = null)
     {
         if (is_null($schema) || !is_object($schema)) {
             return;
         }
 
-        $i = is_null($i) ? "" : $i;
-        $path = $this->incrementPath($path, $i);
+        $path = $this->incrementPath($path ?: new JsonPointer(''), $i);
 
         // check special properties
         $this->validateCommonProperties($value, $schema, $path);
@@ -44,12 +44,12 @@ class UndefinedConstraint extends Constraint
     /**
      * Validates the value against the types
      *
-     * @param mixed  $value
-     * @param mixed  $schema
-     * @param string $path
-     * @param string $i
+     * @param mixed       $value
+     * @param mixed       $schema
+     * @param JsonPointer $path
+     * @param string      $i
      */
-    public function validateTypes($value, $schema = null, $path = null, $i = null)
+    public function validateTypes($value, $schema = null, JsonPointer $path, $i = null)
     {
         // check array
         if ($this->getTypeCheck()->isArray($value)) {
@@ -86,12 +86,12 @@ class UndefinedConstraint extends Constraint
     /**
      * Validates common properties
      *
-     * @param mixed  $value
-     * @param mixed  $schema
-     * @param string $path
-     * @param string $i
+     * @param mixed       $value
+     * @param mixed       $schema
+     * @param JsonPointer $path
+     * @param string      $i
      */
-    protected function validateCommonProperties($value, $schema = null, $path = null, $i = "")
+    protected function validateCommonProperties($value, $schema = null, JsonPointer $path, $i = "")
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
@@ -113,7 +113,11 @@ class UndefinedConstraint extends Constraint
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!$this->getTypeCheck()->propertyExists($value, $required)) {
-                        $this->addError((!$path) ? $required : "$path.$required", "The property " . $required . " is required", 'required');
+                        $this->addError(
+                            $this->incrementPath($path ?: new JsonPointer(''), $required),
+                            "The property " . $required . " is required",
+                            'required'
+                        );
                     }
                 }
             } elseif (isset($schema->required) && !is_array($schema->required)) {
@@ -166,12 +170,12 @@ class UndefinedConstraint extends Constraint
     /**
      * Validate allOf, anyOf, and oneOf properties
      *
-     * @param mixed  $value
-     * @param mixed  $schema
-     * @param string $path
-     * @param string $i
+     * @param mixed       $value
+     * @param mixed       $schema
+     * @param JsonPointer $path
+     * @param string      $i
      */
-    protected function validateOfProperties($value, $schema, $path, $i = "")
+    protected function validateOfProperties($value, $schema, JsonPointer $path, $i = "")
     {
         // Verify type
         if ($value instanceof UndefinedConstraint) {
@@ -220,17 +224,8 @@ class UndefinedConstraint extends Constraint
                 $allErrors = array_merge($allErrors, array_values($this->getErrors()));
             }
             if ($matchedSchemas !== 1) {
-                $this->addErrors(
-                    array_merge(
-                        $allErrors,
-                        array(array(
-                            'property' => $path,
-                            'message' => "Failed to match exactly one schema",
-                            'constraint' => 'oneOf',
-                        ),),
-                        $startErrors
-                    )
-                );
+                $this->addErrors(array_merge($allErrors, $startErrors));
+                $this->addError($path, "Failed to match exactly one schema", 'oneOf');
             } else {
                 $this->errors = $startErrors;
             }
@@ -240,12 +235,12 @@ class UndefinedConstraint extends Constraint
     /**
      * Validate dependencies
      *
-     * @param mixed  $value
-     * @param mixed  $dependencies
-     * @param string $path
-     * @param string $i
+     * @param mixed       $value
+     * @param mixed       $dependencies
+     * @param JsonPointer $path
+     * @param string      $i
      */
-    protected function validateDependencies($value, $dependencies, $path, $i = "")
+    protected function validateDependencies($value, $dependencies, JsonPointer $path, $i = "")
     {
         foreach ($dependencies as $key => $dependency) {
             if ($this->getTypeCheck()->propertyExists($value, $key)) {

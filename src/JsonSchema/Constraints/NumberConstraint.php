@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Entity\JsonPointer;
+
 /**
  * The NumberConstraint Constraints, validates an number against a given schema
  *
@@ -20,7 +22,7 @@ class NumberConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $schema = null, $path = null, $i = null)
+    public function check($element, $schema = null, JsonPointer $path = null, $i = null)
     {
         // Verify minimum
         if (isset($schema->exclusiveMinimum)) {

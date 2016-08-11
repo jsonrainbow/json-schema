@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Entity\JsonPointer;
+
 /**
  * The Constraints Interface
  *
@@ -33,12 +35,12 @@ interface ConstraintInterface
     /**
      * adds an error
      *
-     * @param string $path
-     * @param string $message
-     * @param string $constraint the constraint/rule that is broken, e.g.: 'minLength'
-     * @param array $more more array elements to add to the error
+     * @param JsonPointer|null $path
+     * @param string           $message
+     * @param string           $constraint the constraint/rule that is broken, e.g.: 'minLength'
+     * @param array            $more more array elements to add to the error
      */
-    public function addError($path, $message, $constraint='', array $more=null);
+    public function addError(JsonPointer $path = null, $message, $constraint='', array $more=null);
 
     /**
      * checks if the validator has not raised errors
@@ -51,11 +53,11 @@ interface ConstraintInterface
      * invokes the validation of an element
      *
      * @abstract
-     * @param mixed $value
-     * @param mixed $schema
-     * @param mixed $path
-     * @param mixed $i
+     * @param mixed            $value
+     * @param mixed            $schema
+     * @param JsonPointer|null $path
+     * @param mixed            $i
      * @throws \JsonSchema\Exception\ExceptionInterface
      */
-    public function check($value, $schema = null, $path = null, $i = null);
+    public function check($value, $schema = null, JsonPointer $path = null, $i = null);
 }

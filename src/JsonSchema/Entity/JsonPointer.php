@@ -101,6 +101,17 @@ class JsonPointer
     }
 
     /**
+     * @param array $propertyPaths
+     * @return JsonPointer
+     */
+    public function withPropertyPaths(array $propertyPaths)
+    {
+        $new = clone $this;
+        $new->propertyPaths = $propertyPaths;
+        return $new;
+    }
+
+    /**
      * @return string
      */
     public function getPropertyPathAsString()

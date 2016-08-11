@@ -11,6 +11,7 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\Entity\JsonPointer;
 use PHPUnit_Framework_TestCase as TestCase;
 
 
@@ -25,7 +26,7 @@ class MyBadConstraint {}
  * @package JsonSchema\Tests\Constraints
  */
 class MyStringConstraint extends Constraint {
-  public function check($value, $schema = null, $path = null, $i = null){}
+  public function check($value, $schema = null, JsonPointer $path = null, $i = null){}
 }
 
 class FactoryTest extends TestCase

@@ -11,6 +11,7 @@ namespace JsonSchema;
 
 use JsonSchema\Constraints\SchemaConstraint;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Entity\JsonPointer;
 
 /**
  * A JsonSchema Constraint
@@ -30,7 +31,7 @@ class Validator extends Constraint
      *
      * {@inheritDoc}
      */
-    public function check($value, $schema = null, $path = null, $i = null)
+    public function check($value, $schema = null, JsonPointer $path = null, $i = null)
     {
         $validator = $this->getFactory()->createInstanceFor('schema');
         $validator->check($value, $schema);

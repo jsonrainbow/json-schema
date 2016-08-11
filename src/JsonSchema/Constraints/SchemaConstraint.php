@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
+use JsonSchema\Entity\JsonPointer;
 
 /**
  * The SchemaConstraint Constraints, validates an element against a given schema
@@ -22,19 +23,18 @@ class SchemaConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $schema = null, $path = null, $i = null)
+    public function check($element, $schema = null, JsonPointer $path = null, $i = null)
     {
         if ($schema !== null) {
             // passed schema
-            $this->checkUndefined($element, $schema, '', '');
+            $this->checkUndefined($element, $schema, $path, $i);
         } elseif ($this->getTypeCheck()->propertyExists($element, $this->inlineSchemaProperty)) {
             $inlineSchema = $this->getTypeCheck()->propertyGet($element, $this->inlineSchemaProperty);
             if (is_array($inlineSchema)) {
                 $inlineSchema = json_decode(json_encode($inlineSchema));
             }
-
             // inline schema
-            $this->checkUndefined($element, $inlineSchema, '', '');
+            $this->checkUndefined($element, $inlineSchema, $path, $i);
         } else {
             throw new InvalidArgumentException('no schema found to verify against');
         }
