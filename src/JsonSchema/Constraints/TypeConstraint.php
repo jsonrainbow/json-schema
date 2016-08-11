@@ -81,7 +81,7 @@ class TypeConstraint extends Constraint
             // with a new type constraint
             if (is_object($tp)) {
                 if (!$isValid) {
-                    $validator = new static($this->checkMode);
+                    $validator = $this->getFactory()->createInstanceFor('type');
                     $subSchema = new \stdClass();
                     $subSchema->type = $tp;
                     $validator->check($value, $subSchema, $path, null);
