@@ -9,8 +9,9 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
-use JsonSchema\Validator;
+use JsonSchema\UriRetrieverInterface;
 use JsonSchema\Entity\JsonPointer;
 
 /**
@@ -21,6 +22,7 @@ use JsonSchema\Entity\JsonPointer;
  */
 abstract class Constraint implements ConstraintInterface
 {
+    protected $schemaStorage;
     protected $checkMode = self::CHECK_MODE_NORMAL;
     protected $uriRetriever;
     protected $errors = array();
@@ -35,19 +37,25 @@ abstract class Constraint implements ConstraintInterface
     private $factory;
 
     /**
-     * @param int          $checkMode
-     * @param UriRetriever $uriRetriever
-     * @param Factory      $factory
+     * @param int $checkMode
+     * @param SchemaStorage $schemaStorage
+     * @param UriRetrieverInterface $uriRetriever
+     * @param Factory $factory
      */
-    public function __construct($checkMode = self::CHECK_MODE_NORMAL, UriRetriever $uriRetriever = null, Factory $factory = null)
-    {
-        $this->checkMode    = $checkMode;
-        $this->uriRetriever = $uriRetriever;
-        $this->factory = $factory;
+    public function __construct(
+        $checkMode = self::CHECK_MODE_NORMAL,
+        SchemaStorage $schemaStorage = null,
+        UriRetrieverInterface $uriRetriever = null,
+        Factory $factory = null
+    ) {
+        $this->checkMode     = $checkMode;
+        $this->uriRetriever  = $uriRetriever;
+        $this->factory       = $factory;
+        $this->schemaStorage = $schemaStorage;
     }
 
     /**
-     * @return UriRetriever $uriRetriever
+     * @return UriRetrieverInterface $uriRetriever
      */
     public function getUriRetriever()
     {
@@ -64,16 +72,28 @@ abstract class Constraint implements ConstraintInterface
     public function getFactory()
     {
         if (!$this->factory) {
-            $this->factory = new Factory($this->getUriRetriever(), $this->checkMode);
+            $this->factory = new Factory($this->getSchemaStorage(), $this->getUriRetriever(), $this->checkMode);
         }
 
         return $this->factory;
     }
 
     /**
-     * @param UriRetriever $uriRetriever
+     * @return SchemaStorage
      */
-    public function setUriRetriever(UriRetriever $uriRetriever)
+    public function getSchemaStorage()
+    {
+        if (is_null($this->schemaStorage)) {
+            $this->schemaStorage = new SchemaStorage($this->getUriRetriever());
+        }
+
+        return $this->schemaStorage;
+    }
+
+    /**
+     * @param UriRetrieverInterface $uriRetriever
+     */
+    public function setUriRetriever(UriRetrieverInterface $uriRetriever)
     {
         $this->uriRetriever = $uriRetriever;
     }
@@ -211,7 +231,7 @@ abstract class Constraint implements ConstraintInterface
     protected function checkUndefined($value, $schema = null, JsonPointer $path = null, $i = null)
     {
         $validator = $this->getFactory()->createInstanceFor('undefined');
-        $validator->check($value, $schema, $path, $i);
+        $validator->check($value, $this->schemaStorage->resolveRefSchema($schema), $path, $i);
 
         $this->addErrors($validator->getErrors());
     }
@@ -278,20 +298,6 @@ abstract class Constraint implements ConstraintInterface
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
-    }
-
-    /**
-     * @param string $uri JSON Schema URI
-     * @return string JSON Schema contents
-     */
-    protected function retrieveUri($uri)
-    {
-        if (null === $this->uriRetriever) {
-            $this->setUriRetriever(new UriRetriever);
-        }
-        $jsonSchema = $this->uriRetriever->retrieve($uri);
-        // TODO validate using schema
-        return $jsonSchema;
     }
 
     /**

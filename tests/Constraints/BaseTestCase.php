@@ -10,7 +10,7 @@
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
-use JsonSchema\RefResolver;
+use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 use Prophecy\Argument;
@@ -29,19 +29,15 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($input, $jsonSchema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = array())
+    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = array())
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
 
-        $schema = json_decode($jsonSchema);
-        if (is_object($schema)) {
-            $schema = $this->resolveSchema($schema);
-        }
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $value = json_decode($input);
-
-        $validator = new Validator($checkMode);
-        $validator->check($value, $schema);
+        $validator = new Validator($checkMode, $schemaStorage);
+        $validator->check(json_decode($input), $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
@@ -52,22 +48,18 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getInvalidForAssocTests
      */
-    public function testInvalidCasesUsingAssoc($input, $jsonSchema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
+    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;
         if ($checkMode !== Constraint::CHECK_MODE_TYPE_CAST) {
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schema = json_decode($jsonSchema);
-        if (is_object($schema)) {
-            $schema = $this->resolveSchema($schema);
-        }
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $value = json_decode($input, true);
-
-        $validator = new Validator($checkMode);
-        $validator->check($value, $schema);
+        $validator = new Validator($checkMode, $schemaStorage);
+        $validator->check(json_decode($input, true), $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
@@ -80,15 +72,12 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testValidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL)
     {
-        $schema = json_decode($schema);
-        if (is_object($schema)) {
-            $schema = $this->resolveSchema($schema);
-        }
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $value = json_decode($input);
-        $validator = new Validator($checkMode);
+        $validator = new Validator($checkMode, $schemaStorage);
+        $validator->check(json_decode($input), $schema);
 
-        $validator->check($value, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -102,12 +91,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         }
 
         $schema = json_decode($schema);
-        if (is_object($schema)) {
-            $schema = $this->resolveSchema($schema);
-        }
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver);
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $value = json_decode($input, true);
-        $validator = new Validator($checkMode);
+        $validator = new Validator($checkMode, $schemaStorage);
 
         $validator->check($value, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
@@ -143,7 +131,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
      * @param object $schema
      * @return object
      */
-    private function resolveSchema($schema)
+    private function getUriRetrieverMock($schema)
     {
         $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
 
@@ -168,9 +156,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                     return json_decode(file_get_contents($relativeTestsRoot . '/folder' . $urlParts['path']));
                 }
             });
-        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
-
-        return $refResolver->resolve('http://www.my-domain.com/schema.json');
+        return $uriRetriever->reveal();
     }
 
     /**

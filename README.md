@@ -26,17 +26,11 @@ See [json-schema](http://json-schema.org/) for more details.
 ```php
 <?php
 
-// Get the schema and data as objects
-// If you use $ref or if you are unsure, resolve those references here
-// This modifies the $schema object
-$refResolver = new JsonSchema\RefResolver(new JsonSchema\Uri\UriRetriever(), new JsonSchema\Uri\UriResolver());
-$schema = $refResolver->resolve('file://' . realpath('schema.json'));
-
 $data = json_decode(file_get_contents('data.json'));
 
 // Validate
-$validator = new JsonSchema\Validator();
-$validator->check($data, $schema);
+$validator = new JsonSchema\Validator;
+$validator->check($data, (object)['$ref' => 'file://' . realpath('schema.json')]);
 
 if ($validator->isValid()) {
     echo "The supplied JSON validates against the schema.\n";

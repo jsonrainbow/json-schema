@@ -9,92 +9,81 @@
 
 namespace JsonSchema\Tests;
 
-use JsonSchema\RefResolver;
-use JsonSchema\Uri\UriResolver;
+use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use Prophecy\Argument;
 
-/**
- * @package JsonSchema\Tests
- * @author Joost Nijhuis <jnijhuis81@gmail.com>
- * @author Rik Jansen <rikjansen@gmail.com>
- * @group RefResolver
- */
-class RefResolverTest extends \PHPUnit_Framework_TestCase
+class SchemaStorageTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var RefResolver */
-    private $refResolver;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUp()
+    public function testResolveRef()
     {
-        parent::setUp();
+        $mainSchema = $this->getMainSchema();
+        $mainSchemaPath = 'http://www.example.com/schema.json';
 
-        $this->refResolver = new RefResolver(new UriRetriever(), new UriResolver());
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve($mainSchemaPath)->willReturn($mainSchema)->shouldBeCalled();
+
+        $schemaStorage = new SchemaStorage($uriRetriever->reveal());
+
+        $this->assertEquals(
+            (object) array('type' => 'string'),
+            $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/properties/door")
+        );
     }
 
+    /**
+     * @depends testResolveRef
+     */
     public function testSchemaWithLocalAndExternalReferencesWithCircularReference()
     {
         $mainSchema = $this->getMainSchema();
         $schema2 = $this->getSchema2();
         $schema3 = $this->getSchema3();
 
+        $mainSchemaPath = 'http://www.example.com/schema.json';
+        $schema2Path = 'http://www.my-domain.com/schema2.json';
+        $schema3Path = 'http://www.my-domain.com/schema3.json';
+
         /** @var UriRetriever $uriRetriever */
         $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
-        $uriRetriever->retrieve('http://www.example.com/schema.json')
-            ->willReturn($mainSchema)
-            ->shouldBeCalled($mainSchema);
-        $uriRetriever->retrieve('http://www.my-domain.com/schema2.json')
-            ->willReturn($schema2)
-            ->shouldBeCalled();
-        $uriRetriever->retrieve('http://www.my-domain.com/schema3.json')
-            ->willReturn($schema3)
-            ->shouldBeCalled();
+        $uriRetriever->retrieve($mainSchemaPath)->willReturn($mainSchema)->shouldBeCalled();
+        $uriRetriever->retrieve($schema2Path)->willReturn($schema2)->shouldBeCalled();
+        $uriRetriever->retrieve($schema3Path)->willReturn($schema3)->shouldBeCalled();
 
-        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
-        $refResolver->resolve('http://www.example.com/schema.json');
+        $schemaStorage = new SchemaStorage($uriRetriever->reveal());
 
-        // ref schema merged into schema
-        $this->assertSame($schema2->definitions->car->type, $mainSchema->properties->car->type);
-        $this->assertSame(
-            $schema2->definitions->car->additionalProperties,
-            $mainSchema->properties->car->additionalProperties
+        // remote ref
+        $this->assertEquals(
+            $schemaStorage->resolveRef("$schema2Path#/definitions/car"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/car")
         );
-        $this->assertSame($schema2->definitions->car->properties, $mainSchema->properties->car->properties);
-        $this->assertFalse(property_exists($mainSchema->properties->car, '$ref'));
-
-        // ref schema combined with current schema
-        $this->assertFalse(property_exists($mainSchema->properties->house, '$ref'));
-        $this->assertSame(true, $mainSchema->properties->house->allOf[0]->additionalProperties);
-        $this->assertSame($mainSchema->definitions->house, $mainSchema->properties->house->allOf[1]);
-
-        $this->assertNotSame($mainSchema->definitions->house, $mainSchema->definitions->house->properties->house);
-        $this->assertNotSame(
-            $mainSchema->definitions->house,
-            $mainSchema->definitions->house->properties->house->properties->house
-        );
-        $this->assertSame(
-            $mainSchema->definitions->house->properties->house,
-            $mainSchema->definitions->house->properties->house->properties->house->properties->house
-        );
-        $this->assertSame(
-            $mainSchema->definitions->house->properties->house,
-            $mainSchema->definitions->house->properties->house->properties->house->properties->house->properties->house
+        $this->assertEquals(
+            $schemaStorage->resolveRef("$schema3Path#/wheel"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/car/properties/wheel")
         );
 
-        $this->assertNotSame($schema3->wheel, $mainSchema->properties->car->properties->wheel);
-        $this->assertSame(
-            $schema3->wheel->properties->spokes,
-            $mainSchema->properties->car->properties->wheel->properties->spokes
+        // local ref with overriding
+        $this->assertNotEquals(
+            $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/additionalProperties"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/additionalProperties")
+        );
+        $this->assertEquals(
+            $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/properties"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/properties")
         );
 
-        $this->assertNotSame($schema3->wheel->properties->car, $mainSchema->properties->car);
-        $this->assertSame($schema3->wheel->properties->car->properties, $mainSchema->properties->car->properties);
+        // recursive ref
+        $this->assertEquals(
+            $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/properties/house")
+        );
+        $this->assertEquals(
+            $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/properties/house/properties/house")
+        );
     }
 
-    function testUnresolvableJsonPointExceptionShouldBeThrown()
+    public function testUnresolvableJsonPointExceptionShouldBeThrown()
     {
         $this->setExpectedException(
             'JsonSchema\Exception\UnresolvableJsonPointerException',
@@ -102,37 +91,15 @@ class RefResolverTest extends \PHPUnit_Framework_TestCase
         );
 
         $mainSchema = $this->getInvalidSchema();
+        $mainSchemaPath = 'http://www.example.com/schema.json';
 
         $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
-        $uriRetriever->retrieve('http://www.example.com/schema.json')
+        $uriRetriever->retrieve($mainSchemaPath)
             ->willReturn($mainSchema)
             ->shouldBeCalled($mainSchema);
 
-        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
-        $refResolver->resolve('http://www.example.com/schema.json');
-    }
-
-    public function testExternalReferencesLoadedOnlyOnce()
-    {
-        $mainSchema = $this->getMainSchema();
-        $schema2 = $this->getSchema2();
-        $schema3 = $this->getSchema3();
-
-        /** @var UriRetriever $uriRetriever */
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
-        $uriRetriever->retrieve('http://www.example.com/schema.json')
-            ->willReturn($mainSchema)
-            ->shouldBeCalledTimes(1);
-        $uriRetriever->retrieve('http://www.my-domain.com/schema2.json')
-            ->willReturn($schema2)
-            ->shouldBeCalledTimes(1);
-        $uriRetriever->retrieve('http://www.my-domain.com/schema3.json')
-            ->willReturn($schema3)
-            ->shouldBeCalledTimes(1);
-
-        $refResolver = new RefResolver($uriRetriever->reveal(), new UriResolver());
-        $refResolver->resolve('http://www.example.com/schema.json');
-        $refResolver->resolve('http://www.example.com/schema.json');
+        $schemaStorage = new SchemaStorage($uriRetriever->reveal());
+        $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");
     }
 
     /**

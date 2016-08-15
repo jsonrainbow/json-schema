@@ -127,7 +127,7 @@ class ObjectConstraint extends Constraint
     public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
     {
         foreach ($objectDefinition as $i => $value) {
-            $property = $this->getProperty($element, $i, new UndefinedConstraint());
+            $property = $this->getProperty($element, $i, $this->getFactory()->createInstanceFor('undefined'));
             $definition = $this->getProperty($objectDefinition, $i);
             $this->checkUndefined($property, $definition, $path, $i);
         }
