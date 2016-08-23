@@ -83,5 +83,7 @@ class FileGetContents extends AbstractRetriever
         if (0 < preg_match("/Content-Type:(\V*)/ims", $header, $match)) {
             return trim($match[1]);
         }
+
+        return null;
     }
 }
