@@ -71,8 +71,9 @@ class TypeConstraint extends Constraint
      *
      * @param mixed $value Value to validate
      * @param array $type TypeConstraints to check agains
-     * @param array $wording An array of wordings of the valid types of the array $type
+     * @param array $validTypesWording An array of wordings of the valid types of the array $type
      * @param boolean $isValid The current validation value
+     * @param $path
      */
     protected function validateTypesArray($value, array $type, &$validTypesWording, &$isValid,
                                           $path) {
@@ -111,10 +112,10 @@ class TypeConstraint extends Constraint
      */
     protected function implodeWith(array $elements, $delimiter = ', ', $listEnd = false) {
         if ($listEnd === false || !isset($elements[1])) {
-            return implode(', ', $elements);
+            return implode($delimiter, $elements);
         }
         $lastElement  = array_slice($elements, -1);
-        $firsElements = join(', ', array_slice($elements, 0, -1));
+        $firsElements = join($delimiter, array_slice($elements, 0, -1));
         $implodedElements = array_merge(array($firsElements), $lastElement);
         return join(" $listEnd ", $implodedElements);
     }
