@@ -30,6 +30,7 @@ abstract class Constraint implements ConstraintInterface
 
     const CHECK_MODE_NORMAL = 1;
     const CHECK_MODE_TYPE_CAST = 2;
+    const CHECK_MODE_COERCE = 3;
 
     /**
      * @var null|Factory

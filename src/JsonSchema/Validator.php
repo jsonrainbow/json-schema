@@ -9,7 +9,6 @@
 
 namespace JsonSchema;
 
-use JsonSchema\Constraints\SchemaConstraint;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Entity\JsonPointer;
 

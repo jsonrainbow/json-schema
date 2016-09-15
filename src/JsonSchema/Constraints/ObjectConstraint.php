@@ -121,15 +121,81 @@ class ObjectConstraint extends Constraint
      */
     public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
     {
+        $default = $this->getFactory()->createInstanceFor('undefined');
+
         foreach ($objectDefinition as $i => $value) {
-            $property = $this->getProperty($element, $i, $this->getFactory()->createInstanceFor('undefined'));
+            $property = $this->getProperty($element, $i, $default);
             $definition = $this->getProperty($objectDefinition, $i);
+
+            if($this->checkMode == Constraint::CHECK_MODE_COERCE){
+                if(!($property instanceof Constraint)) {
+                    $element->{$i} = $property = $this->coerce($property, $definition);
+                }
+            }
 
             if (is_object($definition)) {
                 // Undefined constraint will check for is_object() and quit if is not - so why pass it?
                 $this->checkUndefined($property, $definition, $path, $i);
             }
         }
+    }
+
+    /**
+     * Converts a value to boolean. For example, "true" becomes true.
+     * @param $value The value to convert to boolean
+     * @return bool|mixed
+     */
+    protected function toBoolean($value)
+    {
+        if($value === "true"){
+            return true;
+        }
+
+        if($value === "false"){
+            return false;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Converts a numeric string to a number. For example, "4" becomes 4.
+     *
+     * @param mixed $value The value to convert to a number.
+     * @return int|float|mixed
+     */
+    protected function toNumber($value)
+    {
+        if(is_numeric($value)) {
+            return $value + 0; // cast to number
+        }
+
+        return $value;
+    }
+
+    /**
+     * Given a value and a definition, attempts to coerce the value into the
+     * type specified by the definition's 'type' property.
+     *
+     * @param mixed $value Value to coerce.
+     * @param \stdClass $definition A definition with information about the expected type.
+     * @return bool|int|string
+     */
+    protected function coerce($value, $definition)
+    {
+        $type = isset($definition->type)?$definition->type:null;
+        if($type){
+            switch($type){
+                case "boolean":
+                    $value = $this->toBoolean($value);
+                    break;
+
+                case "number":
+                    $value = $this->toNumber($value);
+                    break;
+            }
+        }
+        return $value;
     }
 
     /**
@@ -146,6 +212,7 @@ class ObjectConstraint extends Constraint
         if (is_array($element) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
             return array_key_exists($property, $element) ? $element[$property] : $fallback;
         } elseif (is_object($element)) {
+
             return property_exists($element, $property) ? $element->$property : $fallback;
         }
 

@@ -41,6 +41,30 @@ if ($validator->isValid()) {
     }
 }
 ```
+###Type Coercion
+If you're validating data passed to your application via HTTP, you can cast strings and booleans to the expected types defined by your schema:
+```
+$request = (object)[
+   'processRefund'=>"true",
+   'refundAmount'=>"17"
+];
+
+$validator = new \JsonSchema\Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
+$validator->check($request, (object) [
+    "type"=>"object",
+    "properties"=>[
+        "processRefund"=>[
+            "type"=>"boolean"
+        ],
+        "refundAmount"=>[
+            "type"=>"number"
+        ]
+    ]
+]); // validates!
+
+is_bool($request->processRefund); // true
+is_int($request->refundAmount); // true
+```
 
 ## Running the tests
 
