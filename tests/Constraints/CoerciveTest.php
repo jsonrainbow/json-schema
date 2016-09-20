@@ -18,11 +18,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getValidCoerceTests
 	 */
-	public function testValidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST)
+	public function testValidCoerceCasesUsingAssoc($input, $schema)
 	{
-		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
+		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
 		$schema = json_decode($schema);
 		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver);
@@ -38,11 +36,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getValidCoerceTests
 	 */
-	public function testValidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST)
+	public function testValidCoerceCases($input, $schema, $errors = array())
 	{
-		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
+		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
 		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
 		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -66,11 +62,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getInvalidCoerceTests
 	 */
-	public function testInvalidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
+	public function testInvalidCoerceCases($input, $schema, $errors = array())
 	{
-		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
+		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
 		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
 		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -87,11 +81,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getInvalidCoerceTests
 	 */
-	public function testInvalidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
+	public function testInvalidCoerceCasesUsingAssoc($input, $schema, $errors = array())
 	{
-		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
+		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
 		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
 		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
