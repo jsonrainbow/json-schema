@@ -18,9 +18,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getValidCoerceTests
 	 */
-	public function testValidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE)
+	public function testValidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST)
 	{
-		if ($checkMode !== Constraint::CHECK_MODE_COERCE) {
+		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
 			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
 		}
 
@@ -38,9 +38,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getValidCoerceTests
 	 */
-	public function testValidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE)
+	public function testValidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST)
 	{
-		if ($checkMode !== Constraint::CHECK_MODE_COERCE) {
+		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
 			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
 		}
 
@@ -48,7 +48,17 @@ class CoerciveTest extends BasicTypesTest
 		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
 		$validator = new Validator($checkMode, $schemaStorage);
-		$validator->check(json_decode($input), $schema);
+		$value = json_decode($input);
+
+		$this->assertTrue(gettype($value->number) == "string");
+		$this->assertTrue(gettype($value->integer) == "string");
+		$this->assertTrue(gettype($value->boolean) == "string");
+
+		$validator->check($value, $schema);
+
+		$this->assertTrue(gettype($value->number) == "double");
+		$this->assertTrue(gettype($value->integer) == "integer");
+		$this->assertTrue(gettype($value->boolean) == "boolean");
 
 		$this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
 	}
@@ -56,9 +66,11 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getInvalidCoerceTests
 	 */
-	public function testInvalidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE, $errors = array())
+	public function testInvalidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
 	{
-		$checkMode = $checkMode === null ? Constraint::CHECK_MODE_COERCE : $checkMode;
+		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
+			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
+		}
 
 		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
 		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -75,10 +87,9 @@ class CoerciveTest extends BasicTypesTest
 	/**
 	 * @dataProvider getInvalidCoerceTests
 	 */
-	public function testInvalidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE, $errors = array())
+	public function testInvalidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
 	{
-		$checkMode = $checkMode === null ? Constraint::CHECK_MODE_COERCE : $checkMode;
-		if ($checkMode !== Constraint::CHECK_MODE_COERCE) {
+		if ($checkMode & Constraint::CHECK_MODE_COERCE === 0) {
 			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
 		}
 
@@ -100,7 +111,7 @@ class CoerciveTest extends BasicTypesTest
 			array(
 				'{
                   "string":"string test",
-                  "number":"1",
+                  "number":"1.5",
                   "integer":"1",
                   "boolean":"true",
                   "object":{},

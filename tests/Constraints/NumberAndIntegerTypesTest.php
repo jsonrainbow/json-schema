@@ -26,24 +26,6 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ),
             array(
-                '{"number": "1.5"}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "number": {"type": "number"}
-                    }
-                }'
-            ),
-            array(
-                '{"integer": "1"}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "integer": {"type": "integer"}
-                    }
-                }'
-            ),
-            array(
                 '{"integer": 1.001}',
                 '{
                     "type": "object",

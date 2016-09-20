@@ -127,13 +127,17 @@ class ObjectConstraint extends Constraint
             $property = $this->getProperty($element, $i, $default);
             $definition = $this->getProperty($objectDefinition, $i);
 
-            if($this->checkMode == Constraint::CHECK_MODE_COERCE){
+            if($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST){
                 if(!($property instanceof Constraint)) {
-                    if(is_object($element)) {
-                        $element->{$i} = $property = $this->coerce($property, $definition);
-                    } else {
-                        $element[$i] = $property = $this->coerce($property, $definition);
-                    }
+					$property = $this->coerce($property, $definition);
+
+					if($this->checkMode & Constraint::CHECK_MODE_COERCE) {
+						if (is_object($element)) {
+							$element->{$i} = $property;
+						} else {
+							$element[$i] = $property;
+						}
+					}
                 }
             }
 
