@@ -129,7 +129,11 @@ class ObjectConstraint extends Constraint
 
             if($this->checkMode == Constraint::CHECK_MODE_COERCE){
                 if(!($property instanceof Constraint)) {
-                    $element->{$i} = $property = $this->coerce($property, $definition);
+                    if(is_object($element)) {
+                        $element->{$i} = $property = $this->coerce($property, $definition);
+                    } else {
+                        $element[$i] = $property = $this->coerce($property, $definition);
+                    }
                 }
             }
 
@@ -173,6 +177,15 @@ class ObjectConstraint extends Constraint
         return $value;
     }
 
+    protected function toInteger($value)
+    {
+        if(ctype_digit ($value)) {
+            return $value + 0; // cast to number
+        }
+
+        return $value;
+    }
+
     /**
      * Given a value and a definition, attempts to coerce the value into the
      * type specified by the definition's 'type' property.
@@ -190,6 +203,9 @@ class ObjectConstraint extends Constraint
                     $value = $this->toBoolean($value);
                     break;
 
+                case "integer":
+                    $value = $this->toInteger($value);
+                    break;
                 case "number":
                     $value = $this->toNumber($value);
                     break;

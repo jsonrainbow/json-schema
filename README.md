@@ -66,6 +66,8 @@ is_bool($request->processRefund); // true
 is_int($request->refundAmount); // true
 ```
 
+Note that while coercive checking will work when passing both object and array values as the first argument to check(), only objects will have their values transformed as expected.
+
 ## Running the tests
 
     $ vendor/bin/phpunit
