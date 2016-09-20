@@ -101,85 +101,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-	/**
-	 * @dataProvider getValidCoerceForAssocTests
-	 */
-	public function testValidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE)
-	{
-		if ($checkMode !== Constraint::CHECK_MODE_COERCE) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
-
-		$schema = json_decode($schema);
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver);
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-		$value = json_decode($input, true);
-		$validator = new Validator($checkMode, $schemaStorage);
-
-		$validator->check($value, $schema);
-		$this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
-	}
-
-	/**
-	 * @dataProvider getValidCoerceTests
-	 */
-	public function testValidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE)
-	{
-		if ($checkMode !== Constraint::CHECK_MODE_COERCE) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
-
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-		$validator = new Validator($checkMode, $schemaStorage);
-		$validator->check(json_decode($input), $schema);
-
-		$this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
-	}
-
-	/**
-	 * @dataProvider getInvalidCoerceTests
-	 */
-	public function testInvalidCoerceCases($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE, $errors = array())
-	{
-		$checkMode = $checkMode === null ? Constraint::CHECK_MODE_COERCE : $checkMode;
-
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-		$validator = new Validator($checkMode, $schemaStorage);
-		$validator->check(json_decode($input), $schema);
-
-		if (array() !== $errors) {
-			$this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
-		}
-		$this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-	}
-
-	/**
-	 * @dataProvider getInvalidCoerceForAssocTests
-	 */
-	public function testInvalidCoerceCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_COERCE, $errors = array())
-	{
-		$checkMode = $checkMode === null ? Constraint::CHECK_MODE_COERCE : $checkMode;
-		if ($checkMode !== Constraint::CHECK_MODE_COERCE) {
-			$this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_COERCE"');
-		}
-
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-		$validator = new Validator($checkMode, $schemaStorage);
-		$validator->check(json_decode($input, true), $schema);
-
-		if (array() !== $errors) {
-			$this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
-		}
-		$this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-	}
-
     /**
      * @return array[]
      */
@@ -192,14 +113,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     {
         return $this->getValidTests();
     }
-
-	/**
-	 * @return array[]
-	 */
-	public function getValidCoerceForAssocTests()
-	{
-		return $this->getValidTests();
-	}
 
     /**
      * @return array[]
@@ -214,35 +127,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         return $this->getInvalidTests();
     }
 
-	/**
-	 * @return array[]
-	 */
-	public function getInvalidCoerceForAssocTests()
-	{
-		return $this->getInvalidTests();
-	}
-
-	/**
-	 * @return array[]
-	 */
-	public function getValidCoerceTests()
-	{
-		return $this->getValidTests();
-	}
-
-	/**
-	 * @return array[]
-	 */
-	public function getInvalidCoerceTests()
-	{
-		return $this->getInvalidTests();
-	}
-
     /**
      * @param object $schema
      * @return object
      */
-    private function getUriRetrieverMock($schema)
+    protected function getUriRetrieverMock($schema)
     {
         $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
 

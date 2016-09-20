@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57fb259f-c599-4c58-9774-1adb0f022078" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php" afterPath="$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Constraints/BaseTestCase.php" afterPath="$PROJECT_DIR$/tests/Constraints/BaseTestCase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/Constraints/CoerciveTest.php" afterPath="$PROJECT_DIR$/tests/Constraints/CoerciveTest.php" />
     </list>
     <ignored path="json-schema.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,14 +24,14 @@
     <favorites_list name="json-schema" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.60977906">
+    <splitter split-orientation="horizontal" split-proportion="0.45870695">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-          <file leaf-file-name="BaseTestCase.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="BaseTestCase.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/BaseTestCase.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1863">
-                  <caret line="205" column="7" selection-start-line="205" selection-start-column="7" selection-end-line="205" selection-end-column="7" />
+                <state relative-caret-position="702">
+                  <caret line="53" column="62" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
                   <folding>
                     <element signature="e#234#272#0#PHP" expanded="true" />
                   </folding>
@@ -42,7 +42,7 @@
           <file leaf-file-name="Constraint.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/Constraint.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="380">
+                <state relative-caret-position="418">
                   <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
                   <folding />
                 </state>
@@ -52,8 +52,8 @@
           <file leaf-file-name="BasicTypesTest.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/BasicTypesTest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1674">
-                  <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
+                <state relative-caret-position="306">
+                  <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
                   <folding>
                     <element signature="e#7#191#0#PHP" expanded="true" />
                   </folding>
@@ -65,24 +65,20 @@
             <entry file="file://$PROJECT_DIR$/README.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
                 <state split_layout="SPLIT">
-                  <first_editor relative-caret-position="732">
+                  <first_editor relative-caret-position="1496">
                     <caret line="68" column="179" selection-start-line="68" selection-start-column="179" selection-end-line="68" selection-end-column="179" />
-                    <folding>
-                      <marker date="1474304378545" expanded="true" signature="1154:1217" ph="..." />
-                      <marker date="1474304378545" expanded="true" signature="1225:1406" ph="..." />
-                      <marker date="1474304378545" expanded="true" signature="1325:1404" ph="..." />
-                    </folding>
+                    <folding />
                   </first_editor>
                   <second_editor />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ObjectConstraint.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ObjectConstraint.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="235">
-                  <caret line="121" column="100" selection-start-line="121" selection-start-column="100" selection-end-line="121" selection-end-column="100" />
+                <state relative-caret-position="323">
+                  <caret line="133" column="28" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
                   <folding />
                 </state>
               </provider>
@@ -98,6 +94,16 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="Draft3Test.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tests/Drafts/Draft3Test.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="242">
+                  <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -105,7 +111,7 @@
           <file leaf-file-name="Factory.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/Factory.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="547">
+                <state relative-caret-position="2816">
                   <caret line="136" column="40" selection-start-line="136" selection-start-column="40" selection-end-line="136" selection-end-column="40" />
                   <folding />
                 </state>
@@ -115,20 +121,31 @@
           <file leaf-file-name="FactoryTest.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/FactoryTest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="836">
+                <state relative-caret-position="1122">
                   <caret line="59" column="44" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CoerciveTest.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="NumberAndIntegerTypesTest.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tests/Constraints/NumberAndIntegerTypesTest.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="814">
+                  <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="CoerciveTest.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/CoerciveTest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="398">
-                  <caret line="49" column="42" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
+                <state relative-caret-position="523">
+                  <caret line="58" column="122" selection-start-line="58" selection-start-column="122" selection-end-line="58" selection-end-column="122" />
                   <folding>
                     <element signature="e#7#191#0#PHP" expanded="true" />
+                    <element signature="e#233#271#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -137,7 +154,7 @@
           <file leaf-file-name="MinLengthMaxLengthMultiByteTest.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/MinLengthMaxLengthMultiByteTest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="302">
+                <state relative-caret-position="946">
                   <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
                   <folding />
                 </state>
@@ -147,18 +164,8 @@
           <file leaf-file-name="MinLengthMaxLengthTest.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/MinLengthMaxLengthTest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="764">
+                <state relative-caret-position="1254">
                   <caret line="62" column="50" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DependenciesTest.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tests/Constraints/DependenciesTest.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -177,7 +184,7 @@
           <file leaf-file-name="DivisibleByTest.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/Constraints/DivisibleByTest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1235">
+                <state relative-caret-position="0">
                   <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
@@ -194,11 +201,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Validator.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Validator.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/JsonSchema/Validator.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="481">
-                  <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+                <state relative-caret-position="330">
+                  <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
                   <folding>
                     <element signature="e#216#254#0#PHP" expanded="true" />
                   </folding>
@@ -222,12 +229,13 @@
         <option value="$PROJECT_DIR$/src/JsonSchema/Constraints/EnumConstraint.php" />
         <option value="$PROJECT_DIR$/tests/Constraints/FactoryTest.php" />
         <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/tests/Constraints/BaseTestCase.php" />
-        <option value="$PROJECT_DIR$/tests/Constraints/CoerciveTest.php" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/JsonSchema/Constraints/Constraint.php" />
         <option value="$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php" />
         <option value="$PROJECT_DIR$/src/JsonSchema/Validator.php" />
+        <option value="$PROJECT_DIR$/tests/Constraints/NumberAndIntegerTypesTest.php" />
+        <option value="$PROJECT_DIR$/tests/Constraints/CoerciveTest.php" />
+        <option value="$PROJECT_DIR$/tests/Constraints/BaseTestCase.php" />
       </list>
     </option>
   </component>
@@ -272,6 +280,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -300,75 +309,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="vendor" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fixtures" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Drafts" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -390,24 +331,9 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="json-schema" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -502,18 +428,18 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20546000" />
+    <option name="totallyTimeSpent" value="23027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="2578" height="1568" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1498801" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15307754" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32929438" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2245189" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -546,14 +472,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/Drafts/BaseDraftTestCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="92" selection-start-line="12" selection-start-column="92" selection-end-line="12" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2772">
@@ -566,7 +484,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="13" column="27" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -575,11 +492,7 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="946">
             <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-            <folding>
-              <marker date="1474304378545" expanded="true" signature="1154:1217" ph="..." />
-              <marker date="1474304378545" expanded="true" signature="1225:1406" ph="..." />
-              <marker date="1474304378545" expanded="true" signature="1325:1404" ph="..." />
-            </folding>
+            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -605,7 +518,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#7#191#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -645,7 +560,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -715,7 +629,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -747,14 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Drafts/Draft3Test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/Drafts/Draft4Test.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
@@ -767,7 +672,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -775,7 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="12" column="92" selection-start-line="12" selection-start-column="92" selection-end-line="12" selection-end-column="92" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -783,7 +686,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="13" column="27" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -791,7 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4120">
           <caret line="439" column="0" selection-start-line="439" selection-start-column="0" selection-end-line="439" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -799,7 +700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
           <caret line="90" column="10" selection-start-line="90" selection-start-column="10" selection-end-line="90" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -807,7 +707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1256">
           <caret line="971" column="13" selection-start-line="971" selection-start-column="10" selection-end-line="971" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -847,7 +746,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Constraints/DivisibleByTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1235">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -863,7 +762,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Constraints/MinLengthMaxLengthMultiByteTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
+        <state relative-caret-position="946">
           <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
           <folding />
         </state>
@@ -871,16 +770,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Constraints/MinLengthMaxLengthTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="764">
+        <state relative-caret-position="1254">
           <caret line="62" column="50" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/Factory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2816">
+          <caret line="136" column="40" selection-start-line="136" selection-start-column="40" selection-end-line="136" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="1496">
+            <caret line="68" column="179" selection-start-line="68" selection-start-column="179" selection-end-line="68" selection-end-column="179" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/Constraint.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/Constraints/FactoryTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="59" column="44" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="133" column="28" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Validator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
+          <folding>
+            <element signature="e#216#254#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/Drafts/Draft3Test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/Constraints/NumberAndIntegerTypesTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="814">
+          <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Constraints/BasicTypesTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
+        <state relative-caret-position="306">
+          <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
           <folding>
             <element signature="e#7#191#0#PHP" expanded="true" />
           </folding>
@@ -889,77 +857,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Constraints/BaseTestCase.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1863">
-          <caret line="205" column="7" selection-start-line="205" selection-start-column="7" selection-end-line="205" selection-end-column="7" />
+        <state relative-caret-position="702">
+          <caret line="53" column="62" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
           <folding>
             <element signature="e#234#272#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/Factory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="136" column="40" selection-start-line="136" selection-start-column="40" selection-end-line="136" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/Constraints/CoerciveTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="49" column="42" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
+        <state relative-caret-position="523">
+          <caret line="58" column="122" selection-start-line="58" selection-start-column="122" selection-end-line="58" selection-end-column="122" />
           <folding>
             <element signature="e#7#191#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="732">
-            <caret line="68" column="179" selection-start-line="68" selection-start-column="179" selection-end-line="68" selection-end-column="179" />
-            <folding>
-              <marker date="1474304378545" expanded="true" signature="1154:1217" ph="..." />
-              <marker date="1474304378545" expanded="true" signature="1225:1406" ph="..." />
-              <marker date="1474304378545" expanded="true" signature="1325:1404" ph="..." />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/Constraint.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Constraints/FactoryTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="59" column="44" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Constraints/ObjectConstraint.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="121" column="100" selection-start-line="121" selection-start-column="100" selection-end-line="121" selection-end-column="100" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/JsonSchema/Validator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
-          <folding>
-            <element signature="e#216#254#0#PHP" expanded="true" />
+            <element signature="e#233#271#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
