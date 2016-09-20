@@ -49,7 +49,7 @@ $request = (object)[
    'refundAmount'=>"17"
 ];
 
-$validator = new \JsonSchema\Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
+$validator = new \JsonSchema\Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
 $validator->check($request, (object) [
     "type"=>"object",
     "properties"=>[
@@ -66,7 +66,7 @@ is_bool($request->processRefund); // true
 is_int($request->refundAmount); // true
 ```
 
-Note that while coercive checking will work when passing both object and array values as the first argument to check(), only objects will have their values transformed as expected.
+Note that the ```CHECK_MODE_COERCE``` flag will only take effect when an object is passed into the ```check``` method.
 
 ## Running the tests
 
