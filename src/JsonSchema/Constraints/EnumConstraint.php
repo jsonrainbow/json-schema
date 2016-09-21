@@ -31,7 +31,7 @@ class EnumConstraint extends Constraint
 
         foreach ($schema->enum as $enum) {
             $enumType = gettype($enum);
-            if (($this->checkMode & self::CHECK_MODE_TYPE_CAST) && $type == "array" && $enumType == "object") {
+            if (($this->factory->getCheckMode() & self::CHECK_MODE_TYPE_CAST) && $type == "array" && $enumType == "object") {
                 if ((object)$element == $enum) {
                     return;
                 }

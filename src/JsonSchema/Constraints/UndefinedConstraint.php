@@ -60,7 +60,7 @@ class UndefinedConstraint extends Constraint
         if ($this->getTypeCheck()->isObject($value)) {
             $this->checkObject(
                 $value,
-                isset($schema->properties) ? $this->schemaStorage->resolveRefSchema($schema->properties) : $schema,
+                isset($schema->properties) ? $this->factory->getSchemaStorage()->resolveRefSchema($schema->properties) : $schema,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
                 isset($schema->patternProperties) ? $schema->patternProperties : null
@@ -267,7 +267,7 @@ class UndefinedConstraint extends Constraint
     protected function validateUri($schema, $schemaUri = null)
     {
         $resolver = new UriResolver();
-        $retriever = $this->getUriRetriever();
+        $retriever = $this->factory->getUriRetriever();
 
         $jsonSchema = null;
         if ($resolver->isValid($schemaUri)) {

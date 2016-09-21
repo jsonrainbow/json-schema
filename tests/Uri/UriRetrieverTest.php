@@ -26,7 +26,6 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
 
     private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
     {
-
         $jsonSchema = json_decode($returnSchema);
 
         if (JSON_ERROR_NONE < $error = json_last_error()) {
@@ -48,13 +47,12 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
      */
     public function testChildExtendsParentValidTest($childSchema, $parentSchema)
     {
-        $retrieverMock = $this->getRetrieverMock($parentSchema);
+        $this->mockRetriever($parentSchema);
 
         $json = '{"childProp":"infant", "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->setUriRetriever($retrieverMock);
         $this->validator->check($decodedJson, $decodedJsonSchema);
         $this->assertTrue($this->validator->isValid());
     }
@@ -64,13 +62,12 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
      */
     public function testChildExtendsParentInvalidChildTest($childSchema, $parentSchema)
     {
-        $retrieverMock = $this->getRetrieverMock($parentSchema);
+        $this->mockRetriever($parentSchema);
 
         $json = '{"childProp":1, "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->setUriRetriever($retrieverMock);
         $this->validator->check($decodedJson, $decodedJsonSchema);
         $this->assertFalse($this->validator->isValid());
     }
@@ -80,13 +77,12 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
      */
     public function testChildExtendsParentInvalidParentTest($childSchema, $parentSchema)
     {
-        $retrieverMock = $this->getRetrieverMock($parentSchema);
+        $this->mockRetriever($parentSchema);
 
         $json = '{"childProp":"infant", "parentProp":1}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->setUriRetriever($retrieverMock);
         $this->validator->check($decodedJson, $decodedJsonSchema);
         $this->assertFalse($this->validator->isValid());
     }
@@ -97,12 +93,12 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
     public function testResolveRelativeUri($childSchema, $parentSchema)
     {
         self::setParentSchemaExtendsValue($parentSchema, 'grandparent');
-        $retrieverMock = $this->getRetrieverMock($parentSchema);
+        $this->mockRetriever($parentSchema);
+
         $json = '{"childProp":"infant", "parentProp":false}';
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->setUriRetriever($retrieverMock);
         $this->validator->check($decodedJson, $decodedJsonSchema);
         $this->assertTrue($this->validator->isValid());
     }
@@ -268,5 +264,18 @@ EOF;
                 ->will($this->returnValue('text/html'));
 
       $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
+    }
+
+    private function mockRetriever($schema)
+    {
+        $retrieverMock = $this->getRetrieverMock($schema);
+
+        $factory = new \ReflectionProperty('JsonSchema\Constraints\Constraint', 'factory');
+        $factory->setAccessible(true);
+        $factory = $factory->getValue($this->validator);
+
+        $retriever = new \ReflectionProperty('JsonSchema\Constraints\Factory', 'uriRetriever');
+        $retriever->setAccessible(true);
+        $retriever->setValue($factory, $retrieverMock);
     }
 }

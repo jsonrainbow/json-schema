@@ -8,100 +8,102 @@
  */
 
 namespace JsonSchema\Tests\Constraints;
+
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
 class CoerciveTest extends BasicTypesTest
 {
-	/**
-	 * @dataProvider getValidCoerceTests
-	 */
-	public function testValidCoerceCasesUsingAssoc($input, $schema)
-	{
-		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+    /**
+     * @dataProvider getValidCoerceTests
+     */
+    public function testValidCoerceCasesUsingAssoc($input, $schema)
+    {
+        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
-		$schema = json_decode($schema);
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver);
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-		$value = json_decode($input, true);
-		$validator = new Validator($checkMode, $schemaStorage);
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
 
-		$validator->check($value, $schema);
-		$this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
-	}
+        $value = json_decode($input, true);
 
-	/**
-	 * @dataProvider getValidCoerceTests
-	 */
-	public function testValidCoerceCases($input, $schema, $errors = array())
-	{
-		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        $validator->check($value, $schema);
+        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
+    }
 
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+    /**
+     * @dataProvider getValidCoerceTests
+     */
+    public function testValidCoerceCases($input, $schema, $errors = array())
+    {
+        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
-		$validator = new Validator($checkMode, $schemaStorage);
-		$value = json_decode($input);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-		$this->assertTrue(gettype($value->number) == "string");
-		$this->assertTrue(gettype($value->integer) == "string");
-		$this->assertTrue(gettype($value->boolean) == "string");
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $value = json_decode($input);
 
-		$validator->check($value, $schema);
+        $this->assertTrue(gettype($value->number) == "string");
+        $this->assertTrue(gettype($value->integer) == "string");
+        $this->assertTrue(gettype($value->boolean) == "string");
 
-		$this->assertTrue(gettype($value->number) == "double");
-		$this->assertTrue(gettype($value->integer) == "integer");
-		$this->assertTrue(gettype($value->boolean) == "boolean");
+        $validator->check($value, $schema);
 
-		$this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
-	}
+        $this->assertTrue(gettype($value->number) == "double");
+        $this->assertTrue(gettype($value->integer) == "integer");
+        $this->assertTrue(gettype($value->boolean) == "boolean");
 
-	/**
-	 * @dataProvider getInvalidCoerceTests
-	 */
-	public function testInvalidCoerceCases($input, $schema, $errors = array())
-	{
-		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
+    }
 
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+    /**
+     * @dataProvider getInvalidCoerceTests
+     */
+    public function testInvalidCoerceCases($input, $schema, $errors = array())
+    {
+        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
-		$validator = new Validator($checkMode, $schemaStorage);
-		$validator->check(json_decode($input), $schema);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-		if (array() !== $errors) {
-			$this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
-		}
-		$this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-	}
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator->check(json_decode($input), $schema);
 
-	/**
-	 * @dataProvider getInvalidCoerceTests
-	 */
-	public function testInvalidCoerceCasesUsingAssoc($input, $schema, $errors = array())
-	{
-		$checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        if (array() !== $errors) {
+            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
+        }
+        $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
+    }
 
-		$schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-		$schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+    /**
+     * @dataProvider getInvalidCoerceTests
+     */
+    public function testInvalidCoerceCasesUsingAssoc($input, $schema, $errors = array())
+    {
+        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
 
-		$validator = new Validator($checkMode, $schemaStorage);
-		$validator->check(json_decode($input, true), $schema);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-		if (array() !== $errors) {
-			$this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
-		}
-		$this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-	}
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator->check(json_decode($input, true), $schema);
 
-	public function getValidCoerceTests()
-	{
-		return array(
-			array(
-				'{
+        if (array() !== $errors) {
+            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
+        }
+        $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
+    }
+
+    public function getValidCoerceTests()
+    {
+        return array(
+            array(
+                '{
                   "string":"string test",
                   "number":"1.5",
                   "integer":"1",
@@ -117,7 +119,7 @@ class CoerciveTest extends BasicTypesTest
                   "any5": [],
                   "any6": null
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties":{
                     "string":{"type":"string"},
@@ -136,100 +138,99 @@ class CoerciveTest extends BasicTypesTest
                     "any6": {"type":"any"}
                   },
                   "additionalProperties":false
-                }'
-			)
-		);
-	}
+                }',
+            ),
+        );
+    }
 
 
-
-	public function getInvalidCoerceTests()
-	{
-		return array(
-			array(
-				'{
+    public function getInvalidCoerceTests()
+    {
+        return array(
+            array(
+                '{
                   "string":null
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "string":{"type":"string"}
                   },
                   "additionalProperties":false
-                }'
-			),
-			array(
-				'{
+                }',
+            ),
+            array(
+                '{
                   "number":"five"
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "number":{"type":"number"}
                   },
                   "additionalProperties":false
-                }'
-			),
-			array(
-				'{
+                }',
+            ),
+            array(
+                '{
                   "integer":"5.2"
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "integer":{"type":"integer"}
                   },
                   "additionalProperties":false
-                }'
-			),
-			array(
-				'{
+                }',
+            ),
+            array(
+                '{
                   "boolean":"0"
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "boolean":{"type":"boolean"}
                   },
                   "additionalProperties":false
-                }'
-			),
-			array(
-				'{
+                }',
+            ),
+            array(
+                '{
                   "object":null
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "object":{"type":"object"}
                   },
                   "additionalProperties":false
-                }'
-			),
-			array(
-				'{
+                }',
+            ),
+            array(
+                '{
                   "array":null
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "array":{"type":"array"}
                   },
                   "additionalProperties":false
-                }'
-			),
-			array(
-				'{
+                }',
+            ),
+            array(
+                '{
                   "null":1
                 }',
-				'{
+                '{
                   "type":"object",
                   "properties": {
                     "null":{"type":"null"}
                   },
                   "additionalProperties":false
-                }'
-			)
-		);
-	}
+                }',
+            ),
+        );
+    }
 }

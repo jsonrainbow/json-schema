@@ -82,6 +82,7 @@ class ObjectConstraint extends Constraint
     public function validateElement($element, $matches, $objectDefinition = null, JsonPointer $path = null, $additionalProp = null)
     {
         $this->validateMinMaxConstraint($element, $objectDefinition, $path);
+
         foreach ($element as $i => $value) {
             $definition = $this->getProperty($objectDefinition, $i);
 
@@ -105,7 +106,7 @@ class ObjectConstraint extends Constraint
                 $this->addError($path, "The presence of the property " . $i . " requires that " . $require . " also be present", 'requires');
             }
 
-            $property = $this->getProperty($element, $i, new UndefinedConstraint());
+            $property = $this->getProperty($element, $i, $this->factory->createInstanceFor('undefined'));
             if (is_object($property)) {
                 $this->validateMinMaxConstraint(!($property instanceof UndefinedConstraint) ? $property : $element, $definition, $path);
             }
@@ -121,17 +122,17 @@ class ObjectConstraint extends Constraint
      */
     public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
     {
-        $default = $this->getFactory()->createInstanceFor('undefined');
+        $undefinedConstraint = $this->factory->createInstanceFor('undefined');
 
         foreach ($objectDefinition as $i => $value) {
-            $property = $this->getProperty($element, $i, $default);
+            $property = $this->getProperty($element, $i, $undefinedConstraint);
             $definition = $this->getProperty($objectDefinition, $i);
 
-            if($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST){
+            if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST){
                 if(!($property instanceof Constraint)) {
 					$property = $this->coerce($property, $definition);
 
-					if($this->checkMode & Constraint::CHECK_MODE_COERCE) {
+					if($this->factory->getCheckMode() & Constraint::CHECK_MODE_COERCE) {
 						if (is_object($element)) {
 							$element->{$i} = $property;
 						} else {
@@ -228,10 +229,10 @@ class ObjectConstraint extends Constraint
      */
     protected function getProperty($element, $property, $fallback = null)
     {
-        if (is_array($element) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
-            return array_key_exists($property, $element) ? $element[$property] : $fallback;
-        } elseif (is_object($element)) {
-            return property_exists($element, $property) ? $element->$property : $fallback;
+        if (is_array($element) && (isset($element[$property]) || array_key_exists($property, $element)) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
+            return $element[$property];
+        } elseif (is_object($element) && property_exists($element, $property)) {
+            return $element->$property;
         }
 
         return $fallback;

@@ -54,7 +54,6 @@ class FactoryTest extends TestCase
 
         $this->assertInstanceOf($expectedClass, $constraint);
         $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
-        $this->assertSame($this->factory->getUriRetriever(), $constraint->getUriRetriever());
     }
 
     public function constraintNameProvider()
@@ -114,6 +113,5 @@ class FactoryTest extends TestCase
       $constraint = $this->factory->createInstanceFor('string');
       $this->assertInstanceOf('JsonSchema\Tests\Constraints\MyStringConstraint', $constraint);
       $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
-      $this->assertSame($this->factory->getUriRetriever(), $constraint->getUriRetriever());
     }
 }
