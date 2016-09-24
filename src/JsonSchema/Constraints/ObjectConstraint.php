@@ -184,7 +184,7 @@ class ObjectConstraint extends Constraint
     protected function toInteger($value)
     {
         if(ctype_digit ($value)) {
-            return $value + 0; // cast to number
+            return (int)$value; // cast to number
         }
 
         return $value;

@@ -28,9 +28,9 @@ abstract class Constraint implements ConstraintInterface
     protected $errors = array();
     protected $inlineSchemaProperty = '$schema';
 
-    const CHECK_MODE_NORMAL = 0x00000001;
-    const CHECK_MODE_TYPE_CAST = 0x00000002;
-    const CHECK_MODE_COERCE = 0x00000004;
+    const CHECK_MODE_NORMAL = 		0b00000001;
+    const CHECK_MODE_TYPE_CAST = 	0b00000010;
+    const CHECK_MODE_COERCE = 		0b00000100;
 
     /**
      * @var null|Factory
