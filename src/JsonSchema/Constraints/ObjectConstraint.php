@@ -206,7 +206,6 @@ class ObjectConstraint extends Constraint
                 case "boolean":
                     $value = $this->toBoolean($value);
                     break;
-
                 case "integer":
                     $value = $this->toInteger($value);
                     break;
@@ -232,7 +231,6 @@ class ObjectConstraint extends Constraint
         if (is_array($element) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
             return array_key_exists($property, $element) ? $element[$property] : $fallback;
         } elseif (is_object($element)) {
-
             return property_exists($element, $property) ? $element->$property : $fallback;
         }
 
