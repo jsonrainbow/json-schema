@@ -10,7 +10,6 @@
 namespace JsonSchema\Uri\Retrievers;
 
 use JsonSchema\Exception\ResourceNotFoundException;
-use JsonSchema\Validator;
 
 /**
  * Tries to retrieve JSON schemas from a URI using file_get_contents()
@@ -83,5 +82,7 @@ class FileGetContents extends AbstractRetriever
         if (0 < preg_match("/Content-Type:(\V*)/ims", $header, $match)) {
             return trim($match[1]);
         }
+
+        return null;
     }
 }

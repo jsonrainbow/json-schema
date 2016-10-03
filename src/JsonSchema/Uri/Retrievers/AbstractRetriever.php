@@ -7,7 +7,7 @@ namespace JsonSchema\Uri\Retrievers;
 
 /**
  * AbstractRetriever implements the default shared behavior
- * that all decendant Retrievers should inherit
+ * that all descendant Retrievers should inherit
  * @author Steven Garcia <webwhammy@gmail.com>
  */
 abstract class AbstractRetriever implements UriRetrieverInterface

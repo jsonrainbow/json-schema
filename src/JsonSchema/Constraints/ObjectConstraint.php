@@ -117,7 +117,7 @@ class ObjectConstraint extends Constraint
      *
      * @param \stdClass         $element          Element to validate
      * @param \stdClass         $objectDefinition ObjectConstraint definition
-     * @param JsoinPointer|null $path             Path?
+     * @param JsonPointer|null  $path             Path?
      */
     public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
     {

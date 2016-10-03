@@ -8,7 +8,6 @@
  */
 
 namespace JsonSchema\Constraints;
-use JsonSchema\Validator;
 use JsonSchema\Entity\JsonPointer;
 
 /**
