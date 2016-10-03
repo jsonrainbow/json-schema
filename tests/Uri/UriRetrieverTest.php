@@ -242,7 +242,7 @@ EOF;
                 ->method('getContentType')
                 ->will($this->returnValue('application/schema+json'));
 
-      $this->assertEquals(true, $retriever->confirmMediaType($retriever, null));
+      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
     public function testConfirmMediaTypeAcceptsJsonType()
@@ -253,7 +253,7 @@ EOF;
                 ->method('getContentType')
                 ->will($this->returnValue('application/json'));
 
-      $this->assertEquals(true, $retriever->confirmMediaType($retriever, null));
+      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
     /**

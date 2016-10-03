@@ -40,7 +40,7 @@ class UriRetriever implements BaseUriRetrieverInterface
      *
      * @param UriRetrieverInterface $uriRetriever
      * @param string $uri
-     * @return bool
+     * @return bool|void
      */
     public function confirmMediaType($uriRetriever, $uri)
     {
@@ -48,11 +48,11 @@ class UriRetriever implements BaseUriRetrieverInterface
 
         if (is_null($contentType)) {
             // Well, we didn't get an invalid one
-            return true;
+            return;
         }
 
         if (in_array($contentType, array(Validator::SCHEMA_MEDIA_TYPE, 'application/json'))) {
-            return true;
+            return;
         }
 
         if (substr($uri, 0, 23) == 'http://json-schema.org/') {
