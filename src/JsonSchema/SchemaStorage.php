@@ -98,7 +98,7 @@ class SchemaStorage
      */
     public function resolveRefSchema($refSchema)
     {
-        if (is_object($refSchema) && property_exists($refSchema, '$ref')) {
+        if (is_object($refSchema) && property_exists($refSchema, '$ref') && is_string($refSchema->{'$ref'})) {
             $newSchema = $this->resolveRef($refSchema->{'$ref'});
             $refSchema = (object) (get_object_vars($refSchema) + get_object_vars($newSchema));
             unset($refSchema->{'$ref'});
