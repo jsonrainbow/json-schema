@@ -62,6 +62,12 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
             $schemaStorage->resolveRef("$mainSchemaPath#/properties/car/properties/wheel")
         );
 
+        // properties ref
+        $this->assertEquals(
+            $schemaStorage->resolveRef("$mainSchemaPath#/definitions/yardproperties"),
+            $schemaStorage->resolveRef("$mainSchemaPath#/properties/yard/properties")
+        );
+
         // local ref with overriding
         $this->assertNotEquals(
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/additionalProperties"),
@@ -77,6 +83,7 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house"),
             $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/properties/house")
         );
+
         $this->assertEquals(
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house"),
             $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/properties/house/properties/house")
@@ -123,6 +130,13 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
                 'house' => (object) array(
                     'additionalProperties' => true,
                     '$ref' => '#/definitions/house'
+                ),
+                'yard' => (object) array(
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                    'properties' => (object)[
+                        '$ref' => '#/definitions/yardproperties'
+                    ]
                 )
             ),
             'definitions' => (object) array(
@@ -143,6 +157,14 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
                         'house' => (object) array(
                             '$ref' => '#/definitions/house'
                         )
+                    )
+                ),
+                'yardproperties' => (object) array(
+                    'tree'=>(object) array(
+                        'type' => 'string'
+                    ),
+                    'pool'=>(object) array(
+                        'type' => 'string'
                     )
                 )
             )
