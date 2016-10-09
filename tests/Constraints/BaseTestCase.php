@@ -131,7 +131,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
      * @param object $schema
      * @return object
      */
-    private function getUriRetrieverMock($schema)
+    protected function getUriRetrieverMock($schema)
     {
         $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
 

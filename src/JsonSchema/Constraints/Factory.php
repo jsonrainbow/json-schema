@@ -54,6 +54,7 @@ class Factory
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
         'validator' => 'JsonSchema\Validator',
+        'coercer' => 'JsonSchema\Coerce'
     );
 
     /**
@@ -92,7 +93,7 @@ class Factory
     public function getTypeCheck()
     {
         if (!isset($this->typeCheck[$this->checkMode])) {
-            $this->typeCheck[$this->checkMode] = $this->checkMode === Constraint::CHECK_MODE_TYPE_CAST
+            $this->typeCheck[$this->checkMode] = ($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST)
                 ? new TypeCheck\LooseTypeCheck
                 : new TypeCheck\StrictTypeCheck;
         }
