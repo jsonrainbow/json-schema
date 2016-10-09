@@ -23,6 +23,8 @@ See [json-schema](http://json-schema.org/) for more details.
 
 ## Usage
 
+### Basic usage
+
 ```php
 <?php
 
@@ -67,6 +69,59 @@ is_int($request->refundAmount); // true
 ```
 
 Note that the ```CHECK_MODE_COERCE``` flag will only take effect when an object is passed into the ```check``` method.
+
+### With inline references
+
+```php
+<?php
+
+use JsonSchema\SchemaStorage;
+use JsonSchema\Validator;
+
+$jsonSchema = <<<'JSON'
+{
+    "type": "object",
+    "properties": {
+        "data": {
+            "oneOf": [
+                { "$ref": "#/definitions/integerData" },
+                { "$ref": "#/definitions/stringData" }
+            ]
+        }
+    },
+    "required": ["data"],
+    "definitions": {
+        "integerData" : {
+            "type": "integer",
+            "minimum" : 0
+        },
+        "stringData" : {
+            "type": "string"
+        }
+    }
+}
+JSON;
+
+// Schema must be decoded before it can be used for validation
+$jsonSchemaObject = json_decode($jsonSchema);
+
+// The SchemaStorage can resolve references, loading additional schemas from file as needed, etc.
+$schemaStorage = new SchemaStorage();
+
+// This does two things:
+// 1) Mutates $jsonSchemaObject to normalize the references (to file://mySchema#/definitions/integerData, etc)
+// 2) Tells $schemaStorage that references to file://mySchema... should be resolved by looking in $jsonSchemaObject
+$schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
+
+// Provide $schemaStorage to the Validator so that references can be resolved during validation
+$jsonValidator = new Validator(Validator::CHECK_MODE_NORMAL, $schemaStorage);
+
+// JSON must be decoded before it can be validated
+$jsonToValidateObject = json_decode('{"data":123}');
+
+// Do validation (use isValid() and getErrors() to check the result)
+$jsonValidator->check($jsonToValidateObject, $jsonSchemaObject);
+```
 
 ## Running the tests
 
