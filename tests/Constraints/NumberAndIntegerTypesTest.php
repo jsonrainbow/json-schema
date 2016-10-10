@@ -95,6 +95,19 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "number": {"type": "number"}
+
+                    }
+                }'
+            ),
+            array(
+                '{"number": -49.89}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "number": {
+                          "type": "number",
+                          "multipleOf": 0.01
+                        }
                     }
                 }'
             )

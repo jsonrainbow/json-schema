@@ -69,6 +69,7 @@ class NumberConstraint extends Constraint
 
     private function fmod($number1, $number2)
     {
+        $number1 = abs($number1);
         $modulus = fmod($number1, $number2);
         $precision = abs(0.0000000001);
         $diff = (float)($modulus - $number2);
