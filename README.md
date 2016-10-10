@@ -51,7 +51,13 @@ $request = (object)[
    'refundAmount'=>"17"
 ];
 
-$validator = new \JsonSchema\Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
+$factory = new \JsonSchema\Constraints\Factory(
+    null,
+    null,
+    \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | 
+    \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE
+ );
+$validator = new \JsonSchema\Validator($factory);
 $validator->check($request, (object) [
     "type"=>"object",
     "properties"=>[
@@ -108,13 +114,15 @@ $jsonSchemaObject = json_decode($jsonSchema);
 // The SchemaStorage can resolve references, loading additional schemas from file as needed, etc.
 $schemaStorage = new SchemaStorage();
 
+$factory = new \JsonSchema\Constraints\Factory($schemaStorage);
+
 // This does two things:
 // 1) Mutates $jsonSchemaObject to normalize the references (to file://mySchema#/definitions/integerData, etc)
 // 2) Tells $schemaStorage that references to file://mySchema... should be resolved by looking in $jsonSchemaObject
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator(Validator::CHECK_MODE_NORMAL, $schemaStorage);
+$jsonValidator = new Validator($factory);
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');
