@@ -60,7 +60,7 @@ class UndefinedConstraint extends Constraint
         if ($this->getTypeCheck()->isObject($value)) {
             $this->checkObject(
                 $value,
-                isset($schema->properties) ? $schema->properties : $schema,
+                isset($schema->properties) ? $this->schemaStorage->resolveRefSchema($schema->properties) : $schema,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
                 isset($schema->patternProperties) ? $schema->patternProperties : null
