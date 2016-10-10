@@ -106,7 +106,7 @@ class CollectionConstraint extends Constraint
             // Treat when we have more schema definitions than values, not for empty arrays
             if (count($value) > 0) {
                 for ($k = count($value); $k < count($schema->items); $k++) {
-                    $this->checkUndefined(new UndefinedConstraint(), $schema->items[$k], $path, $k);
+                    $this->checkUndefined($this->factory->createInstanceFor('undefined'), $schema->items[$k], $path, $k);
                 }
             }
         }

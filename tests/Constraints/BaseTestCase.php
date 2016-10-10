@@ -10,6 +10,7 @@
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
@@ -36,7 +37,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator($checkMode, $schemaStorage);
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
         $validator->check(json_decode($input), $schema);
 
         if (array() !== $errors) {
@@ -58,7 +59,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator($checkMode, $schemaStorage);
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
         $validator->check(json_decode($input, true), $schema);
 
         if (array() !== $errors) {
@@ -75,7 +76,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator($checkMode, $schemaStorage);
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
         $validator->check(json_decode($input), $schema);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
@@ -95,7 +96,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $value = json_decode($input, true);
-        $validator = new Validator($checkMode, $schemaStorage);
+        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
 
         $validator->check($value, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
@@ -142,6 +143,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $uriRetriever->retrieve('http://www.my-domain.com/schema.json')
             ->willReturn($schema)
             ->shouldBeCalled();
+
         $uriRetriever->retrieve(Argument::any())
             ->will(function ($args) use ($jsonSchemaDraft03, $jsonSchemaDraft04, $relativeTestsRoot) {
                 if ('http://json-schema.org/draft-03/schema' === $args[0]) {

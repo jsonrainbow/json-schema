@@ -129,17 +129,22 @@ class Factory
      */
     public function createInstanceFor($constraintName)
     {
-        if (array_key_exists($constraintName, $this->constraintMap)) {
-            if (!isset($this->instanceCache[$constraintName])) {
-                $this->instanceCache[$constraintName] = new $this->constraintMap[$constraintName](
-                    $this->checkMode,
-                    $this->schemaStorage,
-                    $this->uriRetriever,
-                    $this
-                );
-            }
-            return clone $this->instanceCache[$constraintName];
+        if (!isset($this->constraintMap[$constraintName])) {
+            throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
         }
-        throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
+
+        if (!isset($this->instanceCache[$constraintName])) {
+            $this->instanceCache[$constraintName] = new $this->constraintMap[$constraintName]($this);
+        }
+
+        return clone $this->instanceCache[$constraintName];
+    }
+
+    /**
+     * @return int
+     */
+    public function getCheckMode()
+    {
+        return $this->checkMode;
     }
 }
