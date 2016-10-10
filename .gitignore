@@ -7,3 +7,4 @@ coverage
 .settings
 composer.lock
 docs-api
+phpunit.xml
