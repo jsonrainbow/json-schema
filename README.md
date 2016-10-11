@@ -51,13 +51,9 @@ $request = (object)[
    'refundAmount'=>"17"
 ];
 
-$factory = new \JsonSchema\Constraints\Factory(
-    null,
-    null,
-    \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | 
-    \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE
- );
-$validator = new \JsonSchema\Validator($factory);
+$validator = new \JsonSchema\Validator(
+  \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | 
+  \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
 $validator->check($request, (object) [
     "type"=>"object",
     "properties"=>[
@@ -122,7 +118,7 @@ $factory = new \JsonSchema\Constraints\Factory($schemaStorage);
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator($factory);
+$jsonValidator = new Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_NORMAL, $factory);
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');

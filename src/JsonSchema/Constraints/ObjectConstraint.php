@@ -106,7 +106,7 @@ class ObjectConstraint extends Constraint
                 $this->addError($path, "The presence of the property " . $i . " requires that " . $require . " also be present", 'requires');
             }
 
-            $property = $this->getProperty($element, $i, $this->factory->createInstanceFor('undefined'));
+            $property = $this->getProperty($element, $i, $this->factory->createInstanceFor($this->checkMode, 'undefined'));
             if (is_object($property)) {
                 $this->validateMinMaxConstraint(!($property instanceof UndefinedConstraint) ? $property : $element, $definition, $path);
             }
@@ -122,17 +122,17 @@ class ObjectConstraint extends Constraint
      */
     public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
     {
-        $undefinedConstraint = $this->factory->createInstanceFor('undefined');
+        $undefinedConstraint = $this->factory->createInstanceFor($this->checkMode,'undefined');
 
         foreach ($objectDefinition as $i => $value) {
             $property = $this->getProperty($element, $i, $undefinedConstraint);
             $definition = $this->getProperty($objectDefinition, $i);
 
-            if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST){
+            if($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST){
                 if(!($property instanceof Constraint)) {
 					$property = $this->coerce($property, $definition);
 
-					if($this->factory->getCheckMode() & Constraint::CHECK_MODE_COERCE) {
+					if($this->checkMode & Constraint::CHECK_MODE_COERCE) {
 						if (is_object($element)) {
 							$element->{$i} = $property;
 						} else {

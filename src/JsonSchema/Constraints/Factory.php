@@ -30,11 +30,6 @@ class Factory
     protected $uriRetriever;
 
     /**
-     * @var int
-     */
-    private $checkMode;
-
-    /**
      * @var TypeCheck\TypeCheckInterface[]
      */
     private $typeCheck = array();
@@ -69,12 +64,10 @@ class Factory
      */
     public function __construct(
         SchemaStorage $schemaStorage = null,
-        UriRetrieverInterface $uriRetriever = null,
-        $checkMode = Constraint::CHECK_MODE_NORMAL
+        UriRetrieverInterface $uriRetriever = null
     ) {
         $this->uriRetriever = $uriRetriever ?: new UriRetriever;
         $this->schemaStorage = $schemaStorage ?: new SchemaStorage($this->uriRetriever);
-        $this->checkMode = $checkMode;
     }
 
     /**
@@ -90,15 +83,15 @@ class Factory
         return $this->schemaStorage;
     }
 
-    public function getTypeCheck()
+    public function getTypeCheck($checkMode)
     {
-        if (!isset($this->typeCheck[$this->checkMode])) {
-            $this->typeCheck[$this->checkMode] = ($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST)
+        if (!isset($this->typeCheck[$checkMode])) {
+            $this->typeCheck[$checkMode] = ($checkMode & Constraint::CHECK_MODE_TYPE_CAST)
                 ? new TypeCheck\LooseTypeCheck
                 : new TypeCheck\StrictTypeCheck;
         }
 
-        return $this->typeCheck[$this->checkMode];
+        return $this->typeCheck[$checkMode];
     }
 
     /**
@@ -127,24 +120,16 @@ class Factory
      * @return ConstraintInterface|ObjectConstraint
      * @throws InvalidArgumentException if is not possible create the constraint instance.
      */
-    public function createInstanceFor($constraintName)
+    public function createInstanceFor($checkMode, $constraintName)
     {
         if (!isset($this->constraintMap[$constraintName])) {
             throw new InvalidArgumentException('Unknown constraint ' . $constraintName);
         }
 
         if (!isset($this->instanceCache[$constraintName])) {
-            $this->instanceCache[$constraintName] = new $this->constraintMap[$constraintName]($this);
+            $this->instanceCache[$constraintName] = new $this->constraintMap[$constraintName]($checkMode, $this);
         }
 
         return clone $this->instanceCache[$constraintName];
-    }
-
-    /**
-     * @return int
-     */
-    public function getCheckMode()
-    {
-        return $this->checkMode;
     }
 }

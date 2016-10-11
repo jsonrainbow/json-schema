@@ -32,7 +32,7 @@ class Validator extends Constraint
      */
     public function check($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('schema');
+        $validator = $this->factory->createInstanceFor($this->checkMode, 'schema');
         $validator->check($value, $schema);
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));

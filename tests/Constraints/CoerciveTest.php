@@ -27,7 +27,7 @@ class CoerciveTest extends BasicTypesTest
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
 
         $value = json_decode($input, true);
 
@@ -45,7 +45,7 @@ class CoerciveTest extends BasicTypesTest
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
         $value = json_decode($input);
 
         $this->assertTrue(gettype($value->number) == "string");
@@ -71,7 +71,7 @@ class CoerciveTest extends BasicTypesTest
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
         $validator->check(json_decode($input), $schema);
 
         if (array() !== $errors) {
@@ -90,7 +90,7 @@ class CoerciveTest extends BasicTypesTest
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
         $validator->check(json_decode($input, true), $schema);
 
         if (array() !== $errors) {

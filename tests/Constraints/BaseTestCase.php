@@ -37,7 +37,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
         $validator->check(json_decode($input), $schema);
 
         if (array() !== $errors) {
@@ -59,7 +59,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
         $validator->check(json_decode($input, true), $schema);
 
         if (array() !== $errors) {
@@ -76,7 +76,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
         $validator->check(json_decode($input), $schema);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
@@ -96,7 +96,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $value = json_decode($input, true);
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
+        $validator = new Validator($checkMode, new Factory($schemaStorage, null));
 
         $validator->check($value, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
