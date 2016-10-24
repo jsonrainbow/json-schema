@@ -56,11 +56,22 @@ class CoerciveTest extends BasicTypesTest
 
         $this->assertTrue(gettype($value->number) == "double");
         $this->assertTrue(gettype($value->integer) == "integer");
+        $this->assertTrue(gettype($value->negativeInteger) == "integer");
         $this->assertTrue(gettype($value->boolean) == "boolean");
+
+        $this->assertTrue($value->number === 1.5);
+        $this->assertTrue($value->integer === 1);
+        $this->assertTrue($value->negativeInteger === -2);
+        $this->assertTrue($value->boolean === true);
 
         $this->assertTrue(gettype($value->multitype1) == "boolean");
         $this->assertTrue(gettype($value->multitype2) == "double");
         $this->assertTrue(gettype($value->multitype3) == "integer");
+
+        $this->assertTrue($value->number === 1.5);
+        $this->assertTrue($value->integer === 1);
+        $this->assertTrue($value->negativeInteger === -2);
+        $this->assertTrue($value->boolean === true);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
@@ -111,6 +122,7 @@ class CoerciveTest extends BasicTypesTest
                   "string":"string test",
                   "number":"1.5",
                   "integer":"1",
+                  "negativeInteger":"-2",
                   "boolean":"true",
                   "object":{},
                   "array":[],
@@ -132,6 +144,7 @@ class CoerciveTest extends BasicTypesTest
                     "string":{"type":"string"},
                     "number":{"type":"number"},
                     "integer":{"type":"integer"},
+                    "negativeInteger":{"type":"integer"},
                     "boolean":{"type":"boolean"},
                     "object":{"type":"object"},
                     "array":{"type":"array"},
