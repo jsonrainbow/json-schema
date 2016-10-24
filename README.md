@@ -19,7 +19,8 @@ See [json-schema](http://json-schema.org/) for more details.
 #### [`Composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
 
     $ wget http://getcomposer.org/composer.phar
-    $ php composer.phar require justinrainbow/json-schema:~2.0
+    $ php composer.phar require --no-update justinrainbow/json-schema
+    $ composer.phar update
 
 ## Usage
 
@@ -28,11 +29,11 @@ See [json-schema](http://json-schema.org/) for more details.
 ```php
 <?php
 
-$data = json_decode(file_get_contents('data.json'));
+$data = json_decode(file_get_contents('data.json')); //NOTE: this needs to be an object, not an array!
 
 // Validate
 $validator = new JsonSchema\Validator;
-$validator->check($data, (object)['$ref' => 'file://' . realpath('schema.json')]);
+$validator->check($data, (object)['$ref' => 'file://' . realpath('schema.json')]); //either provide PHY schema (after json_decode) or just point out to the correct schema on the local filesystem
 
 if ($validator->isValid()) {
     echo "The supplied JSON validates against the schema.\n";
