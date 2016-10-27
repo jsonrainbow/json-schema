@@ -46,19 +46,26 @@ if ($validator->isValid()) {
 ###Type Coercion
 If you're validating data passed to your application via HTTP, you can cast strings and booleans to the expected types defined by your schema:
 ```
+use JsonSchema\SchemaStorage;
+use JsonSchema\Validator;
+use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\Constraint;
+
 $request = (object)[
    'processRefund'=>"true",
    'refundAmount'=>"17"
 ];
 
-$validator = new \JsonSchema\Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
+$factory = new Factory( null, null, Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE );
+  
+$validator = new Validator($factory);
 $validator->check($request, (object) [
     "type"=>"object",
-    "properties"=>[
-        "processRefund"=>[
+    "properties"=>(object)[
+        "processRefund"=>(object)[
             "type"=>"boolean"
         ],
-        "refundAmount"=>[
+        "refundAmount"=>(object)[
             "type"=>"number"
         ]
     ]
@@ -77,6 +84,7 @@ Note that the ```CHECK_MODE_COERCE``` flag will only take effect when an object 
 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
+use JsonSchema\Constraints\Factory;
 
 $jsonSchema = <<<'JSON'
 {
@@ -114,7 +122,7 @@ $schemaStorage = new SchemaStorage();
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator(Validator::CHECK_MODE_NORMAL, $schemaStorage);
+$jsonValidator = new Validator( new Factory($schemaStorage));
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');
