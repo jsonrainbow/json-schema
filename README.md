@@ -45,7 +45,7 @@ if ($validator->isValid()) {
 ```
 ###Type Coercion
 If you're validating data passed to your application via HTTP, you can cast strings and booleans to the expected types defined by your schema:
-```
+```php
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 use JsonSchema\Constraints\Factory;
