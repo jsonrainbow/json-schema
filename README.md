@@ -113,14 +113,17 @@ $schemaStorage = new SchemaStorage();
 // 2) Tells $schemaStorage that references to file://mySchema... should be resolved by looking in $jsonSchemaObject
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
-// Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator(Validator::CHECK_MODE_NORMAL, $schemaStorage);
+// The \JsonSchema\Validator constructor now takes a single argument of type \JsonSchema\Constraints\Factory.
+$factory = new \JsonSchema\Constraints\Factory($schemaStorage);
+
+// Provide $factory to the Validator so that references can be resolved during validation
+$jsonValidator = new Validator($factory);
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');
 
 // Do validation (use isValid() and getErrors() to check the result)
-$jsonValidator->check($jsonToValidateObject, $jsonSchemaObject);
+$jsonValidator->check($jsonToValidateObject, (object)['$ref' => 'file://mySchema']);
 ```
 
 ## Running the tests
