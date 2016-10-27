@@ -45,22 +45,25 @@ if ($validator->isValid()) {
 ```
 ###Type Coercion
 If you're validating data passed to your application via HTTP, you can cast strings and booleans to the expected types defined by your schema:
-```
+```php
+use JsonSchema\SchemaStorage;
+use JsonSchema\Validator;
+use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\Constraint;
+
 $request = (object)[
    'processRefund'=>"true",
    'refundAmount'=>"17"
 ];
 
-$validator = new \JsonSchema\Validator(
-  \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST | 
-  \JsonSchema\Constraints\Constraint::CHECK_MODE_COERCE);
+$validator = new Validator(Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE);
 $validator->check($request, (object) [
     "type"=>"object",
-    "properties"=>[
-        "processRefund"=>[
+    "properties"=>(object)[
+        "processRefund"=>(object)[
             "type"=>"boolean"
         ],
-        "refundAmount"=>[
+        "refundAmount"=>(object)[
             "type"=>"number"
         ]
     ]
@@ -79,6 +82,8 @@ Note that the ```CHECK_MODE_COERCE``` flag will only take effect when an object 
 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
+use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\Constraint;
 
 $jsonSchema = <<<'JSON'
 {
@@ -110,15 +115,13 @@ $jsonSchemaObject = json_decode($jsonSchema);
 // The SchemaStorage can resolve references, loading additional schemas from file as needed, etc.
 $schemaStorage = new SchemaStorage();
 
-$factory = new \JsonSchema\Constraints\Factory($schemaStorage);
-
 // This does two things:
 // 1) Mutates $jsonSchemaObject to normalize the references (to file://mySchema#/definitions/integerData, etc)
 // 2) Tells $schemaStorage that references to file://mySchema... should be resolved by looking in $jsonSchemaObject
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator(\JsonSchema\Constraints\Constraint::CHECK_MODE_NORMAL, $factory);
+$jsonValidator = new Validator( Constraint::CHECK_MODE_NORMAL, new Factory($schemaStorage));
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');

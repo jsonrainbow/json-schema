@@ -56,7 +56,22 @@ class CoerciveTest extends BasicTypesTest
 
         $this->assertTrue(gettype($value->number) == "double");
         $this->assertTrue(gettype($value->integer) == "integer");
+        $this->assertTrue(gettype($value->negativeInteger) == "integer");
         $this->assertTrue(gettype($value->boolean) == "boolean");
+
+        $this->assertTrue($value->number === 1.5);
+        $this->assertTrue($value->integer === 1);
+        $this->assertTrue($value->negativeInteger === -2);
+        $this->assertTrue($value->boolean === true);
+
+        $this->assertTrue(gettype($value->multitype1) == "boolean");
+        $this->assertTrue(gettype($value->multitype2) == "double");
+        $this->assertTrue(gettype($value->multitype3) == "integer");
+
+        $this->assertTrue($value->number === 1.5);
+        $this->assertTrue($value->integer === 1);
+        $this->assertTrue($value->negativeInteger === -2);
+        $this->assertTrue($value->boolean === true);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
@@ -107,11 +122,15 @@ class CoerciveTest extends BasicTypesTest
                   "string":"string test",
                   "number":"1.5",
                   "integer":"1",
+                  "negativeInteger":"-2",
                   "boolean":"true",
                   "object":{},
                   "array":[],
                   "null":null,
                   "any": "string",
+                  "multitype1": "false",
+                  "multitype2": "1.2",
+                  "multitype3": "7",
                   "any1": 2.6,
                   "any2": 4,
                   "any3": false,
@@ -125,11 +144,15 @@ class CoerciveTest extends BasicTypesTest
                     "string":{"type":"string"},
                     "number":{"type":"number"},
                     "integer":{"type":"integer"},
+                    "negativeInteger":{"type":"integer"},
                     "boolean":{"type":"boolean"},
                     "object":{"type":"object"},
                     "array":{"type":"array"},
                     "null":{"type":"null"},
                     "any": {"type":"any"},
+                    "multitype1": {"type":["boolean","integer","number"]},
+                    "multitype2": {"type":["boolean","integer","number"]},
+                    "multitype3": {"type":["boolean","integer","number"]},
                     "any1": {"type":"any"},
                     "any2": {"type":"any"},
                     "any3": {"type":"any"},

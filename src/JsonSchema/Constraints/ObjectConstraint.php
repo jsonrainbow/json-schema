@@ -184,7 +184,7 @@ class ObjectConstraint extends Constraint
 
     protected function toInteger($value)
     {
-        if(ctype_digit ($value)) {
+        if(is_numeric($value) && (int)$value == $value) {
             return (int)$value; // cast to number
         }
 
@@ -201,18 +201,20 @@ class ObjectConstraint extends Constraint
      */
     protected function coerce($value, $definition)
     {
-        $type = isset($definition->type)?$definition->type:null;
-        if($type){
-            switch($type){
-                case "boolean":
-                    $value = $this->toBoolean($value);
-                    break;
-                case "integer":
-                    $value = $this->toInteger($value);
-                    break;
-                case "number":
-                    $value = $this->toNumber($value);
-                    break;
+        $types = isset($definition->type)?$definition->type:null;
+        if($types){
+            foreach((array)$types as $type) {
+                switch ($type) {
+                    case "boolean":
+                        $value = $this->toBoolean($value);
+                        break;
+                    case "integer":
+                        $value = $this->toInteger($value);
+                        break;
+                    case "number":
+                        $value = $this->toNumber($value);
+                        break;
+                }
             }
         }
         return $value;
