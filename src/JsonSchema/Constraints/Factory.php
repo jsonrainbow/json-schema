@@ -43,8 +43,6 @@ class Factory
      * @var array $constraintMap
      */
     protected $constraintMap = array(
-        'array' => 'JsonSchema\Constraints\CollectionConstraint',
-        'collection' => 'JsonSchema\Constraints\CollectionConstraint',
         'object' => 'JsonSchema\Constraints\ObjectConstraint',
         'type' => 'JsonSchema\Constraints\TypeConstraint',
         'undefined' => 'JsonSchema\Constraints\UndefinedConstraint',

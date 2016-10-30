@@ -58,11 +58,23 @@ class CoerciveTest extends BasicTypesTest
         $this->assertTrue(gettype($value->integer) == "integer");
         $this->assertTrue(gettype($value->negativeInteger) == "integer");
         $this->assertTrue(gettype($value->boolean) == "boolean");
+        $this->assertTrue(gettype($value->arrayOfIntegers[0]) == "integer");
+        $this->assertTrue(gettype($value->arrayOfIntegers[1]) == "integer");
+        $this->assertTrue(gettype($value->arrayOfIntegers[2]) == "integer");
+        $this->assertTrue(gettype($value->tupleTyping[0]) == "integer");
+        $this->assertTrue(gettype($value->tupleTyping[1]) == "double");
+        $this->assertTrue(gettype($value->tupleTyping[2]) == "boolean");
 
         $this->assertTrue($value->number === 1.5);
         $this->assertTrue($value->integer === 1);
         $this->assertTrue($value->negativeInteger === -2);
         $this->assertTrue($value->boolean === true);
+        $this->assertTrue($value->arrayOfIntegers[0] === -1 );
+        $this->assertTrue($value->arrayOfIntegers[1] === 0 );
+        $this->assertTrue($value->arrayOfIntegers[2] === 1 );
+        $this->assertTrue($value->tupleTyping[0] === 1 );
+        $this->assertTrue($value->tupleTyping[1] === 2.2 );
+        $this->assertTrue($value->tupleTyping[2] === true );
 
         $this->assertTrue(gettype($value->multitype1) == "boolean");
         $this->assertTrue(gettype($value->multitype2) == "double");
@@ -131,6 +143,8 @@ class CoerciveTest extends BasicTypesTest
                   "multitype1": "false",
                   "multitype2": "1.2",
                   "multitype3": "7",
+                  "arrayOfIntegers":["-1","0","1"],
+                  "tupleTyping":["1","2.2","true"],
                   "any1": 2.6,
                   "any2": 4,
                   "any3": false,
@@ -153,6 +167,19 @@ class CoerciveTest extends BasicTypesTest
                     "multitype1": {"type":["boolean","integer","number"]},
                     "multitype2": {"type":["boolean","integer","number"]},
                     "multitype3": {"type":["boolean","integer","number"]},
+                    "arrayOfIntegers":{
+                        "items":{
+                            "type":"integer"
+                        }
+                    },
+                    "tupleTyping":{
+                      "type":"array",
+                      "items":[
+                        {"type":"integer"},
+                        {"type":"number"}
+                      ],
+                      "additionalItems":{"type":"boolean"}
+                    },
                     "any1": {"type":"any"},
                     "any2": {"type":"any"},
                     "any3": {"type":"any"},

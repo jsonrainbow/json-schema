@@ -125,12 +125,103 @@ abstract class Constraint implements ConstraintInterface
      * @param JsonPointer|null $path
      * @param mixed            $i
      */
-    protected function checkArray($value, $schema = null, JsonPointer $path = null, $i = null)
+    protected function checkArray(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('collection');
-        $validator->check($value, $schema, $path, $i);
+        // Verify minItems
+        if (isset($schema->minItems) && count($value) < $schema->minItems) {
+            $this->addError($path, "There must be a minimum of " . $schema->minItems . " items in the array", 'minItems', array('minItems' => $schema->minItems,));
+        }
 
-        $this->addErrors($validator->getErrors());
+        // Verify maxItems
+        if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
+            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " items in the array", 'maxItems', array('maxItems' => $schema->maxItems,));
+        }
+
+        // Verify uniqueItems
+        if (isset($schema->uniqueItems) && $schema->uniqueItems) {
+            $unique = $value;
+            if (is_array($value) && count($value)) {
+                $unique = array_map(function($e) { return var_export($e, true); }, $value);
+            }
+            if (count(array_unique($unique)) != count($value)) {
+                $this->addError($path, "There are no duplicates allowed in the array", 'uniqueItems');
+            }
+        }
+
+        // Verify items
+        if (isset($schema->items)) {
+            $this->validateItems($value, $schema, $path, $i);
+        }
+    }
+
+    /**
+     * Validates the items
+     *
+     * @param array            $value
+     * @param \stdClass        $schema
+     * @param JsonPointer|null $path
+     * @param string           $i
+     */
+    protected function validateItems(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    {
+        if (is_object($schema->items)) {
+            // just one type definition for the whole array
+            foreach ($value as $k => $v) {
+                if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST) {
+                    $value[$k] = $v = $this->coerce($v, $schema->items);
+                }
+                $initErrors = $this->getErrors();
+
+                // First check if its defined in "items"
+                $this->checkUndefined($v, $schema->items, $path, $k);
+
+                // Recheck with "additionalItems" if the first test fails
+                if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
+                    $secondErrors = $this->getErrors();
+                    $this->checkUndefined($v, $schema->additionalItems, $path, $k);
+                }
+
+                // Reset errors if needed
+                if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
+                    $this->errors = $secondErrors;
+                } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
+                    $this->errors = $initErrors;
+                }
+            }
+        } else {
+            // Defined item type definitions
+            foreach ($value as $k => $v) {
+                if (array_key_exists($k, $schema->items)) {
+                    if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST) {
+                        $value[$k] = $v = $this->coerce($v, $schema->items[$k]);
+                    }
+                    $this->checkUndefined($v, $schema->items[$k], $path, $k);
+                } else {
+                    // Additional items
+                    if (property_exists($schema, 'additionalItems')) {
+                        if ($schema->additionalItems !== false) {
+                            if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST) {
+                                $value[$k] = $v = $this->coerce($v, $schema->additionalItems);
+                            }
+                            $this->checkUndefined($v, $schema->additionalItems, $path, $k);
+                        } else {
+                            $this->addError(
+                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items', 'additionalItems', array('additionalItems' => $schema->additionalItems,));
+                        }
+                    } else {
+                        // Should be valid against an empty schema
+                        $this->checkUndefined($v, new \stdClass(), $path, $k);
+                    }
+                }
+            }
+
+            // Treat when we have more schema definitions than values, not for empty arrays
+            if (count($value) > 0) {
+                for ($k = count($value); $k < count($schema->items); $k++) {
+                    $this->checkUndefined($this->factory->createInstanceFor('undefined'), $schema->items[$k], $path, $k);
+                }
+            }
+        }
     }
 
     /**
@@ -270,5 +361,76 @@ abstract class Constraint implements ConstraintInterface
             $pointer->getPropertyPaths()
         );
         return trim(implode('', $result), '.');
+    }
+
+    /**
+     * Converts a value to boolean. For example, "true" becomes true.
+     * @param $value The value to convert to boolean
+     * @return bool|mixed
+     */
+    protected function toBoolean($value)
+    {
+        if($value === "true"){
+            return true;
+        }
+
+        if($value === "false"){
+            return false;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Converts a numeric string to a number. For example, "4" becomes 4.
+     *
+     * @param mixed $value The value to convert to a number.
+     * @return int|float|mixed
+     */
+    protected function toNumber($value)
+    {
+        if(is_numeric($value)) {
+            return $value + 0; // cast to number
+        }
+
+        return $value;
+    }
+
+    protected function toInteger($value)
+    {
+        if(is_numeric($value) && (int)$value == $value) {
+            return (int)$value; // cast to number
+        }
+
+        return $value;
+    }
+
+    /**
+     * Given a value and a definition, attempts to coerce the value into the
+     * type specified by the definition's 'type' property.
+     *
+     * @param mixed $value Value to coerce.
+     * @param \stdClass $definition A definition with information about the expected type.
+     * @return bool|int|string
+     */
+    protected function coerce($value, $definition)
+    {
+        $types = isset($definition->type)?$definition->type:null;
+        if($types){
+            foreach((array)$types as $type) {
+                switch ($type) {
+                    case "boolean":
+                        $value = $this->toBoolean($value);
+                        break;
+                    case "integer":
+                        $value = $this->toInteger($value);
+                        break;
+                    case "number":
+                        $value = $this->toNumber($value);
+                        break;
+                }
+            }
+        }
+        return $value;
     }
 }
