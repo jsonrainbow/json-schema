@@ -164,11 +164,15 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function validateItems(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
+        $checkMode = $this->factory->getCheckMode();
         if (is_object($schema->items)) {
             // just one type definition for the whole array
             foreach ($value as $k => $v) {
-                if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST) {
-                    $value[$k] = $v = $this->coerce($v, $schema->items);
+                if($checkMode & Constraint::CHECK_MODE_TYPE_CAST) {
+                    $v = $this->coerce($v, $schema->items);
+                    if($checkMode & Constraint::CHECK_MODE_COERCE){
+                        $value[$k] = $v;
+                    }
                 }
                 $initErrors = $this->getErrors();
 
@@ -192,16 +196,22 @@ abstract class Constraint implements ConstraintInterface
             // Defined item type definitions
             foreach ($value as $k => $v) {
                 if (array_key_exists($k, $schema->items)) {
-                    if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST) {
-                        $value[$k] = $v = $this->coerce($v, $schema->items[$k]);
+                    if($checkMode & Constraint::CHECK_MODE_TYPE_CAST) {
+                        $v = $this->coerce($v, $schema->items[$k]);
+                        if($checkMode & Constraint::CHECK_MODE_COERCE){
+                            $value[$k] = $v;
+                        }
                     }
                     $this->checkUndefined($v, $schema->items[$k], $path, $k);
                 } else {
                     // Additional items
                     if (property_exists($schema, 'additionalItems')) {
                         if ($schema->additionalItems !== false) {
-                            if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST) {
-                                $value[$k] = $v = $this->coerce($v, $schema->additionalItems);
+                            if($checkMode & Constraint::CHECK_MODE_TYPE_CAST) {
+                                $v = $this->coerce($v, $schema->additionalItems);
+                                if($checkMode & Constraint::CHECK_MODE_COERCE){
+                                    $value[$k] = $v;
+                                }
                             }
                             $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                         } else {
