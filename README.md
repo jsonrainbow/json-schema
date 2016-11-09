@@ -56,9 +56,7 @@ $request = (object)[
    'refundAmount'=>"17"
 ];
 
-$factory = new Factory( null, null, Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE );
-  
-$validator = new Validator($factory);
+$validator = new Validator(Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE);
 $validator->check($request, (object) [
     "type"=>"object",
     "properties"=>(object)[
@@ -85,6 +83,7 @@ Note that the ```CHECK_MODE_COERCE``` flag will only take effect when an object 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\Constraint;
 
 $jsonSchema = <<<'JSON'
 {
@@ -122,7 +121,7 @@ $schemaStorage = new SchemaStorage();
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator( new Factory($schemaStorage));
+$jsonValidator = new Validator( Constraint::CHECK_MODE_NORMAL, new Factory($schemaStorage));
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');

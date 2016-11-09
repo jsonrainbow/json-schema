@@ -29,6 +29,11 @@ abstract class Constraint implements ConstraintInterface
     const CHECK_MODE_TYPE_CAST = 	0x00000002;
     const CHECK_MODE_COERCE = 		0x00000004;
 
+	/**
+	 * @var int
+	 */
+	protected $checkMode;
+
     /**
      * @var Factory
      */
@@ -37,8 +42,9 @@ abstract class Constraint implements ConstraintInterface
     /**
      * @param Factory $factory
      */
-    public function __construct(Factory $factory = null)
+    public function __construct($checkMode = Constraint::CHECK_MODE_NORMAL, Factory $factory = null)
     {
+    	$this->checkMode = $checkMode;
         $this->factory = $factory ? : new Factory();
     }
 
@@ -127,7 +133,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkArray($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('collection');
+        $validator = $this->factory->createInstanceFor($this->checkMode,'collection');
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
@@ -144,7 +150,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkObject($value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null)
     {
-        $validator = $this->factory->createInstanceFor('object');
+        $validator = $this->factory->createInstanceFor($this->checkMode,'object');
         $validator->check($value, $schema, $path, $i, $patternProperties);
 
         $this->addErrors($validator->getErrors());
@@ -160,7 +166,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkType($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('type');
+        $validator = $this->factory->createInstanceFor($this->checkMode, 'type');
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
@@ -176,7 +182,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkUndefined($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('undefined');
+        $validator = $this->factory->createInstanceFor($this->checkMode,'undefined');
 
         $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
 
@@ -193,7 +199,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkString($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('string');
+        $validator = $this->factory->createInstanceFor($this->checkMode, 'string');
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
@@ -209,7 +215,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkNumber($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('number');
+        $validator = $this->factory->createInstanceFor($this->checkMode, 'number');
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
@@ -225,7 +231,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkEnum($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('enum');
+        $validator = $this->factory->createInstanceFor($this->checkMode, 'enum');
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
@@ -241,7 +247,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function checkFormat($value, $schema = null, JsonPointer $path = null, $i = null)
     {
-        $validator = $this->factory->createInstanceFor('format');
+        $validator = $this->factory->createInstanceFor($this->checkMode, 'format');
         $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
@@ -254,7 +260,7 @@ abstract class Constraint implements ConstraintInterface
      */
     protected function getTypeCheck()
     {
-        return $this->factory->getTypeCheck();
+        return $this->factory->getTypeCheck($this->checkMode);
     }
 
     /**
