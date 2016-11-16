@@ -63,23 +63,51 @@ class CollectionConstraint extends Constraint
     {
         if (is_object($schema->items)) {
             // just one type definition for the whole array
-            foreach ($value as $k => $v) {
-                $initErrors = $this->getErrors();
 
-                // First check if its defined in "items"
-                $this->checkUndefined($v, $schema->items, $path, $k);
+            if (isset($schema->items->type)
+                && (
+                    $schema->items->type == 'string'
+                    || $schema->items->type == 'number'
+                    || $schema->items->type == 'integer'
+                )
+                && !isset($schema->additionalItems)
+            ) {
+                // performance optimization
+                $type = $schema->items->type;
+                $validator = $this->factory->createInstanceFor($type === 'integer' ? 'number' : $type);
 
-                // Recheck with "additionalItems" if the first test fails
-                if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
-                    $secondErrors = $this->getErrors();
-                    $this->checkUndefined($v, $schema->additionalItems, $path, $k);
+                foreach ($value as $k => $v) {
+                    $k_path = $this->incrementPath($path, $k);
+
+                    if (($type === 'string' && !is_string($v))
+                        || ($type === 'number' && !(is_numeric($v) && !is_string($v)))
+                        || ($type === 'integer' && !is_int($v))
+                    ){
+                        $this->addError($k_path, ucwords(gettype($v)) . " value found, but $type is required", 'type');
+                    } else {
+                        $validator->check($v, $schema, $k_path, $i);
+                    }
                 }
+                $this->addErrors($validator->getErrors());
+            } else {
+                foreach ($value as $k => $v) {
+                    $initErrors = $this->getErrors();
 
-                // Reset errors if needed
-                if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
-                    $this->errors = $secondErrors;
-                } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
-                    $this->errors = $initErrors;
+                    // First check if its defined in "items"
+                    $this->checkUndefined($v, $schema->items, $path, $k);
+
+                    // Recheck with "additionalItems" if the first test fails
+                    if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
+                        $secondErrors = $this->getErrors();
+                        $this->checkUndefined($v, $schema->additionalItems, $path, $k);
+                    }
+
+                    // Reset errors if needed
+                    if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
+                        $this->errors = $secondErrors;
+                    } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
+                        $this->errors = $initErrors;
+                    }
                 }
             }
         } else {

@@ -57,6 +57,7 @@
     },
     "scripts": {
         "test" : "vendor/bin/phpunit",
+        "testOnly" : "vendor/bin/phpunit --colors --filter",
         "coverage" : "vendor/bin/phpunit  --coverage-text"
     }
 }
