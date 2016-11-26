@@ -141,5 +141,7 @@ $jsonValidator->check($jsonToValidateObject, $jsonSchemaObject);
 ## Running the tests
 
 ```bash
-vendor/bin/phpunit
+composer test
+composer testOnly TestClass
+composer testOnly TestClass::testMethod
 ```
