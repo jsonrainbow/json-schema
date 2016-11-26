@@ -12,18 +12,19 @@ See [json-schema](http://json-schema.org/) for more details.
 
 ### Library
 
-    $ git clone https://github.com/justinrainbow/json-schema.git
+```bash
+git clone https://github.com/justinrainbow/json-schema.git
+```
 
-### Dependencies
+### Composer
 
-#### [`Composer`](https://github.com/composer/composer) (*will use the Composer ClassLoader*)
+[Install PHP Composer](https://getcomposer.org/doc/00-intro.md)
 
-    $ wget http://getcomposer.org/composer.phar
-    $ php composer.phar require justinrainbow/json-schema:~2.0
+```bash
+composer require justinrainbow/json-schema
+```
 
 ## Usage
-
-### Basic usage
 
 ```php
 <?php
@@ -43,17 +44,23 @@ if ($validator->isValid()) {
     }
 }
 ```
-###Type Coercion
-If you're validating data passed to your application via HTTP, you can cast strings and booleans to the expected types defined by your schema:
+
+### Type coercion
+
+If you're validating data passed to your application via HTTP, you can cast strings and booleans to
+the expected types defined by your schema:
+
 ```php
+<?php
+
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Constraints\Constraint;
 
 $request = (object)[
-   'processRefund'=>"true",
-   'refundAmount'=>"17"
+    'processRefund'=>"true",
+    'refundAmount'=>"17"
 ];
 
 $factory = new Factory( null, null, Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE );
@@ -75,7 +82,7 @@ is_bool($request->processRefund); // true
 is_int($request->refundAmount); // true
 ```
 
-Note that the ```CHECK_MODE_COERCE``` flag will only take effect when an object is passed into the ```check``` method.
+Note that the `CHECK_MODE_COERCE` flag will only take effect when an object is passed into the `check()` method.
 
 ### With inline references
 
@@ -133,4 +140,6 @@ $jsonValidator->check($jsonToValidateObject, $jsonSchemaObject);
 
 ## Running the tests
 
-    $ vendor/bin/phpunit
+```bash
+vendor/bin/phpunit
+```
