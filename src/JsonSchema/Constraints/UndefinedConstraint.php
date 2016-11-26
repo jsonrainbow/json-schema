@@ -20,10 +20,18 @@ use JsonSchema\Entity\JsonPointer;
  */
 class UndefinedConstraint extends Constraint
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function check($value, $schema = null, JsonPointer $path = null, $i = null)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function check($value, $schema = null, JsonPointer $path = null, $i = null){
+		$this->_check($value, $schema, $path, $i);
+	}
+
+	public function coerce(&$value, $schema = null, JsonPointer $path = null, $i = null){
+		$this->_check($value, $schema, $path, $i, true);
+	}
+
+    protected function _check(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {
         if (is_null($schema) || !is_object($schema)) {
             return;
@@ -32,13 +40,13 @@ class UndefinedConstraint extends Constraint
         $path = $this->incrementPath($path ?: new JsonPointer(''), $i);
 
         // check special properties
-        $this->validateCommonProperties($value, $schema, $path);
+        $this->validateCommonProperties($value, $schema, $path, $i, $coerce);
 
         // check allOf, anyOf, and oneOf properties
-        $this->validateOfProperties($value, $schema, $path);
+        $this->validateOfProperties($value, $schema, $path, '', $coerce);
 
         // check known types
-        $this->validateTypes($value, $schema, $path, $i);
+        $this->validateTypes($value, $schema, $path, $i, $coerce);
     }
 
     /**
@@ -49,11 +57,11 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    public function validateTypes($value, $schema = null, JsonPointer $path, $i = null)
+    public function validateTypes(&$value, $schema = null, JsonPointer $path, $i = null, $coerce = false)
     {
         // check array
         if ($this->getTypeCheck()->isArray($value)) {
-            $this->checkArray($value, $schema, $path, $i);
+            $this->checkArray($value, $schema, $path, $i, $coerce);
         }
 
         // check object
@@ -63,13 +71,14 @@ class UndefinedConstraint extends Constraint
                 isset($schema->properties) ? $this->factory->getSchemaStorage()->resolveRefSchema($schema->properties) : $schema,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
-                isset($schema->patternProperties) ? $schema->patternProperties : null
+                isset($schema->patternProperties) ? $schema->patternProperties : null,
+				$coerce
             );
         }
 
         // check string
         if (is_string($value)) {
-            $this->checkString($value, $schema, $path, $i);
+            $this->checkString($value, $schema, $path, $i, $coerce);
         }
 
         // check numeric
@@ -91,7 +100,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    protected function validateCommonProperties($value, $schema = null, JsonPointer $path, $i = "")
+    protected function validateCommonProperties(&$value, $schema = null, JsonPointer $path, $i = "", $coerce=false)
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
@@ -100,10 +109,10 @@ class UndefinedConstraint extends Constraint
             }
             if (is_array($schema->extends)) {
                 foreach ($schema->extends as $extends) {
-                    $this->checkUndefined($value, $extends, $path, $i);
+                    $this->checkUndefined($value, $extends, $path, $i, $coerce);
                 }
             } else {
-                $this->checkUndefined($value, $schema->extends, $path, $i);
+                $this->checkUndefined($value, $schema->extends, $path, $i, $coerce);
             }
         }
 
@@ -130,7 +139,7 @@ class UndefinedConstraint extends Constraint
 
         // Verify type
         if (!($value instanceof UndefinedConstraint)) {
-            $this->checkType($value, $schema, $path);
+            $this->checkType($value, $schema, $path, $i, $coerce);
         }
 
         // Verify disallowed items
@@ -151,7 +160,7 @@ class UndefinedConstraint extends Constraint
 
         if (isset($schema->not)) {
             $initErrors = $this->getErrors();
-            $this->checkUndefined($value, $schema->not, $path, $i);
+            $this->checkUndefined($value, $schema->not, $path, $i, $coerce);
 
             // if no new errors were raised then the instance validated against the "not" schema
             if (count($this->getErrors()) == count($initErrors)) {
@@ -175,7 +184,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    protected function validateOfProperties($value, $schema, JsonPointer $path, $i = "")
+    protected function validateOfProperties(&$value, $schema, JsonPointer $path, $i = "", $coerce = false)
     {
         // Verify type
         if ($value instanceof UndefinedConstraint) {
@@ -186,7 +195,7 @@ class UndefinedConstraint extends Constraint
             $isValid = true;
             foreach ($schema->allOf as $allOf) {
                 $initErrors = $this->getErrors();
-                $this->checkUndefined($value, $allOf, $path, $i);
+                $this->checkUndefined($value, $allOf, $path, $i, $coerce);
                 $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
             }
             if (!$isValid) {
@@ -199,7 +208,7 @@ class UndefinedConstraint extends Constraint
             $startErrors = $this->getErrors();
             foreach ($schema->anyOf as $anyOf) {
                 $initErrors = $this->getErrors();
-                $this->checkUndefined($value, $anyOf, $path, $i);
+                $this->checkUndefined($value, $anyOf, $path, $i, $coerce);
                 if ($isValid = (count($this->getErrors()) == count($initErrors))) {
                     break;
                 }
@@ -217,7 +226,7 @@ class UndefinedConstraint extends Constraint
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
                 $this->errors = array();
-                $this->checkUndefined($value, $oneOf, $path, $i);
+                $this->checkUndefined($value, $oneOf, $path, $i, $coerce);
                 if (count($this->getErrors()) == 0) {
                     $matchedSchemas++;
                 }

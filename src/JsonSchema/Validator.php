@@ -37,4 +37,19 @@ class Validator extends Constraint
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
     }
+
+    /**
+     * Does everything that check does, but will also coerce string values in the input to their expected
+     * types defined in the schema whenever possible. Note that the first argument is passed by reference,
+     * so you must pass in a variable.
+     *
+     * {@inheritDoc}
+     */
+    public function coerce(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    {
+        $validator = $this->factory->createInstanceFor('schema');
+        $validator->coerce($value, $schema);
+
+        $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
+    }
 }

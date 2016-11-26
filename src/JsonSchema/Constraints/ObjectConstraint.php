@@ -19,10 +19,23 @@ use JsonSchema\Entity\JsonPointer;
  */
 class ObjectConstraint extends Constraint
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function check($element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function check($element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
+	{
+		$this->_check($element, $definition, $path, $additionalProp, $patternProperties);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function coerce(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
+	{
+		$this->_check($element, $definition, $path, $additionalProp, $patternProperties, true);
+	}
+
+	protected function _check(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null, $coerce = false)
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -35,7 +48,7 @@ class ObjectConstraint extends Constraint
 
         if ($definition) {
             // validate the definition properties
-            $this->validateDefinition($element, $definition, $path);
+            $this->validateDefinition($element, $definition, $path, $coerce);
         }
 
         // additional the element properties
@@ -120,104 +133,19 @@ class ObjectConstraint extends Constraint
      * @param \stdClass         $objectDefinition ObjectConstraint definition
      * @param JsonPointer|null  $path             Path?
      */
-    public function validateDefinition($element, $objectDefinition = null, JsonPointer $path = null)
+    public function validateDefinition(&$element, $objectDefinition = null, JsonPointer $path = null, $coerce = false)
     {
         $undefinedConstraint = $this->factory->createInstanceFor('undefined');
 
         foreach ($objectDefinition as $i => $value) {
-            $property = $this->getProperty($element, $i, $undefinedConstraint);
+            $property = &$this->getProperty($element, $i, $undefinedConstraint);
             $definition = $this->getProperty($objectDefinition, $i);
-
-            if($this->factory->getCheckMode() & Constraint::CHECK_MODE_TYPE_CAST){
-                if(!($property instanceof Constraint)) {
-					$property = $this->coerce($property, $definition);
-
-					if($this->factory->getCheckMode() & Constraint::CHECK_MODE_COERCE) {
-						if (is_object($element)) {
-							$element->{$i} = $property;
-						} else {
-							$element[$i] = $property;
-						}
-					}
-                }
-            }
 
             if (is_object($definition)) {
                 // Undefined constraint will check for is_object() and quit if is not - so why pass it?
-                $this->checkUndefined($property, $definition, $path, $i);
+                $this->checkUndefined($property, $definition, $path, $i, $coerce);
             }
         }
-    }
-
-    /**
-     * Converts a value to boolean. For example, "true" becomes true.
-     * @param $value The value to convert to boolean
-     * @return bool|mixed
-     */
-    protected function toBoolean($value)
-    {
-        if($value === "true"){
-            return true;
-        }
-
-        if($value === "false"){
-            return false;
-        }
-
-        return $value;
-    }
-
-    /**
-     * Converts a numeric string to a number. For example, "4" becomes 4.
-     *
-     * @param mixed $value The value to convert to a number.
-     * @return int|float|mixed
-     */
-    protected function toNumber($value)
-    {
-        if(is_numeric($value)) {
-            return $value + 0; // cast to number
-        }
-
-        return $value;
-    }
-
-    protected function toInteger($value)
-    {
-        if(is_numeric($value) && (int)$value == $value) {
-            return (int)$value; // cast to number
-        }
-
-        return $value;
-    }
-
-    /**
-     * Given a value and a definition, attempts to coerce the value into the
-     * type specified by the definition's 'type' property.
-     *
-     * @param mixed $value Value to coerce.
-     * @param \stdClass $definition A definition with information about the expected type.
-     * @return bool|int|string
-     */
-    protected function coerce($value, $definition)
-    {
-        $types = isset($definition->type)?$definition->type:null;
-        if($types){
-            foreach((array)$types as $type) {
-                switch ($type) {
-                    case "boolean":
-                        $value = $this->toBoolean($value);
-                        break;
-                    case "integer":
-                        $value = $this->toInteger($value);
-                        break;
-                    case "number":
-                        $value = $this->toNumber($value);
-                        break;
-                }
-            }
-        }
-        return $value;
     }
 
     /**
@@ -229,7 +157,7 @@ class ObjectConstraint extends Constraint
      *
      * @return mixed
      */
-    protected function getProperty($element, $property, $fallback = null)
+    protected function &getProperty(&$element, $property, $fallback = null)
     {
         if (is_array($element) && (isset($element[$property]) || array_key_exists($property, $element)) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
             return $element[$property];

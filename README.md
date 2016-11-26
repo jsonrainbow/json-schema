@@ -63,10 +63,7 @@ $request = (object)[
     'refundAmount'=>"17"
 ];
 
-$factory = new Factory( null, null, Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE );
-  
-$validator = new Validator($factory);
-$validator->check($request, (object) [
+$validator->coerce($request, (object) [
     "type"=>"object",
     "properties"=>(object)[
         "processRefund"=>(object)[
@@ -81,8 +78,6 @@ $validator->check($request, (object) [
 is_bool($request->processRefund); // true
 is_int($request->refundAmount); // true
 ```
-
-Note that the `CHECK_MODE_COERCE` flag will only take effect when an object is passed into the `check()` method.
 
 ### With inline references
 
