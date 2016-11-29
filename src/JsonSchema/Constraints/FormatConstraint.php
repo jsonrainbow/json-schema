@@ -146,7 +146,7 @@ class FormatConstraint extends Constraint
 
     protected function validateRegex($regex)
     {
-        return false !== @preg_match('/' . $regex . '/', '');
+        return false !== @preg_match('/' . $regex . '/u', '');
     }
 
     protected function validateColor($color)

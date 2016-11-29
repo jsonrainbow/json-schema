@@ -52,6 +52,21 @@ class PatternPropertiesTest extends BaseTestCase
                         "additionalProperties" => false
                     ))
             ),
+            // Does not match pattern with unicode
+            array(
+                json_encode(array(
+                        '猡猡獛' => false,
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'patternProperties' => array(
+                            '^[\\x{0080}-\\x{006FFF}]+$' => array(
+                                'type' => array('boolean')
+                            )
+                        ),
+                        "additionalProperties" => false
+                    ))
+            ),
             // An invalid regular expression pattern
             array(
                 json_encode(array(
@@ -176,6 +191,21 @@ class PatternPropertiesTest extends BaseTestCase
                         ),
                         "additionalProperties" => false
                     ))
+            ),
+            // Does match pattern with unicode
+            array(
+                json_encode(array(
+                    'ðæſ' => 'unicode',
+                )),
+                json_encode(array(
+                    'type' => 'object',
+                    'patternProperties' => array(
+                        '^[\\x{0080}-\\x{10FFFF}]+$' => array(
+                            'type' => array('string')
+                        )
+                    ),
+                    "additionalProperties" => false
+                ))
             ),
         );
     }
