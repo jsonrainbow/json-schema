@@ -56,12 +56,12 @@ class ObjectConstraint extends Constraint
             }
 
             // Validate the pattern before using it to test for matches
-            if (@preg_match($delimiter. $pregex . $delimiter, '') === false) {
+            if (@preg_match($delimiter. $pregex . $delimiter . 'u', '') === false) {
                 $this->addError($path, 'The pattern "' . $pregex . '" is invalid', 'pregex', array('pregex' => $pregex,));
                 continue;
             }
             foreach ($element as $i => $value) {
-                if (preg_match($delimiter . $pregex . $delimiter, $i)) {
+                if (preg_match($delimiter . $pregex . $delimiter . 'u', $i)) {
                     $matches[] = $i;
                     $this->checkUndefined($value, $schema ? : new \stdClass(), $path, $i);
                 }
