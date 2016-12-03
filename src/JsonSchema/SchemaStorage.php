@@ -8,7 +8,7 @@ use JsonSchema\Iterator\ObjectIterator;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Uri\UriRetriever;
 
-class SchemaStorage
+class SchemaStorage implements SchemaStorageInterface
 {
     protected $uriRetriever;
     protected $uriResolver;
@@ -39,8 +39,7 @@ class SchemaStorage
     }
 
     /**
-     * @param string $id
-     * @param object $schema
+     * {@inheritdoc}
      */
     public function addSchema($id, $schema = null)
     {
@@ -58,8 +57,7 @@ class SchemaStorage
     }
 
     /**
-     * @param string $id
-     * @return object
+     * {@inheritdoc}
      */
     public function getSchema($id)
     {
@@ -70,6 +68,9 @@ class SchemaStorage
         return $this->schemas[$id];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function resolveRef($ref)
     {
         $jsonPointer = new JsonPointer($ref);
@@ -93,8 +94,7 @@ class SchemaStorage
     }
 
     /**
-     * @param $refSchema
-     * @return object
+     * {@inheritdoc}
      */
     public function resolveRefSchema($refSchema)
     {

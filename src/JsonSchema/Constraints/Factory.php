@@ -11,6 +11,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\SchemaStorage;
+use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\UriRetrieverInterface;
 
@@ -68,7 +69,7 @@ class Factory
      * @param int $checkMode
      */
     public function __construct(
-        SchemaStorage $schemaStorage = null,
+        SchemaStorageInterface $schemaStorage = null,
         UriRetrieverInterface $uriRetriever = null,
         $checkMode = Constraint::CHECK_MODE_NORMAL
     ) {
