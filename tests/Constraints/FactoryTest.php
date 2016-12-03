@@ -59,8 +59,6 @@ class FactoryTest extends TestCase
     public function constraintNameProvider()
     {
         return array(
-            array('array', 'JsonSchema\Constraints\CollectionConstraint'),
-            array('collection', 'JsonSchema\Constraints\CollectionConstraint'),
             array('object', 'JsonSchema\Constraints\ObjectConstraint'),
             array('type', 'JsonSchema\Constraints\TypeConstraint'),
             array('undefined', 'JsonSchema\Constraints\UndefinedConstraint'),

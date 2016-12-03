@@ -49,7 +49,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    public function validateTypes($value, $schema = null, JsonPointer $path, $i = null)
+    public function validateTypes(&$value, $schema = null, JsonPointer $path, $i = null)
     {
         // check array
         if ($this->getTypeCheck()->isArray($value)) {
