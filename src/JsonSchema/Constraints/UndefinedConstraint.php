@@ -56,6 +56,7 @@ class UndefinedConstraint extends Constraint
      * @param mixed       $schema
      * @param JsonPointer $path
      * @param string      $i
+     * @param boolean     $coerce
      */
     public function validateTypes(&$value, $schema = null, JsonPointer $path, $i = null, $coerce = false)
     {
@@ -99,6 +100,7 @@ class UndefinedConstraint extends Constraint
      * @param mixed       $schema
      * @param JsonPointer $path
      * @param string      $i
+	 * @param boolean     $coerce
      */
     protected function validateCommonProperties(&$value, $schema = null, JsonPointer $path, $i = "", $coerce=false)
     {
@@ -183,6 +185,7 @@ class UndefinedConstraint extends Constraint
      * @param mixed       $schema
      * @param JsonPointer $path
      * @param string      $i
+	 * @param boolean     $coerce
      */
     protected function validateOfProperties(&$value, $schema, JsonPointer $path, $i = "", $coerce = false)
     {

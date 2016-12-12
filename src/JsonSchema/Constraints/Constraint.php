@@ -123,6 +123,7 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
+	 * @param boolean          $coerce
      */
     protected function checkArray(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {
@@ -144,6 +145,7 @@ abstract class Constraint implements ConstraintInterface
      * @param JsonPointer|null $path
      * @param mixed            $i
      * @param mixed            $patternProperties
+	 * @param boolean          $coerce
      */
     protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null, $coerce = false)
     {
@@ -164,6 +166,7 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
+	 * @param boolean          $coerce
      */
     protected function checkType(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {
@@ -184,6 +187,7 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
+	 * @param boolean          $coerce
      */
     protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {

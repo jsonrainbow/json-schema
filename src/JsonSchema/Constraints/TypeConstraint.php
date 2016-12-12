@@ -157,7 +157,8 @@ class TypeConstraint extends Constraint
      *
      * @param mixed  $value Value to validate
      * @param string $type  TypeConstraint to check against
-     *
+     * @param boolean $coerce Whether to coerce strings to expected types or not
+	 *
      * @return boolean
      *
      * @throws InvalidArgumentException
