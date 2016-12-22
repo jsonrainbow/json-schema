@@ -41,17 +41,30 @@ class TypeConstraint extends Constraint
      */
     public function check($value = null, $schema = null, JsonPointer $path = null, $i = null)
     {
+        $this->_check($value, $schema, $path, $i);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function coerce(&$value = null, $schema = null, JsonPointer $path = null, $i = null)
+    {
+        $this->_check($value, $schema, $path, $i, true);
+    }
+
+    protected function _check(&$value = null, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
+    {
         $type = isset($schema->type) ? $schema->type : null;
         $isValid = false;
         $wording = array();
 
         if (is_array($type)) {
-            $this->validateTypesArray($value, $type, $wording, $isValid, $path);
+            $this->validateTypesArray($value, $type, $wording, $isValid, $path, $coerce);
         } elseif (is_object($type)) {
             $this->checkUndefined($value, $type, $path);
             return;
         } else {
-            $isValid = $this->validateType($value, $type);
+            $isValid = $this->validateType($value, $type, $coerce);
         }
 
         if ($isValid === false) {
@@ -75,8 +88,8 @@ class TypeConstraint extends Constraint
      * @param boolean $isValid The current validation value
      * @param $path
      */
-    protected function validateTypesArray($value, array $type, &$validTypesWording, &$isValid,
-                                          $path) {
+    protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid,
+                                          $path, $coerce = false) {
         foreach ($type as $tp) {
             // $tp can be an object, if it's a schema instead of a simple type, validate it
             // with a new type constraint
@@ -94,7 +107,7 @@ class TypeConstraint extends Constraint
                 $this->validateTypeNameWording( $tp );
                 $validTypesWording[] = self::$wording[$tp];
                 if (!$isValid) {
-                    $isValid = $this->validateType( $value, $tp );
+                    $isValid = $this->validateType( $value, $tp, $coerce );
                 }
             }
         }
@@ -144,28 +157,21 @@ class TypeConstraint extends Constraint
      *
      * @param mixed  $value Value to validate
      * @param string $type  TypeConstraint to check against
-     *
+     * @param boolean $coerce Whether to coerce strings to expected types or not
+	 *
      * @return boolean
      *
      * @throws InvalidArgumentException
      */
-    protected function validateType($value, $type)
+    protected function validateType(&$value, $type, $coerce = false)
     {
         //mostly the case for inline schema
         if (!$type) {
             return true;
         }
 
-        if ('integer' === $type) {
-            return is_int($value);
-        }
-
-        if ('number' === $type) {
-            return is_numeric($value) && !is_string($value);
-        }
-
-        if ('boolean' === $type) {
-            return is_bool($value);
+        if ('any' === $type) {
+            return true;
         }
 
         if ('object' === $type) {
@@ -174,6 +180,27 @@ class TypeConstraint extends Constraint
 
         if ('array' === $type) {
             return $this->getTypeCheck()->isArray($value);
+        }
+
+        if ('integer' === $type) {
+            if ($coerce) {
+                $value = $this->toInteger($value);
+            }
+            return is_int($value);
+        }
+
+        if ('number' === $type) {
+            if ($coerce) {
+                $value = $this->toNumber($value);
+            }
+            return is_numeric($value) && !is_string($value);
+        }
+
+        if ('boolean' === $type) {
+            if ($coerce) {
+                $value = $this->toBoolean($value);
+            }
+            return is_bool($value);
         }
 
         if ('string' === $type) {
@@ -188,10 +215,48 @@ class TypeConstraint extends Constraint
             return is_null($value);
         }
 
-        if ('any' === $type) {
+        throw new InvalidArgumentException((is_object($value) ? 'object' : $value) . ' is an invalid type for ' . $type);
+    }
+
+    /**
+     * Converts a value to boolean. For example, "true" becomes true.
+     * @param $value The value to convert to boolean
+     * @return bool|mixed
+     */
+    protected function toBoolean($value)
+    {
+        if($value === "true"){
             return true;
         }
 
-        throw new InvalidArgumentException((is_object($value) ? 'object' : $value) . ' is an invalid type for ' . $type);
+        if($value === "false"){
+            return false;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Converts a numeric string to a number. For example, "4" becomes 4.
+     *
+     * @param mixed $value The value to convert to a number.
+     * @return int|float|mixed
+     */
+    protected function toNumber($value)
+    {
+        if(is_numeric($value)) {
+            return $value + 0; // cast to number
+        }
+
+        return $value;
+    }
+
+    protected function toInteger($value)
+    {
+        if(is_numeric($value) && (int)$value == $value) {
+            return (int)$value; // cast to number
+        }
+
+        return $value;
     }
 }

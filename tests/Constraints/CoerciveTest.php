@@ -22,7 +22,7 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testValidCoerceCasesUsingAssoc($input, $schema)
     {
-        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -31,7 +31,7 @@ class CoerciveTest extends BasicTypesTest
 
         $value = json_decode($input, true);
 
-        $validator->check($value, $schema);
+        $validator->coerce($value, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -40,7 +40,7 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testValidCoerceCases($input, $schema, $errors = array())
     {
-        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -52,7 +52,7 @@ class CoerciveTest extends BasicTypesTest
         $this->assertTrue(gettype($value->integer) == "string");
         $this->assertTrue(gettype($value->boolean) == "string");
 
-        $validator->check($value, $schema);
+        $validator->coerce($value, $schema);
 
         $this->assertTrue(gettype($value->number) == "double");
         $this->assertTrue(gettype($value->integer) == "integer");
@@ -81,13 +81,14 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testInvalidCoerceCases($input, $schema, $errors = array())
     {
-        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $validator->check(json_decode($input), $schema);
+        $value = json_decode($input);
+        $validator->coerce($value, $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
@@ -100,13 +101,14 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testInvalidCoerceCasesUsingAssoc($input, $schema, $errors = array())
     {
-        $checkMode = Constraint::CHECK_MODE_COERCE | Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $validator->check(json_decode($input, true), $schema);
+        $value = json_decode($input, true);
+        $validator->coerce($value, $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
@@ -128,9 +130,12 @@ class CoerciveTest extends BasicTypesTest
                   "array":[],
                   "null":null,
                   "any": "string",
+                  "allOf": "1",
                   "multitype1": "false",
                   "multitype2": "1.2",
                   "multitype3": "7",
+                  "arrayOfIntegers":["-1","0","1"],
+                  "tupleTyping":["1","2.2","true"],
                   "any1": 2.6,
                   "any2": 4,
                   "any3": false,
@@ -150,9 +155,27 @@ class CoerciveTest extends BasicTypesTest
                     "array":{"type":"array"},
                     "null":{"type":"null"},
                     "any": {"type":"any"},
+                    "allOf" : {"allOf":[{
+                        "type" : "string"
+                    },{
+                        "type" : "integer"
+                    }]},
                     "multitype1": {"type":["boolean","integer","number"]},
                     "multitype2": {"type":["boolean","integer","number"]},
                     "multitype3": {"type":["boolean","integer","number"]},
+                     "arrayOfIntegers":{
+                        "items":{
+                            "type":"integer"
+                        }
+                    },
+                    "tupleTyping":{
+                      "type":"array",
+                      "items":[
+                        {"type":"integer"},
+                        {"type":"number"}
+                      ],
+                      "additionalItems":{"type":"boolean"}
+                    },
                     "any1": {"type":"any"},
                     "any2": {"type":"any"},
                     "any3": {"type":"any"},

@@ -27,7 +27,6 @@ abstract class Constraint implements ConstraintInterface
 
     const CHECK_MODE_NORMAL = 		0x00000001;
     const CHECK_MODE_TYPE_CAST = 	0x00000002;
-    const CHECK_MODE_COERCE = 		0x00000004;
 
     /**
      * @var Factory
@@ -124,11 +123,16 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
+	 * @param boolean          $coerce
      */
-    protected function checkArray($value, $schema = null, JsonPointer $path = null, $i = null)
+    protected function checkArray(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {
         $validator = $this->factory->createInstanceFor('collection');
-        $validator->check($value, $schema, $path, $i);
+        if($coerce) {
+            $validator->coerce($value, $schema, $path, $i);
+        } else {
+            $validator->check($value, $schema, $path, $i);
+        }
 
         $this->addErrors($validator->getErrors());
     }
@@ -141,11 +145,16 @@ abstract class Constraint implements ConstraintInterface
      * @param JsonPointer|null $path
      * @param mixed            $i
      * @param mixed            $patternProperties
+	 * @param boolean          $coerce
      */
-    protected function checkObject($value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null)
+    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null, $coerce = false)
     {
         $validator = $this->factory->createInstanceFor('object');
-        $validator->check($value, $schema, $path, $i, $patternProperties);
+        if($coerce){
+            $validator->coerce($value, $schema, $path, $i, $patternProperties);
+        } else {
+            $validator->check($value, $schema, $path, $i, $patternProperties);
+        }
 
         $this->addErrors($validator->getErrors());
     }
@@ -157,11 +166,16 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
+	 * @param boolean          $coerce
      */
-    protected function checkType($value, $schema = null, JsonPointer $path = null, $i = null)
+    protected function checkType(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {
         $validator = $this->factory->createInstanceFor('type');
-        $validator->check($value, $schema, $path, $i);
+        if($coerce) {
+            $validator->coerce($value, $schema, $path, $i);
+        } else {
+            $validator->check($value, $schema, $path, $i);
+        }
 
         $this->addErrors($validator->getErrors());
     }
@@ -173,12 +187,17 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
+	 * @param boolean          $coerce
      */
-    protected function checkUndefined($value, $schema = null, JsonPointer $path = null, $i = null)
+    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
     {
         $validator = $this->factory->createInstanceFor('undefined');
 
-        $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
+        if($coerce){
+            $validator->coerce($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
+        } else {
+            $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
+        }
 
         $this->addErrors($validator->getErrors());
     }
