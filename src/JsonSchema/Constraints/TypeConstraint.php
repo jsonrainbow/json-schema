@@ -225,11 +225,11 @@ class TypeConstraint extends Constraint
      */
     protected function toBoolean($value)
     {
-        if($value === "true"){
+        if ($value === 'true' || $value === '1') {
             return true;
         }
 
-        if($value === "false"){
+        if ($value === 'false' || $value === '0') {
             return false;
         }
 
