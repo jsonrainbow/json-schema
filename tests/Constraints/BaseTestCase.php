@@ -31,7 +31,8 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $validator->check(json_decode($input), $schema);
+        $checkValue = json_decode($input);
+        $validator->validate($checkValue, $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
@@ -53,7 +54,8 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $validator->check(json_decode($input, true), $schema);
+        $checkValue = json_decode($input, true);
+        $validator->validate($checkValue, $schema);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
@@ -70,7 +72,8 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $validator->check(json_decode($input), $schema);
+        $checkValue = json_decode($input);
+        $validator->validate($checkValue, $schema);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
@@ -91,7 +94,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $value = json_decode($input, true);
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
 
-        $validator->check($value, $schema);
+        $validator->validate($value, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 

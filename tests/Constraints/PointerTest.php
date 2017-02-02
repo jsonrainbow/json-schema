@@ -79,7 +79,8 @@ class PointerTest extends \PHPUnit_Framework_TestCase
         );
 
         $validator = new Validator();
-        $validator->check(json_decode(json_encode($value)), json_decode(json_encode($schema)));
+        $checkValue = json_decode(json_encode($value));
+        $validator->check($checkValue, json_decode(json_encode($schema)));
 
         $this->assertEquals(
             array(

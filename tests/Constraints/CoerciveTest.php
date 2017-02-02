@@ -22,7 +22,7 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testValidCoerceCasesUsingAssoc($input, $schema)
     {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -31,7 +31,7 @@ class CoerciveTest extends BasicTypesTest
 
         $value = json_decode($input, true);
 
-        $validator->coerce($value, $schema);
+        $validator->validate($value, $schema, $checkMode);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -40,7 +40,7 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testValidCoerceCases($input, $schema, $errors = array())
     {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -52,7 +52,7 @@ class CoerciveTest extends BasicTypesTest
         $this->assertTrue(gettype($value->integer) == "string");
         $this->assertTrue(gettype($value->boolean) == "string");
 
-        $validator->coerce($value, $schema);
+        $validator->validate($value, $schema, $checkMode);
 
         $this->assertTrue(gettype($value->number) == "double");
         $this->assertTrue(gettype($value->integer) == "integer");
@@ -81,14 +81,14 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testInvalidCoerceCases($input, $schema, $errors = array())
     {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
         $value = json_decode($input);
-        $validator->coerce($value, $schema);
+        $validator->validate($value, $schema, $checkMode);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
@@ -101,14 +101,14 @@ class CoerciveTest extends BasicTypesTest
      */
     public function testInvalidCoerceCasesUsingAssoc($input, $schema, $errors = array())
     {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
         $value = json_decode($input, true);
-        $validator->coerce($value, $schema);
+        $validator->validate($value, $schema, $checkMode);
 
         if (array() !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));

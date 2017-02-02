@@ -23,7 +23,8 @@ class FormatTest extends BaseTestCase
         $validator = new FormatConstraint();
         $schema = new \stdClass;
 
-        $validator->check('10', $schema);
+        $checkValue = 10;
+        $validator->check($checkValue, $schema);
         $this->assertEmpty($validator->getErrors());
     }
 
@@ -34,15 +35,18 @@ class FormatTest extends BaseTestCase
         $schema->format = 'regex';
 
         $validator->reset();
-        $validator->check('\d+', $schema);
+        $checkValue = '\d+';
+        $validator->check($checkValue, $schema);
         $this->assertEmpty($validator->getErrors());
 
         $validator->reset();
-        $validator->check('^(abc]', $schema);
+        $checkValue = '^(abc]';
+        $validator->check($checkValue, $schema);
         $this->assertCount(1, $validator->getErrors());
 
         $validator->reset();
-        $validator->check('^猡猡獛$', $schema);
+        $checkValue = '^猡猡獛$';
+        $validator->check($checkValue, $schema);
         $this->assertEmpty($validator->getErrors());
     }
 

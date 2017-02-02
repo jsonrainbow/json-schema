@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Exception\InvalidArgumentException;
+use JsonSchema\Exception\InvalidConfigException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Uri\UriRetriever;
@@ -33,7 +34,7 @@ class Factory
     /**
      * @var int
      */
-    private $checkMode;
+    private $checkMode = Constraint::CHECK_MODE_NORMAL;
 
     /**
      * @var TypeCheck\TypeCheckInterface[]
@@ -54,8 +55,7 @@ class Factory
         'enum' => 'JsonSchema\Constraints\EnumConstraint',
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
-        'validator' => 'JsonSchema\Validator',
-        'coercer' => 'JsonSchema\Coerce'
+        'validator' => 'JsonSchema\Validator'
     );
 
     /**
@@ -73,9 +73,56 @@ class Factory
         UriRetrieverInterface $uriRetriever = null,
         $checkMode = Constraint::CHECK_MODE_NORMAL
     ) {
+        // set provided config options
+        $this->setConfig($checkMode);
+
         $this->uriRetriever = $uriRetriever ?: new UriRetriever;
         $this->schemaStorage = $schemaStorage ?: new SchemaStorage($this->uriRetriever);
+    }
+
+    /**
+     * Set config values
+     *
+     * @param int $checkMode Set checkMode options - does not preserve existing flags
+     */
+    public function setConfig($checkMode = Constraint::CHECK_MODE_NORMAL)
+    {
         $this->checkMode = $checkMode;
+    }
+
+    /**
+     * Enable checkMode flags
+     *
+     * @param int $options
+     */
+    public function addConfig($options)
+    {
+        $this->checkMode |= $options;
+    }
+
+    /**
+     * Disable checkMode flags
+     *
+     * @param int $options
+     */
+    public function removeConfig($options)
+    {
+        $this->checkMode &= ~$options;
+    }
+
+    /**
+     * Get checkMode option
+     *
+     * @param int $options Options to get, if null then return entire bitmask
+     *
+     * @return int
+     */
+    public function getConfig($options = null)
+    {
+        if ($options === null) {
+            return $this->checkMode;
+        }
+        return ($this->checkMode & $options);
     }
 
     /**
@@ -139,13 +186,5 @@ class Factory
         }
 
         return clone $this->instanceCache[$constraintName];
-    }
-
-    /**
-     * @return int
-     */
-    public function getCheckMode()
-    {
-        return $this->checkMode;
     }
 }

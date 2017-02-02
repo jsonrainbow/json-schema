@@ -23,7 +23,7 @@ class FormatConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $schema = null, JsonPointer $path = null, $i = null)
+    public function check(&$element, $schema = null, JsonPointer $path = null, $i = null)
     {
         if (!isset($schema->format)) {
             return;

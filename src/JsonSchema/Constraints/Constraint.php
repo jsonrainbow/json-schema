@@ -20,81 +20,15 @@ use JsonSchema\Entity\JsonPointer;
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  */
-abstract class Constraint implements ConstraintInterface
+abstract class Constraint extends BaseConstraint implements ConstraintInterface
 {
-    protected $errors = array();
     protected $inlineSchemaProperty = '$schema';
 
-    const CHECK_MODE_NORMAL = 		0x00000001;
-    const CHECK_MODE_TYPE_CAST = 	0x00000002;
-
-    /**
-     * @var Factory
-     */
-    protected $factory;
-
-    /**
-     * @param Factory $factory
-     */
-    public function __construct(Factory $factory = null)
-    {
-        $this->factory = $factory ? : new Factory();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addError(JsonPointer $path = null, $message, $constraint='', array $more=null)
-    {
-        $error = array(
-            'property' => $this->convertJsonPointerIntoPropertyPath($path ?: new JsonPointer('')),
-            'pointer' => ltrim(strval($path ?: new JsonPointer('')), '#'),
-            'message' => $message,
-            'constraint' => $constraint,
-        );
-
-        if (is_array($more) && count($more) > 0)
-        {
-            $error += $more;
-        }
-
-        $this->errors[] = $error;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addErrors(array $errors)
-    {
-        if ($errors) {
-            $this->errors = array_merge($this->errors, $errors);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isValid()
-    {
-        return !$this->getErrors();
-    }
-
-    /**
-     * Clears any reported errors.  Should be used between
-     * multiple validation checks.
-     */
-    public function reset()
-    {
-        $this->errors = array();
-    }
+    const CHECK_MODE_NONE =             0x00000000;
+    const CHECK_MODE_NORMAL =           0x00000001;
+    const CHECK_MODE_TYPE_CAST =        0x00000002;
+    const CHECK_MODE_COERCE_TYPES =     0x00000004;
+    const CHECK_MODE_APPLY_DEFAULTS =   0x00000008;
 
     /**
      * Bubble down the path
@@ -123,16 +57,11 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
-	 * @param boolean          $coerce
      */
-    protected function checkArray(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
+    protected function checkArray(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
         $validator = $this->factory->createInstanceFor('collection');
-        if($coerce) {
-            $validator->coerce($value, $schema, $path, $i);
-        } else {
-            $validator->check($value, $schema, $path, $i);
-        }
+        $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
     }
@@ -145,16 +74,11 @@ abstract class Constraint implements ConstraintInterface
      * @param JsonPointer|null $path
      * @param mixed            $i
      * @param mixed            $patternProperties
-	 * @param boolean          $coerce
      */
-    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null, $coerce = false)
+    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null)
     {
         $validator = $this->factory->createInstanceFor('object');
-        if($coerce){
-            $validator->coerce($value, $schema, $path, $i, $patternProperties);
-        } else {
-            $validator->check($value, $schema, $path, $i, $patternProperties);
-        }
+        $validator->check($value, $schema, $path, $i, $patternProperties);
 
         $this->addErrors($validator->getErrors());
     }
@@ -166,16 +90,11 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
-	 * @param boolean          $coerce
      */
-    protected function checkType(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
+    protected function checkType(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
         $validator = $this->factory->createInstanceFor('type');
-        if($coerce) {
-            $validator->coerce($value, $schema, $path, $i);
-        } else {
-            $validator->check($value, $schema, $path, $i);
-        }
+        $validator->check($value, $schema, $path, $i);
 
         $this->addErrors($validator->getErrors());
     }
@@ -187,17 +106,12 @@ abstract class Constraint implements ConstraintInterface
      * @param mixed            $schema
      * @param JsonPointer|null $path
      * @param mixed            $i
-	 * @param boolean          $coerce
      */
-    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null, $coerce = false)
+    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
         $validator = $this->factory->createInstanceFor('undefined');
 
-        if($coerce){
-            $validator->coerce($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
-        } else {
-            $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
-        }
+        $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
 
         $this->addErrors($validator->getErrors());
     }

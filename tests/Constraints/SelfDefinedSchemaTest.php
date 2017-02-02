@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use \JsonSchema\Validator;
+
 class SelfDefinedSchemaTest extends BaseTestCase
 {
     public function getInvalidTests()
@@ -59,5 +61,12 @@ class SelfDefinedSchemaTest extends BaseTestCase
                 ''
             )
         );
+    }
+
+    public function testInvalidArgumentException()
+    {
+        $v = new Validator();
+        $this->setExpectedException('\JsonSchema\Exception\InvalidArgumentException');
+        $v->check(json_decode('{}'), json_decode(''));
     }
 }

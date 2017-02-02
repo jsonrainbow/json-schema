@@ -270,7 +270,7 @@ EOF;
     {
         $retrieverMock = $this->getRetrieverMock($schema);
 
-        $factory = new \ReflectionProperty('JsonSchema\Constraints\Constraint', 'factory');
+        $factory = new \ReflectionProperty('JsonSchema\Constraints\BaseConstraint', 'factory');
         $factory->setAccessible(true);
         $factory = $factory->getValue($this->validator);
 

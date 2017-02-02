@@ -10,7 +10,8 @@
 namespace JsonSchema;
 
 use JsonSchema\Constraints\Constraint;
-use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Constraints\BaseConstraint;
+use JsonSchema\Exception\InvalidConfigException;
 
 /**
  * A JsonSchema Constraint
@@ -19,37 +20,47 @@ use JsonSchema\Entity\JsonPointer;
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
  * @see    README.md
  */
-class Validator extends Constraint
+class Validator extends BaseConstraint
 {
     const SCHEMA_MEDIA_TYPE = 'application/schema+json';
 
     /**
      * Validates the given data against the schema and returns an object containing the results
      * Both the php object and the schema are supposed to be a result of a json_decode call.
-     * The validation works as defined by the schema proposal in http://json-schema.org
+     * The validation works as defined by the schema proposal in http://json-schema.org.
+     *
+     * Note that the first argument is passwd by reference, so you must pass in a variable.
      *
      * {@inheritDoc}
      */
-    public function check($value, $schema = null, JsonPointer $path = null, $i = null)
+    public function validate(&$value, $schema = null, $checkMode = null)
     {
+        $initialCheckMode = $this->factory->getConfig();
+        if ($checkMode !== null) {
+            $this->factory->setConfig($checkMode);
+        }
+
         $validator = $this->factory->createInstanceFor('schema');
         $validator->check($value, $schema);
+
+        $this->factory->setConfig($initialCheckMode);
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
     }
 
     /**
-     * Does everything that check does, but will also coerce string values in the input to their expected
-     * types defined in the schema whenever possible. Note that the first argument is passed by reference,
-     * so you must pass in a variable.
-     *
-     * {@inheritDoc}
+     * Alias to validate(), to maintain backwards-compatibility with the previous API
      */
-    public function coerce(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    public function check($value, $schema)
     {
-        $validator = $this->factory->createInstanceFor('schema');
-        $validator->coerce($value, $schema);
+        return $this->validate($value, $schema);
+    }
 
-        $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
+    /**
+     * Alias to validate(), to maintain backwards-compatibility with the previous API
+     */
+    public function coerce(&$value, $schema)
+    {
+        return $this->validate($value, $schema, Constraint::CHECK_MODE_COERCE_TYPES);
     }
 }

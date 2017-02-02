@@ -28,4 +28,4 @@ install:
   - travis_retry composer install --no-interaction --prefer-dist
 
 script:
-  - if [[ "$WITH_COVERAGE" == "true" ]]; then composer coverage; else composer test; fi
+  - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
