@@ -10,6 +10,8 @@ interface TypeCheckInterface
 
     public static function propertyGet($value, $property);
 
+    public static function propertySet(&$value, $property, $data);
+
     public static function propertyExists($value, $property);
 
     public static function propertyCount($value);

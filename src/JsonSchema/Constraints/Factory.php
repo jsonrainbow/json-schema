@@ -15,6 +15,7 @@ use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\UriRetrieverInterface;
+use JsonSchema\Constraints\Constraint;
 
 /**
  * Factory for centralize constraint initialization.

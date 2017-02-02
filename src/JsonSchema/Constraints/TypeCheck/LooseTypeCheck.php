@@ -27,6 +27,16 @@ class LooseTypeCheck implements TypeCheckInterface
         return $value[$property];
     }
 
+    public static function propertySet(&$value, $property, $data)
+    {
+        if (is_object($value)) {
+            $value->{$property} = $data;
+        } else {
+            $value[$property] = $data;
+        }
+    }
+
+
     public static function propertyExists($value, $property)
     {
         if (is_object($value)) {

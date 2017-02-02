@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Uri\UriResolver;
 
@@ -57,7 +58,9 @@ class UndefinedConstraint extends Constraint
         }
 
         // check object
-        if ($this->getTypeCheck()->isObject($value)) {
+        if (LooseTypeCheck::isObject($value)) { // object processing should always be run on assoc arrays,
+                                                // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
+                                                // is not set (i.e. don't use $this->getTypeCheck() here).
             $this->checkObject(
                 $value,
                 isset($schema->properties) ? $this->factory->getSchemaStorage()->resolveRefSchema($schema->properties) : $schema,
@@ -104,6 +107,37 @@ class UndefinedConstraint extends Constraint
                 }
             } else {
                 $this->checkUndefined($value, $schema->extends, $path, $i);
+            }
+        }
+
+        // Apply default values from schema
+        if ($this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
+            if ($this->getTypeCheck()->isObject($value) && isset($schema->properties)) {
+                // $value is an object, so apply default properties if defined
+                foreach ($schema->properties as $i => $propertyDefinition) {
+                    if (!$this->getTypeCheck()->propertyExists($value, $i) && isset($propertyDefinition->default)) {
+                        $this->getTypeCheck()->propertySet($value, $i, $propertyDefinition->default);
+                    }
+                }
+            } elseif ($this->getTypeCheck()->isArray($value)) {
+                if (isset($schema->properties)) {
+                    // $value is an array, but default properties are defined, so treat as assoc
+                    foreach ($schema->properties as $i => $propertyDefinition) {
+                        if (!isset($value[$i]) && isset($propertyDefinition->default)) {
+                            $value[$i] = $propertyDefinition->default;
+                        }
+                    }
+                } elseif (isset($schema->items)) {
+                    // $value is an array, and default items are defined - treat as plain array
+                    foreach ($schema->items as $i => $itemDefinition) {
+                        if (!isset($value[$i]) && isset($itemDefinition->default)) {
+                            $value[$i] = $itemDefinition->default;
+                        }
+                    }
+                }
+            } elseif (($value instanceof UndefinedConstraint || $value === null) && isset($schema->default)) {
+                // $value is a leaf, not a container - apply the default directly
+                $value = $schema->default;
             }
         }
 

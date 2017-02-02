@@ -88,6 +88,40 @@ $validator->coerce($request, $schema);
 // equivalent to $validator->validate($data, $schema, Constraint::CHECK_MODE_COERCE_TYPES);
 ```
 
+### Default values
+
+If your schema contains default values, you can have these automatically applied during validation:
+
+```php
+<?php
+
+use JsonSchema\Validator;
+use JsonSchema\Constraints\Constraint;
+
+$request = (object)[
+    'refundAmount'=>17
+];
+
+$validator = new Validator();
+
+$validator->validate(
+    $request,
+    (object)[
+        "type"=>"object",
+        "properties"=>(object)[
+            "processRefund"=>(object)[
+                "type"=>"boolean",
+                "default"=>true
+            ]
+        ]
+    ],
+    Constraint::CHECK_MODE_APPLY_DEFAULTS
+); //validates, and sets defaults for missing properties
+
+is_bool($request->processRefund); // true
+$request->processRefund; // true
+```
+
 ### With inline references
 
 ```php
@@ -152,9 +186,11 @@ third argument to `Validator::validate()`, or can be provided as the third argum
 | `Constraint::CHECK_MODE_NORMAL` | Validate in 'normal' mode - this is the default |
 | `Constraint::CHECK_MODE_TYPE_CAST` | Enable fuzzy type checking for associative arrays and objects |
 | `Constraint::CHECK_MODE_COERCE_TYPES` | Convert data types to match the schema where possible |
+| `Constraint::CHECK_MODE_APPLY_DEFAULTS` | Apply default values from the schema if not set |
 | `Constraint::CHECK_MODE_EXCEPTIONS` | Throw an exception immediately if validation fails |
 
-Please note that using `Constraint::CHECK_MODE_COERCE_TYPES` will modify your original data.
+Please note that using `Constraint::CHECK_MODE_COERCE_TYPES` or `Constraint::CHECK_MODE_APPLY_DEFAULTS`
+will modify your original data.
 
 ## Running the tests
 
