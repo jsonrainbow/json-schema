@@ -22,20 +22,7 @@ class ObjectConstraint extends Constraint
 	/**
 	 * {@inheritDoc}
 	 */
-	public function check($element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
-	{
-		$this->_check($element, $definition, $path, $additionalProp, $patternProperties);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function coerce(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
-	{
-		$this->_check($element, $definition, $path, $additionalProp, $patternProperties, true);
-	}
-
-	protected function _check(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null, $coerce = false)
+	public function check(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -48,7 +35,7 @@ class ObjectConstraint extends Constraint
 
         if ($definition) {
             // validate the definition properties
-            $this->validateDefinition($element, $definition, $path, $coerce);
+            $this->validateDefinition($element, $definition, $path);
         }
 
         // additional the element properties
@@ -132,9 +119,8 @@ class ObjectConstraint extends Constraint
      * @param \stdClass         $element          Element to validate
      * @param \stdClass         $objectDefinition ObjectConstraint definition
      * @param JsonPointer|null  $path             Path?
-	 * @param boolean           $coerce           Whether to coerce strings to expected types or not
      */
-    public function validateDefinition(&$element, $objectDefinition = null, JsonPointer $path = null, $coerce = false)
+    public function validateDefinition(&$element, $objectDefinition = null, JsonPointer $path = null)
     {
         $undefinedConstraint = $this->factory->createInstanceFor('undefined');
 
@@ -144,7 +130,7 @@ class ObjectConstraint extends Constraint
 
             if (is_object($definition)) {
                 // Undefined constraint will check for is_object() and quit if is not - so why pass it?
-                $this->checkUndefined($property, $definition, $path, $i, $coerce);
+                $this->checkUndefined($property, $definition, $path, $i);
             }
         }
     }

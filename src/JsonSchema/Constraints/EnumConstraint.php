@@ -21,7 +21,7 @@ class EnumConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($element, $schema = null, JsonPointer $path = null, $i = null)
+    public function check(&$element, $schema = null, JsonPointer $path = null, $i = null)
     {
         // Only validate enum if the attribute exists
         if ($element instanceof UndefinedConstraint && (!isset($schema->required) || !$schema->required)) {
@@ -31,7 +31,7 @@ class EnumConstraint extends Constraint
 
         foreach ($schema->enum as $enum) {
             $enumType = gettype($enum);
-            if (($this->factory->getCheckMode() & self::CHECK_MODE_TYPE_CAST) && $type == "array" && $enumType == "object") {
+            if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type == "array" && $enumType == "object") {
                 if ((object)$element == $enum) {
                     return;
                 }

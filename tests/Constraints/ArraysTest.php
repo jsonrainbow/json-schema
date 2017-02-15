@@ -150,6 +150,22 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
+            ),
+            array( // test more schema items than array items
+                '{"data": [1, 2]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                        "type": "array",
+                            "items": [
+                                {"type": "number"},
+                                {"type": "number"},
+                                {"type": "number"}
+                            ]
+                        }
+                    }
+                }'
             )
         );
     }
