@@ -29,6 +29,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     const CHECK_MODE_TYPE_CAST =        0x00000002;
     const CHECK_MODE_COERCE_TYPES =     0x00000004;
     const CHECK_MODE_APPLY_DEFAULTS =   0x00000008;
+    const CHECK_MODE_EXCEPTIONS =       0x00000010;
 
     /**
      * Bubble down the path

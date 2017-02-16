@@ -10,6 +10,7 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\ValidationException;
 
 /**
  * A more basic constraint definition - used for the public
@@ -46,6 +47,10 @@ class BaseConstraint
             'message' => $message,
             'constraint' => $constraint,
         );
+
+        if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
+            throw new ValidationException(sprintf("Error validating %s: %s", $error['pointer'], $error['message']));
+        }
 
         if (is_array($more) && count($more) > 0)
         {
