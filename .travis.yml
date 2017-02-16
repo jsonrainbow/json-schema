@@ -4,6 +4,7 @@ language: php
 cache:
     directories:
       - $HOME/.composer/cache
+      - $HOME/.phpcsfixer
 
 matrix:
   fast_finish: true
@@ -13,7 +14,7 @@ matrix:
     - php: 5.5
     - php: 5.6
     - php: 7.0
-      env: WITH_COVERAGE=true
+      env: WITH_COVERAGE=true WITH_PHPCSFIXER=true
     - php: 7.1
     - php: 'nightly'
     - php: hhvm
@@ -29,3 +30,4 @@ install:
 
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
+  - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then composer require friendsofphp/php-cs-fixer:^2.1 && mkdir -p $HOME/.phpcsfixer && vendor/bin/php-cs-fixer fix --cache-file "$HOME/.phpcsfixer/.php_cs.cache" --dry-run --diff --verbose; fi
