@@ -50,28 +50,32 @@ class CoerciveTest extends BasicTypesTest
 
         $this->assertTrue(gettype($value->number) == "string");
         $this->assertTrue(gettype($value->integer) == "string");
-        $this->assertTrue(gettype($value->boolean) == "string");
+        $this->assertTrue(gettype($value->boolean1) == "string");
+        $this->assertTrue(gettype($value->boolean2) == "string");
+        $this->assertTrue(gettype($value->boolean3) == "string");
+        $this->assertTrue(gettype($value->boolean4) == "string");
 
         $validator->validate($value, $schema, $checkMode);
 
         $this->assertTrue(gettype($value->number) == "double");
         $this->assertTrue(gettype($value->integer) == "integer");
         $this->assertTrue(gettype($value->negativeInteger) == "integer");
-        $this->assertTrue(gettype($value->boolean) == "boolean");
+        $this->assertTrue(gettype($value->boolean1) == "boolean");
+        $this->assertTrue(gettype($value->boolean2) == "boolean");
+        $this->assertTrue(gettype($value->boolean3) == "boolean");
+        $this->assertTrue(gettype($value->boolean4) == "boolean");
 
         $this->assertTrue($value->number === 1.5);
         $this->assertTrue($value->integer === 1);
         $this->assertTrue($value->negativeInteger === -2);
-        $this->assertTrue($value->boolean === true);
+        $this->assertTrue($value->boolean1 === true);
+        $this->assertTrue($value->boolean2 === false);
+        $this->assertTrue($value->boolean3 === true);
+        $this->assertTrue($value->boolean4 === false);
 
         $this->assertTrue(gettype($value->multitype1) == "boolean");
         $this->assertTrue(gettype($value->multitype2) == "double");
         $this->assertTrue(gettype($value->multitype3) == "integer");
-
-        $this->assertTrue($value->number === 1.5);
-        $this->assertTrue($value->integer === 1);
-        $this->assertTrue($value->negativeInteger === -2);
-        $this->assertTrue($value->boolean === true);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
@@ -125,7 +129,10 @@ class CoerciveTest extends BasicTypesTest
                   "number":"1.5",
                   "integer":"1",
                   "negativeInteger":"-2",
-                  "boolean":"true",
+                  "boolean1":"true",
+                  "boolean2":"false",
+                  "boolean3":"1",
+                  "boolean4":"0",
                   "object":{},
                   "array":[],
                   "null":null,
@@ -150,7 +157,10 @@ class CoerciveTest extends BasicTypesTest
                     "number":{"type":"number"},
                     "integer":{"type":"integer"},
                     "negativeInteger":{"type":"integer"},
-                    "boolean":{"type":"boolean"},
+                    "boolean1":{"type":"boolean"},
+                    "boolean2":{"type":"boolean"},
+                    "boolean3":{"type":"boolean"},
+                    "boolean4":{"type":"boolean"},
                     "object":{"type":"object"},
                     "array":{"type":"array"},
                     "null":{"type":"null"},
@@ -231,7 +241,7 @@ class CoerciveTest extends BasicTypesTest
             ),
             array(
                 '{
-                  "boolean":"0"
+                  "boolean":"3"
                 }',
                 '{
                   "type":"object",
