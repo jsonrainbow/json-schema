@@ -9,10 +9,10 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Entity\JsonPointer;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\UriRetrieverInterface;
-use JsonSchema\Entity\JsonPointer;
 
 /**
  * The Base Constraints, all Validators should extend this class
@@ -48,6 +48,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
                 array_filter(array($i), 'strlen')
             )
         );
+
         return $path;
     }
 
@@ -193,16 +194,18 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
 
     /**
      * @param JsonPointer $pointer
+     *
      * @return string property path
      */
     protected function convertJsonPointerIntoPropertyPath(JsonPointer $pointer)
     {
         $result = array_map(
-            function($path) {
+            function ($path) {
                 return sprintf(is_numeric($path) ? '[%d]' : '.%s', $path);
             },
             $pointer->getPropertyPaths()
         );
+
         return trim(implode('', $result), '.');
     }
 }

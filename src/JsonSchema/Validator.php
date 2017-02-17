@@ -9,8 +9,8 @@
 
 namespace JsonSchema;
 
-use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\BaseConstraint;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\InvalidConfigException;
 
 /**
@@ -18,6 +18,7 @@ use JsonSchema\Exception\InvalidConfigException;
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
+ *
  * @see    README.md
  */
 class Validator extends BaseConstraint
@@ -31,7 +32,7 @@ class Validator extends BaseConstraint
      *
      * Note that the first argument is passwd by reference, so you must pass in a variable.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {

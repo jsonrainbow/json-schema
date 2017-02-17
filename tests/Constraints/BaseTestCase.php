@@ -35,7 +35,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $validator->validate($checkValue, $schema);
 
         if (array() !== $errors) {
-            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(),true));
+            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
         }
         $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
     }
@@ -88,7 +88,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         }
 
         $schema = json_decode($schema);
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver());
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
 
         $value = json_decode($input, true);

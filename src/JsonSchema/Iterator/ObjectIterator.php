@@ -11,6 +11,7 @@ namespace JsonSchema\Iterator;
 
 /**
  * @package JsonSchema\Iterator
+ *
  * @author Joost Nijhuis <jnijhuis81@gmail.com>
  */
 class ObjectIterator implements \Iterator, \Countable
@@ -106,6 +107,7 @@ class ObjectIterator implements \Iterator, \Countable
 
     /**
      * @param object $object
+     *
      * @return array
      */
     private function buildDataFromObject($object)
@@ -116,7 +118,6 @@ class ObjectIterator implements \Iterator, \Countable
         $stack->push($object);
 
         while (!$stack->isEmpty()) {
-
             $current = $stack->pop();
             if (is_object($current)) {
                 array_push($result, $current);
@@ -134,6 +135,7 @@ class ObjectIterator implements \Iterator, \Countable
 
     /**
      * @param object|array $item
+     *
      * @return array
      */
     private function getDataFromItem($item)

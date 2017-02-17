@@ -136,7 +136,7 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
                     'additionalProperties' => false,
                     'properties' => (object) array(
                         '$ref' => '#/definitions/yardproperties'
-					)
+                    )
                 )
             ),
             'definitions' => (object) array(

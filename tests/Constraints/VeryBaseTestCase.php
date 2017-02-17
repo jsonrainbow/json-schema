@@ -24,6 +24,7 @@ abstract class VeryBaseTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param object $schema
+     *
      * @return object
      */
     protected function getUriRetrieverMock($schema)
@@ -46,12 +47,15 @@ abstract class VeryBaseTestCase extends \PHPUnit_Framework_TestCase
                     return $jsonSchemaDraft04;
                 } elseif (0 === strpos($args[0], 'http://localhost:1234')) {
                     $urlParts = parse_url($args[0]);
+
                     return json_decode(file_get_contents($relativeTestsRoot . $urlParts['path']));
                 } elseif (0 === strpos($args[0], 'http://www.my-domain.com')) {
                     $urlParts = parse_url($args[0]);
+
                     return json_decode(file_get_contents($relativeTestsRoot . '/folder' . $urlParts['path']));
                 }
             });
+
         return $uriRetriever->reveal();
     }
 

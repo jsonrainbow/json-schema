@@ -13,6 +13,7 @@ use JsonSchema\Entity\JsonPointer;
 
 /**
  * @package JsonSchema\Tests\Entity
+ *
  * @author Joost Nijhuis <jnijhuis81@gmail.com>
  */
 class JsonPointerTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +23,7 @@ class JsonPointerTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $testValue
      * @param string $expectedFileName
-     * @param array $expectedPropertyPaths
+     * @param array  $expectedPropertyPaths
      * @param string $expectedPropertyPathAsString
      * @param string $expectedToString
      */
@@ -88,8 +89,6 @@ class JsonPointerTest extends \PHPUnit_Framework_TestCase
                 'expectedPropertyPathAsString' => '#/items/0',
                 'expectedToString'             => '#/items/0'
             )
-
-
         );
     }
 

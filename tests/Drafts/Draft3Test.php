@@ -8,6 +8,7 @@
  */
 
 namespace JsonSchema\Tests\Drafts;
+
 use JsonSchema\Constraints\Constraint;
 
 /**

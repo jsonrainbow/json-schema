@@ -19,30 +19,31 @@ use JsonSchema\Entity\JsonPointer;
  */
 class CollectionConstraint extends Constraint
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError($path, "There must be a minimum of " . $schema->minItems . " items in the array", 'minItems', array('minItems' => $schema->minItems,));
+            $this->addError($path, 'There must be a minimum of ' . $schema->minItems . ' items in the array', 'minItems', array('minItems' => $schema->minItems));
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError($path, "There must be a maximum of " . $schema->maxItems . " items in the array", 'maxItems', array('maxItems' => $schema->maxItems,));
+            $this->addError($path, 'There must be a maximum of ' . $schema->maxItems . ' items in the array', 'maxItems', array('maxItems' => $schema->maxItems));
         }
 
         // Verify uniqueItems
         if (isset($schema->uniqueItems) && $schema->uniqueItems) {
             $unique = $value;
             if (is_array($value) && count($value)) {
-                $unique = array_map(function($e) { return var_export($e, true); }, $value);
+                $unique = array_map(function ($e) {
+                    return var_export($e, true);
+                }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
-                $this->addError($path, "There are no duplicates allowed in the array", 'uniqueItems');
+                $this->addError($path, 'There are no duplicates allowed in the array', 'uniqueItems');
             }
         }
 
@@ -123,7 +124,7 @@ class CollectionConstraint extends Constraint
                             $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                         } else {
                             $this->addError(
-                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items', 'additionalItems', array('additionalItems' => $schema->additionalItems,));
+                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items', 'additionalItems', array('additionalItems' => $schema->additionalItems));
                         }
                     } else {
                         // Should be valid against an empty schema

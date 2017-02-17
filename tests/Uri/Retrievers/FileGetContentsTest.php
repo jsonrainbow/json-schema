@@ -10,12 +10,12 @@ use JsonSchema\Uri\Retrievers\FileGetContents;
 class FileGetContentsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException JsonSchema\Exception\ResourceNotFoundException
+     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
      */
     public function testFetchMissingFile()
     {
         $res = new FileGetContents();
-        $res->retrieve(__DIR__.'/Fixture/missing.json');
+        $res->retrieve(__DIR__ . '/Fixture/missing.json');
     }
 
     public function testFetchFile()

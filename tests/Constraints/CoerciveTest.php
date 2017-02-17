@@ -48,25 +48,25 @@ class CoerciveTest extends BasicTypesTest
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
         $value = json_decode($input);
 
-        $this->assertTrue(gettype($value->number) == "string");
-        $this->assertTrue(gettype($value->integer) == "string");
-        $this->assertTrue(gettype($value->boolean) == "string");
+        $this->assertTrue(gettype($value->number) == 'string');
+        $this->assertTrue(gettype($value->integer) == 'string');
+        $this->assertTrue(gettype($value->boolean) == 'string');
 
         $validator->validate($value, $schema, $checkMode);
 
-        $this->assertTrue(gettype($value->number) == "double");
-        $this->assertTrue(gettype($value->integer) == "integer");
-        $this->assertTrue(gettype($value->negativeInteger) == "integer");
-        $this->assertTrue(gettype($value->boolean) == "boolean");
+        $this->assertTrue(gettype($value->number) == 'double');
+        $this->assertTrue(gettype($value->integer) == 'integer');
+        $this->assertTrue(gettype($value->negativeInteger) == 'integer');
+        $this->assertTrue(gettype($value->boolean) == 'boolean');
 
         $this->assertTrue($value->number === 1.5);
         $this->assertTrue($value->integer === 1);
         $this->assertTrue($value->negativeInteger === -2);
         $this->assertTrue($value->boolean === true);
 
-        $this->assertTrue(gettype($value->multitype1) == "boolean");
-        $this->assertTrue(gettype($value->multitype2) == "double");
-        $this->assertTrue(gettype($value->multitype3) == "integer");
+        $this->assertTrue(gettype($value->multitype1) == 'boolean');
+        $this->assertTrue(gettype($value->multitype2) == 'double');
+        $this->assertTrue(gettype($value->multitype3) == 'integer');
 
         $this->assertTrue($value->number === 1.5);
         $this->assertTrue($value->integer === 1);
@@ -188,7 +188,6 @@ class CoerciveTest extends BasicTypesTest
             ),
         );
     }
-
 
     public function getInvalidCoerceTests()
     {

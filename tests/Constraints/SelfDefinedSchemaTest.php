@@ -9,7 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-use \JsonSchema\Validator;
+use JsonSchema\Validator;
 
 class SelfDefinedSchemaTest extends BaseTestCase
 {

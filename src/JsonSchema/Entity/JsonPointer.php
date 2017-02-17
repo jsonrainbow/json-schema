@@ -11,6 +11,7 @@ namespace JsonSchema\Entity;
 
 /**
  * @package JsonSchema\Entity
+ *
  * @author Joost Nijhuis <jnijhuis81@gmail.com>
  */
 class JsonPointer
@@ -23,6 +24,7 @@ class JsonPointer
 
     /**
      * @param string $value
+     *
      * @throws \InvalidArgumentException when $value is not a string
      */
     public function __construct($value)
@@ -40,6 +42,7 @@ class JsonPointer
 
     /**
      * @param string $propertyPathString
+     *
      * @return string[]
      */
     private function decodePropertyPaths($propertyPathString)
@@ -68,6 +71,7 @@ class JsonPointer
 
     /**
      * @param string $path
+     *
      * @return string
      */
     private function decodePath($path)
@@ -77,6 +81,7 @@ class JsonPointer
 
     /**
      * @param string $path
+     *
      * @return string
      */
     private function encodePath($path)
@@ -102,12 +107,14 @@ class JsonPointer
 
     /**
      * @param array $propertyPaths
+     *
      * @return JsonPointer
      */
     public function withPropertyPaths(array $propertyPaths)
     {
         $new = clone $this;
         $new->propertyPaths = $propertyPaths;
+
         return $new;
     }
 

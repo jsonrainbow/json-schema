@@ -21,7 +21,7 @@ class FormatTest extends BaseTestCase
     public function testNullThing()
     {
         $validator = new FormatConstraint();
-        $schema = new \stdClass;
+        $schema = new \stdClass();
 
         $checkValue = 10;
         $validator->check($checkValue, $schema);
@@ -31,7 +31,7 @@ class FormatTest extends BaseTestCase
     public function testRegex()
     {
         $validator = new FormatConstraint();
-        $schema = new \stdClass;
+        $schema = new \stdClass();
         $schema->format = 'regex';
 
         $validator->reset();
@@ -56,7 +56,7 @@ class FormatTest extends BaseTestCase
     public function testValidFormat($string, $format)
     {
         $validator = new FormatConstraint();
-        $schema = new \stdClass;
+        $schema = new \stdClass();
         $schema->format = $format;
 
         $validator->check($string, $schema);
@@ -69,7 +69,7 @@ class FormatTest extends BaseTestCase
     public function testInvalidFormat($string, $format)
     {
         $validator = new FormatConstraint();
-        $schema = new \stdClass;
+        $schema = new \stdClass();
         $schema->format = $format;
 
         $validator->check($string, $schema);
@@ -154,7 +154,6 @@ class FormatTest extends BaseTestCase
             array('00:00:60', 'time'),
             array('25:00:00', 'time'),
 
-
             array('invalid_value_2000-05-01T12:12:12Z', 'date-time'),
             array('2000-05-01T12:12:12Z_invalid_value', 'date-time'),
             array('1999-1-11T00:00:00Z', 'date-time'),
@@ -183,7 +182,6 @@ class FormatTest extends BaseTestCase
 
             array('@localhost', 'host-name'),
             array('..nohost', 'host-name'),
-
         );
     }
 

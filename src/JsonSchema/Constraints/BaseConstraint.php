@@ -33,12 +33,9 @@ class BaseConstraint
      */
     public function __construct(Factory $factory = null)
     {
-        $this->factory = $factory ? : new Factory();
+        $this->factory = $factory ?: new Factory();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addError(JsonPointer $path = null, $message, $constraint = '', array $more = null)
     {
         $error = array(
@@ -49,20 +46,16 @@ class BaseConstraint
         );
 
         if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
-            throw new ValidationException(sprintf("Error validating %s: %s", $error['pointer'], $error['message']));
+            throw new ValidationException(sprintf('Error validating %s: %s', $error['pointer'], $error['message']));
         }
 
-        if (is_array($more) && count($more) > 0)
-        {
+        if (is_array($more) && count($more) > 0) {
             $error += $more;
         }
 
         $this->errors[] = $error;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addErrors(array $errors)
     {
         if ($errors) {
@@ -70,17 +63,11 @@ class BaseConstraint
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getErrors()
     {
         return $this->errors;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isValid()
     {
         return !$this->getErrors();

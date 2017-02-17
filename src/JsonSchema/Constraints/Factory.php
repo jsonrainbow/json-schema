@@ -27,7 +27,7 @@ class Factory
     protected $schemaStorage;
 
     /**
-     * @var UriRetriever $uriRetriever
+     * @var UriRetriever
      */
     protected $uriRetriever;
 
@@ -42,7 +42,7 @@ class Factory
     private $typeCheck = array();
 
     /**
-     * @var array $constraintMap
+     * @var array
      */
     protected $constraintMap = array(
         'array' => 'JsonSchema\Constraints\CollectionConstraint',
@@ -64,9 +64,9 @@ class Factory
     private $instanceCache = array();
 
     /**
-     * @param SchemaStorage $schemaStorage
+     * @param SchemaStorage         $schemaStorage
      * @param UriRetrieverInterface $uriRetriever
-     * @param int $checkMode
+     * @param int                   $checkMode
      */
     public function __construct(
         SchemaStorageInterface $schemaStorage = null,
@@ -76,7 +76,7 @@ class Factory
         // set provided config options
         $this->setConfig($checkMode);
 
-        $this->uriRetriever = $uriRetriever ?: new UriRetriever;
+        $this->uriRetriever = $uriRetriever ?: new UriRetriever();
         $this->schemaStorage = $schemaStorage ?: new SchemaStorage($this->uriRetriever);
     }
 
@@ -122,7 +122,8 @@ class Factory
         if ($options === null) {
             return $this->checkMode;
         }
-        return ($this->checkMode & $options);
+
+        return $this->checkMode & $options;
     }
 
     /**
@@ -142,8 +143,8 @@ class Factory
     {
         if (!isset($this->typeCheck[$this->checkMode])) {
             $this->typeCheck[$this->checkMode] = ($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST)
-                ? new TypeCheck\LooseTypeCheck
-                : new TypeCheck\StrictTypeCheck;
+                ? new TypeCheck\LooseTypeCheck()
+                : new TypeCheck\StrictTypeCheck();
         }
 
         return $this->typeCheck[$this->checkMode];
@@ -152,6 +153,7 @@ class Factory
     /**
      * @param string $name
      * @param string $class
+     *
      * @return Factory
      */
     public function setConstraintClass($name, $class)
@@ -165,6 +167,7 @@ class Factory
             throw new InvalidArgumentException('Invalid class ' . $name);
         }
         $this->constraintMap[$name] = $class;
+
         return $this;
     }
 
@@ -172,8 +175,10 @@ class Factory
      * Create a constraint instance for the given constraint name.
      *
      * @param string $constraintName
+     *
+     * @throws InvalidArgumentException if is not possible create the constraint instance
+     *
      * @return ConstraintInterface|ObjectConstraint
-     * @throws InvalidArgumentException if is not possible create the constraint instance.
      */
     public function createInstanceFor($constraintName)
     {

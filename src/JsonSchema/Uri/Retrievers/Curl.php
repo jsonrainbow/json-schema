@@ -23,12 +23,13 @@ class Curl extends AbstractRetriever
     public function __construct()
     {
         if (!function_exists('curl_init')) {
-            throw new \RuntimeException("cURL not installed");
+            throw new \RuntimeException('cURL not installed');
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
      */
     public function retrieve($uri)
@@ -64,7 +65,8 @@ class Curl extends AbstractRetriever
 
     /**
      * @param string $response cURL HTTP response
-     * @return boolean Whether the Content-Type header was found or not
+     *
+     * @return bool Whether the Content-Type header was found or not
      */
     protected function fetchContentType($response)
     {
