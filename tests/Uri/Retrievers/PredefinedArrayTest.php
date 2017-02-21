@@ -29,7 +29,7 @@ class PredefinedArrayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException JsonSchema\Exception\ResourceNotFoundException
+     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
      */
     public function testRetrieveNonExistsingSchema()
     {

@@ -9,13 +9,13 @@
 
 namespace JsonSchema\Uri;
 
+use JsonSchema\Exception\InvalidSchemaMediaTypeException;
+use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\Exception\ResourceNotFoundException;
 use JsonSchema\Uri\Retrievers\FileGetContents;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\UriRetrieverInterface as BaseUriRetrieverInterface;
 use JsonSchema\Validator;
-use JsonSchema\Exception\InvalidSchemaMediaTypeException;
-use JsonSchema\Exception\JsonDecodingException;
-use JsonSchema\Exception\ResourceNotFoundException;
 
 /**
  * Retrieves JSON Schema URIs
@@ -31,6 +31,7 @@ class UriRetriever implements BaseUriRetrieverInterface
 
     /**
      * @var array|object[]
+     *
      * @see loadSchema
      */
     private $schemaCache = array();
@@ -39,7 +40,8 @@ class UriRetriever implements BaseUriRetrieverInterface
      * Guarantee the correct media type was encountered
      *
      * @param UriRetrieverInterface $uriRetriever
-     * @param string $uri
+     * @param string                $uri
+     *
      * @return bool|void
      */
     public function confirmMediaType($uriRetriever, $uri)
@@ -74,7 +76,7 @@ class UriRetriever implements BaseUriRetrieverInterface
     public function getUriRetriever()
     {
         if (is_null($this->uriRetriever)) {
-            $this->setUriRetriever(new FileGetContents);
+            $this->setUriRetriever(new FileGetContents());
         }
 
         return $this->uriRetriever;
@@ -88,10 +90,11 @@ class UriRetriever implements BaseUriRetrieverInterface
      * the first object then the 'to' and 'object' properties.
      *
      * @param object $jsonSchema JSON Schema contents
-     * @param string $uri JSON Schema URI
-     * @return object JSON Schema after walking down the fragment pieces
+     * @param string $uri        JSON Schema URI
      *
      * @throws ResourceNotFoundException
+     *
+     * @return object JSON Schema after walking down the fragment pieces
      */
     public function resolvePointer($jsonSchema, $uri)
     {
@@ -104,10 +107,10 @@ class UriRetriever implements BaseUriRetrieverInterface
         $path = explode('/', $parsed['fragment']);
         while ($path) {
             $pathElement = array_shift($path);
-            if (! empty($pathElement)) {
+            if (!empty($pathElement)) {
                 $pathElement = str_replace('~1', '/', $pathElement);
                 $pathElement = str_replace('~0', '~', $pathElement);
-                if (! empty($jsonSchema->$pathElement)) {
+                if (!empty($jsonSchema->$pathElement)) {
                     $jsonSchema = $jsonSchema->$pathElement;
                 } else {
                     throw new ResourceNotFoundException(
@@ -116,7 +119,7 @@ class UriRetriever implements BaseUriRetrieverInterface
                     );
                 }
 
-                if (! is_object($jsonSchema)) {
+                if (!is_object($jsonSchema)) {
                     throw new ResourceNotFoundException(
                         'Fragment part "' . $pathElement . '" is no object '
                         . ' in ' . $uri
@@ -187,6 +190,7 @@ class UriRetriever implements BaseUriRetrieverInterface
      * Set the URI Retriever
      *
      * @param UriRetrieverInterface $uriRetriever
+     *
      * @return $this for chaining
      */
     public function setUriRetriever(UriRetrieverInterface $uriRetriever)
@@ -200,6 +204,7 @@ class UriRetriever implements BaseUriRetrieverInterface
      * Parses a URI into five main components
      *
      * @param string $uri
+     *
      * @return array
      */
     public function parse($uri)
@@ -230,6 +235,7 @@ class UriRetriever implements BaseUriRetrieverInterface
      * Builds a URI based on n array with the main components
      *
      * @param array $components
+     *
      * @return string
      */
     public function generate(array $components)
@@ -252,8 +258,9 @@ class UriRetriever implements BaseUriRetrieverInterface
     /**
      * Resolves a URI
      *
-     * @param string $uri Absolute or relative
+     * @param string $uri     Absolute or relative
      * @param string $baseUri Optional base URI
+     *
      * @return string
      */
     public function resolve($uri, $baseUri = null)
@@ -275,7 +282,8 @@ class UriRetriever implements BaseUriRetrieverInterface
 
     /**
      * @param string $uri
-     * @return boolean
+     *
+     * @return bool
      */
     public function isValid($uri)
     {

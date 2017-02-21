@@ -52,12 +52,12 @@
     "bin": ["bin/validate-json"],
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0.x-dev"
+            "dev-master": "5.0.x-dev"
         }
     },
     "scripts": {
         "test" : "vendor/bin/phpunit",
         "testOnly" : "vendor/bin/phpunit --colors --filter",
-        "coverage" : "vendor/bin/phpunit  --coverage-text"
+        "coverage" : "vendor/bin/phpunit --coverage-text"
     }
 }

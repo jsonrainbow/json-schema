@@ -18,8 +18,8 @@ class SchemaStorage implements SchemaStorageInterface
         UriRetrieverInterface $uriRetriever = null,
         UriResolverInterface $uriResolver = null
     ) {
-        $this->uriRetriever = $uriRetriever ?: new UriRetriever;
-        $this->uriResolver = $uriResolver ?: new UriResolver;
+        $this->uriRetriever = $uriRetriever ?: new UriRetriever();
+        $this->uriResolver = $uriResolver ?: new UriResolver();
     }
 
     /**
@@ -50,7 +50,7 @@ class SchemaStorage implements SchemaStorageInterface
         foreach ($objectIterator as $toResolveSchema) {
             if (property_exists($toResolveSchema, '$ref') && is_string($toResolveSchema->{'$ref'})) {
                 $jsonPointer = new JsonPointer($this->uriResolver->resolve($toResolveSchema->{'$ref'}, $id));
-                $toResolveSchema->{'$ref'} = (string)$jsonPointer;
+                $toResolveSchema->{'$ref'} = (string) $jsonPointer;
             }
         }
         $this->schemas[$id] = $schema;

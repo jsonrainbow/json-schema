@@ -10,6 +10,7 @@ class Rfc3339
      * Try creating a DateTime instance
      *
      * @param string $string
+     *
      * @return \DateTime|null
      */
     public static function createFromString($string)

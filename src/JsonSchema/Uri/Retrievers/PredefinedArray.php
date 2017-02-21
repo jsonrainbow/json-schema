@@ -20,6 +20,7 @@ class PredefinedArray extends AbstractRetriever
 {
     /**
      * Contains schemas as URI => JSON
+     *
      * @var array
      */
     private $schemas;
@@ -27,8 +28,8 @@ class PredefinedArray extends AbstractRetriever
     /**
      * Constructor
      *
-     * @param  array  $schemas
-     * @param  string $contentType
+     * @param array  $schemas
+     * @param string $contentType
      */
     public function __construct(array $schemas, $contentType = Validator::SCHEMA_MEDIA_TYPE)
     {
@@ -37,7 +38,8 @@ class PredefinedArray extends AbstractRetriever
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
      */
     public function retrieve($uri)

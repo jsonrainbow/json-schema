@@ -9,8 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\InvalidArgumentException;
 
 /**
  * The SchemaConstraint Constraints, validates an element against a given schema
@@ -21,9 +21,10 @@ use JsonSchema\Entity\JsonPointer;
 class SchemaConstraint extends Constraint
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function check(&$element, $schema = null, JsonPointer $path = null, $i = null){
+    public function check(&$element, $schema = null, JsonPointer $path = null, $i = null)
+    {
         if ($schema !== null) {
             // passed schema
             $this->checkUndefined($element, $schema, $path, $i);

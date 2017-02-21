@@ -139,6 +139,7 @@ EOF;
     }
 }
 EOF;
+
         return array(
             array($childSchema, $parentSchema)
         );
@@ -180,7 +181,7 @@ EOF;
     }
 
     /**
-     * @expectedException JsonSchema\Exception\ResourceNotFoundException
+     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
      */
     public function testResolvePointerFragmentNotFound()
     {
@@ -200,7 +201,7 @@ EOF;
     }
 
     /**
-     * @expectedException JsonSchema\Exception\ResourceNotFoundException
+     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
      */
     public function testResolvePointerFragmentNoArray()
     {
@@ -220,7 +221,7 @@ EOF;
     }
 
     /**
-     * @expectedException JsonSchema\Exception\UriResolverException
+     * @expectedException \JsonSchema\Exception\UriResolverException
      */
     public function testResolveExcessLevelUp()
     {
@@ -232,24 +233,24 @@ EOF;
 
     public function testConfirmMediaTypeAcceptsJsonSchemaType()
     {
-      $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
 
-      $retriever->expects($this->at(0))
+        $retriever->expects($this->at(0))
                 ->method('getContentType')
                 ->will($this->returnValue('application/schema+json'));
 
-      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
+        $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
     public function testConfirmMediaTypeAcceptsJsonType()
     {
-      $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
 
-      $retriever->expects($this->at(0))
+        $retriever->expects($this->at(0))
                 ->method('getContentType')
                 ->will($this->returnValue('application/json'));
 
-      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
+        $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
     /**
@@ -257,13 +258,13 @@ EOF;
      */
     public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
     {
-      $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
 
-      $retriever->expects($this->at(0))
+        $retriever->expects($this->at(0))
                 ->method('getContentType')
                 ->will($this->returnValue('text/html'));
 
-      $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
+        $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
     private function mockRetriever($schema)

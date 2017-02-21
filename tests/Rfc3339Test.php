@@ -7,7 +7,7 @@ use JsonSchema\Rfc3339;
 class Rfc3339Test extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $string
+     * @param string         $string
      * @param \DateTime|null $expected
      * @dataProvider provideValidFormats
      */

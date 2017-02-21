@@ -9,8 +9,8 @@
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\Uri\UriResolver;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Uri\UriResolver;
 
 /**
  * The UndefinedConstraint Constraints
@@ -21,7 +21,7 @@ use JsonSchema\Entity\JsonPointer;
 class UndefinedConstraint extends Constraint
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
@@ -91,7 +91,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    protected function validateCommonProperties(&$value, $schema = null, JsonPointer $path, $i = "")
+    protected function validateCommonProperties(&$value, $schema = null, JsonPointer $path, $i = '')
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
@@ -109,27 +109,27 @@ class UndefinedConstraint extends Constraint
 
         // Verify required values
         if ($this->getTypeCheck()->isObject($value)) {
-            if (!($value instanceof UndefinedConstraint) && isset($schema->required) && is_array($schema->required)) {
+            if (!($value instanceof self) && isset($schema->required) && is_array($schema->required)) {
                 // Draft 4 - Required is an array of strings - e.g. "required": ["foo", ...]
                 foreach ($schema->required as $required) {
                     if (!$this->getTypeCheck()->propertyExists($value, $required)) {
                         $this->addError(
                             $this->incrementPath($path ?: new JsonPointer(''), $required),
-                            "The property " . $required . " is required",
+                            'The property ' . $required . ' is required',
                             'required'
                         );
                     }
                 }
             } elseif (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
-                if ($schema->required && $value instanceof UndefinedConstraint) {
-                    $this->addError($path, "Is missing and it is required", 'required');
+                if ($schema->required && $value instanceof self) {
+                    $this->addError($path, 'Is missing and it is required', 'required');
                 }
             }
         }
 
         // Verify type
-        if (!($value instanceof UndefinedConstraint)) {
+        if (!($value instanceof self)) {
             $this->checkType($value, $schema, $path, $i);
         }
 
@@ -143,7 +143,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Disallowed value was matched", 'disallow');
+                $this->addError($path, 'Disallowed value was matched', 'disallow');
             } else {
                 $this->errors = $initErrors;
             }
@@ -155,7 +155,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised then the instance validated against the "not" schema
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, "Matched a schema which it should not", 'not');
+                $this->addError($path, 'Matched a schema which it should not', 'not');
             } else {
                 $this->errors = $initErrors;
             }
@@ -175,10 +175,10 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    protected function validateOfProperties(&$value, $schema, JsonPointer $path, $i = "")
+    protected function validateOfProperties(&$value, $schema, JsonPointer $path, $i = '')
     {
         // Verify type
-        if ($value instanceof UndefinedConstraint) {
+        if ($value instanceof self) {
             return;
         }
 
@@ -190,7 +190,7 @@ class UndefinedConstraint extends Constraint
                 $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match all schemas", 'allOf');
+                $this->addError($path, 'Failed to match all schemas', 'allOf');
             }
         }
 
@@ -205,7 +205,7 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if (!$isValid) {
-                $this->addError($path, "Failed to match at least one schema", 'anyOf');
+                $this->addError($path, 'Failed to match at least one schema', 'anyOf');
             } else {
                 $this->errors = $startErrors;
             }
@@ -225,7 +225,7 @@ class UndefinedConstraint extends Constraint
             }
             if ($matchedSchemas !== 1) {
                 $this->addErrors(array_merge($allErrors, $startErrors));
-                $this->addError($path, "Failed to match exactly one schema", 'oneOf');
+                $this->addError($path, 'Failed to match exactly one schema', 'oneOf');
             } else {
                 $this->errors = $startErrors;
             }
@@ -240,7 +240,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    protected function validateDependencies($value, $dependencies, JsonPointer $path, $i = "")
+    protected function validateDependencies($value, $dependencies, JsonPointer $path, $i = '')
     {
         foreach ($dependencies as $key => $dependency) {
             if ($this->getTypeCheck()->propertyExists($value, $key)) {

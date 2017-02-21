@@ -5,6 +5,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace JsonSchema\Tests\Constraints;
 
 /**
@@ -12,7 +13,6 @@ namespace JsonSchema\Tests\Constraints;
  */
 class OfPropertiesTest extends BaseTestCase
 {
-
     public function getValidTests()
     {
         return array(
@@ -72,22 +72,22 @@ class OfPropertiesTest extends BaseTestCase
                 null,
                 array(
                     array(
-                        "property"   => "prop2",
-                        "pointer"    => "/prop2",
-                        "message"    => "Array value found, but a string is required",
-                        "constraint" => "type",
+                        'property'   => 'prop2',
+                        'pointer'    => '/prop2',
+                        'message'    => 'Array value found, but a string is required',
+                        'constraint' => 'type',
                     ),
                     array(
-                        "property"   => "prop2",
-                        "pointer"    => "/prop2",
-                        "message"    => "Array value found, but a number is required",
-                        "constraint" => "type",
+                        'property'   => 'prop2',
+                        'pointer'    => '/prop2',
+                        'message'    => 'Array value found, but a number is required',
+                        'constraint' => 'type',
                     ),
                     array(
-                        "property"   => "prop2",
-                        "pointer"    => "/prop2",
-                        "message"    => "Failed to match exactly one schema",
-                        "constraint" => "oneOf",
+                        'property'   => 'prop2',
+                        'pointer'    => '/prop2',
+                        'message'    => 'Failed to match exactly one schema',
+                        'constraint' => 'oneOf',
                     ),
                 ),
             ),

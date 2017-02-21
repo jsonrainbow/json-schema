@@ -9,7 +9,7 @@ use JsonSchema\Tests\Constraints\BaseTestCase;
  */
 abstract class BaseDraftTestCase extends BaseTestCase
 {
-    /** @var string  */
+    /** @var string */
     protected $relativeTestsRoot = '/../../vendor/json-schema/JSON-Schema-Test-Suite/tests';
 
     private function setUpTests($isValid)
@@ -62,12 +62,12 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /**
      * @return string[]
      */
-    protected abstract function getFilePaths();
+    abstract protected function getFilePaths();
 
     /**
      * @return string[]
      */
-    protected abstract function getSkippedTests();
+    abstract protected function getSkippedTests();
 
     /**
      * Generates a readable path to Json Schema Test Suite data set under test
@@ -81,6 +81,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
     private function createDataSetPath($filename, $suiteDesc, $testCaseDesc)
     {
         $separator = ' / ';
+
         return $filename . $separator . $suiteDesc . $separator . $testCaseDesc;
     }
 }

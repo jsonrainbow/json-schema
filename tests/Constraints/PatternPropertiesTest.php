@@ -49,7 +49,7 @@ class PatternPropertiesTest extends BaseTestCase
                                 'type' => array('boolean')
                             )
                         ),
-                        "additionalProperties" => false
+                        'additionalProperties' => false
                     ))
             ),
             // Does not match pattern with unicode
@@ -64,7 +64,7 @@ class PatternPropertiesTest extends BaseTestCase
                                 'type' => array('boolean')
                             )
                         ),
-                        "additionalProperties" => false
+                        'additionalProperties' => false
                     ))
             ),
             // An invalid regular expression pattern
@@ -79,7 +79,7 @@ class PatternPropertiesTest extends BaseTestCase
                                 'type' => array('boolean')
                             )
                         ),
-                        "additionalProperties" => false
+                        'additionalProperties' => false
                     ))
             ),
         );
@@ -189,7 +189,7 @@ class PatternPropertiesTest extends BaseTestCase
                                 'type' => array('string', 'integer')
                             )
                         ),
-                        "additionalProperties" => false
+                        'additionalProperties' => false
                     ))
             ),
             // Does match pattern with unicode
@@ -204,10 +204,9 @@ class PatternPropertiesTest extends BaseTestCase
                             'type' => array('string')
                         )
                     ),
-                    "additionalProperties" => false
+                    'additionalProperties' => false
                 ))
             ),
         );
     }
 }
-

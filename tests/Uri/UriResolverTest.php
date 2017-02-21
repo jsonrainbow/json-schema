@@ -1,4 +1,5 @@
 <?php
+
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Uri\UriResolver;
@@ -93,7 +94,7 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException JsonSchema\Exception\UriResolverException
+     * @expectedException \JsonSchema\Exception\UriResolverException
      */
     public function testResolveRelativeUriNoBase()
     {
@@ -149,6 +150,7 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
     public function testResolveAnchorAnchor()
     {
         $this->assertEquals(
@@ -171,4 +173,3 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

@@ -21,7 +21,8 @@ class FileGetContents extends AbstractRetriever
     protected $messageBody;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \JsonSchema\Uri\Retrievers\UriRetrieverInterface::retrieve()
      */
     public function retrieve($uri)
@@ -38,13 +39,13 @@ class FileGetContents extends AbstractRetriever
         }
 
         if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema not found at '.$uri);
+            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
         }
 
         if ($response == ''
             && substr($uri, 0, 7) == 'file://' && substr($uri, -1) == '/'
         ) {
-            throw new ResourceNotFoundException('JSON schema not found at '.$uri);
+            throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
         }
 
         $this->messageBody = $response;
@@ -60,7 +61,8 @@ class FileGetContents extends AbstractRetriever
 
     /**
      * @param array $headers HTTP Response Headers
-     * @return boolean Whether the Content-Type header was found or not
+     *
+     * @return bool Whether the Content-Type header was found or not
      */
     private function fetchContentType(array $headers)
     {
@@ -75,6 +77,7 @@ class FileGetContents extends AbstractRetriever
 
     /**
      * @param string $header
+     *
      * @return string|null
      */
     protected static function getContentTypeMatchInHeader($header)

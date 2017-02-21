@@ -14,19 +14,25 @@ use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\JsonPointer;
 use PHPUnit_Framework_TestCase as TestCase;
 
-
 /**
  * Class MyBadConstraint
+ *
  * @package JsonSchema\Tests\Constraints
  */
-class MyBadConstraint {}
+class MyBadConstraint
+{
+}
 
 /**
  * Class MyStringConstraint
+ *
  * @package JsonSchema\Tests\Constraints
  */
-class MyStringConstraint extends Constraint {
-  public function check(&$value, $schema = null, JsonPointer $path = null, $i = null){}
+class MyStringConstraint extends Constraint
+{
+    public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    {
+    }
 }
 
 class FactoryTest extends TestCase
@@ -46,7 +52,6 @@ class FactoryTest extends TestCase
      *
      * @param string $constraintName
      * @param string $expectedClass
-     * @return void
      */
     public function testCreateInstanceForConstraintName($constraintName, $expectedClass)
     {
@@ -76,7 +81,6 @@ class FactoryTest extends TestCase
      * @dataProvider invalidConstraintNameProvider
      *
      * @param string $constraintName
-     * @return void
      */
     public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName)
     {
@@ -84,34 +88,35 @@ class FactoryTest extends TestCase
         $this->factory->createInstanceFor($constraintName);
     }
 
-    public function invalidConstraintNameProvider() {
-      return array(
-        array('invalidConstraintName'),
-      );
+    public function invalidConstraintNameProvider()
+    {
+        return array(
+            array('invalidConstraintName'),
+        );
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \JsonSchema\Exception\InvalidArgumentException
      */
     public function testSetConstraintClassExistsCondition()
     {
-      $this->factory->setConstraintClass('string', 'SomeConstraint');
+        $this->factory->setConstraintClass('string', 'SomeConstraint');
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \JsonSchema\Exception\InvalidArgumentException
      */
     public function testSetConstraintClassImplementsCondition()
     {
-      $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
+        $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
     }
 
     public function testSetConstraintClassInstance()
     {
-      $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyStringConstraint');
-      $constraint = $this->factory->createInstanceFor('string');
-      $this->assertInstanceOf('JsonSchema\Tests\Constraints\MyStringConstraint', $constraint);
-      $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+        $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyStringConstraint');
+        $constraint = $this->factory->createInstanceFor('string');
+        $this->assertInstanceOf('JsonSchema\Tests\Constraints\MyStringConstraint', $constraint);
+        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
     }
 
     public function testCheckMode()

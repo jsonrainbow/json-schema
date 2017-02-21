@@ -30,7 +30,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $tmp = new \stdClass();
         $tmp->p_array = array_map(function ($i) {
-            return "#".$i;
+            return '#' . $i;
         }, range(1, 100000));
         $input = json_encode($tmp);
 
@@ -102,6 +102,7 @@ class LongArraysTest extends VeryBaseTestCase
     private static function millis()
     {
         $mt = explode(' ', microtime());
+
         return $mt[1] * 1000 + round($mt[0] * 1000);
     }
 }

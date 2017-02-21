@@ -64,7 +64,6 @@ class MinLengthMaxLengthTest extends BaseTestCase
                   }
                 }'
             ),
-
         );
     }
 }

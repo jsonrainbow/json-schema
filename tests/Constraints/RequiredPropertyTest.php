@@ -14,7 +14,6 @@ use JsonSchema\Constraints\UndefinedConstraint;
 
 class RequiredPropertyTest extends BaseTestCase
 {
-
     public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput()
     {
         $validator = new UndefinedConstraint();
@@ -36,7 +35,7 @@ class RequiredPropertyTest extends BaseTestCase
 
         $validator->check($document, $schema);
         $error = $validator->getErrors();
-        $this->assertErrorHasExpectedPropertyValue($error, "foo");
+        $this->assertErrorHasExpectedPropertyValue($error, 'foo');
     }
 
     public function testPathErrorPropertyIsPopulatedForRequiredIfMissingInInput()
@@ -69,7 +68,7 @@ class RequiredPropertyTest extends BaseTestCase
 
         $validator->check($document, $schema);
         $error = $validator->getErrors();
-        $this->assertErrorHasExpectedPropertyValue($error, "foo[0].bar");
+        $this->assertErrorHasExpectedPropertyValue($error, 'foo[0].bar');
     }
 
     public function testErrorPropertyIsPopulatedForRequiredIfEmptyValueInInput()
@@ -94,7 +93,7 @@ class RequiredPropertyTest extends BaseTestCase
 
         $validator->check($document, $schema);
         $error = $validator->getErrors();
-        $this->assertErrorHasExpectedPropertyValue($error, "foo");
+        $this->assertErrorHasExpectedPropertyValue($error, 'foo');
     }
 
     protected function assertErrorHasExpectedPropertyValue($error, $propertyValue)
@@ -102,11 +101,10 @@ class RequiredPropertyTest extends BaseTestCase
         if (!(isset($error[0]) && is_array($error[0]) && isset($error[0]['property']))) {
             $this->fail(
                 "Malformed error response. Expected to have subset in form: array(0 => array('property' => <value>)))"
-                . " . Error response was: " . json_encode($error)
+                . ' . Error response was: ' . json_encode($error)
             );
         }
         $this->assertEquals($propertyValue, $error[0]['property']);
-
     }
 
     public function getInvalidTests()
