@@ -147,7 +147,7 @@ class UndefinedConstraint extends Constraint
                         }
                     }
                 }
-            } elseif (($value instanceof UndefinedConstraint || $value === null) && isset($schema->default)) {
+            } elseif (($value instanceof self || $value === null) && isset($schema->default)) {
                 // $value is a leaf, not a container - apply the default directly
                 $value = is_object($schema->default) ? clone $schema->default : $schema->default;
             }

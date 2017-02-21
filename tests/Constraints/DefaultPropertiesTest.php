@@ -8,10 +8,11 @@
  */
 
 namespace JsonSchema\Tests\Constraints;
-use JsonSchema\SchemaStorage;
-use JsonSchema\Validator;
+
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\SchemaStorage;
+use JsonSchema\Validator;
 
 class DefaultPropertiesTest extends VeryBaseTestCase
 {
@@ -144,21 +145,19 @@ class DefaultPropertiesTest extends VeryBaseTestCase
         $input = json_decode($input, true);
         $factory = new Factory(null, null, Constraint::CHECK_MODE_APPLY_DEFAULTS);
         self::testValidCases($input, $schema, $expectOutput, new Validator($factory));
-
     }
 
     public function testNoModificationViaReferences()
     {
         $input = json_decode('');
-        $schema = jsoN_decode('{"default":{"propertyOne":"valueOne"}}');
+        $schema = json_decode('{"default":{"propertyOne":"valueOne"}}');
 
         $validator = new Validator();
         $validator->validate($input, $schema, Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_APPLY_DEFAULTS);
 
         $this->assertEquals('{"propertyOne":"valueOne"}', json_encode($input));
 
-        $input->propertyOne = "valueTwo";
-        $this->assertEquals("valueOne", $schema->default->propertyOne);
-
+        $input->propertyOne = 'valueTwo';
+        $this->assertEquals('valueOne', $schema->default->propertyOne);
     }
 }

@@ -36,7 +36,6 @@ class LooseTypeCheck implements TypeCheckInterface
         }
     }
 
-
     public static function propertyExists($value, $property)
     {
         if (is_object($value)) {

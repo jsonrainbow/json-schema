@@ -9,13 +9,13 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\InvalidConfigException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\UriRetrieverInterface;
-use JsonSchema\Constraints\Constraint;
 
 /**
  * Factory for centralize constraint initialization.
