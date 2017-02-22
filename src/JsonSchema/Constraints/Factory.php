@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\InvalidConfigException;
 use JsonSchema\SchemaStorage;

@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Constraints\TypeConstraint;
 
 /**
@@ -49,6 +50,19 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $constraint = new TypeConstraint();
         $constraint->check($value, (object) array('type' => $type));
         $this->assertTypeConstraintError(ucwords($label) . " value found, but $wording is required", $constraint);
+    }
+
+    /**
+     * Test uncovered areas of the loose type checker
+     */
+    public function testLooseTypeChecking()
+    {
+        $v = new \StdClass();
+        $v->property = 'dataOne';
+        LooseTypeCheck::propertySet($v, 'property', 'dataTwo');
+        $this->assertEquals('dataTwo', $v->property);
+        $this->assertEquals('dataTwo', LooseTypeCheck::propertyGet($v, 'property'));
+        $this->assertEquals(1, LooseTypeCheck::propertyCount($v));
     }
 
     /**

@@ -19,6 +19,11 @@ class StrictTypeCheck implements TypeCheckInterface
         return $value->{$property};
     }
 
+    public static function propertySet(&$value, $property, $data)
+    {
+        $value->{$property} = $data;
+    }
+
     public static function propertyExists($value, $property)
     {
         return property_exists($value, $property);
