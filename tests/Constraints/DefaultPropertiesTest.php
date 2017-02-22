@@ -34,11 +34,6 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"properties":{"propertyTwo":{"default":"valueTwo"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
             ),
-            array(// fulfil required property with a default value
-                '{"propertyOne":"valueOne"}',
-                '{"properties":{"propertyTwo":{"required":true,"default":"valueTwo"}}}',
-                '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
-            ),
             array(// default value for sub-property
                 '{"propertyOne":{}}',
                 '{"properties":{"propertyOne":{"properties":{"propertyTwo":{"default":"valueTwo"}}}}}',
@@ -68,11 +63,6 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"propertyOne":"alreadySetValueOne"}',
                 '{"properties":{"propertyOne":{"default":"valueOne"}}}',
                 '{"propertyOne":"alreadySetValueOne"}'
-            ),
-            array(//default value is required
-                '{"propertyOne":"valueOne"}',
-                '{"properties":{"propertyTwo":{"default":"valueTwo","required":true}}}',
-                '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
             ),
             array(//default item value for an array
                 '["valueOne"]',
