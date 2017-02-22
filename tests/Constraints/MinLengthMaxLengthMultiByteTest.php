@@ -11,6 +11,8 @@ namespace JsonSchema\Tests\Constraints;
 
 class MinLengthMaxLengthMultiByteTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     protected function setUp()
     {
         if (!extension_loaded('mbstring')) {

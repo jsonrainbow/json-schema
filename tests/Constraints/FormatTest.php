@@ -15,6 +15,8 @@ use JsonSchema\Constraints\FormatConstraint;
 
 class FormatTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     public function setUp()
     {
         date_default_timezone_set('UTC');
