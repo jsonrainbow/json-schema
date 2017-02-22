@@ -41,6 +41,7 @@
     "require-dev": {
         "json-schema/JSON-Schema-Test-Suite": "1.2.0",
         "phpunit/phpunit": "^4.8.22",
+        "friendsofphp/php-cs-fixer": "^2.1",
         "phpdocumentor/phpdocumentor": "~2"
     },
     "autoload": {
@@ -58,6 +59,8 @@
     "scripts": {
         "test" : "vendor/bin/phpunit",
         "testOnly" : "vendor/bin/phpunit --colors --filter",
-        "coverage" : "vendor/bin/phpunit --coverage-text"
+        "coverage" : "vendor/bin/phpunit --coverage-text",
+        "style-check" : "vendor/bin/php-cs-fixer fix --dry-run --verbose --diff",
+        "style-fix" : "vendor/bin/php-cs-fixer fix --verbose"
     }
 }

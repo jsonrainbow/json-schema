@@ -195,7 +195,9 @@ will modify your original data.
 ## Running the tests
 
 ```bash
-composer test
-composer testOnly TestClass
-composer testOnly TestClass::testMethod
+composer test                            # run all unit tests
+composer testOnly TestClass              # run specific unit test class
+composer testOnly TestClass::testMethod  # run specific unit test method
+composer style-check                     # check code style for errors
+composer style-fix                       # automatically fix code style errors
 ```
