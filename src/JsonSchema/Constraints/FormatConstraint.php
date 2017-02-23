@@ -90,7 +90,7 @@ class FormatConstraint extends Constraint
                         $validURL = filter_var('scheme://host' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
                     } elseif (strlen($element)) { // relative-path reference
                         $pathParts = explode('/', $element, 2);
-                        if ($pathParts[0][0] !== '.' && strpos($pathParts[0], ':') !== false) {
+                        if (strpos($pathParts[0], ':') !== false) {
                             $validURL = null;
                         } else {
                             $validURL = filter_var('scheme://host/' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
