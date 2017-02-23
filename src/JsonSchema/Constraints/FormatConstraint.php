@@ -81,7 +81,26 @@ class FormatConstraint extends Constraint
 
             case 'uri':
                 if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
-                    $this->addError($path, 'Invalid URL format', 'format', array('format' => $schema->format));
+                    // FILTER_VALIDATE_URL does not conform to RFC-3986, and cannot handle relative URLs, but
+                    // the json-schema spec uses RFC-3986, so need a bit of hackery to properly validate them.
+                    // See https://tools.ietf.org/html/rfc3986#section-4.2 for additional information.
+                    if (substr($element, 0, 2) === '//') { // network-path reference
+                        $validURL = filter_var('scheme:' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                    } elseif (substr($element, 0, 1) === '/') { // absolute-path reference
+                        $validURL = filter_var('scheme://host' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                    } elseif (strlen($element)) { // relative-path reference
+                        $pathParts = explode('/', $element, 2);
+                        if ($pathParts[0][0] !== '.' && strpos($pathParts[0], ':') !== false) {
+                            $validURL = null;
+                        } else {
+                            $validURL = filter_var('scheme://host/' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                        }
+                    } else {
+                        $validURL = null;
+                    }
+                    if ($validURL === null) {
+                        $this->addError($path, 'Invalid URL format', 'format', array('format' => $schema->format));
+                    }
                 }
                 break;
 

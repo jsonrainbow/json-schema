@@ -124,6 +124,9 @@ class FormatTest extends BaseTestCase
             array('555 320 1212', 'phone'),
 
             array('http://bluebox.org', 'uri'),
+            array('//bluebox.org', 'uri'),
+            array('/absolutePathReference/', 'uri'),
+            array('relativePathReference/', 'uri'),
 
             array('info@something.edu', 'email'),
 
@@ -173,6 +176,7 @@ class FormatTest extends BaseTestCase
             array('1 123 4424', 'phone'),
 
             array('htt:/bluebox.org', 'uri'),
+            array('', 'uri'),
 
             array('info@somewhere', 'email'),
 
