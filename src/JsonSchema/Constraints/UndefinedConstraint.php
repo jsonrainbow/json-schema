@@ -114,35 +114,35 @@ class UndefinedConstraint extends Constraint
         if ($this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
             if ($this->getTypeCheck()->isObject($value) && isset($schema->properties)) {
                 // $value is an object, so apply default properties if defined
-                foreach ($schema->properties as $i => $propertyDefinition) {
-                    if (!$this->getTypeCheck()->propertyExists($value, $i) && isset($propertyDefinition->default)) {
+                foreach ($schema->properties as $currentProperty => $propertyDefinition) {
+                    if (!$this->getTypeCheck()->propertyExists($value, $currentProperty) && isset($propertyDefinition->default)) {
                         if (is_object($propertyDefinition->default)) {
-                            $this->getTypeCheck()->propertySet($value, $i, clone $propertyDefinition->default);
+                            $this->getTypeCheck()->propertySet($value, $currentProperty, clone $propertyDefinition->default);
                         } else {
-                            $this->getTypeCheck()->propertySet($value, $i, $propertyDefinition->default);
+                            $this->getTypeCheck()->propertySet($value, $currentProperty, $propertyDefinition->default);
                         }
                     }
                 }
             } elseif ($this->getTypeCheck()->isArray($value)) {
                 if (isset($schema->properties)) {
                     // $value is an array, but default properties are defined, so treat as assoc
-                    foreach ($schema->properties as $i => $propertyDefinition) {
-                        if (!isset($value[$i]) && isset($propertyDefinition->default)) {
+                    foreach ($schema->properties as $currentProperty => $propertyDefinition) {
+                        if (!isset($value[$currentProperty]) && isset($propertyDefinition->default)) {
                             if (is_object($propertyDefinition->default)) {
-                                $value[$i] = clone $propertyDefinition->default;
+                                $value[$currentProperty] = clone $propertyDefinition->default;
                             } else {
-                                $value[$i] = $propertyDefinition->default;
+                                $value[$currentProperty] = $propertyDefinition->default;
                             }
                         }
                     }
                 } elseif (isset($schema->items)) {
                     // $value is an array, and default items are defined - treat as plain array
-                    foreach ($schema->items as $i => $itemDefinition) {
-                        if (!isset($value[$i]) && isset($itemDefinition->default)) {
+                    foreach ($schema->items as $currentProperty => $itemDefinition) {
+                        if (!isset($value[$currentProperty]) && isset($itemDefinition->default)) {
                             if (is_object($itemDefinition->default)) {
-                                $value[$i] = clone $itemDefinition->default;
+                                $value[$currentProperty] = clone $itemDefinition->default;
                             } else {
-                                $value[$i] = $itemDefinition->default;
+                                $value[$currentProperty] = $itemDefinition->default;
                             }
                         }
                     }
