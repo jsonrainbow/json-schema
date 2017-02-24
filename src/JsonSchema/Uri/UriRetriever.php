@@ -44,12 +44,6 @@ class UriRetriever implements BaseUriRetrieverInterface
      */
     private $schemaCache = array();
 
-    public function __construct()
-    {
-        // translate references to local files within the json-schema package
-        $this->setTranslation('|^package://|', sprintf('file://%s/', realpath(__DIR__ . '/../../..')));
-    }
-
     /**
      * Guarantee the correct media type was encountered
      *
@@ -327,6 +321,9 @@ class UriRetriever implements BaseUriRetrieverInterface
         foreach ($this->translationMap as $from => $to) {
             $uri = preg_replace($from, $to, $uri);
         }
+
+        // translate references to local files within the json-schema package
+        $uri = preg_replace('|^package://|', sprintf('file://%s/', realpath(__DIR__ . '/../../..')), $uri);
 
         return $uri;
     }
