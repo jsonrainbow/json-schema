@@ -49,15 +49,14 @@ class BaseConstraint
 
                 return json_encode($val);
             }, array_values($more)))),
-            'constraint' => $constraint ? $constraint->getValue() : '',
+            'constraint' => array(
+                'name' => $constraint ? $constraint->getValue() : '',
+                'params' => $more
+            )
         );
 
         if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
             throw new ValidationException(sprintf('Error validating %s: %s', $error['pointer'], $error['message']));
-        }
-
-        if (is_array($more) && count($more) > 0) {
-            $error += $more;
         }
 
         $this->errors[] = $error;
