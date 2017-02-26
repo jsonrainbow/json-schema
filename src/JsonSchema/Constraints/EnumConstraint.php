@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 
 /**
@@ -49,6 +50,6 @@ class EnumConstraint extends Constraint
             }
         }
 
-        $this->addError($path, 'Does not have a value in the enumeration ' . json_encode($schema->enum), 'enum', array('enum' => $schema->enum));
+        $this->addError($path, ConstraintError::ENUM(), array('enum' => $schema->enum));
     }
 }

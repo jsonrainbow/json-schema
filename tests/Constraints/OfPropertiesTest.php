@@ -76,12 +76,16 @@ class OfPropertiesTest extends BaseTestCase
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a string is required',
                         'constraint' => 'type',
+                        'expected'   => 'array',
+                        'found'      => 'a string'
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a number is required',
                         'constraint' => 'type',
+                        'expected'   => 'array',
+                        'found'      => 'a number'
                     ),
                     array(
                         'property'   => 'prop2',

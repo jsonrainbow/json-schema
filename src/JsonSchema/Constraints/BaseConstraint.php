@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\ValidationException;
 
@@ -36,13 +37,19 @@ class BaseConstraint
         $this->factory = $factory ?: new Factory();
     }
 
-    public function addError(JsonPointer $path = null, $message, $constraint = '', array $more = null)
+    public function addError(JsonPointer $path = null, ConstraintError $constraint = null, array $more = array())
     {
         $error = array(
             'property' => $this->convertJsonPointerIntoPropertyPath($path ?: new JsonPointer('')),
             'pointer' => ltrim(strval($path ?: new JsonPointer('')), '#'),
-            'message' => $message,
-            'constraint' => $constraint,
+            'message' => ucfirst(vsprintf($constraint->getMessage(), array_map(function ($val) {
+                if (is_scalar($val)) {
+                    return $val;
+                }
+
+                return json_encode($val);
+            }, array_values($more)))),
+            'constraint' => $constraint ? $constraint->getValue() : '',
         );
 
         if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {

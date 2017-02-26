@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 
 /**
@@ -57,7 +58,7 @@ class ObjectConstraint extends Constraint
 
             // Validate the pattern before using it to test for matches
             if (@preg_match($delimiter . $pregex . $delimiter . 'u', '') === false) {
-                $this->addError($path, 'The pattern "' . $pregex . '" is invalid', 'pregex', array('pregex' => $pregex));
+                $this->addError($path, ConstraintError::PREGEX_INVALID(), array('pregex' => $pregex));
                 continue;
             }
             foreach ($element as $i => $value) {
@@ -89,7 +90,7 @@ class ObjectConstraint extends Constraint
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
-                $this->addError($path, 'The property ' . $i . ' is not defined and the definition does not allow additional properties', 'additionalProp');
+                $this->addError($path, ConstraintError::ADDITIONAL_PROPERTIES(), array('property' => $i));
             }
 
             // additional properties defined
@@ -104,7 +105,10 @@ class ObjectConstraint extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError($path, 'The presence of the property ' . $i . ' requires that ' . $require . ' also be present', 'requires');
+                $this->addError($path, ConstraintError::REQUIRES(), array(
+                    'property' => $i,
+                    'requiredProperty' => $require
+                ));
             }
 
             $property = $this->getProperty($element, $i, $this->factory->createInstanceFor('undefined'));
@@ -168,13 +172,13 @@ class ObjectConstraint extends Constraint
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {
-                $this->addError($path, 'Must contain a minimum of ' . $objectDefinition->minProperties . ' properties', 'minProperties', array('minProperties' => $objectDefinition->minProperties));
+                $this->addError($path, ConstraintError::PROPERTIES_MIN(), array('minProperties' => $objectDefinition->minProperties));
             }
         }
         // Verify maximum number of properties
         if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) > $objectDefinition->maxProperties) {
-                $this->addError($path, 'Must contain no more than ' . $objectDefinition->maxProperties . ' properties', 'maxProperties', array('maxProperties' => $objectDefinition->maxProperties));
+                $this->addError($path, ConstraintError::PROPERTIES_MAX(), array('maxProperties' => $objectDefinition->maxProperties));
             }
         }
     }
