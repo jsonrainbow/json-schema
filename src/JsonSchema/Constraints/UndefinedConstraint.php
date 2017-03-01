@@ -126,12 +126,12 @@ class UndefinedConstraint extends Constraint
                 }
             } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
                 // $value is an array, and items are defined - treat as plain array
-                foreach ($schema->items as $currentProperty => $itemDefinition) {
-                    if (!isset($value[$currentProperty]) && isset($itemDefinition->default)) {
+                foreach ($schema->items as $currentItem => $itemDefinition) {
+                    if (!isset($value[$currentItem]) && isset($itemDefinition->default)) {
                         if (is_object($itemDefinition->default)) {
-                            $value[$currentProperty] = clone $itemDefinition->default;
+                            $value[$currentItem] = clone $itemDefinition->default;
                         } else {
-                            $value[$currentProperty] = $itemDefinition->default;
+                            $value[$currentItem] = $itemDefinition->default;
                         }
                     }
                 }
