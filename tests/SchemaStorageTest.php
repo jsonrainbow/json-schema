@@ -119,6 +119,17 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
         $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");
     }
 
+    public function testResolveRefWithNoAssociatedFileName()
+    {
+        $this->setExpectedException(
+            'JsonSchema\Exception\UnresolvableJsonPointerException',
+            "Could not resolve fragment '#': no file is defined"
+        );
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->resolveRef('#');
+    }
+
     /**
      * @return object
      */
