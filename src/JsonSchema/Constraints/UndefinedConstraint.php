@@ -114,6 +114,7 @@ class UndefinedConstraint extends Constraint
         // Apply default values from schema
         if ($this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
             if (isset($schema->properties) && LooseTypeCheck::isObject($value)) {
+                // $value is an object or assoc array, and properties are defined - treat as an object
                 foreach ($schema->properties as $currentProperty => $propertyDefinition) {
                     if (!LooseTypeCheck::propertyExists($value, $currentProperty) && isset($propertyDefinition->default)) {
                         if (is_object($propertyDefinition->default)) {
@@ -124,7 +125,7 @@ class UndefinedConstraint extends Constraint
                     }
                 }
             } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
-                // $value is an array, and default items are defined - treat as plain array
+                // $value is an array, and items are defined - treat as plain array
                 foreach ($schema->items as $currentProperty => $itemDefinition) {
                     if (!isset($value[$currentProperty]) && isset($itemDefinition->default)) {
                         if (is_object($itemDefinition->default)) {
