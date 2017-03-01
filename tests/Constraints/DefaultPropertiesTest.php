@@ -160,5 +160,8 @@ class DefaultPropertiesTest extends VeryBaseTestCase
         $validator->validate($input, $schema, Constraint::CHECK_MODE_APPLY_DEFAULTS);
 
         $this->assertEquals('"ThisIsAString"', json_encode($input));
+
+        $schema = json_decode('{"items":[{"type":"string","default":"valueOne"}]}');
+        $this->assertEquals('"ThisIsAString"', json_encode($input));
     }
 }
