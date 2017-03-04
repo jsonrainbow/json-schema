@@ -39,10 +39,12 @@ class BaseConstraint
 
     public function addError(JsonPointer $path = null, ConstraintError $constraint = null, array $more = array())
     {
+        $message = $constraint ? $constraint->getMessage() : '';
+        $name = $constraint ? $constraint->getValue() : '';
         $error = array(
             'property' => $this->convertJsonPointerIntoPropertyPath($path ?: new JsonPointer('')),
             'pointer' => ltrim(strval($path ?: new JsonPointer('')), '#'),
-            'message' => ucfirst(vsprintf($constraint->getMessage(), array_map(function ($val) {
+            'message' => ucfirst(vsprintf($message, array_map(function ($val) {
                 if (is_scalar($val)) {
                     return $val;
                 }
@@ -50,7 +52,7 @@ class BaseConstraint
                 return json_encode($val);
             }, array_values($more)))),
             'constraint' => array(
-                'name' => $constraint ? $constraint->getValue() : '',
+                'name' => $name,
                 'params' => $more
             )
         );

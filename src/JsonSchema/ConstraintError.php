@@ -95,6 +95,10 @@ class ConstraintError extends \MabeEnum\Enum
             self::UNIQUE_ITEMS => 'There are no duplicates allowed in the array'
         );
 
-        return isset($messages[$name]) ? $messages[$name] : "Unknown Error: $name";
+        if (!isset($messages[$name])) {
+            throw new InvalidArgumentException('Missing error message for ' . $name);
+        }
+
+        return $messages[$name];
     }
 }

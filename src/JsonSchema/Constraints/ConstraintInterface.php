@@ -36,7 +36,7 @@ interface ConstraintInterface
     /**
      * adds an error
      *
-     * @param JsonPointer|null     $path
+     * @param JsonPointer |null    $path
      * @param ConstraintError|null $constraint the constraint/rule that is broken, e.g.: ConstraintErrors::LENGTH_MIN()
      * @param array                $more       more array elements to add to the error
      */
