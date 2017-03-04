@@ -61,7 +61,7 @@ class TypeConstraint extends Constraint
                 $this->validateTypeNameWording($type);
                 $wording[] = self::$wording[$type];
             }
-            $this->addError($path, ConstraintError::TYPE(), array(
+            $this->addError(ConstraintError::TYPE(), $path, array(
                     'expected' => gettype($value),
                     'found' => $this->implodeWith($wording, ', ', 'or')
             ));

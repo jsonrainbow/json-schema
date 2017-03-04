@@ -161,7 +161,8 @@ class UndefinedConstraint extends Constraint
                 foreach ($schema->required as $required) {
                     if (!$this->getTypeCheck()->propertyExists($value, $required)) {
                         $this->addError(
-                            $this->incrementPath($path ?: new JsonPointer(''), $required), ConstraintError::REQUIRED(), array(
+                            ConstraintError::REQUIRED(),
+                            $this->incrementPath($path ?: new JsonPointer(''), $required), array(
                                 'property' => $required
                             )
                         );
@@ -170,7 +171,7 @@ class UndefinedConstraint extends Constraint
             } elseif (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
                 if ($schema->required && $value instanceof self) {
-                    $this->addError($path, ConstraintError::REQUIRED_D3());
+                    $this->addError(ConstraintError::REQUIRED_D3(), $path);
                 }
             }
         }
@@ -190,7 +191,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised it must be a disallowed value
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, ConstraintError::DISALLOW());
+                $this->addError(ConstraintError::DISALLOW(), $path);
             } else {
                 $this->errors = $initErrors;
             }
@@ -202,7 +203,7 @@ class UndefinedConstraint extends Constraint
 
             // if no new errors were raised then the instance validated against the "not" schema
             if (count($this->getErrors()) == count($initErrors)) {
-                $this->addError($path, ConstraintError::NOT());
+                $this->addError(ConstraintError::NOT(), $path);
             } else {
                 $this->errors = $initErrors;
             }
@@ -237,7 +238,7 @@ class UndefinedConstraint extends Constraint
                 $isValid = $isValid && (count($this->getErrors()) == count($initErrors));
             }
             if (!$isValid) {
-                $this->addError($path, ConstraintError::ALL_OF());
+                $this->addError(ConstraintError::ALL_OF(), $path);
             }
         }
 
@@ -252,7 +253,7 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if (!$isValid) {
-                $this->addError($path, ConstraintError::ANY_OF());
+                $this->addError(ConstraintError::ANY_OF(), $path);
             } else {
                 $this->errors = $startErrors;
             }
@@ -272,7 +273,7 @@ class UndefinedConstraint extends Constraint
             }
             if ($matchedSchemas !== 1) {
                 $this->addErrors(array_merge($allErrors, $startErrors));
-                $this->addError($path, ConstraintError::ONE_OF());
+                $this->addError(ConstraintError::ONE_OF(), $path);
             } else {
                 $this->errors = $startErrors;
             }
@@ -294,7 +295,7 @@ class UndefinedConstraint extends Constraint
                 if (is_string($dependency)) {
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!$this->getTypeCheck()->propertyExists($value, $dependency)) {
-                        $this->addError($path, ConstraintError::DEPENDENCIES(), array(
+                        $this->addError(ConstraintError::DEPENDENCIES(), $path, array(
                             'key' => $key,
                             'dependency' => $dependency
                         ));
@@ -303,7 +304,7 @@ class UndefinedConstraint extends Constraint
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!$this->getTypeCheck()->propertyExists($value, $d)) {
-                            $this->addError($path, ConstraintError::DEPENDENCIES(), array(
+                            $this->addError(ConstraintError::DEPENDENCIES(), $path, array(
                                 'key' => $key,
                                 'dependency' => $dependency
                             ));

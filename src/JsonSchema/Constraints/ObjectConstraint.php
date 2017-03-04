@@ -58,7 +58,7 @@ class ObjectConstraint extends Constraint
 
             // Validate the pattern before using it to test for matches
             if (@preg_match($delimiter . $pregex . $delimiter . 'u', '') === false) {
-                $this->addError($path, ConstraintError::PREGEX_INVALID(), array('pregex' => $pregex));
+                $this->addError(ConstraintError::PREGEX_INVALID(), $path, array('pregex' => $pregex));
                 continue;
             }
             foreach ($element as $i => $value) {
@@ -90,7 +90,7 @@ class ObjectConstraint extends Constraint
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
-                $this->addError($path, ConstraintError::ADDITIONAL_PROPERTIES(), array('property' => $i));
+                $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, array('property' => $i));
             }
 
             // additional properties defined
@@ -105,7 +105,7 @@ class ObjectConstraint extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError($path, ConstraintError::REQUIRES(), array(
+                $this->addError(ConstraintError::REQUIRES(), $path, array(
                     'property' => $i,
                     'requiredProperty' => $require
                 ));
@@ -172,13 +172,13 @@ class ObjectConstraint extends Constraint
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {
-                $this->addError($path, ConstraintError::PROPERTIES_MIN(), array('minProperties' => $objectDefinition->minProperties));
+                $this->addError(ConstraintError::PROPERTIES_MIN(), $path, array('minProperties' => $objectDefinition->minProperties));
             }
         }
         // Verify maximum number of properties
         if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) > $objectDefinition->maxProperties) {
-                $this->addError($path, ConstraintError::PROPERTIES_MAX(), array('maxProperties' => $objectDefinition->maxProperties));
+                $this->addError(ConstraintError::PROPERTIES_MAX(), $path, array('maxProperties' => $objectDefinition->maxProperties));
             }
         }
     }

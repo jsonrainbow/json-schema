@@ -50,6 +50,6 @@ class EnumConstraint extends Constraint
             }
         }
 
-        $this->addError($path, ConstraintError::ENUM(), array('enum' => $schema->enum));
+        $this->addError(ConstraintError::ENUM(), $path, array('enum' => $schema->enum));
     }
 }

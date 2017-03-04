@@ -37,7 +37,7 @@ class BaseConstraint
         $this->factory = $factory ?: new Factory();
     }
 
-    public function addError(JsonPointer $path = null, ConstraintError $constraint = null, array $more = array())
+    public function addError(ConstraintError $constraint, JsonPointer $path = null, array $more = array())
     {
         $message = $constraint ? $constraint->getMessage() : '';
         $name = $constraint ? $constraint->getValue() : '';

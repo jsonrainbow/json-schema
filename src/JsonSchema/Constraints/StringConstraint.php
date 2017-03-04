@@ -27,21 +27,21 @@ class StringConstraint extends Constraint
     {
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError($path, ConstraintError::LENGTH_MAX(), array(
+            $this->addError(ConstraintError::LENGTH_MAX(), $path, array(
                 'maxLength' => $schema->maxLength,
             ));
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError($path, ConstraintError::LENGTH_MIN(), array(
+            $this->addError(ConstraintError::LENGTH_MIN(), $path, array(
                 'minLength' => $schema->minLength,
             ));
         }
 
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#u', $element)) {
-            $this->addError($path, ConstraintError::PATTERN(), array(
+            $this->addError(ConstraintError::PATTERN(), $path, array(
                 'pattern' => $schema->pattern,
             ));
         }
