@@ -189,9 +189,10 @@ class UndefinedConstraint extends Constraint
         }
 
         // check whether this default should be applied
-        $shouldApply = function ($definition, $name = null) use ($schema) {
+        $requiredOnly = $this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS);
+        $shouldApply = function ($definition, $name = null) use ($schema, $requiredOnly) {
             // required-only mode is off
-            if (!$this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS)) {
+            if (!$requiredOnly) {
                 return true;
             }
             // draft-04 required is set
