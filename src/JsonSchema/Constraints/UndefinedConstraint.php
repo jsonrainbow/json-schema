@@ -112,34 +112,7 @@ class UndefinedConstraint extends Constraint
         }
 
         // Apply default values from schema
-        if ($this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
-            if (isset($schema->properties) && LooseTypeCheck::isObject($value)) {
-                // $value is an object or assoc array, and properties are defined - treat as an object
-                foreach ($schema->properties as $currentProperty => $propertyDefinition) {
-                    if (!LooseTypeCheck::propertyExists($value, $currentProperty) && isset($propertyDefinition->default)) {
-                        if (is_object($propertyDefinition->default)) {
-                            LooseTypeCheck::propertySet($value, $currentProperty, clone $propertyDefinition->default);
-                        } else {
-                            LooseTypeCheck::propertySet($value, $currentProperty, $propertyDefinition->default);
-                        }
-                    }
-                }
-            } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
-                // $value is an array, and items are defined - treat as plain array
-                foreach ($schema->items as $currentItem => $itemDefinition) {
-                    if (!isset($value[$currentItem]) && isset($itemDefinition->default)) {
-                        if (is_object($itemDefinition->default)) {
-                            $value[$currentItem] = clone $itemDefinition->default;
-                        } else {
-                            $value[$currentItem] = $itemDefinition->default;
-                        }
-                    }
-                }
-            } elseif (($value instanceof self || $value === null) && isset($schema->default)) {
-                // $value is a leaf, not a container - apply the default directly
-                $value = is_object($schema->default) ? clone $schema->default : $schema->default;
-            }
-        }
+        $this->applyDefaultValues($value, $schema);
 
         // Verify required values
         if ($this->getTypeCheck()->isObject($value)) {
@@ -199,6 +172,76 @@ class UndefinedConstraint extends Constraint
         // Verify that dependencies are met
         if (isset($schema->dependencies) && $this->getTypeCheck()->isObject($value)) {
             $this->validateDependencies($value, $schema->dependencies, $path);
+        }
+    }
+
+    /**
+     * Apply default values
+     *
+     * @param mixed $value
+     * @param mixed $schema
+     */
+    protected function applyDefaultValues(&$value, $schema)
+    {
+        // only apply defaults if feature is enabled
+        if (!$this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
+            return;
+        }
+
+        // check whether this default should be applied
+        $shouldApply = function ($definition, $name = null) use ($schema) {
+            // required-only mode is off
+            if (!$this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS)) {
+                return true;
+            }
+            // draft-04 required is set
+            if (
+                $name !== null
+                && isset($schema->required)
+                && is_array($schema->required)
+                && in_array($name, $schema->required)
+            ) {
+                return true;
+            }
+            // draft-03 required is set
+            if (isset($definition->required) && !is_array($definition->required) && $definition->required) {
+                return true;
+            }
+            // default case
+            return false;
+        };
+
+        // apply defaults if appropriate
+        if (isset($schema->properties) && LooseTypeCheck::isObject($value)) {
+            // $value is an object or assoc array, and properties are defined - treat as an object
+            foreach ($schema->properties as $currentProperty => $propertyDefinition) {
+                if (
+                    !LooseTypeCheck::propertyExists($value, $currentProperty)
+                    && isset($propertyDefinition->default)
+                    && $shouldApply($propertyDefinition, $currentProperty)
+                ) {
+                    // assign default value
+                    if (is_object($propertyDefinition->default)) {
+                        LooseTypeCheck::propertySet($value, $currentProperty, clone $propertyDefinition->default);
+                    } else {
+                        LooseTypeCheck::propertySet($value, $currentProperty, $propertyDefinition->default);
+                    }
+                }
+            }
+        } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
+            // $value is an array, and items are defined - treat as plain array
+            foreach ($schema->items as $currentItem => $itemDefinition) {
+                if (!isset($value[$currentItem]) && isset($itemDefinition->default) && $shouldApply($itemDefinition)) {
+                    if (is_object($itemDefinition->default)) {
+                        $value[$currentItem] = clone $itemDefinition->default;
+                    } else {
+                        $value[$currentItem] = $itemDefinition->default;
+                    }
+                }
+            }
+        } elseif (($value instanceof self || $value === null) && isset($schema->default) && $shouldApply($schema)) {
+            // $value is a leaf, not a container - apply the default directly
+            $value = is_object($schema->default) ? clone $schema->default : $schema->default;
         }
     }
 
