@@ -79,10 +79,10 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param mixed            $i
      * @param mixed            $patternProperties
      */
-    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null)
+    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null, $appliedDefaults = array())
     {
         $validator = $this->factory->createInstanceFor('object');
-        $validator->check($value, $schema, $path, $i, $patternProperties);
+        $validator->check($value, $schema, $path, $i, $patternProperties, $appliedDefaults);
 
         $this->addErrors($validator->getErrors());
     }
@@ -111,11 +111,11 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param JsonPointer|null $path
      * @param mixed            $i
      */
-    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null, $fromDefault = false)
     {
         $validator = $this->factory->createInstanceFor('undefined');
 
-        $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
+        $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i, $fromDefault);
 
         $this->addErrors($validator->getErrors());
     }

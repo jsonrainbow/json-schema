@@ -23,15 +23,23 @@ use JsonSchema\Uri\UriResolver;
 class UndefinedConstraint extends Constraint
 {
     /**
+     * @var array List of properties to which a default value has been applied
+     */
+    protected $appliedDefaults = array();
+
+    /**
      * {@inheritdoc}
      */
-    public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    public function check(&$value, $schema = null, JsonPointer $path = null, $i = null, $fromDefault = false)
     {
         if (is_null($schema) || !is_object($schema)) {
             return;
         }
 
         $path = $this->incrementPath($path ?: new JsonPointer(''), $i);
+        if ($fromDefault) {
+            $path->setFromDefault();
+        }
 
         // check special properties
         $this->validateCommonProperties($value, $schema, $path, $i);
@@ -67,7 +75,8 @@ class UndefinedConstraint extends Constraint
                 isset($schema->properties) ? $this->factory->getSchemaStorage()->resolveRefSchema($schema->properties) : $schema,
                 $path,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
-                isset($schema->patternProperties) ? $schema->patternProperties : null
+                isset($schema->patternProperties) ? $schema->patternProperties : null,
+                $this->appliedDefaults
             );
         }
 
@@ -112,7 +121,9 @@ class UndefinedConstraint extends Constraint
         }
 
         // Apply default values from schema
-        $this->applyDefaultValues($value, $schema);
+        if (!$path->fromDefault()) {
+            $this->applyDefaultValues($value, $schema);
+        }
 
         // Verify required values
         if ($this->getTypeCheck()->isObject($value)) {
@@ -227,6 +238,7 @@ class UndefinedConstraint extends Constraint
                     } else {
                         LooseTypeCheck::propertySet($value, $currentProperty, $propertyDefinition->default);
                     }
+                    $this->appliedDefaults[] = $currentProperty;
                 }
             }
         } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {

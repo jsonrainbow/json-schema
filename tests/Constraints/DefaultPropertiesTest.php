@@ -111,6 +111,18 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 }',
                 '{"propertyTwo":"valueTwo"}',
                 Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS
+            ),
+            array(// #16 infinite recursion via $ref
+                '{}',
+                '{
+                    "properties": {
+                        "propertyOne": {
+                            "$ref": "#",
+                            "default": {}
+                        }
+                    }
+                }',
+                '{"propertyOne":{}}'
             )
         );
     }
@@ -127,8 +139,13 @@ class DefaultPropertiesTest extends VeryBaseTestCase
         }
 
         $checkMode |= Constraint::CHECK_MODE_APPLY_DEFAULTS;
-        $validator = new Validator();
-        $validator->validate($inputDecoded, json_decode($schema), $checkMode);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('local://testSchema', json_decode($schema));
+        $factory = new Factory($schemaStorage);
+        $validator = new Validator($factory);
+
+        $validator->validate($inputDecoded, json_decode('{"$ref": "local://testSchema"}'), $checkMode);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
 

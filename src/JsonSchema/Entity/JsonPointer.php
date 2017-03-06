@@ -25,6 +25,11 @@ class JsonPointer
     private $propertyPaths = array();
 
     /**
+     * @var bool Whether the value at this path was set from a schema default
+     */
+    private $fromDefault = false;
+
+    /**
      * @param string $value
      *
      * @throws InvalidArgumentException when $value is not a string
@@ -134,5 +139,23 @@ class JsonPointer
     public function __toString()
     {
         return $this->getFilename() . $this->getPropertyPathAsString();
+    }
+
+    /**
+     * Mark the value at this path as being set from a schema default
+     */
+    public function setFromDefault()
+    {
+        $this->fromDefault = true;
+    }
+
+    /**
+     * Check whether the value at this path was set from a schema default
+     *
+     * @return bool
+     */
+    public function fromDefault()
+    {
+        return $this->fromDefault;
     }
 }
