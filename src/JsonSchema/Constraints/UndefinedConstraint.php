@@ -122,7 +122,7 @@ class UndefinedConstraint extends Constraint
 
         // Apply default values from schema
         if (!$path->fromDefault()) {
-            $this->applyDefaultValues($value, $schema);
+            $this->applyDefaultValues($value, $schema, $path);
         }
 
         // Verify required values
@@ -189,10 +189,11 @@ class UndefinedConstraint extends Constraint
     /**
      * Apply default values
      *
-     * @param mixed $value
-     * @param mixed $schema
+     * @param mixed       $value
+     * @param mixed       $schema
+     * @param JsonPointer $path
      */
-    protected function applyDefaultValues(&$value, $schema)
+    protected function applyDefaultValues(&$value, $schema, $path)
     {
         // only apply defaults if feature is enabled
         if (!$this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
@@ -251,10 +252,12 @@ class UndefinedConstraint extends Constraint
                         $value[$currentItem] = $itemDefinition->default;
                     }
                 }
+                $path->setFromDefault();
             }
         } elseif (($value instanceof self || $value === null) && isset($schema->default) && $shouldApply($schema)) {
             // $value is a leaf, not a container - apply the default directly
             $value = is_object($schema->default) ? clone $schema->default : $schema->default;
+            $path->setFromDefault();
         }
     }
 

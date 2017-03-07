@@ -112,12 +112,17 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"propertyTwo":"valueTwo"}',
                 Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS
             ),
-            array(// #16 infinite recursion via $ref
+            array(// #16 infinite recursion via $ref (object)
                 '{}',
                 '{"properties":{"propertyOne": {"$ref": "#","default": {}}}}',
                 '{"propertyOne":{}}'
             ),
-            array(// #17 default value for null
+            array(// #17 infinite recursion via $ref (array)
+                '[]',
+                '{"items":[{"$ref":"#","default":[]}]}',
+                '[[]]'
+            ),
+            array(// #18 default value for null
                 'null',
                 '{"default":"valueOne"}',
                 '"valueOne"'
