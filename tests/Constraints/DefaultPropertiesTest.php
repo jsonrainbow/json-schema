@@ -114,15 +114,13 @@ class DefaultPropertiesTest extends VeryBaseTestCase
             ),
             array(// #16 infinite recursion via $ref
                 '{}',
-                '{
-                    "properties": {
-                        "propertyOne": {
-                            "$ref": "#",
-                            "default": {}
-                        }
-                    }
-                }',
+                '{"properties":{"propertyOne": {"$ref": "#","default": {}}}}',
                 '{"propertyOne":{}}'
+            ),
+            array(// #17 default value for null
+                'null',
+                '{"default":"valueOne"}',
+                '"valueOne"'
             )
         );
     }
