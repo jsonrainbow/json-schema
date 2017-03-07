@@ -204,7 +204,6 @@ class UndefinedConstraint extends Constraint
         // draft-04 required is set
         if (
             $name !== null
-            && is_object($parentSchema)
             && isset($parentSchema->required)
             && is_array($parentSchema->required)
             && in_array($name, $parentSchema->required)
