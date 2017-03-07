@@ -75,19 +75,34 @@ class OfPropertiesTest extends BaseTestCase
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a string is required',
-                        'constraint' => 'type',
+                        'constraint' => array(
+                            'name' => 'type',
+                            'params' => array(
+                                'expected'   => 'array',
+                                'found'      => 'a string'
+                            )
+                        )
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a number is required',
-                        'constraint' => 'type',
+                        'constraint' => array(
+                            'name' => 'type',
+                            'params' => array(
+                                'expected'   => 'array',
+                                'found'      => 'a number'
+                            )
+                        )
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Failed to match exactly one schema',
-                        'constraint' => 'oneOf',
+                        'constraint' => array(
+                            'name' => 'oneOf',
+                            'params' => array()
+                        )
                     ),
                 ),
             ),

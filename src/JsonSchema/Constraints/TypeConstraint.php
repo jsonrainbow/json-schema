@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\InvalidArgumentException;
 use UnexpectedValueException as StandardUnexpectedValueException;
@@ -60,8 +61,10 @@ class TypeConstraint extends Constraint
                 $this->validateTypeNameWording($type);
                 $wording[] = self::$wording[$type];
             }
-            $this->addError($path, ucwords(gettype($value)) . ' value found, but ' .
-                $this->implodeWith($wording, ', ', 'or') . ' is required', 'type');
+            $this->addError(ConstraintError::TYPE(), $path, array(
+                    'expected' => gettype($value),
+                    'found' => $this->implodeWith($wording, ', ', 'or')
+            ));
         }
     }
 
