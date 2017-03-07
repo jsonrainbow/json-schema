@@ -10,6 +10,7 @@
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 
 /**
@@ -278,5 +279,53 @@ EOF;
         $retriever = new \ReflectionProperty('JsonSchema\Constraints\Factory', 'uriRetriever');
         $retriever->setAccessible(true);
         $retriever->setValue($factory, $retrieverMock);
+    }
+
+    public function testTranslations()
+    {
+        $retriever = new UriRetriever();
+
+        $uri = 'http://example.com/foo/bar';
+        $translated = 'file://another/bar';
+
+        $retriever->setTranslation('|^https?://example.com/foo/bar#?|', 'file://another/bar');
+        $this->assertEquals($translated, $retriever->translate($uri));
+    }
+
+    public function testPackageURITranslation()
+    {
+        $retriever = new UriRetriever();
+        $root = sprintf('file://%s/', realpath(__DIR__ . '/../..'));
+
+        $uri = $retriever->translate('package://foo/bar.json');
+        $this->assertEquals("${root}foo/bar.json", $uri);
+    }
+
+    public function testDefaultDistTranslations()
+    {
+        $retriever = new UriRetriever();
+        $root = sprintf('file://%s/dist/schema/', realpath(__DIR__ . '/../..'));
+
+        $this->assertEquals(
+            $root . 'json-schema-draft-03.json',
+            $retriever->translate('http://json-schema.org/draft-03/schema#')
+        );
+
+        $this->assertEquals(
+            $root . 'json-schema-draft-04.json',
+            $retriever->translate('http://json-schema.org/draft-04/schema#')
+        );
+    }
+
+    public function testRetrieveSchemaFromPackage()
+    {
+        $retriever = new UriRetriever();
+
+        // load schema from package
+        $schema = $retriever->retrieve('package://tests/fixtures/foobar.json');
+        $this->assertNotFalse($schema);
+
+        // check that the schema was loaded & processed correctly
+        $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
     }
 }
