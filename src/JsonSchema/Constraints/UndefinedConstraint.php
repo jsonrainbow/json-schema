@@ -187,6 +187,39 @@ class UndefinedConstraint extends Constraint
     }
 
     /**
+     * Check whether a default should be applied for this value
+     *
+     * @param mixed $schema
+     * @param mixed $parentSchema
+     * @param bool  $requiredOnly
+     *
+     * @return bool
+     */
+    private function shouldApplyDefaultValue($requiredOnly, $schema, $name = null, $parentSchema = null)
+    {
+        // required-only mode is off
+        if (!$requiredOnly) {
+            return true;
+        }
+        // draft-04 required is set
+        if (
+            $name !== null
+            && is_object($parentSchema)
+            && isset($parentSchema->required)
+            && is_array($parentSchema->required)
+            && in_array($name, $parentSchema->required)
+        ) {
+            return true;
+        }
+        // draft-03 required is set
+        if (isset($schema->required) && !is_array($schema->required) && $schema->required) {
+            return true;
+        }
+        // default case
+        return false;
+    }
+
+    /**
      * Apply default values
      *
      * @param mixed       $value
@@ -200,38 +233,15 @@ class UndefinedConstraint extends Constraint
             return;
         }
 
-        // check whether this default should be applied
-        $requiredOnly = $this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS);
-        $shouldApply = function ($definition, $name = null) use ($schema, $requiredOnly) {
-            // required-only mode is off
-            if (!$requiredOnly) {
-                return true;
-            }
-            // draft-04 required is set
-            if (
-                $name !== null
-                && isset($schema->required)
-                && is_array($schema->required)
-                && in_array($name, $schema->required)
-            ) {
-                return true;
-            }
-            // draft-03 required is set
-            if (isset($definition->required) && !is_array($definition->required) && $definition->required) {
-                return true;
-            }
-            // default case
-            return false;
-        };
-
         // apply defaults if appropriate
+        $requiredOnly = $this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS);
         if (isset($schema->properties) && LooseTypeCheck::isObject($value)) {
             // $value is an object or assoc array, and properties are defined - treat as an object
             foreach ($schema->properties as $currentProperty => $propertyDefinition) {
                 if (
                     !LooseTypeCheck::propertyExists($value, $currentProperty)
                     && isset($propertyDefinition->default)
-                    && $shouldApply($propertyDefinition, $currentProperty)
+                    && $this->shouldApplyDefaultValue($requiredOnly, $propertyDefinition, $currentProperty, $schema)
                 ) {
                     // assign default value
                     if (is_object($propertyDefinition->default)) {
@@ -245,7 +255,10 @@ class UndefinedConstraint extends Constraint
         } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
             // $value is an array, and items are defined - treat as plain array
             foreach ($schema->items as $currentItem => $itemDefinition) {
-                if (!isset($value[$currentItem]) && isset($itemDefinition->default) && $shouldApply($itemDefinition)) {
+                if (
+                    !isset($value[$currentItem])
+                    && isset($itemDefinition->default)
+                    && $this->shouldApplyDefaultValue($requiredOnly, $itemDefinition)) {
                     if (is_object($itemDefinition->default)) {
                         $value[$currentItem] = clone $itemDefinition->default;
                     } else {
@@ -254,7 +267,10 @@ class UndefinedConstraint extends Constraint
                 }
                 $path->setFromDefault();
             }
-        } elseif (($value instanceof self || $value === null) && isset($schema->default) && $shouldApply($schema)) {
+        } elseif (
+            ($value instanceof self || $value === null)
+            && isset($schema->default)
+            && $this->shouldApplyDefaultValue($requiredOnly, $schema)) {
             // $value is a leaf, not a container - apply the default directly
             $value = is_object($schema->default) ? clone $schema->default : $schema->default;
             $path->setFromDefault();
