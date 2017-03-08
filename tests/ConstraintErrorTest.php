@@ -21,17 +21,11 @@ class ConstraintErrorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvalidMessage()
     {
-        $e = ConstraintError::ALL_OF();
-
-        // set value to something silly
-        $r = new \ReflectionClass('\MabeEnum\Enum');
-        $v = $r->getProperty('value');
-        $v->setAccessible(true);
-        $v->setValue($e, 'notARealErrorName');
+        $e = ConstraintError::MISSING_ERROR();
 
         $this->setExpectedException(
             '\JsonSchema\Exception\InvalidArgumentException',
-            'Missing error message for notARealErrorName'
+            'Missing error message for missingError'
         );
         $e->getMessage();
     }
