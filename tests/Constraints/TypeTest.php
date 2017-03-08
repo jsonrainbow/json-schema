@@ -92,4 +92,18 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actualMessage); // first equal for the diff
         $this->assertSame($expected, $actualMessage); // the same for the strictness
     }
+
+    public function testValidateTypeNameWording()
+    {
+        $t = new TypeConstraint();
+        $r = new \ReflectionObject($t);
+        $m = $r->getMethod('validateTypeNameWording');
+        $m->setAccessible(true);
+
+        $this->setExpectedException(
+            '\UnexpectedValueException',
+            "No wording for 'notAValidTypeName' available, expected wordings are: [an integer, a number, a boolean, an object, an array, a string, a null]"
+        );
+        $m->invoke($t, 'notAValidTypeName');
+    }
 }
