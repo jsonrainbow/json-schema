@@ -55,6 +55,6 @@ class StringConstraint extends Constraint
             return mb_strlen($string, mb_detect_encoding($string));
         }
 
-        return strlen($string);
+        return strlen($string); // @codeCoverageIgnore because mbstring is present on all test platforms
     }
 }
