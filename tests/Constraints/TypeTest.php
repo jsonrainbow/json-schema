@@ -106,4 +106,17 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         );
         $m->invoke($t, 'notAValidTypeName');
     }
+
+    public function testValidateTypeException()
+    {
+        $t = new TypeConstraint();
+        $data = new \StdClass();
+        $schema = json_decode('{"type": "notAValidTypeName"}');
+
+        $this->setExpectedException(
+            'JsonSchema\Exception\InvalidArgumentException',
+            'object is an invalid type for notAValidTypeName'
+        );
+        $t->check($data, $schema);
+    }
 }
