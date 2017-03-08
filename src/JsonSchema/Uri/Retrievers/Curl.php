@@ -20,16 +20,13 @@ class Curl extends AbstractRetriever
 {
     protected $messageBody;
 
-    // Cannot test this, because curl_init is present on all test platforms plus mock
-    // @codeCoverageIgnoreStart
     public function __construct()
     {
         if (!function_exists('curl_init')) {
-            throw new \RuntimeException('cURL not installed');
+            // Cannot test this, because curl_init is present on all test platforms plus mock
+            throw new \RuntimeException('cURL not installed'); // @codeCoverageIgnore
         }
     }
-
-    // @codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}
