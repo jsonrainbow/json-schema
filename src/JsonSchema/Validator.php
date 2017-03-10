@@ -41,6 +41,9 @@ class Validator extends BaseConstraint
             $this->factory->setConfig($checkMode);
         }
 
+        // add provided schema to SchemaStorage with internal URI to allow internal $ref resolution
+        $this->factory->getSchemaStorage()->addSchema('internal://provided-schema', $schema);
+
         $validator = $this->factory->createInstanceFor('schema');
         $validator->check($value, $schema);
 

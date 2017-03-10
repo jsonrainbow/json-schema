@@ -11,6 +11,7 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Validator;
 use Prophecy\Argument;
 
 class SchemaStorageTest extends \PHPUnit_Framework_TestCase
@@ -29,6 +30,15 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
             (object) array('type' => 'string'),
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/properties/door")
         );
+    }
+
+    public function testResolveTopRef()
+    {
+        $input = json_decode('{"propertyOne":"notANumber"}');
+        $schema = json_decode('{"$ref":"#/definition","definition":{"properties":{"propertyOne":{"type":"number"}}}}');
+        $v = new Validator();
+        $v->validate($input, $schema);
+        $this->assertFalse($v->isValid());
     }
 
     /**

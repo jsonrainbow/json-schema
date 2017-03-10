@@ -3,6 +3,7 @@
 namespace JsonSchema;
 
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\UnresolvableJsonPointerException;
 use JsonSchema\Iterator\ObjectIterator;
 use JsonSchema\Uri\UriResolver;
@@ -43,7 +44,10 @@ class SchemaStorage implements SchemaStorageInterface
      */
     public function addSchema($id, $schema = null)
     {
-        if (is_null($schema)) {
+        if (is_null($schema) && $id !== 'internal://provided-schema') {
+            // if the schema was user-provided to Validator and is still null, then assume this is
+            // what the user intended, as there's no way for us to retrieve anything else. User-supplied
+            // schemas do not have an associated URI when passed via Validator::validate().
             $schema = $this->uriRetriever->retrieve($id);
         }
         $objectIterator = new ObjectIterator($schema);
