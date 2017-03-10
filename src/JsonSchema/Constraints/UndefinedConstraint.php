@@ -239,7 +239,7 @@ class UndefinedConstraint extends Constraint
             foreach ($schema->properties as $currentProperty => $propertyDefinition) {
                 if (
                     !LooseTypeCheck::propertyExists($value, $currentProperty)
-                    && isset($propertyDefinition->default)
+                    && property_exists($propertyDefinition, 'default')
                     && $this->shouldApplyDefaultValue($requiredOnly, $propertyDefinition, $currentProperty, $schema)
                 ) {
                     // assign default value
@@ -255,8 +255,8 @@ class UndefinedConstraint extends Constraint
             // $value is an array, and items are defined - treat as plain array
             foreach ($schema->items as $currentItem => $itemDefinition) {
                 if (
-                    !isset($value[$currentItem])
-                    && isset($itemDefinition->default)
+                    !array_key_exists($currentItem, $value)
+                    && property_exists($itemDefinition, 'default')
                     && $this->shouldApplyDefaultValue($requiredOnly, $itemDefinition)) {
                     if (is_object($itemDefinition->default)) {
                         $value[$currentItem] = clone $itemDefinition->default;
@@ -267,8 +267,8 @@ class UndefinedConstraint extends Constraint
                 $path->setFromDefault();
             }
         } elseif (
-            ($value instanceof self || $value === null)
-            && isset($schema->default)
+            $value instanceof self
+            && property_exists($schema, 'default')
             && $this->shouldApplyDefaultValue($requiredOnly, $schema)) {
             // $value is a leaf, not a container - apply the default directly
             $value = is_object($schema->default) ? clone $schema->default : $schema->default;

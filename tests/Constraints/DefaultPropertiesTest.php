@@ -19,77 +19,84 @@ class DefaultPropertiesTest extends VeryBaseTestCase
     public function getValidTests()
     {
         return array(
+            /*
+            // This test case was intended to check whether a default value can be applied for the
+            // entire object, however testing this case is impossible, because there is no way to
+            // distinguish between a deliberate top-level NULL and a top level that contains nothing.
+            // As such, the assumption is that a top-level NULL is deliberate, and should not be
+            // altered by replacing it with a default value.
             array(// #0 default value for entire object
                 '',
                 '{"default":"valueOne"}',
                 '"valueOne"'
             ),
-            array(// #1 default value in an empty object
+            */
+            array(// #0 default value in an empty object
                 '{}',
                 '{"properties":{"propertyOne":{"default":"valueOne"}}}',
                 '{"propertyOne":"valueOne"}'
             ),
-            array(// #2 default value for top-level property
+            array(// #1 default value for top-level property
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
             ),
-            array(// #3 default value for sub-property
+            array(// #2 default value for sub-property
                 '{"propertyOne":{}}',
                 '{"properties":{"propertyOne":{"properties":{"propertyTwo":{"default":"valueTwo"}}}}}',
                 '{"propertyOne":{"propertyTwo":"valueTwo"}}'
             ),
-            array(// #4 default value for sub-property with sibling
+            array(// #3 default value for sub-property with sibling
                 '{"propertyOne":{"propertyTwo":"valueTwo"}}',
                 '{"properties":{"propertyOne":{"properties":{"propertyThree":{"default":"valueThree"}}}}}',
                 '{"propertyOne":{"propertyTwo":"valueTwo","propertyThree":"valueThree"}}'
             ),
-            array(// #5 default value for top-level property with type check
+            array(// #4 default value for top-level property with type check
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo","type":"string"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
             ),
-            array(// #6 default value for top-level property with v3 required check
+            array(// #5 default value for top-level property with v3 required check
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo","required":"true"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
             ),
-            array(// #7 default value for top-level property with v4 required check
+            array(// #6 default value for top-level property with v4 required check
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo"}},"required":["propertyTwo"]}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
             ),
-            array(// #8 default value for an already set property
+            array(// #7 default value for an already set property
                 '{"propertyOne":"alreadySetValueOne"}',
                 '{"properties":{"propertyOne":{"default":"valueOne"}}}',
                 '{"propertyOne":"alreadySetValueOne"}'
             ),
-            array(// #9 default item value for an array
+            array(// #8 default item value for an array
                 '["valueOne"]',
                 '{"type":"array","items":[{},{"type":"string","default":"valueTwo"}]}',
                 '["valueOne","valueTwo"]'
             ),
-            array(// #10 default item value for an empty array
+            array(// #9 default item value for an empty array
                 '[]',
                 '{"type":"array","items":[{"type":"string","default":"valueOne"}]}',
                 '["valueOne"]'
             ),
-            array(// #11 property without a default available
+            array(// #10 property without a default available
                 '{"propertyOne":"alreadySetValueOne"}',
                 '{"properties":{"propertyOne":{"type":"string"}}}',
                 '{"propertyOne":"alreadySetValueOne"}'
             ),
-            array(// #12 default property value is an object
+            array(// #11 default property value is an object
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":{}}}}',
                 '{"propertyOne":"valueOne","propertyTwo":{}}'
             ),
-            array(// #13 default item value is an object
+            array(// #12 default item value is an object
                 '[]',
                 '{"type":"array","items":[{"default":{}}]}',
                 '[{}]'
             ),
-            array(// #14 only set required values (draft-04)
+            array(// #13 only set required values (draft-04)
                 '{}',
                 '{
                     "properties": {
@@ -101,7 +108,7 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"propertyTwo":"valueTwo"}',
                 Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS
             ),
-            array(// #15 only set required values (draft-03)
+            array(// #14 only set required values (draft-03)
                 '{}',
                 '{
                     "properties": {
@@ -112,21 +119,36 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"propertyTwo":"valueTwo"}',
                 Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS
             ),
-            array(// #16 infinite recursion via $ref (object)
+            array(// #15 infinite recursion via $ref (object)
                 '{}',
                 '{"properties":{"propertyOne": {"$ref": "#","default": {}}}}',
                 '{"propertyOne":{}}'
             ),
-            array(// #17 infinite recursion via $ref (array)
+            array(// #16 infinite recursion via $ref (array)
                 '[]',
                 '{"items":[{"$ref":"#","default":[]}]}',
                 '[[]]'
             ),
-            array(// #18 default value for null
+            array(// #17 default top value does not overwrite defined null
                 'null',
                 '{"default":"valueOne"}',
-                '"valueOne"'
-            )
+                'null'
+            ),
+            array(// #18 default property value does not overwrite defined null
+                '{"propertyOne":null}',
+                '{"properties":{"propertyOne":{"default":"valueOne"}}}',
+                '{"propertyOne":null}'
+            ),
+            array(// #19 default value in an object is null
+                '{}',
+                '{"properties":{"propertyOne":{"default":null}}}',
+                '{"propertyOne":null}'
+            ),
+            array(// #20 default value in an array is null
+                '[]',
+                '{"items":[{"default":null}]}',
+                '[null]'
+            ),
         );
     }
 
@@ -180,8 +202,8 @@ class DefaultPropertiesTest extends VeryBaseTestCase
 
     public function testNoModificationViaReferences()
     {
-        $input = json_decode('');
-        $schema = json_decode('{"default":{"propertyOne":"valueOne"}}');
+        $input = json_decode('{}');
+        $schema = json_decode('{"properties":{"propertyOne":{"default":"valueOne"}}}');
 
         $validator = new Validator();
         $validator->validate($input, $schema, Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_APPLY_DEFAULTS);
@@ -189,7 +211,7 @@ class DefaultPropertiesTest extends VeryBaseTestCase
         $this->assertEquals('{"propertyOne":"valueOne"}', json_encode($input));
 
         $input->propertyOne = 'valueTwo';
-        $this->assertEquals('valueOne', $schema->default->propertyOne);
+        $this->assertEquals('valueOne', $schema->properties->propertyOne->default);
     }
 
     public function testLeaveBasicTypesAlone()
