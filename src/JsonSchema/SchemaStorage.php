@@ -3,7 +3,6 @@
 namespace JsonSchema;
 
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\UnresolvableJsonPointerException;
 use JsonSchema\Iterator\ObjectIterator;
 use JsonSchema\Uri\UriResolver;
