@@ -111,7 +111,7 @@ Usage: validate-json data.json
 Options:
       --dump-schema     Output full schema and exit
       --dump-schema-url Output URL of schema
-      --quiet           Suppress output unless there are errors
+      --verbose         Show additional output
    -h --help            Show this help
 
 HLP;
@@ -221,7 +221,7 @@ try {
     $validator->check($data, $schema);
 
     if ($validator->isValid()) {
-        if(!isset($arOptions['--quiet'])) {
+        if(isset($arOptions['--verbose'])) {
             echo "OK. The supplied JSON validates against the schema.\n";
         }
     } else {
