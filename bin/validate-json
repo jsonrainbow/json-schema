@@ -210,7 +210,7 @@ try {
     $urlSchema = $resolver->resolve($pathSchema, $urlData);
 
     if (isset($arOptions['--dump-schema-url'])) {
-        output($urlSchema . "\n");
+        echo $urlSchema . "\n";
         exit();
     }
 } catch (Exception $e) {
