@@ -17,7 +17,6 @@ function __autoload($className)
 {
     $className = ltrim($className, '\\');
     $fileName  = '';
-    $namespace = '';
     if ($lastNsPos = strrpos($className, '\\')) {
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
@@ -112,6 +111,7 @@ Usage: validate-json data.json
 Options:
       --dump-schema     Output full schema and exit
       --dump-schema-url Output URL of schema
+      --quiet           Suppress output unless there are errors
    -h --help            Show this help
 
 HLP;
@@ -221,7 +221,9 @@ try {
     $validator->check($data, $schema);
 
     if ($validator->isValid()) {
-        echo "OK. The supplied JSON validates against the schema.\n";
+        if(!isset($arOptions['--quiet'])) {
+            echo "OK. The supplied JSON validates against the schema.\n";
+        }
     } else {
         echo "JSON does not validate. Violations:\n";
         foreach ($validator->getErrors() as $error) {
