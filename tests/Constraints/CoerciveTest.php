@@ -50,7 +50,9 @@ class CoerciveTest extends BasicTypesTest
 
         $this->assertTrue(gettype($value->number) == 'string');
         $this->assertTrue(gettype($value->integer) == 'string');
+        $this->assertTrue(gettype($value->negativeInteger) == 'string');
         $this->assertTrue(gettype($value->boolean) == 'string');
+        $this->assertTrue(gettype($value->null) == 'string');
 
         $validator->validate($value, $schema, $checkMode);
 
@@ -58,20 +60,17 @@ class CoerciveTest extends BasicTypesTest
         $this->assertTrue(gettype($value->integer) == 'integer');
         $this->assertTrue(gettype($value->negativeInteger) == 'integer');
         $this->assertTrue(gettype($value->boolean) == 'boolean');
+        $this->assertTrue(gettype($value->null) == 'NULL');
 
         $this->assertTrue($value->number === 1.5);
         $this->assertTrue($value->integer === 1);
         $this->assertTrue($value->negativeInteger === -2);
         $this->assertTrue($value->boolean === true);
+        $this->assertTrue($value->null === null);
 
         $this->assertTrue(gettype($value->multitype1) == 'boolean');
         $this->assertTrue(gettype($value->multitype2) == 'double');
         $this->assertTrue(gettype($value->multitype3) == 'integer');
-
-        $this->assertTrue($value->number === 1.5);
-        $this->assertTrue($value->integer === 1);
-        $this->assertTrue($value->negativeInteger === -2);
-        $this->assertTrue($value->boolean === true);
 
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }

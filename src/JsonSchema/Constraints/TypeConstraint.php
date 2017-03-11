@@ -211,7 +211,7 @@ class TypeConstraint extends Constraint
             if ($coerce) {
                 $value = $this->toNull($value);
             }
-            
+
             return is_null($value);
         }
 
