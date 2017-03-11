@@ -56,7 +56,7 @@ Options:
       --dump-schema     Output full schema and exit
       --dump-schema-url Output URL of schema
       --verbose         Show additional output
-      --quiet			Supress all output
+      --quiet           Suppress all output
    -h --help            Show this help
 
 HLP;
