@@ -128,7 +128,7 @@ class CoerciveTest extends BasicTypesTest
                   "boolean":"true",
                   "object":{},
                   "array":[],
-                  "null":null,
+                  "null":"",
                   "any": "string",
                   "allOf": "1",
                   "multitype1": "false",
