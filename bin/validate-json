@@ -224,7 +224,7 @@ $schema = $refResolver->resolveRef($urlSchema);
 
 if (isset($arOptions['--dump-schema'])) {
     $options = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0;
-    output(json_encode($schema, $options) . "\n");
+    echo json_encode($schema, $options) . "\n";
     exit();
 }
 
