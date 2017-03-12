@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\Constraints\FormatConstraint;
 
 class FormatTest extends BaseTestCase
@@ -74,6 +76,21 @@ class FormatTest extends BaseTestCase
 
         $validator->check($string, $schema);
         $this->assertEquals(1, count($validator->getErrors()), 'Expected 1 error');
+    }
+
+    /**
+     * @dataProvider getInvalidFormats
+     */
+    public function testDisabledFormat($string, $format)
+    {
+        $factory = new Factory();
+        $validator = new FormatConstraint($factory);
+        $schema = new \stdClass();
+        $schema->format = $format;
+        $factory->addConfig(Constraint::CHECK_MODE_DISABLE_FORMAT);
+
+        $validator->check($string, $schema);
+        $this->assertEmpty($validator->getErrors());
     }
 
     public function getValidFormats()
