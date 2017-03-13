@@ -44,16 +44,23 @@ class TypeConstraint extends Constraint
     {
         $type = isset($schema->type) ? $schema->type : null;
         $isValid = false;
+        $coerce = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES);
         $wording = array();
 
         if (is_array($type)) {
-            $this->validateTypesArray($value, $type, $wording, $isValid, $path);
+            $this->validateTypesArray($value, $type, $wording, $isValid, $path, false);
+            if (!$isValid && $coerce) {
+                $this->validateTypesArray($value, $type, $wording, $isValid, $path, true);
+            }
         } elseif (is_object($type)) {
             $this->checkUndefined($value, $type, $path);
 
             return;
         } else {
-            $isValid = $this->validateType($value, $type);
+            $isValid = $this->validateType($value, $type, false);
+            if (!$isValid && $coerce) {
+                $isValid = $this->validateType($value, $type, true);
+            }
         }
 
         if ($isValid === false) {
@@ -79,7 +86,7 @@ class TypeConstraint extends Constraint
      * @param bool  $isValid           The current validation value
      * @param $path
      */
-    protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid, $path)
+    protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid, $path, $coerce = false)
     {
         foreach ($type as $tp) {
             // already valid, so no need to waste cycles looping over everything
@@ -103,7 +110,7 @@ class TypeConstraint extends Constraint
                 $this->validateTypeNameWording($tp);
                 $validTypesWording[] = self::$wording[$tp];
                 if (!$isValid) {
-                    $isValid = $this->validateType($value, $tp);
+                    $isValid = $this->validateType($value, $tp, $coerce);
                 }
             }
         }
@@ -162,7 +169,7 @@ class TypeConstraint extends Constraint
      *
      * @return bool
      */
-    protected function validateType(&$value, $type)
+    protected function validateType(&$value, $type, $coerce = false)
     {
         //mostly the case for inline schema
         if (!$type) {
@@ -180,8 +187,6 @@ class TypeConstraint extends Constraint
         if ('array' === $type) {
             return $this->getTypeCheck()->isArray($value);
         }
-
-        $coerce = $this->factory->getConfig(Constraint::CHECK_MODE_COERCE_TYPES);
 
         if ('integer' === $type) {
             if ($coerce) {

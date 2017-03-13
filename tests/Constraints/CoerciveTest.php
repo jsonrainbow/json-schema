@@ -70,6 +70,7 @@ class CoerciveTest extends BasicTypesTest
         $this->assertTrue(gettype($value->multitype1) == 'boolean');
         $this->assertTrue(gettype($value->multitype2) == 'double');
         $this->assertTrue(gettype($value->multitype3) == 'integer');
+        $this->assertTrue(gettype($value->multitype4) == 'string');
 
         $this->assertTrue($value->number === 1.5);
         $this->assertTrue($value->integer === 1);
@@ -146,6 +147,7 @@ class CoerciveTest extends BasicTypesTest
                   "multitype1": "false",
                   "multitype2": "1.2",
                   "multitype3": "7",
+                  "multitype4": "45",
                   "arrayOfIntegers":["-1","0","1"],
                   "tupleTyping":["1","2.2","true"],
                   "any1": 2.6,
@@ -175,6 +177,7 @@ class CoerciveTest extends BasicTypesTest
                     "multitype1": {"type":["boolean","integer","number"]},
                     "multitype2": {"type":["boolean","integer","number"]},
                     "multitype3": {"type":["boolean","integer","number"]},
+                    "multitype4": {"type":["boolean","integer","string"]},
                      "arrayOfIntegers":{
                         "items":{
                             "type":"integer"
