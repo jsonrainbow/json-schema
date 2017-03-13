@@ -69,8 +69,8 @@ class TypeConstraint extends Constraint
                 $wording[] = self::$wording[$type];
             }
             $this->addError(ConstraintError::TYPE(), $path, array(
-                    'expected' => gettype($value),
-                    'found' => $this->implodeWith($wording, ', ', 'or')
+                    'found' => gettype($value),
+                    'expected' => $this->implodeWith($wording, ', ', 'or')
             ));
         }
     }
@@ -185,6 +185,10 @@ class TypeConstraint extends Constraint
         }
 
         if ('array' === $type) {
+            if ($coerce) {
+                $value = $this->toArray($value);
+            }
+
             return $this->getTypeCheck()->isArray($value);
         }
 
@@ -213,10 +217,18 @@ class TypeConstraint extends Constraint
         }
 
         if ('string' === $type) {
+            if ($coerce) {
+                $value = $this->toString($value);
+            }
+
             return is_string($value);
         }
 
         if ('null' === $type) {
+            if ($coerce) {
+                $value = $this->toNull($value);
+            }
+
             return is_null($value);
         }
 
@@ -232,19 +244,21 @@ class TypeConstraint extends Constraint
      */
     protected function toBoolean($value)
     {
-        if ($value === 'true') {
+        if ($value === 1 || $value === 'true') {
             return true;
         }
-
-        if ($value === 'false') {
+        if (is_null($value) || $value === 0 || $value === 'false') {
             return false;
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toBoolean(reset($value));
         }
 
         return $value;
     }
 
     /**
-     * Converts a numeric string to a number. For example, "4" becomes 4.
+     * Converts a value to a number. For example, "4.5" becomes 4.5.
      *
      * @param mixed $value the value to convert to a number
      *
@@ -255,14 +269,89 @@ class TypeConstraint extends Constraint
         if (is_numeric($value)) {
             return $value + 0; // cast to number
         }
+        if (is_bool($value) || is_null($value)) {
+            return (int) $value;
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toNumber(reset($value));
+        }
 
         return $value;
     }
 
+    /**
+     * Converts a value to an integer. For example, "4" becomes 4.
+     *
+     * @param mixed $value
+     *
+     * @return int|mixed
+     */
     protected function toInteger($value)
     {
-        if (is_numeric($value) && (int) $value == $value) {
-            return (int) $value; // cast to number
+        $numberValue = $this->toNumber($value);
+        if (is_numeric($numberValue) && (int) $numberValue == $numberValue) {
+            return (int) $numberValue; // cast to number
+        }
+
+        return $value;
+    }
+
+    /**
+     * Converts a value to an array containing that value. For example, [4] becomes 4.
+     *
+     * @param mixed $value
+     *
+     * @return array|mixed
+     */
+    protected function toArray($value)
+    {
+        if (is_scalar($value) || is_null($value)) {
+            return array($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Convert a value to a string representation of that value. For example, null becomes "".
+     *
+     * @param mixed $value
+     *
+     * @return string|mixed
+     */
+    protected function toString($value)
+    {
+        if (is_numeric($value)) {
+            return "$value";
+        }
+        if ($value === true) {
+            return 'true';
+        }
+        if ($value === false) {
+            return 'false';
+        }
+        if (is_null($value)) {
+            return '';
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toString(reset($value));
+        }
+    }
+
+    /**
+     * Convert a value to a null. For example, 0 becomes null.
+     *
+     * @param mixed $value
+     *
+     * @return null|mixed
+     */
+    protected function toNull($value)
+    {
+        if ($value === 0 || $value === false || $value === '') {
+            return null;
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toNull(reset($value));
         }
 
         return $value;
