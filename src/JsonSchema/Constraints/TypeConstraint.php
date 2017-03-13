@@ -82,6 +82,11 @@ class TypeConstraint extends Constraint
     protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid, $path)
     {
         foreach ($type as $tp) {
+            // already valid, so no need to waste cycles looping over everything
+            if ($isValid) {
+                return;
+            }
+
             // $tp can be an object, if it's a schema instead of a simple type, validate it
             // with a new type constraint
             if (is_object($tp)) {
