@@ -31,7 +31,7 @@ class CoerciveTest extends VeryBaseTestCase
             // toType
             'string' => array(
                 //    fromType      fromValue       toValue         valid   Test Number
-                array('string',     '"string"',     'string',       true),  // #0
+                array('string',     '"ABC"',        'ABC',          true),  // #0
                 array('integer',    '45',           '45',           true),  // #1
                 array('boolean',    'true',         'true',         true),  // #2
                 array('boolean',    'false',        'false',        true),  // #3
@@ -55,7 +55,7 @@ class CoerciveTest extends VeryBaseTestCase
                 array('boolean',    'true',         true,           true),  // #17
                 array('NULL',       'null',         false,          true),  // #18
                 array('array',      '["true"]',     true,           true),  // #19
-                array('object',     '{"a":"b"}',     null,          false), // #20
+                array('object',     '{"a":"b"}',    null,           false), // #20
                 array('string',     '""',           null,           false), // #21
                 array('string',     '"ABC"',        null,           false), // #22
                 array('integer',    '2',            null,           false), // #23
@@ -140,7 +140,7 @@ class CoerciveTest extends VeryBaseTestCase
         $tests[] = array(
             '{"properties":{"propertyOne":{"type":["object", "number", "string"]}}}',
             '{"propertyOne":"42"}',
-            'string', 'integer', 42, true, true
+            'string', 'integer', 42, true, Constraint::CHECK_MODE_EARLY_COERCE
         );
 
         // #45 check multiple types (none valid)
@@ -154,11 +154,8 @@ class CoerciveTest extends VeryBaseTestCase
     }
 
     /** @dataProvider dataCoerceCases **/
-    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $early = false, $assoc = false)
+    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $extraFlags = 0, $assoc = false)
     {
-        if ($early) {
-            $this->factory->addConfig(Constraint::CHECK_MODE_EARLY_COERCE);
-        }
         $validator = new Validator($this->factory);
 
         $schema = json_decode($schema);
@@ -171,7 +168,7 @@ class CoerciveTest extends VeryBaseTestCase
         }
         $this->assertEquals($startType, $type, "Incorrect type '$type': expected '$startType'");
 
-        $validator->validate($data, $schema);
+        $validator->validate($data, $schema, $this->factory->getConfig() | $extraFlags);
 
         // check validity
         if ($valid) {
@@ -199,8 +196,6 @@ class CoerciveTest extends VeryBaseTestCase
             $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed');
             $this->assertEquals(1, count($validator->getErrors()));
         }
-
-        $this->factory->removeConfig(Constraint::CHECK_MODE_EARLY_COERCE);
     }
 
     /** @dataProvider dataCoerceCases **/

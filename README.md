@@ -197,8 +197,8 @@ Please note that using `CHECK_MODE_COERCE_TYPES` or `CHECK_MODE_APPLY_DEFAULTS` 
 original data.
 
 `CHECK_MODE_EARLY_COERCE` has no effect unless used in combination with `CHECK_MODE_COERCE_TYPES`. If
-enabled, type coercion will occur as soon as possible, even if the value may already be of another valid
-type.
+enabled, the validator will use (and coerce) the first compatible type it encounters, even if the
+schema defines another type that matches directly and does not require coercion.
 
 ## Running the tests
 
