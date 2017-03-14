@@ -80,20 +80,6 @@ class CoerciveTest extends VeryBaseTestCase
             ),
         );
 
-        $tests = array();
-        foreach ($types as $toType => $testCases) {
-            foreach ($testCases as $testCase) {
-                $tests[] = array(
-                    sprintf('{"properties":{"propertyOne":{"type":"%s"}}}', strtolower($toType)),
-                    sprintf('{"propertyOne":%s}', $testCase[1]),
-                    $testCase[0],
-                    $toType,
-                    $testCase[2],
-                    $testCase[3]
-                );
-            }
-        }
-
         // #38 check post-coercion validation (to array)
         $tests[] = array(
             '{"properties":{"propertyOne":{"type":"array","items":[{"type":"number"}]}}}',
@@ -149,6 +135,20 @@ class CoerciveTest extends VeryBaseTestCase
             '{"propertyOne":"42"}',
             'string', 'integer', 42, true
         );
+
+        $tests = array();
+        foreach ($types as $toType => $testCases) {
+            foreach ($testCases as $testCase) {
+                $tests[] = array(
+                    sprintf('{"properties":{"propertyOne":{"type":"%s"}}}', strtolower($toType)),
+                    sprintf('{"propertyOne":%s}', $testCase[1]),
+                    $testCase[0],
+                    $toType,
+                    $testCase[2],
+                    $testCase[3]
+                );
+            }
+        }
 
         return $tests;
     }
