@@ -48,50 +48,44 @@ class CoerciveTest extends VeryBaseTestCase
                 array('NULL',       'null',         0,              true),  // #12
                 array('array',      '["-45"]',      -45,            true),  // #13
                 array('object',     '{"a":"b"}',    null,           false), // #14
+                array('array',      '["ABC"]',      null,           false), // #15
             ),
             'boolean' => array(
-                array('string',     '"true"',       true,           true),  // #15
-                array('integer',    '1',            true,           true),  // #16
-                array('boolean',    'true',         true,           true),  // #17
-                array('NULL',       'null',         false,          true),  // #18
-                array('array',      '["true"]',     true,           true),  // #19
-                array('object',     '{"a":"b"}',    null,           false), // #20
-                array('string',     '""',           null,           false), // #21
-                array('string',     '"ABC"',        null,           false), // #22
-                array('integer',    '2',            null,           false), // #23
+                array('string',     '"true"',       true,           true),  // #16
+                array('integer',    '1',            true,           true),  // #17
+                array('boolean',    'true',         true,           true),  // #18
+                array('NULL',       'null',         false,          true),  // #19
+                array('array',      '["true"]',     true,           true),  // #20
+                array('object',     '{"a":"b"}',    null,           false), // #21
+                array('string',     '""',           null,           false), // #22
+                array('string',     '"ABC"',        null,           false), // #23
+                array('integer',    '2',            null,           false), // #24
             ),
             'NULL' => array(
-                array('string',     '""',           null,           true),  // #24
-                array('integer',    '0',            null,           true),  // #25
-                array('boolean',    'false',        null,           true),  // #26
-                array('NULL',       'null',         null,           true),  // #27
-                array('array',      '[0]',          null,           true),  // #28
-                array('object',     '{"a":"b"}',    null,           false), // #29
-                array('string',     '"null"',       null,           false), // #30
-                array('integer',    '-1',           null,           false), // #31
+                array('string',     '""',           null,           true),  // #25
+                array('integer',    '0',            null,           true),  // #26
+                array('boolean',    'false',        null,           true),  // #27
+                array('NULL',       'null',         null,           true),  // #28
+                array('array',      '[0]',          null,           true),  // #29
+                array('object',     '{"a":"b"}',    null,           false), // #30
+                array('string',     '"null"',       null,           false), // #31
+                array('integer',    '-1',           null,           false), // #32
             ),
             'array' => array(
-                array('string',     '"ABC"',        array('ABC'),   true),  // #32
-                array('integer',    '45',           array(45),      true),  // #33
-                array('boolean',    'true',         array(true),    true),  // #34
-                array('NULL',       'null',         array(null),    true),  // #35
-                array('array',      '["ABC"]',      array('ABC'),   true),  // #36
-                array('object',     '{"a":"b"}',    null,           false), // #37
+                array('string',     '"ABC"',        array('ABC'),   true),  // #33
+                array('integer',    '45',           array(45),      true),  // #34
+                array('boolean',    'true',         array(true),    true),  // #35
+                array('NULL',       'null',         array(null),    true),  // #36
+                array('array',      '["ABC"]',      array('ABC'),   true),  // #37
+                array('object',     '{"a":"b"}',    null,           false), // #38
             ),
         );
 
-        // #38 check post-coercion validation (to array)
+        // #39 check post-coercion validation (to array)
         $tests[] = array(
             '{"properties":{"propertyOne":{"type":"array","items":[{"type":"number"}]}}}',
             '{"propertyOne":"ABC"}',
             'string', null, null, false
-        );
-
-        // #39 check post-coercion validation (from array)
-        $tests[] = array(
-            '{"properties":{"propertyOne":{"type":"number"}}}',
-            '{"propertyOne":["ABC"]}',
-            'array', null, null, false
         );
 
         // #40 check multiple types (first valid)
