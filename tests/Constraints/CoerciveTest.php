@@ -175,9 +175,10 @@ class CoerciveTest extends VeryBaseTestCase
 
         // check validity
         if ($valid) {
+            $prettyPrint = defined('\JSON_PRETTY_PRINT') ? constant('\JSON_PRETTY_PRINT') : 0;
             $this->assertTrue(
                 $validator->isValid(),
-                'Validation failed: ' . json_encode($validator->getErrors(), \JSON_PRETTY_PRINT)
+                'Validation failed: ' . json_encode($validator->getErrors(), $prettyPrint)
             );
 
             // check end type
