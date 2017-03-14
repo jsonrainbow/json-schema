@@ -143,6 +143,13 @@ class CoerciveTest extends VeryBaseTestCase
             'string', 'integer', 42, true, true
         );
 
+        // #45 check multiple types (none valid)
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":["number", "boolean"]}}}',
+            '{"propertyOne":"42"}',
+            'string', 'integer', 42, true
+        );
+
         return $tests;
     }
 
