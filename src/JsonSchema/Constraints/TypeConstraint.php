@@ -45,11 +45,12 @@ class TypeConstraint extends Constraint
         $type = isset($schema->type) ? $schema->type : null;
         $isValid = false;
         $coerce = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES);
+        $earlyCoerce = $this->factory->getConfig(self::CHECK_MODE_EARLY_COERCE);
         $wording = array();
 
         if (is_array($type)) {
-            $this->validateTypesArray($value, $type, $wording, $isValid, $path, false);
-            if (!$isValid && $coerce) {
+            $this->validateTypesArray($value, $type, $wording, $isValid, $path, $coerce && $earlyCoerce);
+            if (!$isValid && $coerce && !$earlyCoerce) {
                 $this->validateTypesArray($value, $type, $wording, $isValid, $path, true);
             }
         } elseif (is_object($type)) {
@@ -57,8 +58,8 @@ class TypeConstraint extends Constraint
 
             return;
         } else {
-            $isValid = $this->validateType($value, $type, false);
-            if (!$isValid && $coerce) {
+            $isValid = $this->validateType($value, $type, $coerce && $earlyCoerce);
+            if (!$isValid && $coerce && !$earlyCoerce) {
                 $isValid = $this->validateType($value, $type, true);
             }
         }

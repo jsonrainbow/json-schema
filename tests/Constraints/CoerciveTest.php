@@ -136,12 +136,22 @@ class CoerciveTest extends VeryBaseTestCase
             'array', 'array', array(42, '42'), true
         );
 
+        // #44 check early coercion
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":["object", "number", "string"]}}}',
+            '{"propertyOne":"42"}',
+            'string', 'integer', 42, true, true
+        );
+
         return $tests;
     }
 
     /** @dataProvider dataCoerceCases **/
-    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $assoc = false)
+    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $early = false, $assoc = false)
     {
+        if ($early) {
+            $this->factory->addConfig(Constraint::CHECK_MODE_EARLY_COERCE);
+        }
         $validator = new Validator($this->factory);
 
         $schema = json_decode($schema);
@@ -181,12 +191,14 @@ class CoerciveTest extends VeryBaseTestCase
             $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed');
             $this->assertEquals(1, count($validator->getErrors()));
         }
+
+        $this->factory->removeConfig(Constraint::CHECK_MODE_EARLY_COERCE);
     }
 
     /** @dataProvider dataCoerceCases **/
-    public function testCoerceCasesUsingAssoc($schema, $data, $startType, $endType, $endValue, $valid)
+    public function testCoerceCasesUsingAssoc($schema, $data, $startType, $endType, $endValue, $valid, $early = false)
     {
-        $this->testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, true);
+        $this->testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $early, true);
     }
 
     public function testCoerceAPI()
