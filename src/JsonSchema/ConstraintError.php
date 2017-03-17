@@ -2,6 +2,8 @@
 
 namespace JsonSchema;
 
+use JsonSchema\Exception\InvalidArgumentException;
+
 class ConstraintError extends \MabeEnum\Enum
 {
     const ADDITIONAL_ITEMS = 'additionalItems';
