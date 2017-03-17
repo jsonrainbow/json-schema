@@ -1,0 +1,42 @@
+<?php
+
+namespace JsonSchema\Tests;
+
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Validator;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
+{
+    public function testValidateWithAssocSchema()
+    {
+        $schema = json_decode('{"properties":{"propertyOne":{"type":"array","items":[{"type":"string"}]}}}', true);
+        $data = json_decode('{"propertyOne":[42]}', true);
+
+        $validator = new Validator();
+        $validator->validate($data, $schema);
+
+        $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed.');
+    }
+
+    public function testCheck()
+    {
+        $schema = json_decode('{"type":"string"}');
+        $data = json_decode('42');
+
+        $validator = new Validator();
+        $validator->check($data, $schema);
+
+        $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed.');
+    }
+
+    public function testCoerce()
+    {
+        $schema = json_decode('{"type":"integer"}');
+        $data = json_decode('"42"');
+
+        $validator = new Validator();
+        $validator->coerce($data, $schema);
+
+        $this->assertTrue($validator->isValid(), 'Validation failed, but should have succeeded.');
+    }
+}
