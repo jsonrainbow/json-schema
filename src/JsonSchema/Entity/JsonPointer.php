@@ -9,6 +9,8 @@
 
 namespace JsonSchema\Entity;
 
+use JsonSchema\Exception\InvalidArgumentException;
+
 /**
  * @package JsonSchema\Entity
  *
@@ -25,12 +27,12 @@ class JsonPointer
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when $value is not a string
+     * @throws InvalidArgumentException when $value is not a string
      */
     public function __construct($value)
     {
         if (!is_string($value)) {
-            throw new \InvalidArgumentException('Ref value must be a string');
+            throw new InvalidArgumentException('Ref value must be a string');
         }
 
         $splitRef = explode('#', $value, 2);
