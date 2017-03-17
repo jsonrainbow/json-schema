@@ -26,7 +26,7 @@ class FormatConstraint extends Constraint
      */
     public function check(&$element, $schema = null, JsonPointer $path = null, $i = null)
     {
-        if (!isset($schema->format)) {
+        if (!isset($schema->format) || $this->factory->getConfig(self::CHECK_MODE_DISABLE_FORMAT)) {
             return;
         }
 
