@@ -206,10 +206,6 @@ class TypeConstraint extends Constraint
             return is_string($value);
         }
 
-        if ('email' === $type) {
-            return is_string($value);
-        }
-
         if ('null' === $type) {
             return is_null($value);
         }
