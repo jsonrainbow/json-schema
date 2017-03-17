@@ -33,6 +33,7 @@ class ConstraintError extends \MabeEnum\Enum
     const MAXIMUM = 'maximum';
     const MIN_ITEMS = 'minItems';
     const MINIMUM = 'minimum';
+    const MISSING_ERROR = 'missingError';
     const MISSING_MAXIMUM = 'missingMaximum';
     const MISSING_MINIMUM = 'missingMinimum';
     const MAX_ITEMS = 'maxItems';
@@ -83,6 +84,7 @@ class ConstraintError extends \MabeEnum\Enum
             self::MINIMUM => 'Must have a minimum value greater than or equal to %d',
             self::MISSING_MAXIMUM => 'Use of exclusiveMaximum requires presence of maximum',
             self::MISSING_MINIMUM => 'Use of exclusiveMinimum requires presence of minimum',
+            /*self::MISSING_ERROR => 'Used for tests; this error is deliberately commented out',*/
             self::MULTIPLE_OF => 'Must be a multiple of %d',
             self::NOT => 'Matched a schema which it should not',
             self::ONE_OF => 'Failed to match exactly one schema',

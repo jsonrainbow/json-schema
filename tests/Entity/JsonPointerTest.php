@@ -109,4 +109,13 @@ class JsonPointerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('~definitions/general', '%custom%'), $modified->getPropertyPaths());
         $this->assertEquals('#/~0definitions~1general/%25custom%25', $modified->getPropertyPathAsString());
     }
+
+    public function testCreateWithInvalidValue()
+    {
+        $this->setExpectedException(
+            '\JsonSchema\Exception\InvalidArgumentException',
+            'Ref value must be a string'
+        );
+        new JsonPointer(null);
+    }
 }
