@@ -37,6 +37,10 @@ class Validator extends BaseConstraint
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {
+        // reset errors prior to validation
+        $this->reset();
+
+        // set checkMode
         $initialCheckMode = $this->factory->getConfig();
         if ($checkMode !== null) {
             $this->factory->setConfig($checkMode);
