@@ -12,6 +12,7 @@ namespace JsonSchema;
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\InvalidConfigException;
+use JsonSchema\SchemaStorage;
 
 /**
  * A JsonSchema Constraint
@@ -40,6 +41,9 @@ class Validator extends BaseConstraint
         if ($checkMode !== null) {
             $this->factory->setConfig($checkMode);
         }
+
+        // add provided schema to SchemaStorage with internal URI to allow internal $ref resolution
+        $this->factory->getSchemaStorage()->addSchema(SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
 
         $validator = $this->factory->createInstanceFor('schema');
         $validator->check($value, $schema);
