@@ -116,6 +116,15 @@ class CoerciveTest extends BasicTypesTest
         $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
+    public function testCoerceAPI()
+    {
+        $input = json_decode('{"propertyOne": "10"}');
+        $schema = json_decode('{"properties":{"propertyOne":{"type":"number"}}}');
+        $v = new Validator();
+        $v->coerce($input, $schema);
+        $this->assertEquals('{"propertyOne":10}', json_encode($input));
+    }
+
     public function getValidCoerceTests()
     {
         return array(

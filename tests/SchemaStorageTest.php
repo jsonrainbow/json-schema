@@ -264,4 +264,18 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    public function testGetUriRetriever()
+    {
+        $s = new SchemaStorage();
+        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $this->assertInstanceOf('\JsonSchema\Uri\UriRetriever', $s->getUriRetriever());
+    }
+
+    public function testGetUriResolver()
+    {
+        $s = new SchemaStorage();
+        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $this->assertInstanceOf('\JsonSchema\Uri\UriResolver', $s->getUriResolver());
+    }
 }
