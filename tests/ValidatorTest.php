@@ -18,6 +18,17 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed.');
     }
 
+    public function testBadAssocSchemaInput()
+    {
+        $schema = array('propertyOne' => fopen('php://stdout', 'w'));
+        $data = json_decode('{"propertyOne":[42]}', true);
+
+        $validator = new Validator();
+
+        $this->setExpectedException('\JsonSchema\Exception\InvalidArgumentException');
+        $validator->validate($data, $schema);
+    }
+
     public function testCheck()
     {
         $schema = json_decode('{"type":"string"}');
