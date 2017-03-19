@@ -23,6 +23,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         if (version_compare(phpversion(), '5.5.0', '<')) {
             $this->markTestSkipped('PHP versions < 5.5.0 trigger an error on json_encode issues');
         }
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('HHVM has no problem with encoding resources');
+        }
         $schema = array('propertyOne' => fopen('php://stdout', 'w'));
         $data = json_decode('{"propertyOne":[42]}', true);
 
