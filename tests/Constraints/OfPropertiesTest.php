@@ -83,8 +83,8 @@ class OfPropertiesTest extends BaseTestCase
                         'constraint' => array(
                             'name' => 'type',
                             'params' => array(
-                                'expected'   => 'array',
-                                'found'      => 'a string'
+                                'expected'   => 'a string',
+                                'found'      => 'array'
                             )
                         ),
                         'context'    => Validator::ERROR_DOCUMENT_VALIDATION
@@ -96,8 +96,8 @@ class OfPropertiesTest extends BaseTestCase
                         'constraint' => array(
                             'name' => 'type',
                             'params' => array(
-                                'expected'   => 'array',
-                                'found'      => 'a number'
+                                'expected'   => 'a number',
+                                'found'      => 'array'
                             )
                         ),
                         'context'    => Validator::ERROR_DOCUMENT_VALIDATION
