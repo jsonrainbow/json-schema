@@ -16,6 +16,8 @@ use JsonSchema\Validator;
  */
 class OfPropertiesTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     public function getValidTests()
     {
         return array(
@@ -84,7 +86,8 @@ class OfPropertiesTest extends BaseTestCase
                                 'expected'   => 'array',
                                 'found'      => 'a string'
                             )
-                        )
+                        ),
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                     array(
                         'property'   => 'prop2',
@@ -96,7 +99,8 @@ class OfPropertiesTest extends BaseTestCase
                                 'expected'   => 'array',
                                 'found'      => 'a number'
                             )
-                        )
+                        ),
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                     array(
                         'property'   => 'prop2',
@@ -105,7 +109,8 @@ class OfPropertiesTest extends BaseTestCase
                         'constraint' => array(
                             'name' => 'oneOf',
                             'params' => array()
-                        )
+                        ),
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                 ),
             ),

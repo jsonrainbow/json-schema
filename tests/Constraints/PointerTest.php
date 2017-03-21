@@ -13,6 +13,8 @@ use JsonSchema\Validator;
 
 class PointerTest extends \PHPUnit_Framework_TestCase
 {
+    protected $validateSchema = true;
+
     public function testVariousPointers()
     {
         $schema = array(
@@ -93,7 +95,8 @@ class PointerTest extends \PHPUnit_Framework_TestCase
                         'params' => array(
                             'property' => 'prop1'
                         )
-                    )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ),
                 array(
                     'property' => 'prop2.prop2.1',
@@ -104,7 +107,8 @@ class PointerTest extends \PHPUnit_Framework_TestCase
                         'params' => array(
                             'property' => 'prop2.1'
                         )
-                    )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ),
                 array(
                     'property' => 'prop3.prop3/1.prop3/1.1',
@@ -115,7 +119,8 @@ class PointerTest extends \PHPUnit_Framework_TestCase
                         'params' => array(
                             'property' => 'prop3/1.1'
                         )
-                    )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ),
                 array(
                     'property' => 'prop4[0].prop4-child',
@@ -126,7 +131,8 @@ class PointerTest extends \PHPUnit_Framework_TestCase
                         'params' => array(
                             'property' => 'prop4-child'
                         )
-                    )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 )
             ),
             $validator->getErrors()

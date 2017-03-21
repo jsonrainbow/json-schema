@@ -26,6 +26,11 @@ class Validator extends BaseConstraint
 {
     const SCHEMA_MEDIA_TYPE = 'application/schema+json';
 
+    const ERROR_NONE                    = 0x00000000;
+    const ERROR_ALL                     = 0xFFFFFFFF;
+    const ERROR_DOCUMENT_VALIDATION     = 0x00000001;
+    const ERROR_SCHEMA_VALIDATION       = 0x00000002;
+
     /**
      * Validates the given data against the schema and returns an object containing the results
      * Both the php object and the schema are supposed to be a result of a json_decode call.
@@ -60,6 +65,8 @@ class Validator extends BaseConstraint
         $this->factory->setConfig($initialCheckMode);
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
+
+        return $validator->getErrorMask();
     }
 
     /**

@@ -16,6 +16,9 @@ use JsonSchema\Constraints\Constraint;
  */
 class Draft3Test extends BaseDraftTestCase
 {
+    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $validateSchema = true;
+
     /**
      * {@inheritdoc}
      */

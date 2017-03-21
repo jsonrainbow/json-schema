@@ -17,6 +17,9 @@ use JsonSchema\Validator;
 
 class CoerciveTest extends BasicTypesTest
 {
+    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $validateSchema = true;
+
     /**
      * @dataProvider getValidCoerceTests
      */
