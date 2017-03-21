@@ -21,13 +21,20 @@ use JsonSchema\Entity\JsonPointer;
 class ObjectConstraint extends Constraint
 {
     /**
+     * @var array List of properties to which a default value has been applied
+     */
+    protected $appliedDefaults = array();
+
+    /**
      * {@inheritdoc}
      */
-    public function check(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null)
+    public function check(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null, $appliedDefaults = array())
     {
         if ($element instanceof UndefinedConstraint) {
             return;
         }
+
+        $this->appliedDefaults = $appliedDefaults;
 
         $matches = array();
         if ($patternProperties) {
@@ -64,7 +71,7 @@ class ObjectConstraint extends Constraint
             foreach ($element as $i => $value) {
                 if (preg_match($delimiter . $pregex . $delimiter . 'u', $i)) {
                     $matches[] = $i;
-                    $this->checkUndefined($value, $schema ?: new \stdClass(), $path, $i);
+                    $this->checkUndefined($value, $schema ?: new \stdClass(), $path, $i, in_array($i, $this->appliedDefaults));
                 }
             }
         }
@@ -96,9 +103,9 @@ class ObjectConstraint extends Constraint
             // additional properties defined
             if (!in_array($i, $matches) && $additionalProp && !$definition) {
                 if ($additionalProp === true) {
-                    $this->checkUndefined($value, null, $path, $i);
+                    $this->checkUndefined($value, null, $path, $i, in_array($i, $this->appliedDefaults));
                 } else {
-                    $this->checkUndefined($value, $additionalProp, $path, $i);
+                    $this->checkUndefined($value, $additionalProp, $path, $i, in_array($i, $this->appliedDefaults));
                 }
             }
 
@@ -135,7 +142,7 @@ class ObjectConstraint extends Constraint
 
             if (is_object($definition)) {
                 // Undefined constraint will check for is_object() and quit if is not - so why pass it?
-                $this->checkUndefined($property, $definition, $path, $i);
+                $this->checkUndefined($property, $definition, $path, $i, in_array($i, $this->appliedDefaults));
             }
         }
     }
