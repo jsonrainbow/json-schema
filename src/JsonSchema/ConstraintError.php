@@ -4,7 +4,7 @@ namespace JsonSchema;
 
 use JsonSchema\Exception\InvalidArgumentException;
 
-class ConstraintError extends \MabeEnum\Enum
+class ConstraintError extends Enum
 {
     const ADDITIONAL_ITEMS = 'additionalItems';
     const ADDITIONAL_PROPERTIES = 'additionalProp';
