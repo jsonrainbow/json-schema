@@ -44,16 +44,24 @@ class TypeConstraint extends Constraint
     {
         $type = isset($schema->type) ? $schema->type : null;
         $isValid = false;
+        $coerce = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES);
+        $earlyCoerce = $this->factory->getConfig(self::CHECK_MODE_EARLY_COERCE);
         $wording = array();
 
         if (is_array($type)) {
-            $this->validateTypesArray($value, $type, $wording, $isValid, $path);
+            $this->validateTypesArray($value, $type, $wording, $isValid, $path, $coerce && $earlyCoerce);
+            if (!$isValid && $coerce && !$earlyCoerce) {
+                $this->validateTypesArray($value, $type, $wording, $isValid, $path, true);
+            }
         } elseif (is_object($type)) {
             $this->checkUndefined($value, $type, $path);
 
             return;
         } else {
-            $isValid = $this->validateType($value, $type);
+            $isValid = $this->validateType($value, $type, $coerce && $earlyCoerce);
+            if (!$isValid && $coerce && !$earlyCoerce) {
+                $isValid = $this->validateType($value, $type, true);
+            }
         }
 
         if ($isValid === false) {
@@ -62,8 +70,8 @@ class TypeConstraint extends Constraint
                 $wording[] = self::$wording[$type];
             }
             $this->addError(ConstraintError::TYPE(), $path, array(
-                    'expected' => gettype($value),
-                    'found' => $this->implodeWith($wording, ', ', 'or')
+                    'found' => gettype($value),
+                    'expected' => $this->implodeWith($wording, ', ', 'or')
             ));
         }
     }
@@ -79,9 +87,14 @@ class TypeConstraint extends Constraint
      * @param bool  $isValid           The current validation value
      * @param $path
      */
-    protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid, $path)
+    protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid, $path, $coerce = false)
     {
         foreach ($type as $tp) {
+            // already valid, so no need to waste cycles looping over everything
+            if ($isValid) {
+                return;
+            }
+
             // $tp can be an object, if it's a schema instead of a simple type, validate it
             // with a new type constraint
             if (is_object($tp)) {
@@ -98,7 +111,7 @@ class TypeConstraint extends Constraint
                 $this->validateTypeNameWording($tp);
                 $validTypesWording[] = self::$wording[$tp];
                 if (!$isValid) {
-                    $isValid = $this->validateType($value, $tp);
+                    $isValid = $this->validateType($value, $tp, $coerce);
                 }
             }
         }
@@ -157,7 +170,7 @@ class TypeConstraint extends Constraint
      *
      * @return bool
      */
-    protected function validateType(&$value, $type)
+    protected function validateType(&$value, $type, $coerce = false)
     {
         //mostly the case for inline schema
         if (!$type) {
@@ -173,10 +186,12 @@ class TypeConstraint extends Constraint
         }
 
         if ('array' === $type) {
+            if ($coerce) {
+                $value = $this->toArray($value);
+            }
+
             return $this->getTypeCheck()->isArray($value);
         }
-
-        $coerce = $this->factory->getConfig(Constraint::CHECK_MODE_COERCE_TYPES);
 
         if ('integer' === $type) {
             if ($coerce) {
@@ -203,10 +218,18 @@ class TypeConstraint extends Constraint
         }
 
         if ('string' === $type) {
+            if ($coerce) {
+                $value = $this->toString($value);
+            }
+
             return is_string($value);
         }
 
         if ('null' === $type) {
+            if ($coerce) {
+                $value = $this->toNull($value);
+            }
+
             return is_null($value);
         }
 
@@ -222,19 +245,21 @@ class TypeConstraint extends Constraint
      */
     protected function toBoolean($value)
     {
-        if ($value === 'true') {
+        if ($value === 1 || $value === 'true') {
             return true;
         }
-
-        if ($value === 'false') {
+        if (is_null($value) || $value === 0 || $value === 'false') {
             return false;
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toBoolean(reset($value));
         }
 
         return $value;
     }
 
     /**
-     * Converts a numeric string to a number. For example, "4" becomes 4.
+     * Converts a value to a number. For example, "4.5" becomes 4.5.
      *
      * @param mixed $value the value to convert to a number
      *
@@ -245,14 +270,89 @@ class TypeConstraint extends Constraint
         if (is_numeric($value)) {
             return $value + 0; // cast to number
         }
+        if (is_bool($value) || is_null($value)) {
+            return (int) $value;
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toNumber(reset($value));
+        }
 
         return $value;
     }
 
+    /**
+     * Converts a value to an integer. For example, "4" becomes 4.
+     *
+     * @param mixed $value
+     *
+     * @return int|mixed
+     */
     protected function toInteger($value)
     {
-        if (is_numeric($value) && (int) $value == $value) {
-            return (int) $value; // cast to number
+        $numberValue = $this->toNumber($value);
+        if (is_numeric($numberValue) && (int) $numberValue == $numberValue) {
+            return (int) $numberValue; // cast to number
+        }
+
+        return $value;
+    }
+
+    /**
+     * Converts a value to an array containing that value. For example, [4] becomes 4.
+     *
+     * @param mixed $value
+     *
+     * @return array|mixed
+     */
+    protected function toArray($value)
+    {
+        if (is_scalar($value) || is_null($value)) {
+            return array($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Convert a value to a string representation of that value. For example, null becomes "".
+     *
+     * @param mixed $value
+     *
+     * @return string|mixed
+     */
+    protected function toString($value)
+    {
+        if (is_numeric($value)) {
+            return "$value";
+        }
+        if ($value === true) {
+            return 'true';
+        }
+        if ($value === false) {
+            return 'false';
+        }
+        if (is_null($value)) {
+            return '';
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toString(reset($value));
+        }
+    }
+
+    /**
+     * Convert a value to a null. For example, 0 becomes null.
+     *
+     * @param mixed $value
+     *
+     * @return null|mixed
+     */
+    protected function toNull($value)
+    {
+        if ($value === 0 || $value === false || $value === '') {
+            return null;
+        }
+        if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
+            return $this->toNull(reset($value));
         }
 
         return $value;
