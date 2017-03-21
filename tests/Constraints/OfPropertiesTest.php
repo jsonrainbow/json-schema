@@ -8,6 +8,9 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Validator;
+
 /**
  * Class OfPropertiesTest
  */
@@ -207,5 +210,45 @@ class OfPropertiesTest extends BaseTestCase
                 }'
             )
         );
+    }
+
+    public function testNoPrematureAnyOfException()
+    {
+        $schema = json_decode('{
+            "type": "object",
+            "properties": {
+                "propertyOne": {
+                    "anyOf": [
+                        {"type": "number"},
+                        {"type": "string"}
+                    ]
+                }
+            }
+        }');
+        $data = json_decode('{"propertyOne":"ABC"}');
+
+        $v = new Validator();
+        $v->validate($data, $schema, Constraint::CHECK_MODE_EXCEPTIONS);
+        $this->assertTrue($v->isValid());
+    }
+
+    public function testNoPrematureOneOfException()
+    {
+        $schema = json_decode('{
+            "type": "object",
+            "properties": {
+                "propertyOne": {
+                    "oneOf": [
+                        {"type": "number"},
+                        {"type": "string"}
+                    ]
+                }
+            }
+        }');
+        $data = json_decode('{"propertyOne":"ABC"}');
+
+        $v = new Validator();
+        $v->validate($data, $schema, Constraint::CHECK_MODE_EXCEPTIONS);
+        $this->assertTrue($v->isValid());
     }
 }

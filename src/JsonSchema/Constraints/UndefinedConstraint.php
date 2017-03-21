@@ -11,6 +11,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\ValidationException;
 use JsonSchema\Uri\UriResolver;
 
 /**
@@ -243,11 +244,16 @@ class UndefinedConstraint extends Constraint
         if (isset($schema->anyOf)) {
             $isValid = false;
             $startErrors = $this->getErrors();
+            $caughtException = null;
             foreach ($schema->anyOf as $anyOf) {
                 $initErrors = $this->getErrors();
-                $this->checkUndefined($value, $anyOf, $path, $i);
-                if ($isValid = (count($this->getErrors()) == count($initErrors))) {
-                    break;
+                try {
+                    $this->checkUndefined($value, $anyOf, $path, $i);
+                    if ($isValid = (count($this->getErrors()) == count($initErrors))) {
+                        break;
+                    }
+                } catch (ValidationException $e) {
+                    $isValid = false;
                 }
             }
             if (!$isValid) {
@@ -262,12 +268,17 @@ class UndefinedConstraint extends Constraint
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
-                $this->errors = array();
-                $this->checkUndefined($value, $oneOf, $path, $i);
-                if (count($this->getErrors()) == 0) {
-                    $matchedSchemas++;
+                try {
+                    $this->errors = array();
+                    $this->checkUndefined($value, $oneOf, $path, $i);
+                    if (count($this->getErrors()) == 0) {
+                        $matchedSchemas++;
+                    }
+                    $allErrors = array_merge($allErrors, array_values($this->getErrors()));
+                } catch (ValidationException $e) {
+                    // deliberately do nothing here - validation failed, but we want to check
+                    // other schema options in the OneOf field.
                 }
-                $allErrors = array_merge($allErrors, array_values($this->getErrors()));
             }
             if ($matchedSchemas !== 1) {
                 $this->addErrors(array_merge($allErrors, $startErrors));
