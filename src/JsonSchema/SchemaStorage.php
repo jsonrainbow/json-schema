@@ -79,8 +79,18 @@ class SchemaStorage implements SchemaStorageInterface
     public function resolveRef($ref)
     {
         $jsonPointer = new JsonPointer($ref);
-        $refSchema = $this->getSchema($jsonPointer->getFilename());
 
+        // resolve filename for pointer
+        $fileName = $jsonPointer->getFilename();
+        if (!strlen($fileName)) {
+            throw new UnresolvableJsonPointerException(sprintf(
+                "Could not resolve fragment '%s': no file is defined",
+                $jsonPointer->getPropertyPathAsString()
+            ));
+        }
+
+        // get & process the schema
+        $refSchema = $this->getSchema($fileName);
         foreach ($jsonPointer->getPropertyPaths() as $path) {
             if (is_object($refSchema) && property_exists($refSchema, $path)) {
                 $refSchema = $this->resolveRefSchema($refSchema->{$path});
