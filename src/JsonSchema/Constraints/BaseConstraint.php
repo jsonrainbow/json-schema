@@ -10,7 +10,9 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
+use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\ValidationException;
 
 /**
@@ -88,5 +90,26 @@ class BaseConstraint
     public function reset()
     {
         $this->errors = array();
+    }
+
+    /**
+     * Recursively cast an associative array to an object
+     *
+     * @param array $array
+     *
+     * @return object
+     */
+    public static function arrayToObjectRecursive($array)
+    {
+        $json = json_encode($array);
+        if (json_last_error() !== \JSON_ERROR_NONE) {
+            $message = 'Unable to encode schema array as JSON';
+            if (version_compare(phpversion(), '5.5.0', '>=')) {
+                $message .= ': ' . json_last_error_msg();
+            }
+            throw new InvalidArgumentException($message);
+        }
+
+        return json_decode($json);
     }
 }
