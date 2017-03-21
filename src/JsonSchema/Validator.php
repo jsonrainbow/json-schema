@@ -42,9 +42,6 @@ class Validator extends BaseConstraint
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {
-        // reset errors prior to validation
-        $this->reset();
-
         // make sure $schema is an object
         if (is_array($schema)) {
             $schema = self::arrayToObjectRecursive($schema);
