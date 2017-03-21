@@ -16,6 +16,8 @@ use JsonSchema\Validator;
  */
 class OfPropertiesTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     public function getValidTests()
     {
         return array(
@@ -79,18 +81,21 @@ class OfPropertiesTest extends BaseTestCase
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a string is required',
                         'constraint' => 'type',
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a number is required',
                         'constraint' => 'type',
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Failed to match exactly one schema',
                         'constraint' => 'oneOf',
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                 ),
             ),
