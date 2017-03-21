@@ -40,6 +40,11 @@ class Validator extends BaseConstraint
         // reset errors prior to validation
         $this->reset();
 
+        // make sure $schema is an object
+        if (is_array($schema)) {
+            $schema = self::arrayToObjectRecursive($schema);
+        }
+
         // set checkMode
         $initialCheckMode = $this->factory->getConfig();
         if ($checkMode !== null) {
