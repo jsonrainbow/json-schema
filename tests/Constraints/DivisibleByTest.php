@@ -11,6 +11,8 @@ namespace JsonSchema\Tests\Constraints;
 
 class DivisibleByTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     public function getInvalidTests()
     {
         return array(

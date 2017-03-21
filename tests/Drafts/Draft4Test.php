@@ -14,6 +14,9 @@ namespace JsonSchema\Tests\Drafts;
  */
 class Draft4Test extends BaseDraftTestCase
 {
+    protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
+    protected $validateSchema = true;
+
     /**
      * {@inheritdoc}
      */
