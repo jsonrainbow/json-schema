@@ -1,0 +1,12 @@
+{
+    "$id": "http://example.com/foo/bar#",
+    "type": "object",
+    "properties": {
+        "foo": {
+            "type": "string",
+            "default": "bar"
+        }
+    },
+    "required": ["foo"],
+    "additionalProperties": false
+}

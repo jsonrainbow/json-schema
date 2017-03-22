@@ -16,6 +16,7 @@ use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\UriRetrieverInterface;
+use JsonSchema\Validator;
 
 /**
  * Factory for centralize constraint initialization.
@@ -41,6 +42,11 @@ class Factory
      * @var TypeCheck\TypeCheckInterface[]
      */
     private $typeCheck = array();
+
+    /**
+     * @var int Validation context
+     */
+    protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
 
     /**
      * @var array
@@ -192,5 +198,25 @@ class Factory
         }
 
         return clone $this->instanceCache[$constraintName];
+    }
+
+    /**
+     * Get the error context
+     *
+     * @return string
+     */
+    public function getErrorContext()
+    {
+        return $this->errorContext;
+    }
+
+    /**
+     * Set the error context
+     *
+     * @param string $validationContext
+     */
+    public function setErrorContext($errorContext)
+    {
+        $this->errorContext = $errorContext;
     }
 }

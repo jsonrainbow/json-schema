@@ -66,7 +66,7 @@ abstract class VeryBaseTestCase extends \PHPUnit_Framework_TestCase
     {
         if (!$this->jsonSchemaDraft03) {
             $this->jsonSchemaDraft03 = json_decode(
-                file_get_contents(__DIR__ . '/../fixtures/json-schema-draft-03.json')
+                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-03.json')
             );
         }
 
@@ -80,7 +80,7 @@ abstract class VeryBaseTestCase extends \PHPUnit_Framework_TestCase
     {
         if (!$this->jsonSchemaDraft04) {
             $this->jsonSchemaDraft04 = json_decode(
-                file_get_contents(__DIR__ . '/../fixtures/json-schema-draft-04.json')
+                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-04.json')
             );
         }
 

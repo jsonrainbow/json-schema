@@ -187,7 +187,10 @@ third argument to `Validator::validate()`, or can be provided as the third argum
 | `Constraint::CHECK_MODE_TYPE_CAST` | Enable fuzzy type checking for associative arrays and objects |
 | `Constraint::CHECK_MODE_COERCE_TYPES` | Convert data types to match the schema where possible |
 | `Constraint::CHECK_MODE_APPLY_DEFAULTS` | Apply default values from the schema if not set |
+| `Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS` | When applying defaults, only set values that are required |
 | `Constraint::CHECK_MODE_EXCEPTIONS` | Throw an exception immediately if validation fails |
+| `Constraint::CHECK_MODE_DISABLE_FORMAT` | Do not validate "format" constraints |
+| `Constraint::CHECK_MODE_VALIDATE_SCHEMA` | Validate the schema as well as the provided document |
 
 Please note that using `Constraint::CHECK_MODE_COERCE_TYPES` or `Constraint::CHECK_MODE_APPLY_DEFAULTS`
 will modify your original data.

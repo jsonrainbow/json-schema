@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Uri\Retrievers;
 
+use JsonSchema\Exception\RuntimeException;
 use JsonSchema\Validator;
 
 /**
@@ -23,7 +24,8 @@ class Curl extends AbstractRetriever
     public function __construct()
     {
         if (!function_exists('curl_init')) {
-            throw new \RuntimeException('cURL not installed');
+            // Cannot test this, because curl_init is present on all test platforms plus mock
+            throw new RuntimeException('cURL not installed'); // @codeCoverageIgnore
         }
     }
 
