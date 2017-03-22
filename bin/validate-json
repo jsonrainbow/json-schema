@@ -6,32 +6,18 @@
  * @author Christian Weiske <christian.weiske@netresearch.de>
  */
 
-/**
- * Dead simple autoloader
- *
- * @param string $className Name of class to load
- *
- * @return void
- */
-function __autoload($className)
-{
-    $className = ltrim($className, '\\');
-    $fileName  = '';
-    if ($lastNsPos = strrpos($className, '\\')) {
-        $namespace = substr($className, 0, $lastNsPos);
-        $className = substr($className, $lastNsPos + 1);
-        $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-    }
-    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-    if (stream_resolve_include_path($fileName)) {
-        require_once $fileName;
-    }
+// support running this tool from git checkout
+if (is_dir(__DIR__ . '/../vendor')) {
+    set_include_path(__DIR__ . '/..' . PATH_SEPARATOR . get_include_path());
 }
 
-// support running this tool from git checkout
-if (is_dir(__DIR__ . '/../src/JsonSchema')) {
-    set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
+// autoload composer classes
+$composerAutoload = stream_resolve_include_path('vendor/autoload.php');
+if (!$composerAutoload) {
+    echo("Cannot load json-schema library\n");
+    exit(1);
 }
+require($composerAutoload);
 
 $arOptions = array();
 $arArgs = array();
