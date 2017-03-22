@@ -15,8 +15,6 @@ use JsonSchema\Validator;
 
 class LongArraysTest extends VeryBaseTestCase
 {
-    protected $validateSchema = true;
-
     public function testLongStringArray()
     {
         $schema =
