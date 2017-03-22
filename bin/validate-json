@@ -17,6 +17,7 @@ function __autoload($className)
 {
     $className = ltrim($className, '\\');
     $fileName  = '';
+    $namespace = '';
     if ($lastNsPos = strrpos($className, '\\')) {
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
@@ -26,49 +27,6 @@ function __autoload($className)
     if (stream_resolve_include_path($fileName)) {
         require_once $fileName;
     }
-}
-
-// support running this tool from git checkout
-if (is_dir(__DIR__ . '/../src/JsonSchema')) {
-    set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
-}
-
-$arOptions = array();
-$arArgs = array();
-array_shift($argv);//script itself
-foreach ($argv as $arg) {
-    if ($arg{0} == '-') {
-        $arOptions[$arg] = true;
-    } else {
-        $arArgs[] = $arg;
-    }
-}
-
-if (count($arArgs) == 0
-    || isset($arOptions['--help']) || isset($arOptions['-h'])
-) {
-    echo <<<HLP
-Validate schema
-Usage: validate-json data.json
-   or: validate-json data.json schema.json
-
-Options:
-      --dump-schema     Output full schema and exit
-      --dump-schema-url Output URL of schema
-      --verbose         Show additional output
-      --quiet           Suppress all output
-   -h --help            Show this help
-
-HLP;
-    exit(1);
-}
-
-if (count($arArgs) == 1) {
-    $pathData   = $arArgs[0];
-    $pathSchema = null;
-} else {
-    $pathData   = $arArgs[0];
-    $pathSchema = getUrlFromPath($arArgs[1]);
 }
 
 /**
@@ -86,7 +44,7 @@ function showJsonError()
         }
     }
 
-    output('JSON parse error: ' . $json_errors[json_last_error()] . "\n");
+    echo 'JSON parse error: ' . $json_errors[json_last_error()] . "\n";
 }
 
 function getUrlFromPath($path)
@@ -126,16 +84,46 @@ function parseHeaderValue($headerValue)
     return $arData;
 }
 
-/**
- * Send a string to the output stream, but only if --quiet is not enabled
- *
- * @param $str A string output
- */
-function output($str) {
-    global $arOptions;
-    if (!isset($arOptions['--quiet'])) {
-        echo $str;
+
+// support running this tool from git checkout
+if (is_dir(__DIR__ . '/../src/JsonSchema')) {
+    set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
+}
+
+$arOptions = array();
+$arArgs = array();
+array_shift($argv);//script itself
+foreach ($argv as $arg) {
+    if ($arg{0} == '-') {
+        $arOptions[$arg] = true;
+    } else {
+        $arArgs[] = $arg;
     }
+}
+
+if (count($arArgs) == 0
+    || isset($arOptions['--help']) || isset($arOptions['-h'])
+) {
+    echo <<<HLP
+Validate schema
+Usage: validate-json data.json
+   or: validate-json data.json schema.json
+
+Options:
+      --dump-schema     Output full schema and exit
+      --dump-schema-url Output URL of schema
+   -h --help            Show this help
+
+HLP;
+    exit(1);
+}
+
+if (count($arArgs) == 1) {
+    $pathData   = $arArgs[0];
+    $pathSchema = null;
+} else {
+    $pathData   = $arArgs[0];
+    $pathSchema = getUrlFromPath($arArgs[1]);
 }
 
 $urlData = getUrlFromPath($pathData);
@@ -153,14 +141,14 @@ $context = stream_context_create(
 );
 $dataString = file_get_contents($pathData, false, $context);
 if ($dataString == '') {
-    output("Data file is not readable or empty.\n");
+    echo "Data file is not readable or empty.\n";
     exit(3);
 }
 
 $data = json_decode($dataString);
 unset($dataString);
 if ($data === null) {
-    output("Error loading JSON data file\n");
+    echo "Error loading JSON data file\n";
     showJsonError();
     exit(5);
 }
@@ -194,9 +182,9 @@ if ($pathSchema === null) {
 
     //autodetect schema
     if ($pathSchema === null) {
-        output("JSON data must be an object and have a \$schema property.\n");
-        output("You can pass the schema file on the command line as well.\n");
-        output("Schema autodetection failed.\n");
+        echo "JSON data must be an object and have a \$schema property.\n";
+        echo "You can pass the schema file on the command line as well.\n";
+        echo "Schema autodetection failed.\n";
         exit(6);
     }
 }
@@ -214,9 +202,9 @@ try {
         exit();
     }
 } catch (Exception $e) {
-    output("Error loading JSON schema file\n");
-    output($urlSchema . "\n");
-    output($e->getMessage() . "\n");
+    echo "Error loading JSON schema file\n";
+    echo $urlSchema . "\n";
+    echo $e->getMessage() . "\n";
     exit(2);
 }
 $refResolver = new JsonSchema\SchemaStorage($retriever, $resolver);
@@ -233,19 +221,17 @@ try {
     $validator->check($data, $schema);
 
     if ($validator->isValid()) {
-        if(isset($arOptions['--verbose'])) {
-            output("OK. The supplied JSON validates against the schema.\n");
-        }
+        echo "OK. The supplied JSON validates against the schema.\n";
     } else {
-        output("JSON does not validate. Violations:\n");
+        echo "JSON does not validate. Violations:\n";
         foreach ($validator->getErrors() as $error) {
-            output(sprintf("[%s] %s\n", $error['property'], $error['message']));
+            echo sprintf("[%s] %s\n", $error['property'], $error['message']);
         }
         exit(23);
     }
 } catch (Exception $e) {
-    output("JSON does not validate. Error:\n");
-    output($e->getMessage() . "\n");
-    output("Error code: " . $e->getCode() . "\n");
+    echo "JSON does not validate. Error:\n";
+    echo $e->getMessage() . "\n";
+    echo "Error code: " . $e->getCode() . "\n";
     exit(24);
 }

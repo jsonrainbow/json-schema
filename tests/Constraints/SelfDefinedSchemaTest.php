@@ -13,15 +13,12 @@ use JsonSchema\Validator;
 
 class SelfDefinedSchemaTest extends BaseTestCase
 {
-    protected $validateSchema = true;
-
     public function getInvalidTests()
     {
         return array(
             array(
                 '{
                     "$schema": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "name": {
                                 "type": "string"
@@ -47,7 +44,6 @@ class SelfDefinedSchemaTest extends BaseTestCase
             array(
                 '{
                     "$schema": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "name": {
                                 "type": "string"

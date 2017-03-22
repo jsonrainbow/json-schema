@@ -9,12 +9,8 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-use JsonSchema\Validator;
-
 class AdditionalPropertiesTest extends BaseTestCase
 {
-    protected $validateSchema = true;
-
     public function getInvalidTests()
     {
         return array(
@@ -40,13 +36,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                         'property'   => '',
                         'pointer'    => '',
                         'message'    => 'The property additionalProp is not defined and the definition does not allow additional properties',
-                        'constraint' => array(
-                            'name' => 'additionalProp',
-                            'params' => array(
-                                'property' => 'additionalProp'
-                            )
-                        ),
-                        'context' => Validator::ERROR_DOCUMENT_VALIDATION
+                        'constraint' => 'additionalProp',
                     )
                 )
             ),

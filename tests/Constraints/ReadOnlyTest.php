@@ -11,8 +11,6 @@ namespace JsonSchema\Tests\Constraints;
 
 class ReadOnlyTest extends BaseTestCase
 {
-    protected $validateSchema = true;
-
     public function getInvalidTests()
     {
         //is readonly really required?

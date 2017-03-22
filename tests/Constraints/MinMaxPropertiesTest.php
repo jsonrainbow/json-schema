@@ -11,8 +11,6 @@ namespace JsonSchema\Tests\Constraints;
 
 class MinMaxPropertiesTest extends BaseTestCase
 {
-    protected $validateSchema = true;
-
     /**
      * {@inheritdoc}
      */
