@@ -7,8 +7,9 @@
  */
 
 // support running this tool from git checkout
-if (is_dir(__DIR__ . '/../vendor')) {
-    set_include_path(__DIR__ . '/..' . PATH_SEPARATOR . get_include_path());
+$projectDirectory = dirname(__DIR__);
+if (is_dir($projectDirectory . DIRECTORY_SEPARATOR . 'vendor')) {
+    set_include_path($projectDirectory . PATH_SEPARATOR . get_include_path());
 }
 
 // autoload composer classes
