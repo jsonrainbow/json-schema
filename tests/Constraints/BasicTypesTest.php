@@ -88,6 +88,17 @@ class BasicTypesTest extends BaseTestCase
             ),
             array(
                 '{
+                  "null":""
+                }',
+                '{
+                  "type":"object",
+                  "properties": {
+                    "null":{"type":"null"}
+                  }
+                }'
+            ),
+            array(
+                '{
                   "null":1
                 }',
                 '{

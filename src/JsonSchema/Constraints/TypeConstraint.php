@@ -208,6 +208,10 @@ class TypeConstraint extends Constraint
         }
 
         if ('null' === $type) {
+            if ($coerce) {
+                $value = $this->toNull($value);
+            }
+
             return is_null($value);
         }
 
@@ -229,6 +233,22 @@ class TypeConstraint extends Constraint
 
         if ($value === 'false') {
             return false;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Converts a value to null. For example, "" becomes null.
+     *
+     * @param $value The value to convert to null
+     *
+     * @return null|mixed
+     */
+    protected function toNull($value)
+    {
+        if ($value === '') {
+            return null;
         }
 
         return $value;
