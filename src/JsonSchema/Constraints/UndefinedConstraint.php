@@ -253,8 +253,14 @@ class UndefinedConstraint extends Constraint
                 }
             }
         } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
+            $items = array();
+            if (LooseTypeCheck::isArray($schema->items)) {
+                $items = $schema->items;
+            } elseif (isset($schema->minItems) && count($value) < $schema->minItems) {
+                $items = array_fill(count($value), $schema->minItems - count($value), $schema->items);
+            }
             // $value is an array, and items are defined - treat as plain array
-            foreach ($schema->items as $currentItem => $itemDefinition) {
+            foreach ($items as $currentItem => $itemDefinition) {
                 if (
                     !array_key_exists($currentItem, $value)
                     && property_exists($itemDefinition, 'default')
