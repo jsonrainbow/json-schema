@@ -11,7 +11,6 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
-use JsonSchema\Validator;
 use Prophecy\Argument;
 
 class SchemaStorageTest extends \PHPUnit_Framework_TestCase
@@ -30,15 +29,6 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
             (object) array('type' => 'string'),
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/properties/door")
         );
-    }
-
-    public function testResolveTopRef()
-    {
-        $input = json_decode('{"propertyOne":"notANumber"}');
-        $schema = json_decode('{"$ref":"#/definition","definition":{"properties":{"propertyOne":{"type":"number"}}}}');
-        $v = new Validator();
-        $v->validate($input, $schema);
-        $this->assertFalse($v->isValid());
     }
 
     /**
@@ -117,17 +107,6 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
 
         $schemaStorage = new SchemaStorage($uriRetriever->reveal());
         $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");
-    }
-
-    public function testResolveRefWithNoAssociatedFileName()
-    {
-        $this->setExpectedException(
-            'JsonSchema\Exception\UnresolvableJsonPointerException',
-            "Could not resolve fragment '#': no file is defined"
-        );
-
-        $schemaStorage = new SchemaStorage();
-        $schemaStorage->resolveRef('#');
     }
 
     /**
@@ -274,19 +253,5 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-    }
-
-    public function testGetUriRetriever()
-    {
-        $s = new SchemaStorage();
-        $s->addSchema('http://json-schema.org/draft-04/schema#');
-        $this->assertInstanceOf('\JsonSchema\Uri\UriRetriever', $s->getUriRetriever());
-    }
-
-    public function testGetUriResolver()
-    {
-        $s = new SchemaStorage();
-        $s->addSchema('http://json-schema.org/draft-04/schema#');
-        $this->assertInstanceOf('\JsonSchema\Uri\UriResolver', $s->getUriResolver());
     }
 }

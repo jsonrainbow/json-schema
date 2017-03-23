@@ -11,8 +11,6 @@ namespace JsonSchema\Tests\Constraints;
 
 class MinimumMaximumTest extends BaseTestCase
 {
-    protected $validateSchema = true;
-
     public function getInvalidTests()
     {
         return array(

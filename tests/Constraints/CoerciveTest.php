@@ -17,9 +17,6 @@ use JsonSchema\Validator;
 
 class CoerciveTest extends BasicTypesTest
 {
-    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
-    protected $validateSchema = true;
-
     /**
      * @dataProvider getValidCoerceTests
      */
@@ -117,15 +114,6 @@ class CoerciveTest extends BasicTypesTest
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
         }
         $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-    }
-
-    public function testCoerceAPI()
-    {
-        $input = json_decode('{"propertyOne": "10"}');
-        $schema = json_decode('{"properties":{"propertyOne":{"type":"number"}}}');
-        $v = new Validator();
-        $v->coerce($input, $schema);
-        $this->assertEquals('{"propertyOne":10}', json_encode($input));
     }
 
     public function getValidCoerceTests()

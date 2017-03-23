@@ -11,8 +11,6 @@ namespace JsonSchema\Tests\Constraints;
 
 class NumberAndIntegerTypesTest extends BaseTestCase
 {
-    protected $validateSchema = true;
-
     public function getInvalidTests()
     {
         return array(
