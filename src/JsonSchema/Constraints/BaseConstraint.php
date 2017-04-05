@@ -152,6 +152,6 @@ class BaseConstraint
             throw new InvalidArgumentException($message);
         }
 
-        return json_decode($json);
+        return (object) json_decode($json);
     }
 }
