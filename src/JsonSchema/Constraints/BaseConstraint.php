@@ -146,7 +146,7 @@ class BaseConstraint
         $json = json_encode($array);
         if (json_last_error() !== \JSON_ERROR_NONE) {
             $message = 'Unable to encode schema array as JSON';
-            if (version_compare(phpversion(), '5.5.0', '>=')) {
+            if (function_exists('json_last_error_msg')) {
                 $message .= ': ' . json_last_error_msg();
             }
             throw new InvalidArgumentException($message);
