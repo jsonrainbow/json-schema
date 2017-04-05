@@ -45,11 +45,6 @@ class Validator extends BaseConstraint
         // reset errors prior to validation
         $this->reset();
 
-        // make sure $schema is an object
-        if (is_array($schema)) {
-            $schema = self::arrayToObjectRecursive($schema);
-        }
-
         // set checkMode
         $initialCheckMode = $this->factory->getConfig();
         if ($checkMode !== null) {
@@ -60,7 +55,10 @@ class Validator extends BaseConstraint
         $this->factory->getSchemaStorage()->addSchema(SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
 
         $validator = $this->factory->createInstanceFor('schema');
-        $validator->check($value, $schema);
+        $validator->check(
+            $value,
+            $this->factory->getSchemaStorage()->getSchema(SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI)
+        );
 
         $this->factory->setConfig($initialCheckMode);
 
