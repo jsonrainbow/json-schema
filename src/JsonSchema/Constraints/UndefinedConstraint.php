@@ -73,8 +73,9 @@ class UndefinedConstraint extends Constraint
                                                 // is not set (i.e. don't use $this->getTypeCheck() here).
             $this->checkObject(
                 $value,
-                isset($schema->properties) ? $this->factory->getSchemaStorage()->resolveRefSchema($schema->properties) : $schema,
+                $schema,
                 $path,
+                isset($schema->properties) ? $schema->properties : null,
                 isset($schema->additionalProperties) ? $schema->additionalProperties : null,
                 isset($schema->patternProperties) ? $schema->patternProperties : null,
                 $this->appliedDefaults
