@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 
 /**
@@ -26,21 +27,21 @@ class StringConstraint extends Constraint
     {
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError($path, 'Must be at most ' . $schema->maxLength . ' characters long', 'maxLength', array(
+            $this->addError(ConstraintError::LENGTH_MAX(), $path, array(
                 'maxLength' => $schema->maxLength,
             ));
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError($path, 'Must be at least ' . $schema->minLength . ' characters long', 'minLength', array(
+            $this->addError(ConstraintError::LENGTH_MIN(), $path, array(
                 'minLength' => $schema->minLength,
             ));
         }
 
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#u', $element)) {
-            $this->addError($path, 'Does not match the regex pattern ' . $schema->pattern, 'pattern', array(
+            $this->addError(ConstraintError::PATTERN(), $path, array(
                 'pattern' => $schema->pattern,
             ));
         }
@@ -54,6 +55,7 @@ class StringConstraint extends Constraint
             return mb_strlen($string, mb_detect_encoding($string));
         }
 
-        return strlen($string);
+        // mbstring is present on all test platforms, so strlen() can be ignored for coverage
+        return strlen($string); // @codeCoverageIgnore
     }
 }

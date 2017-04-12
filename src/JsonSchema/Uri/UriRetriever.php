@@ -25,6 +25,14 @@ use JsonSchema\Validator;
 class UriRetriever implements BaseUriRetrieverInterface
 {
     /**
+     * @var array Map of URL translations
+     */
+    protected $translationMap = array(
+        // use local copies of the spec schemas
+        '|^https?://json-schema.org/draft-(0[34])/schema#?|' => 'package://dist/schema/json-schema-draft-$1.json'
+    );
+
+    /**
      * @var null|UriRetrieverInterface
      */
     protected $uriRetriever = null;
@@ -134,7 +142,7 @@ class UriRetriever implements BaseUriRetrieverInterface
     /**
      * {@inheritdoc}
      */
-    public function retrieve($uri, $baseUri = null)
+    public function retrieve($uri, $baseUri = null, $translate = true)
     {
         $resolver = new UriResolver();
         $resolvedUri = $fetchUri = $resolver->resolve($uri, $baseUri);
@@ -144,6 +152,11 @@ class UriRetriever implements BaseUriRetrieverInterface
         if (isset($arParts['fragment'])) {
             unset($arParts['fragment']);
             $fetchUri = $resolver->generate($arParts);
+        }
+
+        // apply URI translations
+        if ($translate) {
+            $fetchUri = $this->translate($fetchUri);
         }
 
         $jsonSchema = $this->loadSchema($fetchUri);
@@ -290,5 +303,28 @@ class UriRetriever implements BaseUriRetrieverInterface
         $components = $this->parse($uri);
 
         return !empty($components);
+    }
+
+    /**
+     * Set a URL translation rule
+     */
+    public function setTranslation($from, $to)
+    {
+        $this->translationMap[$from] = $to;
+    }
+
+    /**
+     * Apply URI translation rules
+     */
+    public function translate($uri)
+    {
+        foreach ($this->translationMap as $from => $to) {
+            $uri = preg_replace($from, $to, $uri);
+        }
+
+        // translate references to local files within the json-schema package
+        $uri = preg_replace('|^package://|', sprintf('file://%s/', realpath(__DIR__ . '/../../..')), $uri);
+
+        return $uri;
     }
 }

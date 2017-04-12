@@ -11,6 +11,9 @@ namespace JsonSchema\Tests\Constraints;
 
 class DependenciesTest extends BaseTestCase
 {
+    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $validateSchema = true;
+
     public function getInvalidTests()
     {
         return array(

@@ -11,271 +11,199 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
-use JsonSchema\SchemaStorage;
-use JsonSchema\Uri\UriResolver;
+use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Validator;
 
-class CoerciveTest extends BasicTypesTest
+class CoerciveTest extends VeryBaseTestCase
 {
-    /**
-     * @dataProvider getValidCoerceTests
-     */
-    public function testValidCoerceCasesUsingAssoc($input, $schema)
+    protected $factory = null;
+
+    public function setUp()
     {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
-
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-
-        $value = json_decode($input, true);
-
-        $validator->validate($value, $schema, $checkMode);
-        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
+        $this->factory = new Factory();
+        $this->factory->setConfig(Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES);
     }
 
-    /**
-     * @dataProvider getValidCoerceTests
-     */
-    public function testValidCoerceCases($input, $schema, $errors = array())
+    public function dataCoerceCases()
     {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
-
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $value = json_decode($input);
-
-        $this->assertTrue(gettype($value->number) == 'string');
-        $this->assertTrue(gettype($value->integer) == 'string');
-        $this->assertTrue(gettype($value->boolean) == 'string');
-
-        $validator->validate($value, $schema, $checkMode);
-
-        $this->assertTrue(gettype($value->number) == 'double');
-        $this->assertTrue(gettype($value->integer) == 'integer');
-        $this->assertTrue(gettype($value->negativeInteger) == 'integer');
-        $this->assertTrue(gettype($value->boolean) == 'boolean');
-
-        $this->assertTrue($value->number === 1.5);
-        $this->assertTrue($value->integer === 1);
-        $this->assertTrue($value->negativeInteger === -2);
-        $this->assertTrue($value->boolean === true);
-
-        $this->assertTrue(gettype($value->multitype1) == 'boolean');
-        $this->assertTrue(gettype($value->multitype2) == 'double');
-        $this->assertTrue(gettype($value->multitype3) == 'integer');
-
-        $this->assertTrue($value->number === 1.5);
-        $this->assertTrue($value->integer === 1);
-        $this->assertTrue($value->negativeInteger === -2);
-        $this->assertTrue($value->boolean === true);
-
-        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
-    }
-
-    /**
-     * @dataProvider getInvalidCoerceTests
-     */
-    public function testInvalidCoerceCases($input, $schema, $errors = array())
-    {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
-
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $value = json_decode($input);
-        $validator->validate($value, $schema, $checkMode);
-
-        if (array() !== $errors) {
-            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
-        }
-        $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-    }
-
-    /**
-     * @dataProvider getInvalidCoerceTests
-     */
-    public function testInvalidCoerceCasesUsingAssoc($input, $schema, $errors = array())
-    {
-        $checkMode = Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES;
-
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
-
-        $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $value = json_decode($input, true);
-        $validator->validate($value, $schema, $checkMode);
-
-        if (array() !== $errors) {
-            $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
-        }
-        $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
-    }
-
-    public function getValidCoerceTests()
-    {
-        return array(
-            array(
-                '{
-                  "string":"string test",
-                  "number":"1.5",
-                  "integer":"1",
-                  "negativeInteger":"-2",
-                  "boolean":"true",
-                  "object":{},
-                  "array":[],
-                  "null":null,
-                  "any": "string",
-                  "allOf": "1",
-                  "multitype1": "false",
-                  "multitype2": "1.2",
-                  "multitype3": "7",
-                  "arrayOfIntegers":["-1","0","1"],
-                  "tupleTyping":["1","2.2","true"],
-                  "any1": 2.6,
-                  "any2": 4,
-                  "any3": false,
-                  "any4": {},
-                  "any5": [],
-                  "any6": null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "string":{"type":"string"},
-                    "number":{"type":"number"},
-                    "integer":{"type":"integer"},
-                    "negativeInteger":{"type":"integer"},
-                    "boolean":{"type":"boolean"},
-                    "object":{"type":"object"},
-                    "array":{"type":"array"},
-                    "null":{"type":"null"},
-                    "any": {"type":"any"},
-                    "allOf" : {"allOf":[{
-                        "type" : "string"
-                    },{
-                        "type" : "integer"
-                    }]},
-                    "multitype1": {"type":["boolean","integer","number"]},
-                    "multitype2": {"type":["boolean","integer","number"]},
-                    "multitype3": {"type":["boolean","integer","number"]},
-                     "arrayOfIntegers":{
-                        "items":{
-                            "type":"integer"
-                        }
-                    },
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"integer"},
-                        {"type":"number"}
-                      ],
-                      "additionalItems":{"type":"boolean"}
-                    },
-                    "any1": {"type":"any"},
-                    "any2": {"type":"any"},
-                    "any3": {"type":"any"},
-                    "any4": {"type":"any"},
-                    "any5": {"type":"any"},
-                    "any6": {"type":"any"}
-                  },
-                  "additionalProperties":false
-                }',
+        // check type conversions
+        $types = array(
+            // toType
+            'string' => array(
+                //    fromType      fromValue       toValue         valid   Test Number
+                array('string',     '"ABC"',        'ABC',          true),  // #0
+                array('integer',    '45',           '45',           true),  // #1
+                array('boolean',    'true',         'true',         true),  // #2
+                array('boolean',    'false',        'false',        true),  // #3
+                array('NULL',       'null',         '',             true),  // #4
+                array('array',      '[45]',         '45',           true),  // #5
+                array('object',     '{"a":"b"}',    null,           false), // #6
+                array('array',      '[{"a":"b"}]',  null,           false), // #7
+            ),
+            'integer' => array(
+                array('string',     '"45"',         45,             true),  // #8
+                array('integer',    '45',           45,             true),  // #9
+                array('boolean',    'true',         1,              true),  // #10
+                array('boolean',    'false',        0,              true),  // #11
+                array('NULL',       'null',         0,              true),  // #12
+                array('array',      '["-45"]',      -45,            true),  // #13
+                array('object',     '{"a":"b"}',    null,           false), // #14
+                array('array',      '["ABC"]',      null,           false), // #15
+            ),
+            'boolean' => array(
+                array('string',     '"true"',       true,           true),  // #16
+                array('integer',    '1',            true,           true),  // #17
+                array('boolean',    'true',         true,           true),  // #18
+                array('NULL',       'null',         false,          true),  // #19
+                array('array',      '["true"]',     true,           true),  // #20
+                array('object',     '{"a":"b"}',    null,           false), // #21
+                array('string',     '""',           null,           false), // #22
+                array('string',     '"ABC"',        null,           false), // #23
+                array('integer',    '2',            null,           false), // #24
+            ),
+            'NULL' => array(
+                array('string',     '""',           null,           true),  // #25
+                array('integer',    '0',            null,           true),  // #26
+                array('boolean',    'false',        null,           true),  // #27
+                array('NULL',       'null',         null,           true),  // #28
+                array('array',      '[0]',          null,           true),  // #29
+                array('object',     '{"a":"b"}',    null,           false), // #30
+                array('string',     '"null"',       null,           false), // #31
+                array('integer',    '-1',           null,           false), // #32
+            ),
+            'array' => array(
+                array('string',     '"ABC"',        array('ABC'),   true),  // #33
+                array('integer',    '45',           array(45),      true),  // #34
+                array('boolean',    'true',         array(true),    true),  // #35
+                array('NULL',       'null',         array(null),    true),  // #36
+                array('array',      '["ABC"]',      array('ABC'),   true),  // #37
+                array('object',     '{"a":"b"}',    null,           false), // #38
             ),
         );
+
+        // #39 check post-coercion validation (to array)
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"array","items":[{"type":"number"}]}}}',
+            '{"propertyOne":"ABC"}',
+            'string', null, null, false
+        );
+
+        // #40 check multiple types (first valid)
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":["number", "string"]}}}',
+            '{"propertyOne":42}',
+            'integer', 'integer', 42, true
+        );
+
+        // #41 check multiple types (last valid)
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":["number", "string"]}}}',
+            '{"propertyOne":"42"}',
+            'string', 'string', '42', true
+        );
+
+        // #42 check the meaning of life
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"any"}}}',
+            '{"propertyOne":"42"}',
+            'string', 'string', '42', true
+        );
+
+        // #43 check turple coercion
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"array","items":[{"type":"number"},{"type":"string"}]}}}',
+            '{"propertyOne":["42", 42]}',
+            'array', 'array', array(42, '42'), true
+        );
+
+        // #44 check early coercion
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":["object", "number", "string"]}}}',
+            '{"propertyOne":"42"}',
+            'string', 'integer', 42, true, Constraint::CHECK_MODE_EARLY_COERCE
+        );
+
+        // #45 check multiple types (none valid)
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":["number", "boolean"]}}}',
+            '{"propertyOne":"42"}',
+            'string', 'integer', 42, true
+        );
+
+        $tests = array();
+        foreach ($types as $toType => $testCases) {
+            foreach ($testCases as $testCase) {
+                $tests[] = array(
+                    sprintf('{"properties":{"propertyOne":{"type":"%s"}}}', strtolower($toType)),
+                    sprintf('{"propertyOne":%s}', $testCase[1]),
+                    $testCase[0],
+                    $toType,
+                    $testCase[2],
+                    $testCase[3]
+                );
+            }
+        }
+
+        return $tests;
     }
 
-    public function getInvalidCoerceTests()
+    /** @dataProvider dataCoerceCases **/
+    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $extraFlags = 0, $assoc = false)
     {
-        return array(
-            array(
-                '{
-                  "string":null
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "string":{"type":"string"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-            array(
-                '{
-                  "number":"five"
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "number":{"type":"number"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-            array(
-                '{
-                  "integer":"5.2"
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "integer":{"type":"integer"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-            array(
-                '{
-                  "boolean":"0"
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "boolean":{"type":"boolean"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-            array(
-                '{
-                  "object":null
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "object":{"type":"object"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-            array(
-                '{
-                  "array":null
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "array":{"type":"array"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-            array(
-                '{
-                  "null":1
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "null":{"type":"null"}
-                  },
-                  "additionalProperties":false
-                }',
-            ),
-        );
+        $validator = new Validator($this->factory);
+
+        $schema = json_decode($schema);
+        $data = json_decode($data, $assoc);
+
+        // check initial type
+        $type = gettype(LooseTypeCheck::propertyGet($data, 'propertyOne'));
+        if ($assoc && $type == 'array' && $startType == 'object') {
+            $type = 'object';
+        }
+        $this->assertEquals($startType, $type, "Incorrect type '$type': expected '$startType'");
+
+        $validator->validate($data, $schema, $this->factory->getConfig() | $extraFlags);
+
+        // check validity
+        if ($valid) {
+            $prettyPrint = defined('\JSON_PRETTY_PRINT') ? constant('\JSON_PRETTY_PRINT') : 0;
+            $this->assertTrue(
+                $validator->isValid(),
+                'Validation failed: ' . json_encode($validator->getErrors(), $prettyPrint)
+            );
+
+            // check end type
+            $type = gettype(LooseTypeCheck::propertyGet($data, 'propertyOne'));
+            $this->assertEquals($endType, $type, "Incorrect type '$type': expected '$endType'");
+
+            // check end value
+            $value = LooseTypeCheck::propertyGet($data, 'propertyOne');
+            $this->assertTrue(
+                $value === $endValue,
+                sprintf(
+                    "Incorrect value '%s': expected '%s'",
+                    is_scalar($value) ? $value : gettype($value),
+                    is_scalar($endValue) ? $endValue : gettype($endValue)
+                )
+            );
+        } else {
+            $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed');
+            $this->assertEquals(1, count($validator->getErrors()));
+        }
+    }
+
+    /** @dataProvider dataCoerceCases **/
+    public function testCoerceCasesUsingAssoc($schema, $data, $startType, $endType, $endValue, $valid, $early = false)
+    {
+        $this->testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $early, true);
+    }
+
+    public function testCoerceAPI()
+    {
+        $input = json_decode('{"propertyOne": "10"}');
+        $schema = json_decode('{"properties":{"propertyOne":{"type":"number"}}}');
+        $v = new Validator();
+        $v->coerce($input, $schema);
+        $this->assertEquals('{"propertyOne":10}', json_encode($input));
     }
 }

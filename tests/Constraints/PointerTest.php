@@ -13,6 +13,8 @@ use JsonSchema\Validator;
 
 class PointerTest extends \PHPUnit_Framework_TestCase
 {
+    protected $validateSchema = true;
+
     public function testVariousPointers()
     {
         $schema = array(
@@ -88,25 +90,49 @@ class PointerTest extends \PHPUnit_Framework_TestCase
                     'property' => 'prop1',
                     'pointer' => '/prop1',
                     'message' => 'The property prop1 is required',
-                    'constraint' => 'required'
+                    'constraint' => array(
+                        'name' => 'required',
+                        'params' => array(
+                            'property' => 'prop1'
+                        )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ),
                 array(
                     'property' => 'prop2.prop2.1',
                     'pointer' => '/prop2/prop2.1',
                     'message' => 'The property prop2.1 is required',
-                    'constraint' => 'required'
+                    'constraint' => array(
+                        'name' => 'required',
+                        'params' => array(
+                            'property' => 'prop2.1'
+                        )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ),
                 array(
                     'property' => 'prop3.prop3/1.prop3/1.1',
                     'pointer' => '/prop3/prop3~11/prop3~11.1',
                     'message' => 'The property prop3/1.1 is required',
-                    'constraint' => 'required'
+                    'constraint' => array(
+                        'name' => 'required',
+                        'params' => array(
+                            'property' => 'prop3/1.1'
+                        )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ),
                 array(
                     'property' => 'prop4[0].prop4-child',
                     'pointer' => '/prop4/0/prop4-child',
                     'message' => 'The property prop4-child is required',
-                    'constraint' => 'required'
+                    'constraint' => array(
+                        'name' => 'required',
+                        'params' => array(
+                            'property' => 'prop4-child'
+                        )
+                    ),
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 )
             ),
             $validator->getErrors()

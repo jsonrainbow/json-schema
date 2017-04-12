@@ -8,11 +8,16 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Validator;
+
 /**
  * Class OfPropertiesTest
  */
 class OfPropertiesTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     public function getValidTests()
     {
         return array(
@@ -75,19 +80,37 @@ class OfPropertiesTest extends BaseTestCase
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a string is required',
-                        'constraint' => 'type',
+                        'constraint' => array(
+                            'name' => 'type',
+                            'params' => array(
+                                'expected'   => 'a string',
+                                'found'      => 'array'
+                            )
+                        ),
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a number is required',
-                        'constraint' => 'type',
+                        'constraint' => array(
+                            'name' => 'type',
+                            'params' => array(
+                                'expected'   => 'a number',
+                                'found'      => 'array'
+                            )
+                        ),
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Failed to match exactly one schema',
-                        'constraint' => 'oneOf',
+                        'constraint' => array(
+                            'name' => 'oneOf',
+                            'params' => array()
+                        ),
+                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                     ),
                 ),
             ),
@@ -207,5 +230,45 @@ class OfPropertiesTest extends BaseTestCase
                 }'
             )
         );
+    }
+
+    public function testNoPrematureAnyOfException()
+    {
+        $schema = json_decode('{
+            "type": "object",
+            "properties": {
+                "propertyOne": {
+                    "anyOf": [
+                        {"type": "number"},
+                        {"type": "string"}
+                    ]
+                }
+            }
+        }');
+        $data = json_decode('{"propertyOne":"ABC"}');
+
+        $v = new Validator();
+        $v->validate($data, $schema, Constraint::CHECK_MODE_EXCEPTIONS);
+        $this->assertTrue($v->isValid());
+    }
+
+    public function testNoPrematureOneOfException()
+    {
+        $schema = json_decode('{
+            "type": "object",
+            "properties": {
+                "propertyOne": {
+                    "oneOf": [
+                        {"type": "number"},
+                        {"type": "string"}
+                    ]
+                }
+            }
+        }');
+        $data = json_decode('{"propertyOne":"ABC"}');
+
+        $v = new Validator();
+        $v->validate($data, $schema, Constraint::CHECK_MODE_EXCEPTIONS);
+        $this->assertTrue($v->isValid());
     }
 }

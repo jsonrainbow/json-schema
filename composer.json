@@ -36,7 +36,8 @@
         }
     }],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "marc-mabe/php-enum":"2.3.1"
     },
     "require-dev": {
         "json-schema/JSON-Schema-Test-Suite": "1.2.0",

@@ -10,6 +10,7 @@
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 
 /**
@@ -278,5 +279,137 @@ EOF;
         $retriever = new \ReflectionProperty('JsonSchema\Constraints\Factory', 'uriRetriever');
         $retriever->setAccessible(true);
         $retriever->setValue($factory, $retrieverMock);
+    }
+
+    public function testTranslations()
+    {
+        $retriever = new UriRetriever();
+
+        $uri = 'http://example.com/foo/bar';
+        $translated = 'file://another/bar';
+
+        $retriever->setTranslation('|^https?://example.com/foo/bar#?|', 'file://another/bar');
+        $this->assertEquals($translated, $retriever->translate($uri));
+    }
+
+    public function testPackageURITranslation()
+    {
+        $retriever = new UriRetriever();
+        $root = sprintf('file://%s/', realpath(__DIR__ . '/../..'));
+
+        $uri = $retriever->translate('package://foo/bar.json');
+        $this->assertEquals("${root}foo/bar.json", $uri);
+    }
+
+    public function testDefaultDistTranslations()
+    {
+        $retriever = new UriRetriever();
+        $root = sprintf('file://%s/dist/schema/', realpath(__DIR__ . '/../..'));
+
+        $this->assertEquals(
+            $root . 'json-schema-draft-03.json',
+            $retriever->translate('http://json-schema.org/draft-03/schema#')
+        );
+
+        $this->assertEquals(
+            $root . 'json-schema-draft-04.json',
+            $retriever->translate('http://json-schema.org/draft-04/schema#')
+        );
+    }
+
+    public function testRetrieveSchemaFromPackage()
+    {
+        $retriever = new UriRetriever();
+
+        // load schema from package
+        $schema = $retriever->retrieve('package://tests/fixtures/foobar.json');
+        $this->assertNotFalse($schema);
+
+        // check that the schema was loaded & processed correctly
+        $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
+    }
+
+    public function testJsonSchemaOrgMediaTypeHack()
+    {
+        $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
+        $retriever = new UriRetriever();
+
+        $this->assertTrue($retriever->confirmMediaType($mock, 'http://json-schema.org/'));
+    }
+
+    public function testSchemaCache()
+    {
+        $retriever = new UriRetriever();
+        $reflector = new \ReflectionObject($retriever);
+
+        // inject a schema cache value
+        $schemaCache = $reflector->getProperty('schemaCache');
+        $schemaCache->setAccessible(true);
+        $schemaCache->setValue($retriever, array('local://test/uri' => 'testSchemaValue'));
+
+        // retrieve from schema cache
+        $loadSchema = $reflector->getMethod('loadSchema');
+        $loadSchema->setAccessible(true);
+        $this->assertEquals(
+            'testSchemaValue',
+            $loadSchema->invoke($retriever, 'local://test/uri')
+        );
+    }
+
+    public function testLoadSchemaJSONDecodingException()
+    {
+        $retriever = new UriRetriever();
+
+        $this->setExpectedException(
+            'JsonSchema\Exception\JsonDecodingException',
+            'JSON syntax is malformed'
+        );
+        $schema = $retriever->retrieve('package://tests/fixtures/bad-syntax.json');
+    }
+
+    public function testGenerateURI()
+    {
+        $retriever = new UriRetriever();
+        $components = array(
+            'scheme' => 'scheme',
+            'authority' => 'authority',
+            'path' => '/path',
+            'query' => '?query',
+            'fragment' => '#fragment'
+        );
+        $this->assertEquals('scheme://authority/path?query#fragment', $retriever->generate($components));
+    }
+
+    public function testResolveHTTP()
+    {
+        $retriever = new UriRetriever();
+        $this->assertEquals(
+            'http://example.com/schema',
+            $retriever->resolve('http://example.com/schema')
+        );
+    }
+
+    public function combinedURITests()
+    {
+        return array(
+            array('blue', 'http://example.com/red', 'http://example.com/blue'),
+            array('blue', 'http://example.com/', 'http://example.com/blue'),
+        );
+    }
+
+    /**
+     * @dataProvider combinedURITests
+     */
+    public function testResolveCombinedURI($uri, $baseURI, $combinedURI)
+    {
+        $retriever = new UriRetriever();
+        $this->assertEquals($combinedURI, $retriever->resolve($uri, $baseURI));
+    }
+
+    public function testIsValidURI()
+    {
+        $retriever = new UriRetriever();
+        $this->assertTrue($retriever->isValid('http://example.com/schema'));
     }
 }
