@@ -172,6 +172,11 @@ class UndefinedConstraint extends Constraint
                     $this->addError($path, 'Is missing and it is required', 'required');
                 }
             }
+        } elseif (isset($schema->required) && is_array($schema->required)) {
+            // the value is not an object, but there are still required fields
+            foreach ($schema->required as $required) {
+                $this->addError((!$path) ? $required : "$path.$required", "The property " . $required . " is required", 'required');
+            }
         }
 
         // Verify type
