@@ -45,7 +45,7 @@ if ($validator->isValid()) {
 }
 ```
 
-### Type coercion
+### Type coerrcion
 
 If you're validating data passed to your application via HTTP, you can cast strings and booleans to
 the expected types defined by your schema:
