@@ -28,6 +28,7 @@ class ConstraintError extends Enum
     const FORMAT_STYLE = 'styleFormat';
     const FORMAT_TIME = 'timeFormat';
     const FORMAT_URL = 'urlFormat';
+    const FORMAT_URL_REF = 'urlRefFormat';
     const INVALID_SCHEMA = 'invalidSchema';
     const LENGTH_MAX = 'maxLength';
     const LENGTH_MIN = 'minLength';
@@ -77,6 +78,7 @@ class ConstraintError extends Enum
             self::FORMAT_STYLE => 'Invalid style',
             self::FORMAT_TIME => 'Invalid time %s, expected format hh:mm:ss',
             self::FORMAT_URL => 'Invalid URL format',
+            self::FORMAT_URL_REF => 'Invalid URL reference format',
             self::LENGTH_MAX => 'Must be at most %d characters long',
             self::INVALID_SCHEMA => 'Schema is not valid',
             self::LENGTH_MIN => 'Must be at least %d characters long',
