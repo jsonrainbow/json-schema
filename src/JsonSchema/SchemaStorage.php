@@ -2,6 +2,7 @@
 
 namespace JsonSchema;
 
+use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\UnresolvableJsonPointerException;
 use JsonSchema\Iterator\ObjectIterator;
@@ -51,6 +52,12 @@ class SchemaStorage implements SchemaStorageInterface
             // schemas do not have an associated URI when passed via Validator::validate().
             $schema = $this->uriRetriever->retrieve($id);
         }
+
+        // cast array schemas to object
+        if (is_array($schema)) {
+            $schema = BaseConstraint::arrayToObjectRecursive($schema);
+        }
+
         $objectIterator = new ObjectIterator($schema);
         foreach ($objectIterator as $toResolveSchema) {
             if (property_exists($toResolveSchema, '$ref') && is_string($toResolveSchema->{'$ref'})) {
