@@ -149,6 +149,21 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"items":[{"default":null}]}',
                 '[null]'
             ),
+            array(// #21 items might be a schema (instead of an array of schema)
+                '[{}]',
+                '{"items":{"properties":{"propertyOne":{"default":"valueOne"}}}}',
+                '[{"propertyOne":"valueOne"}]'
+            ),
+            array(// #22 if items is not an array, it does not create a new item
+                '[]',
+                '{"items":{"properties":{"propertyOne":{"default":"valueOne"}}}}',
+                '[]'
+            ),
+            array(// #23 if items is a schema with a default value and minItems is present, fill the array
+                '["a"]',
+                '{"items":{"default":"b"}, "minItems": 3}',
+                '["a","b","b"]'
+            ),
         );
     }
 

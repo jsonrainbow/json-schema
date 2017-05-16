@@ -27,7 +27,8 @@ class ObjectConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$element, $definition = null, JsonPointer $path = null, $additionalProp = null, $patternProperties = null, $appliedDefaults = array())
+    public function check(&$element, $schema = null, JsonPointer $path = null, $properties = null,
+        $additionalProp = null, $patternProperties = null, $appliedDefaults = array())
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -37,16 +38,17 @@ class ObjectConstraint extends Constraint
 
         $matches = array();
         if ($patternProperties) {
+            // validate the element pattern properties
             $matches = $this->validatePatternProperties($element, $path, $patternProperties);
         }
 
-        if ($definition) {
-            // validate the definition properties
-            $this->validateDefinition($element, $definition, $path);
+        if ($properties) {
+            // validate the element properties
+            $this->validateProperties($element, $properties, $path);
         }
 
-        // additional the element properties
-        $this->validateElement($element, $matches, $definition, $path, $additionalProp);
+        // validate additional element properties & constraints
+        $this->validateElement($element, $matches, $schema, $path, $properties, $additionalProp);
     }
 
     public function validatePatternProperties($element, JsonPointer $path = null, $patternProperties)
@@ -81,18 +83,20 @@ class ObjectConstraint extends Constraint
     /**
      * Validates the element properties
      *
-     * @param \stdClass        $element          Element to validate
-     * @param array            $matches          Matches from patternProperties (if any)
-     * @param \stdClass        $objectDefinition ObjectConstraint definition
-     * @param JsonPointer|null $path             Path to test?
-     * @param mixed            $additionalProp   Additional properties
+     * @param \StdClass        $element        Element to validate
+     * @param array            $matches        Matches from patternProperties (if any)
+     * @param \StdClass        $schema         ObjectConstraint definition
+     * @param JsonPointer|null $path           Current test path
+     * @param \StdClass        $properties     Properties
+     * @param mixed            $additionalProp Additional properties
      */
-    public function validateElement($element, $matches, $objectDefinition = null, JsonPointer $path = null, $additionalProp = null)
+    public function validateElement($element, $matches, $schema = null, JsonPointer $path = null,
+        $properties = null, $additionalProp = null)
     {
-        $this->validateMinMaxConstraint($element, $objectDefinition, $path);
+        $this->validateMinMaxConstraint($element, $schema, $path);
 
         foreach ($element as $i => $value) {
-            $definition = $this->getProperty($objectDefinition, $i);
+            $definition = $this->getProperty($properties, $i);
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
@@ -124,17 +128,17 @@ class ObjectConstraint extends Constraint
     /**
      * Validates the definition properties
      *
-     * @param \stdClass        $element          Element to validate
-     * @param \stdClass        $objectDefinition ObjectConstraint definition
-     * @param JsonPointer|null $path             Path?
+     * @param \stdClass        $element    Element to validate
+     * @param \stdClass        $properties Property definitions
+     * @param JsonPointer|null $path       Path?
      */
-    public function validateDefinition(&$element, $objectDefinition = null, JsonPointer $path = null)
+    public function validateProperties(&$element, $properties = null, JsonPointer $path = null)
     {
         $undefinedConstraint = $this->factory->createInstanceFor('undefined');
 
-        foreach ($objectDefinition as $i => $value) {
+        foreach ($properties as $i => $value) {
             $property = &$this->getProperty($element, $i, $undefinedConstraint);
-            $definition = $this->getProperty($objectDefinition, $i);
+            $definition = $this->getProperty($properties, $i);
 
             if (is_object($definition)) {
                 // Undefined constraint will check for is_object() and quit if is not - so why pass it?

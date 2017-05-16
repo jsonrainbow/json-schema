@@ -77,13 +77,15 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param mixed            $value
      * @param mixed            $schema
      * @param JsonPointer|null $path
-     * @param mixed            $i
+     * @param mixed            $properties
+     * @param mixed            $additionalProperties
      * @param mixed            $patternProperties
      */
-    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null, $appliedDefaults = array())
+    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $properties = null,
+        $additionalProperties = null, $patternProperties = null, $appliedDefaults = array())
     {
         $validator = $this->factory->createInstanceFor('object');
-        $validator->check($value, $schema, $path, $i, $patternProperties, $appliedDefaults);
+        $validator->check($value, $schema, $path, $properties, $additionalProperties, $patternProperties, $appliedDefaults);
 
         $this->addErrors($validator->getErrors());
     }
