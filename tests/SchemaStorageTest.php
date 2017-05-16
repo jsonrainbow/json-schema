@@ -289,4 +289,17 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
         $s->addSchema('http://json-schema.org/draft-04/schema#');
         $this->assertInstanceOf('\JsonSchema\Uri\UriResolver', $s->getUriResolver());
     }
+
+    public function testMetaSchemaFixes()
+    {
+        $s = new SchemaStorage();
+        $s->addSchema('http://json-schema.org/draft-03/schema#');
+        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $draft_03 = $s->getSchema('http://json-schema.org/draft-03/schema#');
+        $draft_04 = $s->getSchema('http://json-schema.org/draft-04/schema#');
+
+        $this->assertEquals('uri-reference', $draft_03->properties->id->format);
+        $this->assertEquals('uri-reference', $draft_03->properties->{'$ref'}->format);
+        $this->assertEquals('uri-reference', $draft_04->properties->id->format);
+    }
 }

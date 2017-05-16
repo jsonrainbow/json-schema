@@ -81,6 +81,13 @@ class FormatConstraint extends Constraint
 
             case 'uri':
                 if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
+                    $this->addError($path, 'Invalid URL format', 'format', array('format' => $schema->format));
+                }
+                break;
+
+            case 'uriref':
+            case 'uri-reference':
+                if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
                     // FILTER_VALIDATE_URL does not conform to RFC-3986, and cannot handle relative URLs, but
                     // the json-schema spec uses RFC-3986, so need a bit of hackery to properly validate them.
                     // See https://tools.ietf.org/html/rfc3986#section-4.2 for additional information.
