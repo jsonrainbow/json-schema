@@ -43,7 +43,6 @@ class ConstraintError extends Enum
     const NOT = 'not';
     const ONE_OF = 'oneOf';
     const REQUIRED = 'required';
-    const REQUIRED_D3 = 'selfRequired';
     const REQUIRES = 'requires';
     const PATTERN = 'pattern';
     const PREGEX_INVALID = 'pregrex';
@@ -93,7 +92,6 @@ class ConstraintError extends Enum
             self::NOT => 'Matched a schema which it should not',
             self::ONE_OF => 'Failed to match exactly one schema',
             self::REQUIRED => 'The property %s is required',
-            self::REQUIRED_D3 => 'The property %s is required',
             self::REQUIRES => 'The presence of the property %s requires that %s also be present',
             self::PATTERN => 'Does not match the regex pattern %s',
             self::PREGEX_INVALID => 'The pattern %s is invalid',
