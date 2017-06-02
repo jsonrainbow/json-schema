@@ -18,6 +18,7 @@ matrix:
     - php: 7.1
     - php: 'nightly'
     - php: hhvm
+      dist: trusty
   allow_failures:
     - php: 'nightly'
 
