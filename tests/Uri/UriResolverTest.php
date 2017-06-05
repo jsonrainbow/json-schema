@@ -172,4 +172,22 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    public function testReversable()
+    {
+        $uri = 'scheme://user:password@authority/path?query#fragment';
+        $split = $this->resolver->parse($uri);
+
+        // check that the URI was split as expected
+        $this->assertEquals(array(
+            'scheme' => 'scheme',
+            'authority' => 'user:password@authority',
+            'path' => '/path',
+            'query' => 'query',
+            'fragment' => 'fragment'
+        ), $split);
+
+        // check that the recombined URI matches the original input
+        $this->assertEquals($uri, $this->resolver->generate($split));
+    }
 }
