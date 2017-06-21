@@ -44,16 +44,33 @@ class RefTest extends \PHPUnit_Framework_TestCase
                 '{"propertyOne": 10}',
                 true
             ),
+            // #2 infinite-loop / unresolveable circular reference
+            array(
+                '{
+                    "definitions": {
+                        "test1": {"$ref": "#/definitions/test2"},
+                        "test2": {"$ref": "#/definitions/test1"}
+                    },
+                    "properties": {"propertyOne": {"$ref": "#/definitions/test1"}}
+                }',
+                '{"propertyOne": 5}',
+                true,
+                '\JsonSchema\Exception\UnresolvableJsonPointerException'
+            )
         );
     }
 
     /** @dataProvider dataRefIgnoresSiblings */
-    public function testRefIgnoresSiblings($schema, $document, $isValid)
+    public function testRefIgnoresSiblings($schema, $document, $isValid, $exception = null)
     {
         $document = json_decode($document);
         $schema = json_decode($schema);
 
         $v = new Validator();
+        if ($exception) {
+            $this->setExpectedException($exception);
+        }
+
         $v->validate($document, $schema);
 
         $this->assertEquals($isValid, $v->isValid());
