@@ -139,6 +139,7 @@ class SchemaStorage implements SchemaStorageInterface
                 ));
             }
             $resolveStack[] = $refSchema;
+
             return $this->resolveRef($refSchema->{'$ref'}, $resolveStack);
         }
 
