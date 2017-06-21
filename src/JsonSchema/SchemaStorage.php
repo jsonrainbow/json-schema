@@ -94,7 +94,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveRef($ref)
+    public function resolveRef($ref, $resolveStack = array())
     {
         $jsonPointer = new JsonPointer($ref);
 
@@ -111,9 +111,9 @@ class SchemaStorage implements SchemaStorageInterface
         $refSchema = $this->getSchema($fileName);
         foreach ($jsonPointer->getPropertyPaths() as $path) {
             if (is_object($refSchema) && property_exists($refSchema, $path)) {
-                $refSchema = $this->resolveRefSchema($refSchema->{$path});
+                $refSchema = $this->resolveRefSchema($refSchema->{$path}, $resolveStack);
             } elseif (is_array($refSchema) && array_key_exists($path, $refSchema)) {
-                $refSchema = $this->resolveRefSchema($refSchema[$path]);
+                $refSchema = $this->resolveRefSchema($refSchema[$path], $resolveStack);
             } else {
                 throw new UnresolvableJsonPointerException(sprintf(
                     'File: %s is found, but could not resolve fragment: %s',
@@ -129,12 +129,17 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveRefSchema($refSchema)
+    public function resolveRefSchema($refSchema, $resolveStack = array())
     {
         if (is_object($refSchema) && property_exists($refSchema, '$ref') && is_string($refSchema->{'$ref'})) {
-            $newSchema = $this->resolveRef($refSchema->{'$ref'});
-            $refSchema = (object) (get_object_vars($refSchema) + get_object_vars($newSchema));
-            unset($refSchema->{'$ref'});
+            if (in_array($refSchema, $resolveStack, true)) {
+                throw new UnresolvableJsonPointerException(sprintf(
+                    'Dereferencing a pointer to %s results in an infinite loop',
+                    $refSchema->{'$ref'}
+                ));
+            }
+            $resolveStack[] = $refSchema;
+            return $this->resolveRef($refSchema->{'$ref'}, $resolveStack);
         }
 
         return $refSchema;
