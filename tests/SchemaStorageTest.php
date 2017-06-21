@@ -79,7 +79,7 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
         );
 
         // local ref with overriding
-        $this->assertNotEquals(
+        $this->assertEquals(
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/additionalProperties"),
             $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/additionalProperties")
         );
