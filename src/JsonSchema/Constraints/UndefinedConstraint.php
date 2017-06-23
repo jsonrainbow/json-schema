@@ -142,7 +142,13 @@ class UndefinedConstraint extends Constraint
             } elseif (isset($schema->required) && !is_array($schema->required)) {
                 // Draft 3 - Required attribute - e.g. "foo": {"type": "string", "required": true}
                 if ($schema->required && $value instanceof self) {
-                    $this->addError($path, 'Is missing and it is required', 'required');
+                    $propertyPaths = $path->getPropertyPaths();
+                    $propertyName = end($propertyPaths);
+                    $this->addError(
+                        $path,
+                        'The property ' . $propertyName . ' is required',
+                        'required'
+                    );
                 }
             }
         }
