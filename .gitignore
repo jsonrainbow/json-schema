@@ -10,3 +10,4 @@ coverage
 composer.lock
 docs-api
 phpunit.xml
+docs/*
