@@ -32,5 +32,5 @@ install:
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
   - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then mkdir -p $HOME/.phpcsfixer && vendor/bin/php-cs-fixer fix --cache-file "$HOME/.phpcsfixer/.php_cs.cache" --dry-run --diff --verbose; fi
-  - if [[ "$WITH_DOCS" == "true" ]]; then composer install sami; fi
+  - if [[ "$WITH_DOCS" == "true" ]]; then composer require sami/sami;  ./vendor/bin/sami.php update sami-config.php; fi
 
