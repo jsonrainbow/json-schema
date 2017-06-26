@@ -14,7 +14,7 @@ matrix:
     - php: 5.5
     - php: 5.6
     - php: 7.0
-      env: WITH_COVERAGE=true WITH_PHPCSFIXER=true
+      env: WITH_COVERAGE=true WITH_PHPCSFIXER=true WITH_DOCS=true
     - php: 7.1
     - php: 'nightly'
     - php: hhvm
@@ -32,3 +32,5 @@ install:
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
   - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then mkdir -p $HOME/.phpcsfixer && vendor/bin/php-cs-fixer fix --cache-file "$HOME/.phpcsfixer/.php_cs.cache" --dry-run --diff --verbose; fi
+  - if [[ "$WITH_DOCS" == "true" ]]; then composer require sami/sami;  ./vendor/bin/sami.php update sami-config.php; fi
+
