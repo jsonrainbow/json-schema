@@ -17,34 +17,51 @@ use JsonSchema\Exception\ValidationException;
 use JsonSchema\Validator;
 
 /**
- * A more basic constraint definition - used for the public
- * interface to avoid exposing library internals.
+ * The base constraint definition from which all other constraint classes descend
+ *
+ * This class is also used as the base class for Validator, in order to expose some
+ * common functionality to end users of the library.
+ *
+ * @package justinrainbow/json-schema
+ *
+ * @license MIT
  */
 class BaseConstraint
 {
     /**
-     * @var array Errors
+     * @var array List of errors encountered during validation against the current constraint
      */
     protected $errors = array();
 
     /**
-     * @var int All error types which have occurred
+     * @var int Bitwise list of all error categories in which a validation error has occurred
      */
     protected $errorMask = Validator::ERROR_NONE;
 
     /**
-     * @var Factory
+     * @var Factory Factory object containing global state, config options & misc functionality
      */
     protected $factory;
 
     /**
-     * @param Factory $factory
+     * Create a new constraint instance
+     *
+     * @api via JsonSchema\Validator
+     *
+     * @param Factory $factory Factory object containing global state, config options & misc functionality
      */
     public function __construct(Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();
     }
 
+    /**
+     * Add an error to the list of errors encountered during validation
+     *
+     * @param ConstraintError $constraint Which error condition has been encountered
+     * @param JsonPointer     $path       Where the error occurred
+     * @param array           $more       List of additional parameters used to generate error messages
+     */
     public function addError(ConstraintError $constraint, JsonPointer $path = null, array $more = array())
     {
         $message = $constraint ? $constraint->getMessage() : '';
@@ -74,6 +91,11 @@ class BaseConstraint
         $this->errorMask |= $error['context'];
     }
 
+    /**
+     * Add multiple, already-rendered errors to the current list for this constraint
+     *
+     * @param array $errors List of errors to add
+     */
     public function addErrors(array $errors)
     {
         if ($errors) {
@@ -87,6 +109,18 @@ class BaseConstraint
         }
     }
 
+    /**
+     * Get a list of all errors encountered during validation.
+     *
+     * If you only want to return errors in particular categories, set $errorContext to
+     * include the desired categories.
+     *
+     * @api via JsonSchema\Validator
+     *
+     * @param int $errorContext Which categories of error to include
+     *
+     * @return array List of errors
+     */
     public function getErrors($errorContext = Validator::ERROR_ALL)
     {
         if ($errorContext === Validator::ERROR_ALL) {
@@ -100,6 +134,18 @@ class BaseConstraint
         });
     }
 
+    /**
+     * Return the number of errors encountered during validation.
+     *
+     * If you only want to count the errors in particular categories, set $errorContext to
+     * include the desired categories.
+     *
+     * @api via JsonSchema\Validator
+     *
+     * @param int $errorContext Which categories of error to include
+     *
+     * @return int Number of errors
+     */
     public function numErrors($errorContext = Validator::ERROR_ALL)
     {
         if ($errorContext === Validator::ERROR_ALL) {
@@ -109,14 +155,22 @@ class BaseConstraint
         return count($this->getErrors($errorContext));
     }
 
+    /**
+     * Check whether the most recent validation attempt completed successfully
+     *
+     * @api via JsonSchema\Validator
+     *
+     * @return bool True if no errors were encountered, false otherwise
+     */
     public function isValid()
     {
         return !$this->getErrors();
     }
 
     /**
-     * Clears any reported errors.  Should be used between
-     * multiple validation checks.
+     * Clear the list of reported errors. Should be used between multiple validation attempts.
+     *
+     * reset() is called automatically when using JsonSchema\Validator::validate().
      */
     public function reset()
     {
@@ -125,9 +179,11 @@ class BaseConstraint
     }
 
     /**
-     * Get the error mask
+     * Get a list of categories in which a validation error has occurred
      *
-     * @return int
+     * @api via JsonSchema\Validator
+     *
+     * @return int Bitwise list of error categories that were encountered
      */
     public function getErrorMask()
     {
@@ -137,9 +193,9 @@ class BaseConstraint
     /**
      * Recursively cast an associative array to an object
      *
-     * @param array $array
+     * @param array $array The array to cast
      *
-     * @return object
+     * @return object The cast object
      */
     public static function arrayToObjectRecursive($array)
     {
