@@ -32,13 +32,21 @@ class Validator extends BaseConstraint
     const ERROR_SCHEMA_VALIDATION       = 0x00000002;
 
     /**
-     * Validates the given data against the schema and returns an object containing the results
-     * Both the php object and the schema are supposed to be a result of a json_decode call.
-     * The validation works as defined by the schema proposal in http://json-schema.org.
+     * Validates the given data against the schema and returns an object containing the results.
+     *
+     * Both the value object and the schema are supposed to be the result of a json_decode call,
+     * or an equivalent value. The validation logic used is a non-compliant superset of the spec
+     * available at http://json-schema.org/ (versions prior to draft-06).
      *
      * Note that the first argument is passwd by reference, so you must pass in a variable.
      *
-     * {@inheritdoc}
+     * @api
+     *
+     * @param mixed $value     Reference to the value that should be validated against the schema
+     * @param mixed $schema    The schema to validate against
+     * @param int   $checkMode Bitwise list of option flags to enable during validation
+     *
+     * @return int Bitwise list of error categories encountered during validation
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {
@@ -73,7 +81,16 @@ class Validator extends BaseConstraint
     }
 
     /**
-     * Alias to validate(), to maintain backwards-compatibility with the previous API
+     * Alias to validate(), to maintain backwards-compatibility with the previous API.
+     *
+     * Equivalent to calling validate() without setting any extra $checkMode options
+     *
+     * @api
+     *
+     * @param mixed $value  The value that should be validated against the schema - *not* a reference
+     * @param mixed $schema The schema to validate against
+     *
+     * @return int Bitwise list of error categories encountered during validation
      */
     public function check($value, $schema)
     {
@@ -81,7 +98,17 @@ class Validator extends BaseConstraint
     }
 
     /**
-     * Alias to validate(), to maintain backwards-compatibility with the previous API
+     * Alias to validate(), to maintain backwards-compatibility with the previous API.
+     *
+     * Equivalent to calling validate() with CHECK_MODE_COERCE_TYPES as the only additional
+     * $checkMode option.
+     *
+     * @api
+     *
+     * @param mixed $value  Reference to the value that should be validated against the schema
+     * @param mixed $schema The schema to validate against
+     *
+     * @return int Bitwise list of error categories encountered during validation
      */
     public function coerce(&$value, $schema)
     {
