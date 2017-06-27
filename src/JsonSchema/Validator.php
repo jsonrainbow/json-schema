@@ -39,7 +39,7 @@ class Validator extends BaseConstraint
      * or an equivalent value. The validation logic used is a non-compliant superset of the spec
      * available at http://json-schema.org/ (versions prior to draft-06).
      *
-     * Note that the first argument is passwd by reference, so you must pass in a variable.
+     * Note that the first argument is passed by reference, so you must pass in a variable.
      *
      * @api
      *
@@ -47,7 +47,7 @@ class Validator extends BaseConstraint
      * @param mixed $schema    The schema to validate against
      * @param int   $checkMode Bitwise list of option flags to enable during validation
      *
-     * @return int Bitwise list of error categories encountered during validation
+     * @return int Bitwise list of error categories encountered during validation, or zero for success
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {
@@ -91,7 +91,7 @@ class Validator extends BaseConstraint
      * @param mixed $value  The value that should be validated against the schema - *not* a reference
      * @param mixed $schema The schema to validate against
      *
-     * @return int Bitwise list of error categories encountered during validation
+     * @return int Bitwise list of error categories encountered during validation, or zero for success
      */
     public function check($value, $schema)
     {
@@ -109,7 +109,7 @@ class Validator extends BaseConstraint
      * @param mixed $value  Reference to the value that should be validated against the schema
      * @param mixed $schema The schema to validate against
      *
-     * @return int Bitwise list of error categories encountered during validation
+     * @return int Bitwise list of error categories encountered during validation, or zero for success
      */
     public function coerce(&$value, $schema)
     {
