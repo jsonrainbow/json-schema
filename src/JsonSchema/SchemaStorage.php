@@ -8,14 +8,35 @@ use JsonSchema\Exception\UnresolvableJsonPointerException;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Uri\UriRetriever;
 
+/**
+ * Storage schema for user-provided and retrieved schema objects
+ *
+ * @package justinrainbow\json-schema
+ *
+ * @license MIT
+ */
 class SchemaStorage implements SchemaStorageInterface
 {
+    /** URI used for schemas which are provided by the user and have no associated URI */
     const INTERNAL_PROVIDED_SCHEMA_URI = 'internal://provided-schema';
 
+    /** @var UriRetriever UriRetriever instance to use for this SchemaStorage */
     protected $uriRetriever;
+
+    /** @var UriResolver UriResolver instance to use for this SchemaStorage */
     protected $uriResolver;
+
+    /** @var array List of cached schemas */
     protected $schemas = array();
 
+    /**
+     * Create a new SchemaStorage instance
+     *
+     * @api
+     *
+     * @param UriRetriever $uriRetriever UriRetriever instance to use for this SchemaStorage (optional)
+     * @param UriResolver  $uriResolver  UriResolver instance to use for this SchemaStorage (optional)
+     */
     public function __construct(
         UriRetrieverInterface $uriRetriever = null,
         UriResolverInterface $uriResolver = null
@@ -25,6 +46,8 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
+     * Get the UriRetriever instance used for this SchemaStorage
+     *
      * @return UriRetrieverInterface
      */
     public function getUriRetriever()
@@ -33,6 +56,8 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
+     * Get the UriResolver instance used for this SchemaStorage
+     *
      * @return UriResolverInterface
      */
     public function getUriResolver()
@@ -41,7 +66,15 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Add a schema to the cache
+     *
+     * This method can be used to add a user-provided schema object, or if just a URI is provided,
+     * can fetch the schema remotely using the configured UriResolver / UriRetriever objects.
+     *
+     * @api
+     *
+     * @param string $id     The unique identifying URI associated with the schema
+     * @param mixed  $schema The schema definition (optional)
      */
     public function addSchema($id, $schema = null)
     {
@@ -107,7 +140,16 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get a decoded schema
+     *
+     * If the schema is present in the cache, it will be returned directly. Otherwise, the library
+     * will fetch it remotely using the configured UriResolver / UriRetriever objects.
+     *
+     * @api
+     *
+     * @param string $id The unique identifying URI associated with the schema
+     *
+     * @return mixed The decoded schema definition
      */
     public function getSchema($id)
     {
@@ -119,7 +161,12 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Resolve a uri-reference pointer and return the target schema object
+     *
+     * @param string $ref          The reference to resolve
+     * @param array  $resolveStack Internal list of resolved objects (used for loop detection)
+     *
+     * @return mixed The referenced schema object
      */
     public function resolveRef($ref, $resolveStack = array())
     {
@@ -154,7 +201,12 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check a schema object for $ref, and resolve it if present. Returns the processed schema object.
+     *
+     * @param mixed $refSchema    The schema to check
+     * @param array $resolveStack Internal list of resolved objects (used for loop detection)
+     *
+     * @return mixed The final schema object after all $ref properties have been recursively resolved
      */
     public function resolveRefSchema($refSchema, $resolveStack = array())
     {
