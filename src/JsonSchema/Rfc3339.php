@@ -2,16 +2,24 @@
 
 namespace JsonSchema;
 
+/**
+ * Helper for creating DateTime objects from an RFC-3339 string
+ *
+ * @package justinrainbow\json-schema
+ *
+ * @license MIT
+ */
 class Rfc3339
 {
+    /** The regular expression used to tokenize the RFC-3339 date-time string */
     const REGEX = '/^(\d{4}-\d{2}-\d{2}[T ]{1}\d{2}:\d{2}:\d{2})(\.\d+)?(Z|([+-]\d{2}):?(\d{2}))$/';
 
     /**
-     * Try creating a DateTime instance
+     * Create a DateTime object based on an RFC-3339 string
      *
-     * @param string $string
+     * @param string $string The string to parse
      *
-     * @return \DateTime|null
+     * @return \DateTime|null A DateTime object corresponding to the given string, or null on error
      */
     public static function createFromString($string)
     {
