@@ -15,12 +15,13 @@ use JsonSchema\Exception\InvalidConfigException;
 use JsonSchema\SchemaStorage;
 
 /**
- * A JsonSchema Constraint
+ * The main public interface to the JsonSchema validation library.
  *
- * @author Robert Schönthal <seroscho@googlemail.com>
- * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
+ * Validates a document instance against a schema
  *
- * @see    README.md
+ * @package justinrainbow/json-schema
+ *
+ * @license MIT
  */
 class Validator extends BaseConstraint
 {
