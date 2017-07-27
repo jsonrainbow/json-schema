@@ -341,7 +341,9 @@ class UndefinedConstraint extends Constraint
             $allErrors = array();
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
-            foreach ($schema->oneOf as $oneOf) {
+            // TODO how do we yell that the schema is itself wrong?
+            $schemas = is_array($schema->oneOf) ? $schema->oneOf : $schema->oneOf->schemas;
+            foreach ($schemas as $oneOf) {
                 try {
                     $this->errors = array();
                     $this->checkUndefined($value, $oneOf, $path, $i);
@@ -355,8 +357,14 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if ($matchedSchemas !== 1) {
-                $this->addErrors(array_merge($allErrors, $startErrors));
-                $this->addError($path, 'Failed to match exactly one schema', 'oneOf');
+                if( isset($schema->oneOf->errorCode) ) {
+                    $this->errors = $startErrors;
+                    $this->addError($path, 'Failed to match exactly one schema', $schema->oneOf->errorCode);
+                }
+                else {
+                    $this->errors = array_merge($startErrors, $allErrors);
+                    $this->addError($path, 'Failed to match exactly one schema', 'oneOf');
+                }
             } else {
                 $this->errors = $startErrors;
             }
