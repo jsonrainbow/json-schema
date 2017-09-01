@@ -82,7 +82,7 @@ class TypeConstraint extends Constraint
      * passed as $isValid is already true.
      *
      * @param mixed $value             Value to validate
-     * @param array $type              TypeConstraints to check agains
+     * @param array $type              TypeConstraints to check against
      * @param array $validTypesWording An array of wordings of the valid types of the array $type
      * @param bool  $isValid           The current validation value
      * @param $path
