@@ -190,4 +190,37 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         // check that the recombined URI matches the original input
         $this->assertEquals($uri, $this->resolver->generate($split));
     }
+
+    public function testRelativeFileAsRoot()
+    {
+        $this->assertEquals(
+            'file://' . getcwd() . '/src/JsonSchema/Validator.php',
+            $this->resolver->resolve(
+                'Validator.php',
+                'src/JsonSchema/SchemaStorage.php'
+            )
+        );
+    }
+
+    public function testRelativeDirectoryAsRoot()
+    {
+        $this->assertEquals(
+            'file://' . getcwd() . '/src/JsonSchema/Validator.php',
+            $this->resolver->resolve(
+                'Validator.php',
+                'src/JsonSchema'
+            )
+        );
+    }
+
+    public function testRelativeNonExistentFileAsRoot()
+    {
+        $this->assertEquals(
+            'file://' . getcwd() . '/resolved.file',
+            $this->resolver->resolve(
+                'resolved.file',
+                'test.file'
+            )
+        );
+    }
 }
