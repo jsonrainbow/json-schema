@@ -85,8 +85,8 @@ class CollectionConstraint extends Constraint
 
                     $validator->check($v, $schema->items, $k_path, $i);
                 }
-                unset($v); // remove dangling reference to prevent any future bugs
-                           // caused by accidentally using $v elsewhere
+                unset($v); /* remove dangling reference to prevent any future bugs
+                            * caused by accidentally using $v elsewhere */
                 $this->addErrors($typeValidator->getErrors());
                 $this->addErrors($validator->getErrors());
             } else {
@@ -109,8 +109,8 @@ class CollectionConstraint extends Constraint
                         $this->errors = $initErrors;
                     }
                 }
-                unset($v); // remove dangling reference to prevent any future bugs
-                           // caused by accidentally using $v elsewhere
+                unset($v); /* remove dangling reference to prevent any future bugs
+                            * caused by accidentally using $v elsewhere */
             }
         } else {
             // Defined item type definitions
@@ -132,8 +132,8 @@ class CollectionConstraint extends Constraint
                     }
                 }
             }
-            unset($v); // remove dangling reference to prevent any future bugs
-                       // caused by accidentally using $v elsewhere
+            unset($v); /* remove dangling reference to prevent any future bugs
+                        * caused by accidentally using $v elsewhere */
 
             // Treat when we have more schema definitions than values, not for empty arrays
             if (count($value) > 0) {

@@ -11,6 +11,7 @@ $config
         '@PSR2' => true,
         '@Symfony' => true,
         // additionally
+        'align_multiline_comment' => array('comment_type' => 'phpdocs_like'),
         'array_syntax' => array('syntax' => 'long'),
         'binary_operator_spaces' => false,
         'concat_space' => array('spacing' => 'one'),
@@ -24,6 +25,7 @@ $config
         'pre_increment' => false,
         'trailing_comma_in_multiline_array' => false,
         'simplified_null_return' => false,
+        'yoda_style' => null,
     ))
     ->setFinder($finder)
 ;
