@@ -92,7 +92,7 @@ class SchemaStorage implements SchemaStorageInterface
             return;
         }
 
-        if (property_exists($schema, 'id') && is_string($schema->id)) {
+        if (property_exists($schema, 'id') && is_string($schema->id) && $base != $schema->id) {
             $base = $this->uriResolver->resolve($schema->id, $base);
         }
 
