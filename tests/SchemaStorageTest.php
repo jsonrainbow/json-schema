@@ -302,4 +302,25 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('uri-reference', $draft_03->properties->{'$ref'}->format);
         $this->assertEquals('uri-reference', $draft_04->properties->id->format);
     }
+
+    public function testNoDoubleResolve()
+    {
+        $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');
+
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve('test/schema')->willReturn($schemaOne)->shouldBeCalled();
+
+        $s = new SchemaStorage($uriRetriever->reveal());
+        $schema = $s->addSchema('test/schema');
+
+        $r = new \ReflectionObject($s);
+        $p = $r->getProperty('schemas');
+        $p->setAccessible(true);
+        $schemas = $p->getValue($s);
+
+        $this->assertEquals(
+            'file://' . getcwd() . '/test2/schema2#',
+            $schemas['test/schema']->{'$ref'}
+        );
+    }
 }
