@@ -72,6 +72,27 @@ class UriResolver implements UriResolverInterface
     }
 
     /**
+     * Custom realpath implementation to
+     * make results consistent in Windows and *nix
+     * environments.
+     *
+     * @param string $path
+     *   The path being checked.
+     */
+    protected function realpath($path) 
+    {
+      $scheme = 'file://';
+      $scheme_length = strlen($scheme);
+      if (strcasecmp(substr($path, 0, $scheme_length), $scheme) === 0) {
+        // realpath on Windows will fail to properly expand
+        // paths with the file:// scheme.
+        $path = substr($path, $scheme_length, strlen($path) - $scheme_length);
+        return realpath($path);
+      }
+      return realpath($path);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function resolve($uri, $baseUri = null)
@@ -79,9 +100,9 @@ class UriResolver implements UriResolverInterface
         // treat non-uri base as local file path
         if (!is_null($baseUri) && !filter_var($baseUri, \FILTER_VALIDATE_URL)) {
             if (is_file($baseUri)) {
-                $baseUri = 'file://' . realpath($baseUri);
+                $baseUri = 'file://' . $this->realpath($baseUri);
             } elseif (is_dir($baseUri)) {
-                $baseUri = 'file://' . realpath($baseUri) . '/';
+                $baseUri = 'file://' . $this->realpath($baseUri) . '/';
             } else {
                 $baseUri = 'file://' . getcwd() . '/' . $baseUri;
             }
