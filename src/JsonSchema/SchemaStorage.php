@@ -10,7 +10,7 @@ use JsonSchema\Uri\UriRetriever;
 
 class SchemaStorage implements SchemaStorageInterface
 {
-    const INTERNAL_PROVIDED_SCHEMA_URI = 'internal://provided-schema';
+    const INTERNAL_PROVIDED_SCHEMA_URI = 'internal://provided-schema/';
 
     protected $uriRetriever;
     protected $uriResolver;
