@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 
 /**
@@ -26,12 +27,12 @@ class CollectionConstraint extends Constraint
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError($path, 'There must be a minimum of ' . $schema->minItems . ' items in the array', 'minItems', array('minItems' => $schema->minItems));
+            $this->addError(ConstraintError::MIN_ITEMS(), $path, array('minItems' => $schema->minItems));
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError($path, 'There must be a maximum of ' . $schema->maxItems . ' items in the array', 'maxItems', array('maxItems' => $schema->maxItems));
+            $this->addError(ConstraintError::MAX_ITEMS(), $path, array('maxItems' => $schema->maxItems));
         }
 
         // Verify uniqueItems
@@ -43,7 +44,7 @@ class CollectionConstraint extends Constraint
                 }, $value);
             }
             if (count(array_unique($unique)) != count($value)) {
-                $this->addError($path, 'There are no duplicates allowed in the array', 'uniqueItems');
+                $this->addError(ConstraintError::UNIQUE_ITEMS(), $path);
             }
         }
 
@@ -85,8 +86,8 @@ class CollectionConstraint extends Constraint
 
                     $validator->check($v, $schema->items, $k_path, $i);
                 }
-                unset($v); // remove dangling reference to prevent any future bugs
-                           // caused by accidentally using $v elsewhere
+                unset($v); /* remove dangling reference to prevent any future bugs
+                            * caused by accidentally using $v elsewhere */
                 $this->addErrors($typeValidator->getErrors());
                 $this->addErrors($validator->getErrors());
             } else {
@@ -109,8 +110,8 @@ class CollectionConstraint extends Constraint
                         $this->errors = $initErrors;
                     }
                 }
-                unset($v); // remove dangling reference to prevent any future bugs
-                           // caused by accidentally using $v elsewhere
+                unset($v); /* remove dangling reference to prevent any future bugs
+                            * caused by accidentally using $v elsewhere */
             }
         } else {
             // Defined item type definitions
@@ -124,7 +125,14 @@ class CollectionConstraint extends Constraint
                             $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                         } else {
                             $this->addError(
-                                $path, 'The item ' . $i . '[' . $k . '] is not defined and the definition does not allow additional items', 'additionalItems', array('additionalItems' => $schema->additionalItems));
+                                ConstraintError::ADDITIONAL_ITEMS(),
+                                $path,
+                                array(
+                                    'item' => $i,
+                                    'property' => $k,
+                                    'additionalItems' => $schema->additionalItems
+                                )
+                            );
                         }
                     } else {
                         // Should be valid against an empty schema
@@ -132,8 +140,8 @@ class CollectionConstraint extends Constraint
                     }
                 }
             }
-            unset($v); // remove dangling reference to prevent any future bugs
-                       // caused by accidentally using $v elsewhere
+            unset($v); /* remove dangling reference to prevent any future bugs
+                        * caused by accidentally using $v elsewhere */
 
             // Treat when we have more schema definitions than values, not for empty arrays
             if (count($value) > 0) {

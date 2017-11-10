@@ -11,6 +11,8 @@ namespace JsonSchema\Tests\Constraints;
 
 class MinMaxPropertiesTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     /**
      * {@inheritdoc}
      */
@@ -72,7 +74,7 @@ class MinMaxPropertiesTest extends BaseTestCase
         return array(
             array(
                 '{
-                  "value": 1
+                  "value": {}
                 }',
                 '{
                   "type": "object",
@@ -82,8 +84,26 @@ class MinMaxPropertiesTest extends BaseTestCase
                 }'
             ),
             array(
+                '{}',
                 '{
-                  "value": 1
+                  "type": "object",
+                  "properties": {
+                    "propertyOne": {
+                      "type": "string"
+                    },
+                    "propertyTwo": {
+                      "type": "string"
+                    }
+                  },
+                  "minProperties": 1
+                }'
+            ),
+            array(
+                '{
+                  "value": {
+                    "propertyOne": "valueOne",
+                    "propertyTwo": "valueTwo"
+                  }
                 }',
                 '{
                   "type": "object",

@@ -9,10 +9,14 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\Constraints\FormatConstraint;
 
 class FormatTest extends BaseTestCase
 {
+    protected $validateSchema = true;
+
     public function setUp()
     {
         date_default_timezone_set('UTC');
@@ -76,6 +80,21 @@ class FormatTest extends BaseTestCase
         $this->assertEquals(1, count($validator->getErrors()), 'Expected 1 error');
     }
 
+    /**
+     * @dataProvider getInvalidFormats
+     */
+    public function testDisabledFormat($string, $format)
+    {
+        $factory = new Factory();
+        $validator = new FormatConstraint($factory);
+        $schema = new \stdClass();
+        $schema->format = $format;
+        $factory->addConfig(Constraint::CHECK_MODE_DISABLE_FORMAT);
+
+        $validator->check($string, $schema);
+        $this->assertEmpty($validator->getErrors());
+    }
+
     public function getValidFormats()
     {
         return array(
@@ -124,12 +143,12 @@ class FormatTest extends BaseTestCase
             array('555 320 1212', 'phone'),
 
             array('http://bluebox.org', 'uri'),
-            array('//bluebox.org', 'uri'),
-            array('/absolutePathReference/', 'uri'),
-            array('./relativePathReference/', 'uri'),
-            array('./relative:PathReference/', 'uri'),
-            array('relativePathReference/', 'uri'),
-            array('relative/Path:Reference/', 'uri'),
+            array('//bluebox.org', 'uri-reference'),
+            array('/absolutePathReference/', 'uri-reference'),
+            array('./relativePathReference/', 'uri-reference'),
+            array('./relative:PathReference/', 'uri-reference'),
+            array('relativePathReference/', 'uri-reference'),
+            array('relative/Path:Reference/', 'uri-reference'),
 
             array('info@something.edu', 'email'),
 
@@ -181,6 +200,12 @@ class FormatTest extends BaseTestCase
             array('htt:/bluebox.org', 'uri'),
             array('.relative:path/reference/', 'uri'),
             array('', 'uri'),
+            array('//bluebox.org', 'uri'),
+            array('/absolutePathReference/', 'uri'),
+            array('./relativePathReference/', 'uri'),
+            array('./relative:PathReference/', 'uri'),
+            array('relativePathReference/', 'uri'),
+            array('relative/Path:Reference/', 'uri'),
 
             array('info@somewhere', 'email'),
 

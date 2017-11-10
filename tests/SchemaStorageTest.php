@@ -11,6 +11,7 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Validator;
 use Prophecy\Argument;
 
 class SchemaStorageTest extends \PHPUnit_Framework_TestCase
@@ -29,6 +30,15 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
             (object) array('type' => 'string'),
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/properties/door")
         );
+    }
+
+    public function testResolveTopRef()
+    {
+        $input = json_decode('{"propertyOne":"notANumber"}');
+        $schema = json_decode('{"$ref":"#/definition","definition":{"properties":{"propertyOne":{"type":"number"}}}}');
+        $v = new Validator();
+        $v->validate($input, $schema);
+        $this->assertFalse($v->isValid());
     }
 
     /**
@@ -69,7 +79,7 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
         );
 
         // local ref with overriding
-        $this->assertNotEquals(
+        $this->assertEquals(
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/additionalProperties"),
             $schemaStorage->resolveRef("$mainSchemaPath#/properties/house/additionalProperties")
         );
@@ -107,6 +117,17 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
 
         $schemaStorage = new SchemaStorage($uriRetriever->reveal());
         $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");
+    }
+
+    public function testResolveRefWithNoAssociatedFileName()
+    {
+        $this->setExpectedException(
+            'JsonSchema\Exception\UnresolvableJsonPointerException',
+            "Could not resolve fragment '#': no file is defined"
+        );
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->resolveRef('#');
     }
 
     /**
@@ -252,6 +273,54 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
                     'pattern' => '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$'
                 )
             )
+        );
+    }
+
+    public function testGetUriRetriever()
+    {
+        $s = new SchemaStorage();
+        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $this->assertInstanceOf('\JsonSchema\Uri\UriRetriever', $s->getUriRetriever());
+    }
+
+    public function testGetUriResolver()
+    {
+        $s = new SchemaStorage();
+        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $this->assertInstanceOf('\JsonSchema\Uri\UriResolver', $s->getUriResolver());
+    }
+
+    public function testMetaSchemaFixes()
+    {
+        $s = new SchemaStorage();
+        $s->addSchema('http://json-schema.org/draft-03/schema#');
+        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $draft_03 = $s->getSchema('http://json-schema.org/draft-03/schema#');
+        $draft_04 = $s->getSchema('http://json-schema.org/draft-04/schema#');
+
+        $this->assertEquals('uri-reference', $draft_03->properties->id->format);
+        $this->assertEquals('uri-reference', $draft_03->properties->{'$ref'}->format);
+        $this->assertEquals('uri-reference', $draft_04->properties->id->format);
+    }
+
+    public function testNoDoubleResolve()
+    {
+        $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');
+
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve('test/schema')->willReturn($schemaOne)->shouldBeCalled();
+
+        $s = new SchemaStorage($uriRetriever->reveal());
+        $schema = $s->addSchema('test/schema');
+
+        $r = new \ReflectionObject($s);
+        $p = $r->getProperty('schemas');
+        $p->setAccessible(true);
+        $schemas = $p->getValue($s);
+
+        $this->assertEquals(
+            'file://' . getcwd() . '/test2/schema2#',
+            $schemas['test/schema']->{'$ref'}
         );
     }
 }

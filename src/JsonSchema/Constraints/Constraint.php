@@ -30,6 +30,10 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     const CHECK_MODE_COERCE_TYPES =     0x00000004;
     const CHECK_MODE_APPLY_DEFAULTS =   0x00000008;
     const CHECK_MODE_EXCEPTIONS =       0x00000010;
+    const CHECK_MODE_DISABLE_FORMAT =   0x00000020;
+    const CHECK_MODE_EARLY_COERCE =     0x00000040;
+    const CHECK_MODE_ONLY_REQUIRED_DEFAULTS   = 0x00000080;
+    const CHECK_MODE_VALIDATE_SCHEMA =  0x00000100;
 
     /**
      * Bubble down the path
@@ -74,13 +78,15 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param mixed            $value
      * @param mixed            $schema
      * @param JsonPointer|null $path
-     * @param mixed            $i
+     * @param mixed            $properties
+     * @param mixed            $additionalProperties
      * @param mixed            $patternProperties
      */
-    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $i = null, $patternProperties = null)
+    protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $properties = null,
+        $additionalProperties = null, $patternProperties = null, $appliedDefaults = array())
     {
         $validator = $this->factory->createInstanceFor('object');
-        $validator->check($value, $schema, $path, $i, $patternProperties);
+        $validator->check($value, $schema, $path, $properties, $additionalProperties, $patternProperties, $appliedDefaults);
 
         $this->addErrors($validator->getErrors());
     }
@@ -109,11 +115,11 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param JsonPointer|null $path
      * @param mixed            $i
      */
-    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null, $fromDefault = false)
     {
         $validator = $this->factory->createInstanceFor('undefined');
 
-        $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i);
+        $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i, $fromDefault);
 
         $this->addErrors($validator->getErrors());
     }
