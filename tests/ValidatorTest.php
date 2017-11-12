@@ -4,8 +4,9 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 
-class ValidatorTest extends \PHPUnit_Framework_TestCase
+class ValidatorTest extends TestCase
 {
     public function testValidateWithAssocSchema()
     {

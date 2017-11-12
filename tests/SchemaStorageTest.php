@@ -12,9 +12,10 @@ namespace JsonSchema\Tests;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
-class SchemaStorageTest extends \PHPUnit_Framework_TestCase
+class SchemaStorageTest extends TestCase
 {
     public function testResolveRef()
     {

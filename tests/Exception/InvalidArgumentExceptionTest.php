@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
-class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
+class InvalidArgumentExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

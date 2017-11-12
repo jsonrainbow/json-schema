@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\RuntimeException;
+use PHPUnit\Framework\TestCase;
 
-class RuntimeExceptionTest extends \PHPUnit_Framework_TestCase
+class RuntimeExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

@@ -3,11 +3,12 @@
 namespace JsonSchema\Tests\Uri\Retrievers
 {
     use JsonSchema\Uri\Retrievers\FileGetContents;
+    use PHPUnit\Framework\TestCase;
 
     /**
      * @group FileGetContents
      */
-    class FileGetContentsTest extends \PHPUnit_Framework_TestCase
+    class FileGetContentsTest extends TestCase
     {
         /**
          * @expectedException \JsonSchema\Exception\ResourceNotFoundException

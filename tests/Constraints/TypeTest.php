@@ -11,6 +11,7 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Constraints\TypeConstraint;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class TypeTest
@@ -19,7 +20,7 @@ use JsonSchema\Constraints\TypeConstraint;
  *
  * @author hakre <https://github.com/hakre>
  */
-class TypeTest extends \PHPUnit_Framework_TestCase
+class TypeTest extends TestCase
 {
     /**
      * @see testIndefiniteArticleForTypeInTypeCheckErrorMessage
