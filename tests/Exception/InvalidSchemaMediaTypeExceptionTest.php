@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
+use PHPUnit\Framework\TestCase;
 
-class InvalidSchemaMediaTypeExceptionTest extends \PHPUnit_Framework_TestCase
+class InvalidSchemaMediaTypeExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

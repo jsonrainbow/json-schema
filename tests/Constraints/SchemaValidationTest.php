@@ -11,8 +11,9 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 
-class SchemaValidationTest extends \PHPUnit_Framework_TestCase
+class SchemaValidationTest extends TestCase
 {
     protected $validateSchema = true;
 

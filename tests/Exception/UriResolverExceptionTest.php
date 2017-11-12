@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\UriResolverException;
+use PHPUnit\Framework\TestCase;
 
-class UriResolverExceptionTest extends \PHPUnit_Framework_TestCase
+class UriResolverExceptionTest extends TestCase
 {
     public function testHierarchy()
     {
