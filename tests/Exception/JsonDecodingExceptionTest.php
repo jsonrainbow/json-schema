@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\JsonDecodingException;
+use PHPUnit\Framework\TestCase;
 
-class JsonDecodingExceptionTest extends \PHPUnit_Framework_TestCase
+class JsonDecodingExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

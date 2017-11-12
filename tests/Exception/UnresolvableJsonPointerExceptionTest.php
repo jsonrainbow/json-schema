@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\UnresolvableJsonPointerException;
+use PHPUnit\Framework\TestCase;
 
-class UnresolvableJsonPointerExceptionTest extends \PHPUnit_Framework_TestCase
+class UnresolvableJsonPointerExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

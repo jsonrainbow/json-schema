@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\ResourceNotFoundException;
+use PHPUnit\Framework\TestCase;
 
-class ResourceNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
+class ResourceNotFoundExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

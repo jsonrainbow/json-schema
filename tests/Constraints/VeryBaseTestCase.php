@@ -9,12 +9,13 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * @package JsonSchema\Tests\Constraints
  */
-abstract class VeryBaseTestCase extends \PHPUnit_Framework_TestCase
+abstract class VeryBaseTestCase extends TestCase
 {
     /** @var object */
     private $jsonSchemaDraft03;

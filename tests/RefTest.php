@@ -10,8 +10,9 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 
-class RefTest extends \PHPUnit_Framework_TestCase
+class RefTest extends TestCase
 {
     public function dataRefIgnoresSiblings()
     {

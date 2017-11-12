@@ -10,8 +10,9 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\ConstraintError;
+use PHPUnit\Framework\TestCase;
 
-class ConstraintErrorTest extends \PHPUnit_Framework_TestCase
+class ConstraintErrorTest extends TestCase
 {
     public function testGetValidMessage()
     {

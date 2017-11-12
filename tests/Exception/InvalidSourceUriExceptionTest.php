@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\InvalidSourceUriException;
+use PHPUnit\Framework\TestCase;
 
-class InvalidSourceUriExceptionTest extends \PHPUnit_Framework_TestCase
+class InvalidSourceUriExceptionTest extends TestCase
 {
     public function testHierarchy()
     {

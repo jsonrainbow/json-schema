@@ -10,13 +10,14 @@
 namespace JsonSchema\Tests\Entity;
 
 use JsonSchema\Entity\JsonPointer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @package JsonSchema\Tests\Entity
  *
  * @author Joost Nijhuis <jnijhuis81@gmail.com>
  */
-class JsonPointerTest extends \PHPUnit_Framework_TestCase
+class JsonPointerTest extends TestCase
 {
     /**
      * @dataProvider getTestData
