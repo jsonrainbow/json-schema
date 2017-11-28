@@ -88,7 +88,7 @@ class ConstraintError extends Enum
             self::MISSING_MAXIMUM => 'Use of exclusiveMaximum requires presence of maximum',
             self::MISSING_MINIMUM => 'Use of exclusiveMinimum requires presence of minimum',
             /*self::MISSING_ERROR => 'Used for tests; this error is deliberately commented out',*/
-            self::MULTIPLE_OF => 'Must be a multiple of %d',
+            self::MULTIPLE_OF => 'Must be a multiple of %s',
             self::NOT => 'Matched a schema which it should not',
             self::ONE_OF => 'Failed to match exactly one schema',
             self::REQUIRED => 'The property %s is required',
