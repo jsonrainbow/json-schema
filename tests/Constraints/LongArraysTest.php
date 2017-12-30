@@ -41,7 +41,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $validator = new Validator(new Factory($schemaStorage));
         $checkValue = json_decode($input);
-        $validator->check($checkValue, $schema);
+        $validator->validate($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -69,7 +69,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $validator = new Validator(new Factory($schemaStorage));
         $checkValue = json_decode($input);
-        $validator->check($checkValue, $schema);
+        $validator->validate($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -97,7 +97,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $validator = new Validator(new Factory($schemaStorage));
         $checkValue = json_decode($input);
-        $validator->check($checkValue, $schema);
+        $validator->validate($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 

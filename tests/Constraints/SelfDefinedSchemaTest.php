@@ -69,8 +69,13 @@ class SelfDefinedSchemaTest extends BaseTestCase
 
     public function testInvalidArgumentException()
     {
+        $value = json_decode('{}');
+        $schema = json_decode('');
+
         $v = new Validator();
+
         $this->setExpectedException('\JsonSchema\Exception\InvalidArgumentException');
-        $v->check(json_decode('{}'), json_decode(''));
+
+        $v->validate($value, $schema);
     }
 }

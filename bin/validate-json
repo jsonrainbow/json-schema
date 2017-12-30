@@ -217,7 +217,7 @@ if (isset($arOptions['--dump-schema'])) {
 
 try {
     $validator = new JsonSchema\Validator();
-    $validator->check($data, $schema);
+    $validator->validate($data, $schema);
 
     if ($validator->isValid()) {
         if(isset($arOptions['--verbose'])) {

@@ -36,7 +36,7 @@ class ValidatorTest extends TestCase
         $validator->validate($data, $schema);
     }
 
-    public function testCheck()
+    public function testDeprecatedCheckDelegatesToValidate()
     {
         $schema = json_decode('{"type":"string"}');
         $data = json_decode('42');
@@ -47,7 +47,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed.');
     }
 
-    public function testCoerce()
+    public function testDeprecatedCoerceDelegatesToValidate()
     {
         $schema = json_decode('{"type":"integer"}');
         $data = json_decode('"42"');
