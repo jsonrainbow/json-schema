@@ -77,7 +77,7 @@ class FormatTest extends BaseTestCase
         $schema->format = $format;
 
         $validator->check($string, $schema);
-        $this->assertEquals(1, count($validator->getErrors()), 'Expected 1 error');
+        $this->assertCount(1, $validator->getErrors(), 'Expected 1 error');
     }
 
     /**
