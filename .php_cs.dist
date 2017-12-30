@@ -1,7 +1,7 @@
 <?php
 
 $finder = new PhpCsFixer\Finder();
-$config = new PhpCsFixer\Config('json-schema', 'json-schema style guide');
+$config = new PhpCsFixer\Config('json-schema');
 $finder->in(__DIR__);
 
 /* Based on ^2.1 of php-cs-fixer */
