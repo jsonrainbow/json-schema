@@ -2,7 +2,6 @@
 
 namespace JsonSchema\Tests;
 
-use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
 

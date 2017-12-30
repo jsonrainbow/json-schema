@@ -13,7 +13,6 @@ use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 class SchemaStorageTest extends TestCase
 {

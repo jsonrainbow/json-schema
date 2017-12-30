@@ -10,7 +10,6 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
-use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\ValidationException;
