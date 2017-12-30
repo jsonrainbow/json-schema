@@ -58,7 +58,7 @@ class TypeTest extends TestCase
      */
     public function testLooseTypeChecking()
     {
-        $v = new \StdClass();
+        $v = new \stdClass();
         $v->property = 'dataOne';
         LooseTypeCheck::propertySet($v, 'property', 'dataTwo');
         $this->assertEquals('dataTwo', $v->property);
@@ -111,7 +111,7 @@ class TypeTest extends TestCase
     public function testValidateTypeException()
     {
         $t = new TypeConstraint();
-        $data = new \StdClass();
+        $data = new \stdClass();
         $schema = json_decode('{"type": "notAValidTypeName"}');
 
         $this->setExpectedException(
