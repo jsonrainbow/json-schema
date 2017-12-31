@@ -72,6 +72,8 @@ class Validator extends BaseConstraint
 
     /**
      * Alias to validate(), to maintain backwards-compatibility with the previous API
+     *
+     * @deprecated
      */
     public function check($value, $schema)
     {
@@ -80,6 +82,8 @@ class Validator extends BaseConstraint
 
     /**
      * Alias to validate(), to maintain backwards-compatibility with the previous API
+     *
+     * @deprecated
      */
     public function coerce(&$value, $schema)
     {

@@ -83,7 +83,7 @@ class PointerTest extends TestCase
 
         $validator = new Validator();
         $checkValue = json_decode(json_encode($value));
-        $validator->check($checkValue, json_decode(json_encode($schema)));
+        $validator->validate($checkValue, json_decode(json_encode($schema)));
 
         $this->assertEquals(
             array(

@@ -55,7 +55,7 @@ class UriRetrieverTest extends TestCase
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->check($decodedJson, $decodedJsonSchema);
+        $this->validator->validate($decodedJson, $decodedJsonSchema);
         $this->assertTrue($this->validator->isValid());
     }
 
@@ -70,7 +70,7 @@ class UriRetrieverTest extends TestCase
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->check($decodedJson, $decodedJsonSchema);
+        $this->validator->validate($decodedJson, $decodedJsonSchema);
         $this->assertFalse($this->validator->isValid());
     }
 
@@ -85,7 +85,7 @@ class UriRetrieverTest extends TestCase
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->check($decodedJson, $decodedJsonSchema);
+        $this->validator->validate($decodedJson, $decodedJsonSchema);
         $this->assertFalse($this->validator->isValid());
     }
 
@@ -101,7 +101,7 @@ class UriRetrieverTest extends TestCase
         $decodedJson = json_decode($json);
         $decodedJsonSchema = json_decode($childSchema);
 
-        $this->validator->check($decodedJson, $decodedJsonSchema);
+        $this->validator->validate($decodedJson, $decodedJsonSchema);
         $this->assertTrue($this->validator->isValid());
     }
 
