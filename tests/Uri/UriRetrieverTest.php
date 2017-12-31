@@ -26,7 +26,7 @@ class UriRetrieverTest extends TestCase
         $this->validator = new Validator();
     }
 
-    private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
+    private function getRetrieverMock($returnSchema)
     {
         $jsonSchema = json_decode($returnSchema);
 
