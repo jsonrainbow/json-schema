@@ -178,17 +178,14 @@ class CoerciveTest extends VeryBaseTestCase
 
             // check end value
             $value = LooseTypeCheck::propertyGet($data, 'propertyOne');
-            $this->assertTrue(
-                $value === $endValue,
-                sprintf(
-                    "Incorrect value '%s': expected '%s'",
-                    is_scalar($value) ? $value : gettype($value),
-                    is_scalar($endValue) ? $endValue : gettype($endValue)
-                )
-            );
+            $this->assertSame($value, $endValue, sprintf(
+                "Incorrect value '%s': expected '%s'",
+                is_scalar($value) ? $value : gettype($value),
+                is_scalar($endValue) ? $endValue : gettype($endValue)
+            ));
         } else {
             $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed');
-            $this->assertEquals(1, count($validator->getErrors()));
+            $this->assertCount(1, $validator->getErrors());
         }
     }
 
