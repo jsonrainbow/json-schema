@@ -114,7 +114,7 @@ class SchemaStorageTest extends TestCase
         $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
         $uriRetriever->retrieve($mainSchemaPath)
             ->willReturn($mainSchema)
-            ->shouldBeCalled($mainSchema);
+            ->shouldBeCalled();
 
         $schemaStorage = new SchemaStorage($uriRetriever->reveal());
         $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");
