@@ -2,9 +2,9 @@ sudo: false
 language: php
 
 cache:
-    directories:
-      - $HOME/.composer/cache
-      - $HOME/.phpcsfixer
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.phpcsfixer
 
 matrix:
   fast_finish: true
