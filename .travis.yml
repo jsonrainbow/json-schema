@@ -17,6 +17,7 @@ matrix:
     - php: 7.0
       env: WITH_COVERAGE=true WITH_PHPCSFIXER=true
     - php: 7.1
+    - php: 7.2
     - php: 'nightly'
     - php: hhvm
       dist: trusty
