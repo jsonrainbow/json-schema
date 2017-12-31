@@ -15,7 +15,6 @@ $config
         'array_syntax' => array('syntax' => 'long'),
         'binary_operator_spaces' => false,
         'concat_space' => array('spacing' => 'one'),
-        'no_unused_imports' => false,
         'no_useless_else' => true,
         'no_useless_return' => true,
         'ordered_imports' => true,
