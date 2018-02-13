@@ -265,6 +265,7 @@ class UndefinedConstraint extends Constraint
             }
             // $value is an array, and items are defined - treat as plain array
             foreach ($items as $currentItem => $itemDefinition) {
+                $itemDefinition = $this->factory->getSchemaStorage()->resolveRefSchema($itemDefinition);
                 if (
                     !array_key_exists($currentItem, $value)
                     && property_exists($itemDefinition, 'default')
