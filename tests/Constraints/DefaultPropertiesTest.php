@@ -121,12 +121,12 @@ class DefaultPropertiesTest extends VeryBaseTestCase
             ),
             array(// #15 infinite recursion via $ref (object)
                 '{}',
-                '{"properties":{"propertyOne": {"$ref": "#","default": {}}}}',
+                '{"properties":{"propertyOne": {"$ref": "#","default": "valueOne"}}, "default": {}}',
                 '{"propertyOne":{}}'
             ),
             array(// #16 infinite recursion via $ref (array)
                 '[]',
-                '{"items":[{"$ref":"#","default":[]}]}',
+                '{"items":[{"$ref":"#","default":"valueOne"}], "default": []}',
                 '[[]]'
             ),
             array(// #17 default top value does not overwrite defined null
