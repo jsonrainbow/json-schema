@@ -12,7 +12,6 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
-use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
 class CoerciveTest extends BasicTypesTest
