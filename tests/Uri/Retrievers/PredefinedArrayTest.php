@@ -3,11 +3,12 @@
 namespace JsonSchema\Tests\Uri\Retrievers;
 
 use JsonSchema\Uri\Retrievers\PredefinedArray;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group PredefinedArray
  */
-class PredefinedArrayTest extends \PHPUnit_Framework_TestCase
+class PredefinedArrayTest extends TestCase
 {
     private $retriever;
 

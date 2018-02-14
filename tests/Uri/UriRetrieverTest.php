@@ -12,11 +12,12 @@ namespace JsonSchema\Tests\Uri;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group UriRetriever
  */
-class UriRetrieverTest extends \PHPUnit_Framework_TestCase
+class UriRetrieverTest extends TestCase
 {
     protected $validator;
 
@@ -25,7 +26,7 @@ class UriRetrieverTest extends \PHPUnit_Framework_TestCase
         $this->validator = new Validator();
     }
 
-    private function getRetrieverMock($returnSchema, $returnMediaType = Validator::SCHEMA_MEDIA_TYPE)
+    private function getRetrieverMock($returnSchema)
     {
         $jsonSchema = json_decode($returnSchema);
 

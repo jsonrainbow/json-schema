@@ -41,7 +41,7 @@
     "require-dev": {
         "json-schema/JSON-Schema-Test-Suite": "1.2.0",
         "friendsofphp/php-cs-fixer": "^2.1",
-        "phpunit/phpunit": "^4.8.22"
+        "phpunit/phpunit": "^4.8.35"
     },
     "autoload": {
         "psr-4": { "JsonSchema\\": "src/JsonSchema/" }
@@ -56,10 +56,10 @@
         }
     },
     "scripts": {
-        "test" : "vendor/bin/phpunit",
-        "testOnly" : "vendor/bin/phpunit --colors --filter",
-        "coverage" : "vendor/bin/phpunit --coverage-text",
-        "style-check" : "vendor/bin/php-cs-fixer fix --dry-run --verbose --diff",
-        "style-fix" : "vendor/bin/php-cs-fixer fix --verbose"
+        "test" : "phpunit",
+        "testOnly" : "phpunit --colors --filter",
+        "coverage" : "phpunit --coverage-text",
+        "style-check" : "php-cs-fixer fix --dry-run --verbose --diff",
+        "style-fix" : "php-cs-fixer fix --verbose"
     }
 }

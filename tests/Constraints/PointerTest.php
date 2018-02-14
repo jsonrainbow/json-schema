@@ -10,8 +10,9 @@
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 
-class PointerTest extends \PHPUnit_Framework_TestCase
+class PointerTest extends TestCase
 {
     protected $validateSchema = true;
 

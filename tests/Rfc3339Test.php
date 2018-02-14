@@ -3,8 +3,9 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\Rfc3339;
+use PHPUnit\Framework\TestCase;
 
-class Rfc3339Test extends \PHPUnit_Framework_TestCase
+class Rfc3339Test extends TestCase
 {
     /**
      * @param string         $string

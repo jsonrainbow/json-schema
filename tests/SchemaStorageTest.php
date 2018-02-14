@@ -12,9 +12,9 @@ namespace JsonSchema\Tests;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use Prophecy\Argument;
+use PHPUnit\Framework\TestCase;
 
-class SchemaStorageTest extends \PHPUnit_Framework_TestCase
+class SchemaStorageTest extends TestCase
 {
     public function testResolveRef()
     {
@@ -113,7 +113,7 @@ class SchemaStorageTest extends \PHPUnit_Framework_TestCase
         $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
         $uriRetriever->retrieve($mainSchemaPath)
             ->willReturn($mainSchema)
-            ->shouldBeCalled($mainSchema);
+            ->shouldBeCalled();
 
         $schemaStorage = new SchemaStorage($uriRetriever->reveal());
         $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");

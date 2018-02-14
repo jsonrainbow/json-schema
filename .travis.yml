@@ -2,9 +2,9 @@ sudo: false
 language: php
 
 cache:
-    directories:
-      - $HOME/.composer/cache
-      - $HOME/.phpcsfixer
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.phpcsfixer
 
 matrix:
   fast_finish: true
@@ -17,6 +17,7 @@ matrix:
     - php: 7.0
       env: WITH_COVERAGE=true WITH_PHPCSFIXER=true
     - php: 7.1
+    - php: 7.2
     - php: 'nightly'
     - php: hhvm
       dist: trusty
@@ -25,7 +26,6 @@ matrix:
 
 before_install:
   - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
-  - composer selfupdate
   - if [[ "$TRAVIS_PHP_VERSION" = "hhvm" || "$TRAVIS_PHP_VERSION" = "nightly" ]]; then sed -i '/^.*friendsofphp\/php-cs-fixer.*$/d' composer.json; fi
 
 install:

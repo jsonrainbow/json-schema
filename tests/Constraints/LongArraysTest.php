@@ -100,11 +100,4 @@ class LongArraysTest extends VeryBaseTestCase
         $validator->check($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
-
-    private static function millis()
-    {
-        $mt = explode(' ', microtime());
-
-        return $mt[1] * 1000 + round($mt[0] * 1000);
-    }
 }
