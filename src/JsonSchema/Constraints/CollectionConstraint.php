@@ -65,53 +65,27 @@ class CollectionConstraint extends Constraint
     {
         if (is_object($schema->items)) {
             // just one type definition for the whole array
+            foreach ($value as $k => &$v) {
+                $initErrors = $this->getErrors();
 
-            if (isset($schema->items->type)
-                && (
-                    $schema->items->type == 'string'
-                    || $schema->items->type == 'number'
-                    || $schema->items->type == 'integer'
-                )
-                && !isset($schema->additionalItems)
-            ) {
-                // performance optimization
-                $type = $schema->items->type;
-                $typeValidator = $this->factory->createInstanceFor('type');
-                $validator = $this->factory->createInstanceFor($type === 'integer' ? 'number' : $type);
+                // First check if its defined in "items"
+                $this->checkUndefined($v, $schema->items, $path, $k);
 
-                foreach ($value as $k => &$v) {
-                    $k_path = $this->incrementPath($path, $k);
-                    $typeValidator->check($v, $schema->items, $k_path, $i);
-
-                    $validator->check($v, $schema->items, $k_path, $i);
+                // Recheck with "additionalItems" if the first test fails
+                if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
+                    $secondErrors = $this->getErrors();
+                    $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                 }
-                unset($v); /* remove dangling reference to prevent any future bugs
-                            * caused by accidentally using $v elsewhere */
-                $this->addErrors($typeValidator->getErrors());
-                $this->addErrors($validator->getErrors());
-            } else {
-                foreach ($value as $k => &$v) {
-                    $initErrors = $this->getErrors();
 
-                    // First check if its defined in "items"
-                    $this->checkUndefined($v, $schema->items, $path, $k);
-
-                    // Recheck with "additionalItems" if the first test fails
-                    if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
-                        $secondErrors = $this->getErrors();
-                        $this->checkUndefined($v, $schema->additionalItems, $path, $k);
-                    }
-
-                    // Reset errors if needed
-                    if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
-                        $this->errors = $secondErrors;
-                    } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
-                        $this->errors = $initErrors;
-                    }
+                // Reset errors if needed
+                if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
+                    $this->errors = $secondErrors;
+                } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
+                    $this->errors = $initErrors;
                 }
-                unset($v); /* remove dangling reference to prevent any future bugs
-                            * caused by accidentally using $v elsewhere */
             }
+            unset($v); /* remove dangling reference to prevent any future bugs
+                        * caused by accidentally using $v elsewhere */
         } else {
             // Defined item type definitions
             foreach ($value as $k => &$v) {
