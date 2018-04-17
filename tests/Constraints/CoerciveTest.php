@@ -165,6 +165,13 @@ class CoerciveTest extends VeryBaseTestCase
             'integer', 'boolean', true, true
         );
 
+        // #51 check boolean coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"boolean","const":false}}}',
+            '{"propertyOne":"false"}',
+            'string', 'boolean', false, true
+        );
+
         foreach ($types as $toType => $testCases) {
             foreach ($testCases as $testCase) {
                 $tests[] = array(
