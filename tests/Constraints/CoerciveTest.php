@@ -134,7 +134,7 @@ class CoerciveTest extends VeryBaseTestCase
         $tests[] = array(
             '{"properties":{"propertyOne":{"type":"string","const":"42"}}}',
             '{"propertyOne":42}',
-            'integer', 'string', "42", true
+            'integer', 'string', '42', true
         );
 
         // #47 check coercion with "const"
