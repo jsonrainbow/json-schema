@@ -64,6 +64,10 @@ class CollectionConstraint extends Constraint
      */
     protected function validateItems(&$value, $schema = null, JsonPointer $path = null, $i = null)
     {
+        if (is_array($schema->items) && array_key_exists('$ref', $schema->items)) {
+            $schema->items = $this->factory->getSchemaStorage()->resolveRefSchema((object)$schema->items);
+        };
+
         if (is_object($schema->items)) {
             // just one type definition for the whole array
 
