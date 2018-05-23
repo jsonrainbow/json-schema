@@ -96,6 +96,11 @@ class UndefinedConstraint extends Constraint
         if (isset($schema->enum)) {
             $this->checkEnum($value, $schema, $path, $i);
         }
+
+        // check const
+        if (isset($schema->const)) {
+            $this->checkConst($value, $schema, $path, $i);
+        }
     }
 
     /**

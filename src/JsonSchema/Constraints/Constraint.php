@@ -170,6 +170,22 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     }
 
     /**
+     * Checks a const element
+     *
+     * @param mixed            $value
+     * @param mixed            $schema
+     * @param JsonPointer|null $path
+     * @param mixed            $i
+     */
+    protected function checkConst($value, $schema = null, JsonPointer $path = null, $i = null)
+    {
+        $validator = $this->factory->createInstanceFor('const');
+        $validator->check($value, $schema, $path, $i);
+
+        $this->addErrors($validator->getErrors());
+    }
+
+    /**
      * Checks format of an element
      *
      * @param mixed            $value

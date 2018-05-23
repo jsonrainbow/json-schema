@@ -58,6 +58,7 @@ class Factory
         'string' => 'JsonSchema\Constraints\StringConstraint',
         'number' => 'JsonSchema\Constraints\NumberConstraint',
         'enum' => 'JsonSchema\Constraints\EnumConstraint',
+        'const' => 'JsonSchema\Constraints\ConstConstraint',
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
         'validator' => 'JsonSchema\Validator'

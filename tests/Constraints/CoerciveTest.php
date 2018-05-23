@@ -130,7 +130,48 @@ class CoerciveTest extends VeryBaseTestCase
             'string', 'integer', 42, true
         );
 
-        $tests = array();
+        // #46 check coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"string","const":"42"}}}',
+            '{"propertyOne":42}',
+            'integer', 'string', '42', true
+        );
+
+        // #47 check coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"number","const":42}}}',
+            '{"propertyOne":"42"}',
+            'string', 'integer', 42, true
+        );
+
+        // #48 check boolean coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"boolean","const":false}}}',
+            '{"propertyOne":"false"}',
+            'string', 'boolean', false, true
+        );
+
+        // #49 check boolean coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"boolean","const":true}}}',
+            '{"propertyOne":"true"}',
+            'string', 'boolean', true, true
+        );
+
+        // #50 check boolean coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"boolean","const":true}}}',
+            '{"propertyOne":1}',
+            'integer', 'boolean', true, true
+        );
+
+        // #51 check boolean coercion with "const"
+        $tests[] = array(
+            '{"properties":{"propertyOne":{"type":"boolean","const":false}}}',
+            '{"propertyOne":"false"}',
+            'string', 'boolean', false, true
+        );
+
         foreach ($types as $toType => $testCases) {
             foreach ($testCases as $testCase) {
                 $tests[] = array(

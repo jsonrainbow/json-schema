@@ -14,6 +14,7 @@ class ConstraintError extends Enum
     const DISALLOW = 'disallow';
     const DIVISIBLE_BY = 'divisibleBy';
     const ENUM = 'enum';
+    const CONSTANT = 'const';
     const EXCLUSIVE_MINIMUM = 'exclusiveMinimum';
     const EXCLUSIVE_MAXIMUM = 'exclusiveMaximum';
     const FORMAT_COLOR = 'colorFormat';
@@ -63,6 +64,7 @@ class ConstraintError extends Enum
             self::DISALLOW => 'Disallowed value was matched',
             self::DIVISIBLE_BY => 'Is not divisible by %d',
             self::ENUM => 'Does not have a value in the enumeration %s',
+            self::CONSTANT => 'Does not have a value equal to %s',
             self::EXCLUSIVE_MINIMUM => 'Must have a minimum value greater than %d',
             self::EXCLUSIVE_MAXIMUM => 'Must have a maximum value less than %d',
             self::FORMAT_COLOR => 'Invalid color',
