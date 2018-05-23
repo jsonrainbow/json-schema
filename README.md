@@ -45,6 +45,8 @@ if ($validator->isValid()) {
 }
 ```
 
+If you are validating multiple things then you should call `$$validator->reset();` between calls to `$validator->validate()`. See [#385](https://github.com/justinrainbow/json-schema/issues/385) for more details.
+
 ### Type coercion
 
 If you're validating data passed to your application via HTTP, you can cast strings and booleans to
