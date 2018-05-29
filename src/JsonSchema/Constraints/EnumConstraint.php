@@ -9,9 +9,9 @@
 
 namespace JsonSchema\Constraints;
 
+use Icecave\Parity\Parity;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
-use Icecave\Parity\Parity;
 
 /**
  * The EnumConstraint Constraints, validates an element against a given set of possibilities
@@ -41,7 +41,7 @@ class EnumConstraint extends Constraint
             }
 
             if ($type === gettype($enum)) {
-                if(Parity::isEqualTo($element, $enum)){
+                if (Parity::isEqualTo($element, $enum)) {
                     return;
                 }
             }

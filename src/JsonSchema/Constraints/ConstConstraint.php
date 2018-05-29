@@ -9,9 +9,9 @@
 
 namespace JsonSchema\Constraints;
 
+use Icecave\Parity\Parity;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
-use Icecave\Parity\Parity;
 
 /**
  * The ConstConstraint Constraints, validates an element against a constant value
@@ -40,7 +40,7 @@ class ConstConstraint extends Constraint
             }
         }
 
-        if(Parity::isEqualTo($element, $const)){
+        if (Parity::isEqualTo($element, $const)) {
             return;
         }
 
