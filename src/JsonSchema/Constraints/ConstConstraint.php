@@ -11,6 +11,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use Icecave\Parity\Parity;
 
 /**
  * The ConstConstraint Constraints, validates an element against a constant value
@@ -34,19 +35,13 @@ class ConstConstraint extends Constraint
         $constType = gettype($const);
 
         if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type == 'array' && $constType == 'object') {
-            if ((object) $element == $const) {
+            if (Parity::isEqualTo((object) $element, $const)) {
                 return;
             }
         }
 
-        if ($type === gettype($const)) {
-            if ($type == 'object') {
-                if ($element == $const) {
-                    return;
-                }
-            } elseif ($element === $const) {
-                return;
-            }
+        if(Parity::isEqualTo($element, $const)){
+            return;
         }
 
         $this->addError(ConstraintError::CONSTANT(), $path, array('const' => $schema->const));

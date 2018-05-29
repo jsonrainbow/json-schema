@@ -47,6 +47,24 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ),
+            array(
+                '{
+                    "value": {
+                        "foo": "12"
+                    }
+                }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "any", 
+                            "const": {
+                                "foo": 12
+                            }
+                        }
+                    }
+                }'
+            )
         );
     }
 
@@ -93,6 +111,24 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ),
+            array(
+                '{
+                    "value": {
+                        "foo": 12
+                    }
+                }',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "any", 
+                            "const": {
+                                    "foo": 12
+                            }
+                        }
+                    }
+                }'
+            )
         );
     }
 }
