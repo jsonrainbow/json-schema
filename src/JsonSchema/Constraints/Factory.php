@@ -44,7 +44,7 @@ class Factory
     /**
      * @var int Validation context
      */
-    protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
+    protected $errorContext = 1;
 
     /**
      * @var array
@@ -216,6 +216,6 @@ class Factory
      */
     public function setErrorContext($errorContext)
     {
-        $this->errorContext = $errorContext;
+        $this->errorContext = 1;
     }
 }
