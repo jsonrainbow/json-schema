@@ -44,7 +44,7 @@ class EnumTest extends BaseTestCase
                 }'
             ),
             array(
-                '{"value": "4"}',
+                '{"value": 4}',
                 '{
                     "type": "object",
                     "properties": {
@@ -66,31 +66,7 @@ class EnumTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-			array(
-				'{
-                	"value": {
-                		"foo": "12"
-                	}
-                }',
-				'{
-                    "type": "object",
-                    "properties": {
-                        "value": {
-                        	"type": "any", 
-                        	"enum": [
-                        		6, 
-                        		"foo", 
-                        		[], 
-                        		true, 
-                        		{
-                        			"foo": 12
-                        		}
-                        	]
-                        }
-                    }
-                }'
-			)
+            )
         );
     }
 
@@ -152,28 +128,14 @@ class EnumTest extends BaseTestCase
                     "additionalProperties": false
                 }'
             ),
-			array(
-                '{
-                	"value": {
-                		"foo": 12
-                	}
-                }',
+            array(
+                '{"value": {"foo": 12}}',
                 '{
                     "type": "object",
                     "properties": {
-                        "value": {
-                        	"type": "any", 
-                        	"enum": [
-                        		6, 
-                        		"foo", 
-                        		[], 
-                        		true, 
-                        		{
-                        			"foo": 12
-                        		}
-                        	]
-                        }
-                    }
+                        "value": {"type": "any", "enum": [6, "foo", [], true, {"foo": 12}]}
+                    },
+                    "additionalProperties": false
                 }'
             )
         );

@@ -83,7 +83,7 @@ class BaseConstraint
                     $errorMask |= $error['context'];
                 }
             });
-		}
+        }
     }
 
     public function getErrors($errorContext = Validator::ERROR_ALL)

@@ -72,7 +72,6 @@ class FactoryTest extends TestCase
             array('string', 'JsonSchema\Constraints\StringConstraint'),
             array('number', 'JsonSchema\Constraints\NumberConstraint'),
             array('enum', 'JsonSchema\Constraints\EnumConstraint'),
-            array('const', 'JsonSchema\Constraints\ConstConstraint'),
             array('format', 'JsonSchema\Constraints\FormatConstraint'),
             array('schema', 'JsonSchema\Constraints\SchemaConstraint'),
         );
