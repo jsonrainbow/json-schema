@@ -53,7 +53,7 @@ class BaseConstraint
             'pointer' => ltrim(strval($path ?: new JsonPointer('')), '#'),
             'message' => ucfirst(vsprintf($message, array_map(function ($val) {
                 if (is_scalar($val)) {
-                    return $val;
+                    return is_bool($val) ? var_export($val, true) : $val;
                 }
 
                 return json_encode($val);
