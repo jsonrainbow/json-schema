@@ -23,6 +23,7 @@ matrix:
       dist: trusty
   allow_failures:
     - php: 'nightly'
+    - php: hhvm
 
 before_install:
   - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
