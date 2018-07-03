@@ -154,11 +154,6 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"items":{"properties":{"propertyOne":{"default":"valueOne"}}}}',
                 '[{"propertyOne":"valueOne"}]'
             ),
-            array(// #21b items is an array of schema
-                '[{}]',
-                '{"items":[{"properties":{"propertyOne":{"default":"valueOne"}}}]}',
-                '[{"propertyOne":"valueOne"}]'
-            ),
             array(// #22 if items is not an array, it does not create a new item
                 '[]',
                 '{"items":{"properties":{"propertyOne":{"default":"valueOne"}}}}',
@@ -168,6 +163,11 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '["a"]',
                 '{"items":{"default":"b"}, "minItems": 3}',
                 '["a","b","b"]'
+            ),
+            array(// #24 items is an array of schema
+                '[{}]',
+                '{"items":[{"properties":{"propertyOne":{"default":"valueOne"}}}]}',
+                '[{"propertyOne":"valueOne"}]'
             ),
         );
     }
