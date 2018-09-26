@@ -337,6 +337,8 @@ class TypeConstraint extends Constraint
         if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
             return $this->toString(reset($value));
         }
+
+        return $value;
     }
 
     /**
