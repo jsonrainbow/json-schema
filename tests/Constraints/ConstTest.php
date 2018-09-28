@@ -57,7 +57,7 @@ class ConstTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "value": {
-                            "type": "any", 
+                            "type": "any",
                             "const": {
                                 "foo": 12
                             }
@@ -121,7 +121,7 @@ class ConstTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "value": {
-                            "type": "any", 
+                            "type": "any",
                             "const": {
                                     "foo": 12
                             }

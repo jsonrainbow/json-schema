@@ -77,12 +77,12 @@ class EnumTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "value": {
-                            "type": "any", 
+                            "type": "any",
                             "enum": [
-                                6, 
-                                "foo", 
-                                [], 
-                                true, 
+                                6,
+                                "foo",
+                                [],
+                                true,
                                 {
                                     "foo": 12
                                 }
