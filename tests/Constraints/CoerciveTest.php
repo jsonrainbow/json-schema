@@ -39,7 +39,7 @@ class CoerciveTest extends VeryBaseTestCase
                 array('array',      '[45]',         '45',           true),  // #5
                 array('object',     '{"a":"b"}',    null,           false), // #6
                 array('array',      '[{"a":"b"}]',  null,           false), // #7
-                array('array',      '[1,2]',  		array(1,2),     false), // #8
+                array('array',      '[1,2]',  		array(1, 2),     false), // #8
             ),
             'integer' => array(
                 array('string',     '"45"',         45,             true),  // #9
@@ -173,7 +173,7 @@ class CoerciveTest extends VeryBaseTestCase
             'string', null, null, false
         );
 
-		foreach ($types as $toType => $testCases) {
+        foreach ($types as $toType => $testCases) {
             foreach ($testCases as $testCase) {
                 $tests[] = array(
                     sprintf('{"properties":{"propertyOne":{"type":"%s"}}}', strtolower($toType)),
