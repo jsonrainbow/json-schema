@@ -33,7 +33,7 @@ class UriRetriever implements BaseUriRetrieverInterface
     );
 
     /**
-     * @var array A blacklist for media type ceheck exclusion
+     * @var array A blacklist for media type check exclusion
      */
     protected $mediaTypeBlacklist = array(
         'http://json-schema.org/',
