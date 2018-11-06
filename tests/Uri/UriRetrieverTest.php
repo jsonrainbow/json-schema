@@ -348,7 +348,7 @@ EOF;
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
-        $retriever->confirmMediaType($mock, 'http://iglucentral.com');
+        $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
     public function testJsonSchemaOrgMediaTypeBlacklistAdded()
@@ -356,9 +356,9 @@ EOF;
         $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
-        $retriever->addBlacklistedEndpoint('http://iglucentral.com');
+        $retriever->addBlacklistedEndpoint('http://example.com');
 
-        $retriever->confirmMediaType($mock, 'http://iglucentral.com');
+        $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
     public function testSchemaCache()
