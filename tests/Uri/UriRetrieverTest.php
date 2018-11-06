@@ -330,13 +330,35 @@ EOF;
         $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
     }
 
-    public function testJsonSchemaOrgMediaTypeHack()
+    public function testJsonSchemaOrgMediaTypeBlacklistDefault()
     {
         $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
         $this->assertTrue($retriever->confirmMediaType($mock, 'http://json-schema.org/'));
+    }
+
+    /**
+     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
+     */
+    public function testJsonSchemaOrgMediaTypeBlacklistUnknown()
+    {
+        $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
+        $retriever = new UriRetriever();
+
+        $retriever->confirmMediaType($mock, 'http://iglucentral.com');
+    }
+
+    public function testJsonSchemaOrgMediaTypeBlacklistAdded()
+    {
+        $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
+        $retriever = new UriRetriever();
+        $retriever->addBlacklistedEndpoint('http://iglucentral.com');
+
+        $retriever->confirmMediaType($mock, 'http://iglucentral.com');
     }
 
     public function testSchemaCache()
