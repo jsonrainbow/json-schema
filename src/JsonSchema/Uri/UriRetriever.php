@@ -33,9 +33,9 @@ class UriRetriever implements BaseUriRetrieverInterface
     );
 
     /**
-     * @var array A blacklist for media type check exclusion
+     * @var array A list of endpoints for media type check exclusion
      */
-    protected $mediaTypeBlacklist = array(
+    protected $allowedInvalidContentTypeEndpoints = array(
         'http://json-schema.org/',
         'https://json-schema.org/'
     );
@@ -53,13 +53,13 @@ class UriRetriever implements BaseUriRetrieverInterface
     private $schemaCache = array();
 
     /**
-     * Adds an endpoint to the media type validation blacklist
+     * Adds an endpoint to the media type validation exclusion list
      *
      * @param string $endpoint
      */
-    public function addBlacklistedEndpoint($endpoint)
+    public function addInvalidContentTypeEndpoint($endpoint)
     {
-        $this->mediaTypeBlacklist[] = $endpoint;
+        $this->allowedInvalidContentTypeEndpoints[] = $endpoint;
     }
 
     /**
@@ -83,8 +83,8 @@ class UriRetriever implements BaseUriRetrieverInterface
             return;
         }
 
-        for ($i = 0, $iMax = count($this->mediaTypeBlacklist); $i < $iMax; $i++) {
-            if (stripos($uri, $this->mediaTypeBlacklist[$i]) === 0) {
+        foreach ($this->allowedInvalidContentTypeEndpoints as $endpoint) {
+            if (strpos($uri, $endpoint) === 0) {
                 return true;
             }
         }
