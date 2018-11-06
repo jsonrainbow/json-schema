@@ -33,6 +33,14 @@ class UriRetriever implements BaseUriRetrieverInterface
     );
 
     /**
+     * @var array A list of endpoints for media type check exclusion
+     */
+    protected $allowedInvalidContentTypeEndpoints = array(
+        'http://json-schema.org/',
+        'https://json-schema.org/'
+    );
+
+    /**
      * @var null|UriRetrieverInterface
      */
     protected $uriRetriever = null;
@@ -43,6 +51,16 @@ class UriRetriever implements BaseUriRetrieverInterface
      * @see loadSchema
      */
     private $schemaCache = array();
+
+    /**
+     * Adds an endpoint to the media type validation exclusion list
+     *
+     * @param string $endpoint
+     */
+    public function addInvalidContentTypeEndpoint($endpoint)
+    {
+        $this->allowedInvalidContentTypeEndpoints[] = $endpoint;
+    }
 
     /**
      * Guarantee the correct media type was encountered
@@ -65,9 +83,10 @@ class UriRetriever implements BaseUriRetrieverInterface
             return;
         }
 
-        if (substr($uri, 0, 23) == 'http://json-schema.org/') {
-            //HACK; they deliver broken content types
-            return true;
+        foreach ($this->allowedInvalidContentTypeEndpoints as $endpoint) {
+            if (strpos($uri, $endpoint) === 0) {
+                return true;
+            }
         }
 
         throw new InvalidSchemaMediaTypeException(sprintf('Media type %s expected', Validator::SCHEMA_MEDIA_TYPE));
