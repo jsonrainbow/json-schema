@@ -330,19 +330,20 @@ EOF;
         $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
     }
 
-    public function testJsonSchemaOrgMediaTypeBlacklistDefault()
+    public function testInvalidContentTypeEndpointsDefault()
     {
         $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
         $this->assertTrue($retriever->confirmMediaType($mock, 'http://json-schema.org/'));
+        $this->assertTrue($retriever->confirmMediaType($mock, 'https://json-schema.org/'));
     }
 
     /**
      * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
      */
-    public function testJsonSchemaOrgMediaTypeBlacklistUnknown()
+    public function testInvalidContentTypeEndpointsUnknown()
     {
         $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
@@ -351,7 +352,7 @@ EOF;
         $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
-    public function testJsonSchemaOrgMediaTypeBlacklistAdded()
+    public function testInvalidContentTypeEndpointsAdded()
     {
         $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
