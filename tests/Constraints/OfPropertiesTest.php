@@ -213,33 +213,7 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
-                '{"prop1": ["a", "b"]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "anyOf": [
-                        {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "enum": ["b","c"]
-                          }
-                        },
-                        {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "enum": ["c","d"]
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }'
-            ),
+            )
         );
     }
 
