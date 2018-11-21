@@ -64,6 +64,11 @@ class NumberConstraint extends Constraint
             $this->addError($path, 'Must be a multiple of ' . $schema->multipleOf, 'multipleOf', array('multipleOf' => $schema->multipleOf));
         }
 
+        // Verify enum
+        if (isset($schema->enum)) {
+            $this->checkEnum($element, $schema, $path, $i);
+        }
+
         $this->checkFormat($element, $schema, $path, $i);
     }
 

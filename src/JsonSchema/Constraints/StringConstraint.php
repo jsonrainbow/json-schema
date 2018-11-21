@@ -45,6 +45,11 @@ class StringConstraint extends Constraint
             ));
         }
 
+        // Verify enum
+        if (isset($schema->enum)) {
+            $this->checkEnum($element, $schema, $path, $i);
+        }
+
         $this->checkFormat($element, $schema, $path, $i);
     }
 
