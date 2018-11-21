@@ -71,6 +71,21 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
+            ),
+            array(
+                '{"data": ["a", "b"]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["b", "c"]
+                            }
+                        }
+                    }
+                }'
             )
         );
     }
