@@ -175,11 +175,22 @@ class UndefinedConstraint extends Constraint
         }
 
         if (isset($schema->not)) {
-            $initErrors = $this->getErrors();
-            $this->checkUndefined($value, $schema->not, $path, $i);
+            $notErrors = $initErrors = $this->getErrors();
+
+            try {
+                $this->checkUndefined($value, $schema->not, $path, $i);
+            } catch (ValidationException $e) {
+                // Do not propagate the exception to the caller straight away,
+                // since `not` needs to negate the outcome
+                $notErrors[] = $e->getMessage();
+            }
+
+            if (!$this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
+                $notErrors = $this->getErrors();
+            }
 
             // if no new errors were raised then the instance validated against the "not" schema
-            if (count($this->getErrors()) == count($initErrors)) {
+            if (count($notErrors) == count($initErrors)) {
                 $this->addError($path, 'Matched a schema which it should not', 'not');
             } else {
                 $this->errors = $initErrors;
