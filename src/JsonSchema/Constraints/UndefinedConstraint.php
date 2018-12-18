@@ -181,7 +181,7 @@ class UndefinedConstraint extends Constraint
                 $this->checkUndefined($value, $schema->not, $path, $i);
             } catch (ValidationException $e) {
                 // Do not propagate the exception to the caller straight away,
-                // since `not` needs to negate the outcome
+                // since `not` needs to negate the outcome of sub statements.
                 $notErrors[] = $e->getMessage();
             }
 
