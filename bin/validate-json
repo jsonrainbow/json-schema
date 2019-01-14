@@ -129,7 +129,7 @@ function parseHeaderValue($headerValue)
 /**
  * Send a string to the output stream, but only if --quiet is not enabled
  *
- * @param $str A string output
+ * @param $str string A string output
  */
 function output($str) {
     global $arOptions;

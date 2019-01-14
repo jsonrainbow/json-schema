@@ -1,9 +1,12 @@
 {
     "name": "justinrainbow/json-schema",
-    "description": "A library to validate a json schema.",
-    "keywords": ["json", "schema"],
-    "homepage": "https://github.com/justinrainbow/json-schema",
     "type": "library",
+    "description": "A library to validate a json schema.",
+    "keywords": [
+        "json",
+        "schema"
+    ],
+    "homepage": "https://github.com/justinrainbow/json-schema",
     "license": "MIT",
     "authors": [
         {
@@ -23,43 +26,51 @@
             "email": "seroscho@googlemail.com"
         }
     ],
-    "repositories": [{
-        "type": "package",
-        "package": {
-            "name": "json-schema/JSON-Schema-Test-Suite",
-            "version": "1.2.0",
-            "source": {
-                "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
-                "type": "git",
-                "reference": "1.2.0"
-            }
-        }
-    }],
     "require": {
         "php": ">=5.3.3"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.2.20",
         "json-schema/JSON-Schema-Test-Suite": "1.2.0",
-        "friendsofphp/php-cs-fixer": "^2.1",
         "phpunit/phpunit": "^4.8.35"
     },
-    "autoload": {
-        "psr-4": { "JsonSchema\\": "src/JsonSchema/" }
-    },
-    "autoload-dev": {
-        "psr-4": { "JsonSchema\\Tests\\": "tests/" }
-    },
-    "bin": ["bin/validate-json"],
     "extra": {
         "branch-alias": {
             "dev-master": "5.0.x-dev"
         }
     },
+    "autoload": {
+        "psr-4": {
+            "JsonSchema\\": "src/JsonSchema/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JsonSchema\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "json-schema/JSON-Schema-Test-Suite",
+                "version": "1.2.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
+                    "reference": "1.2.0"
+                }
+            }
+        }
+    ],
+    "bin": [
+        "bin/validate-json"
+    ],
     "scripts": {
-        "test" : "phpunit",
-        "testOnly" : "phpunit --colors --filter",
-        "coverage" : "phpunit --coverage-text",
-        "style-check" : "php-cs-fixer fix --dry-run --verbose --diff",
-        "style-fix" : "php-cs-fixer fix --verbose"
+        "coverage": "phpunit --coverage-text",
+        "style-check": "php-cs-fixer fix --dry-run --verbose --diff",
+        "style-fix": "php-cs-fixer fix --verbose",
+        "test": "phpunit",
+        "testOnly": "phpunit --colors --filter"
     }
 }

@@ -123,6 +123,16 @@ class MinMaxPropertiesTest extends BaseTestCase
                   }
                 }'
             ),
+            array(
+                '{
+                  "value": []
+                }',
+                '{
+                  "properties": {
+                    "value": {"minProperties": 1,"maxProperties": 2}
+                  }
+                }'
+            ),
         );
     }
 }
