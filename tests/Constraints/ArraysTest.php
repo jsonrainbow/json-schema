@@ -71,6 +71,51 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
+            ),
+            array( // Test array items.enum where type string fail validation if value(s) is/are not in items.enum
+                '{"data": ["a", "b"]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["b", "c"]
+                            }
+                        }
+                    }
+                }'
+            ),
+            array( // Test array items.enum where type integer fail validation if value(s) is/are not in items.enum
+                '{"data": [1, 2]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "enum": [2, 3]
+                            }
+                        }
+                    }
+                }'
+            ),
+            array( // Test array items.enum where type number fail validation if value(s) is/are not in items.enum
+                '{"data": [1.25, 2.25]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "enum": [1.25, 2]
+                            }
+                        }
+                    }
+                }'
             )
         );
     }
@@ -165,6 +210,51 @@ class ArraysTest extends BaseTestCase
                                 {"type": "number"},
                                 {"type": "number"}
                             ]
+                        }
+                    }
+                }'
+            ),
+            array( // Test array items.enum where type string passes validation if value(s) is/are in items.enum
+                '{"data": ["c", "c", "b"]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["b", "c"]
+                            }
+                        }
+                    }
+                }'
+            ),
+            array( // Test array items.enum where type integer passes validation if value(s) is/are in items.enum
+                '{"data": [1, 1, 2]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "enum": [1, 2]
+                            }
+                        }
+                    }
+                }'
+            ),
+            array( // Test array items.enum where type number passes validation if value(s) is/are in items.enum
+                '{"data": [1.25, 1.25, 2.25]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "enum": [1.25, 2.25]
+                            }
                         }
                     }
                 }'
