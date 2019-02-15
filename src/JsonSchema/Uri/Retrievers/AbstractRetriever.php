@@ -29,6 +29,11 @@ abstract class AbstractRetriever implements UriRetrieverInterface
      */
     public function getContentType()
     {
-        return $this->contentType;
+        if(empty($this->contentType)){
+            return $this->contentType;
+        }
+
+        // return cleaned content type
+        return preg_replace('|(?<=json)(.*)|','',$this->contentType);
     }
 }
