@@ -153,6 +153,12 @@ class UndefinedConstraint extends Constraint
                     $propertyName = end($propertyPaths);
                     $this->addError(ConstraintError::REQUIRED(), $path, array('property' => $propertyName));
                 }
+            } else {
+                // If the value is both undefined and not required, skip remaining checks
+                // in this method which assume an actual, defined instance when validating.
+                if ($value instanceof self) {
+                    return;
+                }
             }
         }
 
