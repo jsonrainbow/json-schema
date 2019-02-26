@@ -151,7 +151,7 @@ class UndefinedConstraint extends Constraint
                     );
                 }
             } else {
-                // If the value is both undefined and not required, skip remaining checks
+                // if the value is both undefined and not required, skip remaining checks
                 // in this method which assume an actual, defined instance when validating.
                 if ($value instanceof self) {
                     return;
