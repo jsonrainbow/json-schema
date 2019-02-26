@@ -31,6 +31,20 @@ class NotTest extends BaseTestCase
                         }
                     }
                 }'
+            ),
+            array( // check that a missing, required property is correctly validated
+                '{"y": "foo"}',
+                '{
+                    "type": "object",
+                    "required": ["x"],
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "null"
+                            }
+                        }
+                    }
+                }'
             )
         );
     }
@@ -65,6 +79,19 @@ class NotTest extends BaseTestCase
                                 "type": "array",
                                 "items": {"type": "integer"},
                                 "minItems": 2
+                            }
+                        }
+                    }
+                }'
+            ),
+            array( // check that a missing, non-required property isn't validated
+                '{"y": "foo"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "null"
                             }
                         }
                     }
