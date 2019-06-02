@@ -23,6 +23,7 @@ $config
         'pre_increment' => false,
         'simplified_null_return' => false,
         'trailing_comma_in_multiline_array' => false,
+        'yoda_style' => false,
     ))
     ->setFinder($finder)
 ;
