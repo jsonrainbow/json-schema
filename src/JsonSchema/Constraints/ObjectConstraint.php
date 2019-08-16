@@ -71,7 +71,9 @@ class ObjectConstraint extends Constraint
                 continue;
             }
             foreach ($element as $i => $value) {
-                if (preg_match($delimiter . $pregex . $delimiter . 'u', $i)) {
+                if (!preg_match($delimiter . $pregex . $delimiter . 'u', $i)) {
+                    $this->addError(ConstraintError::PATTERN(),  $path, array('pattern' => $pregex));
+                } else {
                     $matches[] = $i;
                     $this->checkUndefined($value, $schema ?: new \stdClass(), $path, $i, in_array($i, $this->appliedDefaults));
                 }
