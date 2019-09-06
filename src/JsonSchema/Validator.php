@@ -35,8 +35,6 @@ class Validator extends BaseConstraint
      * The validation works as defined by the schema proposal in http://json-schema.org.
      *
      * Note that the first argument is passed by reference, so you must pass in a variable.
-     *
-     * {@inheritdoc}
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {
