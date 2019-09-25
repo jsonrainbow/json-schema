@@ -30,7 +30,7 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.2.20",
+        "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
         "json-schema/JSON-Schema-Test-Suite": "1.2.0",
         "phpunit/phpunit": "^4.8.35"
     },

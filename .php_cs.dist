@@ -21,8 +21,11 @@ $config
         'phpdoc_order' => true,
         'phpdoc_summary' => false,
         'pre_increment' => false,
+        'increment_style' => false,
         'simplified_null_return' => false,
         'trailing_comma_in_multiline_array' => false,
+        'yoda_style' => false,
+        'phpdoc_types_order' => array('null_adjustment' => 'none', 'sort_algorithm' => 'none'),
     ))
     ->setFinder($finder)
 ;
