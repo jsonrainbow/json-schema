@@ -36,6 +36,9 @@
         "json-schema/JSON-Schema-Test-Suite": "1.2.0",
         "phpunit/phpunit": "^4.8.35"
     },
+    "suggest": {
+        "ext-bcmath": "For better number assertion, see issue #588."
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "5.0.x-dev"

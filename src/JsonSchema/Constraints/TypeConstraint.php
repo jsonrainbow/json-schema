@@ -290,8 +290,16 @@ class TypeConstraint extends Constraint
     protected function toInteger($value)
     {
         $numberValue = $this->toNumber($value);
-        if (is_numeric($numberValue) && (int) $numberValue == $numberValue) {
-            return (int) $numberValue; // cast to number
+        if (is_numeric($numberValue)) {
+            if (function_exists('bcsub')) {
+                if (0 === bcsub((int) $numberValue, $numberValue)) {
+                    return (int) $numberValue;
+                }
+            }
+
+            if ((int) $numberValue == $numberValue) {
+                return (int) $numberValue; // cast to number
+            }
         }
 
         return $value;
