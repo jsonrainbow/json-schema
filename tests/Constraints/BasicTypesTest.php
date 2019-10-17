@@ -144,7 +144,20 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            )
+            ),
+            array(
+                '{"null":null}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "null": {
+                            "type": "null",
+                            "default": null,
+                            "examples": [null]
+                        }
+                    }
+                }',
+            ),
         );
     }
 }
