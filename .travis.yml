@@ -35,7 +35,7 @@ before_install:
   - if [[ "$TRAVIS_PHP_VERSION" = "hhvm" || "$TRAVIS_PHP_VERSION" = "nightly" ]]; then sed -i '/^.*friendsofphp\/php-cs-fixer.*$/d' composer.json; fi
 
 install:
-  - travis_retry composer install --no-interaction --prefer-dist
+  - travis_retry composer install --no-interaction
 
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi

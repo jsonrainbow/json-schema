@@ -74,5 +74,8 @@
         "style-fix": "php-cs-fixer fix --verbose",
         "test": "phpunit",
         "testOnly": "phpunit --colors --filter"
+    },
+    "config": {
+        "preferred-install": "dist"
     }
 }
