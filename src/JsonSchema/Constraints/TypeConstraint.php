@@ -134,10 +134,10 @@ class TypeConstraint extends Constraint
             return implode($delimiter, $elements);
         }
         $lastElement  = array_slice($elements, -1);
-        $firsElements = join($delimiter, array_slice($elements, 0, -1));
+        $firsElements = implode($delimiter, array_slice($elements, 0, -1));
         $implodedElements = array_merge(array($firsElements), $lastElement);
 
-        return join(" $listEnd ", $implodedElements);
+        return implode(" $listEnd ", $implodedElements);
     }
 
     /**
