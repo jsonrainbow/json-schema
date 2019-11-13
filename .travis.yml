@@ -36,7 +36,8 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist
+  - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then composer install --working-dir=./tools; fi
 
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
-  - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then mkdir -p $HOME/.phpcsfixer && vendor/bin/php-cs-fixer fix --cache-file "$HOME/.phpcsfixer/.php_cs.cache" --dry-run --diff --verbose; fi
+  - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then ./tools/vendor/bin/php-cs-fixer fix --dry-run --diff --verbose; fi
