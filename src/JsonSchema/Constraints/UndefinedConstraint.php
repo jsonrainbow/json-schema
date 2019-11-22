@@ -365,7 +365,7 @@ class UndefinedConstraint extends Constraint
                     // other schema options in the OneOf field.
                 }
             }
-            if ($matchedSchemas !== 1) {
+            if ($matchedSchemas <= 0) {
                 $this->addErrors(array_merge($allErrors, $startErrors));
                 $this->addError(ConstraintError::ONE_OF(), $path);
             } else {
