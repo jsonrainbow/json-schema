@@ -24,7 +24,7 @@ $arOptions = array();
 $arArgs = array();
 array_shift($argv);//script itself
 foreach ($argv as $arg) {
-    if ($arg{0} == '-') {
+    if ($arg[0] == '-') {
         $arOptions[$arg] = true;
     } else {
         $arArgs[] = $arg;
@@ -82,7 +82,7 @@ function getUrlFromPath($path)
         //already an URL
         return $path;
     }
-    if ($path{0} == '/') {
+    if ($path[0] == '/') {
         //absolute path
         return 'file://' . $path;
     }
@@ -187,7 +187,7 @@ if ($pathSchema === null) {
         exit(6);
     }
 }
-if ($pathSchema{0} == '/') {
+if ($pathSchema[0] == '/') {
     $pathSchema = 'file://' . $pathSchema;
 }
 
