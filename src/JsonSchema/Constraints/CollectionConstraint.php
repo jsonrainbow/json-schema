@@ -90,7 +90,7 @@ class CollectionConstraint extends Constraint
         } else {
             // Defined item type definitions
             foreach ($value as $k => &$v) {
-                if (array_key_exists($k, $schema->items)) {
+                if (is_array($schema->items) && array_key_exists($k, $schema->items)) {
                     $this->checkUndefined($v, $schema->items[$k], $path, $k);
                 } else {
                     // Additional items
@@ -118,7 +118,7 @@ class CollectionConstraint extends Constraint
                         * caused by accidentally using $v elsewhere */
 
             // Treat when we have more schema definitions than values, not for empty arrays
-            if (count($value) > 0) {
+            if (count($value) > 0 && is_array($schema->items)) {
                 for ($k = count($value); $k < count($schema->items); $k++) {
                     $undefinedInstance = $this->factory->createInstanceFor('undefined');
                     $this->checkUndefined($undefinedInstance, $schema->items[$k], $path, $k);
