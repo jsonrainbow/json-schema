@@ -69,8 +69,7 @@ class TypeTest extends TestCase
     /**
      * Helper to assert an error message
      *
-     * @param string         $expected
-     * @param TypeConstraint $actual
+     * @param string $expected
      */
     private function assertTypeConstraintError($expected, TypeConstraint $actual)
     {

@@ -211,8 +211,6 @@ class Factory
 
     /**
      * Set the error context
-     *
-     * @param string $validationContext
      */
     public function setErrorContext($errorContext)
     {

@@ -113,8 +113,6 @@ class JsonPointer
     }
 
     /**
-     * @param array $propertyPaths
-     *
      * @return JsonPointer
      */
     public function withPropertyPaths(array $propertyPaths)

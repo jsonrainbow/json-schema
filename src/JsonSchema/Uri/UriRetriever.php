@@ -221,8 +221,6 @@ class UriRetriever implements BaseUriRetrieverInterface
     /**
      * Set the URI Retriever
      *
-     * @param UriRetrieverInterface $uriRetriever
-     *
      * @return $this for chaining
      */
     public function setUriRetriever(UriRetrieverInterface $uriRetriever)
@@ -265,8 +263,6 @@ class UriRetriever implements BaseUriRetrieverInterface
 
     /**
      * Builds a URI based on n array with the main components
-     *
-     * @param array $components
      *
      * @return string
      */

@@ -55,10 +55,9 @@ class UndefinedConstraint extends Constraint
     /**
      * Validates the value against the types
      *
-     * @param mixed       $value
-     * @param mixed       $schema
-     * @param JsonPointer $path
-     * @param string      $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $i
      */
     public function validateTypes(&$value, $schema = null, JsonPointer $path, $i = null)
     {
@@ -106,10 +105,9 @@ class UndefinedConstraint extends Constraint
     /**
      * Validates common properties
      *
-     * @param mixed       $value
-     * @param mixed       $schema
-     * @param JsonPointer $path
-     * @param string      $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $i
      */
     protected function validateCommonProperties(&$value, $schema = null, JsonPointer $path, $i = '')
     {
@@ -302,10 +300,9 @@ class UndefinedConstraint extends Constraint
     /**
      * Validate allOf, anyOf, and oneOf properties
      *
-     * @param mixed       $value
-     * @param mixed       $schema
-     * @param JsonPointer $path
-     * @param string      $i
+     * @param mixed  $value
+     * @param mixed  $schema
+     * @param string $i
      */
     protected function validateOfProperties(&$value, $schema, JsonPointer $path, $i = '')
     {
@@ -377,10 +374,9 @@ class UndefinedConstraint extends Constraint
     /**
      * Validate dependencies
      *
-     * @param mixed       $value
-     * @param mixed       $dependencies
-     * @param JsonPointer $path
-     * @param string      $i
+     * @param mixed  $value
+     * @param mixed  $dependencies
+     * @param string $i
      */
     protected function validateDependencies($value, $dependencies, JsonPointer $path, $i = '')
     {

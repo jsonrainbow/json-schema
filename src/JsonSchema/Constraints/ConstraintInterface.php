@@ -28,8 +28,6 @@ interface ConstraintInterface
 
     /**
      * adds errors to this validator
-     *
-     * @param array $errors
      */
     public function addErrors(array $errors);
 
@@ -54,10 +52,9 @@ interface ConstraintInterface
      *
      * @abstract
      *
-     * @param mixed            $value
-     * @param mixed            $schema
-     * @param JsonPointer|null $path
-     * @param mixed            $i
+     * @param mixed $value
+     * @param mixed $schema
+     * @param mixed $i
      *
      * @throws \JsonSchema\Exception\ExceptionInterface
      */
