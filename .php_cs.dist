@@ -4,7 +4,7 @@ $finder = new PhpCsFixer\Finder();
 $config = new PhpCsFixer\Config('json-schema');
 $finder->in(__DIR__);
 
-/* Based on ^2.1 of php-cs-fixer */
+/* Based on ^2.15 of php-cs-fixer */
 $config
     ->setRules(array(
         // default
@@ -14,6 +14,7 @@ $config
         'array_syntax' => array('syntax' => 'long'),
         'binary_operator_spaces' => false,
         'concat_space' => array('spacing' => 'one'),
+        'no_superfluous_phpdoc_tags' => false,
         'no_useless_else' => true,
         'no_useless_return' => true,
         'ordered_imports' => true,
