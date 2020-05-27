@@ -59,7 +59,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    public function validateTypes(&$value, $schema = null, JsonPointer $path, $i = null)
+    public function validateTypes(&$value, $schema, JsonPointer $path, $i = null)
     {
         // check array
         if ($this->getTypeCheck()->isArray($value)) {
@@ -105,7 +105,7 @@ class UndefinedConstraint extends Constraint
      * @param JsonPointer $path
      * @param string      $i
      */
-    protected function validateCommonProperties(&$value, $schema = null, JsonPointer $path, $i = '')
+    protected function validateCommonProperties(&$value, $schema, JsonPointer $path, $i = '')
     {
         // if it extends another schema, it must pass that schema as well
         if (isset($schema->extends)) {
@@ -151,7 +151,7 @@ class UndefinedConstraint extends Constraint
                     );
                 }
             } else {
-                // If the value is both undefined and not required, skip remaining checks
+                // if the value is both undefined and not required, skip remaining checks
                 // in this method which assume an actual, defined instance when validating.
                 if ($value instanceof self) {
                     return;

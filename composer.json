@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
-        "json-schema/JSON-Schema-Test-Suite": "1.2.0",
+        "json-schema/json-schema-test-suite": "1.2.0",
         "phpunit/phpunit": "^4.8.35"
     },
     "extra": {
@@ -53,7 +53,7 @@
         {
             "type": "package",
             "package": {
-                "name": "json-schema/JSON-Schema-Test-Suite",
+                "name": "json-schema/json-schema-test-suite",
                 "version": "1.2.0",
                 "source": {
                     "type": "git",

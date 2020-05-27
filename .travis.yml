@@ -1,4 +1,3 @@
-sudo: false
 language: php
 
 cache:
@@ -23,19 +22,20 @@ matrix:
     - php: 7.1
     - php: 7.2
     - php: 7.3
-    - php: 'nightly'
-    - php: hhvm
+    - php: 7.4
+    - php: nightly
+    - php: hhvm-3.18
       dist: trusty
   allow_failures:
-    - php: 'nightly'
-    - php: hhvm
+    - php: nightly
 
 before_install:
-  - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
-  - if [[ "$TRAVIS_PHP_VERSION" = "hhvm" || "$TRAVIS_PHP_VERSION" = "nightly" ]]; then sed -i '/^.*friendsofphp\/php-cs-fixer.*$/d' composer.json; fi
+  - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm-3.18" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "hhvm-3.18" || "$TRAVIS_PHP_VERSION" = "nightly" ]]; then sed -i '/^.*friendsofphp\/php-cs-fixer.*$/d' composer.json; fi
 
 install:
-  - travis_retry composer install --no-interaction --prefer-dist
+  - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]]; then travis_retry composer install; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "nightly" ]]; then travis_retry composer install --ignore-platform-reqs; fi
 
 script:
   - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
