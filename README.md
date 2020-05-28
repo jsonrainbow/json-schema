@@ -40,7 +40,7 @@ if ($validator->isValid()) {
 } else {
     echo "JSON does not validate. Violations:\n";
     foreach ($validator->getErrors() as $error) {
-        echo sprintf("[%s] %s\n", $error['property'], $error['message']);
+        printf("[%s] %s\n", $error['property'], $error['message']);
     }
 }
 ```
