@@ -4,7 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable.png)](https://packagist.org/packages/justinrainbow/json-schema)
 [![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads.png)](https://packagist.org/packages/justinrainbow/json-schema)
 
-A PHP Implementation for validating `JSON` Structures against a given `Schema`.
+A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3 or Draft-4. Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview of all existing Drafts.
 
 See [json-schema](http://json-schema.org/) for more details.
 
@@ -25,6 +25,12 @@ composer require justinrainbow/json-schema
 ```
 
 ## Usage
+
+For a complete reference see [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/).
+
+__Note:__ features of Drafts newer than Draft-4 might not be supported!
+
+### Basic usage
 
 ```php
 <?php
