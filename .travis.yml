@@ -24,14 +24,11 @@ matrix:
     - php: 7.3
     - php: 7.4
     - php: nightly
-    - php: hhvm-3.18
-      dist: trusty
   allow_failures:
     - php: nightly
 
 before_install:
-  - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm-3.18" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
-  - if [[ "$TRAVIS_PHP_VERSION" = "hhvm-3.18" || "$TRAVIS_PHP_VERSION" = "nightly" ]]; then sed -i '/^.*friendsofphp\/php-cs-fixer.*$/d' composer.json; fi
+  - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
 
 install:
   - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]]; then travis_retry composer install; fi
