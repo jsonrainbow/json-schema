@@ -188,7 +188,7 @@ class FormatConstraint extends Constraint
         // which will fail the above string comparison because the passed
         // $datetime may be '2000-05-01T12:12:12.123Z' but format() will return
         // '2000-05-01T12:12:12.123000Z'
-        if ((strpos('u', $format) !== -1) && (preg_match('/\.\d+Z$/', $datetime))) {
+        if ((strpos($format, 'u') !== false) && (preg_match('/\.\d+Z$/', $datetime))) {
             return true;
         }
 
