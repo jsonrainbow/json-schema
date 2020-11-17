@@ -104,7 +104,7 @@ class UriRetriever implements BaseUriRetrieverInterface
     public function getUriRetriever()
     {
         if (is_null($this->uriRetriever)) {
-            $this->setUriRetriever(\extension_loaded('curl') ? new Curl : new FileGetContents);
+            $this->setUriRetriever(\extension_loaded('curl') ? new Curl(new FileGetContents) : new FileGetContents);
         }
 
         return $this->uriRetriever;

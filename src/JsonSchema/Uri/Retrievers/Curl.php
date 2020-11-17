@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Uri\Retrievers;
 
+use JsonSchema\Exception\InvalidSourceUriException;
 use JsonSchema\Exception\RuntimeException;
 use JsonSchema\Validator;
 
@@ -19,14 +20,17 @@ use JsonSchema\Validator;
  */
 class Curl extends AbstractRetriever
 {
+    private $decorated;
     protected $messageBody;
 
-    public function __construct()
+    public function __construct(UriRetrieverInterface $decorated = null)
     {
         if (!function_exists('curl_init')) {
             // Cannot test this, because curl_init is present on all test platforms plus mock
             throw new RuntimeException('cURL not installed'); // @codeCoverageIgnore
         }
+
+        $this->decorated = $decorated;
     }
 
     /**
@@ -36,6 +40,15 @@ class Curl extends AbstractRetriever
      */
     public function retrieve($uri)
     {
+        $scheme = parse_url($uri, PHP_URL_SCHEME);
+        if (!$scheme) {
+            if ($decorated) {
+                return $this->decorated->retrieve($uri);
+            }
+
+            throw new InvalidSourceUriExceptiog('No scheme provided in URI: '. $uri);
+        }
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $uri);

@@ -29,6 +29,22 @@ namespace JsonSchema\Tests\Uri\Retrievers
             $c = new Curl();
             $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
         }
+
+        public function testCurlFallbackFileGetContents()
+        {
+            $retriever = new Curl(new FileGetContents());
+            $result = $retriever->retrieve(__DIR__.'/../Fixture/child.json');
+            $this->assertNotEmpty($result);
+        }
+
+        /**
+        * @expectedException JsonSchema\Exception\ResourceNotFoundException
+        */
+        public function testFetchMissingFile()
+        {
+            $retriever = new Curl(new FileGetContents());
+            $retriever->retrieve(__DIR__.'/Fixture/missing.json');
+        }
     }
 }
 
