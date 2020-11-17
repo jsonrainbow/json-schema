@@ -41,6 +41,7 @@ class Curl extends AbstractRetriever
         curl_setopt($ch, CURLOPT_URL, $uri);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: ' . Validator::SCHEMA_MEDIA_TYPE));
 
         $response = curl_exec($ch);
@@ -48,8 +49,10 @@ class Curl extends AbstractRetriever
             throw new \JsonSchema\Exception\ResourceNotFoundException('JSON schema not found');
         }
 
-        $this->fetchMessageBody($response);
-        $this->fetchContentType($response);
+        $curlInfo = curl_getinfo($ch);
+        $headers = substr($response, 0, $curlInfo['header_size']);
+        $this->fetchContentType($headers, $curlInfo);
+        $this->messageBody = substr($response, $curlInfo['header_size']);
 
         curl_close($ch);
 
@@ -58,22 +61,13 @@ class Curl extends AbstractRetriever
 
     /**
      * @param string $response cURL HTTP response
-     */
-    private function fetchMessageBody($response)
-    {
-        preg_match("/(?:\r\n){2}(.*)$/ms", $response, $match);
-        $this->messageBody = $match[1];
-    }
-
-    /**
-     * @param string $response cURL HTTP response
      *
      * @return bool Whether the Content-Type header was found or not
      */
-    protected function fetchContentType($response)
+    private function fetchContentType($headers)
     {
-        if (0 < preg_match("/Content-Type:(\V*)/ims", $response, $match)) {
-            $this->contentType = trim($match[1]);
+        if (0 < preg_match_all("/content-type: (.+?(?=;|$))/ims", $headers, $match, PREG_SET_ORDER)) {
+            $this->contentType = trim(end($match[1]));
 
             return true;
         }
