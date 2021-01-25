@@ -1031,17 +1031,7 @@ parameters:
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Offset 0 does not exist on array\\{0\\?\\: string, 1\\?\\: non\\-falsy\\-string\\}\\.$#"
-			count: 1
-			path: src/JsonSchema/Uri/UriResolver.php
-
-		-
 			message: "#^Parameter \\#1 \\$uri of method JsonSchema\\\\Uri\\\\UriResolver\\:\\:parse\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: src/JsonSchema/Uri/UriResolver.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function array_slice expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
