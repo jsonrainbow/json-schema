@@ -125,25 +125,37 @@ class UriResolver implements UriResolverInterface
     public static function combineRelativePathWithBasePath($relativePath, $basePath)
     {
         $relativePath = self::normalizePath($relativePath);
-        if ($relativePath == '') {
+        if (!$relativePath) {
             return $basePath;
         }
-        if ($relativePath[0] == '/') {
+        if ($relativePath[0] === '/') {
             return $relativePath;
         }
-
-        $basePathSegments = explode('/', $basePath);
-
-        preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
-        $numLevelUp = strlen($match[0]) /3 + 1;
-        if ($numLevelUp >= count($basePathSegments)) {
+        if (!$basePath) {
             throw new UriResolverException(sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
         }
 
-        $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);
-        $path = preg_replace('|^/?(\.\./(\./)*)*|', '', $relativePath);
+        $dirname = $basePath[strlen($basePath) - 1] === '/' ? $basePath : dirname($basePath);
+        $combined = rtrim($dirname, '/') . '/' . ltrim($relativePath, '/');
+        $combinedSegments = explode('/', $combined);
+        $collapsedSegments = array();
+        while ($combinedSegments) {
+            $segment = array_shift($combinedSegments);
+            if ($segment === '..') {
+                if (count($collapsedSegments) <= 1) {
+                    // Do not remove the top level (domain)
+                    // This is not ideal - the domain should not be part of the path here. parse() and generate()
+                    // should handle the "domain" separately, like the schema.
+                    // Then the if-condition here would be `if (!$collapsedSegments) {`.
+                    throw new UriResolverException(sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
+                }
+                array_pop($collapsedSegments);
+            } else {
+                $collapsedSegments[] = $segment;
+            }
+        }
 
-        return implode('/', $basePathSegments) . '/' . $path;
+        return implode('/', $collapsedSegments);
     }
 
     /**
