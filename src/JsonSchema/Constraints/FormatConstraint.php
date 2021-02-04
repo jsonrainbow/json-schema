@@ -197,7 +197,7 @@ class FormatConstraint extends Constraint
 
     protected function validateRegex($regex)
     {
-        return false !== @preg_match('#' . str_replace('#', '\\#', $regex) . '#u', '');
+        return false !== @preg_match(self::jsonPatternToPhpRegex($regex), '');
     }
 
     protected function validateColor($color)

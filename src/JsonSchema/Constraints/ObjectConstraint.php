@@ -56,7 +56,7 @@ class ObjectConstraint extends Constraint
     {
         $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
-            $fullRegex = '#' . str_replace('#', '\\#', $pregex) . '#u';
+            $fullRegex = self::jsonPatternToPhpRegex($pregex);
 
             // Validate the pattern before using it to test for matches
             if (@preg_match($fullRegex, '') === false) {
