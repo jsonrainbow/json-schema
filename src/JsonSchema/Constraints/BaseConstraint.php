@@ -163,6 +163,6 @@ class BaseConstraint
      */
     public static function jsonPatternToPhpRegex($pattern)
     {
-        return '#' . str_replace('#', '\\#', $pattern) . '#u';
+        return '~' . str_replace('~', '\\~', $pattern) . '~u';
     }
 }
