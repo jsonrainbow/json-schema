@@ -210,21 +210,4 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     {
         return $this->factory->getTypeCheck();
     }
-
-    /**
-     * @param JsonPointer $pointer
-     *
-     * @return string property path
-     */
-    protected function convertJsonPointerIntoPropertyPath(JsonPointer $pointer)
-    {
-        $result = array_map(
-            function ($path) {
-                return sprintf(is_numeric($path) ? '[%d]' : '.%s', $path);
-            },
-            $pointer->getPropertyPaths()
-        );
-
-        return trim(implode('', $result), '.');
-    }
 }
