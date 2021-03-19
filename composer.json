@@ -32,6 +32,7 @@
         "icecave/parity": "1.0.0"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4",
         "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
         "json-schema/json-schema-test-suite": "1.2.0",
         "phpunit/phpunit": "^4.8.35"

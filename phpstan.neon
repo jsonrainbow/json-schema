@@ -1,0 +1,4 @@
+includes:
+    - phpstan-no-baseline.neon
+    - phpstan-baseline.neon
+    - vendor-bin/phpstan/vendor/marc-mabe/php-enum-phpstan/extension.neon

@@ -1,0 +1,9 @@
+{
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "phpstan/phpstan": "^0.12.81",
+        "marc-mabe/php-enum-phpstan": "^1.3.0"
+    }
+}
