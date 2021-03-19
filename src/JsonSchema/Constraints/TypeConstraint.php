@@ -98,21 +98,17 @@ class TypeConstraint extends Constraint
             // $tp can be an object, if it's a schema instead of a simple type, validate it
             // with a new type constraint
             if (is_object($tp)) {
-                if (!$isValid) {
-                    $validator = $this->factory->createInstanceFor('type');
-                    $subSchema = new \stdClass();
-                    $subSchema->type = $tp;
-                    $validator->check($value, $subSchema, $path, null);
-                    $error = $validator->getErrors();
-                    $isValid = !(bool) $error;
-                    $validTypesWording[] = self::$wording['object'];
-                }
+                $validator = $this->factory->createInstanceFor('type');
+                $subSchema = new \stdClass();
+                $subSchema->type = $tp;
+                $validator->check($value, $subSchema, $path, null);
+                $error = $validator->getErrors();
+                $isValid = !(bool) $error;
+                $validTypesWording[] = self::$wording['object'];
             } else {
                 $this->validateTypeNameWording($tp);
                 $validTypesWording[] = self::$wording[$tp];
-                if (!$isValid) {
-                    $isValid = $this->validateType($value, $tp, $coerce);
-                }
+                $isValid = $this->validateType($value, $tp, $coerce);
             }
         }
     }
