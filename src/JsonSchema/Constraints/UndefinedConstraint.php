@@ -140,7 +140,7 @@ class UndefinedConstraint extends Constraint
                     if (!$this->getTypeCheck()->propertyExists($value, $required)) {
                         $this->addError(
                             ConstraintError::REQUIRED(),
-                            $this->incrementPath($path ?: new JsonPointer(''), $required), array(
+                            $this->incrementPath($path, $required), array(
                                 'property' => $required
                             )
                         );
