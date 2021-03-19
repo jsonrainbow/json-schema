@@ -55,6 +55,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidForAssocTests
      */
+    // phpcs:ignore Generic.Files.LineLength.TooLong
     public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;

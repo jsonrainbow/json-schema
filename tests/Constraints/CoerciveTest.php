@@ -39,7 +39,7 @@ class CoerciveTest extends VeryBaseTestCase
                 array('array',      '[45]',         '45',           true),  // #5
                 array('object',     '{"a":"b"}',    null,           false), // #6
                 array('array',      '[{"a":"b"}]',  null,           false), // #7
-                array('array',      '[1,2]',  		array(1, 2),     false), // #8
+                array('array',      '[1,2]',        array(1, 2),    false), // #8
             ),
             'integer' => array(
                 array('string',     '"45"',         45,             true),  // #9
@@ -190,6 +190,7 @@ class CoerciveTest extends VeryBaseTestCase
     }
 
     /** @dataProvider dataCoerceCases **/
+    // phpcs:ignore Generic.Files.LineLength.TooLong
     public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $extraFlags = 0, $assoc = false)
     {
         $validator = new Validator($this->factory);

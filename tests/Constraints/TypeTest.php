@@ -76,15 +76,18 @@ class TypeTest extends TestCase
     {
         $actualErrors = $actual->getErrors();
 
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $this->assertCount(1, $actualErrors, 'Failed to assert that Type has exactly one error to assert the error message against.');
 
         $actualError = $actualErrors[0];
 
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $this->assertInternalType('array', $actualError, sprintf('Failed to assert that Type error is an array, %s given', gettype($actualError)));
 
         $messageKey = 'message';
         $this->assertArrayHasKey(
-            $messageKey, $actualError,
+            $messageKey,
+            $actualError,
             sprintf('Failed to assert that Type error has a message key %s.', var_export($messageKey, true))
         );
 
@@ -103,6 +106,7 @@ class TypeTest extends TestCase
 
         $this->setExpectedException(
             '\UnexpectedValueException',
+            // phpcs:ignore Generic.Files.LineLength.TooLong
             "No wording for 'notAValidTypeName' available, expected wordings are: [an integer, a number, a boolean, an object, an array, a string, a null]"
         );
         $m->invoke($t, 'notAValidTypeName');

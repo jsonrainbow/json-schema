@@ -26,7 +26,10 @@ class Rfc3339Test extends TestCase
      */
     public function testCreateFromInvalidString($string)
     {
-        $this->assertNull(Rfc3339::createFromString($string), sprintf('String "%s" should not be converted to DateTime', $string));
+        $this->assertNull(
+            Rfc3339::createFromString($string),
+            sprintf('String "%s" should not be converted to DateTime', $string)
+        );
     }
 
     public function provideValidFormats()

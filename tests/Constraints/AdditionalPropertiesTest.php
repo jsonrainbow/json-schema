@@ -39,6 +39,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                     array(
                         'property'   => '',
                         'pointer'    => '',
+                        // phpcs:ignore Generic.Files.LineLength.TooLong
                         'message'    => 'The property additionalProp is not defined and the definition does not allow additional properties',
                         'constraint' => array(
                             'name' => 'additionalProp',

@@ -73,7 +73,11 @@ class CollectionConstraint extends Constraint
                 $this->checkUndefined($v, $schema->items, $path, $k);
 
                 // Recheck with "additionalItems" if the first test fails
-                if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
+                if (
+                    count($initErrors) < count($this->getErrors())
+                    && (isset($schema->additionalItems)
+                    && $schema->additionalItems !== false)
+                ) {
                     $secondErrors = $this->getErrors();
                     $this->checkUndefined($v, $schema->additionalItems, $path, $k);
                 }

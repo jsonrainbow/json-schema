@@ -135,9 +135,11 @@ class UriResolver implements UriResolverInterface
         $basePathSegments = explode('/', $basePath);
 
         preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
-        $numLevelUp = strlen($match[0]) /3 + 1;
+        $numLevelUp = strlen($match[0]) / 3 + 1;
         if ($numLevelUp >= count($basePathSegments)) {
-            throw new UriResolverException(sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
+            throw new UriResolverException(
+                sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath)
+            );
         }
 
         $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);

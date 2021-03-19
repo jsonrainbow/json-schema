@@ -69,7 +69,7 @@ class ObjectIteratorTest extends TestCase
 
     public function testAlwaysObjects()
     {
-        $i= new ObjectIterator($this->testObject);
+        $i = new ObjectIterator($this->testObject);
 
         foreach ($i as $item) {
             $this->assertInstanceOf('\StdClass', $item);

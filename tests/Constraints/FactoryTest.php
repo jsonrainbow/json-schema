@@ -28,6 +28,7 @@ class MyBadConstraint
  *
  * @package JsonSchema\Tests\Constraints
  */
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MultipleClasses
 class MyStringConstraint extends Constraint
 {
     public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
@@ -35,6 +36,7 @@ class MyStringConstraint extends Constraint
     }
 }
 
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MultipleClasses
 class FactoryTest extends TestCase
 {
     /**

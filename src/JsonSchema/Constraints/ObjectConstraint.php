@@ -28,9 +28,15 @@ class ObjectConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$element, $schema = null, JsonPointer $path = null, $properties = null,
-        $additionalProp = null, $patternProperties = null, $appliedDefaults = array())
-    {
+    public function check(
+        &$element,
+        $schema = null,
+        JsonPointer $path = null,
+        $properties = null,
+        $additionalProp = null,
+        $patternProperties = null,
+        $appliedDefaults = array()
+    ) {
         if ($element instanceof UndefinedConstraint) {
             return;
         }
@@ -73,7 +79,13 @@ class ObjectConstraint extends Constraint
             foreach ($element as $i => $value) {
                 if (preg_match($delimiter . $pregex . $delimiter . 'u', $i)) {
                     $matches[] = $i;
-                    $this->checkUndefined($value, $schema ?: new \stdClass(), $path, $i, in_array($i, $this->appliedDefaults));
+                    $this->checkUndefined(
+                        $value,
+                        $schema ?: new \stdClass(),
+                        $path,
+                        $i,
+                        in_array($i, $this->appliedDefaults)
+                    );
                 }
             }
         }
@@ -91,16 +103,26 @@ class ObjectConstraint extends Constraint
      * @param \StdClass        $properties     Properties
      * @param mixed            $additionalProp Additional properties
      */
-    public function validateElement($element, $matches, $schema = null, JsonPointer $path = null,
-        $properties = null, $additionalProp = null)
-    {
+    public function validateElement(
+        $element,
+        $matches,
+        $schema = null,
+        JsonPointer $path = null,
+        $properties = null,
+        $additionalProp = null
+    ) {
         $this->validateMinMaxConstraint($element, $schema, $path);
 
         foreach ($element as $i => $value) {
             $definition = $this->getProperty($properties, $i);
 
             // no additional properties allowed
-            if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
+            if (
+                !in_array($i, $matches)
+                && $additionalProp === false
+                && $this->inlineSchemaProperty !== $i
+                && !$definition
+            ) {
                 $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, array('property' => $i));
             }
 
@@ -124,7 +146,11 @@ class ObjectConstraint extends Constraint
 
             $property = $this->getProperty($element, $i, $this->factory->createInstanceFor('undefined'));
             if (is_object($property)) {
-                $this->validateMinMaxConstraint(!($property instanceof UndefinedConstraint) ? $property : $element, $definition, $path);
+                $this->validateMinMaxConstraint(
+                    !($property instanceof UndefinedConstraint) ? $property : $element,
+                    $definition,
+                    $path
+                );
             }
         }
     }
@@ -162,7 +188,12 @@ class ObjectConstraint extends Constraint
      */
     protected function &getProperty(&$element, $property, $fallback = null)
     {
-        if (is_array($element) && (isset($element[$property]) || array_key_exists($property, $element)) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
+        if (
+            is_array($element)
+            && (isset($element[$property])
+            || array_key_exists($property, $element))
+            /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/
+        ) {
             return $element[$property];
         } elseif (is_object($element) && property_exists($element, $property)) {
             return $element->$property;
@@ -183,13 +214,21 @@ class ObjectConstraint extends Constraint
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {
-                $this->addError(ConstraintError::PROPERTIES_MIN(), $path, array('minProperties' => $objectDefinition->minProperties));
+                $this->addError(
+                    ConstraintError::PROPERTIES_MIN(),
+                    $path,
+                    array('minProperties' => $objectDefinition->minProperties)
+                );
             }
         }
         // Verify maximum number of properties
         if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) > $objectDefinition->maxProperties) {
-                $this->addError(ConstraintError::PROPERTIES_MAX(), $path, array('maxProperties' => $objectDefinition->maxProperties));
+                $this->addError(
+                    ConstraintError::PROPERTIES_MAX(),
+                    $path,
+                    array('maxProperties' => $objectDefinition->maxProperties)
+                );
             }
         }
     }

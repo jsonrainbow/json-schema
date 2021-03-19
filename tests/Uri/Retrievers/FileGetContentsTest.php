@@ -67,9 +67,12 @@ namespace JsonSchema\Uri\Retrievers
     function file_get_contents($uri)
     {
         switch ($uri) {
-            case 'http://example.com/false': return false;
-            case 'file:///this/is/a/directory/': return '';
-            default: return \file_get_contents($uri);
+            case 'http://example.com/false':
+                return false;
+            case 'file:///this/is/a/directory/':
+                return '';
+            default:
+                return \file_get_contents($uri);
         }
     }
 }

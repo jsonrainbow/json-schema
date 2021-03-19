@@ -42,7 +42,8 @@ class FileGetContents extends AbstractRetriever
             throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
         }
 
-        if ($response == ''
+        if (
+            $response == ''
             && substr($uri, 0, 7) == 'file://' && substr($uri, -1) == '/'
         ) {
             throw new ResourceNotFoundException('JSON schema not found at ' . $uri);

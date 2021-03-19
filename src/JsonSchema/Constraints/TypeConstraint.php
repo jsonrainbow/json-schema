@@ -155,7 +155,8 @@ class TypeConstraint extends Constraint
                 sprintf(
                     'No wording for %s available, expected wordings are: [%s]',
                     var_export($type, true),
-                    implode(', ', array_filter(self::$wording)))
+                    implode(', ', array_filter(self::$wording))
+                )
             );
         }
     }
@@ -233,7 +234,9 @@ class TypeConstraint extends Constraint
             return is_null($value);
         }
 
-        throw new InvalidArgumentException((is_object($value) ? 'object' : $value) . ' is an invalid type for ' . $type);
+        throw new InvalidArgumentException(
+            (is_object($value) ? 'object' : $value) . ' is an invalid type for ' . $type
+        );
     }
 
     /**

@@ -181,10 +181,10 @@ class SchemaStorageTest extends TestCase
                     )
                 ),
                 'yardproperties' => (object) array(
-                    'tree'=>(object) array(
+                    'tree' => (object) array(
                         'type' => 'string'
                     ),
-                    'pool'=>(object) array(
+                    'pool' => (object) array(
                         'type' => 'string'
                     )
                 )

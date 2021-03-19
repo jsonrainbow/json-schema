@@ -140,7 +140,8 @@ class UndefinedConstraint extends Constraint
                     if (!$this->getTypeCheck()->propertyExists($value, $required)) {
                         $this->addError(
                             ConstraintError::REQUIRED(),
-                            $this->incrementPath($path ?: new JsonPointer(''), $required), array(
+                            $this->incrementPath($path ?: new JsonPointer(''), $required),
+                            array(
                                 'property' => $required
                             )
                         );
@@ -280,7 +281,8 @@ class UndefinedConstraint extends Constraint
                 if (
                     !array_key_exists($currentItem, $value)
                     && property_exists($itemDefinition, 'default')
-                    && $this->shouldApplyDefaultValue($requiredOnly, $itemDefinition)) {
+                    && $this->shouldApplyDefaultValue($requiredOnly, $itemDefinition)
+                ) {
                     if (is_object($itemDefinition->default)) {
                         $value[$currentItem] = clone $itemDefinition->default;
                     } else {
@@ -292,7 +294,8 @@ class UndefinedConstraint extends Constraint
         } elseif (
             $value instanceof self
             && property_exists($schema, 'default')
-            && $this->shouldApplyDefaultValue($requiredOnly, $schema)) {
+            && $this->shouldApplyDefaultValue($requiredOnly, $schema)
+        ) {
             // $value is a leaf, not a container - apply the default directly
             $value = is_object($schema->default) ? clone $schema->default : $schema->default;
             $path->setFromDefault();

@@ -34,7 +34,10 @@ class FormatConstraint extends Constraint
         switch ($schema->format) {
             case 'date':
                 if (!$date = $this->validateDateTime($element, 'Y-m-d')) {
-                    $this->addError(ConstraintError::FORMAT_DATE(), $path, array(
+                    $this->addError(
+                        ConstraintError::FORMAT_DATE(),
+                        $path,
+                        array(
                             'date' => $element,
                             'format' => $schema->format
                         )
@@ -44,7 +47,10 @@ class FormatConstraint extends Constraint
 
             case 'time':
                 if (!$this->validateDateTime($element, 'H:i:s')) {
-                    $this->addError(ConstraintError::FORMAT_TIME(), $path, array(
+                    $this->addError(
+                        ConstraintError::FORMAT_TIME(),
+                        $path,
+                        array(
                             'time' => json_encode($element),
                             'format' => $schema->format,
                         )
@@ -54,7 +60,10 @@ class FormatConstraint extends Constraint
 
             case 'date-time':
                 if (null === Rfc3339::createFromString($element)) {
-                    $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, array(
+                    $this->addError(
+                        ConstraintError::FORMAT_DATE_TIME(),
+                        $path,
+                        array(
                             'dateTime' => json_encode($element),
                             'format' => $schema->format
                         )
@@ -72,7 +81,10 @@ class FormatConstraint extends Constraint
 
             case 'regex':
                 if (!$this->validateRegex($element)) {
-                    $this->addError(ConstraintError::FORMAT_REGEX(), $path, array(
+                    $this->addError(
+                        ConstraintError::FORMAT_REGEX(),
+                        $path,
+                        array(
                             'value' => $element,
                             'format' => $schema->format
                         )
@@ -119,7 +131,11 @@ class FormatConstraint extends Constraint
                         if (strpos($pathParts[0], ':') !== false) {
                             $validURL = null;
                         } else {
-                            $validURL = filter_var('scheme://host/' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                            $validURL = filter_var(
+                                'scheme://host/' . $element,
+                                FILTER_VALIDATE_URL,
+                                FILTER_NULL_ON_FAILURE
+                            );
                         }
                     } else {
                         $validURL = null;
@@ -202,9 +218,11 @@ class FormatConstraint extends Constraint
 
     protected function validateColor($color)
     {
-        if (in_array(strtolower($color), array('aqua', 'black', 'blue', 'fuchsia',
+        if (
+            in_array(strtolower($color), array('aqua', 'black', 'blue', 'fuchsia',
             'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple',
-            'red', 'silver', 'teal', 'white', 'yellow'))) {
+            'red', 'silver', 'teal', 'white', 'yellow'))
+        ) {
             return true;
         }
 
@@ -226,6 +244,7 @@ class FormatConstraint extends Constraint
 
     protected function validateHostname($host)
     {
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $hostnameRegex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/i';
 
         return preg_match($hostnameRegex, $host);

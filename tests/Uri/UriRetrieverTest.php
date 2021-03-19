@@ -157,7 +157,8 @@ EOF;
         $this->assertEquals(
             $schema,
             $retriever->resolvePointer(
-                $schema, 'http://example.org/schema.json'
+                $schema,
+                'http://example.org/schema.json'
             )
         );
     }
@@ -177,7 +178,8 @@ EOF;
         $this->assertEquals(
             $schema->definitions->foo,
             $retriever->resolvePointer(
-                $schema, 'http://example.org/schema.json#/definitions/foo'
+                $schema,
+                'http://example.org/schema.json#/definitions/foo'
             )
         );
     }
@@ -198,7 +200,8 @@ EOF;
 
         $retriever = new \JsonSchema\Uri\UriRetriever();
         $retriever->resolvePointer(
-            $schema, 'http://example.org/schema.json#/definitions/bar'
+            $schema,
+            'http://example.org/schema.json#/definitions/bar'
         );
     }
 
@@ -218,7 +221,8 @@ EOF;
 
         $retriever = new \JsonSchema\Uri\UriRetriever();
         $retriever->resolvePointer(
-            $schema, 'http://example.org/schema.json#/definitions/foo'
+            $schema,
+            'http://example.org/schema.json#/definitions/foo'
         );
     }
 
@@ -229,7 +233,8 @@ EOF;
     {
         $retriever = new \JsonSchema\Uri\UriRetriever();
         $retriever->resolve(
-            '../schema.json#', 'http://example.org/schema.json#'
+            '../schema.json#',
+            'http://example.org/schema.json#'
         );
     }
 
