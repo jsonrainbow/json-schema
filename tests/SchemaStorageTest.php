@@ -323,4 +323,14 @@ class SchemaStorageTest extends TestCase
             $schemas['test/schema']->{'$ref'}
         );
     }
+
+    public function testAddSchemaMissingProperties()
+    {
+        $schema_03 = array('id' => 'http://json-schema.org/draft-03/schema#');
+        $schema_04 = array('id' => 'http://json-schema.org/draft-04/schema#');
+
+        $s = new SchemaStorage();
+        $s->addSchema($schema_03['id'], $schema_03);
+        $s->addSchema($schema_04['id'], $schema_04);
+    }
 }
