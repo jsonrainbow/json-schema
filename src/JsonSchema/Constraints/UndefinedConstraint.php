@@ -329,7 +329,6 @@ class UndefinedConstraint extends Constraint
         if (isset($schema->anyOf)) {
             $isValid = false;
             $startErrors = $this->getErrors();
-            $caughtException = null;
             foreach ($schema->anyOf as $anyOf) {
                 $initErrors = $this->getErrors();
                 try {
@@ -349,25 +348,21 @@ class UndefinedConstraint extends Constraint
         }
 
         if (isset($schema->oneOf)) {
-            $allErrors = array();
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
+                $initErrors = $this->getErrors();
                 try {
-                    $this->errors = array();
                     $this->checkUndefined($value, $oneOf, $path, $i);
-                    if (count($this->getErrors()) == 0) {
+                    if (count($this->getErrors()) == count($initErrors)) {
                         $matchedSchemas++;
                     }
-                    $allErrors = array_merge($allErrors, array_values($this->getErrors()));
                 } catch (ValidationException $e) {
                     // deliberately do nothing here - validation failed, but we want to check
                     // other schema options in the OneOf field.
                 }
             }
             if ($matchedSchemas !== 1) {
-                $this->errors = array();
-                $this->addErrors(array_merge($startErrors, $allErrors));
                 $this->addError(ConstraintError::ONE_OF(), $path);
             } else {
                 $this->errors = $startErrors;
