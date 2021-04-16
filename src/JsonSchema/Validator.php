@@ -11,6 +11,7 @@ namespace JsonSchema;
 
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Exception\ExceptionInterface;
 
 /**
  * A JsonSchema Constraint
@@ -46,22 +47,27 @@ class Validator extends BaseConstraint
         if ($checkMode !== null) {
             $this->factory->setConfig($checkMode);
         }
+        try {
+            // add provided schema to SchemaStorage with internal URI to allow internal $ref resolution
+            if (is_object($schema) && property_exists($schema, 'id')) {
+                $schemaURI = $schema->id;
+            } else {
+                $schemaURI = SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+            }
+            $this->factory->getSchemaStorage()->addSchema($schemaURI, $schema);
 
-        // add provided schema to SchemaStorage with internal URI to allow internal $ref resolution
-        if (is_object($schema) && property_exists($schema, 'id')) {
-            $schemaURI = $schema->id;
-        } else {
-            $schemaURI = SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+            $validator = $this->factory->createInstanceFor('schema');
+            $validator->check(
+                $value,
+                $this->factory->getSchemaStorage()->getSchema($schemaURI)
+            );
+
+            $this->factory->setConfig($initialCheckMode);
+        } catch (ExceptionInterface $e) {
+            $this->factory->setConfig($initialCheckMode);
+
+            throw $e;
         }
-        $this->factory->getSchemaStorage()->addSchema($schemaURI, $schema);
-
-        $validator = $this->factory->createInstanceFor('schema');
-        $validator->check(
-            $value,
-            $this->factory->getSchemaStorage()->getSchema($schemaURI)
-        );
-
-        $this->factory->setConfig($initialCheckMode);
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
 
