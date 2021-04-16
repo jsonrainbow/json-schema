@@ -366,7 +366,8 @@ class UndefinedConstraint extends Constraint
                 }
             }
             if ($matchedSchemas !== 1) {
-                $this->addErrors(array_merge($allErrors, $startErrors));
+                $this->errors = array();
+                $this->addErrors(array_merge($startErrors, $allErrors));
                 $this->addError(ConstraintError::ONE_OF(), $path);
             } else {
                 $this->errors = $startErrors;

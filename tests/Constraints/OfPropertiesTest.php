@@ -79,11 +79,11 @@ class OfPropertiesTest extends BaseTestCase
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
-                        'message'    => 'Array value found, but a string is required',
+                        'message'    => 'Array value found, but a number is required',
                         'constraint' => array(
                             'name' => 'type',
                             'params' => array(
-                                'expected'   => 'a string',
+                                'expected'   => 'a number',
                                 'found'      => 'array'
                             )
                         ),
@@ -92,11 +92,11 @@ class OfPropertiesTest extends BaseTestCase
                     array(
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
-                        'message'    => 'Array value found, but a number is required',
+                        'message'    => 'Array value found, but a string is required',
                         'constraint' => array(
                             'name' => 'type',
                             'params' => array(
-                                'expected'   => 'a number',
+                                'expected'   => 'a string',
                                 'found'      => 'array'
                             )
                         ),
