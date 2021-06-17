@@ -46,7 +46,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
         $path = $path->withPropertyPaths(
             array_merge(
                 $path->getPropertyPaths(),
-                array_filter(array($i), 'strlen')
+                array_filter(array($i), function ($x) { return $x !== null && strlen($x); })
             )
         );
 
