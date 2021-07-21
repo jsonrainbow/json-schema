@@ -44,14 +44,16 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     {
         $path = $path ?: new JsonPointer('');
 
-        if ($i !== null && $i !== '') {
-            $path = $path->withPropertyPaths(
-                array_merge(
-                    $path->getPropertyPaths(),
-                    array($i)
-                )
-            );
+        if ($i === null || $i === '') {
+            return $path;
         }
+
+        $path = $path->withPropertyPaths(
+            array_merge(
+                $path->getPropertyPaths(),
+                array($i)
+            )
+        );
 
         return $path;
     }
