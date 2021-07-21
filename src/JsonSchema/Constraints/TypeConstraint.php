@@ -81,11 +81,12 @@ class TypeConstraint extends Constraint
      * of $isValid to true, if at least one $type mateches the type of $value or the value
      * passed as $isValid is already true.
      *
-     * @param mixed $value             Value to validate
-     * @param array $type              TypeConstraints to check against
-     * @param array $validTypesWording An array of wordings of the valid types of the array $type
-     * @param bool  $isValid           The current validation value
-     * @param $path
+     * @param mixed        $value             Value to validate
+     * @param array        $type              TypeConstraints to check against
+     * @param array        $validTypesWording An array of wordings of the valid types of the array $type
+     * @param bool         $isValid           The current validation value
+     * @param ?JsonPointer $path
+     * @param bool         $coerce
      */
     protected function validateTypesArray(&$value, array $type, &$validTypesWording, &$isValid, $path, $coerce = false)
     {
@@ -239,7 +240,7 @@ class TypeConstraint extends Constraint
     /**
      * Converts a value to boolean. For example, "true" becomes true.
      *
-     * @param $value The value to convert to boolean
+     * @param mixed $value The value to convert to boolean
      *
      * @return bool|mixed
      */

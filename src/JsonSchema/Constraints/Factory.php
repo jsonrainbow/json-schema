@@ -185,6 +185,7 @@ class Factory
      * @throws InvalidArgumentException if is not possible create the constraint instance
      *
      * @return ConstraintInterface|ObjectConstraint
+     * @phpstan-return ConstraintInterface&BaseConstraint
      */
     public function createInstanceFor($constraintName)
     {
@@ -202,7 +203,8 @@ class Factory
     /**
      * Get the error context
      *
-     * @return string
+     * @return int
+     * @phpstan-return Validator::ERROR_DOCUMENT_VALIDATION|Validator::ERROR_SCHEMA_VALIDATION
      */
     public function getErrorContext()
     {
@@ -212,7 +214,8 @@ class Factory
     /**
      * Set the error context
      *
-     * @param string $validationContext
+     * @param int $errorContext
+     * @phpstan-param Validator::ERROR_DOCUMENT_VALIDATION|Validator::ERROR_SCHEMA_VALIDATION $errorContext
      */
     public function setErrorContext($errorContext)
     {

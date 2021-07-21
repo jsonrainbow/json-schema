@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^PHPDoc tag @throws with type JsonSchema\\\\Exception\\\\ExceptionInterface is not subtype of Throwable$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$properties\\.$#"
+			count: 3
+			path: src/JsonSchema/SchemaStorage.php
+

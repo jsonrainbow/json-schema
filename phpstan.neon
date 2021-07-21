@@ -1,0 +1,9 @@
+parameters:
+    level: 2
+    paths:
+        - ./src/
+    ignoreErrors: []
+
+includes:
+    - phpstan-baseline.neon
+    - vendor/marc-mabe/php-enum-phpstan/extension.neon
