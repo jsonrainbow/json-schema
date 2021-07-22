@@ -165,4 +165,21 @@ class BaseConstraint
     {
         return '~' . str_replace('~', '\\~', $pattern) . '~u';
     }
+
+    /**
+     * @param JsonPointer $pointer
+     *
+     * @return string property path
+     */
+    protected function convertJsonPointerIntoPropertyPath(JsonPointer $pointer)
+    {
+        $result = array_map(
+            function ($path) {
+                return sprintf(is_numeric($path) ? '[%d]' : '.%s', $path);
+            },
+            $pointer->getPropertyPaths()
+        );
+
+        return trim(implode('', $result), '.');
+    }
 }
