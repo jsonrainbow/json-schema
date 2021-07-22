@@ -20,7 +20,6 @@ $config
         'phpdoc_no_package' => false,
         'phpdoc_order' => true,
         'phpdoc_summary' => false,
-        'pre_increment' => false,
         'increment_style' => false,
         'simplified_null_return' => false,
         'single_line_throw' => false,
