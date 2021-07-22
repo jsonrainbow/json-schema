@@ -1,6 +1,6 @@
 # JSON Schema for PHP
 
-[![Build Status](https://travis-ci.org/justinrainbow/json-schema.svg?branch=master)](https://travis-ci.org/justinrainbow/json-schema)
+[![Build Status](https://github.com/justinrainbow/json-schema/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/justinrainbow/json-schema/actions)
 [![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable.png)](https://packagist.org/packages/justinrainbow/json-schema)
 [![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads.png)](https://packagist.org/packages/justinrainbow/json-schema)
 
