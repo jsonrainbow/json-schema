@@ -40,7 +40,7 @@ class StringConstraint extends Constraint
         }
 
         // Verify a regex pattern
-        if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#u', $element)) {
+        if (isset($schema->pattern) && !preg_match(self::jsonPatternToPhpRegex($schema->pattern), $element)) {
             $this->addError(ConstraintError::PATTERN(), $path, array(
                 'pattern' => $schema->pattern,
             ));

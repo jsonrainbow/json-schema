@@ -155,6 +155,18 @@ class BaseConstraint
     }
 
     /**
+     * Transform a JSON pattern into a PCRE regex
+     *
+     * @param string $pattern
+     *
+     * @return string
+     */
+    public static function jsonPatternToPhpRegex($pattern)
+    {
+        return '~' . str_replace('~', '\\~', $pattern) . '~u';
+    }
+
+    /**
      * @param JsonPointer $pointer
      *
      * @return string property path

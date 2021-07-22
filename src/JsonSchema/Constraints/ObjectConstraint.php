@@ -54,24 +54,17 @@ class ObjectConstraint extends Constraint
 
     public function validatePatternProperties($element, JsonPointer $path = null, $patternProperties)
     {
-        $try = array('/', '#', '+', '~', '%');
         $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
-            $delimiter = '/';
-            // Choose delimiter. Necessary for patterns like ^/ , otherwise you get error
-            foreach ($try as $delimiter) {
-                if (strpos($pregex, $delimiter) === false) { // safe to use
-                    break;
-                }
-            }
+            $fullRegex = self::jsonPatternToPhpRegex($pregex);
 
             // Validate the pattern before using it to test for matches
-            if (@preg_match($delimiter . $pregex . $delimiter . 'u', '') === false) {
+            if (@preg_match($fullRegex, '') === false) {
                 $this->addError(ConstraintError::PREGEX_INVALID(), $path, array('pregex' => $pregex));
                 continue;
             }
             foreach ($element as $i => $value) {
-                if (preg_match($delimiter . $pregex . $delimiter . 'u', $i)) {
+                if (preg_match($fullRegex, $i)) {
                     $matches[] = $i;
                     $this->checkUndefined($value, $schema ?: new \stdClass(), $path, $i, in_array($i, $this->appliedDefaults));
                 }
