@@ -26,6 +26,7 @@ $config
         'trailing_comma_in_multiline_array' => false,
         'yoda_style' => false,
         'phpdoc_types_order' => array('null_adjustment' => 'none', 'sort_algorithm' => 'none'),
+        'no_superfluous_phpdoc_tags' => false,
     ))
     ->setFinder($finder)
 ;
