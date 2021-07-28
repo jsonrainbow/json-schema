@@ -1,0 +1,33 @@
+name: "Style Check"
+
+on:
+  - push
+  - pull_request
+
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
+
+jobs:
+  tests:
+    name: "Style Check"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "7.4"
+          tools: composer
+
+      - name: "Update dependencies"
+        run: "composer update ${{ env.COMPOSER_FLAGS }}"
+
+      - name: "Run style-check"
+        run: "composer style-check"

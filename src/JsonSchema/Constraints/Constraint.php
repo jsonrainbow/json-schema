@@ -86,6 +86,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     protected function checkObject(&$value, $schema = null, JsonPointer $path = null, $properties = null,
         $additionalProperties = null, $patternProperties = null, $appliedDefaults = array())
     {
+        /** @var ObjectConstraint $validator */
         $validator = $this->factory->createInstanceFor('object');
         $validator->check($value, $schema, $path, $properties, $additionalProperties, $patternProperties, $appliedDefaults);
 
@@ -118,6 +119,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      */
     protected function checkUndefined(&$value, $schema = null, JsonPointer $path = null, $i = null, $fromDefault = false)
     {
+        /** @var UndefinedConstraint $validator */
         $validator = $this->factory->createInstanceFor('undefined');
 
         $validator->check($value, $this->factory->getSchemaStorage()->resolveRefSchema($schema), $path, $i, $fromDefault);

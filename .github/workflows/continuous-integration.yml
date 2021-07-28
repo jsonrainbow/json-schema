@@ -1,0 +1,79 @@
+name: "Continuous Integration"
+
+on:
+  - push
+  - pull_request
+
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
+
+jobs:
+  tests:
+    name: "CI"
+
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      matrix:
+        php-version:
+          - "5.3"
+          - "5.4"
+          - "5.5"
+          - "5.6"
+          - "7.0"
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+#          - "8.0"
+        dependencies: [highest]
+        experimental: [false]
+        include:
+          - php-version: "5.3"
+            dependencies: highest
+            experimental: false
+          - php-version: "5.3"
+            dependencies: lowest
+            experimental: false
+#          - php-version: "8.0"
+#            dependencies: highest
+#            experimental: false
+#          - php-version: "8.1"
+#            dependencies: lowest-ignore
+#            experimental: true
+#          - php-version: "8.1"
+#            dependencies: highest-ignore
+#            experimental: true
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "${{ matrix.php-version }}"
+          tools: composer
+
+      - name: "Handle lowest dependencies update"
+        if: "contains(matrix.dependencies, 'lowest')"
+        run: "echo \"COMPOSER_UPDATE_FLAGS=$COMPOSER_UPDATE_FLAGS --prefer-lowest\" >> $GITHUB_ENV"
+
+      - name: "Handle ignore-platform-reqs dependencies update"
+        if: "contains(matrix.dependencies, 'ignore')"
+        run: "echo \"COMPOSER_FLAGS=$COMPOSER_FLAGS --ignore-platform-req=php\" >> $GITHUB_ENV"
+
+      - name: "Update dependencies"
+        run: "composer update ${{ env.COMPOSER_UPDATE_FLAGS }} ${{ env.COMPOSER_FLAGS }}"
+
+      - name: "Validate composer.json"
+        run: "composer validate"
+
+      - name: "Run tests"
+        run: "composer test"
+
+
