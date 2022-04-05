@@ -94,7 +94,31 @@ class TypeTest extends TestCase
         $this->assertSame($expected, $actualMessage); // the same for the strictness
     }
 
-    public function testValidateTypeNameWording()
+    public function validNameWordingDataProvider()
+    {
+        $wordings = array();
+
+        foreach (array_keys(TypeConstraint::$wording) as $value) {
+            $wordings[] = array($value);
+        }
+
+        return $wordings;
+    }
+
+    /**
+     * @dataProvider validNameWordingDataProvider
+     */
+    public function testValidateTypeNameWording($nameWording)
+    {
+        $t = new TypeConstraint();
+        $r = new \ReflectionObject($t);
+        $m = $r->getMethod('validateTypeNameWording');
+        $m->setAccessible(true);
+
+        $m->invoke($t, $nameWording);
+    }
+
+    public function testInvalidateTypeNameWording()
     {
         $t = new TypeConstraint();
         $r = new \ReflectionObject($t);
