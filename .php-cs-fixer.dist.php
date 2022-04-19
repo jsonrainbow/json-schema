@@ -14,19 +14,19 @@ $config
         'array_syntax' => array('syntax' => 'long'),
         'binary_operator_spaces' => false,
         'concat_space' => array('spacing' => 'one'),
+        'increment_style' => false,
+        'no_superfluous_phpdoc_tags' => false,
         'no_useless_else' => true,
         'no_useless_return' => true,
         'ordered_imports' => true,
         'phpdoc_no_package' => false,
         'phpdoc_order' => true,
         'phpdoc_summary' => false,
-        'increment_style' => false,
+        'phpdoc_types_order' => array('null_adjustment' => 'none', 'sort_algorithm' => 'none'),
         'simplified_null_return' => false,
         'single_line_throw' => false,
         'trailing_comma_in_multiline' => false,
         'yoda_style' => false,
-        'phpdoc_types_order' => array('null_adjustment' => 'none', 'sort_algorithm' => 'none'),
-        'no_superfluous_phpdoc_tags' => false,
     ))
     ->setFinder($finder)
 ;
