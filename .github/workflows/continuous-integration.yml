@@ -17,34 +17,35 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "5.3"
-          - "5.4"
-          - "5.5"
-          - "5.6"
-          - "7.0"
-          - "7.1"
+          # - "5.3"
+          # - "5.4"
+          # - "5.5"
+          # - "5.6"
+          # - "7.0"
+          # - "7.1"
           - "7.2"
           - "7.3"
           - "7.4"
-#          - "8.0"
+          - "8.0"
+          - "8.1"
         dependencies: [highest]
         experimental: [false]
         include:
-          - php-version: "5.3"
-            dependencies: highest
-            experimental: false
-          - php-version: "5.3"
-            dependencies: lowest
-            experimental: false
-#          - php-version: "8.0"
-#            dependencies: highest
-#            experimental: false
-#          - php-version: "8.1"
-#            dependencies: lowest-ignore
-#            experimental: true
-#          - php-version: "8.1"
-#            dependencies: highest-ignore
-#            experimental: true
+          # - php-version: "5.3"
+          #   dependencies: highest
+          #   experimental: false
+          # - php-version: "5.3"
+          #   dependencies: lowest
+          #   experimental: false
+         - php-version: "8.0"
+           dependencies: highest
+           experimental: false
+         - php-version: "8.1"
+           dependencies: lowest-ignore
+           experimental: true
+         - php-version: "8.1"
+           dependencies: highest-ignore
+           experimental: true
 
     steps:
       - name: "Checkout"
