@@ -102,19 +102,15 @@ class SchemaValidationTest extends TestCase
 
     public function testNonObjectSchema()
     {
-        $this->setExpectedException(
-            '\JsonSchema\Exception\RuntimeException',
-            'Cannot validate the schema of a non-object'
-        );
+        $this->expectException('\JsonSchema\Exception\RuntimeException');
+        $this->expectExceptionMessage('Cannot validate the schema of a non-object');
         $this->testValidCases('"notAnObject"');
     }
 
     public function testInvalidSchemaException()
     {
-        $this->setExpectedException(
-            '\JsonSchema\Exception\InvalidSchemaException',
-            'Schema did not pass validation'
-        );
+        $this->expectException('\JsonSchema\Exception\InvalidSchemaException');
+        $this->expectExceptionMessage('Schema did not pass validation');
 
         $input = json_decode('{}');
         $schema = json_decode('{"properties":{"propertyOne":{"type":"string","required":true}}}');

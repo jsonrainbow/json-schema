@@ -125,10 +125,8 @@ class TypeTest extends TestCase
         $m = $r->getMethod('validateTypeNameWording');
         $m->setAccessible(true);
 
-        $this->setExpectedException(
-            '\UnexpectedValueException',
-            "No wording for 'notAValidTypeName' available, expected wordings are: [an integer, a number, a boolean, an object, an array, a string, a null]"
-        );
+        $this->expectException('\UnexpectedValueException');
+        $this->expectExceptionMessage("No wording for 'notAValidTypeName' available, expected wordings are: [an integer, a number, a boolean, an object, an array, a string, a null]");
         $m->invoke($t, 'notAValidTypeName');
     }
 
@@ -138,10 +136,8 @@ class TypeTest extends TestCase
         $data = new \stdClass();
         $schema = json_decode('{"type": "notAValidTypeName"}');
 
-        $this->setExpectedException(
-            'JsonSchema\Exception\InvalidArgumentException',
-            'object is an invalid type for notAValidTypeName'
-        );
+        $this->expectException('JsonSchema\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('object is an invalid type for notAValidTypeName');
         $t->check($data, $schema);
     }
 }
