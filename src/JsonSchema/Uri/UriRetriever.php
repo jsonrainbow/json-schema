@@ -83,9 +83,11 @@ class UriRetriever implements BaseUriRetrieverInterface
             return;
         }
 
-        foreach ($this->allowedInvalidContentTypeEndpoints as $endpoint) {
-            if (strpos($uri, $endpoint) === 0) {
-                return true;
+        if (null !== $uri) {
+            foreach ($this->allowedInvalidContentTypeEndpoints as $endpoint) {
+                if (strpos($uri, $endpoint) === 0) {
+                    return true;
+                }
             }
         }
 

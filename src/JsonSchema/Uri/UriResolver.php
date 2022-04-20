@@ -28,6 +28,10 @@ class UriResolver implements UriResolverInterface
      */
     public function parse($uri)
     {
+        if (null === $uri || '' === $uri) {
+            return [];
+        }
+
         preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', $uri, $match);
 
         $components = array();
@@ -102,7 +106,7 @@ class UriResolver implements UriResolverInterface
             return $uri;
         }
         $baseComponents = $this->parse($baseUri);
-        $basePath = $baseComponents['path'];
+        $basePath = $baseComponents['path'] ?? '';
 
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
         if (isset($components['fragment'])) {
