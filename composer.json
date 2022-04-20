@@ -27,14 +27,14 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=7.2",
         "marc-mabe/php-enum":"^2.0 || ^3.0 || ^4.0",
-        "icecave/parity": "1.0.0"
+        "icecave/parity": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.2.20 || ~2.19.0",
         "json-schema/json-schema-test-suite": "1.2.0",
-        "phpunit/phpunit": "^4.8.35"
+        "phpunit/phpunit": "^8.5.26"
     },
     "extra": {
         "branch-alias": {
