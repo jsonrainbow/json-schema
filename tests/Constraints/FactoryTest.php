@@ -42,7 +42,7 @@ class FactoryTest extends TestCase
      */
     protected $factory;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         $this->factory = new Factory();
     }

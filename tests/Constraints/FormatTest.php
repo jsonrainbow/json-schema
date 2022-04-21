@@ -17,7 +17,7 @@ class FormatTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function setUp():void
+    public function setUp(): void
     {
         date_default_timezone_set('UTC');
     }

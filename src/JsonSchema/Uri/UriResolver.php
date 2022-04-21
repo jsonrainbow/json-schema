@@ -29,7 +29,7 @@ class UriResolver implements UriResolverInterface
     public function parse($uri)
     {
         if (null === $uri || '' === $uri) {
-            return [];
+            return array();
         }
 
         preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', $uri, $match);

@@ -21,7 +21,7 @@ class UriRetrieverTest extends TestCase
 {
     protected $validator;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         $this->validator = new Validator();
     }
