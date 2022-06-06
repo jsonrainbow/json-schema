@@ -79,13 +79,21 @@ class SchemaStorage implements SchemaStorageInterface
      *
      * @param mixed  $schema
      * @param string $base
+     * @param array  $stack
      */
-    private function expandRefs(&$schema, $base = null)
+    private function expandRefs(&$schema, $base = null, array $stack = [])
     {
+        if (in_array($schema, $stack)) {
+            //Prevent infinite recursion
+            return;
+        }
+
+        $stack[] = $schema;
+        
         if (!is_object($schema)) {
             if (is_array($schema)) {
                 foreach ($schema as &$member) {
-                    $this->expandRefs($member, $base);
+                    $this->expandRefs($member, $base, $stack);
                 }
             }
 
@@ -102,7 +110,7 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         foreach ($schema as &$member) {
-            $this->expandRefs($member, $base);
+            $this->expandRefs($member, $base, $stack);
         }
     }
 
