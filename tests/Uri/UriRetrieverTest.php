@@ -182,9 +182,6 @@ EOF;
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testResolvePointerFragmentNotFound()
     {
         $schema = (object) array(
@@ -197,14 +194,12 @@ EOF;
         );
 
         $retriever = new \JsonSchema\Uri\UriRetriever();
+        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/bar'
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testResolvePointerFragmentNoArray()
     {
         $schema = (object) array(
@@ -217,17 +212,16 @@ EOF;
         );
 
         $retriever = new \JsonSchema\Uri\UriRetriever();
+        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/foo'
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\UriResolverException
-     */
     public function testResolveExcessLevelUp()
     {
         $retriever = new \JsonSchema\Uri\UriRetriever();
+        $this->expectException('\JsonSchema\Exception\UriResolverException');
         $retriever->resolve(
             '../schema.json#', 'http://example.org/schema.json#'
         );
@@ -266,6 +260,7 @@ EOF;
                 ->method('getContentType')
                 ->will($this->returnValue('text/html'));
 
+        $this->expectException('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
         $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
@@ -340,15 +335,13 @@ EOF;
         $this->assertTrue($retriever->confirmMediaType($mock, 'https://json-schema.org/'));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
     public function testInvalidContentTypeEndpointsUnknown()
     {
         $mock = $this->createPartialMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
+        $this->expectException('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
         $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
