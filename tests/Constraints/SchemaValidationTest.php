@@ -102,7 +102,7 @@ class SchemaValidationTest extends TestCase
 
     public function testNonObjectSchema()
     {
-        $this->setExpectedException(
+        $this->expectException(
             '\JsonSchema\Exception\RuntimeException',
             'Cannot validate the schema of a non-object'
         );
@@ -111,7 +111,7 @@ class SchemaValidationTest extends TestCase
 
     public function testInvalidSchemaException()
     {
-        $this->setExpectedException(
+        $this->expectException(
             '\JsonSchema\Exception\InvalidSchemaException',
             'Schema did not pass validation'
         );

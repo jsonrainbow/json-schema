@@ -18,7 +18,7 @@ class CoerciveTest extends VeryBaseTestCase
 {
     protected $factory = null;
 
-    public function setUp()
+    public function doSetUp()
     {
         $this->factory = new Factory();
         $this->factory->setConfig(Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES);

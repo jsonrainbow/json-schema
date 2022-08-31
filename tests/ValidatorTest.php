@@ -31,7 +31,7 @@ class ValidatorTest extends TestCase
 
         $validator = new Validator();
 
-        $this->setExpectedException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
         $validator->validate($data, $schema);
     }
 

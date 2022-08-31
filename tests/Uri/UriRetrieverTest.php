@@ -21,7 +21,7 @@ class UriRetrieverTest extends TestCase
 {
     protected $validator;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->validator = new Validator();
     }
@@ -385,7 +385,7 @@ EOF;
     {
         $retriever = new UriRetriever();
 
-        $this->setExpectedException(
+        $this->expectException(
             'JsonSchema\Exception\JsonDecodingException',
             'JSON syntax is malformed'
         );

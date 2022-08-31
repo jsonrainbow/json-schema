@@ -24,7 +24,7 @@ class ConstraintErrorTest extends TestCase
     {
         $e = ConstraintError::MISSING_ERROR();
 
-        $this->setExpectedException(
+        $this->expectException(
             '\JsonSchema\Exception\InvalidArgumentException',
             'Missing error message for missingError'
         );

@@ -30,7 +30,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $res = new FileGetContents();
 
-            $this->setExpectedException(
+            $this->expectException(
                 '\JsonSchema\Exception\ResourceNotFoundException',
                 'JSON schema not found at http://example.com/false'
             );
@@ -41,7 +41,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $res = new FileGetContents();
 
-            $this->setExpectedException(
+            $this->expectException(
                 '\JsonSchema\Exception\ResourceNotFoundException',
                 'JSON schema not found at file:///this/is/a/directory/'
             );

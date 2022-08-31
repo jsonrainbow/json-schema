@@ -7,7 +7,7 @@ use LegacyPHPUnit\TestCase;
 
 class UriResolverTest extends TestCase
 {
-    public function setUp()
+    public function doSetUp()
     {
         $this->resolver = new UriResolver();
     }

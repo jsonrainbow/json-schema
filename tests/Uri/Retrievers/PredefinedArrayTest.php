@@ -12,7 +12,7 @@ class PredefinedArrayTest extends TestCase
 {
     private $retriever;
 
-    public function setUp()
+    public function doSetUp()
     {
         $this->retriever = new PredefinedArray(
             array(

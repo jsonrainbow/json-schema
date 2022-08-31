@@ -113,7 +113,7 @@ class JsonPointerTest extends TestCase
 
     public function testCreateWithInvalidValue()
     {
-        $this->setExpectedException(
+        $this->expectException(
             '\JsonSchema\Exception\InvalidArgumentException',
             'Ref value must be a string'
         );

@@ -17,7 +17,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $c = new Curl();
 
-            $this->setExpectedException(
+            $this->expectException(
                 '\JsonSchema\Exception\ResourceNotFoundException',
                 'JSON schema not found'
             );
