@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Uri\Retrievers;
 
 use JsonSchema\Uri\Retrievers\PredefinedArray;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 /**
  * @group PredefinedArray

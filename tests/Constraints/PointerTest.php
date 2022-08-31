@@ -10,7 +10,7 @@
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Validator;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class PointerTest extends TestCase
 {

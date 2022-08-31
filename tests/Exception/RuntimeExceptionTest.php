@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\RuntimeException;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class RuntimeExceptionTest extends TestCase
 {

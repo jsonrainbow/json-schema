@@ -10,7 +10,7 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\ConstraintError;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class ConstraintErrorTest extends TestCase
 {

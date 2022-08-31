@@ -12,7 +12,7 @@ namespace JsonSchema\Tests;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class SchemaStorageTest extends TestCase
 {

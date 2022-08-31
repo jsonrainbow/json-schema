@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\ResourceNotFoundException;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class ResourceNotFoundExceptionTest extends TestCase
 {

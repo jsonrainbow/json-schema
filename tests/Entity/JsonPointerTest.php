@@ -10,7 +10,7 @@
 namespace JsonSchema\Tests\Entity;
 
 use JsonSchema\Entity\JsonPointer;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 /**
  * @package JsonSchema\Tests\Entity

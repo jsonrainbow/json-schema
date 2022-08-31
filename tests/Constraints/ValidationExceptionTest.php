@@ -12,7 +12,7 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\Validator;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class ValidationExceptionTest extends TestCase
 {

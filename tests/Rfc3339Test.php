@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\Rfc3339;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class Rfc3339Test extends TestCase
 {

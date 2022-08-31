@@ -10,7 +10,7 @@
 namespace JsonSchema\Tests\Iterators;
 
 use JsonSchema\Iterator\ObjectIterator;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class ObjectIteratorTest extends TestCase
 {

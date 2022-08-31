@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class InvalidArgumentExceptionTest extends TestCase
 {

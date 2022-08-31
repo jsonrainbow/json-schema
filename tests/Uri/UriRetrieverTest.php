@@ -12,7 +12,7 @@ namespace JsonSchema\Tests\Uri;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 /**
  * @group UriRetriever

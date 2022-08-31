@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\JsonDecodingException;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class JsonDecodingExceptionTest extends TestCase
 {

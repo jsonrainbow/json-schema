@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Uri\Retrievers
 {
     use JsonSchema\Uri\Retrievers\Curl;
-    use PHPUnit\Framework\TestCase;
+    use LegacyPHPUnit\TestCase;
 
     class CurlTest extends TestCase
     {

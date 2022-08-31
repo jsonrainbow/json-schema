@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\Validator;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class ValidatorTest extends TestCase
 {

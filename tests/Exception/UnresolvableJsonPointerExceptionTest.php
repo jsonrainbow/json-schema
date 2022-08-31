@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\UnresolvableJsonPointerException;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class UnresolvableJsonPointerExceptionTest extends TestCase
 {

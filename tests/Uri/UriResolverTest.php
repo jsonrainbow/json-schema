@@ -3,7 +3,7 @@
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Uri\UriResolver;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 class UriResolverTest extends TestCase
 {

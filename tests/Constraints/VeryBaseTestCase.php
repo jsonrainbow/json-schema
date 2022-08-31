@@ -9,7 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 use Prophecy\Argument;
 
 /**

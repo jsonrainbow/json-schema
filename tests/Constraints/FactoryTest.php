@@ -12,7 +12,7 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\JsonPointer;
-use PHPUnit\Framework\TestCase;
+use LegacyPHPUnit\TestCase;
 
 /**
  * Class MyBadConstraint
