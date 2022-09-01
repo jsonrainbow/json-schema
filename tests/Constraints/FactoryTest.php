@@ -13,6 +13,7 @@ use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\JsonPointer;
 use LegacyPHPUnit\TestCase;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 /**
  * Class MyBadConstraint
@@ -37,6 +38,8 @@ class MyStringConstraint extends Constraint
 
 class FactoryTest extends TestCase
 {
+    use PolyfillTrait;
+
     /**
      * @var Factory
      */

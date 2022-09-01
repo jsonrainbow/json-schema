@@ -13,9 +13,12 @@ use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\Validator;
 use LegacyPHPUnit\TestCase;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class ValidationExceptionTest extends TestCase
 {
+    use PolyfillTrait;
+
     public function testValidationException()
     {
         $exception = new ValidationException();

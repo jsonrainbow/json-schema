@@ -10,9 +10,12 @@
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Validator;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class SelfDefinedSchemaTest extends BaseTestCase
 {
+    use PolyfillTrait;
+
     protected $validateSchema = true;
 
     public function getInvalidTests()
