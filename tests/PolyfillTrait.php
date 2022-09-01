@@ -9,28 +9,34 @@
 
 namespace JsonSchema\Tests;
 
-/**
- * Inspired by https://github.com/PHPUnitGoodPractices/polyfill
- *
- * @license MIT
- */
-trait PolyfillTrait
-{
-    public function expectException($exception)
+if (version_compare(PHP_VERSION, '7.4.0') < 0) {
+    /**
+     * Inspired by https://github.com/PHPUnitGoodPractices/polyfill
+     *
+     * @license MIT
+     */
+    trait PolyfillTrait
     {
-        if (\is_callable(array('PHPUnit\Framework\TestCase', 'expectException'))) {
-            parent::expectException($exception);
-        } else {
-            $this->setExpectedException($exception);
+        public function expectException($exception)
+        {
+            if (\is_callable(array('PHPUnit\Framework\TestCase', 'expectException'))) {
+                parent::expectException($exception);
+            } else {
+                $this->setExpectedException($exception);
+            }
+        }
+
+        public static function assertIsArray($actual, $message = '')
+        {
+            if (\is_callable(array('PHPUnit\Framework\TestCase', 'assertIsArray'))) {
+                parent::assertIsArray($actual, $message);
+            } else {
+                static::assertInternalType('array', $actual, $message);
+            }
         }
     }
-
-    public static function assertIsArray($actual, $message = '')
+} else {
+    trait PolyfillTrait
     {
-        if (\is_callable(array('PHPUnit\Framework\TestCase', 'assertIsArray'))) {
-            parent::assertIsArray($actual, $message);
-        } else {
-            static::assertInternalType('array', $actual, $message);
-        }
     }
 }
