@@ -71,10 +71,10 @@
         "bin/validate-json"
     ],
     "scripts": {
-        "coverage": "phpunit --coverage-text",
+        "coverage": "vendor/bin/phpunit --coverage-text",
         "style-check": "php-cs-fixer fix --dry-run --verbose --diff",
         "style-fix": "php-cs-fixer fix --verbose",
-        "test": "phpunit",
-        "testOnly": "phpunit --colors --filter"
+        "test": "vendor/bin/phpunit",
+        "testOnly": "vendor/bin/phpunit --colors --filter"
     }
 }
