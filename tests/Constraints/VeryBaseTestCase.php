@@ -88,22 +88,21 @@ abstract class VeryBaseTestCase extends TestCase
         return $this->jsonSchemaDraft04;
     }
 
-    public function expectException($exception)
+    public function expectExceptionCompat($exception)
     {
-        if (\is_callable([parent::class, 'expectException'])) {
+        if (\is_callable(array('PHPUnit\Framework\TestCase', 'expectException'))) {
             parent::expectException($exception);
         } else {
             $this->setExpectedException($exception);
         }
     }
 
-    public static function assertIsArray($actual, $message = '')
+    public static function assertIsArrayCompat($actual, $message = '')
     {
-        if (\is_callable([parent::class, 'assertIsArray'])) {
+        if (\is_callable(array('PHPUnit\Framework\TestCase', 'assertIsArray'))) {
             parent::assertIsArray($actual, $message);
         } else {
             static::assertInternalType('array', $actual, $message);
         }
     }
-
 }

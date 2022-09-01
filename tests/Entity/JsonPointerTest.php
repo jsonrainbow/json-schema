@@ -10,14 +10,14 @@
 namespace JsonSchema\Tests\Entity;
 
 use JsonSchema\Entity\JsonPointer;
-use LegacyPHPUnit\TestCase;
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 
 /**
  * @package JsonSchema\Tests\Entity
  *
  * @author Joost Nijhuis <jnijhuis81@gmail.com>
  */
-class JsonPointerTest extends TestCase
+class JsonPointerTest extends VeryBaseTestCase
 {
     /**
      * @dataProvider getTestData
@@ -113,7 +113,7 @@ class JsonPointerTest extends TestCase
 
     public function testCreateWithInvalidValue()
     {
-        $this->expectException(
+        $this->expectExceptionCompat(
             '\JsonSchema\Exception\InvalidArgumentException',
             'Ref value must be a string'
         );

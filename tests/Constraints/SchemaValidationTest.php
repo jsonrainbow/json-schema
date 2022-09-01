@@ -11,9 +11,8 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
-use LegacyPHPUnit\TestCase;
 
-class SchemaValidationTest extends TestCase
+class SchemaValidationTest extends VeryBaseTestCase
 {
     protected $validateSchema = true;
 
@@ -102,7 +101,7 @@ class SchemaValidationTest extends TestCase
 
     public function testNonObjectSchema()
     {
-        $this->expectException(
+        $this->expectExceptionCompat(
             '\JsonSchema\Exception\RuntimeException',
             'Cannot validate the schema of a non-object'
         );
@@ -111,7 +110,7 @@ class SchemaValidationTest extends TestCase
 
     public function testInvalidSchemaException()
     {
-        $this->expectException(
+        $this->expectExceptionCompat(
             '\JsonSchema\Exception\InvalidSchemaException',
             'Schema did not pass validation'
         );

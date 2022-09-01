@@ -2,10 +2,10 @@
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Validator;
-use LegacyPHPUnit\TestCase;
 
-class ValidatorTest extends TestCase
+class ValidatorTest extends VeryBaseTestCase
 {
     public function testValidateWithAssocSchema()
     {
@@ -31,7 +31,7 @@ class ValidatorTest extends TestCase
 
         $validator = new Validator();
 
-        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\InvalidArgumentException');
         $validator->validate($data, $schema);
     }
 

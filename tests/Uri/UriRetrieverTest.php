@@ -10,14 +10,14 @@
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Exception\JsonDecodingException;
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use LegacyPHPUnit\TestCase;
 
 /**
  * @group UriRetriever
  */
-class UriRetrieverTest extends TestCase
+class UriRetrieverTest extends VeryBaseTestCase
 {
     protected $validator;
 
@@ -105,7 +105,7 @@ class UriRetrieverTest extends TestCase
         $this->assertTrue($this->validator->isValid());
     }
 
-    private static function setParentSchemaExtendsValue(&$parentSchema, $value)
+    private static function setParentSchemaExtendsValue(& $parentSchema, $value)
     {
         $parentSchemaDecoded = json_decode($parentSchema, true);
         $parentSchemaDecoded['extends'] = $value;
@@ -194,7 +194,7 @@ EOF;
         );
 
         $retriever = new \JsonSchema\Uri\UriRetriever();
-        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\ResourceNotFoundException');
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/bar'
         );
@@ -212,7 +212,7 @@ EOF;
         );
 
         $retriever = new \JsonSchema\Uri\UriRetriever();
-        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\ResourceNotFoundException');
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/foo'
         );
@@ -221,7 +221,7 @@ EOF;
     public function testResolveExcessLevelUp()
     {
         $retriever = new \JsonSchema\Uri\UriRetriever();
-        $this->expectException('\JsonSchema\Exception\UriResolverException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\UriResolverException');
         $retriever->resolve(
             '../schema.json#', 'http://example.org/schema.json#'
         );
@@ -257,7 +257,7 @@ EOF;
                 ->method('getContentType')
                 ->will($this->returnValue('text/html'));
 
-        $this->expectException('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
         $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
@@ -338,7 +338,7 @@ EOF;
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
-        $this->expectException('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
         $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
@@ -375,7 +375,7 @@ EOF;
     {
         $retriever = new UriRetriever();
 
-        $this->expectException(
+        $this->expectExceptionCompat(
             'JsonSchema\Exception\JsonDecodingException',
             'JSON syntax is malformed'
         );

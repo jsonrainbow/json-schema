@@ -2,19 +2,19 @@
 
 namespace JsonSchema\Tests\Uri\Retrievers
 {
-    use JsonSchema\Uri\Retrievers\FileGetContents;
-    use LegacyPHPUnit\TestCase;
+    use JsonSchema\Tests\Constraints\VeryBaseTestCase;
+use JsonSchema\Uri\Retrievers\FileGetContents;
 
     /**
      * @group FileGetContents
      */
-    class FileGetContentsTest extends TestCase
+    class FileGetContentsTest extends VeryBaseTestCase
     {
         public function testFetchMissingFile()
         {
             $res = new FileGetContents();
 
-            $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
+            $this->expectExceptionCompat('\JsonSchema\Exception\ResourceNotFoundException');
             $res->retrieve(__DIR__ . '/Fixture/missing.json');
         }
 
@@ -29,7 +29,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $res = new FileGetContents();
 
-            $this->expectException(
+            $this->expectExceptionCompat(
                 '\JsonSchema\Exception\ResourceNotFoundException',
                 'JSON schema not found at http://example.com/false'
             );
@@ -40,7 +40,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $res = new FileGetContents();
 
-            $this->expectException(
+            $this->expectExceptionCompat(
                 '\JsonSchema\Exception\ResourceNotFoundException',
                 'JSON schema not found at file:///this/is/a/directory/'
             );

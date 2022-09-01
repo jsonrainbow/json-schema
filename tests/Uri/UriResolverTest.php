@@ -2,10 +2,10 @@
 
 namespace JsonSchema\Tests\Uri;
 
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Uri\UriResolver;
-use LegacyPHPUnit\TestCase;
 
-class UriResolverTest extends TestCase
+class UriResolverTest extends VeryBaseTestCase
 {
     public function doSetUp()
     {
@@ -96,7 +96,7 @@ class UriResolverTest extends TestCase
 
     public function testResolveRelativeUriNoBase()
     {
-        $this->expectException('\JsonSchema\Exception\UriResolverException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\UriResolverException');
 
         $this->assertEquals(
             'http://example.org/foo/bar.json',

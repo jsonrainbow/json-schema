@@ -10,9 +10,9 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\ConstraintError;
-use LegacyPHPUnit\TestCase;
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 
-class ConstraintErrorTest extends TestCase
+class ConstraintErrorTest extends VeryBaseTestCase
 {
     public function testGetValidMessage()
     {
@@ -24,7 +24,7 @@ class ConstraintErrorTest extends TestCase
     {
         $e = ConstraintError::MISSING_ERROR();
 
-        $this->expectException(
+        $this->expectExceptionCompat(
             '\JsonSchema\Exception\InvalidArgumentException',
             'Missing error message for missingError'
         );

@@ -9,10 +9,10 @@
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Validator;
-use LegacyPHPUnit\TestCase;
 
-class RefTest extends TestCase
+class RefTest extends VeryBaseTestCase
 {
     public function dataRefIgnoresSiblings()
     {
@@ -69,7 +69,7 @@ class RefTest extends TestCase
 
         $v = new Validator();
         if ($exception) {
-            $this->expectException($exception);
+            $this->expectExceptionCompat($exception);
         }
 
         $v->validate($document, $schema);

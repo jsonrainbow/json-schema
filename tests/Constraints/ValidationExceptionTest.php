@@ -12,9 +12,8 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\Validator;
-use LegacyPHPUnit\TestCase;
 
-class ValidationExceptionTest extends TestCase
+class ValidationExceptionTest extends VeryBaseTestCase
 {
     public function testValidationException()
     {
@@ -45,7 +44,7 @@ class ValidationExceptionTest extends TestCase
             $exception->getMessage()
         );
 
-        $this->expectException('JsonSchema\Exception\ValidationException');
+        $this->expectExceptionCompat('JsonSchema\Exception\ValidationException');
         throw $exception;
     }
 }

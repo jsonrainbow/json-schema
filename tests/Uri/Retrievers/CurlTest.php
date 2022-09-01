@@ -2,10 +2,10 @@
 
 namespace JsonSchema\Tests\Uri\Retrievers
 {
+    use JsonSchema\Tests\Constraints\VeryBaseTestCase;
     use JsonSchema\Uri\Retrievers\Curl;
-    use LegacyPHPUnit\TestCase;
 
-    class CurlTest extends TestCase
+    class CurlTest extends VeryBaseTestCase
     {
         public function testRetrieveFile()
         {
@@ -17,7 +17,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $c = new Curl();
 
-            $this->expectException(
+            $this->expectExceptionCompat(
                 '\JsonSchema\Exception\ResourceNotFoundException',
                 'JSON schema not found'
             );

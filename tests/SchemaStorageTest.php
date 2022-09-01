@@ -10,11 +10,11 @@
 namespace JsonSchema\Tests;
 
 use JsonSchema\SchemaStorage;
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use LegacyPHPUnit\TestCase;
 
-class SchemaStorageTest extends TestCase
+class SchemaStorageTest extends VeryBaseTestCase
 {
     public function testResolveRef()
     {
@@ -102,7 +102,7 @@ class SchemaStorageTest extends TestCase
 
     public function testUnresolvableJsonPointExceptionShouldBeThrown()
     {
-        $this->expectException(
+        $this->expectExceptionCompat(
             'JsonSchema\Exception\UnresolvableJsonPointerException',
             'File: http://www.example.com/schema.json is found, but could not resolve fragment: #/definitions/car'
         );
@@ -121,7 +121,7 @@ class SchemaStorageTest extends TestCase
 
     public function testResolveRefWithNoAssociatedFileName()
     {
-        $this->expectException(
+        $this->expectExceptionCompat(
             'JsonSchema\Exception\UnresolvableJsonPointerException',
             "Could not resolve fragment '#': no file is defined"
         );

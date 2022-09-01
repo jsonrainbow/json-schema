@@ -2,13 +2,13 @@
 
 namespace JsonSchema\Tests\Uri\Retrievers;
 
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Uri\Retrievers\PredefinedArray;
-use LegacyPHPUnit\TestCase;
 
 /**
  * @group PredefinedArray
  */
-class PredefinedArrayTest extends TestCase
+class PredefinedArrayTest extends VeryBaseTestCase
 {
     private $retriever;
 
@@ -31,7 +31,7 @@ class PredefinedArrayTest extends TestCase
 
     public function testRetrieveNonExistsingSchema()
     {
-        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\ResourceNotFoundException');
 
         $this->retriever->retrieve('http://acme.com/schemas/plop#');
     }

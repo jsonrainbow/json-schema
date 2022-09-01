@@ -11,7 +11,6 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Constraints\TypeConstraint;
-use LegacyPHPUnit\TestCase;
 
 /**
  * Class TypeTest
@@ -20,7 +19,7 @@ use LegacyPHPUnit\TestCase;
  *
  * @author hakre <https://github.com/hakre>
  */
-class TypeTest extends TestCase
+class TypeTest extends VeryBaseTestCase
 {
     /**
      * @see testIndefiniteArticleForTypeInTypeCheckErrorMessage
@@ -80,7 +79,7 @@ class TypeTest extends TestCase
 
         $actualError = $actualErrors[0];
 
-        $this->assertIsArray($actualError, sprintf('Failed to assert that Type error is an array, %s given', gettype($actualError)));
+        $this->assertIsArrayCompat($actualError, sprintf('Failed to assert that Type error is an array, %s given', gettype($actualError)));
 
         $messageKey = 'message';
         $this->assertArrayHasKey(
@@ -125,7 +124,7 @@ class TypeTest extends TestCase
         $m = $r->getMethod('validateTypeNameWording');
         $m->setAccessible(true);
 
-        $this->expectException(
+        $this->expectExceptionCompat(
             '\UnexpectedValueException',
             "No wording for 'notAValidTypeName' available, expected wordings are: [an integer, a number, a boolean, an object, an array, a string, a null]"
         );
@@ -138,7 +137,7 @@ class TypeTest extends TestCase
         $data = new \stdClass();
         $schema = json_decode('{"type": "notAValidTypeName"}');
 
-        $this->expectException(
+        $this->expectExceptionCompat(
             'JsonSchema\Exception\InvalidArgumentException',
             'object is an invalid type for notAValidTypeName'
         );

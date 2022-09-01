@@ -12,7 +12,6 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\JsonPointer;
-use LegacyPHPUnit\TestCase;
 
 /**
  * Class MyBadConstraint
@@ -35,7 +34,7 @@ class MyStringConstraint extends Constraint
     }
 }
 
-class FactoryTest extends TestCase
+class FactoryTest extends VeryBaseTestCase
 {
     /**
      * @var Factory
@@ -85,7 +84,7 @@ class FactoryTest extends TestCase
      */
     public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName)
     {
-        $this->expectException('JsonSchema\Exception\InvalidArgumentException');
+        $this->expectExceptionCompat('JsonSchema\Exception\InvalidArgumentException');
         $this->factory->createInstanceFor($constraintName);
     }
 
@@ -98,14 +97,14 @@ class FactoryTest extends TestCase
 
     public function testSetConstraintClassExistsCondition()
     {
-        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\InvalidArgumentException');
 
         $this->factory->setConstraintClass('string', 'SomeConstraint');
     }
 
     public function testSetConstraintClassImplementsCondition()
     {
-        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectExceptionCompat('\JsonSchema\Exception\InvalidArgumentException');
 
         $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
     }
