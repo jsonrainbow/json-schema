@@ -105,7 +105,7 @@ class UriRetrieverTest extends VeryBaseTestCase
         $this->assertTrue($this->validator->isValid());
     }
 
-    private static function setParentSchemaExtendsValue(& $parentSchema, $value)
+    private static function setParentSchemaExtendsValue(&$parentSchema, $value)
     {
         $parentSchemaDecoded = json_decode($parentSchema, true);
         $parentSchemaDecoded['extends'] = $value;
