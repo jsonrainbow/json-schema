@@ -9,7 +9,7 @@
 
 namespace JsonSchema\Tests;
 
-if (version_compare(PHP_VERSION, '7.1.0') < 0) {
+if (version_compare(PHP_VERSION, '7.4.0') < 0) {
     /**
      * Inspired by https://github.com/PHPUnitGoodPractices/polyfill
      *
