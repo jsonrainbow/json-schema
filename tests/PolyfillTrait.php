@@ -9,34 +9,28 @@
 
 namespace JsonSchema\Tests;
 
-if (version_compare(\PHPUnit\Runner\Version::id(), '6.0.0') < 0) {
-    /**
-     * Inspired by https://github.com/PHPUnitGoodPractices/polyfill
-     *
-     * @license MIT
-     */
-    trait PolyfillTrait
+/**
+ * Inspired by https://github.com/PHPUnitGoodPractices/polyfill
+ *
+ * @license MIT
+ */
+trait PolyfillTrait
+{
+    public function expectException($exception)
     {
-        public function expectException($exception)
-        {
-            if (\is_callable(array(parent::class, 'expectException'))) {
-                parent::expectException($exception);
-            } else {
-                $this->setExpectedException($exception);
-            }
-        }
-
-        public static function assertIsArray($actual, $message = '')
-        {
-            if (\is_callable(array(parent::class, 'assertIsArray'))) {
-                parent::assertIsArray($actual, $message);
-            } else {
-                static::assertInternalType('array', $actual, $message);
-            }
+        if (\is_callable(array('PHPUnit\Framework\TestCase', 'expectException'))) {
+            parent::expectException($exception);
+        } else {
+            $this->setExpectedException($exception);
         }
     }
-} else {
-    trait PolyfillTrait
+
+    public static function assertIsArray($actual, $message = '')
     {
+        if (\is_callable(array('PHPUnit\Framework\TestCase', 'assertIsArray'))) {
+            parent::assertIsArray($actual, $message);
+        } else {
+            static::assertInternalType('array', $actual, $message);
+        }
     }
 }
