@@ -11,12 +11,9 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\ConstraintError;
 use LegacyPHPUnit\TestCase;
-use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class ConstraintErrorTest extends TestCase
 {
-    use PolyfillTrait;
-
     public function testGetValidMessage()
     {
         $e = ConstraintError::ALL_OF();

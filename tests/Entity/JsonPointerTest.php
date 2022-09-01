@@ -11,7 +11,6 @@ namespace JsonSchema\Tests\Entity;
 
 use JsonSchema\Entity\JsonPointer;
 use LegacyPHPUnit\TestCase;
-use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 /**
  * @package JsonSchema\Tests\Entity
@@ -20,8 +19,6 @@ use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
  */
 class JsonPointerTest extends TestCase
 {
-    use PolyfillTrait;
-
     /**
      * @dataProvider getTestData
      *

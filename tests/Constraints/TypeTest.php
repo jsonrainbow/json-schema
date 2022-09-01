@@ -12,7 +12,6 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Constraints\TypeConstraint;
 use LegacyPHPUnit\TestCase;
-use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 /**
  * Class TypeTest
@@ -23,8 +22,6 @@ use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
  */
 class TypeTest extends TestCase
 {
-    use PolyfillTrait;
-
     /**
      * @see testIndefiniteArticleForTypeInTypeCheckErrorMessage
      *

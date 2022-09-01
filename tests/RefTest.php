@@ -11,12 +11,9 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\Validator;
 use LegacyPHPUnit\TestCase;
-use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class RefTest extends TestCase
 {
-    use PolyfillTrait;
-
     public function dataRefIgnoresSiblings()
     {
         return array(
