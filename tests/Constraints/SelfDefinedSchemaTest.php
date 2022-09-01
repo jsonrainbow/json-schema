@@ -9,8 +9,8 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Tests\PolyfillTrait;
 use JsonSchema\Validator;
-use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class SelfDefinedSchemaTest extends BaseTestCase
 {

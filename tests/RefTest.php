@@ -11,7 +11,6 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\Validator;
 use LegacyPHPUnit\TestCase;
-use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class RefTest extends TestCase
 {
