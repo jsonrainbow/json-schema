@@ -12,9 +12,9 @@ namespace JsonSchema\Tests\Uri\Retrievers
     {
         public function testFetchMissingFile()
         {
-            $this->setExpectedException(\JsonSchema\Exception\ResourceNotFoundException::class);
-
             $res = new FileGetContents();
+
+            $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
             $res->retrieve(__DIR__ . '/Fixture/missing.json');
         }
 

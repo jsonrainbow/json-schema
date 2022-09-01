@@ -31,7 +31,7 @@ class PredefinedArrayTest extends TestCase
 
     public function testRetrieveNonExistsingSchema()
     {
-        $this->setExpectedException(\JsonSchema\Exception\ResourceNotFoundException::class);
+        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
 
         $this->retriever->retrieve('http://acme.com/schemas/plop#');
     }
