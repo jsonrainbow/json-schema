@@ -98,14 +98,14 @@ class FactoryTest extends TestCase
 
     public function testSetConstraintClassExistsCondition()
     {
-        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
+        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
 
         $this->factory->setConstraintClass('string', 'SomeConstraint');
     }
 
     public function testSetConstraintClassImplementsCondition()
     {
-        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
+        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
 
         $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
     }
