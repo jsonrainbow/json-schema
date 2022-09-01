@@ -249,11 +249,10 @@ EOF;
         $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
     public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
     {
+        $this->setExpectedException(\JsonSchema\Exception\InvalidSchemaMediaTypeException::class);
+
         $retriever = $this->createPartialMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
 
         $retriever->expects($this->at(0))

@@ -10,11 +10,10 @@ namespace JsonSchema\Tests\Uri\Retrievers
      */
     class FileGetContentsTest extends TestCase
     {
-        /**
-         * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-         */
         public function testFetchMissingFile()
         {
+            $this->setExpectedException(\JsonSchema\Exception\ResourceNotFoundException::class);
+
             $res = new FileGetContents();
             $res->retrieve(__DIR__ . '/Fixture/missing.json');
         }
