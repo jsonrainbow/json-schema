@@ -36,7 +36,7 @@
         "json-schema/json-schema-test-suite": "1.2.0",
         "phpunit/phpunit": ">=4.8.35 <10",
         "sanmai/phpunit-legacy-adapter": "^6.4 || ^8.2.1",
-        "phpspec/prophecy": "^1.15"
+        "phpspec/prophecy-phpunit": ">=1.0"
     },
     "extra": {
         "branch-alias": {
