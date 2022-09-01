@@ -11,9 +11,9 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Exception\ValidationException;
-use JsonSchema\Tests\PolyfillTrait;
 use JsonSchema\Validator;
 use LegacyPHPUnit\TestCase;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 class ValidationExceptionTest extends TestCase
 {

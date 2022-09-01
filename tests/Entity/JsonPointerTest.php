@@ -10,8 +10,8 @@
 namespace JsonSchema\Tests\Entity;
 
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Tests\PolyfillTrait;
 use LegacyPHPUnit\TestCase;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 /**
  * @package JsonSchema\Tests\Entity

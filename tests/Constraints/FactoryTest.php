@@ -12,8 +12,8 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Tests\PolyfillTrait;
 use LegacyPHPUnit\TestCase;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 /**
  * Class MyBadConstraint

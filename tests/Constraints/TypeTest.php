@@ -11,8 +11,8 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Constraints\TypeConstraint;
-use JsonSchema\Tests\PolyfillTrait;
 use LegacyPHPUnit\TestCase;
+use PHPUnitGoodPractices\Polyfill\PolyfillTrait;
 
 /**
  * Class TypeTest
