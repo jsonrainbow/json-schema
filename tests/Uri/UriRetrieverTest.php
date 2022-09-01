@@ -426,4 +426,13 @@ EOF;
         $retriever = new UriRetriever();
         $this->assertTrue($retriever->isValid('http://example.com/schema'));
     }
+
+    private function getMockCompat($originalClassName, $methods)
+    {
+        if (\is_callable(array('PHPUnit\Framework\TestCase', 'createPartialMock'))) {
+            return $this->createPartialMock($originalClassName, $methods);
+        }
+
+        return parent::getMock($originalClassName, $methods);
+    }
 }

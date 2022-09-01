@@ -105,13 +105,4 @@ abstract class VeryBaseTestCase extends TestCase
             static::assertInternalType('array', $actual, $message);
         }
     }
-
-    public function getMockCompat($originalClassName, $methods)
-    {
-        if (\is_callable(array('PHPUnit\Framework\TestCase', 'createPartialMock'))) {
-            return $this->createPartialMock($originalClassName, $methods);
-        }
-
-        return parent::getMock($originalClassName, $methods);
-    }
 }
