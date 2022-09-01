@@ -34,9 +34,9 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.2.20 || ~2.19.0",
         "json-schema/json-schema-test-suite": "1.2.0",
-        "phpunit/phpunit": ">=4.8.36 <10",
+        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.29 || ^9.5.24",
         "sanmai/phpunit-legacy-adapter": "^6.4 || ^8.2.1",
-        "phpspec/prophecy-phpunit": ">=1.0"
+        "phpspec/prophecy-phpunit": "^1.1 || ^2.0.1"
     },
     "extra": {
         "branch-alias": {

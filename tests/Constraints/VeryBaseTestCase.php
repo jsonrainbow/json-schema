@@ -87,4 +87,23 @@ abstract class VeryBaseTestCase extends TestCase
 
         return $this->jsonSchemaDraft04;
     }
+
+    public function expectException($exception)
+    {
+        if (\is_callable([parent::class, 'expectException'])) {
+            parent::expectException($exception);
+        } else {
+            $this->setExpectedException($exception);
+        }
+    }
+
+    public static function assertIsArray($actual, $message = '')
+    {
+        if (\is_callable([parent::class, 'assertIsArray'])) {
+            parent::assertIsArray($actual, $message);
+        } else {
+            static::assertInternalType('array', $actual, $message);
+        }
+    }
+
 }
