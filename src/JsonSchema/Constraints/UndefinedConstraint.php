@@ -329,7 +329,6 @@ class UndefinedConstraint extends Constraint
         if (isset($schema->anyOf)) {
             $isValid = false;
             $startErrors = $this->getErrors();
-            $caughtException = null;
             foreach ($schema->anyOf as $anyOf) {
                 $initErrors = $this->getErrors();
                 try {
