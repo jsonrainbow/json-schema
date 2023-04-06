@@ -202,7 +202,8 @@ try {
     }
 } catch (Exception $e) {
     output("Error loading JSON schema file\n");
-    output($urlSchema . "\n");
+    output($pathSchema . "\n");
+    output($urlData . "\n");
     output($e->getMessage() . "\n");
     exit(2);
 }

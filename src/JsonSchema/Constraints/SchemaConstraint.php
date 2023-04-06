@@ -11,6 +11,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\ExceptionInterface;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\InvalidSchemaException;
 use JsonSchema\Exception\RuntimeException;
@@ -71,22 +72,29 @@ class SchemaConstraint extends Constraint
             $this->factory->removeConfig(self::CHECK_MODE_VALIDATE_SCHEMA | self::CHECK_MODE_APPLY_DEFAULTS);
             $this->factory->addConfig(self::CHECK_MODE_TYPE_CAST);
             $this->factory->setErrorContext(Validator::ERROR_SCHEMA_VALIDATION);
-
-            // validate schema
             try {
-                $this->check($validationSchema, $schemaSpec);
-            } catch (\Exception $e) {
-                if ($this->factory->getConfig(self::CHECK_MODE_EXCEPTIONS)) {
-                    throw new InvalidSchemaException('Schema did not pass validation', 0, $e);
+                // validate schema
+                try {
+                    $this->check($validationSchema, $schemaSpec);
+                } catch (\Exception $e) {
+                    if ($this->factory->getConfig(self::CHECK_MODE_EXCEPTIONS)) {
+                        throw new InvalidSchemaException('Schema did not pass validation', 0, $e);
+                    }
                 }
-            }
-            if ($this->numErrors() > $initialErrorCount) {
-                $this->addError(ConstraintError::INVALID_SCHEMA(), $path);
-            }
+                if ($this->numErrors() > $initialErrorCount) {
+                    $this->addError(ConstraintError::INVALID_SCHEMA(), $path);
+                }
 
-            // restore the initial config
-            $this->factory->setConfig($initialConfig);
-            $this->factory->setErrorContext($initialContext);
+                // restore the initial config
+                $this->factory->setConfig($initialConfig);
+                $this->factory->setErrorContext($initialContext);
+            } catch (ExceptionInterface $e) {
+                // restore the initial config
+                $this->factory->setConfig($initialConfig);
+                $this->factory->setErrorContext($initialContext);
+
+                throw $e;
+            }
         }
 
         // validate element against $validationSchema
