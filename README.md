@@ -173,7 +173,7 @@ $schemaStorage = new SchemaStorage();
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator( new Factory($schemaStorage));
+$jsonValidator = new Validator(new Factory($schemaStorage));
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');
