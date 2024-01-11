@@ -26,7 +26,8 @@ class NumberConstraint extends Constraint
     public function check(&$element, $schema = null, JsonPointer $path = null, $i = null)
     {
         // Verify minimum
-        if (isset($schema->exclusiveMinimum)) {
+        if (isset($schema->exclusiveMinimum) && filter_var($schema->exclusiveMinimum, FILTER_VALIDATE_BOOLEAN)) {
+            // Draft 4 schema
             if (isset($schema->minimum)) {
                 if ($schema->exclusiveMinimum && $element <= $schema->minimum) {
                     $this->addError(ConstraintError::EXCLUSIVE_MINIMUM(), $path, array('minimum' => $schema->minimum));
@@ -36,12 +37,18 @@ class NumberConstraint extends Constraint
             } else {
                 $this->addError(ConstraintError::MISSING_MINIMUM(), $path);
             }
+        } elseif (isset($schema->exclusiveMinimum) && filter_var($schema->exclusiveMinimum, FILTER_VALIDATE_INT)) {
+            // Draft 6 schema
+            if ($element <= $schema->exclusiveMinimum) {
+                $this->addError(ConstraintError::EXCLUSIVE_MINIMUM(), $path, array('exclusiveMinimum' => $schema->exclusiveMinimum));
+            }
         } elseif (isset($schema->minimum) && $element < $schema->minimum) {
             $this->addError(ConstraintError::MINIMUM(), $path, array('minimum' => $schema->minimum));
         }
 
         // Verify maximum
-        if (isset($schema->exclusiveMaximum)) {
+        if (isset($schema->exclusiveMaximum) && filter_var($schema->exclusiveMaximum, FILTER_VALIDATE_INT)) {
+            // Draft 4 schema
             if (isset($schema->maximum)) {
                 if ($schema->exclusiveMaximum && $element >= $schema->maximum) {
                     $this->addError(ConstraintError::EXCLUSIVE_MAXIMUM(), $path, array('maximum' => $schema->maximum));
@@ -50,6 +57,11 @@ class NumberConstraint extends Constraint
                 }
             } else {
                 $this->addError(ConstraintError::MISSING_MAXIMUM(), $path);
+            }
+        } elseif (isset($schema->exclusiveMaximum) && filter_var($schema->exclusiveMaximum, FILTER_VALIDATE_INT)) {
+            // Draft 6 schema
+            if ($element >= $schema->exclusiveMaximum) {
+                $this->addError(ConstraintError::EXCLUSIVE_MAXIMUM(), $path, array('exclusiveMaximum' => $schema->exclusiveMaximum));
             }
         } elseif (isset($schema->maximum) && $element > $schema->maximum) {
             $this->addError(ConstraintError::MAXIMUM(), $path, array('maximum' => $schema->maximum));
