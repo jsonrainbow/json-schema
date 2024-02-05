@@ -59,6 +59,15 @@ namespace JsonSchema\Tests\Uri\Retrievers
             $this->assertTrue($fetchContentType->invoke($res, array('Content-Type: application/json')));
             $this->assertFalse($fetchContentType->invoke($res, array('X-Some-Header: whateverValue')));
         }
+
+        public function testCanHandleHttp301PermanentRedirect()
+        {
+            $res = new FileGetContents();
+
+            $res->retrieve('http://asyncapi.com/definitions/2.0.0/asyncapi.json');
+
+            $this->assertSame('application/schema+json', $res->getContentType());
+        }
     }
 }
 
