@@ -33,7 +33,10 @@ class Draft4Test extends BaseDraftTestCase
         $tests = parent::getInvalidForAssocTests();
         unset(
             $tests['type.json / object type matches objects / an array is not an object'],
-            $tests['type.json / array type matches arrays / an object is not an array']
+            $tests['type.json / array type matches arrays / an object is not an array'],
+            // Arrays must be ignored and in assoc case, these data are arrays and not objects.
+            $tests['maxProperties.json / maxProperties validation / too long is invalid'],
+            $tests['minProperties.json / minProperties validation / too short is invalid']
         );
 
         return $tests;
@@ -44,7 +47,9 @@ class Draft4Test extends BaseDraftTestCase
         $tests = parent::getValidForAssocTests();
         unset(
             $tests['type.json / object type matches objects / an array is not an object'],
-            $tests['type.json / array type matches arrays / an object is not an array']
+            $tests['type.json / array type matches arrays / an object is not an array'],
+            // Arrays must be ignored and in assoc case, these data are arrays and not objects.
+            $tests['required.json / required validation / ignores arrays']
         );
 
         return $tests;
@@ -58,10 +63,12 @@ class Draft4Test extends BaseDraftTestCase
         return array(
             // Optional
             'bignum.json',
+            'ecmascript-regex.json',
             'format.json',
             'zeroTerminatedFloats.json',
             // Required
-            'not.json' // only one test case failing
+            'not.json', // only one test case failing
+            'ref.json', // external references can not be found (localhost:1234)
         );
     }
 }
