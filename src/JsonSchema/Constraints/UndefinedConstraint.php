@@ -14,6 +14,7 @@ use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\Uri\UriResolver;
+use JsonSchema\Validator;
 
 /**
  * The UndefinedConstraint Constraints
