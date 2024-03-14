@@ -30,7 +30,7 @@ class MyBadConstraint
  */
 class MyStringConstraint extends Constraint
 {
-    public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null)
     {
     }
 }
