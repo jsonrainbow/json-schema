@@ -37,14 +37,14 @@ class BaseConstraint
     protected $factory;
 
     /**
-     * @param Factory $factory
+     * @param ?Factory $factory
      */
-    public function __construct(Factory $factory = null)
+    public function __construct(?Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();
     }
 
-    public function addError(ConstraintError $constraint, JsonPointer $path = null, array $more = array())
+    public function addError(ConstraintError $constraint, ?JsonPointer $path = null, array $more = array())
     {
         $message = $constraint ? $constraint->getMessage() : '';
         $name = $constraint ? $constraint->getValue() : '';
