@@ -184,14 +184,6 @@ class FormatConstraint extends Constraint
             return true;
         }
 
-        // handles the case where a non-6 digit microsecond datetime is passed
-        // which will fail the above string comparison because the passed
-        // $datetime may be '2000-05-01T12:12:12.123Z' but format() will return
-        // '2000-05-01T12:12:12.123000Z'
-        if ((strpos('u', $format) !== -1) && (preg_match('/\.\d+Z$/', $datetime))) {
-            return true;
-        }
-
         return false;
     }
 
