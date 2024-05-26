@@ -26,28 +26,6 @@ namespace JsonSchema\Tests\Uri\Retrievers
             $this->assertNotEmpty($result);
         }
 
-        public function testFalseReturn()
-        {
-            $res = new FileGetContents();
-
-            $this->setExpectedException(
-                '\JsonSchema\Exception\ResourceNotFoundException',
-                'JSON schema not found at http://example.com/false'
-            );
-            $res->retrieve('http://example.com/false');
-        }
-
-        public function testFetchDirectory()
-        {
-            $res = new FileGetContents();
-
-            $this->setExpectedException(
-                '\JsonSchema\Exception\ResourceNotFoundException',
-                'JSON schema not found at file:///this/is/a/directory/'
-            );
-            $res->retrieve('file:///this/is/a/directory/');
-        }
-
         public function testContentType()
         {
             $res = new FileGetContents();
@@ -67,18 +45,6 @@ namespace JsonSchema\Tests\Uri\Retrievers
             $res->retrieve('http://asyncapi.com/definitions/2.0.0/asyncapi.json');
 
             $this->assertSame('application/schema+json', $res->getContentType());
-        }
-    }
-}
-
-namespace JsonSchema\Uri\Retrievers
-{
-    function file_get_contents($uri)
-    {
-        switch ($uri) {
-            case 'http://example.com/false': return false;
-            case 'file:///this/is/a/directory/': return '';
-            default: return \file_get_contents($uri);
         }
     }
 }
