@@ -1,6 +1,6 @@
 # JSON Schema for PHP
 
-[![Build Status](https://github.com/justinrainbow/json-schema/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/justinrainbow/json-schema/actions)
+[![Build Status](https://github.com/jsonrainbow/json-schema/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/jsonrainbow/json-schema/actions)
 [![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable.png)](https://packagist.org/packages/justinrainbow/json-schema)
 [![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads.png)](https://packagist.org/packages/justinrainbow/json-schema)
 
@@ -13,7 +13,7 @@ See [json-schema](http://json-schema.org/) for more details.
 ### Library
 
 ```bash
-git clone https://github.com/justinrainbow/json-schema.git
+git clone https://github.com/jsonrainbow/json-schema.git
 ```
 
 ### Composer
