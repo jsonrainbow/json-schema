@@ -17,7 +17,7 @@ Installation
 
 .. code-block:: console
 
-   git clone https://github.com/justinrainbow/json-schema.git
+   git clone https://github.com/jsonrainbow/json-schema.git
 
 Composer method
 ^^^^^^^^^^^^^^^
