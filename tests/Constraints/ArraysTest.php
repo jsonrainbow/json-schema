@@ -116,6 +116,19 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
+            ),
+            array(
+                '{"data": [{"not_a_string_but_object":"string_but_in_object"}]}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {"type":"string"},
+                            "additionalItems": false
+                        }
+                    }
+                }'
             )
         );
     }
