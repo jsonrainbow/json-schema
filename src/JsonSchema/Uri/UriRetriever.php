@@ -12,6 +12,7 @@ namespace JsonSchema\Uri;
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Exception\ResourceNotFoundException;
+use JsonSchema\Uri\Retrievers\Curl;
 use JsonSchema\Uri\Retrievers\FileGetContents;
 use JsonSchema\Uri\Retrievers\UriRetrieverInterface;
 use JsonSchema\UriRetrieverInterface as BaseUriRetrieverInterface;
@@ -103,7 +104,7 @@ class UriRetriever implements BaseUriRetrieverInterface
     public function getUriRetriever()
     {
         if (is_null($this->uriRetriever)) {
-            $this->setUriRetriever(new FileGetContents());
+            $this->setUriRetriever(\extension_loaded('curl') ? new Curl(new FileGetContents) : new FileGetContents);
         }
 
         return $this->uriRetriever;
