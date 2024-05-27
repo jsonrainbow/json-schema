@@ -68,7 +68,7 @@ class FileGetContents extends AbstractRetriever
      */
     private function fetchContentType(array $headers)
     {
-        foreach ($headers as $header) {
+        foreach (array_reverse($headers) as $header) {
             if ($this->contentType = self::getContentTypeMatchInHeader($header)) {
                 return true;
             }
