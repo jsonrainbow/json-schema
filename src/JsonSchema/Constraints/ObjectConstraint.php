@@ -173,6 +173,11 @@ class ObjectConstraint extends Constraint
      */
     protected function validateMinMaxConstraint($element, $objectDefinition, JsonPointer $path = null)
     {
+        // minProperties and maxProperties constraints only applies on objects elements.
+        if (!is_object($element)) {
+            return;
+        }
+
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {

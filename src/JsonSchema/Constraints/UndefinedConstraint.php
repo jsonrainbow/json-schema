@@ -14,6 +14,7 @@ use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\Uri\UriResolver;
+use JsonSchema\Validator;
 
 /**
  * The UndefinedConstraint Constraints
@@ -46,7 +47,7 @@ class UndefinedConstraint extends Constraint
         // check special properties
         $this->validateCommonProperties($value, $schema, $path, $i);
 
-        // check allOf, anyOf, and oneOf properties
+        // check allOf, anyOf, oneOf, if, then, and else properties
         $this->validateOfProperties($value, $schema, $path, '');
 
         // check known types
@@ -370,6 +371,34 @@ class UndefinedConstraint extends Constraint
                 $this->addError(ConstraintError::ONE_OF(), $path);
             } else {
                 $this->errors = $startErrors;
+            }
+        }
+
+        if (isset($schema->if)) {
+            if (!is_bool($schema->if) && !is_object($schema->if)) {
+                $this->addError(ConstraintError::CONDITIONAL_IF(), $path);
+            }
+            $validator = new Validator();
+            if ($schema->if !== false && Validator::ERROR_NONE === $validator->validate($value, $schema->if)) {
+                if (isset($schema->then)) {
+                    if (!is_bool($schema->then) && !is_object($schema->then)) {
+                        $this->addError(ConstraintError::CONDITIONAL_THEN(), $path);
+                    }
+                    if ($schema->then === false) {
+                        $this->addError(ConstraintError::ALWAYS_FAILS(), $path);
+                    } else {
+                        $this->check($value, $schema->then);
+                    }
+                }
+            } elseif (isset($schema->else)) {
+                if (!is_bool($schema->else) && !is_object($schema->else)) {
+                    $this->addError(ConstraintError::CONDITIONAL_ELSE(), $path);
+                }
+                if ($schema->else === false) {
+                    $this->addError(ConstraintError::ALWAYS_FAILS(), $path);
+                } else {
+                    $this->check($value, $schema->else);
+                }
             }
         }
     }

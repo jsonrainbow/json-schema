@@ -63,6 +63,39 @@ class MinMaxPropertiesTest extends BaseTestCase
                   }
                 }'
             ),
+            // Ignore array.
+            array(
+                '{
+                  "value": []
+                }',
+                '{
+                  "properties": {
+                    "value": {"minProperties": 1,"maxProperties": 2}
+                  }
+                }'
+            ),
+            // Ignore string.
+            array(
+                '{
+                  "value": "foo"
+                }',
+                '{
+                  "properties": {
+                    "value": {"minProperties": 1,"maxProperties": 2}
+                  }
+                }'
+            ),
+            // Ignore anything that is non-object.
+            array(
+                '{
+                  "value": 42
+                }',
+                '{
+                  "properties": {
+                    "value": {"minProperties": 1,"maxProperties": 2}
+                  }
+                }'
+            ),
         );
     }
 
@@ -123,16 +156,14 @@ class MinMaxPropertiesTest extends BaseTestCase
                   }
                 }'
             ),
-            array(
-                '{
-                  "value": []
-                }',
-                '{
-                  "properties": {
-                    "value": {"minProperties": 1,"maxProperties": 2}
-                  }
-                }'
-            ),
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInvalidForAssocTests()
+    {
+        return array();
     }
 }
