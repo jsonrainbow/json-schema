@@ -31,7 +31,7 @@ class UndefinedConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$value, $schema = null, JsonPointer $path = null, $i = null, $fromDefault = false)
+    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null, $fromDefault = false)
     {
         if (is_null($schema) || !is_object($schema)) {
             return;

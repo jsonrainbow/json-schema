@@ -39,7 +39,7 @@ class TypeConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$value = null, $schema = null, JsonPointer $path = null, $i = null)
+    public function check(&$value = null, $schema = null, ?JsonPointer $path = null, $i = null)
     {
         $type = isset($schema->type) ? $schema->type : null;
         $isValid = false;
