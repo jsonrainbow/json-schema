@@ -43,7 +43,7 @@ class BaseConstraint
         $this->factory = $factory ?: new Factory();
     }
 
-    public function addError(?JsonPointer $path = null, $message, $constraint = '', array $more = null)
+    public function addError(?JsonPointer $path, $message, $constraint = '', ?array $more = null)
     {
         $error = array(
             'property' => $this->convertJsonPointerIntoPropertyPath($path ?: new JsonPointer('')),
