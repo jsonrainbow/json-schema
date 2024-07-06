@@ -62,10 +62,10 @@
         "bin/validate-json"
     ],
     "scripts": {
-        "coverage": "phpunit --coverage-text",
-        "style-check": "php-cs-fixer fix --dry-run --verbose --diff",
-        "style-fix": "php-cs-fixer fix --verbose",
-        "test": "phpunit",
-        "testOnly": "phpunit --colors --filter"
+        "coverage": "@php phpunit --coverage-text",
+        "style-check": "@php php-cs-fixer fix --dry-run --verbose --diff",
+        "style-fix": "@php php-cs-fixer fix --verbose",
+        "test": "@php phpunit",
+        "testOnly": "@php phpunit --colors --filter"
     }
 }
