@@ -34,11 +34,6 @@
         "json-schema/json-schema-test-suite": "1.2.0",
         "phpunit/phpunit": "^4.8.35"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "5.0.x-dev"
-        }
-    },
     "autoload": {
         "psr-4": {
             "JsonSchema\\": "src/JsonSchema/"
