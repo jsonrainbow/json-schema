@@ -287,8 +287,8 @@ class UndefinedConstraint extends Constraint
                     } else {
                         $value[$currentItem] = $itemDefinition->default;
                     }
+                    $path->setFromDefault();
                 }
-                $path->setFromDefault();
             }
         } elseif (
             $value instanceof self
