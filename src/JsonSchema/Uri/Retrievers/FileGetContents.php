@@ -27,16 +27,7 @@ class FileGetContents extends AbstractRetriever
      */
     public function retrieve($uri)
     {
-        $errorMessage = null;
-        set_error_handler(function ($errno, $errstr) use (&$errorMessage) {
-            $errorMessage = $errstr;
-        });
-        $response = file_get_contents($uri);
-        restore_error_handler();
-
-        if ($errorMessage) {
-            throw new ResourceNotFoundException($errorMessage);
-        }
+        $response = $this->getContents($uri);
 
         if (false === $response) {
             throw new ResourceNotFoundException('JSON schema not found at ' . $uri);
@@ -62,13 +53,34 @@ class FileGetContents extends AbstractRetriever
     }
 
     /**
+     * @param string $uri
+     *
+     * @return string|bool
+     */
+    protected function getContents($uri)
+    {
+        $errorMessage = null;
+        set_error_handler(function ($errno, $errstr) use (&$errorMessage) {
+            $errorMessage = $errstr;
+        });
+        $response = file_get_contents($uri);
+        restore_error_handler();
+
+        if ($errorMessage) {
+            throw new ResourceNotFoundException($errorMessage);
+        }
+
+        return $response;
+    }
+
+    /**
      * @param array $headers HTTP Response Headers
      *
      * @return bool Whether the Content-Type header was found or not
      */
     private function fetchContentType(array $headers)
     {
-        foreach (array_reverse($headers) as $header) {
+        foreach ($headers as $header) {
             if ($this->contentType = self::getContentTypeMatchInHeader($header)) {
                 return true;
             }
