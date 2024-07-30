@@ -9,7 +9,7 @@ class UriResolverTest extends TestCase
 {
     private $resolver;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->resolver = new UriResolver();
     }
