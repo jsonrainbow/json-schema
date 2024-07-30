@@ -235,7 +235,7 @@ EOF;
 
     public function testConfirmMediaTypeAcceptsJsonSchemaType()
     {
-        $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('getContentType'));
+        $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $retriever = new UriRetriever();
 
         $uriRetriever->expects($this->at(0))
@@ -247,7 +247,7 @@ EOF;
 
     public function testConfirmMediaTypeAcceptsJsonType()
     {
-        $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('getContentType'));
+        $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $retriever = new UriRetriever();
 
         $uriRetriever->expects($this->at(0))
@@ -262,7 +262,7 @@ EOF;
      */
     public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
     {
-        $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('getContentType'));
+        $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $retriever = new UriRetriever();
 
         $uriRetriever->expects($this->at(0))
@@ -335,7 +335,7 @@ EOF;
 
     public function testInvalidContentTypeEndpointsDefault()
     {
-        $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('getContentType'));
+        $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
@@ -348,7 +348,7 @@ EOF;
      */
     public function testInvalidContentTypeEndpointsUnknown()
     {
-        $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('getContentType'));
+        $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
@@ -357,7 +357,7 @@ EOF;
 
     public function testInvalidContentTypeEndpointsAdded()
     {
-        $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface', array('getContentType'));
+        $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
         $retriever->addInvalidContentTypeEndpoint('http://example.com');
