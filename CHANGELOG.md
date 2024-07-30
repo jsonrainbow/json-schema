@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.0.0] - 2024-07-30
 ### Added
 - Add URI translation, package:// URI scheme & bundle spec schemas ([#362](https://github.com/jsonrainbow/json-schema/pull/362))
 - Add quiet option ([#382](https://github.com/jsonrainbow/json-schema/pull/382))
