@@ -153,7 +153,7 @@ EOF;
             'title' => 'schema'
         );
 
-        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever = new UriRetriever();
         $this->assertEquals(
             $schema,
             $retriever->resolvePointer(
@@ -173,7 +173,7 @@ EOF;
             'title' => 'schema'
         );
 
-        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever = new UriRetriever();
         $this->assertEquals(
             $schema->definitions->foo,
             $retriever->resolvePointer(
@@ -196,7 +196,7 @@ EOF;
             'title' => 'schema'
         );
 
-        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever = new UriRetriever();
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/bar'
         );
@@ -216,7 +216,7 @@ EOF;
             'title' => 'schema'
         );
 
-        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever = new UriRetriever();
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/foo'
         );
@@ -227,7 +227,7 @@ EOF;
      */
     public function testResolveExcessLevelUp()
     {
-        $retriever = new \JsonSchema\Uri\UriRetriever();
+        $retriever = new UriRetriever();
         $retriever->resolve(
             '../schema.json#', 'http://example.org/schema.json#'
         );
