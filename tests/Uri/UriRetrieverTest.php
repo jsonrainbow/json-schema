@@ -39,7 +39,7 @@ class UriRetrieverTest extends TestCase
         $retriever->expects($this->at(0))
                   ->method('retrieve')
                   ->with($this->equalTo(null), $this->equalTo('http://some.host.at/somewhere/parent'))
-                  ->will($this->returnValue($jsonSchema));
+                  ->willReturn($jsonSchema);
 
         return $retriever;
     }
