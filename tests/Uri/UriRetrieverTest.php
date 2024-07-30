@@ -392,7 +392,7 @@ EOF;
             'JsonSchema\Exception\JsonDecodingException',
             'JSON syntax is malformed'
         );
-        $schema = $retriever->retrieve('package://tests/fixtures/bad-syntax.json');
+        $retriever->retrieve('package://tests/fixtures/bad-syntax.json');
     }
 
     public function testGenerateURI()
