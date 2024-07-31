@@ -1,8 +1,8 @@
 # JSON Schema for PHP
 
 [![Build Status](https://github.com/jsonrainbow/json-schema/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/jsonrainbow/json-schema/actions)
-[![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable.png)](https://packagist.org/packages/justinrainbow/json-schema)
-[![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads.png)](https://packagist.org/packages/justinrainbow/json-schema)
+[![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable)](https://packagist.org/packages/justinrainbow/json-schema)
+[![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads)](https://packagist.org/packages/justinrainbow/json-schema/stats)
 
 A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3 or Draft-4. Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview of all existing Drafts.
 
