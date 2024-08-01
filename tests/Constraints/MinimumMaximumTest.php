@@ -28,12 +28,25 @@ class MinimumMaximumTest extends BaseTestCase
                 }'
             ),
             array(
-                '{"value": 3}',
                 '{
-                    "type": "object",
-                    "properties": {
-                        "value": {"type": "integer", "minimum": 3, "exclusiveMinimum": true}
-                    }
+                  "value":16
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"integer","maximum":8}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "value":2
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"integer","exclusiveMinimum":2}
+                  }
                 }'
             ),
             array(
@@ -43,8 +56,17 @@ class MinimumMaximumTest extends BaseTestCase
                 '{
                   "type":"object",
                   "properties":{
-                    "value":{"type":"integer","maximum":8}
+                    "value":{"type":"integer","exclusiveMaximum":16}
                   }
+                }'
+            ),
+            array(
+                '{"value": 3}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "integer", "minimum": 3, "exclusiveMinimum": true}
+                    }
                 }'
             ),
             array(
