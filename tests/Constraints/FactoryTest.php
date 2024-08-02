@@ -85,7 +85,7 @@ class FactoryTest extends TestCase
      */
     public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName)
     {
-        $this->setExpectedException('JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException('JsonSchema\Exception\InvalidArgumentException');
         $this->factory->createInstanceFor($constraintName);
     }
 

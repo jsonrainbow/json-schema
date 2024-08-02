@@ -388,10 +388,9 @@ EOF;
     {
         $retriever = new UriRetriever();
 
-        $this->setExpectedException(
-            'JsonSchema\Exception\JsonDecodingException',
-            'JSON syntax is malformed'
-        );
+        $this->expectException('JsonSchema\Exception\JsonDecodingException');
+        $this->expectExceptionMessage('JSON syntax is malformed');
+
         $retriever->retrieve('package://tests/fixtures/bad-syntax.json');
     }
 
