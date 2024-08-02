@@ -10,12 +10,12 @@ use PHPUnit\Framework\TestCase;
  */
 class FileGetContentsTest extends TestCase
 {
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testFetchMissingFile()
     {
         $res = new FileGetContents();
+
+        $this->expectException(\JsonSchema\Exception\ResourceNotFoundException::class);
+
         $res->retrieve(__DIR__ . '/Fixture/missing.json');
     }
 

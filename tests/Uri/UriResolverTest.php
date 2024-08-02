@@ -96,18 +96,11 @@ class UriResolverTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\UriResolverException
-     */
+
     public function testResolveRelativeUriNoBase()
     {
-        $this->assertEquals(
-            'http://example.org/foo/bar.json',
-            $this->resolver->resolve(
-                'bar.json',
-                null
-            )
-        );
+        $this->expectException(\JsonSchema\Exception\UriResolverException::class);
+        $this->resolver->resolve('bar.json', null);
     }
 
     public function testResolveRelativeUriBaseDir()

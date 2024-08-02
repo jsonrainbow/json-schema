@@ -182,9 +182,6 @@ EOF;
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testResolvePointerFragmentNotFound()
     {
         $schema = (object) array(
@@ -197,14 +194,13 @@ EOF;
         );
 
         $retriever = new UriRetriever();
+
+        $this->expectException(ResourceNotFoundException::class);
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/bar'
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testResolvePointerFragmentNoArray()
     {
         $schema = (object) array(
@@ -217,17 +213,18 @@ EOF;
         );
 
         $retriever = new UriRetriever();
+
+        $this->expectException(ResourceNotFoundException::class);
         $retriever->resolvePointer(
             $schema, 'http://example.org/schema.json#/definitions/foo'
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\UriResolverException
-     */
     public function testResolveExcessLevelUp()
     {
         $retriever = new UriRetriever();
+
+        $this->expectException(UriResolverException::class);
         $retriever->resolve(
             '../schema.json#', 'http://example.org/schema.json#'
         );
@@ -257,9 +254,6 @@ EOF;
         $this->assertEquals(null, $retriever->confirmMediaType($uriRetriever, null));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
     public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
     {
         $uriRetriever = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
@@ -269,7 +263,9 @@ EOF;
                 ->method('getContentType')
                 ->willReturn('text/html');
 
-        $this->assertEquals(null, $retriever->confirmMediaType($uriRetriever, null));
+        $this->expectException(InvalidSchemaMediaTypeException::class);
+
+        $retriever->confirmMediaType($uriRetriever, null);
     }
 
     private function mockRetriever($schema)
@@ -343,15 +339,13 @@ EOF;
         $this->assertTrue($retriever->confirmMediaType($mock, 'https://json-schema.org/'));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
     public function testInvalidContentTypeEndpointsUnknown()
     {
         $mock = $this->getMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
+        $this->expectException(InvalidSchemaMediaTypeException::class);
         $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
