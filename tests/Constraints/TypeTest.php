@@ -116,6 +116,7 @@ class TypeTest extends TestCase
         $m->setAccessible(true);
 
         $m->invoke($t, $nameWording);
+        $this->expectNotToPerformAssertions();
     }
 
     public function testInvalidateTypeNameWording()

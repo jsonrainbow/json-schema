@@ -10,7 +10,9 @@ namespace JsonSchema\Tests\Uri\Retrievers
         public function testRetrieveFile()
         {
             $c = new Curl();
-            $c->retrieve(realpath(__DIR__ . '/../../fixtures/foobar.json'));
+            $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures/foobar.json'));
+
+            self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
         }
 
         public function testRetrieveNonexistantFile()
@@ -26,7 +28,9 @@ namespace JsonSchema\Tests\Uri\Retrievers
         public function testNoContentType()
         {
             $c = new Curl();
-            $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
+            $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
+
+            self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
         }
     }
 }

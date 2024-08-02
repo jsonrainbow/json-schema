@@ -358,7 +358,9 @@ EOF;
         $retriever = new UriRetriever();
         $retriever->addInvalidContentTypeEndpoint('http://example.com');
 
-        $retriever->confirmMediaType($mock, 'http://example.com');
+        $result = $retriever->confirmMediaType($mock, 'http://example.com');
+
+        self::assertTrue($result);
     }
 
     public function testSchemaCache()
