@@ -80,7 +80,7 @@ class TypeTest extends TestCase
 
         $actualError = $actualErrors[0];
 
-        $this->assertInternalType('array', $actualError, sprintf('Failed to assert that Type error is an array, %s given', gettype($actualError)));
+        $this->assertIsArray($actualError, sprintf('Failed to assert that Type error is an array, %s given', gettype($actualError)));
 
         $messageKey = 'message';
         $this->assertArrayHasKey(
