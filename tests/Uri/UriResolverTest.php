@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class UriResolverTest extends TestCase
 {
+    private $resolver;
+
     public function setUp()
     {
         $this->resolver = new UriResolver();

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Correct misconfigured mocks in JsonSchema\Tests\Uri\UriRetrieverTest ([#741](https://github.com/jsonrainbow/json-schema/pull/741))
 - Fix pugx badges in README ([#742](https://github.com/jsonrainbow/json-schema/pull/742))
+- Add missing property in UriResolverTest ([#743](https://github.com/jsonrainbow/json-schema/pull/743))
 
 ## [6.0.0] - 2024-07-30
 ### Added
