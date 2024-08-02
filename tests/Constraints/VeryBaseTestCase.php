@@ -30,7 +30,7 @@ abstract class VeryBaseTestCase extends TestCase
      */
     protected function getUriRetrieverMock($schema)
     {
-        $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
+        $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes');
 
         $jsonSchemaDraft03 = $this->getJsonSchemaDraft03();
         $jsonSchemaDraft04 = $this->getJsonSchemaDraft04();
