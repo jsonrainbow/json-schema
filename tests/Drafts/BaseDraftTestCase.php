@@ -10,7 +10,7 @@ use JsonSchema\Tests\Constraints\BaseTestCase;
 abstract class BaseDraftTestCase extends BaseTestCase
 {
     /** @var string */
-    protected $relativeTestsRoot = '/../../vendor/json-schema/JSON-Schema-Test-Suite/tests';
+    protected $relativeTestsRoot = '/../../vendor/json-schema/json-schema-test-suite/tests';
 
     private function setUpTests($isValid)
     {
