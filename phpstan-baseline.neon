@@ -1,12 +1,1132 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addError\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addErrors\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addErrors\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:arrayToObjectRecursive\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:getErrors\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:getErrors\\(\\) has parameter \\$errorContext with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:isValid\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:numErrors\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:numErrors\\(\\) has parameter \\$errorContext with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:reset\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:\\$errors type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 2
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: "#^Cannot access property \\$additionalItems on stdClass\\|null\\.$#"
+			count: 3
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Cannot access property \\$items on stdClass\\|null\\.$#"
+			count: 6
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Parameter \\#1 \\$object_or_class of function property_exists expects object\\|string, stdClass\\|null given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Parameter \\#2 \\$schema of method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) expects stdClass\\|null, object given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkArray\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkConst\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkEnum\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkFormat\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkNumber\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkObject\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkObject\\(\\) has parameter \\$appliedDefaults with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkString\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkType\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkUndefined\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkUndefined\\(\\) has parameter \\$fromDefault with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\Constraint\\:\\:\\$inlineSchemaProperty has no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Constraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addError\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addErrors\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addErrors\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:getErrors\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ConstraintInterface.php
+
+		-
 			message: "#^PHPDoc tag @throws with type JsonSchema\\\\Exception\\\\ExceptionInterface is not subtype of Throwable$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\EnumConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/EnumConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:addConfig\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getErrorContext\\(\\) should return 1\\|2 but returns int\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getSchemaStorage\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getTypeCheck\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:removeConfig\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:setConfig\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:setErrorContext\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<string, string\\>\\|false given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$constraintMap type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$uriRetriever \\(JsonSchema\\\\Uri\\\\UriRetriever\\) does not accept JsonSchema\\\\UriRetrieverInterface\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Factory.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateColor\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateColor\\(\\) has parameter \\$color with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateDateTime\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateDateTime\\(\\) has parameter \\$datetime with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateDateTime\\(\\) has parameter \\$format with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateHostname\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateHostname\\(\\) has parameter \\$host with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validatePhone\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validatePhone\\(\\) has parameter \\$phone with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateRegex\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateRegex\\(\\) has parameter \\$regex with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateStyle\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateStyle\\(\\) has parameter \\$style with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between null and string\\|false will always evaluate to false\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has parameter \\$number1 with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has parameter \\$number2 with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: "#^Argument of an invalid type stdClass supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Argument of an invalid type stdClass\\|null supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$additionalProp with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$appliedDefaults with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$patternProperties with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateElement\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateElement\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateMinMaxConstraint\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validatePatternProperties\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validatePatternProperties\\(\\) has parameter \\$element with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validatePatternProperties\\(\\) has parameter \\$patternProperties with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateProperties\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Parameter \\#2 \\$objectDefinition of method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateMinMaxConstraint\\(\\) expects stdClass, stdClass\\|null given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\SchemaConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/SchemaConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:strlen\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:strlen\\(\\) has parameter \\$string with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: "#^Parameter \\#2 \\$encoding of function mb_strlen expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isArray\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isArray\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isAssociativeArray\\(\\) has parameter \\$arr with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isObject\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isObject\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyCount\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyCount\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyExists\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyGet\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has parameter \\$data with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isArray\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isArray\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isObject\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isObject\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyCount\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyCount\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyExists\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyGet\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has parameter \\$data with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isArray\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isArray\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isObject\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isObject\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyCount\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyCount\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyExists\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyExists\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyExists\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyGet\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyGet\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyGet\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has parameter \\$data with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has parameter \\$property with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:implodeWith\\(\\) has parameter \\$elements with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateType\\(\\) has parameter \\$coerce with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypeNameWording\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypesArray\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypesArray\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypesArray\\(\\) has parameter \\$validTypesWording with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Negated boolean expression is always true\\.$#"
+			count: 2
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Parameter \\#3 \\$listEnd of method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:implodeWith\\(\\) expects bool, string given\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Static property JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:\\$wording \\(array\\<string\\>\\) does not accept default value of type array\\<int\\|string, string\\|null\\>\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:applyDefaultValues\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:check\\(\\) has parameter \\$fromDefault with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:shouldApplyDefaultValue\\(\\) has parameter \\$name with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateCommonProperties\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateDependencies\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateOfProperties\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateTypes\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has parameter \\$schema with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has parameter \\$schemaUri with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Parameter \\#1 \\$requiredOnly of method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:shouldApplyDefaultValue\\(\\) expects bool, int given\\.$#"
+			count: 3
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:encodePropertyPaths\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Entity/JsonPointer.php
+
+		-
+			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:setFromDefault\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Entity/JsonPointer.php
+
+		-
+			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:withPropertyPaths\\(\\) has parameter \\$propertyPaths with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Entity/JsonPointer.php
+
+		-
+			message: "#^Method JsonSchema\\\\Exception\\\\JsonDecodingException\\:\\:__construct\\(\\) has parameter \\$code with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Exception/JsonDecodingException.php
+
+		-
+			message: "#^Class JsonSchema\\\\Iterator\\\\ObjectIterator implements generic interface Iterator but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:buildDataFromObject\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:current\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:getDataFromItem\\(\\) has parameter \\$item with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:getDataFromItem\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:initialize\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:key\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Property JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:\\$data type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
 			message: "#^Access to an undefined property object\\:\\:\\$properties\\.$#"
 			count: 3
 			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Argument of an invalid type object supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with object will always evaluate to false\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:addSchema\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:expandRefs\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:resolveRef\\(\\) has parameter \\$resolveStack with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:resolveRefSchema\\(\\) has parameter \\$resolveStack with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Property JsonSchema\\\\SchemaStorage\\:\\:\\$schemas has no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Property JsonSchema\\\\SchemaStorage\\:\\:\\$uriResolver has no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Property JsonSchema\\\\SchemaStorage\\:\\:\\$uriRetriever has no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: "#^Method JsonSchema\\\\SchemaStorageInterface\\:\\:addSchema\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/SchemaStorageInterface.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:fetchMessageBody\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/Curl.php
+
+		-
+			message: "#^Parameter \\#1 \\$response of method JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:fetchContentType\\(\\) expects string, string\\|true given\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/Curl.php
+
+		-
+			message: "#^Parameter \\#1 \\$response of method JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:fetchMessageBody\\(\\) expects string, string\\|true given\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/Curl.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:\\$messageBody has no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/Curl.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\FileGetContents\\:\\:fetchContentType\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\AbstractRetriever\\:\\:\\$contentType \\(string\\) does not accept null\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\AbstractRetriever\\:\\:\\$contentType \\(string\\) does not accept string\\|null\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\FileGetContents\\:\\:\\$messageBody has no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\PredefinedArray\\:\\:__construct\\(\\) has parameter \\$schemas with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/PredefinedArray.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\PredefinedArray\\:\\:\\$schemas type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/PredefinedArray.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:generate\\(\\) has parameter \\$components with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:normalizePath\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:resolve\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: "#^Parameter \\#1 \\$uri of method JsonSchema\\\\Uri\\\\UriResolver\\:\\:parse\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Cannot call method retrieve\\(\\) on JsonSchema\\\\Uri\\\\Retrievers\\\\UriRetrieverInterface\\|null\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:addInvalidContentTypeEndpoint\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:generate\\(\\) has parameter \\$components with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:getUriRetriever\\(\\) should return JsonSchema\\\\Uri\\\\Retrievers\\\\UriRetrieverInterface but returns JsonSchema\\\\Uri\\\\Retrievers\\\\UriRetrieverInterface\\|null\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:retrieve\\(\\) has parameter \\$translate with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:setTranslation\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:setTranslation\\(\\) has parameter \\$from with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:setTranslation\\(\\) has parameter \\$to with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:translate\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:translate\\(\\) has parameter \\$uri with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Parameter \\#1 \\$uri of method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:parse\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\UriRetriever\\:\\:\\$allowedInvalidContentTypeEndpoints type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Property JsonSchema\\\\Uri\\\\UriRetriever\\:\\:\\$translationMap type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has parameter \\$schema with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has parameter \\$schema with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			count: 1
+			path: src/JsonSchema/Validator.php
 
