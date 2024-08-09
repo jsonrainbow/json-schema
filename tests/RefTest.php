@@ -69,7 +69,7 @@ class RefTest extends TestCase
 
         $v = new Validator();
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         $v->validate($document, $schema);

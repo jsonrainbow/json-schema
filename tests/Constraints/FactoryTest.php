@@ -30,7 +30,7 @@ class MyBadConstraint
  */
 class MyStringConstraint extends Constraint
 {
-    public function check(&$value, $schema = null, JsonPointer $path = null, $i = null)
+    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null)
     {
     }
 }
@@ -42,7 +42,7 @@ class FactoryTest extends TestCase
      */
     protected $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = new Factory();
     }
@@ -85,7 +85,7 @@ class FactoryTest extends TestCase
      */
     public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName)
     {
-        $this->setExpectedException('JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException('JsonSchema\Exception\InvalidArgumentException');
         $this->factory->createInstanceFor($constraintName);
     }
 
@@ -96,19 +96,17 @@ class FactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidArgumentException
-     */
     public function testSetConstraintClassExistsCondition()
     {
+        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
+
         $this->factory->setConstraintClass('string', 'SomeConstraint');
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidArgumentException
-     */
     public function testSetConstraintClassImplementsCondition()
     {
+        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
+
         $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
     }
 

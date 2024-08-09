@@ -74,7 +74,7 @@ class SelfDefinedSchemaTest extends BaseTestCase
 
         $v = new Validator();
 
-        $this->setExpectedException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
 
         $v->validate($value, $schema);
     }
