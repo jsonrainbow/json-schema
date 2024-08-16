@@ -164,6 +164,11 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '{"items":{"default":"b"}, "minItems": 3}',
                 '["a","b","b"]'
             ),
+            array(// #24 items is an array of schema
+                '[{}]',
+                '{"items":[{"properties":{"propertyOne":{"default":"valueOne"}}}]}',
+                '[{"propertyOne":"valueOne"}]'
+            ),
         );
     }
 
