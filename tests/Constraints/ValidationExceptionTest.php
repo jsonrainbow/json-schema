@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ValidationExceptionTest extends TestCase
 {
-    public function testValidationException()
+    public function testValidationException(): void
     {
         $exception = new ValidationException();
         $this->assertInstanceOf('\JsonSchema\Exception\ValidationException', $exception);

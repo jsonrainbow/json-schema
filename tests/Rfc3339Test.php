@@ -12,7 +12,7 @@ class Rfc3339Test extends TestCase
      * @param \DateTime|null $expected
      * @dataProvider provideValidFormats
      */
-    public function testCreateFromValidString($string, \DateTime $expected)
+    public function testCreateFromValidString($string, \DateTime $expected): void
     {
         $actual = Rfc3339::createFromString($string);
 
@@ -24,12 +24,12 @@ class Rfc3339Test extends TestCase
      * @param string $string
      * @dataProvider provideInvalidFormats
      */
-    public function testCreateFromInvalidString($string)
+    public function testCreateFromInvalidString($string): void
     {
         $this->assertNull(Rfc3339::createFromString($string), sprintf('String "%s" should not be converted to DateTime', $string));
     }
 
-    public function provideValidFormats()
+    public function provideValidFormats(): array
     {
         return [
             [
@@ -63,7 +63,7 @@ class Rfc3339Test extends TestCase
         ];
     }
 
-    public function provideInvalidFormats()
+    public function provideInvalidFormats(): array
     {
         return [
             ['1999-1-11T00:00:00Z'],

@@ -23,19 +23,19 @@ class PredefinedArrayTest extends TestCase
         );
     }
 
-    public function testRetrieve()
+    public function testRetrieve(): void
     {
         $this->assertEquals('THE_PERSON_SCHEMA', $this->retriever->retrieve('http://acme.com/schemas/person#'));
         $this->assertEquals('THE_ADDRESS_SCHEMA', $this->retriever->retrieve('http://acme.com/schemas/address#'));
     }
 
-    public function testRetrieveNonExistsingSchema()
+    public function testRetrieveNonExistsingSchema(): void
     {
         $this->expectException(\JsonSchema\Exception\ResourceNotFoundException::class);
         $this->retriever->retrieve('http://acme.com/schemas/plop#');
     }
 
-    public function testGetContentType()
+    public function testGetContentType(): void
     {
         $this->assertEquals('THE_CONTENT_TYPE', $this->retriever->getContentType());
     }

@@ -17,7 +17,7 @@ class SchemaValidationTest extends TestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [// invalid v4 schema (uses v3 require)
@@ -44,7 +44,7 @@ class SchemaValidationTest extends TestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [// valid v4 schema (uses v4 require)
@@ -64,7 +64,7 @@ class SchemaValidationTest extends TestCase
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($schema)
+    public function testInvalidCases($schema): void
     {
         $input = json_decode('{"propertyOne":"valueOne"}');
         $schema = json_decode($schema);
@@ -85,7 +85,7 @@ class SchemaValidationTest extends TestCase
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCases($schema)
+    public function testValidCases($schema): void
     {
         $input = json_decode('{"propertyOne":"valueOne"}');
         $schema = json_decode($schema);
@@ -100,7 +100,7 @@ class SchemaValidationTest extends TestCase
         $this->assertTrue($v->isValid(), 'Validation failed on a valid test case');
     }
 
-    public function testNonObjectSchema()
+    public function testNonObjectSchema(): void
     {
         $this->expectException('\JsonSchema\Exception\RuntimeException');
         $this->expectExceptionMessage('Cannot validate the schema of a non-object');
@@ -108,7 +108,7 @@ class SchemaValidationTest extends TestCase
         $this->testValidCases('"notAnObject"');
     }
 
-    public function testInvalidSchemaException()
+    public function testInvalidSchemaException(): void
     {
         $this->expectException('\JsonSchema\Exception\InvalidSchemaException');
         $this->expectExceptionMessage('Schema did not pass validation');

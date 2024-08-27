@@ -13,7 +13,7 @@ class ArraysTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -120,7 +120,7 @@ class ArraysTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

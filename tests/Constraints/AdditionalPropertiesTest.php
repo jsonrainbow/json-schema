@@ -15,7 +15,7 @@ class AdditionalPropertiesTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -114,7 +114,7 @@ class AdditionalPropertiesTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

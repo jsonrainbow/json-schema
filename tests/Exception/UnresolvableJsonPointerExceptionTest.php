@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UnresolvableJsonPointerExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new UnresolvableJsonPointerException();
         self::assertInstanceOf('\InvalidArgumentException', $exception);

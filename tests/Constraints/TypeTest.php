@@ -24,10 +24,8 @@ class TypeTest extends TestCase
 {
     /**
      * @see testIndefiniteArticleForTypeInTypeCheckErrorMessage
-     *
-     * @return array
      */
-    public function provideIndefiniteArticlesForTypes()
+    public function provideIndefiniteArticlesForTypes(): array
     {
         return [
             ['integer', 'an integer'],
@@ -46,7 +44,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider provideIndefiniteArticlesForTypes
      */
-    public function testIndefiniteArticleForTypeInTypeCheckErrorMessage($type, $wording, $value = null, $label = 'NULL')
+    public function testIndefiniteArticleForTypeInTypeCheckErrorMessage($type, $wording, $value = null, $label = 'NULL'): void
     {
         $constraint = new TypeConstraint();
         $constraint->check($value, (object) ['type' => $type]);
@@ -56,7 +54,7 @@ class TypeTest extends TestCase
     /**
      * Test uncovered areas of the loose type checker
      */
-    public function testLooseTypeChecking()
+    public function testLooseTypeChecking(): void
     {
         $v = new \stdClass();
         $v->property = 'dataOne';
@@ -72,7 +70,7 @@ class TypeTest extends TestCase
      * @param string         $expected
      * @param TypeConstraint $actual
      */
-    private function assertTypeConstraintError($expected, TypeConstraint $actual)
+    private function assertTypeConstraintError($expected, TypeConstraint $actual): void
     {
         $actualErrors = $actual->getErrors();
 
@@ -94,7 +92,7 @@ class TypeTest extends TestCase
         $this->assertSame($expected, $actualMessage); // the same for the strictness
     }
 
-    public function validNameWordingDataProvider()
+    public function validNameWordingDataProvider(): array
     {
         $wordings = [];
 
@@ -108,7 +106,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider validNameWordingDataProvider
      */
-    public function testValidateTypeNameWording($nameWording)
+    public function testValidateTypeNameWording($nameWording): void
     {
         $t = new TypeConstraint();
         $r = new \ReflectionObject($t);
@@ -119,7 +117,7 @@ class TypeTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testInvalidateTypeNameWording()
+    public function testInvalidateTypeNameWording(): void
     {
         $t = new TypeConstraint();
         $r = new \ReflectionObject($t);
@@ -132,7 +130,7 @@ class TypeTest extends TestCase
         $m->invoke($t, 'notAValidTypeName');
     }
 
-    public function testValidateTypeException()
+    public function testValidateTypeException(): void
     {
         $t = new TypeConstraint();
         $data = new \stdClass();

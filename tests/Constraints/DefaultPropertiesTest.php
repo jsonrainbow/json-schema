@@ -16,7 +16,7 @@ use JsonSchema\Validator;
 
 class DefaultPropertiesTest extends VeryBaseTestCase
 {
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             /*
@@ -170,7 +170,7 @@ class DefaultPropertiesTest extends VeryBaseTestCase
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCases($input, $schema, $expectOutput = null, $checkMode = 0)
+    public function testValidCases($input, $schema, $expectOutput = null, $checkMode = 0): void
     {
         if (is_string($input)) {
             $inputDecoded = json_decode($input);
@@ -197,7 +197,7 @@ class DefaultPropertiesTest extends VeryBaseTestCase
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCasesUsingAssoc($input, $schema, $expectOutput = null, $checkMode = 0)
+    public function testValidCasesUsingAssoc($input, $schema, $expectOutput = null, $checkMode = 0): void
     {
         $input = json_decode($input, true);
 
@@ -208,14 +208,14 @@ class DefaultPropertiesTest extends VeryBaseTestCase
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCasesUsingAssocWithoutTypeCast($input, $schema, $expectOutput = null, $checkMode = 0)
+    public function testValidCasesUsingAssocWithoutTypeCast($input, $schema, $expectOutput = null, $checkMode = 0): void
     {
         $input = json_decode($input, true);
 
         self::testValidCases($input, $schema, $expectOutput, $checkMode);
     }
 
-    public function testNoModificationViaReferences()
+    public function testNoModificationViaReferences(): void
     {
         $input = json_decode('{}');
         $schema = json_decode('{"properties":{"propertyOne":{"default":"valueOne"}}}');
@@ -229,7 +229,7 @@ class DefaultPropertiesTest extends VeryBaseTestCase
         $this->assertEquals('valueOne', $schema->properties->propertyOne->default);
     }
 
-    public function testLeaveBasicTypesAlone()
+    public function testLeaveBasicTypesAlone(): void
     {
         $input = json_decode('"ThisIsAString"');
         $schema = json_decode('{"properties": {"propertyOne": {"default": "valueOne"}}}');

@@ -20,7 +20,7 @@ class Draft4Test extends BaseDraftTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getFilePaths()
+    protected function getFilePaths(): array
     {
         return [
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft4'),
@@ -28,7 +28,7 @@ class Draft4Test extends BaseDraftTestCase
         ];
     }
 
-    public function getInvalidForAssocTests()
+    public function getInvalidForAssocTests(): array
     {
         $tests = parent::getInvalidForAssocTests();
         unset(
@@ -39,7 +39,7 @@ class Draft4Test extends BaseDraftTestCase
         return $tests;
     }
 
-    public function getValidForAssocTests()
+    public function getValidForAssocTests(): array
     {
         $tests = parent::getValidForAssocTests();
         unset(
@@ -53,7 +53,7 @@ class Draft4Test extends BaseDraftTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getSkippedTests()
+    protected function getSkippedTests(): array
     {
         return [
             // Optional

@@ -14,7 +14,7 @@ class UriResolverTest extends TestCase
         $this->resolver = new UriResolver();
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $this->assertEquals(
             [
@@ -26,7 +26,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testParseAnchor()
+    public function testParseAnchor(): void
     {
         $this->assertEquals(
             [
@@ -40,7 +40,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testCombineRelativePathWithBasePath()
+    public function testCombineRelativePathWithBasePath(): void
     {
         $this->assertEquals(
             '/foo/baz.json',
@@ -51,7 +51,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testCombineRelativePathWithBasePathAbsolute()
+    public function testCombineRelativePathWithBasePathAbsolute(): void
     {
         $this->assertEquals(
             '/baz/data.json',
@@ -62,7 +62,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testCombineRelativePathWithBasePathRelativeSub()
+    public function testCombineRelativePathWithBasePathRelativeSub(): void
     {
         $this->assertEquals(
             '/foo/baz/data.json',
@@ -73,7 +73,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testCombineRelativePathWithBasePathNoPath()
+    public function testCombineRelativePathWithBasePathNoPath(): void
     {
         //needed for anchor-only urls
         $this->assertEquals(
@@ -85,7 +85,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveAbsoluteUri()
+    public function testResolveAbsoluteUri(): void
     {
         $this->assertEquals(
             'http://example.org/foo/bar.json',
@@ -96,13 +96,13 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveRelativeUriNoBase()
+    public function testResolveRelativeUriNoBase(): void
     {
         $this->expectException(\JsonSchema\Exception\UriResolverException::class);
         $this->resolver->resolve('bar.json', null);
     }
 
-    public function testResolveRelativeUriBaseDir()
+    public function testResolveRelativeUriBaseDir(): void
     {
         $this->assertEquals(
             'http://example.org/foo/bar.json',
@@ -113,7 +113,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveRelativeUriBaseFile()
+    public function testResolveRelativeUriBaseFile(): void
     {
         $this->assertEquals(
             'http://example.org/foo/bar.json',
@@ -124,7 +124,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveAnchor()
+    public function testResolveAnchor(): void
     {
         $this->assertEquals(
             'http://example.org/foo/bar.json#baz',
@@ -135,7 +135,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveAnchorWithFile()
+    public function testResolveAnchorWithFile(): void
     {
         $this->assertEquals(
             'http://example.org/foo/baz.json#baz',
@@ -146,7 +146,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveAnchorAnchor()
+    public function testResolveAnchorAnchor(): void
     {
         $this->assertEquals(
             'http://example.org/foo/bar.json#bazinga',
@@ -157,7 +157,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testResolveEmpty()
+    public function testResolveEmpty(): void
     {
         $this->assertEquals(
             'http://example.org/foo/bar.json',
@@ -168,7 +168,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testReversable()
+    public function testReversable(): void
     {
         $uri = 'scheme://user:password@authority/path?query#fragment';
         $split = $this->resolver->parse($uri);
@@ -186,7 +186,7 @@ class UriResolverTest extends TestCase
         $this->assertEquals($uri, $this->resolver->generate($split));
     }
 
-    public function testRelativeFileAsRoot()
+    public function testRelativeFileAsRoot(): void
     {
         $this->assertEquals(
             'file://' . getcwd() . '/src/JsonSchema/Validator.php',
@@ -197,7 +197,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testRelativeDirectoryAsRoot()
+    public function testRelativeDirectoryAsRoot(): void
     {
         $this->assertEquals(
             'file://' . getcwd() . '/src/JsonSchema/Validator.php',
@@ -208,7 +208,7 @@ class UriResolverTest extends TestCase
         );
     }
 
-    public function testRelativeNonExistentFileAsRoot()
+    public function testRelativeNonExistentFileAsRoot(): void
     {
         $this->assertEquals(
             'file://' . getcwd() . '/resolved.file',

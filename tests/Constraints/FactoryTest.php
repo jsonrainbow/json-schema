@@ -53,7 +53,7 @@ class FactoryTest extends TestCase
      * @param string $constraintName
      * @param string $expectedClass
      */
-    public function testCreateInstanceForConstraintName($constraintName, $expectedClass)
+    public function testCreateInstanceForConstraintName($constraintName, $expectedClass): void
     {
         $constraint = $this->factory->createInstanceFor($constraintName);
 
@@ -61,7 +61,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
     }
 
-    public function constraintNameProvider()
+    public function constraintNameProvider(): array
     {
         return [
             ['array', 'JsonSchema\Constraints\CollectionConstraint'],
@@ -83,34 +83,34 @@ class FactoryTest extends TestCase
      *
      * @param string $constraintName
      */
-    public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName)
+    public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName): void
     {
         $this->expectException('JsonSchema\Exception\InvalidArgumentException');
         $this->factory->createInstanceFor($constraintName);
     }
 
-    public function invalidConstraintNameProvider()
+    public function invalidConstraintNameProvider(): array
     {
         return [
             ['invalidConstraintName'],
         ];
     }
 
-    public function testSetConstraintClassExistsCondition()
+    public function testSetConstraintClassExistsCondition(): void
     {
         $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
 
         $this->factory->setConstraintClass('string', 'SomeConstraint');
     }
 
-    public function testSetConstraintClassImplementsCondition()
+    public function testSetConstraintClassImplementsCondition(): void
     {
         $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
 
         $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
     }
 
-    public function testSetConstraintClassInstance()
+    public function testSetConstraintClassInstance(): void
     {
         $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyStringConstraint');
         $constraint = $this->factory->createInstanceFor('string');
@@ -118,7 +118,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
     }
 
-    public function testCheckMode()
+    public function testCheckMode(): void
     {
         $f = new Factory();
 

@@ -14,13 +14,13 @@ use PHPUnit\Framework\TestCase;
 
 class ConstraintErrorTest extends TestCase
 {
-    public function testGetValidMessage()
+    public function testGetValidMessage(): void
     {
         $e = ConstraintError::ALL_OF();
         $this->assertEquals('Failed to match all schemas', $e->getMessage());
     }
 
-    public function testGetInvalidMessage()
+    public function testGetInvalidMessage(): void
     {
         $e = ConstraintError::MISSING_ERROR();
 

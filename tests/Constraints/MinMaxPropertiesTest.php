@@ -16,7 +16,7 @@ class MinMaxPropertiesTest extends BaseTestCase
     /**
      * {@inheritdoc}
      */
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [
@@ -69,7 +69,7 @@ class MinMaxPropertiesTest extends BaseTestCase
     /**
      * {@inheritdoc}
      */
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [

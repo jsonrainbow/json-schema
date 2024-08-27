@@ -34,7 +34,7 @@ class JsonPointerTest extends TestCase
         $expectedPropertyPaths,
         $expectedPropertyPathAsString,
         $expectedToString
-    ) {
+    ): void {
         $jsonPointer = new JsonPointer($testValue);
         $this->assertEquals($expectedFileName, $jsonPointer->getFilename());
         $this->assertEquals($expectedPropertyPaths, $jsonPointer->getPropertyPaths());
@@ -42,10 +42,7 @@ class JsonPointerTest extends TestCase
         $this->assertEquals($expectedToString, (string) $jsonPointer);
     }
 
-    /**
-     * @return array[]
-     */
-    public function getTestData()
+    public function getTestData(): array
     {
         return [
             'testDataSet_01' => [
@@ -93,7 +90,7 @@ class JsonPointerTest extends TestCase
         ];
     }
 
-    public function testJsonPointerWithPropertyPaths()
+    public function testJsonPointerWithPropertyPaths(): void
     {
         $initial = new JsonPointer('#/definitions/date');
 
@@ -111,7 +108,7 @@ class JsonPointerTest extends TestCase
         $this->assertEquals('#/~0definitions~1general/%25custom%25', $modified->getPropertyPathAsString());
     }
 
-    public function testCreateWithInvalidValue()
+    public function testCreateWithInvalidValue(): void
     {
         $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Ref value must be a string');

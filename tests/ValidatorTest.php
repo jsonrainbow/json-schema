@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {
-    public function testValidateWithAssocSchema()
+    public function testValidateWithAssocSchema(): void
     {
         $schema = json_decode('{"properties":{"propertyOne":{"type":"array","items":[{"type":"string"}]}}}', true);
         $data = json_decode('{"propertyOne":[42]}', true);
@@ -18,7 +18,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed.');
     }
 
-    public function testBadAssocSchemaInput()
+    public function testBadAssocSchemaInput(): void
     {
         if (version_compare(phpversion(), '5.5.0', '<')) {
             $this->markTestSkipped('PHP versions < 5.5.0 trigger an error on json_encode issues');
@@ -35,7 +35,7 @@ class ValidatorTest extends TestCase
         $validator->validate($data, $schema);
     }
 
-    public function testDeprecatedCheckDelegatesToValidate()
+    public function testDeprecatedCheckDelegatesToValidate(): void
     {
         $schema = json_decode('{"type":"string"}');
         $data = json_decode('42');
@@ -46,7 +46,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($validator->isValid(), 'Validation succeeded, but should have failed.');
     }
 
-    public function testDeprecatedCoerceDelegatesToValidate()
+    public function testDeprecatedCoerceDelegatesToValidate(): void
     {
         $schema = json_decode('{"type":"integer"}');
         $data = json_decode('"42"');

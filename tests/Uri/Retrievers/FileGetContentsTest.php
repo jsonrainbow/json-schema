@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FileGetContentsTest extends TestCase
 {
-    public function testFetchMissingFile()
+    public function testFetchMissingFile(): void
     {
         $res = new FileGetContents();
 
@@ -19,14 +19,14 @@ class FileGetContentsTest extends TestCase
         $res->retrieve(__DIR__ . '/Fixture/missing.json');
     }
 
-    public function testFetchFile()
+    public function testFetchFile(): void
     {
         $res = new FileGetContents();
         $result = $res->retrieve(__DIR__ . '/../Fixture/child.json');
         $this->assertNotEmpty($result);
     }
 
-    public function testContentType()
+    public function testContentType(): void
     {
         $res = new FileGetContents();
 
@@ -38,7 +38,7 @@ class FileGetContentsTest extends TestCase
         $this->assertFalse($fetchContentType->invoke($res, ['X-Some-Header: whateverValue']));
     }
 
-    public function testCanHandleHttp301PermanentRedirect()
+    public function testCanHandleHttp301PermanentRedirect(): void
     {
         $res = new FileGetContents();
 

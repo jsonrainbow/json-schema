@@ -14,7 +14,7 @@ class BasicTypesTest extends BaseTestCase
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -104,7 +104,7 @@ class BasicTypesTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

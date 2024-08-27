@@ -13,7 +13,7 @@ class UnionWithNullValueTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -32,7 +32,7 @@ class UnionWithNullValueTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

@@ -17,7 +17,7 @@ class LongArraysTest extends VeryBaseTestCase
 {
     protected $validateSchema = true;
 
-    public function testLongStringArray()
+    public function testLongStringArray(): void
     {
         $schema =
             '{
@@ -45,7 +45,7 @@ class LongArraysTest extends VeryBaseTestCase
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    public function testLongNumberArray()
+    public function testLongNumberArray(): void
     {
         $schema =
             '{
@@ -73,7 +73,7 @@ class LongArraysTest extends VeryBaseTestCase
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    public function testLongIntegerArray()
+    public function testLongIntegerArray(): void
     {
         $schema =
             '{

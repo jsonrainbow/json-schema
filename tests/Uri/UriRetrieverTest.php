@@ -50,7 +50,7 @@ class UriRetrieverTest extends TestCase
     /**
      * @dataProvider jsonProvider
      */
-    public function testChildExtendsParentValidTest($childSchema, $parentSchema)
+    public function testChildExtendsParentValidTest($childSchema, $parentSchema): void
     {
         $this->mockRetriever($parentSchema);
 
@@ -65,7 +65,7 @@ class UriRetrieverTest extends TestCase
     /**
      * @dataProvider jsonProvider
      */
-    public function testChildExtendsParentInvalidChildTest($childSchema, $parentSchema)
+    public function testChildExtendsParentInvalidChildTest($childSchema, $parentSchema): void
     {
         $this->mockRetriever($parentSchema);
 
@@ -80,7 +80,7 @@ class UriRetrieverTest extends TestCase
     /**
      * @dataProvider jsonProvider
      */
-    public function testChildExtendsParentInvalidParentTest($childSchema, $parentSchema)
+    public function testChildExtendsParentInvalidParentTest($childSchema, $parentSchema): void
     {
         $this->mockRetriever($parentSchema);
 
@@ -95,7 +95,7 @@ class UriRetrieverTest extends TestCase
     /**
      * @dataProvider jsonProvider
      */
-    public function testResolveRelativeUri($childSchema, $parentSchema)
+    public function testResolveRelativeUri($childSchema, $parentSchema): void
     {
         self::setParentSchemaExtendsValue($parentSchema, 'grandparent');
         $this->mockRetriever($parentSchema);
@@ -108,14 +108,14 @@ class UriRetrieverTest extends TestCase
         $this->assertTrue($this->validator->isValid());
     }
 
-    private static function setParentSchemaExtendsValue(&$parentSchema, $value)
+    private static function setParentSchemaExtendsValue(&$parentSchema, $value): void
     {
         $parentSchemaDecoded = json_decode($parentSchema, true);
         $parentSchemaDecoded['extends'] = $value;
         $parentSchema = json_encode($parentSchemaDecoded);
     }
 
-    public function jsonProvider()
+    public function jsonProvider(): array
     {
         $childSchema = <<<EOF
 {
@@ -150,7 +150,7 @@ EOF;
         ];
     }
 
-    public function testResolvePointerNoFragment()
+    public function testResolvePointerNoFragment(): void
     {
         $schema = (object) [
             'title' => 'schema'
@@ -165,7 +165,7 @@ EOF;
         );
     }
 
-    public function testResolvePointerFragment()
+    public function testResolvePointerFragment(): void
     {
         $schema = (object) [
             'definitions' => (object) [
@@ -185,7 +185,7 @@ EOF;
         );
     }
 
-    public function testResolvePointerFragmentNotFound()
+    public function testResolvePointerFragmentNotFound(): void
     {
         $schema = (object) [
             'definitions' => (object) [
@@ -204,7 +204,7 @@ EOF;
         );
     }
 
-    public function testResolvePointerFragmentNoArray()
+    public function testResolvePointerFragmentNoArray(): void
     {
         $schema = (object) [
             'definitions' => (object) [
@@ -223,7 +223,7 @@ EOF;
         );
     }
 
-    public function testResolveExcessLevelUp()
+    public function testResolveExcessLevelUp(): void
     {
         $retriever = new UriRetriever();
 
@@ -233,7 +233,7 @@ EOF;
         );
     }
 
-    public function testConfirmMediaTypeAcceptsJsonSchemaType()
+    public function testConfirmMediaTypeAcceptsJsonSchemaType(): void
     {
         $uriRetriever = $this->createMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $retriever = new UriRetriever();
@@ -245,7 +245,7 @@ EOF;
         $this->assertEquals(null, $retriever->confirmMediaType($uriRetriever, null));
     }
 
-    public function testConfirmMediaTypeAcceptsJsonType()
+    public function testConfirmMediaTypeAcceptsJsonType(): void
     {
         $uriRetriever = $this->createMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $retriever = new UriRetriever();
@@ -257,7 +257,7 @@ EOF;
         $this->assertEquals(null, $retriever->confirmMediaType($uriRetriever, null));
     }
 
-    public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
+    public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes(): void
     {
         $uriRetriever = $this->createMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $retriever = new UriRetriever();
@@ -270,7 +270,7 @@ EOF;
         $retriever->confirmMediaType($uriRetriever, null);
     }
 
-    private function mockRetriever($schema)
+    private function mockRetriever($schema): void
     {
         $retrieverMock = $this->getRetrieverMock($schema);
 
@@ -283,7 +283,7 @@ EOF;
         $retriever->setValue($factory, $retrieverMock);
     }
 
-    public function testTranslations()
+    public function testTranslations(): void
     {
         $retriever = new UriRetriever();
 
@@ -294,7 +294,7 @@ EOF;
         $this->assertEquals($translated, $retriever->translate($uri));
     }
 
-    public function testPackageURITranslation()
+    public function testPackageURITranslation(): void
     {
         $retriever = new UriRetriever();
         $root = sprintf('file://%s/', realpath(__DIR__ . '/../..'));
@@ -303,7 +303,7 @@ EOF;
         $this->assertEquals("{$root}foo/bar.json", $uri);
     }
 
-    public function testDefaultDistTranslations()
+    public function testDefaultDistTranslations(): void
     {
         $retriever = new UriRetriever();
         $root = sprintf('file://%s/dist/schema/', realpath(__DIR__ . '/../..'));
@@ -319,7 +319,7 @@ EOF;
         );
     }
 
-    public function testRetrieveSchemaFromPackage()
+    public function testRetrieveSchemaFromPackage(): void
     {
         $retriever = new UriRetriever();
 
@@ -331,7 +331,7 @@ EOF;
         $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
     }
 
-    public function testInvalidContentTypeEndpointsDefault()
+    public function testInvalidContentTypeEndpointsDefault(): void
     {
         $mock = $this->createMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
@@ -341,7 +341,7 @@ EOF;
         $this->assertTrue($retriever->confirmMediaType($mock, 'https://json-schema.org/'));
     }
 
-    public function testInvalidContentTypeEndpointsUnknown()
+    public function testInvalidContentTypeEndpointsUnknown(): void
     {
         $mock = $this->createMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
@@ -351,7 +351,7 @@ EOF;
         $retriever->confirmMediaType($mock, 'http://example.com');
     }
 
-    public function testInvalidContentTypeEndpointsAdded()
+    public function testInvalidContentTypeEndpointsAdded(): void
     {
         $mock = $this->createMock('JsonSchema\Uri\Retrievers\UriRetrieverInterface');
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
@@ -363,7 +363,7 @@ EOF;
         self::assertTrue($result);
     }
 
-    public function testSchemaCache()
+    public function testSchemaCache(): void
     {
         $retriever = new UriRetriever();
         $reflector = new \ReflectionObject($retriever);
@@ -382,7 +382,7 @@ EOF;
         );
     }
 
-    public function testLoadSchemaJSONDecodingException()
+    public function testLoadSchemaJSONDecodingException(): void
     {
         $retriever = new UriRetriever();
 
@@ -392,7 +392,7 @@ EOF;
         $retriever->retrieve('package://tests/fixtures/bad-syntax.json');
     }
 
-    public function testGenerateURI()
+    public function testGenerateURI(): void
     {
         $retriever = new UriRetriever();
         $components = [
@@ -405,7 +405,7 @@ EOF;
         $this->assertEquals('scheme://authority/path?query#fragment', $retriever->generate($components));
     }
 
-    public function testResolveHTTP()
+    public function testResolveHTTP(): void
     {
         $retriever = new UriRetriever();
         $this->assertEquals(
@@ -414,7 +414,7 @@ EOF;
         );
     }
 
-    public function combinedURITests()
+    public function combinedURITests(): array
     {
         return [
             ['blue', 'http://example.com/red', 'http://example.com/blue'],
@@ -425,13 +425,13 @@ EOF;
     /**
      * @dataProvider combinedURITests
      */
-    public function testResolveCombinedURI($uri, $baseURI, $combinedURI)
+    public function testResolveCombinedURI($uri, $baseURI, $combinedURI): void
     {
         $retriever = new UriRetriever();
         $this->assertEquals($combinedURI, $retriever->resolve($uri, $baseURI));
     }
 
-    public function testIsValidURI()
+    public function testIsValidURI(): void
     {
         $retriever = new UriRetriever();
         $this->assertTrue($retriever->isValid('http://example.com/schema'));

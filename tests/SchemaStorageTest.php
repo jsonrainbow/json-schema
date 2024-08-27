@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class SchemaStorageTest extends TestCase
 {
-    public function testResolveRef()
+    public function testResolveRef(): void
     {
         $mainSchema = $this->getMainSchema();
         $mainSchemaPath = 'http://www.example.com/schema.json';
@@ -32,7 +32,7 @@ class SchemaStorageTest extends TestCase
         );
     }
 
-    public function testResolveTopRef()
+    public function testResolveTopRef(): void
     {
         $input = json_decode('{"propertyOne":"notANumber"}');
         $schema = json_decode('{"$ref":"#/definition","definition":{"properties":{"propertyOne":{"type":"number"}}}}');
@@ -44,7 +44,7 @@ class SchemaStorageTest extends TestCase
     /**
      * @depends testResolveRef
      */
-    public function testSchemaWithLocalAndExternalReferencesWithCircularReference()
+    public function testSchemaWithLocalAndExternalReferencesWithCircularReference(): void
     {
         $mainSchema = $this->getMainSchema();
         $schema2 = $this->getSchema2();
@@ -100,7 +100,7 @@ class SchemaStorageTest extends TestCase
         );
     }
 
-    public function testUnresolvableJsonPointExceptionShouldBeThrown()
+    public function testUnresolvableJsonPointExceptionShouldBeThrown(): void
     {
         $this->expectException('JsonSchema\Exception\UnresolvableJsonPointerException');
         $this->expectExceptionMessage('File: http://www.example.com/schema.json is found, but could not resolve fragment: #/definitions/car');
@@ -117,7 +117,7 @@ class SchemaStorageTest extends TestCase
         $schemaStorage->resolveRef("$mainSchemaPath#/definitions/car");
     }
 
-    public function testResolveRefWithNoAssociatedFileName()
+    public function testResolveRefWithNoAssociatedFileName(): void
     {
         $this->expectException('JsonSchema\Exception\UnresolvableJsonPointerException');
         $this->expectExceptionMessage("Could not resolve fragment '#': no file is defined");
@@ -126,10 +126,7 @@ class SchemaStorageTest extends TestCase
         $schemaStorage->resolveRef('#');
     }
 
-    /**
-     * @return object
-     */
-    private function getMainSchema()
+    private function getMainSchema(): object
     {
         return (object) [
             'version' => 'v1',
@@ -188,10 +185,7 @@ class SchemaStorageTest extends TestCase
         ];
     }
 
-    /**
-     * @return object
-     */
-    private function getSchema2()
+    private function getSchema2(): object
     {
         return (object) [
             'version' => 'v1',
@@ -218,10 +212,7 @@ class SchemaStorageTest extends TestCase
         ];
     }
 
-    /**
-     * @return object
-     */
-    private function getSchema3()
+    private function getSchema3(): object
     {
         return (object) [
             'version' => 'v1',
@@ -243,10 +234,7 @@ class SchemaStorageTest extends TestCase
         ];
     }
 
-    /**
-     * @return object
-     */
-    private function getInvalidSchema()
+    private function getInvalidSchema(): object
     {
         return (object) [
             'version' => 'v1',
@@ -272,21 +260,21 @@ class SchemaStorageTest extends TestCase
         ];
     }
 
-    public function testGetUriRetriever()
+    public function testGetUriRetriever(): void
     {
         $s = new SchemaStorage();
         $s->addSchema('http://json-schema.org/draft-04/schema#');
         $this->assertInstanceOf('\JsonSchema\Uri\UriRetriever', $s->getUriRetriever());
     }
 
-    public function testGetUriResolver()
+    public function testGetUriResolver(): void
     {
         $s = new SchemaStorage();
         $s->addSchema('http://json-schema.org/draft-04/schema#');
         $this->assertInstanceOf('\JsonSchema\Uri\UriResolver', $s->getUriResolver());
     }
 
-    public function testMetaSchemaFixes()
+    public function testMetaSchemaFixes(): void
     {
         $s = new SchemaStorage();
         $s->addSchema('http://json-schema.org/draft-03/schema#');
@@ -299,7 +287,7 @@ class SchemaStorageTest extends TestCase
         $this->assertEquals('uri-reference', $draft_04->properties->id->format);
     }
 
-    public function testNoDoubleResolve()
+    public function testNoDoubleResolve(): void
     {
         $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');
 

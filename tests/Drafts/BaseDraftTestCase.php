@@ -12,7 +12,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /** @var string */
     protected $relativeTestsRoot = '/../../vendor/json-schema/json-schema-test-suite/tests';
 
-    private function setUpTests($isValid)
+    private function setUpTests($isValid): array
     {
         $filePaths = $this->getFilePaths();
         $skippedTests = $this->getSkippedTests();
@@ -46,7 +46,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /**
      * {@inheritdoc}
      */
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return $this->setUpTests(false);
     }
@@ -54,7 +54,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /**
      * {@inheritdoc}
      */
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return $this->setUpTests(true);
     }
@@ -62,12 +62,12 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /**
      * @return string[]
      */
-    abstract protected function getFilePaths();
+    abstract protected function getFilePaths(): array;
 
     /**
      * @return string[]
      */
-    abstract protected function getSkippedTests();
+    abstract protected function getSkippedTests(): array;
 
     /**
      * Generates a readable path to Json Schema Test Suite data set under test
@@ -75,10 +75,8 @@ abstract class BaseDraftTestCase extends BaseTestCase
      * @param string $filename
      * @param string $suiteDesc
      * @param string $testCaseDesc
-     *
-     * @return string
      */
-    private function createDataSetPath($filename, $suiteDesc, $testCaseDesc)
+    private function createDataSetPath($filename, $suiteDesc, $testCaseDesc): string
     {
         $separator = ' / ';
 

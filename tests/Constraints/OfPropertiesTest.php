@@ -18,7 +18,7 @@ class OfPropertiesTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [
@@ -56,7 +56,7 @@ class OfPropertiesTest extends BaseTestCase
         ];
     }
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -232,7 +232,7 @@ class OfPropertiesTest extends BaseTestCase
         ];
     }
 
-    public function testNoPrematureAnyOfException()
+    public function testNoPrematureAnyOfException(): void
     {
         $schema = json_decode('{
             "type": "object",
@@ -252,7 +252,7 @@ class OfPropertiesTest extends BaseTestCase
         $this->assertTrue($v->isValid());
     }
 
-    public function testNoPrematureOneOfException()
+    public function testNoPrematureOneOfException(): void
     {
         $schema = json_decode('{
             "type": "object",

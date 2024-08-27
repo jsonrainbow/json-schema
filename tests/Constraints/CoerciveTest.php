@@ -24,7 +24,7 @@ class CoerciveTest extends VeryBaseTestCase
         $this->factory->setConfig(Constraint::CHECK_MODE_TYPE_CAST | Constraint::CHECK_MODE_COERCE_TYPES);
     }
 
-    public function dataCoerceCases()
+    public function dataCoerceCases(): array
     {
         // check type conversions
         $types = [
@@ -190,7 +190,7 @@ class CoerciveTest extends VeryBaseTestCase
     }
 
     /** @dataProvider dataCoerceCases **/
-    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $extraFlags = 0, $assoc = false)
+    public function testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $extraFlags = 0, $assoc = false): void
     {
         $validator = new Validator($this->factory);
 
@@ -232,12 +232,12 @@ class CoerciveTest extends VeryBaseTestCase
     }
 
     /** @dataProvider dataCoerceCases **/
-    public function testCoerceCasesUsingAssoc($schema, $data, $startType, $endType, $endValue, $valid, $early = false)
+    public function testCoerceCasesUsingAssoc($schema, $data, $startType, $endType, $endValue, $valid, $early = false): void
     {
         $this->testCoerceCases($schema, $data, $startType, $endType, $endValue, $valid, $early, true);
     }
 
-    public function testCoerceAPI()
+    public function testCoerceAPI(): void
     {
         $input = json_decode('{"propertyOne": "10"}');
         $schema = json_decode('{"properties":{"propertyOne":{"type":"number"}}}');

@@ -35,28 +35,28 @@ class ObjectIteratorTest extends TestCase
         ];
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $i = new ObjectIterator($this->testObject);
 
         $this->assertInstanceOf('\JsonSchema\Iterator\ObjectIterator', $i);
     }
 
-    public function testInitialState()
+    public function testInitialState(): void
     {
         $i = new ObjectIterator($this->testObject);
 
         $this->assertEquals($this->testObject, $i->current());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $i = new ObjectIterator($this->testObject);
 
         $this->assertEquals(4, $i->count());
     }
 
-    public function testKey()
+    public function testKey(): void
     {
         $i = new ObjectIterator($this->testObject);
 
@@ -67,7 +67,7 @@ class ObjectIteratorTest extends TestCase
         $this->assertEquals($this->testObject->subTwo->subThree, $i->current());
     }
 
-    public function testAlwaysObjects()
+    public function testAlwaysObjects(): void
     {
         $i= new ObjectIterator($this->testObject);
 
@@ -76,7 +76,7 @@ class ObjectIteratorTest extends TestCase
         }
     }
 
-    public function testReachesAllProperties()
+    public function testReachesAllProperties(): void
     {
         $i = new ObjectIterator($this->testObject);
 

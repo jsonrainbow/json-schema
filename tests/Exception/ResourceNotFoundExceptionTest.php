@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ResourceNotFoundExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new ResourceNotFoundException();
         self::assertInstanceOf('\RuntimeException', $exception);

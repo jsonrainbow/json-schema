@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class JsonDecodingExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new JsonDecodingException();
         self::assertInstanceOf('\RuntimeException', $exception);

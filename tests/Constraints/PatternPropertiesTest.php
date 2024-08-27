@@ -13,7 +13,7 @@ class PatternPropertiesTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             // matches pattern but invalid schema for object
@@ -87,7 +87,7 @@ class PatternPropertiesTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [
