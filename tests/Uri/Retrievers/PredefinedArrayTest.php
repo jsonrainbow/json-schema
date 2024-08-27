@@ -12,7 +12,7 @@ class PredefinedArrayTest extends TestCase
 {
     private $retriever;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->retriever = new PredefinedArray(
             array(
@@ -29,11 +29,9 @@ class PredefinedArrayTest extends TestCase
         $this->assertEquals('THE_ADDRESS_SCHEMA', $this->retriever->retrieve('http://acme.com/schemas/address#'));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testRetrieveNonExistsingSchema()
     {
+        $this->expectException(\JsonSchema\Exception\ResourceNotFoundException::class);
         $this->retriever->retrieve('http://acme.com/schemas/plop#');
     }
 

@@ -28,7 +28,7 @@ class UriResolver implements UriResolverInterface
      */
     public function parse($uri)
     {
-        preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', $uri, $match);
+        preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', (string) $uri, $match);
 
         $components = array();
         if (5 < count($match)) {

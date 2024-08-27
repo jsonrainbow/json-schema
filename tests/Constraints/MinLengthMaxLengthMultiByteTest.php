@@ -13,7 +13,7 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!extension_loaded('mbstring')) {
             $this->markTestSkipped('mbstring extension is not available');
