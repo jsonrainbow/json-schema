@@ -15,200 +15,200 @@ class PatternPropertiesTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
+        return [
             // matches pattern but invalid schema for object
-            array(
-                json_encode(array(
-                    'someobject' => array(
+            [
+                json_encode([
+                    'someobject' => [
                         'foobar' => 'foo',
                         'barfoo' => 'bar',
-                    )
-                )),
-                json_encode(array(
+                    ]
+                ]),
+                json_encode([
                     'type' => 'object',
-                    'patternProperties' => array(
-                        '^someobject$' => array(
+                    'patternProperties' => [
+                        '^someobject$' => [
                             'type' => 'object',
                             'additionalProperties' => false,
-                            'properties' => array(
-                                'barfoo' => array(
+                            'properties' => [
+                                'barfoo' => [
                                     'type' => 'string',
-                                ),
-                            )
-                        )
-                    )
-                ))
-            ),
+                                ],
+                            ]
+                        ]
+                    ]
+                ])
+            ],
             // Does not match pattern
-            array(
-                json_encode(array(
+            [
+                json_encode([
                         'regex_us' => false,
-                    )),
-                json_encode(array(
+                ]),
+                json_encode([
                         'type' => 'object',
-                        'patternProperties' => array(
-                            '^[a-z]+_(jp|de)$' => array(
-                                'type' => array('boolean')
-                            )
-                        ),
+                        'patternProperties' => [
+                            '^[a-z]+_(jp|de)$' => [
+                                'type' => ['boolean']
+                            ]
+                        ],
                         'additionalProperties' => false
-                    ))
-            ),
+                ])
+            ],
             // Does not match pattern with unicode
-            array(
-                json_encode(array(
+            [
+                json_encode([
                         '猡猡獛' => false,
-                    )),
-                json_encode(array(
+                ]),
+                json_encode([
                         'type' => 'object',
-                        'patternProperties' => array(
-                            '^[\\x{0080}-\\x{006FFF}]+$' => array(
-                                'type' => array('boolean')
-                            )
-                        ),
+                        'patternProperties' => [
+                            '^[\\x{0080}-\\x{006FFF}]+$' => [
+                                'type' => ['boolean']
+                            ]
+                        ],
                         'additionalProperties' => false
-                    ))
-            ),
+                ])
+            ],
             // An invalid regular expression pattern
-            array(
-                json_encode(array(
+            [
+                json_encode([
                         'regex_us' => false,
-                    )),
-                json_encode(array(
+                ]),
+                json_encode([
                         'type' => 'object',
-                        'patternProperties' => array(
-                            '^[a-z+_jp|de)$' => array(
-                                'type' => array('boolean')
-                            )
-                        ),
+                        'patternProperties' => [
+                            '^[a-z+_jp|de)$' => [
+                                'type' => ['boolean']
+                            ]
+                        ],
                         'additionalProperties' => false
-                    ))
-            ),
-        );
+                ])
+            ],
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 // validates pattern schema
-                json_encode(array(
-                    'someobject' => array(
+                json_encode([
+                    'someobject' => [
                         'foobar' => 'foo',
                         'barfoo' => 'bar',
-                    ),
-                    'someotherobject' => array(
+                    ],
+                    'someotherobject' => [
                         'foobar' => 1234,
-                    ),
-                    '/products' => array(
-                        'get' => array()
-                    ),
-                    '#products' => array(
-                        'get' => array()
-                    ),
-                    '+products' => array(
-                        'get' => array()
-                    ),
-                    '~products' => array(
-                        'get' => array()
-                    ),
-                    '*products' => array(
-                        'get' => array()
-                    ),
-                    '%products' => array(
-                        'get' => array()
-                    )
-                )),
-                json_encode(array(
+                    ],
+                    '/products' => [
+                        'get' => []
+                    ],
+                    '#products' => [
+                        'get' => []
+                    ],
+                    '+products' => [
+                        'get' => []
+                    ],
+                    '~products' => [
+                        'get' => []
+                    ],
+                    '*products' => [
+                        'get' => []
+                    ],
+                    '%products' => [
+                        'get' => []
+                    ]
+                ]),
+                json_encode([
                     'type' => 'object',
                     'additionalProperties' => false,
-                    'patternProperties' => array(
-                        '^someobject$' => array(
+                    'patternProperties' => [
+                        '^someobject$' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'foobar' => array('type' => 'string'),
-                                'barfoo' => array('type' => 'string'),
-                            ),
-                        ),
-                        '^someotherobject$' => array(
+                            'properties' => [
+                                'foobar' => ['type' => 'string'],
+                                'barfoo' => ['type' => 'string'],
+                            ],
+                        ],
+                        '^someotherobject$' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'foobar' => array('type' => 'number'),
-                            ),
-                        ),
-                        '^/' => array(
+                            'properties' => [
+                                'foobar' => ['type' => 'number'],
+                            ],
+                        ],
+                        '^/' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'get' => array('type' => 'array')
-                            )
-                        ),
-                        '^#' => array(
+                            'properties' => [
+                                'get' => ['type' => 'array']
+                            ]
+                        ],
+                        '^#' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'get' => array('type' => 'array')
-                            )
-                        ),
-                        '^\+' => array(
+                            'properties' => [
+                                'get' => ['type' => 'array']
+                            ]
+                        ],
+                        '^\+' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'get' => array('type' => 'array')
-                            )
-                        ),
-                        '^~' => array(
+                            'properties' => [
+                                'get' => ['type' => 'array']
+                            ]
+                        ],
+                        '^~' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'get' => array('type' => 'array')
-                            )
-                        ),
-                        '^\*' => array(
+                            'properties' => [
+                                'get' => ['type' => 'array']
+                            ]
+                        ],
+                        '^\*' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'get' => array('type' => 'array')
-                            )
-                        ),
-                        '^%' => array(
+                            'properties' => [
+                                'get' => ['type' => 'array']
+                            ]
+                        ],
+                        '^%' => [
                             'type' => 'object',
-                            'properties' => array(
-                                'get' => array('type' => 'array')
-                            )
-                        )
-                    )
-                ))
-            ),
-            array(
-                json_encode(array(
+                            'properties' => [
+                                'get' => ['type' => 'array']
+                            ]
+                        ]
+                    ]
+                ])
+            ],
+            [
+                json_encode([
                         'foobar' => true,
                         'regex_us' => 'foo',
                         'regex_de' => 1234
-                    )),
-                json_encode(array(
+                ]),
+                json_encode([
                         'type' => 'object',
-                        'properties' => array(
-                            'foobar' => array('type' => 'boolean')
-                        ),
-                        'patternProperties' => array(
-                            '^[a-z]+_(us|de)$' => array(
-                                'type' => array('string', 'integer')
-                            )
-                        ),
+                        'properties' => [
+                            'foobar' => ['type' => 'boolean']
+                        ],
+                        'patternProperties' => [
+                            '^[a-z]+_(us|de)$' => [
+                                'type' => ['string', 'integer']
+                            ]
+                        ],
                         'additionalProperties' => false
-                    ))
-            ),
+                ])
+            ],
             // Does match pattern with unicode
-            array(
-                json_encode(array(
+            [
+                json_encode([
                     'ðæſ' => 'unicode',
-                )),
-                json_encode(array(
+                ]),
+                json_encode([
                     'type' => 'object',
-                    'patternProperties' => array(
-                        '^[\\x{0080}-\\x{10FFFF}]+$' => array(
-                            'type' => array('string')
-                        )
-                    ),
+                    'patternProperties' => [
+                        '^[\\x{0080}-\\x{10FFFF}]+$' => [
+                            'type' => ['string']
+                        ]
+                    ],
                     'additionalProperties' => false
-                ))
-            ),
-        );
+                ])
+            ],
+        ];
     }
 }

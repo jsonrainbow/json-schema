@@ -18,8 +18,8 @@ class MinMaxPropertiesTest extends BaseTestCase
      */
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value": {}
                 }',
@@ -29,8 +29,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "minProperties": 0}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value": {}
                 }',
@@ -40,8 +40,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "maxProperties": 1}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value": {}
                 }',
@@ -51,8 +51,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "minProperties": 0,"maxProperties": 1}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value": {"foo": 1, "bar": 2}
                 }',
@@ -62,8 +62,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "minProperties": 1,"maxProperties": 2}
                   }
                 }'
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -71,8 +71,8 @@ class MinMaxPropertiesTest extends BaseTestCase
      */
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value": {}
                 }',
@@ -82,8 +82,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "minProperties": 1}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                   "type": "object",
@@ -97,8 +97,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                   },
                   "minProperties": 1
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value": {
                     "propertyOne": "valueOne",
@@ -111,8 +111,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "maxProperties": 1}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value": {"foo": 1, "bar": 2, "baz": 3}
                 }',
@@ -122,8 +122,8 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"type": "object", "minProperties": 1,"maxProperties": 2}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value": []
                 }',
@@ -132,7 +132,7 @@ class MinMaxPropertiesTest extends BaseTestCase
                     "value": {"minProperties": 1,"maxProperties": 2}
                   }
                 }'
-            ),
-        );
+            ],
+        ];
     }
 }

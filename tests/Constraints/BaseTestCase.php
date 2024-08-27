@@ -26,7 +26,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = array())
+    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = [])
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
         if ($this->validateSchema) {
@@ -46,7 +46,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
         $this->assertGreaterThan(0, $validator->numErrors());
 
-        if (array() !== $errors) {
+        if ([] !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
         }
         $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));
@@ -55,7 +55,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidForAssocTests
      */
-    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = array())
+    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = [])
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;
         if ($this->validateSchema) {
@@ -78,7 +78,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
         $this->assertGreaterThan(0, $validator->numErrors());
 
-        if (array() !== $errors) {
+        if ([] !== $errors) {
             $this->assertEquals($errors, $validator->getErrors(), print_r($validator->getErrors(), true));
         }
         $this->assertFalse($validator->isValid(), print_r($validator->getErrors(), true));

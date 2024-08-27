@@ -23,13 +23,13 @@ class ObjectConstraint extends Constraint
     /**
      * @var array List of properties to which a default value has been applied
      */
-    protected $appliedDefaults = array();
+    protected $appliedDefaults = [];
 
     /**
      * {@inheritdoc}
      */
     public function check(&$element, $schema = null, ?JsonPointer $path = null, $properties = null,
-        $additionalProp = null, $patternProperties = null, $appliedDefaults = array())
+        $additionalProp = null, $patternProperties = null, $appliedDefaults = [])
     {
         if ($element instanceof UndefinedConstraint) {
             return;
@@ -37,7 +37,7 @@ class ObjectConstraint extends Constraint
 
         $this->appliedDefaults = $appliedDefaults;
 
-        $matches = array();
+        $matches = [];
         if ($patternProperties) {
             // validate the element pattern properties
             $matches = $this->validatePatternProperties($element, $path, $patternProperties);
@@ -54,13 +54,13 @@ class ObjectConstraint extends Constraint
 
     public function validatePatternProperties($element, ?JsonPointer $path = null, $patternProperties)
     {
-        $matches = array();
+        $matches = [];
         foreach ($patternProperties as $pregex => $schema) {
             $fullRegex = self::jsonPatternToPhpRegex($pregex);
 
             // Validate the pattern before using it to test for matches
             if (@preg_match($fullRegex, '') === false) {
-                $this->addError(ConstraintError::PREGEX_INVALID(), $path, array('pregex' => $pregex));
+                $this->addError(ConstraintError::PREGEX_INVALID(), $path, ['pregex' => $pregex]);
                 continue;
             }
             foreach ($element as $i => $value) {
@@ -94,7 +94,7 @@ class ObjectConstraint extends Constraint
 
             // no additional properties allowed
             if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
-                $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, array('property' => $i));
+                $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['property' => $i]);
             }
 
             // additional properties defined
@@ -109,10 +109,10 @@ class ObjectConstraint extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError(ConstraintError::REQUIRES(), $path, array(
+                $this->addError(ConstraintError::REQUIRES(), $path, [
                     'property' => $i,
                     'requiredProperty' => $require
-                ));
+                ]);
             }
 
             $property = $this->getProperty($element, $i, $this->factory->createInstanceFor('undefined'));
@@ -176,13 +176,13 @@ class ObjectConstraint extends Constraint
         // Verify minimum number of properties
         if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {
-                $this->addError(ConstraintError::PROPERTIES_MIN(), $path, array('minProperties' => $objectDefinition->minProperties));
+                $this->addError(ConstraintError::PROPERTIES_MIN(), $path, ['minProperties' => $objectDefinition->minProperties]);
             }
         }
         // Verify maximum number of properties
         if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
             if ($this->getTypeCheck()->propertyCount($element) > $objectDefinition->maxProperties) {
-                $this->addError(ConstraintError::PROPERTIES_MAX(), $path, array('maxProperties' => $objectDefinition->maxProperties));
+                $this->addError(ConstraintError::PROPERTIES_MAX(), $path, ['maxProperties' => $objectDefinition->maxProperties]);
             }
         }
     }

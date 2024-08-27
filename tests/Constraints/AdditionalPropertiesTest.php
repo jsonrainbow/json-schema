@@ -17,8 +17,8 @@ class AdditionalPropertiesTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "prop":"1",
                   "patternProp":"3",
@@ -35,22 +35,22 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "additionalProperties": false
                 }',
                 null,
-                array(
-                    array(
+                [
+                    [
                         'property'   => '',
                         'pointer'    => '',
                         'message'    => 'The property additionalProp is not defined and the definition does not allow additional properties',
-                        'constraint' => array(
+                        'constraint' => [
                             'name' => 'additionalProp',
-                            'params' => array(
+                            'params' => [
                                 'property' => 'additionalProp'
-                            )
-                        ),
+                            ]
+                        ],
                         'context' => Validator::ERROR_DOCUMENT_VALIDATION
-                    )
-                )
-            ),
-            array(
+                    ]
+                ]
+            ],
+            [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -62,8 +62,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop":"1",
                   "additionalProp":2
@@ -75,8 +75,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop":"1",
                   "additionalProp":2
@@ -88,8 +88,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -100,8 +100,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "type": "boolean"
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -110,14 +110,14 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "type": "object",
                   "additionalProperties": false
                 }'
-            ),
-        );
+            ],
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -128,8 +128,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -140,8 +140,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -153,8 +153,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop":"1",
                   "additionalProp":[]
@@ -166,8 +166,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": true
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -178,8 +178,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "type": "string"
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -188,7 +188,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "type": "object",
                   "additionalProperties": true
                 }'
-            ),
-        );
+            ],
+        ];
     }
 }

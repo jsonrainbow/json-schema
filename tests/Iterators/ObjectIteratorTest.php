@@ -18,21 +18,21 @@ class ObjectIteratorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->testObject = (object) array(
-            'subOne' => (object) array(
+        $this->testObject = (object) [
+            'subOne' => (object) [
                 'propertyOne' => 'valueOne',
                 'propertyTwo' => 'valueTwo',
                 'propertyThree' => 'valueThree'
-            ),
-            'subTwo' => (object) array(
+            ],
+            'subTwo' => (object) [
                 'propertyFour' => 'valueFour',
-                'subThree' => (object) array(
+                'subThree' => (object) [
                     'propertyFive' => 'valueFive',
                     'propertySix' => 'valueSix'
-                )
-            ),
+                ]
+            ],
             'propertySeven' => 'valueSeven'
-        );
+        ];
     }
 
     public function testCreate()

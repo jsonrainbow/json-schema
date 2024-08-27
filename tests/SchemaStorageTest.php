@@ -27,7 +27,7 @@ class SchemaStorageTest extends TestCase
         $schemaStorage = new SchemaStorage($uriRetriever->reveal());
 
         $this->assertEquals(
-            (object) array('type' => 'string'),
+            (object) ['type' => 'string'],
             $schemaStorage->resolveRef("$mainSchemaPath#/definitions/house/properties/door")
         );
     }
@@ -131,61 +131,61 @@ class SchemaStorageTest extends TestCase
      */
     private function getMainSchema()
     {
-        return (object) array(
+        return (object) [
             'version' => 'v1',
             '$schema' => 'http://json-schema.org/draft-04/schema#',
             'id' => 'http://www.example.com/schema.json',
             'type' => 'object',
             'additionalProperties' => true,
-            'required' => array(
+            'required' => [
                 'car'
-            ),
-            'properties' => (object) array(
-                'car' => (object) array(
+            ],
+            'properties' => (object) [
+                'car' => (object) [
                     '$ref' => 'http://www.my-domain.com/schema2.json#/definitions/car'
-                ),
-                'house' => (object) array(
+                ],
+                'house' => (object) [
                     'additionalProperties' => true,
                     '$ref' => '#/definitions/house'
-                ),
-                'yard' => (object) array(
+                ],
+                'yard' => (object) [
                     'type' => 'object',
                     'additionalProperties' => false,
-                    'properties' => (object) array(
+                    'properties' => (object) [
                         '$ref' => '#/definitions/yardproperties'
-                    )
-                )
-            ),
-            'definitions' => (object) array(
-                'house'  => (object) array(
+                    ]
+                ]
+            ],
+            'definitions' => (object) [
+                'house'  => (object) [
                     'type' => 'object',
                     'additionalProperties' => false,
-                    'required' => array(
+                    'required' => [
                         'door',
                         'window'
-                    ),
-                    'properties' => (object) array(
-                        'door' => (object) array(
+                    ],
+                    'properties' => (object) [
+                        'door' => (object) [
                             'type' => 'string'
-                        ),
-                        'window' => (object) array(
+                        ],
+                        'window' => (object) [
                             'type' => 'string'
-                        ),
-                        'house' => (object) array(
+                        ],
+                        'house' => (object) [
                             '$ref' => '#/definitions/house'
-                        )
-                    )
-                ),
-                'yardproperties' => (object) array(
-                    'tree'=>(object) array(
+                        ]
+                    ]
+                ],
+                'yardproperties' => (object) [
+                    'tree'=>(object) [
                         'type' => 'string'
-                    ),
-                    'pool'=>(object) array(
+                    ],
+                    'pool'=>(object) [
                         'type' => 'string'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -193,29 +193,29 @@ class SchemaStorageTest extends TestCase
      */
     private function getSchema2()
     {
-        return (object) array(
+        return (object) [
             'version' => 'v1',
             '$schema' => 'http://json-schema.org/draft-04/schema#',
             'id' => 'http://www.my-domain.com/schema2.json',
-            'definitions' => (object) array(
-                'car' => (object) array(
+            'definitions' => (object) [
+                'car' => (object) [
                     'type' => 'object',
                     'additionalProperties' => false,
-                    'properties' => (object) array(
-                        'id' => (object) array(
+                    'properties' => (object) [
+                        'id' => (object) [
                             'type' => 'integer'
-                        ),
-                        'name' => (object) array(
+                        ],
+                        'name' => (object) [
                             'type' => 'string',
                             'minLength' => 1
-                        ),
-                        'wheel' => (object) array(
+                        ],
+                        'wheel' => (object) [
                             '$ref' => './schema3.json#/wheel'
-                        )
-                    )
-                )
-            )
-        );
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -223,24 +223,24 @@ class SchemaStorageTest extends TestCase
      */
     private function getSchema3()
     {
-        return (object) array(
+        return (object) [
             'version' => 'v1',
             '$schema' => 'http://json-schema.org/draft-04/schema#',
             'title' => 'wheel',
-            'wheel' => (object) array(
-                'properties' => (object) array(
-                    'spokes' => (object) array(
+            'wheel' => (object) [
+                'properties' => (object) [
+                    'spokes' => (object) [
                         'type' => 'integer'
-                    ),
-                    'size' => (object) array(
+                    ],
+                    'size' => (object) [
                         'type' => 'integer'
-                    ),
-                    'car' => (object) array(
+                    ],
+                    'car' => (object) [
                         '$ref' => './schema2.json#/definitions/car'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
@@ -248,28 +248,28 @@ class SchemaStorageTest extends TestCase
      */
     private function getInvalidSchema()
     {
-        return (object) array(
+        return (object) [
             'version' => 'v1',
             '$schema' => 'http://json-schema.org/draft-04/schema#',
             'type' => 'object',
-            'properties' => (object) array(
-                'spokes' => (object) array(
+            'properties' => (object) [
+                'spokes' => (object) [
                     'type' => 'integer'
-                ),
-                'size' => (object) array(
+                ],
+                'size' => (object) [
                     'type' => 'integer'
-                ),
-                'car' => (object) array(
+                ],
+                'car' => (object) [
                     '$ref' => '#/definitions/car'
-                )
-            ),
-            'definitions' => (object) array(
-                'date' => (object) array(
+                ]
+            ],
+            'definitions' => (object) [
+                'date' => (object) [
                     'type' => 'string',
                     'pattern' => '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     public function testGetUriRetriever()

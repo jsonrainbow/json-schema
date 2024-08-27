@@ -47,67 +47,67 @@ class JsonPointerTest extends TestCase
      */
     public function getTestData()
     {
-        return array(
-            'testDataSet_01' => array(
+        return [
+            'testDataSet_01' => [
                 'testValue'                    => '#/definitions/date',
                 'expectedFileName'             => '',
-                'expectedPropertyPaths'        => array('definitions', 'date'),
+                'expectedPropertyPaths'        => ['definitions', 'date'],
                 'expectedPropertyPathAsString' => '#/definitions/date',
                 'expectedToString'             => '#/definitions/date'
-            ),
-            'testDataSet_02' => array(
+            ],
+            'testDataSet_02' => [
                 'testValue'                    => 'http://www.example.com/definitions.json#/definitions/date',
                 'expectedFileName'             => 'http://www.example.com/definitions.json',
-                'expectedPropertyPaths'        => array('definitions', 'date'),
+                'expectedPropertyPaths'        => ['definitions', 'date'],
                 'expectedPropertyPathAsString' => '#/definitions/date',
                 'expectedToString'             => 'http://www.example.com/definitions.json#/definitions/date'
-            ),
-            'testDataSet_03' => array(
+            ],
+            'testDataSet_03' => [
                 'testValue'                    => '/tmp/schema.json#definitions/common/date/',
                 'expectedFileName'             => '/tmp/schema.json',
-                'expectedPropertyPaths'        => array('definitions', 'common', 'date'),
+                'expectedPropertyPaths'        => ['definitions', 'common', 'date'],
                 'expectedPropertyPathAsString' => '#/definitions/common/date',
                 'expectedToString'             => '/tmp/schema.json#/definitions/common/date'
-            ),
-            'testDataSet_04' => array(
+            ],
+            'testDataSet_04' => [
                 'testValue'                    => './definitions.json#',
                 'expectedFileName'             => './definitions.json',
-                'expectedPropertyPaths'        => array(),
+                'expectedPropertyPaths'        => [],
                 'expectedPropertyPathAsString' => '#',
                 'expectedToString'             => './definitions.json#'
-            ),
-            'testDataSet_05' => array(
+            ],
+            'testDataSet_05' => [
                 'testValue'                    => '/schema.json#~0definitions~1general/%custom%25',
                 'expectedFileName'             => '/schema.json',
-                'expectedPropertyPaths'        => array('~definitions/general', '%custom%'),
+                'expectedPropertyPaths'        => ['~definitions/general', '%custom%'],
                 'expectedPropertyPathAsString' => '#/~0definitions~1general/%25custom%25',
                 'expectedToString'             => '/schema.json#/~0definitions~1general/%25custom%25'
-            ),
-            'testDataSet_06' => array(
+            ],
+            'testDataSet_06' => [
                 'testValue'                    => '#/items/0',
                 'expectedFileName'             => '',
-                'expectedPropertyPaths'        => array('items', '0'),
+                'expectedPropertyPaths'        => ['items', '0'],
                 'expectedPropertyPathAsString' => '#/items/0',
                 'expectedToString'             => '#/items/0'
-            )
-        );
+            ]
+        ];
     }
 
     public function testJsonPointerWithPropertyPaths()
     {
         $initial = new JsonPointer('#/definitions/date');
 
-        $this->assertEquals(array('definitions', 'date'), $initial->getPropertyPaths());
+        $this->assertEquals(['definitions', 'date'], $initial->getPropertyPaths());
         $this->assertEquals('#/definitions/date', $initial->getPropertyPathAsString());
 
-        $modified = $initial->withPropertyPaths(array('~definitions/general', '%custom%'));
+        $modified = $initial->withPropertyPaths(['~definitions/general', '%custom%']);
 
         $this->assertNotSame($initial, $modified);
 
-        $this->assertEquals(array('definitions', 'date'), $initial->getPropertyPaths());
+        $this->assertEquals(['definitions', 'date'], $initial->getPropertyPaths());
         $this->assertEquals('#/definitions/date', $initial->getPropertyPathAsString());
 
-        $this->assertEquals(array('~definitions/general', '%custom%'), $modified->getPropertyPaths());
+        $this->assertEquals(['~definitions/general', '%custom%'], $modified->getPropertyPaths());
         $this->assertEquals('#/~0definitions~1general/%25custom%25', $modified->getPropertyPathAsString());
     }
 

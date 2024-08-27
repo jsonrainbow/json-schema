@@ -15,8 +15,8 @@ class RequireTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "state":"DF"
                 }',
@@ -27,14 +27,14 @@ class RequireTest extends BaseTestCase
                     "city":{"type":"string"}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "state":"DF",
                   "city":"Brasília"
@@ -46,7 +46,7 @@ class RequireTest extends BaseTestCase
                     "city":{"type":"string"}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

@@ -16,26 +16,26 @@ class DependenciesTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{"bar": 1}',
                 '{
                     "dependencies": {"bar": "foo"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1}',
                 '{
                     "dependencies": {"bar": ["foo"]}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1, "foo": 1}',
                 '{
                     "dependencies": {"bar": ["foo", "baz"]}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1, "foo": 1}',
                 '{
                     "dependencies": {"bar": {
@@ -44,8 +44,8 @@ class DependenciesTest extends BaseTestCase
                         }
                     }}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1}',
                 '{
                     "dependencies": {"bar": {
@@ -54,8 +54,8 @@ class DependenciesTest extends BaseTestCase
                         }
                     }}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1}',
                 '{
                     "dependencies": {"bar": {
@@ -65,8 +65,8 @@ class DependenciesTest extends BaseTestCase
                         "required": ["foo"]
                     }}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": true, "foo": "ick"}',
                 '{
                     "dependencies": {"bar": {
@@ -76,56 +76,56 @@ class DependenciesTest extends BaseTestCase
                         }
                     }}
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{}',
                 '{
                     "dependencies": {"bar": "foo"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"foo": 1}',
                 '{
                     "dependencies": {"bar": "foo"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '"foo"',
                 '{
                     "dependencies": {"bar": "foo"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1, "foo": 1}',
                 '{
                     "dependencies": {"bar": "foo"}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1, "foo": 1, "baz": 1}',
                 '{
                     "dependencies": {"bar": ["foo", "baz"]}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                     "dependencies": {"bar": ["foo", "baz"]}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"foo": 1, "baz": 1}',
                 '{
                     "dependencies": {"bar": ["foo", "baz"]}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1}',
                 '{
                     "dependencies": {"bar": {
@@ -134,8 +134,8 @@ class DependenciesTest extends BaseTestCase
                         }
                     }}
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 1, "foo": 1}',
                 '{
                     "dependencies": {"bar": {
@@ -145,7 +145,7 @@ class DependenciesTest extends BaseTestCase
                         }
                     }}
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

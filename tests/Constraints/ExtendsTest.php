@@ -16,8 +16,8 @@ class ExtendsTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "name":"bruno",
                   "age":50
@@ -36,8 +36,8 @@ class ExtendsTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "name":"bruno",
                   "age":180
@@ -56,8 +56,8 @@ class ExtendsTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"foo": 2, "bar": "baz"}',
                 '{
                     "properties": {
@@ -69,8 +69,8 @@ class ExtendsTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"bar": 2}',
                 '{
                     "properties": {
@@ -89,14 +89,14 @@ class ExtendsTest extends BaseTestCase
                         }
                     ]
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "name":"bruno",
                   "age":80
@@ -115,8 +115,8 @@ class ExtendsTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"foo": "baz", "bar": 2}',
                 '{
                     "properties": {
@@ -128,8 +128,8 @@ class ExtendsTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"foo": "ick", "bar": 2, "baz": null}',
                 '{
                     "properties": {
@@ -148,7 +148,7 @@ class ExtendsTest extends BaseTestCase
                         }
                     ]
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

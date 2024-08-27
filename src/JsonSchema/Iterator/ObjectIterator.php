@@ -23,7 +23,7 @@ class ObjectIterator implements \Iterator, \Countable
     private $position = 0;
 
     /** @var array */
-    private $data = array();
+    private $data = [];
 
     /** @var bool */
     private $initialized = false;
@@ -113,7 +113,7 @@ class ObjectIterator implements \Iterator, \Countable
      */
     private function buildDataFromObject($object)
     {
-        $result = array();
+        $result = [];
 
         $stack = new \SplStack();
         $stack->push($object);
@@ -142,7 +142,7 @@ class ObjectIterator implements \Iterator, \Countable
     private function getDataFromItem($item)
     {
         if (!is_object($item) && !is_array($item)) {
-            return array();
+            return [];
         }
 
         return is_object($item) ? get_object_vars($item) : $item;

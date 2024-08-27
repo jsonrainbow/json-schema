@@ -39,7 +39,7 @@ class Factory
     /**
      * @var TypeCheck\TypeCheckInterface[]
      */
-    private $typeCheck = array();
+    private $typeCheck = [];
 
     /**
      * @var int Validation context
@@ -49,7 +49,7 @@ class Factory
     /**
      * @var array
      */
-    protected $constraintMap = array(
+    protected $constraintMap = [
         'array' => 'JsonSchema\Constraints\CollectionConstraint',
         'collection' => 'JsonSchema\Constraints\CollectionConstraint',
         'object' => 'JsonSchema\Constraints\ObjectConstraint',
@@ -62,12 +62,12 @@ class Factory
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
         'validator' => 'JsonSchema\Validator'
-    );
+    ];
 
     /**
      * @var array<ConstraintInterface>
      */
-    private $instanceCache = array();
+    private $instanceCache = [];
 
     /**
      * @param ?SchemaStorage         $schemaStorage

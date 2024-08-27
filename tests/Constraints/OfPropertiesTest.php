@@ -20,8 +20,8 @@ class OfPropertiesTest extends BaseTestCase
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{"prop1": "abc"}',
                 '{
                   "type": "object",
@@ -36,8 +36,8 @@ class OfPropertiesTest extends BaseTestCase
                   },
                   "required": ["prop1"]
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"prop1": "abc", "prop2": 23}',
                 '{
                   "type": "object",
@@ -52,14 +52,14 @@ class OfPropertiesTest extends BaseTestCase
                   },
                   "required": ["prop1"]
                 }'
-            ),
-        );
+            ],
+        ];
     }
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{"prop1": "abc", "prop2": []}',
                 '{
                   "type": "object",
@@ -75,46 +75,46 @@ class OfPropertiesTest extends BaseTestCase
                   "required": ["prop1"]
                 }',
                 null,
-                array(
-                    array(
+                [
+                    [
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a string is required',
-                        'constraint' => array(
+                        'constraint' => [
                             'name' => 'type',
-                            'params' => array(
+                            'params' => [
                                 'expected'   => 'a string',
                                 'found'      => 'array'
-                            )
-                        ),
+                            ]
+                        ],
                         'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                    ),
-                    array(
+                    ],
+                    [
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Array value found, but a number is required',
-                        'constraint' => array(
+                        'constraint' => [
                             'name' => 'type',
-                            'params' => array(
+                            'params' => [
                                 'expected'   => 'a number',
                                 'found'      => 'array'
-                            )
-                        ),
+                            ]
+                        ],
                         'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                    ),
-                    array(
+                    ],
+                    [
                         'property'   => 'prop2',
                         'pointer'    => '/prop2',
                         'message'    => 'Failed to match exactly one schema',
-                        'constraint' => array(
+                        'constraint' => [
                             'name' => 'oneOf',
-                            'params' => array()
-                        ),
+                            'params' => []
+                        ],
                         'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                    ),
-                ),
-            ),
-            array(
+                    ],
+                ],
+            ],
+            [
                 '{"prop1": [1,2]}',
                 '{
                   "type": "object",
@@ -133,8 +133,8 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"prop1": [1,2]}',
                 '{
                   "type": "object",
@@ -149,8 +149,8 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"prop1": [1,2]}',
                 '{
                   "type": "object",
@@ -168,8 +168,8 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"prop1": [1,2]}',
                 '{
                   "type": "object",
@@ -187,8 +187,8 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"prop1": [1,2]}',
                 '{
                   "type": "object",
@@ -207,8 +207,8 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"prop1": [1,2]}',
                 '{
                   "type": "object",
@@ -228,8 +228,8 @@ class OfPropertiesTest extends BaseTestCase
                     }
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function testNoPrematureAnyOfException()

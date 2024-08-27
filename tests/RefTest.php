@@ -16,10 +16,10 @@ class RefTest extends TestCase
 {
     public function dataRefIgnoresSiblings()
     {
-        return array(
+        return [
             // #0 check that $ref is resolved and the instance is validated against
             // the referenced schema
-            array(
+            [
                 '{
                     "definitions":{"test": {"type": "integer"}},
                     "properties": {
@@ -28,9 +28,9 @@ class RefTest extends TestCase
                 }',
                 '{"propertyOne": "not an integer"}',
                 false
-            ),
+            ],
             // #1 check that sibling properties of $ref are ignored during validation
-            array(
+            [
                 '{
                     "definitions":{
                         "test": {"type": "integer"}
@@ -44,9 +44,9 @@ class RefTest extends TestCase
                 }',
                 '{"propertyOne": 10}',
                 true
-            ),
+            ],
             // #2 infinite-loop / unresolveable circular reference
-            array(
+            [
                 '{
                     "definitions": {
                         "test1": {"$ref": "#/definitions/test2"},
@@ -57,8 +57,8 @@ class RefTest extends TestCase
                 '{"propertyOne": 5}',
                 true,
                 '\JsonSchema\Exception\UnresolvableJsonPointerException'
-            )
-        );
+            ]
+        ];
     }
 
     /** @dataProvider dataRefIgnoresSiblings */

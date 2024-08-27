@@ -21,8 +21,8 @@ class DisallowTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"The xpto is weird"
                 }',
@@ -35,8 +35,8 @@ class DisallowTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":null
                 }',
@@ -49,8 +49,8 @@ class DisallowTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 1}',
                 '{
                     "type": "object",
@@ -58,8 +58,8 @@ class DisallowTest extends BaseTestCase
                         "value": {"type": "any", "disallow": "integer"}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": true}',
                 '{
                     "type": "object",
@@ -67,8 +67,8 @@ class DisallowTest extends BaseTestCase
                         "value": {"type": "any", "disallow": ["integer", "boolean"]}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": "foo"}',
                 '{
                     "type": "object",
@@ -85,8 +85,8 @@ class DisallowTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": {"foo": "bar"}}',
                 '{
                     "type": "object",
@@ -103,14 +103,14 @@ class DisallowTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"The xpto is weird"
                 }',
@@ -123,8 +123,8 @@ class DisallowTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":1
                 }',
@@ -137,8 +137,8 @@ class DisallowTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": {"foo": 1}}',
                 '{
                     "type": "object",
@@ -155,8 +155,8 @@ class DisallowTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": true}',
                 '{
                     "type": "object",
@@ -164,7 +164,7 @@ class DisallowTest extends BaseTestCase
                         "value": {"type": "any", "disallow": "string"}
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

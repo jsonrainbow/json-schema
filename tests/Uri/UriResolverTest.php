@@ -17,11 +17,11 @@ class UriResolverTest extends TestCase
     public function testParse()
     {
         $this->assertEquals(
-            array(
+            [
                 'scheme'    => 'http',
                 'authority' => 'example.org',
                 'path'      => '/path/to/file.json'
-            ),
+            ],
             $this->resolver->parse('http://example.org/path/to/file.json')
         );
     }
@@ -29,13 +29,13 @@ class UriResolverTest extends TestCase
     public function testParseAnchor()
     {
         $this->assertEquals(
-            array(
+            [
                 'scheme'    => 'http',
                 'authority' => 'example.org',
                 'path'      => '/path/to/file.json',
                 'query'     => '',
                 'fragment'  => 'foo'
-            ),
+            ],
             $this->resolver->parse('http://example.org/path/to/file.json#foo')
         );
     }
@@ -174,13 +174,13 @@ class UriResolverTest extends TestCase
         $split = $this->resolver->parse($uri);
 
         // check that the URI was split as expected
-        $this->assertEquals(array(
+        $this->assertEquals([
             'scheme' => 'scheme',
             'authority' => 'user:password@authority',
             'path' => '/path',
             'query' => 'query',
             'fragment' => 'fragment'
-        ), $split);
+        ], $split);
 
         // check that the recombined URI matches the original input
         $this->assertEquals($uri, $this->resolver->generate($split));

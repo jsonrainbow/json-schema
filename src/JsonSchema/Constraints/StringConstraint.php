@@ -27,23 +27,23 @@ class StringConstraint extends Constraint
     {
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError(ConstraintError::LENGTH_MAX(), $path, array(
+            $this->addError(ConstraintError::LENGTH_MAX(), $path, [
                 'maxLength' => $schema->maxLength,
-            ));
+            ]);
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError(ConstraintError::LENGTH_MIN(), $path, array(
+            $this->addError(ConstraintError::LENGTH_MIN(), $path, [
                 'minLength' => $schema->minLength,
-            ));
+            ]);
         }
 
         // Verify a regex pattern
         if (isset($schema->pattern) && !preg_match(self::jsonPatternToPhpRegex($schema->pattern), $element)) {
-            $this->addError(ConstraintError::PATTERN(), $path, array(
+            $this->addError(ConstraintError::PATTERN(), $path, [
                 'pattern' => $schema->pattern,
-            ));
+            ]);
         }
 
         $this->checkFormat($element, $schema, $path, $i);

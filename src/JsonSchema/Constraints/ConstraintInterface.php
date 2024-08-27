@@ -40,7 +40,7 @@ interface ConstraintInterface
      * @param JsonPointer|null $path
      * @param array            $more       more array elements to add to the error
      */
-    public function addError(ConstraintError $constraint, ?JsonPointer $path = null, array $more = array());
+    public function addError(ConstraintError $constraint, ?JsonPointer $path = null, array $more = []);
 
     /**
      * checks if the validator has not raised errors

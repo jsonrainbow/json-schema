@@ -15,8 +15,8 @@ class NotTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                     "x": [1, 2]
                 }',
@@ -31,8 +31,8 @@ class NotTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // check that a missing, required property is correctly validated
+            ],
+            [ // check that a missing, required property is correctly validated
                 '{"y": "foo"}',
                 '{
                     "type": "object",
@@ -45,14 +45,14 @@ class NotTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                     "x": [1]
                 }',
@@ -67,8 +67,8 @@ class NotTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "x": ["foo", 2]
                 }',
@@ -83,8 +83,8 @@ class NotTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // check that a missing, non-required property isn't validated
+            ],
+            [ // check that a missing, non-required property isn't validated
                 '{"y": "foo"}',
                 '{
                     "type": "object",
@@ -96,7 +96,7 @@ class NotTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

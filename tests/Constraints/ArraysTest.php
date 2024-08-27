@@ -15,8 +15,8 @@ class ArraysTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -29,8 +29,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -44,8 +44,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "array":[1,2,null]
                 }',
@@ -58,8 +58,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, 2, 3, "foo"]}',
                 '{
                     "type": "object",
@@ -71,8 +71,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // Test array items.enum where type string fail validation if value(s) is/are not in items.enum
+            ],
+            [ // Test array items.enum where type string fail validation if value(s) is/are not in items.enum
                 '{"data": ["a", "b"]}',
                 '{
                     "type": "object",
@@ -86,8 +86,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // Test array items.enum where type integer fail validation if value(s) is/are not in items.enum
+            ],
+            [ // Test array items.enum where type integer fail validation if value(s) is/are not in items.enum
                 '{"data": [1, 2]}',
                 '{
                     "type": "object",
@@ -101,8 +101,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // Test array items.enum where type number fail validation if value(s) is/are not in items.enum
+            ],
+            [ // Test array items.enum where type number fail validation if value(s) is/are not in items.enum
                 '{"data": [1.25, 2.25]}',
                 '{
                     "type": "object",
@@ -116,14 +116,14 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -133,8 +133,8 @@ class ArraysTest extends BaseTestCase
                     "array":{"type":"array"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -148,8 +148,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, 2, 3, 4]}',
                 '{
                     "type": "object",
@@ -161,8 +161,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, "foo", false]}',
                 '{
                     "type": "object",
@@ -173,8 +173,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, "foo", false]}',
                 '{
                     "type": "object",
@@ -185,8 +185,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, 2, 3, 4, 5]}',
                 '{
                     "type": "object",
@@ -197,8 +197,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // test more schema items than array items
+            ],
+            [ // test more schema items than array items
                 '{"data": [1, 2]}',
                 '{
                     "type": "object",
@@ -213,8 +213,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // Test array items.enum where type string passes validation if value(s) is/are in items.enum
+            ],
+            [ // Test array items.enum where type string passes validation if value(s) is/are in items.enum
                 '{"data": ["c", "c", "b"]}',
                 '{
                     "type": "object",
@@ -228,8 +228,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // Test array items.enum where type integer passes validation if value(s) is/are in items.enum
+            ],
+            [ // Test array items.enum where type integer passes validation if value(s) is/are in items.enum
                 '{"data": [1, 1, 2]}',
                 '{
                     "type": "object",
@@ -243,8 +243,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array( // Test array items.enum where type number passes validation if value(s) is/are in items.enum
+            ],
+            [ // Test array items.enum where type number passes validation if value(s) is/are in items.enum
                 '{"data": [1.25, 1.25, 2.25]}',
                 '{
                     "type": "object",
@@ -258,7 +258,7 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

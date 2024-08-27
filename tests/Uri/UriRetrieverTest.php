@@ -145,16 +145,16 @@ EOF;
 }
 EOF;
 
-        return array(
-            array($childSchema, $parentSchema)
-        );
+        return [
+            [$childSchema, $parentSchema]
+        ];
     }
 
     public function testResolvePointerNoFragment()
     {
-        $schema = (object) array(
+        $schema = (object) [
             'title' => 'schema'
-        );
+        ];
 
         $retriever = new UriRetriever();
         $this->assertEquals(
@@ -167,14 +167,14 @@ EOF;
 
     public function testResolvePointerFragment()
     {
-        $schema = (object) array(
-            'definitions' => (object) array(
-                'foo' => (object) array(
+        $schema = (object) [
+            'definitions' => (object) [
+                'foo' => (object) [
                     'title' => 'foo'
-                )
-            ),
+                ]
+            ],
             'title' => 'schema'
-        );
+        ];
 
         $retriever = new UriRetriever();
         $this->assertEquals(
@@ -187,14 +187,14 @@ EOF;
 
     public function testResolvePointerFragmentNotFound()
     {
-        $schema = (object) array(
-            'definitions' => (object) array(
-                'foo' => (object) array(
+        $schema = (object) [
+            'definitions' => (object) [
+                'foo' => (object) [
                     'title' => 'foo'
-                )
-            ),
+                ]
+            ],
             'title' => 'schema'
-        );
+        ];
 
         $retriever = new UriRetriever();
 
@@ -206,14 +206,14 @@ EOF;
 
     public function testResolvePointerFragmentNoArray()
     {
-        $schema = (object) array(
-            'definitions' => (object) array(
-                'foo' => array(
+        $schema = (object) [
+            'definitions' => (object) [
+                'foo' => [
                     'title' => 'foo'
-                )
-            ),
+                ]
+            ],
             'title' => 'schema'
-        );
+        ];
 
         $retriever = new UriRetriever();
 
@@ -371,7 +371,7 @@ EOF;
         // inject a schema cache value
         $schemaCache = $reflector->getProperty('schemaCache');
         $schemaCache->setAccessible(true);
-        $schemaCache->setValue($retriever, array('local://test/uri' => 'testSchemaValue'));
+        $schemaCache->setValue($retriever, ['local://test/uri' => 'testSchemaValue']);
 
         // retrieve from schema cache
         $loadSchema = $reflector->getMethod('loadSchema');
@@ -395,13 +395,13 @@ EOF;
     public function testGenerateURI()
     {
         $retriever = new UriRetriever();
-        $components = array(
+        $components = [
             'scheme' => 'scheme',
             'authority' => 'authority',
             'path' => '/path',
             'query' => '?query',
             'fragment' => '#fragment'
-        );
+        ];
         $this->assertEquals('scheme://authority/path?query#fragment', $retriever->generate($components));
     }
 
@@ -416,10 +416,10 @@ EOF;
 
     public function combinedURITests()
     {
-        return array(
-            array('blue', 'http://example.com/red', 'http://example.com/blue'),
-            array('blue', 'http://example.com/', 'http://example.com/blue'),
-        );
+        return [
+            ['blue', 'http://example.com/red', 'http://example.com/blue'],
+            ['blue', 'http://example.com/', 'http://example.com/blue'],
+        ];
     }
 
     /**

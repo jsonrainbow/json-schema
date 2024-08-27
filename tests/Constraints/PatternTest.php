@@ -15,8 +15,8 @@ class PatternTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"Abacates"
                 }',
@@ -27,8 +27,8 @@ class PatternTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": "abc"}',
                 '{
                     "type": "object",
@@ -37,8 +37,8 @@ class PatternTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": "Ã¼"}',
                 '{
                     "type": "object",
@@ -47,14 +47,14 @@ class PatternTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-        );
+            ],
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"Abacates"
                 }',
@@ -65,8 +65,8 @@ class PatternTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":"Abacates"
                 }',
@@ -77,8 +77,8 @@ class PatternTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": "aaa"}',
                 '{
                     "type": "object",
@@ -87,8 +87,8 @@ class PatternTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": "↓æ→"}',
                 '{
                     "type": "object",
@@ -97,7 +97,7 @@ class PatternTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

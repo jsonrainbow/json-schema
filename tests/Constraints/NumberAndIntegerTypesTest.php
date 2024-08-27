@@ -15,8 +15,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "integer": 1.4
                 }',
@@ -26,8 +26,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                     "integer":{"type":"integer"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"integer": 1.001}',
                 '{
                     "type": "object",
@@ -35,8 +35,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                         "integer": {"type": "integer"}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"integer": true}',
                 '{
                     "type": "object",
@@ -44,8 +44,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                         "integer": {"type": "integer"}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"number": "x"}',
                 '{
                     "type": "object",
@@ -53,14 +53,14 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                         "number": {"type": "number"}
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "integer": 1
                 }',
@@ -70,8 +70,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                     "integer":{"type":"integer"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "number": 1.4
                 }',
@@ -81,8 +81,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                     "number":{"type":"number"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"number": 1e5}',
                 '{
                     "type": "object",
@@ -90,8 +90,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                         "number": {"type": "number"}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"number": 1}',
                 '{
                     "type": "object",
@@ -100,8 +100,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
 
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"number": -49.89}',
                 '{
                     "type": "object",
@@ -112,7 +112,7 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

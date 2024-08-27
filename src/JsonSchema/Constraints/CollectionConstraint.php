@@ -27,12 +27,12 @@ class CollectionConstraint extends Constraint
     {
         // Verify minItems
         if (isset($schema->minItems) && count($value) < $schema->minItems) {
-            $this->addError(ConstraintError::MIN_ITEMS(), $path, array('minItems' => $schema->minItems));
+            $this->addError(ConstraintError::MIN_ITEMS(), $path, ['minItems' => $schema->minItems]);
         }
 
         // Verify maxItems
         if (isset($schema->maxItems) && count($value) > $schema->maxItems) {
-            $this->addError(ConstraintError::MAX_ITEMS(), $path, array('maxItems' => $schema->maxItems));
+            $this->addError(ConstraintError::MAX_ITEMS(), $path, ['maxItems' => $schema->maxItems]);
         }
 
         // Verify uniqueItems
@@ -101,11 +101,11 @@ class CollectionConstraint extends Constraint
                             $this->addError(
                                 ConstraintError::ADDITIONAL_ITEMS(),
                                 $path,
-                                array(
+                                [
                                     'item' => $i,
                                     'property' => $k,
                                     'additionalItems' => $schema->additionalItems
-                                )
+                                ]
                             );
                         }
                     } else {

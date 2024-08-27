@@ -25,7 +25,7 @@ class TypeConstraint extends Constraint
     /**
      * @var array|string[] type wordings for validation error messages
      */
-    public static $wording = array(
+    public static $wording = [
         'integer' => 'an integer',
         'number'  => 'a number',
         'boolean' => 'a boolean',
@@ -35,7 +35,7 @@ class TypeConstraint extends Constraint
         'null'    => 'a null',
         'any'     => null, // validation of 'any' is always true so is not needed in message wording
         0         => null, // validation of a false-y value is always true, so not needed as well
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -46,7 +46,7 @@ class TypeConstraint extends Constraint
         $isValid = false;
         $coerce = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES);
         $earlyCoerce = $this->factory->getConfig(self::CHECK_MODE_EARLY_COERCE);
-        $wording = array();
+        $wording = [];
 
         if (is_array($type)) {
             $this->validateTypesArray($value, $type, $wording, $isValid, $path, $coerce && $earlyCoerce);
@@ -69,10 +69,10 @@ class TypeConstraint extends Constraint
                 $this->validateTypeNameWording($type);
                 $wording[] = self::$wording[$type];
             }
-            $this->addError(ConstraintError::TYPE(), $path, array(
+            $this->addError(ConstraintError::TYPE(), $path, [
                     'found' => gettype($value),
                     'expected' => $this->implodeWith($wording, ', ', 'or')
-            ));
+            ]);
         }
     }
 
@@ -136,7 +136,7 @@ class TypeConstraint extends Constraint
         }
         $lastElement  = array_slice($elements, -1);
         $firsElements = join($delimiter, array_slice($elements, 0, -1));
-        $implodedElements = array_merge(array($firsElements), $lastElement);
+        $implodedElements = array_merge([$firsElements], $lastElement);
 
         return join(" $listEnd ", $implodedElements);
     }
@@ -308,7 +308,7 @@ class TypeConstraint extends Constraint
     protected function toArray($value)
     {
         if (is_scalar($value) || is_null($value)) {
-            return array($value);
+            return [$value];
         }
 
         return $value;

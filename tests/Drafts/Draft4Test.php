@@ -22,10 +22,10 @@ class Draft4Test extends BaseDraftTestCase
      */
     protected function getFilePaths()
     {
-        return array(
+        return [
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft4'),
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft4/optional')
-        );
+        ];
     }
 
     public function getInvalidForAssocTests()
@@ -55,13 +55,13 @@ class Draft4Test extends BaseDraftTestCase
      */
     protected function getSkippedTests()
     {
-        return array(
+        return [
             // Optional
             'bignum.json',
             'format.json',
             'zeroTerminatedFloats.json',
             // Required
             'not.json' // only one test case failing
-        );
+        ];
     }
 }
