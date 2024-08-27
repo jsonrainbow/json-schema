@@ -22,8 +22,8 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"☀"
                 }',
@@ -33,8 +33,8 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
                     "value":{"type":"string","minLength":2,"maxLength":4}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":"☀☁☂☃☺"
                 }',
@@ -44,14 +44,14 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
                     "value":{"type":"string","minLength":2,"maxLength":4}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"☀☁"
                 }',
@@ -61,8 +61,8 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
                     "value":{"type":"string","minLength":2,"maxLength":4}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":"☀☁☂☃"
                 }',
@@ -72,7 +72,7 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
                     "value":{"type":"string","minLength":2,"maxLength":4}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

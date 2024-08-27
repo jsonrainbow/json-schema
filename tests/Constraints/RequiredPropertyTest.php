@@ -115,8 +115,8 @@ class RequiredPropertyTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{}',
                 '{
                   "type":"object",
@@ -124,8 +124,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "number":{"type":"number","required":true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                     "type": "object",
@@ -134,8 +134,8 @@ class RequiredPropertyTest extends BaseTestCase
                     },
                     "required": ["number"]
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "foo": {}
                 }',
@@ -151,8 +151,8 @@ class RequiredPropertyTest extends BaseTestCase
                         }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "bar": 1.4
                  }',
@@ -164,14 +164,14 @@ class RequiredPropertyTest extends BaseTestCase
                     },
                     "required": ["bar"]
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                     "required": ["foo"]
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                 }',
                 '{
@@ -180,8 +180,8 @@ class RequiredPropertyTest extends BaseTestCase
                         "foo": { "required": true }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "string":{}
                 }',
@@ -191,8 +191,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "string":{"type":"string", "required": true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "number":{}
                 }',
@@ -202,8 +202,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "number":{"type":"number", "required": true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "integer":{}
                 }',
@@ -213,8 +213,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "integer":{"type":"integer", "required": true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "boolean":{}
                 }',
@@ -224,8 +224,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "boolean":{"type":"boolean", "required": true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "array":{}
                 }',
@@ -236,8 +236,8 @@ class RequiredPropertyTest extends BaseTestCase
                   }
                 }',
                 Constraint::CHECK_MODE_NORMAL
-            ),
-            array(
+            ],
+            [
                 '{
                   "null":{}
                 }',
@@ -247,8 +247,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "null":{"type":"null", "required": true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "foo": {"baz": 1.5}
                 }',
@@ -264,8 +264,8 @@ class RequiredPropertyTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "foo": {"baz": 1.5}
                 }',
@@ -280,14 +280,14 @@ class RequiredPropertyTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-        );
+            ],
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "number": 1.4
                 }',
@@ -297,8 +297,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "number":{"type":"number","required":true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                   "type":"object",
@@ -306,8 +306,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "number":{"type":"number"}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                   "type":"object",
@@ -315,8 +315,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "number":{"type":"number","required":false}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "number": 0
                 }',
@@ -326,8 +326,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "number":{"type":"integer","required":true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "is_active": false
                 }',
@@ -337,8 +337,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "is_active":{"type":"boolean","required":true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "status": null
                 }',
@@ -348,8 +348,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "status":{"type":"null","required":true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "users": []
                 }',
@@ -359,8 +359,8 @@ class RequiredPropertyTest extends BaseTestCase
                     "users":{"type":"array","required":true}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "foo": "foo",
                     "bar": 1.4
@@ -373,8 +373,8 @@ class RequiredPropertyTest extends BaseTestCase
                     },
                     "required": ["bar"]
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "foo": {"bar": 1.5}
                 }',
@@ -391,8 +391,8 @@ class RequiredPropertyTest extends BaseTestCase
                     },
                     "required": ["foo"]
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "foo": {}
                 }',
@@ -402,8 +402,8 @@ class RequiredPropertyTest extends BaseTestCase
                         "foo": { "required": true }
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "boo": {"bar": 1.5}
                 }',
@@ -419,8 +419,8 @@ class RequiredPropertyTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "boo": {"bar": 1.5}
                 }',
@@ -435,7 +435,7 @@ class RequiredPropertyTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-        );
+            ],
+        ];
     }
 }

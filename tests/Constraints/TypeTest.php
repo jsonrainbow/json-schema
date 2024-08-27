@@ -29,18 +29,18 @@ class TypeTest extends TestCase
      */
     public function provideIndefiniteArticlesForTypes()
     {
-        return array(
-            array('integer', 'an integer'),
-            array('number', 'a number'),
-            array('boolean', 'a boolean'),
-            array('object', 'an object'),
-            array('array', 'an array'),
-            array('string', 'a string'),
-            array('null', 'a null', array(), 'array'),
-            array(array('string', 'boolean', 'integer'), 'a string, a boolean or an integer'),
-            array(array('string', 'boolean'), 'a string or a boolean'),
-            array(array('string'), 'a string'),
-        );
+        return [
+            ['integer', 'an integer'],
+            ['number', 'a number'],
+            ['boolean', 'a boolean'],
+            ['object', 'an object'],
+            ['array', 'an array'],
+            ['string', 'a string'],
+            ['null', 'a null', [], 'array'],
+            [['string', 'boolean', 'integer'], 'a string, a boolean or an integer'],
+            [['string', 'boolean'], 'a string or a boolean'],
+            [['string'], 'a string'],
+        ];
     }
 
     /**
@@ -49,7 +49,7 @@ class TypeTest extends TestCase
     public function testIndefiniteArticleForTypeInTypeCheckErrorMessage($type, $wording, $value = null, $label = 'NULL')
     {
         $constraint = new TypeConstraint();
-        $constraint->check($value, (object) array('type' => $type));
+        $constraint->check($value, (object) ['type' => $type]);
         $this->assertTypeConstraintError(ucwords($label) . " value found, but $wording is required", $constraint);
     }
 
@@ -96,10 +96,10 @@ class TypeTest extends TestCase
 
     public function validNameWordingDataProvider()
     {
-        $wordings = array();
+        $wordings = [];
 
         foreach (array_keys(TypeConstraint::$wording) as $value) {
-            $wordings[] = array($value);
+            $wordings[] = [$value];
         }
 
         return $wordings;

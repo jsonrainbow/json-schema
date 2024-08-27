@@ -15,10 +15,10 @@ class PredefinedArrayTest extends TestCase
     public function setUp(): void
     {
         $this->retriever = new PredefinedArray(
-            array(
+            [
                 'http://acme.com/schemas/person#'  => 'THE_PERSON_SCHEMA',
                 'http://acme.com/schemas/address#' => 'THE_ADDRESS_SCHEMA',
-            ),
+            ],
             'THE_CONTENT_TYPE'
         );
     }

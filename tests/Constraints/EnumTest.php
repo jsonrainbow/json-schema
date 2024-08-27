@@ -16,8 +16,8 @@ class EnumTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"Morango"
                 }',
@@ -28,8 +28,8 @@ class EnumTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                   "type":"object",
@@ -42,8 +42,8 @@ class EnumTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": "4"}',
                 '{
                     "type": "object",
@@ -54,8 +54,8 @@ class EnumTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": {"foo": false}}',
                 '{
                     "type": "object",
@@ -66,8 +66,8 @@ class EnumTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "value": {
                         "foo": "12"
@@ -90,14 +90,14 @@ class EnumTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":"Abacate"
                 }',
@@ -108,8 +108,8 @@ class EnumTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                   "type":"object",
@@ -118,8 +118,8 @@ class EnumTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{}',
                 '{
                   "type":"object",
@@ -132,8 +132,8 @@ class EnumTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 1}',
                 '{
                     "type": "object",
@@ -141,8 +141,8 @@ class EnumTest extends BaseTestCase
                         "value": {"type": "integer", "enum": [1, 2, 3]}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": []}',
                 '{
                     "type": "object",
@@ -151,8 +151,8 @@ class EnumTest extends BaseTestCase
                     },
                     "additionalProperties": false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "value": {
                         "foo": 12
@@ -175,7 +175,7 @@ class EnumTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

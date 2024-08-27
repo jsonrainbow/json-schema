@@ -14,7 +14,7 @@ class SchemaStorage implements SchemaStorageInterface
 
     protected $uriRetriever;
     protected $uriResolver;
-    protected $schemas = array();
+    protected $schemas = [];
 
     public function __construct(
         ?UriRetrieverInterface $uriRetriever = null,
@@ -121,7 +121,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveRef($ref, $resolveStack = array())
+    public function resolveRef($ref, $resolveStack = [])
     {
         $jsonPointer = new JsonPointer($ref);
 
@@ -156,7 +156,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveRefSchema($refSchema, $resolveStack = array())
+    public function resolveRefSchema($refSchema, $resolveStack = [])
     {
         if (is_object($refSchema) && property_exists($refSchema, '$ref') && is_string($refSchema->{'$ref'})) {
             if (in_array($refSchema, $resolveStack, true)) {

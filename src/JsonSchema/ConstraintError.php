@@ -55,7 +55,7 @@ class ConstraintError extends Enum
     public function getMessage()
     {
         $name = $this->getValue();
-        static $messages = array(
+        static $messages = [
             self::ADDITIONAL_ITEMS => 'The item %s[%s] is not defined and the definition does not allow additional items',
             self::ADDITIONAL_PROPERTIES => 'The property %s is not defined and the definition does not allow additional properties',
             self::ALL_OF => 'Failed to match all schemas',
@@ -101,7 +101,7 @@ class ConstraintError extends Enum
             self::PROPERTIES_MAX => 'Must contain no more than %d properties',
             self::TYPE => '%s value found, but %s is required',
             self::UNIQUE_ITEMS => 'There are no duplicates allowed in the array'
-        );
+        ];
 
         if (!isset($messages[$name])) {
             throw new InvalidArgumentException('Missing error message for ' . $name);

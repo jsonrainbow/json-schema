@@ -17,8 +17,8 @@ class SelfDefinedSchemaTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                     "$schema": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -37,14 +37,14 @@ class SelfDefinedSchemaTest extends BaseTestCase
                     "type" : "object"
                 }',
                 ''
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                     "$schema": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -63,8 +63,8 @@ class SelfDefinedSchemaTest extends BaseTestCase
                     "type" : "object"
                 }',
                 ''
-            )
-        );
+            ]
+        ];
     }
 
     public function testInvalidArgumentException()

@@ -20,8 +20,8 @@ if (!$composerAutoload) {
 }
 require($composerAutoload);
 
-$arOptions = array();
-$arArgs = array();
+$arOptions = [];
+$arArgs = [];
 array_shift($argv);//script itself
 foreach ($argv as $arg) {
     if ($arg[0] == '-') {
@@ -66,7 +66,7 @@ if (count($arArgs) == 1) {
 function showJsonError()
 {
     $constants = get_defined_constants(true);
-    $json_errors = array();
+    $json_errors = [];
     foreach ($constants['json'] as $name => $value) {
         if (!strncmp($name, 'JSON_ERROR_', 11)) {
             $json_errors[$value] = $name;
@@ -101,11 +101,11 @@ function getUrlFromPath($path)
 function parseHeaderValue($headerValue)
 {
     if (strpos($headerValue, ';') === false) {
-        return array('_value' => $headerValue);
+        return ['_value' => $headerValue];
     }
 
     $parts = explode(';', $headerValue);
-    $arData = array('_value' => array_shift($parts));
+    $arData = ['_value' => array_shift($parts)];
     foreach ($parts as $part) {
         list($name, $value) = explode('=', $part);
         $arData[$name] = trim($value, ' "\'');
@@ -128,15 +128,15 @@ function output($str) {
 $urlData = getUrlFromPath($pathData);
 
 $context = stream_context_create(
-    array(
-        'http' => array(
-            'header'        => array(
+    [
+        'http' => [
+            'header'        => [
                 'Accept: */*',
                 'Connection: Close'
-            ),
+            ],
             'max_redirects' => 5
-        )
-    )
+        ]
+    ]
 );
 $dataString = file_get_contents($pathData, false, $context);
 if ($dataString == '') {

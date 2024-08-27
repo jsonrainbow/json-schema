@@ -63,19 +63,19 @@ class FactoryTest extends TestCase
 
     public function constraintNameProvider()
     {
-        return array(
-            array('array', 'JsonSchema\Constraints\CollectionConstraint'),
-            array('collection', 'JsonSchema\Constraints\CollectionConstraint'),
-            array('object', 'JsonSchema\Constraints\ObjectConstraint'),
-            array('type', 'JsonSchema\Constraints\TypeConstraint'),
-            array('undefined', 'JsonSchema\Constraints\UndefinedConstraint'),
-            array('string', 'JsonSchema\Constraints\StringConstraint'),
-            array('number', 'JsonSchema\Constraints\NumberConstraint'),
-            array('enum', 'JsonSchema\Constraints\EnumConstraint'),
-            array('const', 'JsonSchema\Constraints\ConstConstraint'),
-            array('format', 'JsonSchema\Constraints\FormatConstraint'),
-            array('schema', 'JsonSchema\Constraints\SchemaConstraint'),
-        );
+        return [
+            ['array', 'JsonSchema\Constraints\CollectionConstraint'],
+            ['collection', 'JsonSchema\Constraints\CollectionConstraint'],
+            ['object', 'JsonSchema\Constraints\ObjectConstraint'],
+            ['type', 'JsonSchema\Constraints\TypeConstraint'],
+            ['undefined', 'JsonSchema\Constraints\UndefinedConstraint'],
+            ['string', 'JsonSchema\Constraints\StringConstraint'],
+            ['number', 'JsonSchema\Constraints\NumberConstraint'],
+            ['enum', 'JsonSchema\Constraints\EnumConstraint'],
+            ['const', 'JsonSchema\Constraints\ConstConstraint'],
+            ['format', 'JsonSchema\Constraints\FormatConstraint'],
+            ['schema', 'JsonSchema\Constraints\SchemaConstraint'],
+        ];
     }
 
     /**
@@ -91,9 +91,9 @@ class FactoryTest extends TestCase
 
     public function invalidConstraintNameProvider()
     {
-        return array(
-            array('invalidConstraintName'),
-        );
+        return [
+            ['invalidConstraintName'],
+        ];
     }
 
     public function testSetConstraintClassExistsCondition()

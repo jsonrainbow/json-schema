@@ -34,8 +34,8 @@ class FileGetContentsTest extends TestCase
         $fetchContentType = $reflector->getMethod('fetchContentType');
         $fetchContentType->setAccessible(true);
 
-        $this->assertTrue($fetchContentType->invoke($res, array('Content-Type: application/json')));
-        $this->assertFalse($fetchContentType->invoke($res, array('X-Some-Header: whateverValue')));
+        $this->assertTrue($fetchContentType->invoke($res, ['Content-Type: application/json']));
+        $this->assertFalse($fetchContentType->invoke($res, ['X-Some-Header: whateverValue']));
     }
 
     public function testCanHandleHttp301PermanentRedirect()

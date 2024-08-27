@@ -16,8 +16,8 @@ class ConstTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{"value":"foo"}',
                 '{
                   "type":"object",
@@ -26,8 +26,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value":5}',
                 '{
                   "type":"object",
@@ -36,8 +36,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value":false}',
                 '{
                   "type":"object",
@@ -46,8 +46,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "value": {
                         "foo": "12"
@@ -64,14 +64,14 @@ class ConstTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{"value":"bar"}',
                 '{
                   "type":"object",
@@ -80,8 +80,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value":false}',
                 '{
                   "type":"object",
@@ -90,8 +90,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value":true}',
                 '{
                   "type":"object",
@@ -100,8 +100,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value":5}',
                 '{
                   "type":"object",
@@ -110,8 +110,8 @@ class ConstTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                     "value": {
                         "foo": 12
@@ -128,7 +128,7 @@ class ConstTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

@@ -34,73 +34,73 @@ class FormatConstraint extends Constraint
         switch ($schema->format) {
             case 'date':
                 if (!$date = $this->validateDateTime($element, 'Y-m-d')) {
-                    $this->addError(ConstraintError::FORMAT_DATE(), $path, array(
+                    $this->addError(ConstraintError::FORMAT_DATE(), $path, [
                             'date' => $element,
                             'format' => $schema->format
-                        )
+                        ]
                     );
                 }
                 break;
 
             case 'time':
                 if (!$this->validateDateTime($element, 'H:i:s')) {
-                    $this->addError(ConstraintError::FORMAT_TIME(), $path, array(
+                    $this->addError(ConstraintError::FORMAT_TIME(), $path, [
                             'time' => json_encode($element),
                             'format' => $schema->format,
-                        )
+                        ]
                     );
                 }
                 break;
 
             case 'date-time':
                 if (null === Rfc3339::createFromString($element)) {
-                    $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, array(
+                    $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, [
                             'dateTime' => json_encode($element),
                             'format' => $schema->format
-                        )
+                        ]
                     );
                 }
                 break;
 
             case 'utc-millisec':
                 if (!$this->validateDateTime($element, 'U')) {
-                    $this->addError(ConstraintError::FORMAT_DATE_UTC(), $path, array(
+                    $this->addError(ConstraintError::FORMAT_DATE_UTC(), $path, [
                         'value' => $element,
-                        'format' => $schema->format));
+                        'format' => $schema->format]);
                 }
                 break;
 
             case 'regex':
                 if (!$this->validateRegex($element)) {
-                    $this->addError(ConstraintError::FORMAT_REGEX(), $path, array(
+                    $this->addError(ConstraintError::FORMAT_REGEX(), $path, [
                             'value' => $element,
                             'format' => $schema->format
-                        )
+                        ]
                     );
                 }
                 break;
 
             case 'color':
                 if (!$this->validateColor($element)) {
-                    $this->addError(ConstraintError::FORMAT_COLOR(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_COLOR(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'style':
                 if (!$this->validateStyle($element)) {
-                    $this->addError(ConstraintError::FORMAT_STYLE(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_STYLE(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'phone':
                 if (!$this->validatePhone($element)) {
-                    $this->addError(ConstraintError::FORMAT_PHONE(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_PHONE(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'uri':
                 if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
-                    $this->addError(ConstraintError::FORMAT_URL(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
                 }
                 break;
 
@@ -125,7 +125,7 @@ class FormatConstraint extends Constraint
                         $validURL = null;
                     }
                     if ($validURL === null) {
-                        $this->addError(ConstraintError::FORMAT_URL_REF(), $path, array('format' => $schema->format));
+                        $this->addError(ConstraintError::FORMAT_URL_REF(), $path, ['format' => $schema->format]);
                     }
                 }
                 break;
@@ -137,27 +137,27 @@ class FormatConstraint extends Constraint
                     $filterFlags |= constant('FILTER_FLAG_EMAIL_UNICODE'); // @codeCoverageIgnore
                 }
                 if (null === filter_var($element, FILTER_VALIDATE_EMAIL, $filterFlags)) {
-                    $this->addError(ConstraintError::FORMAT_EMAIL(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'ip-address':
             case 'ipv4':
                 if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV4)) {
-                    $this->addError(ConstraintError::FORMAT_IP(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_IP(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'ipv6':
                 if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV6)) {
-                    $this->addError(ConstraintError::FORMAT_IP(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_IP(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'host-name':
             case 'hostname':
                 if (!$this->validateHostname($element)) {
-                    $this->addError(ConstraintError::FORMAT_HOSTNAME(), $path, array('format' => $schema->format));
+                    $this->addError(ConstraintError::FORMAT_HOSTNAME(), $path, ['format' => $schema->format]);
                 }
                 break;
 
@@ -194,9 +194,9 @@ class FormatConstraint extends Constraint
 
     protected function validateColor($color)
     {
-        if (in_array(strtolower($color), array('aqua', 'black', 'blue', 'fuchsia',
+        if (in_array(strtolower($color), ['aqua', 'black', 'blue', 'fuchsia',
             'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple',
-            'red', 'silver', 'teal', 'white', 'yellow'))) {
+            'red', 'silver', 'teal', 'white', 'yellow'])) {
             return true;
         }
 

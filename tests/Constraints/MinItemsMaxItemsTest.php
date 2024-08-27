@@ -15,8 +15,8 @@ class MinItemsMaxItemsTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":[2]
                 }',
@@ -26,8 +26,8 @@ class MinItemsMaxItemsTest extends BaseTestCase
                     "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":[2,2,5,8,5]
                 }',
@@ -37,14 +37,14 @@ class MinItemsMaxItemsTest extends BaseTestCase
                     "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":[2,2]
                 }',
@@ -54,8 +54,8 @@ class MinItemsMaxItemsTest extends BaseTestCase
                     "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":[2,2,5,8]
                 }',
@@ -65,7 +65,7 @@ class MinItemsMaxItemsTest extends BaseTestCase
                     "value":{"type":"array","minItems":2,"maxItems":4}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

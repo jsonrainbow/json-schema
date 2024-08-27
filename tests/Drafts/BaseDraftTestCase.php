@@ -16,7 +16,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
     {
         $filePaths = $this->getFilePaths();
         $skippedTests = $this->getSkippedTests();
-        $tests = array();
+        $tests = [];
 
         foreach ($filePaths as $path) {
             foreach (glob($path . '/*.json') as $file) {
@@ -33,7 +33,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
                         if ($isValid === $test->valid) {
                             $tests[
                                 $this->createDataSetPath($filename, $suiteDescription, $testCaseDescription)
-                            ] = array(json_encode($test->data), json_encode($suite->schema));
+                            ] = [json_encode($test->data), json_encode($suite->schema)];
                         }
                     }
                 }

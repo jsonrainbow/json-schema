@@ -15,8 +15,8 @@ class TupleTypingTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "tupleTyping":[2,"a"]
                 }',
@@ -32,8 +32,8 @@ class TupleTypingTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "tupleTyping":["2",2,true]
                 }',
@@ -50,8 +50,8 @@ class TupleTypingTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "tupleTyping":["2",2,3]
                 }',
@@ -68,8 +68,8 @@ class TupleTypingTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, "foo", true, 1.5]}',
                 '{
                     "type": "object",
@@ -81,14 +81,14 @@ class TupleTypingTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "tupleTyping":["2", 1]
                 }',
@@ -104,8 +104,8 @@ class TupleTypingTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "tupleTyping":["2",2,3]
                 }',
@@ -121,8 +121,8 @@ class TupleTypingTest extends BaseTestCase
                     }
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"data": [1, "foo", true]}',
                 '{
                     "type": "object",
@@ -134,7 +134,7 @@ class TupleTypingTest extends BaseTestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

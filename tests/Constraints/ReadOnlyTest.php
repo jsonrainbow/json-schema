@@ -16,8 +16,8 @@ class ReadOnlyTest extends BaseTestCase
     public function getInvalidTests()
     {
         //is readonly really required?
-        return array(
-            array(
+        return [
+            [
                 '{ "number": [] }',
                 '{
                   "type":"object",
@@ -25,14 +25,14 @@ class ReadOnlyTest extends BaseTestCase
                     "number":{"type":"string","readonly":true}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "number": "1.4"
                 }',
@@ -42,7 +42,7 @@ class ReadOnlyTest extends BaseTestCase
                     "number":{"type":"string","readonly":true}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

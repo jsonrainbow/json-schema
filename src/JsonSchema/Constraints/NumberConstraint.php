@@ -29,40 +29,40 @@ class NumberConstraint extends Constraint
         if (isset($schema->exclusiveMinimum)) {
             if (isset($schema->minimum)) {
                 if ($schema->exclusiveMinimum && $element <= $schema->minimum) {
-                    $this->addError(ConstraintError::EXCLUSIVE_MINIMUM(), $path, array('minimum' => $schema->minimum));
+                    $this->addError(ConstraintError::EXCLUSIVE_MINIMUM(), $path, ['minimum' => $schema->minimum]);
                 } elseif ($element < $schema->minimum) {
-                    $this->addError(ConstraintError::MINIMUM(), $path, array('minimum' => $schema->minimum));
+                    $this->addError(ConstraintError::MINIMUM(), $path, ['minimum' => $schema->minimum]);
                 }
             } else {
                 $this->addError(ConstraintError::MISSING_MINIMUM(), $path);
             }
         } elseif (isset($schema->minimum) && $element < $schema->minimum) {
-            $this->addError(ConstraintError::MINIMUM(), $path, array('minimum' => $schema->minimum));
+            $this->addError(ConstraintError::MINIMUM(), $path, ['minimum' => $schema->minimum]);
         }
 
         // Verify maximum
         if (isset($schema->exclusiveMaximum)) {
             if (isset($schema->maximum)) {
                 if ($schema->exclusiveMaximum && $element >= $schema->maximum) {
-                    $this->addError(ConstraintError::EXCLUSIVE_MAXIMUM(), $path, array('maximum' => $schema->maximum));
+                    $this->addError(ConstraintError::EXCLUSIVE_MAXIMUM(), $path, ['maximum' => $schema->maximum]);
                 } elseif ($element > $schema->maximum) {
-                    $this->addError(ConstraintError::MAXIMUM(), $path, array('maximum' => $schema->maximum));
+                    $this->addError(ConstraintError::MAXIMUM(), $path, ['maximum' => $schema->maximum]);
                 }
             } else {
                 $this->addError(ConstraintError::MISSING_MAXIMUM(), $path);
             }
         } elseif (isset($schema->maximum) && $element > $schema->maximum) {
-            $this->addError(ConstraintError::MAXIMUM(), $path, array('maximum' => $schema->maximum));
+            $this->addError(ConstraintError::MAXIMUM(), $path, ['maximum' => $schema->maximum]);
         }
 
         // Verify divisibleBy - Draft v3
         if (isset($schema->divisibleBy) && $this->fmod($element, $schema->divisibleBy) != 0) {
-            $this->addError(ConstraintError::DIVISIBLE_BY(), $path, array('divisibleBy' => $schema->divisibleBy));
+            $this->addError(ConstraintError::DIVISIBLE_BY(), $path, ['divisibleBy' => $schema->divisibleBy]);
         }
 
         // Verify multipleOf - Draft v4
         if (isset($schema->multipleOf) && $this->fmod($element, $schema->multipleOf) != 0) {
-            $this->addError(ConstraintError::MULTIPLE_OF(), $path, array('multipleOf' => $schema->multipleOf));
+            $this->addError(ConstraintError::MULTIPLE_OF(), $path, ['multipleOf' => $schema->multipleOf]);
         }
 
         $this->checkFormat($element, $schema, $path, $i);

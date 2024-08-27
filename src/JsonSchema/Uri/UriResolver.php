@@ -30,13 +30,13 @@ class UriResolver implements UriResolverInterface
     {
         preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', (string) $uri, $match);
 
-        $components = array();
+        $components = [];
         if (5 < count($match)) {
-            $components =  array(
+            $components =  [
                 'scheme'    => $match[2],
                 'authority' => $match[4],
                 'path'      => $match[5]
-            );
+            ];
         }
         if (7 < count($match)) {
             $components['query'] = $match[7];

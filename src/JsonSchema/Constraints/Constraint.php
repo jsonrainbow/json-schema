@@ -51,7 +51,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
         $path = $path->withPropertyPaths(
             array_merge(
                 $path->getPropertyPaths(),
-                array($i)
+                [$i]
             )
         );
 
@@ -85,7 +85,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param mixed            $patternProperties
      */
     protected function checkObject(&$value, $schema = null, ?JsonPointer $path = null, $properties = null,
-        $additionalProperties = null, $patternProperties = null, $appliedDefaults = array())
+        $additionalProperties = null, $patternProperties = null, $appliedDefaults = [])
     {
         /** @var ObjectConstraint $validator */
         $validator = $this->factory->createInstanceFor('object');

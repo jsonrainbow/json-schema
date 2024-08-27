@@ -18,7 +18,7 @@ class DefaultPropertiesTest extends VeryBaseTestCase
 {
     public function getValidTests()
     {
-        return array(
+        return [
             /*
             // This test case was intended to check whether a default value can be applied for the
             // entire object, however testing this case is impossible, because there is no way to
@@ -31,72 +31,72 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 '"valueOne"'
             ),
             */
-            array(// #0 default value in an empty object
+            [// #0 default value in an empty object
                 '{}',
                 '{"properties":{"propertyOne":{"default":"valueOne"}}}',
                 '{"propertyOne":"valueOne"}'
-            ),
-            array(// #1 default value for top-level property
+            ],
+            [// #1 default value for top-level property
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
-            ),
-            array(// #2 default value for sub-property
+            ],
+            [// #2 default value for sub-property
                 '{"propertyOne":{}}',
                 '{"properties":{"propertyOne":{"properties":{"propertyTwo":{"default":"valueTwo"}}}}}',
                 '{"propertyOne":{"propertyTwo":"valueTwo"}}'
-            ),
-            array(// #3 default value for sub-property with sibling
+            ],
+            [// #3 default value for sub-property with sibling
                 '{"propertyOne":{"propertyTwo":"valueTwo"}}',
                 '{"properties":{"propertyOne":{"properties":{"propertyThree":{"default":"valueThree"}}}}}',
                 '{"propertyOne":{"propertyTwo":"valueTwo","propertyThree":"valueThree"}}'
-            ),
-            array(// #4 default value for top-level property with type check
+            ],
+            [// #4 default value for top-level property with type check
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo","type":"string"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
-            ),
-            array(// #5 default value for top-level property with v3 required check
+            ],
+            [// #5 default value for top-level property with v3 required check
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo","required":"true"}}}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
-            ),
-            array(// #6 default value for top-level property with v4 required check
+            ],
+            [// #6 default value for top-level property with v4 required check
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":"valueTwo"}},"required":["propertyTwo"]}',
                 '{"propertyOne":"valueOne","propertyTwo":"valueTwo"}'
-            ),
-            array(// #7 default value for an already set property
+            ],
+            [// #7 default value for an already set property
                 '{"propertyOne":"alreadySetValueOne"}',
                 '{"properties":{"propertyOne":{"default":"valueOne"}}}',
                 '{"propertyOne":"alreadySetValueOne"}'
-            ),
-            array(// #8 default item value for an array
+            ],
+            [// #8 default item value for an array
                 '["valueOne"]',
                 '{"type":"array","items":[{},{"type":"string","default":"valueTwo"}]}',
                 '["valueOne","valueTwo"]'
-            ),
-            array(// #9 default item value for an empty array
+            ],
+            [// #9 default item value for an empty array
                 '[]',
                 '{"type":"array","items":[{"type":"string","default":"valueOne"}]}',
                 '["valueOne"]'
-            ),
-            array(// #10 property without a default available
+            ],
+            [// #10 property without a default available
                 '{"propertyOne":"alreadySetValueOne"}',
                 '{"properties":{"propertyOne":{"type":"string"}}}',
                 '{"propertyOne":"alreadySetValueOne"}'
-            ),
-            array(// #11 default property value is an object
+            ],
+            [// #11 default property value is an object
                 '{"propertyOne":"valueOne"}',
                 '{"properties":{"propertyTwo":{"default":{}}}}',
                 '{"propertyOne":"valueOne","propertyTwo":{}}'
-            ),
-            array(// #12 default item value is an object
+            ],
+            [// #12 default item value is an object
                 '[]',
                 '{"type":"array","items":[{"default":{}}]}',
                 '[{}]'
-            ),
-            array(// #13 only set required values (draft-04)
+            ],
+            [// #13 only set required values (draft-04)
                 '{}',
                 '{
                     "properties": {
@@ -107,8 +107,8 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 }',
                 '{"propertyTwo":"valueTwo"}',
                 Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS
-            ),
-            array(// #14 only set required values (draft-03)
+            ],
+            [// #14 only set required values (draft-03)
                 '{}',
                 '{
                     "properties": {
@@ -118,53 +118,53 @@ class DefaultPropertiesTest extends VeryBaseTestCase
                 }',
                 '{"propertyTwo":"valueTwo"}',
                 Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS
-            ),
-            array(// #15 infinite recursion via $ref (object)
+            ],
+            [// #15 infinite recursion via $ref (object)
                 '{}',
                 '{"properties":{"propertyOne": {"$ref": "#","default": "valueOne"}}, "default": {}}',
                 '{"propertyOne":{}}'
-            ),
-            array(// #16 infinite recursion via $ref (array)
+            ],
+            [// #16 infinite recursion via $ref (array)
                 '[]',
                 '{"items":[{"$ref":"#","default":"valueOne"}], "default": []}',
                 '[[]]'
-            ),
-            array(// #17 default top value does not overwrite defined null
+            ],
+            [// #17 default top value does not overwrite defined null
                 'null',
                 '{"default":"valueOne"}',
                 'null'
-            ),
-            array(// #18 default property value does not overwrite defined null
+            ],
+            [// #18 default property value does not overwrite defined null
                 '{"propertyOne":null}',
                 '{"properties":{"propertyOne":{"default":"valueOne"}}}',
                 '{"propertyOne":null}'
-            ),
-            array(// #19 default value in an object is null
+            ],
+            [// #19 default value in an object is null
                 '{}',
                 '{"properties":{"propertyOne":{"default":null}}}',
                 '{"propertyOne":null}'
-            ),
-            array(// #20 default value in an array is null
+            ],
+            [// #20 default value in an array is null
                 '[]',
                 '{"items":[{"default":null}]}',
                 '[null]'
-            ),
-            array(// #21 items might be a schema (instead of an array of schema)
+            ],
+            [// #21 items might be a schema (instead of an array of schema)
                 '[{}]',
                 '{"items":{"properties":{"propertyOne":{"default":"valueOne"}}}}',
                 '[{"propertyOne":"valueOne"}]'
-            ),
-            array(// #22 if items is not an array, it does not create a new item
+            ],
+            [// #22 if items is not an array, it does not create a new item
                 '[]',
                 '{"items":{"properties":{"propertyOne":{"default":"valueOne"}}}}',
                 '[]'
-            ),
-            array(// #23 if items is a schema with a default value and minItems is present, fill the array
+            ],
+            [// #23 if items is a schema with a default value and minItems is present, fill the array
                 '["a"]',
                 '{"items":{"default":"b"}, "minItems": 3}',
                 '["a","b","b"]'
-            ),
-        );
+            ],
+        ];
     }
 
     /**

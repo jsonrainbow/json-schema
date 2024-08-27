@@ -18,124 +18,124 @@ class PointerTest extends TestCase
 
     public function testVariousPointers()
     {
-        $schema = array(
+        $schema = [
             'type' => 'object',
-            'required' => array('prop1', 'prop2', 'prop3', 'prop4'),
-            'properties' => array(
-                'prop1' => array(
+            'required' => ['prop1', 'prop2', 'prop3', 'prop4'],
+            'properties' => [
+                'prop1' => [
                     'type' => 'string'
-                ),
-                'prop2' => array(
+                ],
+                'prop2' => [
                     'type' => 'object',
-                    'required' => array('prop2.1'),
-                    'properties' => array(
-                        'prop2.1' => array(
+                    'required' => ['prop2.1'],
+                    'properties' => [
+                        'prop2.1' => [
                             'type' => 'string'
-                        )
-                    )
-                ),
-                'prop3' => array(
+                        ]
+                    ]
+                ],
+                'prop3' => [
                     'type' => 'object',
-                    'required' => array('prop3/1'),
-                    'properties' => array(
-                        'prop3/1' => array(
+                    'required' => ['prop3/1'],
+                    'properties' => [
+                        'prop3/1' => [
                             'type' => 'object',
-                            'required' => array('prop3/1.1'),
-                            'properties' => array(
-                                'prop3/1.1' => array(
+                            'required' => ['prop3/1.1'],
+                            'properties' => [
+                                'prop3/1.1' => [
                                     'type' => 'string'
-                                )
-                            )
-                        )
-                    )
-                ),
-                'prop4' => array(
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'prop4' => [
                     'type' => 'array',
                     'minItems' => 1,
-                    'items' => array(
+                    'items' => [
                         'type' => 'object',
-                        'required' => array('prop4-child'),
-                        'properties' => array(
-                            'prop4-child' => array(
+                        'required' => ['prop4-child'],
+                        'properties' => [
+                            'prop4-child' => [
                                 'type' => 'string'
-                            )
-                        )
-                    )
-                )
-            )
-        );
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
-        $value = array(
-            'prop2' => array(
+        $value = [
+            'prop2' => [
                 'foo' => 'bar'
-            ),
-            'prop3' => array(
-                'prop3/1' => array(
+            ],
+            'prop3' => [
+                'prop3/1' => [
                     'foo' => 'bar'
-                )
-            ),
-            'prop4' => array(
-                array(
+                ]
+            ],
+            'prop4' => [
+                [
                     'foo' => 'bar'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         $validator = new Validator();
         $checkValue = json_decode(json_encode($value));
         $validator->validate($checkValue, json_decode(json_encode($schema)));
 
         $this->assertEquals(
-            array(
-                array(
+            [
+                [
                     'property' => 'prop1',
                     'pointer' => '/prop1',
                     'message' => 'The property prop1 is required',
-                    'constraint' => array(
+                    'constraint' => [
                         'name' => 'required',
-                        'params' => array(
+                        'params' => [
                             'property' => 'prop1'
-                        )
-                    ),
+                        ]
+                    ],
                     'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                ),
-                array(
+                ],
+                [
                     'property' => 'prop2.prop2.1',
                     'pointer' => '/prop2/prop2.1',
                     'message' => 'The property prop2.1 is required',
-                    'constraint' => array(
+                    'constraint' => [
                         'name' => 'required',
-                        'params' => array(
+                        'params' => [
                             'property' => 'prop2.1'
-                        )
-                    ),
+                        ]
+                    ],
                     'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                ),
-                array(
+                ],
+                [
                     'property' => 'prop3.prop3/1.prop3/1.1',
                     'pointer' => '/prop3/prop3~11/prop3~11.1',
                     'message' => 'The property prop3/1.1 is required',
-                    'constraint' => array(
+                    'constraint' => [
                         'name' => 'required',
-                        'params' => array(
+                        'params' => [
                             'property' => 'prop3/1.1'
-                        )
-                    ),
+                        ]
+                    ],
                     'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                ),
-                array(
+                ],
+                [
                     'property' => 'prop4[0].prop4-child',
                     'pointer' => '/prop4/0/prop4-child',
                     'message' => 'The property prop4-child is required',
-                    'constraint' => array(
+                    'constraint' => [
                         'name' => 'required',
-                        'params' => array(
+                        'params' => [
                             'property' => 'prop4-child'
-                        )
-                    ),
+                        ]
+                    ],
                     'context'    => Validator::ERROR_DOCUMENT_VALIDATION
-                )
-            ),
+                ]
+            ],
             $validator->getErrors()
         );
     }

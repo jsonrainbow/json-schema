@@ -44,6 +44,6 @@ class ConstConstraint extends Constraint
             return;
         }
 
-        $this->addError(ConstraintError::CONSTANT(), $path, array('const' => $schema->const));
+        $this->addError(ConstraintError::CONSTANT(), $path, ['const' => $schema->const]);
     }
 }

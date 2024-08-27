@@ -19,8 +19,8 @@ class SchemaValidationTest extends TestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(// invalid v4 schema (uses v3 require)
+        return [
+            [// invalid v4 schema (uses v3 require)
                 '{
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "properties": {
@@ -30,8 +30,8 @@ class SchemaValidationTest extends TestCase
                         }
                     }
                 }'
-            ),
-            array(// invalid v4 schema (uses v3 required), use default spec instead of specifying $schema
+            ],
+            [// invalid v4 schema (uses v3 required), use default spec instead of specifying $schema
                 '{
                     "properties": {
                         "propertyOne": {
@@ -40,14 +40,14 @@ class SchemaValidationTest extends TestCase
                         }
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(// valid v4 schema (uses v4 require)
+        return [
+            [// valid v4 schema (uses v4 require)
                 '{
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "properties": {
@@ -57,8 +57,8 @@ class SchemaValidationTest extends TestCase
                     },
                     "required": ["propertyOne"]
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     /**

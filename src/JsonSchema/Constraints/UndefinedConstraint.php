@@ -27,7 +27,7 @@ class UndefinedConstraint extends Constraint
     /**
      * @var array List of properties to which a default value has been applied
      */
-    protected $appliedDefaults = array();
+    protected $appliedDefaults = [];
 
     /**
      * {@inheritdoc}
@@ -141,9 +141,9 @@ class UndefinedConstraint extends Constraint
                     if (!$this->getTypeCheck()->propertyExists($value, $required)) {
                         $this->addError(
                             ConstraintError::REQUIRED(),
-                            $this->incrementPath($path, $required), array(
+                            $this->incrementPath($path, $required), [
                                 'property' => $required
-                            )
+                            ]
                         );
                     }
                 }
@@ -152,7 +152,7 @@ class UndefinedConstraint extends Constraint
                 if ($schema->required && $value instanceof self) {
                     $propertyPaths = $path->getPropertyPaths();
                     $propertyName = end($propertyPaths);
-                    $this->addError(ConstraintError::REQUIRED(), $path, array('property' => $propertyName));
+                    $this->addError(ConstraintError::REQUIRED(), $path, ['property' => $propertyName]);
                 }
             } else {
                 // if the value is both undefined and not required, skip remaining checks
@@ -269,7 +269,7 @@ class UndefinedConstraint extends Constraint
                 }
             }
         } elseif (isset($schema->items) && LooseTypeCheck::isArray($value)) {
-            $items = array();
+            $items = [];
             if (LooseTypeCheck::isArray($schema->items)) {
                 $items = $schema->items;
             } elseif (isset($schema->minItems) && count($value) < $schema->minItems) {
@@ -349,12 +349,12 @@ class UndefinedConstraint extends Constraint
         }
 
         if (isset($schema->oneOf)) {
-            $allErrors = array();
+            $allErrors = [];
             $matchedSchemas = 0;
             $startErrors = $this->getErrors();
             foreach ($schema->oneOf as $oneOf) {
                 try {
-                    $this->errors = array();
+                    $this->errors = [];
                     $this->checkUndefined($value, $oneOf, $path, $i);
                     if (count($this->getErrors()) == 0) {
                         $matchedSchemas++;
@@ -389,19 +389,19 @@ class UndefinedConstraint extends Constraint
                 if (is_string($dependency)) {
                     // Draft 3 string is allowed - e.g. "dependencies": {"bar": "foo"}
                     if (!$this->getTypeCheck()->propertyExists($value, $dependency)) {
-                        $this->addError(ConstraintError::DEPENDENCIES(), $path, array(
+                        $this->addError(ConstraintError::DEPENDENCIES(), $path, [
                             'key' => $key,
                             'dependency' => $dependency
-                        ));
+                        ]);
                     }
                 } elseif (is_array($dependency)) {
                     // Draft 4 must be an array - e.g. "dependencies": {"bar": ["foo"]}
                     foreach ($dependency as $d) {
                         if (!$this->getTypeCheck()->propertyExists($value, $d)) {
-                            $this->addError(ConstraintError::DEPENDENCIES(), $path, array(
+                            $this->addError(ConstraintError::DEPENDENCIES(), $path, [
                                 'key' => $key,
                                 'dependency' => $dependency
-                            ));
+                            ]);
                         }
                     }
                 } elseif (is_object($dependency)) {

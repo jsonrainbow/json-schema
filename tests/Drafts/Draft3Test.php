@@ -22,10 +22,10 @@ class Draft3Test extends BaseDraftTestCase
      */
     protected function getFilePaths()
     {
-        return array(
+        return [
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft3'),
             realpath(__DIR__ . $this->relativeTestsRoot . '/draft3/optional')
-        );
+        ];
     }
 
     public function getInvalidForAssocTests()
@@ -55,12 +55,12 @@ class Draft3Test extends BaseDraftTestCase
      */
     protected function getSkippedTests()
     {
-        return array(
+        return [
             // Optional
             'bignum.json',
             'format.json',
             'jsregex.json',
             'zeroTerminatedFloats.json'
-        );
+        ];
     }
 }

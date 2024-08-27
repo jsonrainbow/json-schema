@@ -27,18 +27,18 @@ class UriRetriever implements BaseUriRetrieverInterface
     /**
      * @var array Map of URL translations
      */
-    protected $translationMap = array(
+    protected $translationMap = [
         // use local copies of the spec schemas
         '|^https?://json-schema.org/draft-(0[34])/schema#?|' => 'package://dist/schema/json-schema-draft-$1.json'
-    );
+    ];
 
     /**
      * @var array A list of endpoints for media type check exclusion
      */
-    protected $allowedInvalidContentTypeEndpoints = array(
+    protected $allowedInvalidContentTypeEndpoints = [
         'http://json-schema.org/',
         'https://json-schema.org/'
-    );
+    ];
 
     /**
      * @var null|UriRetrieverInterface
@@ -50,7 +50,7 @@ class UriRetriever implements BaseUriRetrieverInterface
      *
      * @see loadSchema
      */
-    private $schemaCache = array();
+    private $schemaCache = [];
 
     /**
      * Adds an endpoint to the media type validation exclusion list
@@ -79,7 +79,7 @@ class UriRetriever implements BaseUriRetrieverInterface
             return;
         }
 
-        if (in_array($contentType, array(Validator::SCHEMA_MEDIA_TYPE, 'application/json'))) {
+        if (in_array($contentType, [Validator::SCHEMA_MEDIA_TYPE, 'application/json'])) {
             return;
         }
 
@@ -243,13 +243,13 @@ class UriRetriever implements BaseUriRetrieverInterface
     {
         preg_match('|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|', $uri, $match);
 
-        $components = array();
+        $components = [];
         if (5 < count($match)) {
-            $components =  array(
+            $components =  [
                 'scheme'    => $match[2],
                 'authority' => $match[4],
                 'path'      => $match[5]
-            );
+            ];
         }
 
         if (7 < count($match)) {

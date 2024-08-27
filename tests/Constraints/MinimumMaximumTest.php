@@ -15,8 +15,8 @@ class MinimumMaximumTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":2
                 }',
@@ -26,8 +26,8 @@ class MinimumMaximumTest extends BaseTestCase
                     "value":{"type":"integer","minimum":4}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 3}',
                 '{
                     "type": "object",
@@ -35,8 +35,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "minimum": 3, "exclusiveMinimum": true}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":16
                 }',
@@ -46,8 +46,8 @@ class MinimumMaximumTest extends BaseTestCase
                     "value":{"type":"integer","maximum":8}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 8}',
                 '{
                     "type": "object",
@@ -55,8 +55,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "maximum": 8, "exclusiveMaximum": true}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 4}',
                 '{
                     "type": "object",
@@ -64,8 +64,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "exclusiveMinimum": true}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 4}',
                 '{
                     "type": "object",
@@ -73,8 +73,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "exclusiveMaximum": true}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 4}',
                 '{
                     "type": "object",
@@ -82,38 +82,38 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "minimum": 5, "exclusiveMinimum": false}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 4}',
                 '{
                     "properties": {
                         "value": {"type": "integer", "maximum": 3, "exclusiveMaximum": false}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 0.00}',
                 '{
                     "properties": {
                         "value": {"type": "number", "minimum": 0, "exclusiveMinimum": true}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 0.00}',
                 '{
                     "properties": {
                         "value": {"type": "number", "maximum": 0, "exclusiveMaximum": true}
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "value":6
                 }',
@@ -123,8 +123,8 @@ class MinimumMaximumTest extends BaseTestCase
                     "value":{"type":"integer","minimum":4}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "value":6
                 }',
@@ -134,8 +134,8 @@ class MinimumMaximumTest extends BaseTestCase
                     "value":{"type":"integer","maximum":8}
                   }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 6}',
                 '{
                     "type": "object",
@@ -143,8 +143,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "minimum": 6, "exclusiveMinimum": false}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 6}',
                 '{
                     "type": "object",
@@ -152,8 +152,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "maximum": 6, "exclusiveMaximum": false}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 6}',
                 '{
                     "type": "object",
@@ -161,8 +161,8 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "minimum": 6}
                     }
                 }'
-            ),
-            array(
+            ],
+            [
                 '{"value": 6}',
                 '{
                     "type": "object",
@@ -170,7 +170,7 @@ class MinimumMaximumTest extends BaseTestCase
                         "value": {"type": "integer", "maximum": 6}
                     }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

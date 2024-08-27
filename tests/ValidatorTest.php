@@ -26,7 +26,7 @@ class ValidatorTest extends TestCase
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('HHVM has no problem with encoding resources');
         }
-        $schema = array('propertyOne' => fopen('php://stdout', 'w'));
+        $schema = ['propertyOne' => fopen('php://stdout', 'w')];
         $data = json_decode('{"propertyOne":[42]}', true);
 
         $validator = new Validator();

@@ -15,8 +15,8 @@ class UnionWithNullValueTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "stringOrNumber":null,
                   "booleanOrNull":null
@@ -28,14 +28,14 @@ class UnionWithNullValueTest extends BaseTestCase
                     "booleanOrNull":{"type":["boolean","null"]}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "stringOrNumber":12,
                   "booleanOrNull":null
@@ -47,7 +47,7 @@ class UnionWithNullValueTest extends BaseTestCase
                     "booleanOrNull":{"type":["boolean","null"]}
                   }
                 }'
-            )
-        );
+            ]
+        ];
     }
 }

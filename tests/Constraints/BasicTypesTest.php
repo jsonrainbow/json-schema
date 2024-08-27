@@ -16,8 +16,8 @@ class BasicTypesTest extends BaseTestCase
 
     public function getInvalidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "string":null
                 }',
@@ -28,8 +28,8 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "number":null
                 }',
@@ -40,8 +40,8 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "integer":null
                 }',
@@ -52,8 +52,8 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "boolean":null
                 }',
@@ -64,8 +64,8 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "object":null
                 }',
@@ -76,8 +76,8 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "array":null
                 }',
@@ -88,8 +88,8 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            ),
-            array(
+            ],
+            [
                 '{
                   "null":1
                 }',
@@ -100,14 +100,14 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            )
-        );
+            ]
+        ];
     }
 
     public function getValidTests()
     {
-        return array(
-            array(
+        return [
+            [
                 '{
                   "string":"string test",
                   "number":1,
@@ -144,7 +144,7 @@ class BasicTypesTest extends BaseTestCase
                   },
                   "additionalProperties":false
                 }'
-            )
-        );
+            ]
+        ];
     }
 }
