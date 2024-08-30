@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class InvalidSchemaMediaTypeExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new InvalidSchemaMediaTypeException();
         self::assertInstanceOf('\RuntimeException', $exception);

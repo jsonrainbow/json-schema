@@ -22,7 +22,7 @@ class FormatTest extends BaseTestCase
         date_default_timezone_set('UTC');
     }
 
-    public function testNullThing()
+    public function testNullThing(): void
     {
         $validator = new FormatConstraint();
         $schema = new \stdClass();
@@ -32,7 +32,7 @@ class FormatTest extends BaseTestCase
         $this->assertEmpty($validator->getErrors());
     }
 
-    public function testRegex()
+    public function testRegex(): void
     {
         $validator = new FormatConstraint();
         $schema = new \stdClass();
@@ -57,7 +57,7 @@ class FormatTest extends BaseTestCase
     /**
      * @dataProvider getValidFormats
      */
-    public function testValidFormat($string, $format)
+    public function testValidFormat($string, $format): void
     {
         $validator = new FormatConstraint();
         $schema = new \stdClass();
@@ -70,7 +70,7 @@ class FormatTest extends BaseTestCase
     /**
      * @dataProvider getInvalidFormats
      */
-    public function testInvalidFormat($string, $format)
+    public function testInvalidFormat($string, $format): void
     {
         $validator = new FormatConstraint();
         $schema = new \stdClass();
@@ -83,7 +83,7 @@ class FormatTest extends BaseTestCase
     /**
      * @dataProvider getInvalidFormats
      */
-    public function testDisabledFormat($string, $format)
+    public function testDisabledFormat($string, $format): void
     {
         $factory = new Factory();
         $validator = new FormatConstraint($factory);
@@ -95,7 +95,7 @@ class FormatTest extends BaseTestCase
         $this->assertEmpty($validator->getErrors());
     }
 
-    public function getValidFormats()
+    public function getValidFormats(): array
     {
         return [
             ['2001-01-23', 'date'],
@@ -167,7 +167,7 @@ class FormatTest extends BaseTestCase
         ];
     }
 
-    public function getInvalidFormats()
+    public function getInvalidFormats(): array
     {
         return [
             ['January 1st, 1910', 'date'],
@@ -218,7 +218,7 @@ class FormatTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [
@@ -236,7 +236,7 @@ class FormatTest extends BaseTestCase
         ];
     }
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [

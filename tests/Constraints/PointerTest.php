@@ -16,7 +16,7 @@ class PointerTest extends TestCase
 {
     protected $validateSchema = true;
 
-    public function testVariousPointers()
+    public function testVariousPointers(): void
     {
         $schema = [
             'type' => 'object',

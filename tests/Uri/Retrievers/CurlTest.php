@@ -7,7 +7,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
 
     class CurlTest extends TestCase
     {
-        public function testRetrieveFile()
+        public function testRetrieveFile(): void
         {
             $c = new Curl();
             $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures/foobar.json'));
@@ -15,7 +15,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
             self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
         }
 
-        public function testRetrieveNonexistantFile()
+        public function testRetrieveNonexistantFile(): void
         {
             $c = new Curl();
 
@@ -25,7 +25,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
             $c->retrieve(__DIR__ . '/notARealFile');
         }
 
-        public function testNoContentType()
+        public function testNoContentType(): void
         {
             $c = new Curl();
             $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');

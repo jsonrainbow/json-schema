@@ -19,7 +19,7 @@ class DisallowTest extends BaseTestCase
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = false;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -107,7 +107,7 @@ class DisallowTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

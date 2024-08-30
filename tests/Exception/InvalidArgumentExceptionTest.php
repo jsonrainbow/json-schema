@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class InvalidArgumentExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new InvalidArgumentException();
         self::assertInstanceOf('\InvalidArgumentException', $exception);

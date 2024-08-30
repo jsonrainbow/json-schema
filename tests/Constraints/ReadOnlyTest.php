@@ -13,7 +13,7 @@ class ReadOnlyTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         //is readonly really required?
         return [
@@ -29,7 +29,7 @@ class ReadOnlyTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

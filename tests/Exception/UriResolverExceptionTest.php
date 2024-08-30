@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UriResolverExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new UriResolverException();
         self::assertInstanceOf('\RuntimeException', $exception);

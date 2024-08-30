@@ -25,10 +25,8 @@ abstract class VeryBaseTestCase extends TestCase
 
     /**
      * @param object $schema
-     *
-     * @return object
      */
-    protected function getUriRetrieverMock($schema)
+    protected function getUriRetrieverMock($schema): object
     {
         $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes');
 
@@ -60,10 +58,7 @@ abstract class VeryBaseTestCase extends TestCase
         return $uriRetriever->reveal();
     }
 
-    /**
-     * @return object
-     */
-    private function getJsonSchemaDraft03()
+    private function getJsonSchemaDraft03(): object
     {
         if (!$this->jsonSchemaDraft03) {
             $this->jsonSchemaDraft03 = json_decode(
@@ -74,10 +69,7 @@ abstract class VeryBaseTestCase extends TestCase
         return $this->jsonSchemaDraft03;
     }
 
-    /**
-     * @return object
-     */
-    private function getJsonSchemaDraft04()
+    private function getJsonSchemaDraft04(): object
     {
         if (!$this->jsonSchemaDraft04) {
             $this->jsonSchemaDraft04 = json_decode(

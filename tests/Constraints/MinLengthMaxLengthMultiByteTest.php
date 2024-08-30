@@ -20,7 +20,7 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
         }
     }
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -48,7 +48,7 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

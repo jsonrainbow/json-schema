@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class RefTest extends TestCase
 {
-    public function dataRefIgnoresSiblings()
+    public function dataRefIgnoresSiblings(): array
     {
         return [
             // #0 check that $ref is resolved and the instance is validated against
@@ -62,7 +62,7 @@ class RefTest extends TestCase
     }
 
     /** @dataProvider dataRefIgnoresSiblings */
-    public function testRefIgnoresSiblings($schema, $document, $isValid, $exception = null)
+    public function testRefIgnoresSiblings($schema, $document, $isValid, $exception = null): void
     {
         $document = json_decode($document);
         $schema = json_decode($schema);

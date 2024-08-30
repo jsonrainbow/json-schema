@@ -20,7 +20,7 @@ class RequiredPropertyTest extends BaseTestCase
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = false;
 
-    public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput()
+    public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
     {
         $validator = new UndefinedConstraint();
         $document = json_decode(
@@ -44,7 +44,7 @@ class RequiredPropertyTest extends BaseTestCase
         $this->assertErrorHasExpectedPropertyValue($error, 'foo');
     }
 
-    public function testPathErrorPropertyIsPopulatedForRequiredIfMissingInInput()
+    public function testPathErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
     {
         $validator = new UndefinedConstraint();
         $document = json_decode(
@@ -77,7 +77,7 @@ class RequiredPropertyTest extends BaseTestCase
         $this->assertErrorHasExpectedPropertyValue($error, 'foo[0].bar');
     }
 
-    public function testErrorPropertyIsPopulatedForRequiredIfEmptyValueInInput()
+    public function testErrorPropertyIsPopulatedForRequiredIfEmptyValueInInput(): void
     {
         $validator = new UndefinedConstraint();
         $document = json_decode(
@@ -102,7 +102,7 @@ class RequiredPropertyTest extends BaseTestCase
         $this->assertErrorHasExpectedPropertyValue($error, 'foo');
     }
 
-    protected function assertErrorHasExpectedPropertyValue($error, $propertyValue)
+    protected function assertErrorHasExpectedPropertyValue($error, $propertyValue): void
     {
         if (!(isset($error[0]) && is_array($error[0]) && isset($error[0]['property']))) {
             $this->fail(
@@ -113,7 +113,7 @@ class RequiredPropertyTest extends BaseTestCase
         $this->assertEquals($propertyValue, $error[0]['property']);
     }
 
-    public function getInvalidTests()
+    public function getInvalidTests(): array
     {
         return [
             [
@@ -284,7 +284,7 @@ class RequiredPropertyTest extends BaseTestCase
         ];
     }
 
-    public function getValidTests()
+    public function getValidTests(): array
     {
         return [
             [

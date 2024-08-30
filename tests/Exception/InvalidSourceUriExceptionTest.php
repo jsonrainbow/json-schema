@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class InvalidSourceUriExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new InvalidSourceUriException();
         self::assertInstanceOf('\InvalidArgumentException', $exception);

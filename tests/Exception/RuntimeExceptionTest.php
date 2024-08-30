@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class RuntimeExceptionTest extends TestCase
 {
-    public function testHierarchy()
+    public function testHierarchy(): void
     {
         $exception = new RuntimeException();
         self::assertInstanceOf('\RuntimeException', $exception);

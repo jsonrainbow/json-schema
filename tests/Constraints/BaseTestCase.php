@@ -26,7 +26,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = [])
+    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = []): void
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
         if ($this->validateSchema) {
@@ -55,7 +55,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidForAssocTests
      */
-    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = [])
+    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = []): void
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;
         if ($this->validateSchema) {
@@ -87,7 +87,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL)
+    public function testValidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -109,7 +109,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getValidForAssocTests
      */
-    public function testValidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST)
+    public function testValidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -133,28 +133,16 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    /**
-     * @return array[]
-     */
-    abstract public function getValidTests();
+    abstract public function getValidTests(): array;
 
-    /**
-     * @return array[]
-     */
-    public function getValidForAssocTests()
+    public function getValidForAssocTests(): array
     {
         return $this->getValidTests();
     }
 
-    /**
-     * @return array[]
-     */
-    abstract public function getInvalidTests();
+    abstract public function getInvalidTests(): array;
 
-    /**
-     * @return array[]
-     */
-    public function getInvalidForAssocTests()
+    public function getInvalidForAssocTests(): array
     {
         return $this->getInvalidTests();
     }
