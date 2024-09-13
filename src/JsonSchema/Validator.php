@@ -35,6 +35,14 @@ class Validator extends BaseConstraint
      * The validation works as defined by the schema proposal in http://json-schema.org.
      *
      * Note that the first argument is passed by reference, so you must pass in a variable.
+     *
+     * @param mixed $value
+     * @param mixed $schema
+     * @param int   $checkMode
+     *
+     * @return int
+     *
+     * @phpstan-param Constraint::CHECK_MODE_* $checkMode
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {

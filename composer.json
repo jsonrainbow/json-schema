@@ -35,7 +35,9 @@
         "friendsofphp/php-cs-fixer": "~2.2.20 || ~2.19.0",
         "json-schema/json-schema-test-suite": "1.2.0",
         "phpunit/phpunit": "^8.5",
-        "phpspec/prophecy": "^1.19"
+        "phpspec/prophecy": "^1.19",
+        "phpstan/phpstan": "^1.12",
+        "marc-mabe/php-enum-phpstan": "^2.0"
     },
     "extra": {
         "branch-alias": {
@@ -74,6 +76,7 @@
         "style-check": "php-cs-fixer fix --dry-run --verbose --diff",
         "style-fix": "php-cs-fixer fix --verbose",
         "test": "phpunit",
-        "testOnly": "phpunit --colors --filter"
+        "testOnly": "phpunit --colors --filter",
+        "phpstan": "@php phpstan"
     }
 }

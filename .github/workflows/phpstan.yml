@@ -23,12 +23,11 @@ jobs:
           coverage: "none"
           extensions: "intl, zip"
           ini-values: "memory_limit=-1"
-          php-version: "7.4"
+          php-version: "7.2"
 
       - name: "Update dependencies"
         run: "composer update ${{ env.COMPOSER_FLAGS }}"
 
       - name: Run PHPStan
         run: |
-          composer require --dev phpstan/phpstan:^1.5 marc-mabe/php-enum-phpstan ${{ env.COMPOSER_FLAGS }}
-          vendor/bin/phpstan analyse
+          composer phpstan
