@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Bump to minimum PHP 7.2 ([#746](https://github.com/jsonrainbow/json-schema/pull/746))
 - Replace traditional syntax array with short syntax array ([#747](https://github.com/jsonrainbow/json-schema/pull/747))
+- Increase phpstan level to 8 with baseline to swallow existing errors ([#673](https://github.com/jsonrainbow/json-schema/pull/673))
 
 ## [6.0.0] - 2024-07-30
 ### Added
