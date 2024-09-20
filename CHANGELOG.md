@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add return types in the test suite ([#748](https://github.com/jsonrainbow/json-schema/pull/748))
+- Add test case for validating array of strings with objects ([#704](https://github.com/jsonrainbow/json-schema/pull/704))
 
 ### Fixed
 - Correct misconfigured mocks in JsonSchema\Tests\Uri\UriRetrieverTest ([#741](https://github.com/jsonrainbow/json-schema/pull/741))
