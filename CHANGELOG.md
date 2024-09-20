@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add missing property in UriResolverTest ([#743](https://github.com/jsonrainbow/json-schema/pull/743))
 - Correct casing of paths used in tests ([#745](https://github.com/jsonrainbow/json-schema/pull/745))
 - Resolve deprecations of optional parameter ([#752](https://github.com/jsonrainbow/json-schema/pull/752))
+- Fix wrong combined paths when traversing upward, fixes #557 ([#652](https://github.com/jsonrainbow/json-schema/pull/652))
 
 ### Changed
 - Bump to minimum PHP 7.2 ([#746](https://github.com/jsonrainbow/json-schema/pull/746))

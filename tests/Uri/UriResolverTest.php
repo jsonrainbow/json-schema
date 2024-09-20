@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class UriResolverTest extends TestCase
 {
+    /**
+     * @var UriResolver
+     */
     private $resolver;
 
     public function setUp(): void
@@ -81,6 +84,21 @@ class UriResolverTest extends TestCase
             UriResolver::combineRelativePathWithBasePath(
                 '',
                 '/foo/bar.json'
+            )
+        );
+    }
+
+    /**
+     * Covers https://github.com/justinrainbow/json-schema/issues/557
+     * Relative paths yield wrong result.
+     */
+    public function testCombineRelativePathWithBasePathTraversingUp(): void
+    {
+        $this->assertEquals(
+            '/var/packages/schema/UuidSchema.json',
+            UriResolver::combineRelativePathWithBasePath(
+                '../../../schema/UuidSchema.json',
+                '/var/packages/foo/tests/UnitTests/DemoData/../../../schema/Foo/FooSchema_latest.json'
             )
         );
     }
