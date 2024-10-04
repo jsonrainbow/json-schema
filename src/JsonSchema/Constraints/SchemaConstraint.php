@@ -24,7 +24,7 @@ use JsonSchema\Validator;
  */
 class SchemaConstraint extends Constraint
 {
-    const DEFAULT_SCHEMA_SPEC = 'http://json-schema.org/draft-04/schema#';
+    private const DEFAULT_SCHEMA_SPEC = 'http://json-schema.org/draft-04/schema#';
 
     /**
      * {@inheritdoc}
