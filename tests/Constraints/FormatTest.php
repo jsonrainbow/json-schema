@@ -186,7 +186,7 @@ class FormatTest extends BaseTestCase
             ['1999-01-11T00:00:00+1:00', 'date-time'],
             ['1999.000Z-01-11T00:00:00+1:00', 'date-time'],
 
-            [PHP_INT_MAX, 'utc-millisec'],
+            [(string) PHP_INT_MAX, 'utc-millisec'],
 
             ['grey', 'color'],
             ['#HHH', 'color'],
