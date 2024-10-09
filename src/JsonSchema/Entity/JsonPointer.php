@@ -122,7 +122,7 @@ class JsonPointer
     public function withPropertyPaths(array $propertyPaths)
     {
         $new = clone $this;
-        $new->propertyPaths = $propertyPaths;
+        $new->propertyPaths = array_map(function ($p): string { return (string) $p; }, $propertyPaths);
 
         return $new;
     }
