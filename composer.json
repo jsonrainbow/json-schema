@@ -27,7 +27,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=7.1",
         "marc-mabe/php-enum":"^2.0 || ^3.0 || ^4.0",
         "icecave/parity": "1.0.0"
     },
