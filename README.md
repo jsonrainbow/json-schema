@@ -71,7 +71,7 @@ $request = (object)[
 
 $validator->validate(
     $request, (object) [
-    "type"=>"object",
+        "type"=>"object",
         "properties"=>(object)[
             "processRefund"=>(object)[
                 "type"=>"boolean"
