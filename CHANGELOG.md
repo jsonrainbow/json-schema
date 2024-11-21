@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add visibility modifiers to class constants ([#757](https://github.com/jsonrainbow/json-schema/pull/757))
 - Include PHP 8.4 in workflow ([#765](https://github.com/jsonrainbow/json-schema/pull/765))
 - Add `strict_types=1` to all classes in ./src ([#758](https://github.com/jsonrainbow/json-schema/pull/758))
+- Raise minimum level of marc-mabe/php-enum ([#766](https://github.com/jsonrainbow/json-schema/pull/766))
 
 ## [6.0.0] - 2024-07-30
 ### Added
