@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add ext-json to composer.json to ensure JSON extension available  ([#759](https://github.com/jsonrainbow/json-schema/pull/759))
 - Add visibility modifiers to class constants ([#757](https://github.com/jsonrainbow/json-schema/pull/757))
 - Include PHP 8.4 in workflow ([#765](https://github.com/jsonrainbow/json-schema/pull/765))
+- Add `strict_types=1` to all classes in ./src ([#758](https://github.com/jsonrainbow/json-schema/pull/758))
 
 ## [6.0.0] - 2024-07-30
 ### Added
