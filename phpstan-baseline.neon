@@ -952,7 +952,7 @@ parameters:
 
 		-
 			message: "#^Offset 1 does not exist on array\\{0\\?\\: string, 1\\?\\: string\\}\\.$#"
-			count: 2
+			count: 1
 			path: src/JsonSchema/Uri/Retrievers/Curl.php
 
 		-
@@ -972,11 +972,6 @@ parameters:
 
 		-
 			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\FileGetContents\\:\\:fetchContentType\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
-
-		-
-			message: "#^Offset 1 does not exist on array\\{0\\?\\: string, 1\\?\\: string\\}\\.$#"
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
