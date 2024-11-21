@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Increase phpstan level to 8 with baseline to swallow existing errors ([#673](https://github.com/jsonrainbow/json-schema/pull/673))
 - Add ext-json to composer.json to ensure JSON extension available  ([#759](https://github.com/jsonrainbow/json-schema/pull/759))
 - Add visibility modifiers to class constants ([#757](https://github.com/jsonrainbow/json-schema/pull/757))
+- Include PHP 8.4 in workflow ([#765](https://github.com/jsonrainbow/json-schema/pull/765))
 
 ## [6.0.0] - 2024-07-30
 ### Added
