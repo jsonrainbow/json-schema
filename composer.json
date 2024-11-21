@@ -29,7 +29,7 @@
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "marc-mabe/php-enum":"^2.0 || ^3.0 || ^4.0",
+        "marc-mabe/php-enum":"^4.0",
         "icecave/parity": "^3.0"
     },
     "require-dev": {
