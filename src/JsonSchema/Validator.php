@@ -60,6 +60,8 @@ class Validator extends BaseConstraint
         // add provided schema to SchemaStorage with internal URI to allow internal $ref resolution
         if (is_object($schema) && property_exists($schema, 'id')) {
             $schemaURI = $schema->id;
+        } elseif (is_array($schema) && array_key_exists('id', $schema)) {
+            $schemaURI = $schema['id'];
         } else {
             $schemaURI = SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
         }
