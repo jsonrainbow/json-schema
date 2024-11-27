@@ -20,12 +20,12 @@ class ValidatorTest extends TestCase
 
     public function testValidateWithAssocSchemaWithRelativeRefs(): void
     {
-        $schema = json_decode(file_get_contents(__DIR__.'/fixtures/relative.json'), true);
+        $schema = json_decode(file_get_contents(__DIR__ . '/fixtures/relative.json'), true);
         $data = json_decode('{"foo":{"foo": "bar"}}', false);
 
         $validator = new Validator();
         $validator->validate($data, $schema);
-        
+
         $this->assertTrue($validator->isValid(), 'Validation failed, but should have succeeded.');
     }
 
