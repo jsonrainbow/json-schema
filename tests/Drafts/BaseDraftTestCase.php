@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JsonSchema\Tests\Drafts;
 
 use JsonSchema\Tests\Constraints\BaseTestCase;
@@ -71,12 +73,8 @@ abstract class BaseDraftTestCase extends BaseTestCase
 
     /**
      * Generates a readable path to Json Schema Test Suite data set under test
-     *
-     * @param string $filename
-     * @param string $suiteDesc
-     * @param string $testCaseDesc
      */
-    private function createDataSetPath($filename, $suiteDesc, $testCaseDesc): string
+    private function createDataSetPath(string $filename, string $suiteDesc, string $testCaseDesc): string
     {
         $separator = ' / ';
 

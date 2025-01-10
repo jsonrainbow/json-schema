@@ -66,11 +66,8 @@ class TypeTest extends TestCase
 
     /**
      * Helper to assert an error message
-     *
-     * @param string         $expected
-     * @param TypeConstraint $actual
      */
-    private function assertTypeConstraintError($expected, TypeConstraint $actual): void
+    private function assertTypeConstraintError(string $expected, TypeConstraint $actual): void
     {
         $actualErrors = $actual->getErrors();
 

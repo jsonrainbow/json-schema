@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the JsonSchema package.
  *
@@ -23,10 +25,7 @@ abstract class VeryBaseTestCase extends TestCase
     /** @var object */
     private $jsonSchemaDraft04;
 
-    /**
-     * @param object $schema
-     */
-    protected function getUriRetrieverMock($schema): object
+    protected function getUriRetrieverMock(?object $schema): object
     {
         $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes');
 

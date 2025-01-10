@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the JsonSchema package.
  *
@@ -10,6 +12,7 @@
 namespace JsonSchema\Tests\Entity;
 
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,20 +23,14 @@ use PHPUnit\Framework\TestCase;
 class JsonPointerTest extends TestCase
 {
     /**
-     * @dataProvider getTestData
-     *
-     * @param string $testValue
-     * @param string $expectedFileName
-     * @param array  $expectedPropertyPaths
-     * @param string $expectedPropertyPathAsString
-     * @param string $expectedToString
+     * @dataProvider jsonPointerDataProvider
      */
     public function testJsonPointer(
-        $testValue,
-        $expectedFileName,
-        $expectedPropertyPaths,
-        $expectedPropertyPathAsString,
-        $expectedToString
+        string $testValue,
+        string $expectedFileName,
+        array $expectedPropertyPaths,
+        string $expectedPropertyPathAsString,
+        string $expectedToString
     ): void {
         $jsonPointer = new JsonPointer($testValue);
         $this->assertEquals($expectedFileName, $jsonPointer->getFilename());
@@ -42,51 +39,49 @@ class JsonPointerTest extends TestCase
         $this->assertEquals($expectedToString, (string) $jsonPointer);
     }
 
-    public function getTestData(): array
+    public static function jsonPointerDataProvider(): \Generator
     {
-        return [
-            'testDataSet_01' => [
-                'testValue'                    => '#/definitions/date',
-                'expectedFileName'             => '',
-                'expectedPropertyPaths'        => ['definitions', 'date'],
-                'expectedPropertyPathAsString' => '#/definitions/date',
-                'expectedToString'             => '#/definitions/date'
-            ],
-            'testDataSet_02' => [
-                'testValue'                    => 'http://www.example.com/definitions.json#/definitions/date',
-                'expectedFileName'             => 'http://www.example.com/definitions.json',
-                'expectedPropertyPaths'        => ['definitions', 'date'],
-                'expectedPropertyPathAsString' => '#/definitions/date',
-                'expectedToString'             => 'http://www.example.com/definitions.json#/definitions/date'
-            ],
-            'testDataSet_03' => [
-                'testValue'                    => '/tmp/schema.json#definitions/common/date/',
-                'expectedFileName'             => '/tmp/schema.json',
-                'expectedPropertyPaths'        => ['definitions', 'common', 'date'],
-                'expectedPropertyPathAsString' => '#/definitions/common/date',
-                'expectedToString'             => '/tmp/schema.json#/definitions/common/date'
-            ],
-            'testDataSet_04' => [
-                'testValue'                    => './definitions.json#',
-                'expectedFileName'             => './definitions.json',
-                'expectedPropertyPaths'        => [],
-                'expectedPropertyPathAsString' => '#',
-                'expectedToString'             => './definitions.json#'
-            ],
-            'testDataSet_05' => [
-                'testValue'                    => '/schema.json#~0definitions~1general/%custom%25',
-                'expectedFileName'             => '/schema.json',
-                'expectedPropertyPaths'        => ['~definitions/general', '%custom%'],
-                'expectedPropertyPathAsString' => '#/~0definitions~1general/%25custom%25',
-                'expectedToString'             => '/schema.json#/~0definitions~1general/%25custom%25'
-            ],
-            'testDataSet_06' => [
-                'testValue'                    => '#/items/0',
-                'expectedFileName'             => '',
-                'expectedPropertyPaths'        => ['items', '0'],
-                'expectedPropertyPathAsString' => '#/items/0',
-                'expectedToString'             => '#/items/0'
-            ]
+        yield 'testDataSet_01' => [
+            'testValue'                    => '#/definitions/date',
+            'expectedFileName'             => '',
+            'expectedPropertyPaths'        => ['definitions', 'date'],
+            'expectedPropertyPathAsString' => '#/definitions/date',
+            'expectedToString'             => '#/definitions/date'
+        ];
+        yield 'testDataSet_02' => [
+            'testValue'                    => 'https://www.example.com/definitions.json#/definitions/date',
+            'expectedFileName'             => 'https://www.example.com/definitions.json',
+            'expectedPropertyPaths'        => ['definitions', 'date'],
+            'expectedPropertyPathAsString' => '#/definitions/date',
+            'expectedToString'             => 'https://www.example.com/definitions.json#/definitions/date'
+        ];
+        yield 'testDataSet_03' => [
+            'testValue'                    => '/tmp/schema.json#definitions/common/date/',
+            'expectedFileName'             => '/tmp/schema.json',
+            'expectedPropertyPaths'        => ['definitions', 'common', 'date'],
+            'expectedPropertyPathAsString' => '#/definitions/common/date',
+            'expectedToString'             => '/tmp/schema.json#/definitions/common/date'
+        ];
+        yield 'testDataSet_04' => [
+            'testValue'                    => './definitions.json#',
+            'expectedFileName'             => './definitions.json',
+            'expectedPropertyPaths'        => [],
+            'expectedPropertyPathAsString' => '#',
+            'expectedToString'             => './definitions.json#'
+        ];
+        yield 'testDataSet_05' => [
+            'testValue'                    => '/schema.json#~0definitions~1general/%custom%25',
+            'expectedFileName'             => '/schema.json',
+            'expectedPropertyPaths'        => ['~definitions/general', '%custom%'],
+            'expectedPropertyPathAsString' => '#/~0definitions~1general/%25custom%25',
+            'expectedToString'             => '/schema.json#/~0definitions~1general/%25custom%25'
+        ];
+        yield 'testDataSet_06' => [
+            'testValue'                    => '#/items/0',
+            'expectedFileName'             => '',
+            'expectedPropertyPaths'        => ['items', '0'],
+            'expectedPropertyPathAsString' => '#/items/0',
+            'expectedToString'             => '#/items/0'
         ];
     }
 
@@ -110,7 +105,7 @@ class JsonPointerTest extends TestCase
 
     public function testCreateWithInvalidValue(): void
     {
-        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Ref value must be a string');
 
         new JsonPointer(null);

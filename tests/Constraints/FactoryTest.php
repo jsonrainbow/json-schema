@@ -7,27 +7,22 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class MyBadConstraint
- *
- * @package JsonSchema\Tests\Constraints
- */
 class MyBadConstraint
 {
 }
 
-/**
- * Class MyStringConstraint
- *
- * @package JsonSchema\Tests\Constraints
- */
 class MyStringConstraint extends Constraint
 {
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null)
@@ -38,109 +33,124 @@ class MyStringConstraint extends Constraint
 class FactoryTest extends TestCase
 {
     /**
-     * @var Factory
-     */
-    protected $factory;
-
-    protected function setUp(): void
-    {
-        $this->factory = new Factory();
-    }
-
-    /**
      * @dataProvider constraintNameProvider
-     *
-     * @param string $constraintName
-     * @param string $expectedClass
      */
-    public function testCreateInstanceForConstraintName($constraintName, $expectedClass): void
+    public function testCreateInstanceForConstraintName(string $constraintName, string $expectedClass): void
     {
-        $constraint = $this->factory->createInstanceFor($constraintName);
+        $factory = new Factory();
+        $constraint = $factory->createInstanceFor($constraintName);
 
         $this->assertInstanceOf($expectedClass, $constraint);
-        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+        $this->assertInstanceOf(ConstraintInterface::class, $constraint);
     }
 
-    public function constraintNameProvider(): array
+    public static function constraintNameProvider(): \Generator
     {
-        return [
-            ['array', 'JsonSchema\Constraints\CollectionConstraint'],
-            ['collection', 'JsonSchema\Constraints\CollectionConstraint'],
-            ['object', 'JsonSchema\Constraints\ObjectConstraint'],
-            ['type', 'JsonSchema\Constraints\TypeConstraint'],
-            ['undefined', 'JsonSchema\Constraints\UndefinedConstraint'],
-            ['string', 'JsonSchema\Constraints\StringConstraint'],
-            ['number', 'JsonSchema\Constraints\NumberConstraint'],
-            ['enum', 'JsonSchema\Constraints\EnumConstraint'],
-            ['const', 'JsonSchema\Constraints\ConstConstraint'],
-            ['format', 'JsonSchema\Constraints\FormatConstraint'],
-            ['schema', 'JsonSchema\Constraints\SchemaConstraint'],
-        ];
+        yield 'Array' => ['array', Constraints\CollectionConstraint::class];
+        yield 'Collection' => ['collection', Constraints\CollectionConstraint::class];
+        yield 'Object' => ['object', Constraints\ObjectConstraint::class];
+        yield 'Type' => ['type', Constraints\TypeConstraint::class];
+        yield 'Undefined' => ['undefined', Constraints\UndefinedConstraint::class];
+        yield 'String' => ['string', Constraints\StringConstraint::class];
+        yield 'Number' => ['number', Constraints\NumberConstraint::class];
+        yield 'Enum' => ['enum', Constraints\EnumConstraint::class];
+        yield 'Const' => ['const', Constraints\ConstConstraint::class];
+        yield 'Format' => ['format', Constraints\FormatConstraint::class];
+        yield 'Schema' => ['schema', Constraints\SchemaConstraint::class];
     }
 
     /**
      * @dataProvider invalidConstraintNameProvider
-     *
-     * @param string $constraintName
      */
-    public function testExceptionWhenCreateInstanceForInvalidConstraintName($constraintName): void
+    public function testExceptionWhenCreateInstanceForInvalidConstraintName(string $constraintName): void
     {
-        $this->expectException('JsonSchema\Exception\InvalidArgumentException');
-        $this->factory->createInstanceFor($constraintName);
+        $factory = new Factory();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $factory->createInstanceFor($constraintName);
     }
 
-    public function invalidConstraintNameProvider(): array
+    public static function invalidConstraintNameProvider(): \Generator
     {
-        return [
-            ['invalidConstraintName'],
-        ];
+        yield 'InvalidConstraint' => ['invalidConstraintName'];
     }
 
     public function testSetConstraintClassExistsCondition(): void
     {
+        $factory = new Factory();
+
         $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
 
-        $this->factory->setConstraintClass('string', 'SomeConstraint');
+        $factory->setConstraintClass('string', 'SomeConstraint');
     }
 
     public function testSetConstraintClassImplementsCondition(): void
     {
+        $factory = new Factory();
+
         $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
 
-        $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyBadConstraint');
+        $factory->setConstraintClass('string', MyBadConstraint::class);
     }
 
     public function testSetConstraintClassInstance(): void
     {
-        $this->factory->setConstraintClass('string', 'JsonSchema\Tests\Constraints\MyStringConstraint');
-        $constraint = $this->factory->createInstanceFor('string');
-        $this->assertInstanceOf('JsonSchema\Tests\Constraints\MyStringConstraint', $constraint);
-        $this->assertInstanceOf('JsonSchema\Constraints\ConstraintInterface', $constraint);
+        $factory = new Factory();
+        $factory->setConstraintClass('string', MyStringConstraint::class);
+
+        $constraint = $factory->createInstanceFor('string');
+
+        $this->assertInstanceOf(MyStringConstraint::class, $constraint);
+        $this->assertInstanceOf(ConstraintInterface::class, $constraint);
     }
 
-    public function testCheckMode(): void
+    public function testCheckModeDefaultConfig(): void
     {
         $f = new Factory();
 
-        // test default value
         $this->assertEquals(Constraint::CHECK_MODE_NORMAL, $f->getConfig());
+    }
 
-        // test overriding config
+    public function testCheckModeWhenOverridingConfig(): void
+    {
+        $f = new Factory();
+
         $f->setConfig(Constraint::CHECK_MODE_COERCE_TYPES);
+
         $this->assertEquals(Constraint::CHECK_MODE_COERCE_TYPES, $f->getConfig());
+    }
 
-        // test adding config
+    public function testCheckModeWhenAddingConfig(): void
+    {
+        $f = new Factory();
+
+        $f->setConfig(Constraint::CHECK_MODE_COERCE_TYPES);
         $f->addConfig(Constraint::CHECK_MODE_NORMAL);
+
         $this->assertEquals(Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_COERCE_TYPES, $f->getConfig());
+    }
 
-        // test getting filtered config
+    public function testCheckModeWhenGettingFilteredConfig(): void
+    {
+        $f = new Factory();
+
         $this->assertEquals(Constraint::CHECK_MODE_NORMAL, $f->getConfig(Constraint::CHECK_MODE_NORMAL));
+    }
 
-        // test removing config
+    public function testCheckModeWhenRemovingConfig(): void
+    {
+        $f = new Factory();
+
         $f->removeConfig(Constraint::CHECK_MODE_COERCE_TYPES);
-        $this->assertEquals(Constraint::CHECK_MODE_NORMAL, $f->getConfig());
 
-        // test resetting to defaults
+        $this->assertEquals(Constraint::CHECK_MODE_NORMAL, $f->getConfig());
+    }
+
+    public function testCheckModeWhenResettingToDefault(): void
+    {
+        $f = new Factory();
+
         $f->setConfig(Constraint::CHECK_MODE_COERCE_TYPES | Constraint::CHECK_MODE_TYPE_CAST);
         $f->setConfig();
         $this->assertEquals(Constraint::CHECK_MODE_NORMAL, $f->getConfig());
