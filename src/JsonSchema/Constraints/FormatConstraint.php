@@ -35,7 +35,7 @@ class FormatConstraint extends Constraint
 
         switch ($schema->format) {
             case 'date':
-                if (!$date = $this->validateDateTime($element, 'Y-m-d')) {
+                if (is_string($element) && !$date = $this->validateDateTime($element, 'Y-m-d')) {
                     $this->addError(ConstraintError::FORMAT_DATE(), $path, [
                             'date' => $element,
                             'format' => $schema->format
@@ -45,7 +45,7 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'time':
-                if (!$this->validateDateTime($element, 'H:i:s')) {
+                if (is_string($element) && !$this->validateDateTime($element, 'H:i:s')) {
                     $this->addError(ConstraintError::FORMAT_TIME(), $path, [
                             'time' => json_encode($element),
                             'format' => $schema->format,
@@ -55,7 +55,7 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'date-time':
-                if (null === Rfc3339::createFromString($element)) {
+                if (is_string($element) && null === Rfc3339::createFromString($element)) {
                     $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, [
                             'dateTime' => json_encode($element),
                             'format' => $schema->format
@@ -101,14 +101,14 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'uri':
-                if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
+                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
                     $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'uriref':
             case 'uri-reference':
-                if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
+                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
                     // FILTER_VALIDATE_URL does not conform to RFC-3986, and cannot handle relative URLs, but
                     // the json-schema spec uses RFC-3986, so need a bit of hackery to properly validate them.
                     // See https://tools.ietf.org/html/rfc3986#section-4.2 for additional information.
@@ -133,20 +133,20 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'email':
-                if (null === filter_var($element, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE)) {
+                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE)) {
                     $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'ip-address':
             case 'ipv4':
-                if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV4)) {
+                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV4)) {
                     $this->addError(ConstraintError::FORMAT_IP(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'ipv6':
-                if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV6)) {
+                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV6)) {
                     $this->addError(ConstraintError::FORMAT_IP(), $path, ['format' => $schema->format]);
                 }
                 break;
@@ -186,11 +186,19 @@ class FormatConstraint extends Constraint
 
     protected function validateRegex($regex)
     {
+        if (!is_string($regex)) {
+            return true;
+        }
+
         return false !== @preg_match(self::jsonPatternToPhpRegex($regex), '');
     }
 
     protected function validateColor($color)
     {
+        if (!is_string($color)) {
+            return true;
+        }
+
         if (in_array(strtolower($color), ['aqua', 'black', 'blue', 'fuchsia',
             'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple',
             'red', 'silver', 'teal', 'white', 'yellow'])) {
@@ -215,6 +223,10 @@ class FormatConstraint extends Constraint
 
     protected function validateHostname($host)
     {
+        if (!is_string($host)) {
+            return true;
+        }
+
         $hostnameRegex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/i';
 
         return preg_match($hostnameRegex, $host);

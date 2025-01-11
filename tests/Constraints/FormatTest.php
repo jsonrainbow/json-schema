@@ -100,10 +100,14 @@ class FormatTest extends BaseTestCase
         return [
             ['2001-01-23', 'date'],
             ['2000-02-29', 'date'],
+            [42, 'date'],
+            [4.2, 'date'],
 
             ['12:22:01', 'time'],
             ['00:00:00', 'time'],
             ['23:59:59', 'time'],
+            [42, 'time'],
+            [4.2, 'time'],
 
             ['2000-05-01T12:12:12Z', 'date-time'],
             ['2000-05-01T12:12:12+0100', 'date-time'],
@@ -114,6 +118,8 @@ class FormatTest extends BaseTestCase
             ['2000-05-01T12:12:12.0Z', 'date-time'],
             ['2000-05-01T12:12:12.000Z', 'date-time'],
             ['2000-05-01T12:12:12.000000Z', 'date-time'],
+            [42, 'date-time'],
+            [4.2, 'date-time'],
 
             ['0', 'utc-millisec'],
 
@@ -136,6 +142,8 @@ class FormatTest extends BaseTestCase
             ['yellow', 'color'],
             ['#fff', 'color'],
             ['#00cc00', 'color'],
+            [42, 'color'],
+            [4.2, 'color'],
 
             ['background: blue', 'style'],
             ['color: #000;', 'style'],
@@ -149,18 +157,39 @@ class FormatTest extends BaseTestCase
             ['./relative:PathReference/', 'uri-reference'],
             ['relativePathReference/', 'uri-reference'],
             ['relative/Path:Reference/', 'uri-reference'],
+            [42, 'uri-reference'],
+            [4.2, 'uri-reference'],
 
             ['info@something.edu', 'email'],
+            [42, 'email'],
+            [4.2, 'email'],
 
             ['10.10.10.10', 'ip-address'],
             ['127.0.0.1', 'ip-address'],
+            [42, 'ip-address'],
+            [4.2, 'ip-address'],
+
+            ['127.0.0.1', 'ipv4'],
+            [42, 'ipv4'],
+            [4.2, 'ipv4'],
 
             ['::ff', 'ipv6'],
+            [42, 'ipv6'],
+            [4.2, 'ipv6'],
 
             ['www.example.com', 'host-name'],
             ['3v4l.org', 'host-name'],
             ['a-valid-host.com', 'host-name'],
             ['localhost', 'host-name'],
+            [42, 'host-name'],
+            [4.2, 'host-name'],
+
+            ['www.example.com', 'hostname'],
+            ['3v4l.org', 'hostname'],
+            ['a-valid-host.com', 'hostname'],
+            ['localhost', 'hostname'],
+            [42, 'hostname'],
+            [4.2, 'hostname'],
 
             ['anything', '*'],
             ['unknown', '*'],
