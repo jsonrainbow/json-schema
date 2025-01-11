@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix wrong combined paths when traversing upward, fixes #557 ([#652](https://github.com/jsonrainbow/json-schema/pull/652))
 - Correct PHPStan baseline ([#764](https://github.com/jsonrainbow/json-schema/pull/764))
 - Correct spacing issue in `README.md` ([#763](https://github.com/jsonrainbow/json-schema/pull/763))
+- Format attribute: do not validate data instances that aren't the instance type to validate ([#773](https://github.com/jsonrainbow/json-schema/pull/773))
 
 ### Changed
 - Bump to minimum PHP 7.2 ([#746](https://github.com/jsonrainbow/json-schema/pull/746))
