@@ -133,12 +133,7 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'email':
-                $filterFlags = FILTER_NULL_ON_FAILURE;
-                if (defined('FILTER_FLAG_EMAIL_UNICODE')) {
-                    // Only available from PHP >= 7.1.0, so ignore it for coverage checks
-                    $filterFlags |= constant('FILTER_FLAG_EMAIL_UNICODE'); // @codeCoverageIgnore
-                }
-                if (null === filter_var($element, FILTER_VALIDATE_EMAIL, $filterFlags)) {
+                if (null === filter_var($element, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE)) {
                     $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
                 }
                 break;
