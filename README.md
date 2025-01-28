@@ -215,3 +215,10 @@ composer testOnly TestClass::testMethod  # run specific unit test method
 composer style-check                     # check code style for errors
 composer style-fix                       # automatically fix code style errors
 ```
+
+# Contributors  ✨
+Thanks go to these wonderful people, without their effort this project wasn't possible.
+
+<a href="https://github.com/jsonrainbow/json-schema/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jsonrainbow/json-schema" />
+</a>
