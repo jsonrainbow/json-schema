@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.1.0] - 2025-02-04
 ### Added
 - Add return types in the test suite ([#748](https://github.com/jsonrainbow/json-schema/pull/748))
 - Add test case for validating array of strings with objects ([#704](https://github.com/jsonrainbow/json-schema/pull/704))
