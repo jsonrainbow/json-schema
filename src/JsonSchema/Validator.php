@@ -44,7 +44,8 @@ class Validator extends BaseConstraint
      *
      * @return int
      *
-     * @phpstan-param Constraint::CHECK_MODE_* $checkMode
+     * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
+     * @phpstan-return int-mask-of<Validator::ERROR_*>
      */
     public function validate(&$value, $schema = null, $checkMode = null)
     {
