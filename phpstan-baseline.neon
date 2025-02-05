@@ -451,7 +451,7 @@ parameters:
 			path: src/JsonSchema/Constraints/StringConstraint.php
 
 		-
-			message: "#^Parameter \\#2 \\$encoding of function mb_strlen expects string\\|null, string\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\$encoding of function mb_strlen expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/StringConstraint.php
 
@@ -971,7 +971,7 @@ parameters:
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
