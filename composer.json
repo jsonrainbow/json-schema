@@ -78,6 +78,7 @@
         "style-fix": "php-cs-fixer fix --verbose",
         "test": "phpunit",
         "testOnly": "phpunit --colors --filter",
-        "phpstan": "@php phpstan"
+        "phpstan": "@php phpstan",
+        "phpstan-generate-baseline": "@php phpstan --generate-baseline"
     }
 }

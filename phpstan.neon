@@ -3,6 +3,7 @@ parameters:
     paths:
         - ./src/
     ignoreErrors: []
+    phpVersion: 70200
 
 includes:
     - phpstan-baseline.neon

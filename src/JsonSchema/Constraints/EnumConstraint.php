@@ -26,7 +26,7 @@ class EnumConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null)
+    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
         // Only validate enum if the attribute exists
         if ($element instanceof UndefinedConstraint && (!isset($schema->required) || !$schema->required)) {

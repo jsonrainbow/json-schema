@@ -34,7 +34,7 @@ class UndefinedConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null, $fromDefault = false)
+    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null, $fromDefault = false): void
     {
         if (is_null($schema) || !is_object($schema)) {
             return;
@@ -243,7 +243,7 @@ class UndefinedConstraint extends Constraint
      * @param mixed       $schema
      * @param JsonPointer $path
      */
-    protected function applyDefaultValues(&$value, $schema, $path)
+    protected function applyDefaultValues(&$value, $schema, $path): void
     {
         // only apply defaults if feature is enabled
         if (!$this->factory->getConfig(self::CHECK_MODE_APPLY_DEFAULTS)) {
@@ -251,7 +251,7 @@ class UndefinedConstraint extends Constraint
         }
 
         // apply defaults if appropriate
-        $requiredOnly = $this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS);
+        $requiredOnly = (bool) $this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS);
         if (isset($schema->properties) && LooseTypeCheck::isObject($value)) {
             // $value is an object or assoc array, and properties are defined - treat as an object
             foreach ($schema->properties as $currentProperty => $propertyDefinition) {

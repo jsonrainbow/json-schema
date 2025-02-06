@@ -60,10 +60,8 @@ if (count($arArgs) == 1) {
 
 /**
  * Show the json parse error that happened last
- *
- * @return void
  */
-function showJsonError()
+function showJsonError(): void
 {
     $constants = get_defined_constants(true);
     $json_errors = [];
