@@ -1,0 +1,23 @@
+name: Welcome
+on:
+  pull_request:
+    types: [opened, closed]
+  issues:
+    types: [opened]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wow-actions/welcome@v1
+        with:
+          FIRST_ISSUE: |
+            🚀 @{{ author }}, thanks for your contribution! Every idea, bug report, and discussion helps make this project better. Your input is invaluable, and we appreciate the time you took to share it. A maintainer will review it soon—stay awesome! 💡✨
+
+          FIRST_PR: |
+            🎉 You're making a difference! We appreciate your effort and dedication. A reviewer will check it out soon, but in the meantime, give yourself a pat on the back. Keep up the great work! 💪🚀
+
+          FIRST_PR_MERGED: |
+            💖 Welcome @{{ author }} as first-time contributor! Your efforts matter, and we’re so grateful for your contribution. Open source thrives because of people like you. Keep going, keep learning, and know that your work is truly valued. 🌱✨
+
+          STAR_MESSAGE: |
+            ⭐ Enjoying contributing? Star the project! ⭐Your contributions help this project grow, and we'd love your support in another way too! If you find this repo helpful, consider leaving a star 🌟 on GitHub.
