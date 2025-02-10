@@ -31,7 +31,7 @@ class ObjectConstraint extends Constraint
      * {@inheritdoc}
      */
     public function check(&$element, $schema = null, ?JsonPointer $path = null, $properties = null,
-        $additionalProp = null, $patternProperties = null, $appliedDefaults = [])
+        $additionalProp = null, $patternProperties = null, $appliedDefaults = []): void
     {
         if ($element instanceof UndefinedConstraint) {
             return;

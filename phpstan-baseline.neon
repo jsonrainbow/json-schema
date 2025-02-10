@@ -1,17 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addError\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addErrors\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
@@ -26,32 +16,7 @@ parameters:
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:getErrors\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:getErrors\\(\\) has parameter \\$errorContext with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:isValid\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:numErrors\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:numErrors\\(\\) has parameter \\$errorContext with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:reset\\(\\) has no return type specified\\.$#"
+			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:getErrors\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
@@ -66,11 +31,6 @@ parameters:
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 2
-			path: src/JsonSchema/Constraints/BaseConstraint.php
-
-		-
 			message: "#^Cannot access property \\$additionalItems on stdClass\\|null\\.$#"
 			count: 3
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
@@ -78,16 +38,6 @@ parameters:
 		-
 			message: "#^Cannot access property \\$items on stdClass\\|null\\.$#"
 			count: 6
-			path: src/JsonSchema/Constraints/CollectionConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/CollectionConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) has no return type specified\\.$#"
-			count: 1
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
@@ -106,57 +56,7 @@ parameters:
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ConstConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkArray\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkConst\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkEnum\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkFormat\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkNumber\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkObject\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkObject\\(\\) has parameter \\$appliedDefaults with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkString\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkType\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkUndefined\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/Constraint.php
 
@@ -171,27 +71,12 @@ parameters:
 			path: src/JsonSchema/Constraints/Constraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addError\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ConstraintInterface.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addErrors\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ConstraintInterface.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addErrors\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ConstraintInterface.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:check\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
@@ -206,17 +91,12 @@ parameters:
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\EnumConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/EnumConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:addConfig\\(\\) has no return type specified\\.$#"
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:createInstanceFor\\(\\) should return JsonSchema\\\\Constraints\\\\BaseConstraint&JsonSchema\\\\Constraints\\\\ConstraintInterface but returns object\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:createInstanceFor\\(\\) should return JsonSchema\\\\Constraints\\\\BaseConstraint&JsonSchema\\\\Constraints\\\\ConstraintInterface but returns object\\.$#"
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getConfig\\(\\) should return int\\<0, 511\\> but returns int\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
@@ -226,28 +106,8 @@ parameters:
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getSchemaStorage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Factory.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getTypeCheck\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Factory.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:removeConfig\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Factory.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:setConfig\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Factory.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:setErrorContext\\(\\) has no return type specified\\.$#"
-			count: 1
+			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$checkMode \\(int\\<0, 511\\>\\) does not accept int\\.$#"
+			count: 2
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
@@ -264,11 +124,6 @@ parameters:
 			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$uriRetriever \\(JsonSchema\\\\Uri\\\\UriRetriever\\) does not accept JsonSchema\\\\UriRetrieverInterface\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateColor\\(\\) has no return type specified\\.$#"
@@ -336,11 +191,6 @@ parameters:
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/NumberConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/NumberConstraint.php
@@ -362,11 +212,6 @@ parameters:
 
 		-
 			message: "#^Argument of an invalid type stdClass\\|null supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ObjectConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
@@ -429,16 +274,6 @@ parameters:
 			message: "#^Property JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\SchemaConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/SchemaConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/StringConstraint.php
 
 		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:strlen\\(\\) has no return type specified\\.$#"
@@ -701,11 +536,6 @@ parameters:
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/TypeConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:implodeWith\\(\\) has parameter \\$elements with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
@@ -751,16 +581,6 @@ parameters:
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:applyDefaultValues\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/UndefinedConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/UndefinedConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:check\\(\\) has parameter \\$fromDefault with no type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
@@ -803,11 +623,6 @@ parameters:
 		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has parameter \\$schemaUri with no type specified\\.$#"
 			count: 1
-			path: src/JsonSchema/Constraints/UndefinedConstraint.php
-
-		-
-			message: "#^Parameter \\#1 \\$requiredOnly of method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:shouldApplyDefaultValue\\(\\) expects bool, int given\\.$#"
-			count: 3
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
