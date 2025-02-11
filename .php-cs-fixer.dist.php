@@ -2,7 +2,7 @@
 
 $finder = new PhpCsFixer\Finder();
 $config = new PhpCsFixer\Config('json-schema');
-$finder->in(__DIR__);
+$finder->in([__DIR__ . '/src', __DIR__ . '/tests']);
 
 /* Based on ^2.1 of php-cs-fixer */
 $config
