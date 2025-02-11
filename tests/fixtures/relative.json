@@ -1,0 +1,11 @@
+{
+    "id": "tests/fixtures/relative.json",
+    "type": "object",
+    "properties": {
+        "foo": {
+            "$ref": "foobar.json"
+        }
+    },
+    "required": ["foo"],
+    "additionalProperties": false
+}
