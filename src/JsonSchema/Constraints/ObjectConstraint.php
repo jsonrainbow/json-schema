@@ -159,7 +159,7 @@ class ObjectConstraint extends Constraint
     {
         if (is_array($element) && (isset($element[$property]) || array_key_exists($property, $element)) /*$this->checkMode == self::CHECK_MODE_TYPE_CAST*/) {
             return $element[$property];
-        } elseif (is_object($element) && property_exists($element, $property)) {
+        } elseif (is_object($element) && property_exists($element, (string) $property)) {
             return $element->$property;
         }
 
