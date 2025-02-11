@@ -189,6 +189,42 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "additionalProperties": true
                 }'
             ],
+            [
+                '{
+                  "prop1": {
+                    "prop2": "a"
+                  }
+                }',
+                '{
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "prop2": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }'
+            ],
+            [
+                '{
+                  "prop1": {
+                    "123": "a"
+                  }
+                }',
+                '{
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "123": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }'
+            ],
         ];
     }
 }
