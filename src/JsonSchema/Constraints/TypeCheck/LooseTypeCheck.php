@@ -9,15 +9,15 @@ class LooseTypeCheck implements TypeCheckInterface
     public static function isObject($value)
     {
         return
-            is_object($value) ||
-            (is_array($value) && (count($value) == 0 || self::isAssociativeArray($value)));
+            is_object($value)
+            || (is_array($value) && (count($value) == 0 || self::isAssociativeArray($value)));
     }
 
     public static function isArray($value)
     {
         return
-            is_array($value) &&
-            (count($value) == 0 || !self::isAssociativeArray($value));
+            is_array($value)
+            && (count($value) == 0 || !self::isAssociativeArray($value));
     }
 
     public static function propertyGet($value, $property)

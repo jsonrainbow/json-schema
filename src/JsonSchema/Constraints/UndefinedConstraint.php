@@ -72,8 +72,8 @@ class UndefinedConstraint extends Constraint
 
         // check object
         if (LooseTypeCheck::isObject($value)) { // object processing should always be run on assoc arrays,
-                                                // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
-                                                // is not set (i.e. don't use $this->getTypeCheck() here).
+            // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
+            // is not set (i.e. don't use $this->getTypeCheck() here).
             $this->checkObject(
                 $value,
                 $schema,
@@ -232,6 +232,7 @@ class UndefinedConstraint extends Constraint
         if (isset($schema->required) && !is_array($schema->required) && $schema->required) {
             return true;
         }
+
         // default case
         return false;
     }

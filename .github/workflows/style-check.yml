@@ -4,9 +4,6 @@ on:
   - push
   - pull_request
 
-env:
-  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
-
 jobs:
   tests:
     name: "Style Check"
@@ -20,14 +17,12 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          coverage: "none"
-          extensions: "intl, zip"
-          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
-          php-version: "7.4"
-          tools: composer
+          php-version: "latest"
 
-      - name: "Update dependencies"
-        run: "composer update ${{ env.COMPOSER_FLAGS }}"
+      - name: "Composer Install"
+        run: composer --working-dir=tools install
 
       - name: "Run style-check"
-        run: "composer style-check"
+        run: composer style-check
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1

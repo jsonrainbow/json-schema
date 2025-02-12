@@ -30,6 +30,7 @@ class BaseConstraint
 
     /**
      * @var int All error types which have occurred
+     *
      * @phpstan-var int-mask-of<Validator::ERROR_*>
      */
     protected $errorMask = Validator::ERROR_NONE;

@@ -35,12 +35,14 @@ class Factory
 
     /**
      * @var int
+     *
      * @phpstan-var int-mask-of<Constraint::CHECK_MODE_*>
      */
     private $checkMode = Constraint::CHECK_MODE_NORMAL;
 
     /**
      * @var array<int, TypeCheck\TypeCheckInterface>
+     *
      * @phpstan-var array<int-mask-of<Constraint::CHECK_MODE_*>, TypeCheck\TypeCheckInterface>
      */
     private $typeCheck = [];
@@ -92,6 +94,7 @@ class Factory
      * Set config values
      *
      * @param int $checkMode Set checkMode options - does not preserve existing flags
+     *
      * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
     public function setConfig(int $checkMode = Constraint::CHECK_MODE_NORMAL): void
@@ -123,6 +126,7 @@ class Factory
      * Get checkMode option
      *
      * @param int|null $options Options to get, if null then return entire bitmask
+     *
      * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*>|null $options Options to get, if null then return entire bitmask
      *
      * @phpstan-return int-mask-of<Constraint::CHECK_MODE_*>
@@ -180,6 +184,7 @@ class Factory
      * @throws InvalidArgumentException if is not possible create the constraint instance
      *
      * @return ConstraintInterface&BaseConstraint
+     *
      * @phpstan-return ConstraintInterface&BaseConstraint
      */
     public function createInstanceFor($constraintName)

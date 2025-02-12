@@ -37,9 +37,9 @@ class FormatConstraint extends Constraint
             case 'date':
                 if (is_string($element) && !$date = $this->validateDateTime($element, 'Y-m-d')) {
                     $this->addError(ConstraintError::FORMAT_DATE(), $path, [
-                            'date' => $element,
-                            'format' => $schema->format
-                        ]
+                        'date' => $element,
+                        'format' => $schema->format
+                    ]
                     );
                 }
                 break;
@@ -47,9 +47,9 @@ class FormatConstraint extends Constraint
             case 'time':
                 if (is_string($element) && !$this->validateDateTime($element, 'H:i:s')) {
                     $this->addError(ConstraintError::FORMAT_TIME(), $path, [
-                            'time' => json_encode($element),
-                            'format' => $schema->format,
-                        ]
+                        'time' => json_encode($element),
+                        'format' => $schema->format,
+                    ]
                     );
                 }
                 break;
@@ -57,9 +57,9 @@ class FormatConstraint extends Constraint
             case 'date-time':
                 if (is_string($element) && null === Rfc3339::createFromString($element)) {
                     $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, [
-                            'dateTime' => json_encode($element),
-                            'format' => $schema->format
-                        ]
+                        'dateTime' => json_encode($element),
+                        'format' => $schema->format
+                    ]
                     );
                 }
                 break;
@@ -75,9 +75,9 @@ class FormatConstraint extends Constraint
             case 'regex':
                 if (!$this->validateRegex($element)) {
                     $this->addError(ConstraintError::FORMAT_REGEX(), $path, [
-                            'value' => $element,
-                            'format' => $schema->format
-                        ]
+                        'value' => $element,
+                        'format' => $schema->format
+                    ]
                     );
                 }
                 break;

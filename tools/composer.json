@@ -1,0 +1,7 @@
+{
+    "require": {
+        "friendsofphp/php-cs-fixer": "^3.68.5",
+        "phpstan/phpstan": "^2.1.4",
+        "marc-mabe/php-enum-phpstan": "^3.0"
+    }
+}

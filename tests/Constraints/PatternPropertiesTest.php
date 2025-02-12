@@ -42,46 +42,46 @@ class PatternPropertiesTest extends BaseTestCase
             // Does not match pattern
             [
                 json_encode([
-                        'regex_us' => false,
+                    'regex_us' => false,
                 ]),
                 json_encode([
-                        'type' => 'object',
-                        'patternProperties' => [
-                            '^[a-z]+_(jp|de)$' => [
-                                'type' => ['boolean']
-                            ]
-                        ],
-                        'additionalProperties' => false
+                    'type' => 'object',
+                    'patternProperties' => [
+                        '^[a-z]+_(jp|de)$' => [
+                            'type' => ['boolean']
+                        ]
+                    ],
+                    'additionalProperties' => false
                 ])
             ],
             // Does not match pattern with unicode
             [
                 json_encode([
-                        '猡猡獛' => false,
+                    '猡猡獛' => false,
                 ]),
                 json_encode([
-                        'type' => 'object',
-                        'patternProperties' => [
-                            '^[\\x{0080}-\\x{006FFF}]+$' => [
-                                'type' => ['boolean']
-                            ]
-                        ],
-                        'additionalProperties' => false
+                    'type' => 'object',
+                    'patternProperties' => [
+                        '^[\\x{0080}-\\x{006FFF}]+$' => [
+                            'type' => ['boolean']
+                        ]
+                    ],
+                    'additionalProperties' => false
                 ])
             ],
             // An invalid regular expression pattern
             [
                 json_encode([
-                        'regex_us' => false,
+                    'regex_us' => false,
                 ]),
                 json_encode([
-                        'type' => 'object',
-                        'patternProperties' => [
-                            '^[a-z+_jp|de)$' => [
-                                'type' => ['boolean']
-                            ]
-                        ],
-                        'additionalProperties' => false
+                    'type' => 'object',
+                    'patternProperties' => [
+                        '^[a-z+_jp|de)$' => [
+                            'type' => ['boolean']
+                        ]
+                    ],
+                    'additionalProperties' => false
                 ])
             ],
         ];
@@ -177,21 +177,21 @@ class PatternPropertiesTest extends BaseTestCase
             ],
             [
                 json_encode([
-                        'foobar' => true,
-                        'regex_us' => 'foo',
-                        'regex_de' => 1234
+                    'foobar' => true,
+                    'regex_us' => 'foo',
+                    'regex_de' => 1234
                 ]),
                 json_encode([
-                        'type' => 'object',
-                        'properties' => [
-                            'foobar' => ['type' => 'boolean']
-                        ],
-                        'patternProperties' => [
-                            '^[a-z]+_(us|de)$' => [
-                                'type' => ['string', 'integer']
-                            ]
-                        ],
-                        'additionalProperties' => false
+                    'type' => 'object',
+                    'properties' => [
+                        'foobar' => ['type' => 'boolean']
+                    ],
+                    'patternProperties' => [
+                        '^[a-z]+_(us|de)$' => [
+                            'type' => ['string', 'integer']
+                        ]
+                    ],
+                    'additionalProperties' => false
                 ])
             ],
             // Does match pattern with unicode
