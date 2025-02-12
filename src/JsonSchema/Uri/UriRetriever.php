@@ -45,7 +45,7 @@ class UriRetriever implements BaseUriRetrieverInterface
     /**
      * @var null|UriRetrieverInterface
      */
-    protected $uriRetriever = null;
+    protected $uriRetriever;
 
     /**
      * @var array|object[]
@@ -168,7 +168,7 @@ class UriRetriever implements BaseUriRetrieverInterface
         $resolver = new UriResolver();
         $resolvedUri = $fetchUri = $resolver->resolve($uri, $baseUri);
 
-        //fetch URL without #fragment
+        // fetch URL without #fragment
         $arParts = $resolver->parse($resolvedUri);
         if (isset($arParts['fragment'])) {
             unset($arParts['fragment']);
@@ -302,7 +302,7 @@ class UriRetriever implements BaseUriRetrieverInterface
         $components = $this->parse($uri);
         $path = $components['path'];
 
-        if ((array_key_exists('scheme', $components)) && ('http' === $components['scheme'])) {
+        if (array_key_exists('scheme', $components) && ('http' === $components['scheme'])) {
             return $uri;
         }
 

@@ -4,7 +4,6 @@ $finder = new PhpCsFixer\Finder();
 $config = new PhpCsFixer\Config('json-schema');
 $finder->in(__DIR__);
 
-/* Based on ^2.1 of php-cs-fixer */
 $config
     ->setRules([
         // default

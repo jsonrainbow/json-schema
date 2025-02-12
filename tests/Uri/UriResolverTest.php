@@ -78,7 +78,7 @@ class UriResolverTest extends TestCase
 
     public function testCombineRelativePathWithBasePathNoPath(): void
     {
-        //needed for anchor-only urls
+        // needed for anchor-only urls
         $this->assertEquals(
             '/foo/bar.json',
             UriResolver::combineRelativePathWithBasePath(

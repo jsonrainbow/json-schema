@@ -34,7 +34,7 @@ class StringConstraint extends Constraint
             ]);
         }
 
-        //verify minLength
+        // verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
             $this->addError(ConstraintError::LENGTH_MIN(), $path, [
                 'minLength' => $schema->minLength,

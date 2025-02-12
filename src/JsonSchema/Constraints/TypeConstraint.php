@@ -72,8 +72,8 @@ class TypeConstraint extends Constraint
                 $wording[] = self::$wording[$type];
             }
             $this->addError(ConstraintError::TYPE(), $path, [
-                    'found' => gettype($value),
-                    'expected' => $this->implodeWith($wording, ', ', 'or')
+                'found' => gettype($value),
+                'expected' => $this->implodeWith($wording, ', ', 'or')
             ]);
         }
     }
@@ -175,7 +175,7 @@ class TypeConstraint extends Constraint
      */
     protected function validateType(&$value, $type, $coerce = false)
     {
-        //mostly the case for inline schema
+        // mostly the case for inline schema
         if (!$type) {
             return true;
         }

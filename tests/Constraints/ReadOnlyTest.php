@@ -15,7 +15,7 @@ class ReadOnlyTest extends BaseTestCase
 
     public function getInvalidTests(): array
     {
-        //is readonly really required?
+        // is readonly really required?
         return [
             [
                 '{ "number": [] }',

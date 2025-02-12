@@ -4,9 +4,6 @@ on:
   - push
   - pull_request
 
-env:
-  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
-
 jobs:
   tests:
     name: "PHPStan"
@@ -20,14 +17,10 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          coverage: "none"
-          extensions: "intl, zip"
-          ini-values: "memory_limit=-1"
-          php-version: "7.2"
+          php-version: "latest"
 
-      - name: "Update dependencies"
-        run: "composer update ${{ env.COMPOSER_FLAGS }}"
+      - name: "Composer Install"
+        run: composer install && composer --working-dir=tools install
 
       - name: Run PHPStan
-        run: |
-          composer phpstan
+        run: composer phpstan
