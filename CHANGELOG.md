@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Add required permissions for welcome action ([#789](https://github.com/jsonrainbow/json-schema/pull/789))
+- Upgrade php cs fixer to latest ([#783](https://github.com/jsonrainbow/json-schema/pull/783))
 
 ### Changed
 - Used PHPStan's int-mask-of<T> type where applicable ([#779](https://github.com/jsonrainbow/json-schema/pull/779))
