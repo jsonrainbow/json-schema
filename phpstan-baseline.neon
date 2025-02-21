@@ -1,952 +1,3914 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot access offset ''additionalItems''\|''additionalProp''\|''allOf''\|''anyOf''\|''colorFormat''\|''const''\|''dateFormat''\|''dateTimeFormat''\|''dateUtcFormat''\|''dependencies''\|''disallow''\|''divisibleBy''\|''emailFormat''\|''enum''\|''exclusiveMaximum''\|''exclusiveMinimum''\|''invalidSchema''\|''ipFormat''\|''maximum''\|''maxItems''\|''maxLength''\|''maxProperties''\|''minimum''\|''minItems''\|''minLength''\|''minProperties''\|''missingError''\|''missingMaximum''\|''missingMinimum''\|''multipleOf''\|''not''\|''oneOf''\|''pattern''\|''phoneFormat''\|''pregrex''\|''regexFormat''\|''required''\|''requires''\|''styleFormat''\|''styleHostName''\|''timeFormat''\|''type''\|''uniqueItems''\|''urlFormat''\|''urlRefFormat'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/JsonSchema/ConstraintError.php
+
+		-
+			message: '#^Method JsonSchema\\ConstraintError\:\:getMessage\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonSchema/ConstraintError.php
+
+		-
+			message: '#^Binary operation "&" between 0\|1\|2\|3 and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:addErrors\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
+			message: '#^Binary operation "\|\=" between int and mixed results in an error\.$#'
+			identifier: assignOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:arrayToObjectRecursive\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot access offset ''context'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\BaseConstraint\:\:addError\(\) has parameter \$more with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:getErrors\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\BaseConstraint\:\:addErrors\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\BaseConstraint\:\:arrayToObjectRecursive\(\) has parameter \$array with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:\\$errors type has no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\BaseConstraint\:\:getErrors\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Cannot access property \\$additionalItems on stdClass\\|null\\.$#"
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: '#^Property JsonSchema\\Constraints\\BaseConstraint\:\:\$errors type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
+			message: '#^Cannot access offset int\<1, max\> on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Cannot access property \$additionalItems on stdClass\|null\.$#'
+			identifier: property.nonObject
 			count: 3
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Cannot access property \\$items on stdClass\\|null\\.$#"
+			message: '#^Cannot access property \$items on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Cannot access property \$items on stdClass\|null\.$#'
+			identifier: property.nonObject
 			count: 6
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot access property \$maxItems on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Parameter \\#1 \\$object_or_class of function property_exists expects object\\|string, stdClass\\|null given\\.$#"
+			message: '#^Cannot access property \$minItems on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Parameter \\#2 \\$schema of method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) expects stdClass\\|null, object given\\.$#"
+			message: '#^Cannot access property \$uniqueItems on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkObject\\(\\) has parameter \\$appliedDefaults with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\CollectionConstraint\:\:validateItems\(\) has parameter \$value with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_unique expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$object_or_class of function property_exists expects object\|string, stdClass\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$value of method JsonSchema\\Constraints\\CollectionConstraint\:\:validateItems\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$var of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$schema of method JsonSchema\\Constraints\\CollectionConstraint\:\:validateItems\(\) expects stdClass\|null, object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$search of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Parameter \#4 \$i of method JsonSchema\\Constraints\\CollectionConstraint\:\:validateItems\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/CollectionConstraint.php
+
+		-
+			message: '#^Cannot access property \$const on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/JsonSchema/Constraints/ConstConstraint.php
+
+		-
+			message: '#^Cannot access property \$required on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/ConstConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\Constraint\:\:checkObject\(\) has parameter \$appliedDefaults with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/Constraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkUndefined\\(\\) has parameter \\$fromDefault with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\Constraint\:\:checkUndefined\(\) has parameter \$fromDefault with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/Constraint.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Constraint\\:\\:\\$inlineSchemaProperty has no type specified\\.$#"
+			message: '#^Property JsonSchema\\Constraints\\Constraint\:\:\$inlineSchemaProperty has no type specified\.$#'
+			identifier: missingType.property
 			count: 1
 			path: src/JsonSchema/Constraints/Constraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ConstraintInterface\:\:addError\(\) has parameter \$more with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addErrors\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ConstraintInterface\:\:addErrors\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:getErrors\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ConstraintInterface\:\:getErrors\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
-			message: "#^PHPDoc tag @throws with type JsonSchema\\\\Exception\\\\ExceptionInterface is not subtype of Throwable$#"
+			message: '#^PHPDoc tag @throws with type JsonSchema\\Exception\\ExceptionInterface is not subtype of Throwable$#'
+			identifier: throws.notThrowable
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:createInstanceFor\\(\\) should return JsonSchema\\\\Constraints\\\\BaseConstraint&JsonSchema\\\\Constraints\\\\ConstraintInterface but returns object\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/JsonSchema/Constraints/EnumConstraint.php
+
+		-
+			message: '#^Cannot access property \$enum on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/JsonSchema/Constraints/EnumConstraint.php
+
+		-
+			message: '#^Cannot access property \$required on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/EnumConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\Factory\:\:createInstanceFor\(\) should return JsonSchema\\Constraints\\BaseConstraint&JsonSchema\\Constraints\\ConstraintInterface but returns object\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getConfig\\(\\) should return int\\<0, 511\\> but returns int\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\Factory\:\:getConfig\(\) should return int\<0, 511\> but returns int\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getErrorContext\\(\\) should return 1\\|2 but returns int\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\Factory\:\:getErrorContext\(\) should return 1\|2 but returns int\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$checkMode \\(int\\<0, 511\\>\\) does not accept int\\.$#"
+			message: '#^Property JsonSchema\\Constraints\\Factory\:\:\$checkMode \(int\<0, 511\>\) does not accept int\.$#'
+			identifier: assign.propertyType
 			count: 2
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$constraintMap type has no value type specified in iterable type array\\.$#"
+			message: '#^Property JsonSchema\\Constraints\\Factory\:\:\$constraintMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$instanceCache \\(array\\<JsonSchema\\\\Constraints\\\\ConstraintInterface\\>\\) does not accept array\\<object\\>\\.$#"
+			message: '#^Property JsonSchema\\Constraints\\Factory\:\:\$instanceCache \(array\<JsonSchema\\Constraints\\ConstraintInterface\>\) does not accept array\<object\>\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$uriRetriever \\(JsonSchema\\\\Uri\\\\UriRetriever\\) does not accept JsonSchema\\\\UriRetrieverInterface\\.$#"
+			message: '#^Property JsonSchema\\Constraints\\Factory\:\:\$uriRetriever \(JsonSchema\\Uri\\UriRetriever\) does not accept JsonSchema\\UriRetrieverInterface\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateColor\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$format on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateColor\\(\\) has parameter \\$color with no type specified\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateDateTime\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateColor\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateDateTime\\(\\) has parameter \\$datetime with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateColor\(\) has parameter \$color with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateDateTime\\(\\) has parameter \\$format with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateDateTime\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateHostname\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateDateTime\(\) has parameter \$datetime with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateHostname\\(\\) has parameter \\$host with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateDateTime\(\) has parameter \$format with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validatePhone\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateHostname\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validatePhone\\(\\) has parameter \\$phone with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateHostname\(\) has parameter \$host with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateRegex\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validatePhone\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateRegex\\(\\) has parameter \\$regex with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validatePhone\(\) has parameter \$phone with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateStyle\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateRegex\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\FormatConstraint\\:\\:validateStyle\\(\\) has parameter \\$style with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateRegex\(\) has parameter \$regex with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/FormatConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateStyle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\FormatConstraint\:\:validateStyle\(\) has parameter \$style with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$format of method DateTime\:\:format\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$format of static method DateTime\:\:createFromFormat\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$str of function rtrim expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/FormatConstraint.php
+
+		-
+			message: '#^Binary operation "\*" between float and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/NumberConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has parameter \\$number1 with no type specified\\.$#"
+			message: '#^Binary operation "\-" between mixed and float results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/NumberConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\NumberConstraint\\:\\:fmod\\(\\) has parameter \\$number2 with no type specified\\.$#"
+			message: '#^Binary operation "/" between mixed and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/NumberConstraint.php
 
 		-
-			message: "#^Argument of an invalid type stdClass supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Cannot access property \$divisibleBy on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Cannot access property \$exclusiveMaximum on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Cannot access property \$exclusiveMinimum on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Cannot access property \$maximum on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Cannot access property \$minimum on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Cannot access property \$multipleOf on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\NumberConstraint\:\:fmod\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\NumberConstraint\:\:fmod\(\) has parameter \$number1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\NumberConstraint\:\:fmod\(\) has parameter \$number2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/NumberConstraint.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Argument of an invalid type stdClass supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Argument of an invalid type stdClass\\|null supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Argument of an invalid type stdClass\|null supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$additionalProp with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:check\(\) has parameter \$additionalProp with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$appliedDefaults with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:check\(\) has parameter \$appliedDefaults with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$patternProperties with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:check\(\) has parameter \$patternProperties with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateElement\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validateElement\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateElement\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validateElement\(\) has parameter \$matches with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateMinMaxConstraint\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validateMinMaxConstraint\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validatePatternProperties\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validatePatternProperties\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validatePatternProperties\\(\\) has parameter \\$element with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validatePatternProperties\(\) has parameter \$element with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validatePatternProperties\\(\\) has parameter \\$patternProperties with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validatePatternProperties\(\) has parameter \$patternProperties with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateProperties\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\ObjectConstraint\:\:validateProperties\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Parameter \\#2 \\$objectDefinition of method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateMinMaxConstraint\\(\\) expects stdClass, stdClass\\|null given\\.$#"
+			message: '#^Parameter \#1 \$element of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateElement\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$element of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateMinMaxConstraint\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:strlen\\(\\) has no return type specified\\.$#"
+			message: '#^Parameter \#1 \$element of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateProperties\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$pattern of static method JsonSchema\\Constraints\\BaseConstraint\:\:jsonPatternToPhpRegex\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$matches of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateElement\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$objectDefinition of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateMinMaxConstraint\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$objectDefinition of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateMinMaxConstraint\(\) expects stdClass, stdClass\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$properties of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateProperties\(\) expects stdClass\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$property of method JsonSchema\\Constraints\\ObjectConstraint\:\:getProperty\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 5
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#3 \$schema of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateElement\(\) expects stdClass\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#5 \$properties of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateElement\(\) expects stdClass\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter &\$element by\-ref type of method JsonSchema\\Constraints\\ObjectConstraint\:\:validateProperties\(\) expects stdClass, mixed given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Property JsonSchema\\Constraints\\ObjectConstraint\:\:\$appliedDefaults \(array\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Property JsonSchema\\Constraints\\ObjectConstraint\:\:\$appliedDefaults type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Constraints/ObjectConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$id of method JsonSchema\\SchemaStorageInterface\:\:getSchema\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/SchemaConstraint.php
+
+		-
+			message: '#^Cannot access property \$maxLength on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/StringConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\StringConstraint\\:\\:strlen\\(\\) has parameter \\$string with no type specified\\.$#"
+			message: '#^Cannot access property \$minLength on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/StringConstraint.php
 
 		-
-			message: "#^Parameter \\#2 \\$encoding of function mb_strlen expects string, string\\|false given\\.$#"
+			message: '#^Cannot access property \$pattern on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/StringConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isArray\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\StringConstraint\:\:strlen\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\StringConstraint\:\:strlen\(\) has parameter \$string with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$pattern of static method JsonSchema\\Constraints\\BaseConstraint\:\:jsonPatternToPhpRegex\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$str of function mb_detect_encoding expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$str of function mb_strlen expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$encoding of function mb_strlen expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/StringConstraint.php
+
+		-
+			message: '#^Cannot access offset mixed on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:isArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isArray\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:isArray\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isAssociativeArray\\(\\) has parameter \\$arr with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:isAssociativeArray\(\) has parameter \$arr with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isObject\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:isObject\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isObject\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:isObject\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyCount\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyCount\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyCount\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyCount\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyExists\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyExists\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyExists\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyExists\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyGet\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyGet\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyGet\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertyGet\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertySet\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has parameter \\$data with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertySet\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertySet\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:propertySet\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\LooseTypeCheck\:\:propertySet\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isArray\\(\\) has no return type specified\\.$#"
+			message: '#^Parameter \#1 \$key of function array_key_exists expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: '#^Parameter \#1 \$var of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: '#^Parameter \#2 \$property_name of function property_exists expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: '#^Parameter \#2 \$search of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:isArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isArray\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:isArray\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isObject\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:isObject\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:isObject\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:isObject\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyCount\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyCount\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyCount\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyCount\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyExists\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyExists\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyExists\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyExists\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyExists\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyGet\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyGet\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyGet\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertyGet\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertyGet\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertySet\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has parameter \\$data with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertySet\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertySet\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\StrictTypeCheck\\:\\:propertySet\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\StrictTypeCheck\:\:propertySet\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isArray\\(\\) has no return type specified\\.$#"
+			message: '#^Parameter \#1 \$object_or_class of function property_exists expects object\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: '#^Parameter \#2 \$property_name of function property_exists expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeCheck/StrictTypeCheck.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:isArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isArray\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:isArray\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isObject\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:isObject\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:isObject\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:isObject\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyCount\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyCount\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyCount\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyCount\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyExists\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyExists\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyExists\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyExists\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyExists\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyExists\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyGet\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyGet\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyGet\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyGet\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertyGet\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertyGet\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertySet\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has parameter \\$data with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertySet\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has parameter \\$property with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertySet\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\TypeCheckInterface\\:\\:propertySet\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeCheck\\TypeCheckInterface\:\:propertySet\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/TypeCheckInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:implodeWith\\(\\) has parameter \\$elements with no value type specified in iterable type array\\.$#"
+			message: '#^Binary operation "\." between mixed and '' is an invalid type…'' results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateType\\(\\) has parameter \\$coerce with no type specified\\.$#"
+			message: '#^Cannot access property \$type on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypeNameWording\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:implodeWith\(\) has parameter \$elements with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypesArray\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:validateType\(\) has parameter \$coerce with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypesArray\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/TypeConstraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:validateTypesArray\\(\\) has parameter \\$validTypesWording with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/TypeConstraint.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:validateType\(\) should return bool but returns mixed\.$#'
+			identifier: return.type
 			count: 2
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Parameter \\#3 \\$listEnd of method JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:implodeWith\\(\\) expects bool, string given\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:validateTypeNameWording\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Static property JsonSchema\\\\Constraints\\\\TypeConstraint\\:\\:\\$wording \\(array\\<string\\>\\) does not accept default value of type array\\<int\\|string, string\\|null\\>\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:validateTypesArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:check\\(\\) has parameter \\$fromDefault with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:validateTypesArray\(\) has parameter \$type with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\TypeConstraint\:\:validateTypesArray\(\) has parameter \$validTypesWording with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 2
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$array of function reset expects array\|object, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonSchema\\Constraints\\TypeConstraint\:\:validateTypeNameWording\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$var of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$type of method JsonSchema\\Constraints\\TypeConstraint\:\:validateType\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Parameter \#3 \$listEnd of method JsonSchema\\Constraints\\TypeConstraint\:\:implodeWith\(\) expects bool, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Static property JsonSchema\\Constraints\\TypeConstraint\:\:\$wording \(array\<string\>\) does not accept default value of type array\<int\|string, string\|null\>\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: src/JsonSchema/Constraints/TypeConstraint.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 6
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Binary operation "\-" between mixed and int\<0, max\> results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:shouldApplyDefaultValue\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: '#^Cannot access offset mixed on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$additionalProperties on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateCommonProperties\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$allOf on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateDependencies\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$anyOf on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateOfProperties\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$const on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateTypes\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$default on mixed\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$dependencies on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$disallow on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has parameter \\$schema with no type specified\\.$#"
+			message: '#^Cannot access property \$enum on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:validateUri\\(\\) has parameter \\$schemaUri with no type specified\\.$#"
+			message: '#^Cannot access property \$extends on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot access property \$id on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:encodePropertyPaths\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot access property \$items on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$not on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$oneOf on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$patternProperties on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$properties on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Cannot access property \$required on mixed\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:check\(\) has parameter \$fromDefault with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:shouldApplyDefaultValue\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateCommonProperties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateDependencies\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateOfProperties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateTypes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateUri\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateUri\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateUri\(\) has parameter \$schemaUri with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$key of function array_key_exists expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$object_or_class of function property_exists expects object\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method JsonSchema\\UriRetrieverInterface\:\:retrieve\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method JsonSchema\\Uri\\UriResolver\:\:isValid\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#1 \$var of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$baseUri of method JsonSchema\\UriRetrieverInterface\:\:retrieve\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#2 \$search of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#4 \$i of method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateCommonProperties\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Parameter \#4 \$i of method JsonSchema\\Constraints\\UndefinedConstraint\:\:validateTypes\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Property JsonSchema\\Constraints\\UndefinedConstraint\:\:\$appliedDefaults type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Constraints/UndefinedConstraint.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/JsonSchema/Entity/JsonPointer.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: src/JsonSchema/Entity/JsonPointer.php
 
 		-
-			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:setFromDefault\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Entity\\JsonPointer\:\:encodePropertyPaths\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Entity/JsonPointer.php
 
 		-
-			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:withPropertyPaths\\(\\) has parameter \\$propertyPaths with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Entity\\JsonPointer\:\:setFromDefault\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Entity/JsonPointer.php
 
 		-
-			message: "#^Method JsonSchema\\\\Exception\\\\JsonDecodingException\\:\\:__construct\\(\\) has parameter \\$code with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Entity\\JsonPointer\:\:withPropertyPaths\(\) has parameter \$propertyPaths with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Entity/JsonPointer.php
+
+		-
+			message: '#^Method JsonSchema\\Exception\\JsonDecodingException\:\:__construct\(\) has parameter \$code with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Exception/JsonDecodingException.php
 
 		-
-			message: "#^Class JsonSchema\\\\Iterator\\\\ObjectIterator implements generic interface Iterator but does not specify its types\\: TKey, TValue$#"
+			message: '#^Parameter \#2 \$code of method Exception\:\:__construct\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Exception/JsonDecodingException.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:buildDataFromObject\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Class JsonSchema\\Iterator\\ObjectIterator implements generic interface Iterator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:getDataFromItem\\(\\) has parameter \\$item with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Iterator\\ObjectIterator\:\:buildDataFromObject\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:getDataFromItem\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Iterator\\ObjectIterator\:\:getDataFromItem\(\) has parameter \$item with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:initialize\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Iterator\\ObjectIterator\:\:getDataFromItem\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Property JsonSchema\\\\Iterator\\\\ObjectIterator\\:\\:\\$data type has no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Iterator\\ObjectIterator\:\:initialize\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
+			message: '#^Parameter \#1 \$item of method JsonSchema\\Iterator\\ObjectIterator\:\:getDataFromItem\(\) expects array\|object, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
 
 		-
-			message: "#^Offset 4 does not exist on array\\{0\\: string, 1\\: non\\-falsy\\-string, 2\\: string, 3\\: non\\-falsy\\-string, 4\\?\\: string, 5\\?\\: non\\-falsy\\-string&numeric\\-string\\}\\.$#"
+			message: '#^Property JsonSchema\\Iterator\\ObjectIterator\:\:\$data type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: src/JsonSchema/Iterator/ObjectIterator.php
+
+		-
+			message: '#^Offset 4 might not exist on array\{0\: string, 1\: non\-falsy\-string, 2\: string, 3\: non\-falsy\-string, 4\?\: string, 5\?\: non\-falsy\-string&numeric\-string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: src/JsonSchema/Rfc3339.php
 
 		-
-			message: "#^Offset 5 does not exist on array\\{0\\: string, 1\\: non\\-falsy\\-string, 2\\: string, 3\\: non\\-falsy\\-string, 4\\?\\: string, 5\\?\\: non\\-falsy\\-string&numeric\\-string\\}\\.$#"
+			message: '#^Offset 5 might not exist on array\{0\: string, 1\: non\-falsy\-string, 2\: string, 3\: non\-falsy\-string, 4\?\: string, 5\?\: non\-falsy\-string&numeric\-string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: src/JsonSchema/Rfc3339.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$properties\\.$#"
+			message: '#^Access to an undefined property object\:\:\$properties\.$#'
+			identifier: property.notFound
 			count: 3
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Argument of an invalid type object supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Argument of an invalid type object supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with object will always evaluate to false\\.$#"
+			message: '#^Call to function is_array\(\) with object will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:addSchema\\(\\) has no return type specified\\.$#"
+			message: '#^Call to function is_object\(\) with object will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:expandRefs\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:resolveRef\\(\\) has parameter \\$resolveStack with no type specified\\.$#"
+			message: '#^Cannot access offset string on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Cannot access property \$\$ref on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Method JsonSchema\\\\SchemaStorage\\:\\:resolveRefSchema\\(\\) has parameter \\$resolveStack with no type specified\\.$#"
+			message: '#^Cannot access property \$format on mixed\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Cannot access property \$id on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Cannot call method resolve\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Cannot call method retrieve\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Property JsonSchema\\\\SchemaStorage\\:\\:\\$schemas has no type specified\\.$#"
+			message: '#^Method JsonSchema\\SchemaStorage\:\:addSchema\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Property JsonSchema\\\\SchemaStorage\\:\\:\\$uriResolver has no type specified\\.$#"
+			message: '#^Method JsonSchema\\SchemaStorage\:\:expandRefs\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Property JsonSchema\\\\SchemaStorage\\:\\:\\$uriRetriever has no type specified\\.$#"
+			message: '#^Method JsonSchema\\SchemaStorage\:\:getSchema\(\) should return object but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
+			message: '#^Method JsonSchema\\SchemaStorage\:\:getUriResolver\(\) should return JsonSchema\\UriResolverInterface but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Method JsonSchema\\\\SchemaStorageInterface\\:\\:addSchema\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\SchemaStorage\:\:getUriRetriever\(\) should return JsonSchema\\UriRetrieverInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Method JsonSchema\\SchemaStorage\:\:resolveRef\(\) has parameter \$resolveStack with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Method JsonSchema\\SchemaStorage\:\:resolveRefSchema\(\) has parameter \$resolveStack with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Method JsonSchema\\SchemaStorage\:\:resolveRefSchema\(\) should return object but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Parameter \#1 \$value of class JsonSchema\\Entity\\JsonPointer constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Parameter \#2 \$base of method JsonSchema\\SchemaStorage\:\:expandRefs\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Parameter \#2 \$search of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Property JsonSchema\\SchemaStorage\:\:\$schemas has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Property JsonSchema\\SchemaStorage\:\:\$uriResolver has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Property JsonSchema\\SchemaStorage\:\:\$uriRetriever has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: src/JsonSchema/SchemaStorage.php
+
+		-
+			message: '#^Method JsonSchema\\SchemaStorageInterface\:\:addSchema\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/SchemaStorageInterface.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:fetchMessageBody\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\Retrievers\\Curl\:\:fetchMessageBody\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/Curl.php
 
 		-
-			message: "#^Offset 1 does not exist on array\\{0\\?\\: string, 1\\?\\: string\\}\\.$#"
+			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/Curl.php
 
 		-
-			message: "#^Parameter \\#1 \\$response of method JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:fetchContentType\\(\\) expects string, string\\|true given\\.$#"
+			message: '#^Parameter \#1 \$response of method JsonSchema\\Uri\\Retrievers\\Curl\:\:fetchContentType\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/Curl.php
 
 		-
-			message: "#^Parameter \\#1 \\$response of method JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:fetchMessageBody\\(\\) expects string, string\\|true given\\.$#"
+			message: '#^Parameter \#1 \$response of method JsonSchema\\Uri\\Retrievers\\Curl\:\:fetchMessageBody\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/Curl.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\Curl\\:\\:\\$messageBody has no type specified\\.$#"
+			message: '#^Parameter \#3 \$value of function curl_setopt expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/Curl.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\FileGetContents\\:\\:fetchContentType\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			message: '#^Property JsonSchema\\Uri\\Retrievers\\Curl\:\:\$messageBody has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/Curl.php
+
+		-
+			message: '#^Method JsonSchema\\Uri\\Retrievers\\FileGetContents\:\:fetchContentType\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(mixed, mixed\\)\\: void given\\.$#"
+			message: '#^Parameter \#1 \$callback of function set_error_handler expects \(callable\(int, string, string, int, array\)\: bool\)\|null, Closure\(mixed, mixed\)\: void given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\AbstractRetriever\\:\\:\\$contentType \\(string\\) does not accept null\\.$#"
+			message: '#^Parameter \#1 \$header of static method JsonSchema\\Uri\\Retrievers\\FileGetContents\:\:getContentTypeMatchInHeader\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\AbstractRetriever\\:\\:\\$contentType \\(string\\) does not accept string\\|null\\.$#"
+			message: '#^Property JsonSchema\\Uri\\Retrievers\\AbstractRetriever\:\:\$contentType \(string\) does not accept null\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\FileGetContents\\:\\:\\$messageBody has no type specified\\.$#"
+			message: '#^Property JsonSchema\\Uri\\Retrievers\\AbstractRetriever\:\:\$contentType \(string\) does not accept string\|null\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\Retrievers\\\\PredefinedArray\\:\\:__construct\\(\\) has parameter \\$schemas with no value type specified in iterable type array\\.$#"
+			message: '#^Property JsonSchema\\Uri\\Retrievers\\FileGetContents\:\:\$messageBody has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/JsonSchema/Uri/Retrievers/FileGetContents.php
+
+		-
+			message: '#^Method JsonSchema\\Uri\\Retrievers\\PredefinedArray\:\:__construct\(\) has parameter \$schemas with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/PredefinedArray.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\Retrievers\\\\PredefinedArray\\:\\:\\$schemas type has no value type specified in iterable type array\\.$#"
+			message: '#^Property JsonSchema\\Uri\\Retrievers\\PredefinedArray\:\:\$schemas type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/Retrievers/PredefinedArray.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:generate\\(\\) has parameter \\$components with no value type specified in iterable type array\\.$#"
+			message: '#^Binary operation "\." between ''\#'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:normalizePath\\(\\) should return string but returns string\\|null\\.$#"
+			message: '#^Binary operation "\." between ''\?'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Binary operation "\." between mixed and ''\://'' results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriResolver\\:\\:resolve\\(\\) should return string but returns string\\|null\\.$#"
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 2
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Method JsonSchema\\Uri\\UriResolver\:\:generate\(\) has parameter \$components with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$uri of method JsonSchema\\\\Uri\\\\UriResolver\\:\\:parse\\(\\) expects string, string\\|null given\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriResolver\:\:normalizePath\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriResolver\:\:parse\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/UriResolver.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriResolver\:\:resolve\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Parameter \#1 \$relativePath of static method JsonSchema\\Uri\\UriResolver\:\:combineRelativePathWithBasePath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method JsonSchema\\Uri\\UriResolver\:\:parse\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Parameter \#2 \$basePath of static method JsonSchema\\Uri\\UriResolver\:\:combineRelativePathWithBasePath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriResolver.php
+
+		-
+			message: '#^Binary operation "\." between ''Fragment "'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''\://'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 2
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Cannot call method retrieve\\(\\) on JsonSchema\\\\Uri\\\\Retrievers\\\\UriRetrieverInterface\\|null\\.$#"
+			message: '#^Binary operation "\.\=" between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 2
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 2
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Cannot call method retrieve\(\) on JsonSchema\\Uri\\Retrievers\\UriRetrieverInterface\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:addInvalidContentTypeEndpoint\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:addInvalidContentTypeEndpoint\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:generate\\(\\) has parameter \\$components with no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:generate\(\) has parameter \$components with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:getUriRetriever\\(\\) should return JsonSchema\\\\Uri\\\\Retrievers\\\\UriRetrieverInterface but returns JsonSchema\\\\Uri\\\\Retrievers\\\\UriRetrieverInterface\\|null\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:getUriRetriever\(\) should return JsonSchema\\Uri\\Retrievers\\UriRetrieverInterface but returns JsonSchema\\Uri\\Retrievers\\UriRetrieverInterface\|null\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:loadSchema\(\) should return object but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:retrieve\\(\\) has parameter \\$translate with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:parse\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:setTranslation\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:retrieve\(\) has parameter \$translate with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:setTranslation\\(\\) has parameter \\$from with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:setTranslation\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:setTranslation\\(\\) has parameter \\$to with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:setTranslation\(\) has parameter \$from with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:translate\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:setTranslation\(\) has parameter \$to with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:translate\\(\\) has parameter \\$uri with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:translate\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Parameter \\#1 \\$uri of method JsonSchema\\\\Uri\\\\UriRetriever\\:\\:parse\\(\\) expects string, string\\|null given\\.$#"
+			message: '#^Method JsonSchema\\Uri\\UriRetriever\:\:translate\(\) has parameter \$uri with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\UriRetriever\\:\\:\\$allowedInvalidContentTypeEndpoints type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$fetchUri of method JsonSchema\\Uri\\UriRetriever\:\:loadSchema\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Property JsonSchema\\\\Uri\\\\UriRetriever\\:\\:\\$translationMap type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
 		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has no return type specified\\.$#"
+			message: '#^Parameter \#1 \$relativePath of static method JsonSchema\\Uri\\UriResolver\:\:combineRelativePathWithBasePath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method JsonSchema\\Uri\\UriRetriever\:\:parse\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Parameter \#2 \$basePath of static method JsonSchema\\Uri\\UriResolver\:\:combineRelativePathWithBasePath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Parameter \#2 \$needle of function strpos expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Parameter \#2 \$replace of function preg_replace expects array\<float\|int\|string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Parameter \#2 \$str of function explode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Property JsonSchema\\Uri\\UriRetriever\:\:\$allowedInvalidContentTypeEndpoints type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Property JsonSchema\\Uri\\UriRetriever\:\:\$schemaCache \(array\<object\>\) does not accept array\<mixed\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Property JsonSchema\\Uri\\UriRetriever\:\:\$translationMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/JsonSchema/Uri/UriRetriever.php
+
+		-
+			message: '#^Method JsonSchema\\Validator\:\:check\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Validator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has parameter \\$schema with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Validator\:\:check\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Validator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Validator\:\:check\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Validator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has no return type specified\\.$#"
+			message: '#^Method JsonSchema\\Validator\:\:coerce\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/JsonSchema/Validator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has parameter \\$schema with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Validator\:\:coerce\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Validator.php
 
 		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method JsonSchema\\Validator\:\:coerce\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/JsonSchema/Validator.php
+
+		-
+			message: '#^Parameter \#1 \$id of method JsonSchema\\SchemaStorageInterface\:\:addSchema\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: '#^Parameter \#1 \$id of method JsonSchema\\SchemaStorageInterface\:\:getSchema\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: '#^Parameter \#2 \$schema of method JsonSchema\\SchemaStorageInterface\:\:addSchema\(\) expects object\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonSchema/Validator.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\AdditionalPropertiesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/AdditionalPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\AdditionalPropertiesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/AdditionalPropertiesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\AdditionalPropertiesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/AdditionalPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ArraysTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ArraysTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ArraysTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ArraysTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\ArraysTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/ArraysTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$\$schema\.$#'
+			identifier: property.notFound
+			count: 4
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Binary operation "&" between mixed and 2 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 2
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Binary operation "\|\=" between mixed and 256 results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 4
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Call to function is_object\(\) with object will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 4
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:getInvalidForAssocTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:getValidForAssocTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCases\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCases\(\) has parameter \$errors with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCases\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCases\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCasesUsingAssoc\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCasesUsingAssoc\(\) has parameter \$errors with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCasesUsingAssoc\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testInvalidCasesUsingAssoc\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testValidCases\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testValidCases\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testValidCases\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testValidCasesUsingAssoc\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testValidCasesUsingAssoc\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:testValidCasesUsingAssoc\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 8
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$schema of method JsonSchema\\Tests\\Constraints\\VeryBaseTestCase\:\:getUriRetrieverMock\(\) expects object\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$uriRetriever of class JsonSchema\\SchemaStorage constructor expects JsonSchema\\UriRetrieverInterface\|null, object given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Parameter \#3 \$checkMode of class JsonSchema\\Constraints\\Factory constructor expects int\<0, 511\>, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\BaseTestCase\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/BaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BasicTypesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/BasicTypesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\BasicTypesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/BasicTypesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\BasicTypesTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/BasicTypesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\BasicTypesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/BasicTypesTest.php
+
+		-
+			message: '#^Binary operation "\|" between mixed and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Cannot call method getConfig\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:dataCoerceCases\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$assoc with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$endType with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$endValue with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$extraFlags with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$startType with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCases\(\) has parameter \$valid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$early with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$endType with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$endValue with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$startType with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:testCoerceCasesUsingAssoc\(\) has parameter \$valid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Parameter \#1 \$factory of class JsonSchema\\Validator constructor expects JsonSchema\\Constraints\\Factory\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Parameter \#2 \$assoc of function json_decode expects bool\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Parameter \#3 \$checkMode of method JsonSchema\\Validator\:\:validate\(\) expects int\<0, 511\>\|null, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Part \$endType \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Part \$startType \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\CoerciveTest\:\:\$factory has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/CoerciveTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ConstTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ConstTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ConstTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ConstTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\ConstTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/ConstTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\ConstTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/ConstTest.php
+
+		-
+			message: '#^Binary operation "\|\=" between mixed and 2 results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Binary operation "\|\=" between mixed and 8 results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Cannot access property \$default on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Cannot access property \$propertyOne on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCases\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCases\(\) has parameter \$expectOutput with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCases\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCases\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssoc\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssoc\(\) has parameter \$expectOutput with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssoc\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssoc\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssocWithoutTypeCast\(\) has parameter \$checkMode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssocWithoutTypeCast\(\) has parameter \$expectOutput with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssocWithoutTypeCast\(\) has parameter \$input with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DefaultPropertiesTest\:\:testValidCasesUsingAssocWithoutTypeCast\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Parameter \#2 \$schema of method JsonSchema\\SchemaStorage\:\:addSchema\(\) expects object\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Parameter \#3 \$checkMode of method JsonSchema\\Validator\:\:validate\(\) expects int\<0, 511\>\|null, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/DefaultPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DependenciesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DependenciesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DependenciesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DependenciesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\DependenciesTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/DependenciesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\DependenciesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/DependenciesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DisallowTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DisallowTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DisallowTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DisallowTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\DisallowTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/DisallowTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\DisallowTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/DisallowTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DivisibleByTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DivisibleByTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\DivisibleByTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/DivisibleByTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\DivisibleByTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/DivisibleByTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\EnumTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/EnumTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\EnumTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/EnumTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\EnumTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/EnumTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\EnumTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/EnumTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ExtendsTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ExtendsTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ExtendsTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ExtendsTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\ExtendsTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/ExtendsTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\ExtendsTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/ExtendsTest.php
+
+		-
+			message: '#^Parameter \#1 \$expected of method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) expects class\-string\<object\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/FactoryTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:getInvalidFormats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:getValidFormats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:testDisabledFormat\(\) has parameter \$format with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:testDisabledFormat\(\) has parameter \$string with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:testInvalidFormat\(\) has parameter \$format with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:testInvalidFormat\(\) has parameter \$string with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:testValidFormat\(\) has parameter \$format with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\FormatTest\:\:testValidFormat\(\) has parameter \$string with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\FormatTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/FormatTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/Constraints/LongArraysTest.php
+
+		-
+			message: '#^Parameter \#1 \$uriRetriever of class JsonSchema\\SchemaStorage constructor expects JsonSchema\\UriRetrieverInterface\|null, object given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/Constraints/LongArraysTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\LongArraysTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/LongArraysTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinItemsMaxItemsTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinItemsMaxItemsTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinItemsMaxItemsTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinItemsMaxItemsTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\MinItemsMaxItemsTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/MinItemsMaxItemsTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinLengthMaxLengthMultiByteTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinLengthMaxLengthMultiByteTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinLengthMaxLengthMultiByteTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinLengthMaxLengthMultiByteTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\MinLengthMaxLengthMultiByteTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/MinLengthMaxLengthMultiByteTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinLengthMaxLengthTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinLengthMaxLengthTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinLengthMaxLengthTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinLengthMaxLengthTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\MinLengthMaxLengthTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/MinLengthMaxLengthTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinMaxPropertiesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinMaxPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinMaxPropertiesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinMaxPropertiesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\MinMaxPropertiesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/MinMaxPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinimumMaximumTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinimumMaximumTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\MinimumMaximumTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/MinimumMaximumTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\MinimumMaximumTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/MinimumMaximumTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\NotTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/NotTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\NotTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/NotTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\NotTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/NotTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\NumberAndIntegerTypesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/NumberAndIntegerTypesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\NumberAndIntegerTypesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/NumberAndIntegerTypesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\NumberAndIntegerTypesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/NumberAndIntegerTypesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\OfPropertiesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/OfPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\OfPropertiesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/OfPropertiesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\OfPropertiesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/OfPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\PatternPropertiesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/PatternPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\PatternPropertiesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/PatternPropertiesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\PatternPropertiesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/PatternPropertiesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\PatternTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/PatternTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\PatternTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/PatternTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\PatternTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/PatternTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Constraints/PointerTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\PointerTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/PointerTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ReadOnlyTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ReadOnlyTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\ReadOnlyTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/ReadOnlyTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\ReadOnlyTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/ReadOnlyTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\RequireTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/RequireTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\RequireTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/RequireTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\RequireTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/RequireTest.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\RequiredPropertyTest\:\:assertErrorHasExpectedPropertyValue\(\) has parameter \$error with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\RequiredPropertyTest\:\:assertErrorHasExpectedPropertyValue\(\) has parameter \$propertyValue with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\RequiredPropertyTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\RequiredPropertyTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\RequiredPropertyTest\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\RequiredPropertyTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/RequiredPropertyTest.php
+
+		-
+			message: '#^Cannot access offset ''context'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\SchemaValidationTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\SchemaValidationTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\SchemaValidationTest\:\:testInvalidCases\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\SchemaValidationTest\:\:testValidCases\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\SchemaValidationTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/SchemaValidationTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\SelfDefinedSchemaTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/SelfDefinedSchemaTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\SelfDefinedSchemaTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/SelfDefinedSchemaTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\SelfDefinedSchemaTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/SelfDefinedSchemaTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TupleTypingTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/TupleTypingTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TupleTypingTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/TupleTypingTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\TupleTypingTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/TupleTypingTest.php
+
+		-
+			message: '#^Cannot access property \$property on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:provideIndefiniteArticlesForTypes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:testIndefiniteArticleForTypeInTypeCheckErrorMessage\(\) has parameter \$label with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:testIndefiniteArticleForTypeInTypeCheckErrorMessage\(\) has parameter \$type with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:testIndefiniteArticleForTypeInTypeCheckErrorMessage\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:testIndefiniteArticleForTypeInTypeCheckErrorMessage\(\) has parameter \$wording with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:testValidateTypeNameWording\(\) has parameter \$nameWording with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\TypeTest\:\:validNameWordingDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Parameter \#1 \$str of function ucwords expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Part \$wording \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: tests/Constraints/TypeTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\UnionTypesTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/UnionTypesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\UnionTypesTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/UnionTypesTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\UnionTypesTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/UnionTypesTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\UnionWithNullValueTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/UnionWithNullValueTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\UnionWithNullValueTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/UnionWithNullValueTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\UnionWithNullValueTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/UnionWithNullValueTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\UniqueItemsTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/UniqueItemsTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\UniqueItemsTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/UniqueItemsTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\UniqueItemsTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/UniqueItemsTest.php
+
+		-
+			message: '#^Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy\:\:retrieve\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Cannot access offset ''path'' on array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Cannot call method will\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Cannot call method willReturn\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 2
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function strpos expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$url of function parse_url expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\VeryBaseTestCase\:\:\$jsonSchemaDraft03 \(object\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\VeryBaseTestCase\:\:\$jsonSchemaDraft04 \(object\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Constraints/VeryBaseTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\WrongMessagesFailingTestCaseTest\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/WrongMessagesFailingTestCaseTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Constraints\\WrongMessagesFailingTestCaseTest\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Constraints/WrongMessagesFailingTestCaseTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Constraints\\WrongMessagesFailingTestCaseTest\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Constraints/WrongMessagesFailingTestCaseTest.php
+
+		-
+			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Cannot access property \$data on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Cannot access property \$description on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Cannot access property \$schema on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Cannot access property \$tests on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Cannot access property \$valid on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\BaseDraftTestCase\:\:getInvalidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\BaseDraftTestCase\:\:getValidTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\BaseDraftTestCase\:\:setUpTests\(\) has parameter \$isValid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\BaseDraftTestCase\:\:setUpTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Parameter \#2 \$suiteDesc of method JsonSchema\\Tests\\Drafts\\BaseDraftTestCase\:\:createDataSetPath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Parameter \#3 \$testCaseDesc of method JsonSchema\\Tests\\Drafts\\BaseDraftTestCase\:\:createDataSetPath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Drafts/BaseDraftTestCase.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\Draft3Test\:\:getFilePaths\(\) should return array\<string\> but returns array\<int, string\|false\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Drafts/Draft3Test.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\Draft3Test\:\:getInvalidForAssocTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/Draft3Test.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\Draft3Test\:\:getValidForAssocTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/Draft3Test.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Drafts\\Draft3Test\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Drafts/Draft3Test.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Drafts\\Draft3Test\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Drafts/Draft3Test.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\Draft4Test\:\:getFilePaths\(\) should return array\<string\> but returns array\<int, string\|false\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Drafts/Draft4Test.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\Draft4Test\:\:getInvalidForAssocTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/Draft4Test.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Drafts\\Draft4Test\:\:getValidForAssocTests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Drafts/Draft4Test.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Drafts\\Draft4Test\:\:\$schemaSpec has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Drafts/Draft4Test.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Drafts\\Draft4Test\:\:\$validateSchema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Drafts/Draft4Test.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Entity\\JsonPointerTest\:\:testJsonPointer\(\) has parameter \$expectedPropertyPaths with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Entity/JsonPointerTest.php
+
+		-
+			message: '#^Parameter \#1 \$value of class JsonSchema\\Entity\\JsonPointer constructor expects string, null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Entity/JsonPointerTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testDefaultMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorControlCharacterMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorDepthMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorInfiniteOrNotANumberMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorNoneMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorRecursionMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorStateMismatchMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorSyntaxMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorUnsupportedTypeMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Exception\\JsonDecodingExceptionTest\:\:testErrorUtf8Message\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Exception/JsonDecodingExceptionTest.php
+
+		-
+			message: '#^Cannot access property \$subThree on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Iterators/ObjectIteratorTest.php
+
+		-
+			message: '#^Cannot access property \$subTwo on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Iterators/ObjectIteratorTest.php
+
+		-
+			message: '#^Parameter \#1 \$obj of function get_object_vars expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Iterators/ObjectIteratorTest.php
+
+		-
+			message: '#^Parameter \#1 \$object of class JsonSchema\\Iterator\\ObjectIterator constructor expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 6
+			path: tests/Iterators/ObjectIteratorTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Iterators\\ObjectIteratorTest\:\:\$testObject has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Iterators/ObjectIteratorTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\RefTest\:\:dataRefIgnoresSiblings\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/RefTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\RefTest\:\:testRefIgnoresSiblings\(\) has parameter \$document with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RefTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\RefTest\:\:testRefIgnoresSiblings\(\) has parameter \$exception with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RefTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\RefTest\:\:testRefIgnoresSiblings\(\) has parameter \$isValid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RefTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\RefTest\:\:testRefIgnoresSiblings\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RefTest.php
+
+		-
+			message: '#^Parameter \#1 \$exception of method PHPUnit\\Framework\\TestCase\:\:expectException\(\) expects class\-string\<Throwable\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/RefTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/RefTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$properties\.$#'
+			identifier: property.notFound
+			count: 3
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Call to an undefined method JsonSchema\\Uri\\UriRetriever\:\:reveal\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy\:\:retrieve\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:willReturn\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Cannot access offset ''test/schema'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Cannot access property \$\$ref on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Cannot access property \$format on mixed\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Cannot access property \$id on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 6
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Cannot call method willReturn\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^PHPDoc tag @var with type JsonSchema\\Uri\\UriRetriever is not subtype of native type Prophecy\\Prophecy\\ObjectProphecy\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Parameter \#1 \$uriRetriever of class JsonSchema\\SchemaStorage constructor expects JsonSchema\\UriRetrieverInterface\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Parameter \#1 \$uriRetriever of class JsonSchema\\SchemaStorage constructor expects JsonSchema\\UriRetrieverInterface\|null, object given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/SchemaStorageTest.php
+
+		-
+			message: '#^Function JsonSchema\\Uri\\Retrievers\\curl_exec\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Function JsonSchema\\Uri\\Retrievers\\curl_exec\(\) has parameter \$curl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Parameter \#1 \$ch of function curl_exec expects resource, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Parameter \#1 \$ch of function curl_getinfo expects resource, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Parameter \#1 \$expectedFile of static method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFileCanonicalizing\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function file_get_contents expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method JsonSchema\\Uri\\Retrievers\\Curl\:\:retrieve\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Parameter \#2 \$actualString of static method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFileCanonicalizing\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Uri/Retrievers/CurlTest.php
+
+		-
+			message: '#^Cannot call method getContentType\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/Uri/Retrievers/PredefinedArrayTest.php
+
+		-
+			message: '#^Cannot call method retrieve\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: tests/Uri/Retrievers/PredefinedArrayTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Uri\\Retrievers\\PredefinedArrayTest\:\:\$retriever has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Uri/Retrievers/PredefinedArrayTest.php
+
+		-
+			message: '#^Cannot access offset ''extends'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Cannot call method isValid\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Cannot call method validate\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:combinedURITests\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:getRetrieverMock\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:getRetrieverMock\(\) has parameter \$returnSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:jsonProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:mockRetriever\(\) has parameter \$schema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:setParentSchemaExtendsValue\(\) has parameter \$parentSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:setParentSchemaExtendsValue\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testChildExtendsParentInvalidChildTest\(\) has parameter \$childSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testChildExtendsParentInvalidChildTest\(\) has parameter \$parentSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testChildExtendsParentInvalidParentTest\(\) has parameter \$childSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testChildExtendsParentInvalidParentTest\(\) has parameter \$parentSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testChildExtendsParentValidTest\(\) has parameter \$childSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testChildExtendsParentValidTest\(\) has parameter \$parentSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testResolveCombinedURI\(\) has parameter \$baseURI with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testResolveCombinedURI\(\) has parameter \$combinedURI with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testResolveCombinedURI\(\) has parameter \$uri with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testResolveRelativeUri\(\) has parameter \$childSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Method JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:testResolveRelativeUri\(\) has parameter \$parentSchema with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 6
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#1 \$object of method ReflectionProperty\:\:getValue\(\) expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrValue of method ReflectionProperty\:\:setValue\(\) expects object\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#1 \$str of function md5 expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method JsonSchema\\Uri\\UriRetriever\:\:resolve\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#2 \$baseUri of method JsonSchema\\Uri\\UriRetriever\:\:resolve\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Parameter \#2 \$uri of method JsonSchema\\Uri\\UriRetriever\:\:confirmMediaType\(\) expects string, null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/Uri/UriRetrieverTest.php
+
+		-
+			message: '#^Property JsonSchema\\Tests\\Uri\\UriRetrieverTest\:\:\$validator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Uri/UriRetrieverTest.php
 

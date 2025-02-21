@@ -80,7 +80,7 @@ class FactoryTest extends TestCase
     {
         $factory = new Factory();
 
-        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $factory->setConstraintClass('string', 'SomeConstraint');
     }
@@ -89,7 +89,7 @@ class FactoryTest extends TestCase
     {
         $factory = new Factory();
 
-        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $factory->setConstraintClass('string', MyBadConstraint::class);
     }

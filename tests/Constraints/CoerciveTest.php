@@ -16,7 +16,7 @@ use JsonSchema\Validator;
 
 class CoerciveTest extends VeryBaseTestCase
 {
-    protected $factory = null;
+    protected $factory;
 
     public function setUp(): void
     {
