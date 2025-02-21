@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Welcome first time contributors ([#782](https://github.com/jsonrainbow/json-schema/pull/782))
 
 ### Fixed
+- Add required permissions for welcome action ([#789](https://github.com/jsonrainbow/json-schema/pull/789))
 - Upgrade php cs fixer to latest ([#783](https://github.com/jsonrainbow/json-schema/pull/783))
 
 ### Changed

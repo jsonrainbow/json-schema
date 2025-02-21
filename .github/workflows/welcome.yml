@@ -7,6 +7,9 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - uses: wow-actions/welcome@v1
         with:
