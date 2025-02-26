@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade php cs fixer to latest ([#783](https://github.com/jsonrainbow/json-schema/pull/783))
 - Create deep copy before checking each sub schema in oneOf ([#791](https://github.com/jsonrainbow/json-schema/pull/791))
 - Create deep copy before checking each sub schema in anyOf ([#792](https://github.com/jsonrainbow/json-schema/pull/792))
+- Correctly set the schema ID when passing it as assoc array ([#794](https://github.com/jsonrainbow/json-schema/pull/794))
 
 ### Changed
 - Used PHPStan's int-mask-of<T> type where applicable ([#779](https://github.com/jsonrainbow/json-schema/pull/779))
