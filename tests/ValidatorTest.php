@@ -4,6 +4,7 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
+use JsonSchema\Exception\InvalidArgumentException;
 
 class ValidatorTest extends TestCase
 {
@@ -31,18 +32,12 @@ class ValidatorTest extends TestCase
 
     public function testBadAssocSchemaInput(): void
     {
-        if (version_compare(phpversion(), '5.5.0', '<')) {
-            $this->markTestSkipped('PHP versions < 5.5.0 trigger an error on json_encode issues');
-        }
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('HHVM has no problem with encoding resources');
-        }
-        $schema = ['propertyOne' => fopen('php://stdout', 'w')];
+        $schema = ['propertyOne' => fopen('php://stdout', 'wb')];
         $data = json_decode('{"propertyOne":[42]}', true);
 
         $validator = new Validator();
 
-        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $validator->validate($data, $schema);
     }
 
