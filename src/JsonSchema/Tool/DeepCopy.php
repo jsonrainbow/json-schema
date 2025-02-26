@@ -11,6 +11,7 @@ class DeepCopy
 {
     /**
      * @param mixed $input
+     *
      * @return mixed
      */
     public static function copyOf($input)

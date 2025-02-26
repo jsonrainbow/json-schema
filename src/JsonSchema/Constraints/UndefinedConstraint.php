@@ -355,7 +355,6 @@ class UndefinedConstraint extends Constraint
             $allErrors = [];
             $matchedSchemas = [];
             $startErrors = $this->getErrors();
-
             foreach ($schema->oneOf as $oneOf) {
                 try {
                     $this->errors = [];
