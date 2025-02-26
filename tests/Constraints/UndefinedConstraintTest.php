@@ -70,6 +70,56 @@ JSON
                 ,
                 'checkMode' => Constraint::CHECK_MODE_COERCE_TYPES
             ],
+            'oneOf with apply defaults should not affect value passed to each sub schema (#510)' => [
+                'input' => <<<JSON
+                    {"foo": {"name": "bar"}}
+JSON
+                ,
+                'schema' => <<<JSON
+                    {
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {"enum":["baz"],"default":"baz"},
+                                            "meta": {"enum":["baz"],"default":"baz"}
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {"enum":["bar"],"default":"bar"},
+                                            "meta": {"enum":["bar"],"default":"bar"}
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {"enum":["zip"],"default":"zip"},
+                                            "meta": {"enum":["zip"],"default":"zip"}
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+JSON
+                ,
+                'checkMode' => Constraint::CHECK_MODE_APPLY_DEFAULTS
+            ],
             'anyOf with apply defaults should not affect value passed to each sub schema (#711)' => [
                 'input' => <<<JSON
                     {
