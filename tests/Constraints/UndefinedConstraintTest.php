@@ -33,7 +33,8 @@ class UndefinedConstraintTest extends BaseTestCase
                             }
                         ]
                     }
-JSON,
+JSON
+                ,
                 'schema' => <<<JSON
                     {
                         "title": "Location",
@@ -65,7 +66,8 @@ JSON,
                             }
                         }
                     }
-JSON,
+JSON
+                ,
                 'checkMode' => Constraint::CHECK_MODE_COERCE_TYPES
             ]
         ];
