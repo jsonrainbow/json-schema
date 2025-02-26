@@ -69,6 +69,50 @@ JSON
 JSON
                 ,
                 'checkMode' => Constraint::CHECK_MODE_COERCE_TYPES
+            ],
+            'anyOf with apply defaults should not affect value passed to each sub schema (#711)' => [
+                'input' => <<<JSON
+                    {
+                        "b": 2
+                    }
+JSON
+                ,
+                'schema' => <<<JSON
+                    {
+                        "anyOf": [
+                            {
+                                "required": [ "a" ],
+                      "properties": {
+                          "a": {
+                              "type": "integer"
+                          },
+                          "aDefault": {
+                              "type": "integer",
+                              "default": 1
+                          }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    {
+                      "required": [ "b" ],
+                      "properties": {
+                          "b": {
+                              "type": "integer"
+                          },
+                          "bDefault": {
+                              "type": "integer",
+                              "default": 2
+                          }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+JSON
+                ,
+                'checkMode' => Constraint::CHECK_MODE_APPLY_DEFAULTS
             ]
         ];
     }

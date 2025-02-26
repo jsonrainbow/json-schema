@@ -333,11 +333,15 @@ class UndefinedConstraint extends Constraint
         if (isset($schema->anyOf)) {
             $isValid = false;
             $startErrors = $this->getErrors();
+            $coerceOrDefaults = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES | self::CHECK_MODE_APPLY_DEFAULTS);
+
             foreach ($schema->anyOf as $anyOf) {
                 $initErrors = $this->getErrors();
                 try {
-                    $this->checkUndefined($value, $anyOf, $path, $i);
-                    if ($isValid = (count($this->getErrors()) == count($initErrors))) {
+                    $anyOfValue = $coerceOrDefaults ? DeepCopy::copyOf($value) : $value;
+                    $this->checkUndefined($anyOfValue, $anyOf, $path, $i);
+                    if ($isValid = (count($this->getErrors()) === count($initErrors))) {
+                        $value = $anyOfValue;
                         break;
                     }
                 } catch (ValidationException $e) {
