@@ -2,9 +2,9 @@
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
-use JsonSchema\Exception\InvalidArgumentException;
 
 class ValidatorTest extends TestCase
 {
