@@ -189,6 +189,24 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "additionalProperties": true
                 }'
             ],
+            'additional property casted into int when actually is numeric string (#784)' => [
+                '{
+                    "prop1": {
+                        "123": "a"
+                    }
+                }',
+                '{
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "123": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }'
+            ],
         ];
     }
 }
