@@ -359,13 +359,13 @@ class UndefinedConstraint extends Constraint
             $allErrors = [];
             $matchedSchemas = [];
             $startErrors = $this->getErrors();
-            $coerce = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES);
+            $coerceOrDefaults = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES | self::CHECK_MODE_APPLY_DEFAULTS);
 
             foreach ($schema->oneOf as $oneOf) {
                 try {
                     $this->errors = [];
 
-                    $oneOfValue = $coerce ? DeepCopy::copyOf($value) : $value;
+                    $oneOfValue = $coerceOrDefaults ? DeepCopy::copyOf($value) : $value;
                     $this->checkUndefined($oneOfValue, $oneOf, $path, $i);
                     if (count($this->getErrors()) === 0) {
                         $matchedSchemas[] = ['schema' => $oneOf, 'value' => $oneOfValue];
