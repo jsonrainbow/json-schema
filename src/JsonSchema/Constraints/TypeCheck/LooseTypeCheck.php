@@ -44,7 +44,7 @@ class LooseTypeCheck implements TypeCheckInterface
             return property_exists($value, $property);
         }
 
-        return array_key_exists($property, $value);
+        return is_array($value) && array_key_exists($property, $value);
     }
 
     public static function propertyCount($value)

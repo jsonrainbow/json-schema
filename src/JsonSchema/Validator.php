@@ -13,6 +13,7 @@ namespace JsonSchema;
 
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 
 /**
  * A JsonSchema Constraint
@@ -59,10 +60,9 @@ class Validator extends BaseConstraint
         }
 
         // add provided schema to SchemaStorage with internal URI to allow internal $ref resolution
-        if (is_object($schema) && property_exists($schema, 'id')) {
-            $schemaURI = $schema->id;
-        } else {
-            $schemaURI = SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+        $schemaURI = SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+        if (LooseTypeCheck::propertyExists($schema, 'id')) {
+            $schemaURI = LooseTypeCheck::propertyGet($schema, 'id');
         }
         $this->factory->getSchemaStorage()->addSchema($schemaURI, $schema);
 
