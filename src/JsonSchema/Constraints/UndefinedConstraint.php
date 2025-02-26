@@ -15,6 +15,7 @@ use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\ValidationException;
+use JsonSchema\Tool\DeepCopy;
 use JsonSchema\Uri\UriResolver;
 
 /**
@@ -352,14 +353,18 @@ class UndefinedConstraint extends Constraint
 
         if (isset($schema->oneOf)) {
             $allErrors = [];
-            $matchedSchemas = 0;
+            $matchedSchemas = [];
             $startErrors = $this->getErrors();
+            $coerce = $this->factory->getConfig(self::CHECK_MODE_COERCE_TYPES);
+
             foreach ($schema->oneOf as $oneOf) {
                 try {
                     $this->errors = [];
-                    $this->checkUndefined($value, $oneOf, $path, $i);
-                    if (count($this->getErrors()) == 0) {
-                        $matchedSchemas++;
+
+                    $oneOfValue = $coerce ? DeepCopy::copyOf($value) : $value;
+                    $this->checkUndefined($oneOfValue, $oneOf, $path, $i);
+                    if (count($this->getErrors()) === 0) {
+                        $matchedSchemas[] = ['schema' => $oneOf, 'value' => $oneOfValue];
                     }
                     $allErrors = array_merge($allErrors, array_values($this->getErrors()));
                 } catch (ValidationException $e) {
@@ -367,11 +372,12 @@ class UndefinedConstraint extends Constraint
                     // other schema options in the OneOf field.
                 }
             }
-            if ($matchedSchemas !== 1) {
+            if (count($matchedSchemas) !== 1) {
                 $this->addErrors(array_merge($allErrors, $startErrors));
                 $this->addError(ConstraintError::ONE_OF(), $path);
             } else {
                 $this->errors = $startErrors;
+                $value = $matchedSchemas[0]['value'];
             }
         }
     }
