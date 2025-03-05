@@ -14,6 +14,8 @@ namespace JsonSchema\Constraints;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Rfc3339;
+use JsonSchema\Tool\Validator\RelativeReferenceValidator;
+use JsonSchema\Tool\Validator\UriValidator;
 
 /**
  * Validates against the "format" property
@@ -101,34 +103,15 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'uri':
-                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
+                if (is_string($element) && !UriValidator::isValid($element)) {
                     $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
                 }
                 break;
 
             case 'uriref':
             case 'uri-reference':
-                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
-                    // FILTER_VALIDATE_URL does not conform to RFC-3986, and cannot handle relative URLs, but
-                    // the json-schema spec uses RFC-3986, so need a bit of hackery to properly validate them.
-                    // See https://tools.ietf.org/html/rfc3986#section-4.2 for additional information.
-                    if (substr($element, 0, 2) === '//') { // network-path reference
-                        $validURL = filter_var('scheme:' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
-                    } elseif (substr($element, 0, 1) === '/') { // absolute-path reference
-                        $validURL = filter_var('scheme://host' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
-                    } elseif (strlen($element)) { // relative-path reference
-                        $pathParts = explode('/', $element, 2);
-                        if (strpos($pathParts[0], ':') !== false) {
-                            $validURL = null;
-                        } else {
-                            $validURL = filter_var('scheme://host/' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
-                        }
-                    } else {
-                        $validURL = null;
-                    }
-                    if ($validURL === null) {
-                        $this->addError(ConstraintError::FORMAT_URL_REF(), $path, ['format' => $schema->format]);
-                    }
+                if (is_string($element) && !(UriValidator::isValid($element) || RelativeReferenceValidator::isValid($element))) {
+                    $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
                 }
                 break;
 
