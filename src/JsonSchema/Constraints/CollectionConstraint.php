@@ -50,10 +50,7 @@ class CollectionConstraint extends Constraint
             }
         }
 
-        // Verify items
-        if (isset($schema->items)) {
-            $this->validateItems($value, $schema, $path, $i);
-        }
+         $this->validateItems($value, $schema, $path, $i);
     }
 
     /**
@@ -65,7 +62,11 @@ class CollectionConstraint extends Constraint
      */
     protected function validateItems(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (is_bool($schema->items) && $schema->items === true) {
+        if (\is_null($schema) || !isset($schema->items)) {
+            return;
+        }
+
+        if ($schema->items === true) {
             return;
         }
 
