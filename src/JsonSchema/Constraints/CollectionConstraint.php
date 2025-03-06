@@ -65,6 +65,10 @@ class CollectionConstraint extends Constraint
      */
     protected function validateItems(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
+        if (is_bool($schema->items) && $schema->items === true) {
+            return;
+        }
+
         if (is_object($schema->items)) {
             // just one type definition for the whole array
             foreach ($value as $k => &$v) {
