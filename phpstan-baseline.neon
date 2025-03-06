@@ -31,27 +31,7 @@ parameters:
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
-			message: "#^Cannot access property \\$additionalItems on stdClass\\|null\\.$#"
-			count: 3
-			path: src/JsonSchema/Constraints/CollectionConstraint.php
-
-		-
-			message: "#^Cannot access property \\$items on stdClass\\|null\\.$#"
-			count: 6
-			path: src/JsonSchema/Constraints/CollectionConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/CollectionConstraint.php
-
-		-
-			message: "#^Parameter \\#1 \\$object_or_class of function property_exists expects object\\|string, stdClass\\|null given\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/CollectionConstraint.php
-
-		-
-			message: "#^Parameter \\#2 \\$schema of method JsonSchema\\\\Constraints\\\\CollectionConstraint\\:\\:validateItems\\(\\) expects stdClass\\|null, object given\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
