@@ -50,7 +50,7 @@ class CollectionConstraint extends Constraint
             }
         }
 
-         $this->validateItems($value, $schema, $path, $i);
+        $this->validateItems($value, $schema, $path, $i);
     }
 
     /**
