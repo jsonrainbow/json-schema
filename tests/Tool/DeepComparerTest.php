@@ -91,5 +91,4 @@ class DeepComparerTest extends TestCase
             }
         }
     }
-
 }
