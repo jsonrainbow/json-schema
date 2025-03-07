@@ -175,15 +175,19 @@ class ObjectConstraint extends Constraint
      */
     protected function validateMinMaxConstraint($element, $objectDefinition, ?JsonPointer $path = null)
     {
+        if (!$this->getTypeCheck()::isObject($element)) {
+            return;
+        }
+
         // Verify minimum number of properties
-        if (isset($objectDefinition->minProperties) && !is_object($objectDefinition->minProperties)) {
-            if ($this->getTypeCheck()->propertyCount($element) < $objectDefinition->minProperties) {
+        if (isset($objectDefinition->minProperties) && is_int($objectDefinition->minProperties)) {
+            if ($this->getTypeCheck()->propertyCount($element) < max(0, $objectDefinition->minProperties)) {
                 $this->addError(ConstraintError::PROPERTIES_MIN(), $path, ['minProperties' => $objectDefinition->minProperties]);
             }
         }
         // Verify maximum number of properties
-        if (isset($objectDefinition->maxProperties) && !is_object($objectDefinition->maxProperties)) {
-            if ($this->getTypeCheck()->propertyCount($element) > $objectDefinition->maxProperties) {
+        if (isset($objectDefinition->maxProperties) && is_int($objectDefinition->maxProperties)) {
+            if ($this->getTypeCheck()->propertyCount($element) > max(0, $objectDefinition->maxProperties)) {
                 $this->addError(ConstraintError::PROPERTIES_MAX(), $path, ['maxProperties' => $objectDefinition->maxProperties]);
             }
         }
