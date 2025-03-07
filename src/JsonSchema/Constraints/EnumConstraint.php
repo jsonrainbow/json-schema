@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
-use Icecave\Parity\Parity;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\DeepComparer;
 
 /**
  * The EnumConstraint Constraints, validates an element against a given set of possibilities
@@ -36,14 +36,15 @@ class EnumConstraint extends Constraint
 
         foreach ($schema->enum as $enum) {
             $enumType = gettype($enum);
-            if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type == 'array' && $enumType == 'object') {
-                if (Parity::isEqualTo((object) $element, $enum)) {
+
+            if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type === 'array' && $enumType === 'object') {
+                if (DeepComparer::isEqual((object) $element, $enum)) {
                     return;
                 }
             }
 
             if ($type === gettype($enum)) {
-                if (Parity::isEqualTo($element, $enum)) {
+                if (DeepComparer::isEqual($element, $enum)) {
                     return;
                 }
             }

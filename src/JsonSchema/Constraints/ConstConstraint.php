@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
-use Icecave\Parity\Parity;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\DeepComparer;
 
 /**
  * The ConstConstraint Constraints, validates an element against a constant value
@@ -36,13 +36,13 @@ class ConstConstraint extends Constraint
         $type = gettype($element);
         $constType = gettype($const);
 
-        if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type == 'array' && $constType == 'object') {
-            if (Parity::isEqualTo((object) $element, $const)) {
+        if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type === 'array' && $constType === 'object') {
+            if (DeepComparer::isEqual((object) $element, $const)) {
                 return;
             }
         }
 
-        if (Parity::isEqualTo($element, $const)) {
+        if (DeepComparer::isEqual($element, $const)) {
             return;
         }
 
