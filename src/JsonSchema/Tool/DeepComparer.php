@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tool;
 
-use phpDocumentor\Reflection\Types\True_;
-
 class DeepComparer
 {
+    /**
+     * @param mixed $left
+     * @param mixed $right
+     */
     public static function isEqual($left, $right): bool
     {
         $isLeftScalar = is_scalar($left);
@@ -32,6 +34,10 @@ class DeepComparer
         return false;
     }
 
+    /**
+     * @param array<string|int, mixed> $left
+     * @param array<string|int, mixed> $right
+     */
     private static function isArrayEqual(array $left, array $right): bool
     {
         if (count($left) !== count($right)) {
@@ -49,5 +55,4 @@ class DeepComparer
 
         return true;
     }
-
 }
