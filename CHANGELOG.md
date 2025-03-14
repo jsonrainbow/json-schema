@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- ensure numeric issues in const are correctly evaluated ([#805](https://github.com/jsonrainbow/json-schema/pull/805))
 
 ## [6.3.0] - 2025-03-14
 ### Fixed
@@ -15,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changed
 - replace icecave/parity with custom deep comparator ([#803](https://github.com/jsonrainbow/json-schema/pull/803))
-- 
+ 
 ## [6.2.1] - 2025-03-06
 ### Fixed
 - allow items: true to pass validation ([#801](https://github.com/jsonrainbow/json-schema/pull/801))
