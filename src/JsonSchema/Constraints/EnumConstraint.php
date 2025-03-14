@@ -37,16 +37,20 @@ class EnumConstraint extends Constraint
         foreach ($schema->enum as $enum) {
             $enumType = gettype($enum);
 
-            if ($this->factory->getConfig(self::CHECK_MODE_TYPE_CAST) && $type === 'array' && $enumType === 'object') {
-                if (DeepComparer::isEqual((object) $element, $enum)) {
-                    return;
-                }
+            if ($enumType === 'object'
+                && $type === 'array'
+                && $this->factory->getConfig(self::CHECK_MODE_TYPE_CAST)
+                && DeepComparer::isEqual((object) $element, $enum)
+            ) {
+                return;
             }
 
-            if ($type === gettype($enum)) {
-                if (DeepComparer::isEqual($element, $enum)) {
-                    return;
-                }
+            if (($type === $enumType) && DeepComparer::isEqual($element, $enum)) {
+                return;
+            }
+
+            if (is_numeric($element) && is_numeric($enum) && DeepComparer::isEqual((float) $element, (float) $enum)) {
+                return;
             }
         }
 
