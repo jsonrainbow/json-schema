@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - only check minProperties or maxProperties on objects ([#802](https://github.com/jsonrainbow/json-schema/pull/802))
 - replace filter_var for uri and uri-reference to userland code to be RFC 3986 compliant ([#800](https://github.com/jsonrainbow/json-schema/pull/800))
 
+## Changed
+- replace icecave/parity with custom deep comparator ([#803](https://github.com/jsonrainbow/json-schema/pull/803))
+- 
 ## [6.2.1] - 2025-03-06
 ### Fixed
 - allow items: true to pass validation ([#801](https://github.com/jsonrainbow/json-schema/pull/801))
