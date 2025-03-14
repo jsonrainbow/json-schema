@@ -162,18 +162,27 @@ class EnumTest extends BaseTestCase
                     "type": "object",
                     "properties": {
                         "value": {
-                            "type": "any", 
+                            "type": "any",
                             "enum": [
-                                6, 
-                                "foo", 
-                                [], 
-                                true, 
+                                6,
+                                "foo",
+                                [],
+                                true,
                                 {
                                     "foo": 12
                                 }
                             ]
                         }
                     }
+                }'
+            ],
+            'Numeric values with mathematical equality are considered valid' => [
+                'data' => '12',
+                'schema' => '{
+                    "type": "any",
+                    "enum": [
+                        12.0
+                    ]
                 }'
             ]
         ];
