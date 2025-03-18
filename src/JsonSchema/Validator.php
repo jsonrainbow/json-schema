@@ -41,14 +41,11 @@ class Validator extends BaseConstraint
      *
      * @param mixed $value
      * @param mixed $schema
-     * @param int   $checkMode
-     *
-     * @return int
      *
      * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      * @phpstan-return int-mask-of<Validator::ERROR_*>
      */
-    public function validate(&$value, $schema = null, $checkMode = null)
+    public function validate(&$value, $schema = null, int $checkMode = null): int
     {
         // reset errors prior to validation
         $this->reset();
@@ -82,9 +79,14 @@ class Validator extends BaseConstraint
     /**
      * Alias to validate(), to maintain backwards-compatibility with the previous API
      *
-     * @deprecated
+     * @deprecated since 6.0.0, use Validator::validate() instead, to be removed in 7.0
+     *
+     * @param mixed $value
+     * @param mixed $schema
+     *
+     * @phpstan-return int-mask-of<Validator::ERROR_*>
      */
-    public function check($value, $schema)
+    public function check($value, $schema): int
     {
         return $this->validate($value, $schema);
     }
@@ -92,9 +94,14 @@ class Validator extends BaseConstraint
     /**
      * Alias to validate(), to maintain backwards-compatibility with the previous API
      *
-     * @deprecated
+     * @deprecated since 6.0.0, use Validator::validate() instead, to be removed in 7.0
+     *
+     * @param mixed $value
+     * @param mixed $schema
+     *
+     * @phpstan-return int-mask-of<Validator::ERROR_*>
      */
-    public function coerce(&$value, $schema)
+    public function coerce(&$value, $schema): int
     {
         return $this->validate($value, $schema, Constraint::CHECK_MODE_COERCE_TYPES);
     }
