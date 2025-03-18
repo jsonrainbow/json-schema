@@ -900,33 +900,3 @@ parameters:
 			count: 1
 			path: src/JsonSchema/Uri/UriRetriever.php
 
-		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Validator.php
-
-		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has parameter \\$schema with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Validator.php
-
-		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:check\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Validator.php
-
-		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Validator.php
-
-		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has parameter \\$schema with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Validator.php
-
-		-
-			message: "#^Method JsonSchema\\\\Validator\\:\\:coerce\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Validator.php
-
