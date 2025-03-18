@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - ensure numeric issues in const are correctly evaluated ([#805](https://github.com/jsonrainbow/json-schema/pull/805))
+- fix 6.3.0 regression with comparison of null values during validation ([#806](https://github.com/jsonrainbow/json-schema/issues/806))
 
 ## [6.3.0] - 2025-03-14
 ### Fixed

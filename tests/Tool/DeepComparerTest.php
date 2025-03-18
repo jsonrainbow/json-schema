@@ -27,6 +27,7 @@ class DeepComparerTest extends TestCase
 
     public function equalDataProvider(): \Generator
     {
+        yield 'Null null' => [null, null];
         yield 'Boolean true' => [true, true];
         yield 'Boolean false' => [false, false];
 
@@ -49,6 +50,7 @@ class DeepComparerTest extends TestCase
 
     public function notEqualDataProvider(): \Generator
     {
+        yield 'Null true' => [null, true];
         yield 'Boolean true/false' => [true, false];
 
         yield 'Integer one/two' => [1, 2];
