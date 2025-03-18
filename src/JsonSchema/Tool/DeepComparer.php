@@ -12,6 +12,10 @@ class DeepComparer
      */
     public static function isEqual($left, $right): bool
     {
+        if ($left === null && $right === null) {
+            return true;
+        }
+
         $isLeftScalar = is_scalar($left);
         $isRightScalar = is_scalar($right);
 
