@@ -35,4 +35,4 @@ jobs:
 
       - name: "Lint PHP files"
         run: |
-          parallel-lint . --checkstyle | cs2pr
+          parallel-lint . --checkstyle --exclude vendor --show-deprecated | cs2pr
