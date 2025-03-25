@@ -12,10 +12,16 @@ env:
   COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
 
 jobs:
-  tests:
+  phpstan:
     name: "PHPStan"
 
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.2"
+          - "latest"
 
     steps:
       - name: "Checkout"
@@ -24,10 +30,10 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
           extensions: "intl, zip"
           ini-values: "memory_limit=-1"
-          php-version: "7.2"
+          coverage: "none"
 
       - name: "Update dependencies"
         run: "composer update ${{ env.COMPOSER_FLAGS }}"
