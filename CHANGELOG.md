@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Run PHPStan using the lowest and highest php version ([#811](https://github.com/jsonrainbow/json-schema/pull/811))
+### Fixed
+- Use parallel-lint and cs2pr for improved feedback on linting errors ([#812](https://github.com/jsonrainbow/json-schema/pull/812))
 
 ## [6.3.1] - 2025-03-18
 ### Fixed
