@@ -45,7 +45,7 @@ class Validator extends BaseConstraint
      * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      * @phpstan-return int-mask-of<Validator::ERROR_*>
      */
-    public function validate(&$value, $schema = null, int $checkMode = null): int
+    public function validate(&$value, $schema = null, ?int $checkMode = null): int
     {
         // reset errors prior to validation
         $this->reset();
