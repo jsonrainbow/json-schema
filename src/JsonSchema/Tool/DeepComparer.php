@@ -22,9 +22,9 @@ class DeepComparer
         $isRightNumber = is_int($right) || is_float($right);
 
         if ($isLeftScalar && $isRightScalar) {
-            /**
+            /*
              * In Json-Schema mathematically equal numbers are compared equal
-             **/
+             */
             if ($isLeftNumber && $isRightNumber && (float) $left === (float) $right) {
                 return true;
             }
