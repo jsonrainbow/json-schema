@@ -176,7 +176,7 @@ class EnumTest extends BaseTestCase
                     }
                 }'
             ],
-            'Numeric values with mathematical equality are considered valid' => [
+            'Number values with mathematical equality are considered valid' => [
                 'data' => '12',
                 'schema' => '{
                     "type": "any",
@@ -184,6 +184,14 @@ class EnumTest extends BaseTestCase
                         12.0
                     ]
                 }'
+            ],
+            'Array with number values with mathematical equality are considered valid' => [
+                'input' => '[ 0.0 ]',
+                'schema' => '{
+                    "enum": [
+                        [ 0 ]
+                    ]
+                }',
             ]
         ];
     }

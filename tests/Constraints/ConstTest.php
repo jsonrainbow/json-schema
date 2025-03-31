@@ -17,7 +17,7 @@ class ConstTest extends BaseTestCase
     public function getInvalidTests(): array
     {
         return [
-            [
+            'Object with inner string value' => [
                 '{"value":"foo"}',
                 '{
                   "type":"object",
@@ -27,7 +27,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Object with inner integer value' => [
                 '{"value":5}',
                 '{
                   "type":"object",
@@ -37,7 +37,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Object with inner boolean value' => [
                 '{"value":false}',
                 '{
                   "type":"object",
@@ -47,7 +47,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Object with inner numerical string value' => [
                 '{
                     "value": {
                         "foo": "12"
@@ -71,7 +71,7 @@ class ConstTest extends BaseTestCase
     public function getValidTests(): array
     {
         return [
-            [
+            'String value' => [
                 '{"value":"bar"}',
                 '{
                   "type":"object",
@@ -81,7 +81,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Boolean(false) value' => [
                 '{"value":false}',
                 '{
                   "type":"object",
@@ -91,7 +91,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Boolean(true) value' => [
                 '{"value":true}',
                 '{
                   "type":"object",
@@ -101,7 +101,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Integer value' => [
                 '{"value":5}',
                 '{
                   "type":"object",
@@ -111,7 +111,7 @@ class ConstTest extends BaseTestCase
                   "additionalProperties":false
                 }'
             ],
-            [
+            'Object with inner integer value' => [
                 '{
                     "value": {
                         "foo": 12
