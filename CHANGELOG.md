@@ -11,8 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Use parallel-lint and cs2pr for improved feedback on linting errors ([#812](https://github.com/jsonrainbow/json-schema/pull/812))
 - Array with number values with mathematical equality are considered valid ([#813](https://github.com/jsonrainbow/json-schema/pull/813))
-## Changed
+### Changed
 - Correct PHPStan findings in validator ([#808](https://github.com/jsonrainbow/json-schema/pull/808))
+- Add cs2pr handling for php-cs-fixer; avoid doing composer install ([#814](https://github.com/jsonrainbow/json-schema/pull/814))
 
 ## [6.3.1] - 2025-03-18
 ### Fixed
