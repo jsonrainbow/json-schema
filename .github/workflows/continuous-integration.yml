@@ -13,12 +13,13 @@ env:
 
 jobs:
   tests:
-    name: "CI"
+    name: "PHP ${{ matrix.php-version }}, ${{ matrix.dependencies }} dependecies, experimental: ${{ matrix.experimental || false}}"
 
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ matrix.experimental || false }}
 
     strategy:
+      fail-fast: false
       matrix:
         php-version:
           - "7.2"
@@ -30,22 +31,11 @@ jobs:
           - "8.3"
           - "8.4"
         dependencies: [highest]
-        experimental: [false]
         include:
           - php-version: "7.2"
-            dependencies: highest
-            experimental: false
-          - php-version: "7.2"
             dependencies: lowest
-            experimental: false
-#          - php-version: "8.0"
+#          - php-version: "8.5"
 #            dependencies: highest
-#            experimental: false
-#          - php-version: "8.1"
-#            dependencies: lowest-ignore
-#            experimental: true
-#          - php-version: "8.1"
-#            dependencies: highest-ignore
 #            experimental: true
 
     steps:
@@ -77,5 +67,3 @@ jobs:
 
       - name: "Run tests"
         run: "composer test"
-
-
