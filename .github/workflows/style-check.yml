@@ -8,11 +8,8 @@ on:
     branches:
       - master
 
-env:
-  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
-
 jobs:
-  tests:
+  style-check:
     name: "Style Check"
 
     runs-on: ubuntu-latest
@@ -28,10 +25,8 @@ jobs:
           extensions: "intl, zip"
           ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
           php-version: "7.4"
-          tools: composer
-
-      - name: "Update dependencies"
-        run: "composer update ${{ env.COMPOSER_FLAGS }}"
+          tools: cs2pr, php-cs-fixer:3.3
 
       - name: "Run style-check"
-        run: "composer style-check"
+        run: |
+          composer style-check -- --format=checkstyle src | cs2pr
