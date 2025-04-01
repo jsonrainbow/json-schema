@@ -65,5 +65,8 @@ jobs:
       - name: "Validate composer.json"
         run: "composer validate"
 
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: "Run tests"
         run: "composer test"
