@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Correct PHPStan findings in validator ([#808](https://github.com/jsonrainbow/json-schema/pull/808))
 - Add cs2pr handling for php-cs-fixer; avoid doing composer install ([#814](https://github.com/jsonrainbow/json-schema/pull/814))
+- prepare PHP 8.5 in CI ([#815](https://github.com/jsonrainbow/json-schema/pull/815))
 
 ## [6.3.1] - 2025-03-18
 ### Fixed
