@@ -26,6 +26,11 @@ parameters:
 			path: src/JsonSchema/Constraints/BaseConstraint.php
 
 		-
+			message: "#^Property JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:\\$errorMask \\(int\\<\\-1, 3\\>\\) does not accept int\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/BaseConstraint.php
+
+		-
 			message: "#^Property JsonSchema\\\\Constraints\\\\BaseConstraint\\:\\:\\$errors type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/BaseConstraint.php
