@@ -16,47 +16,51 @@ class UniqueItemsTest extends BaseTestCase
     public function getInvalidTests(): array
     {
         return [
-            [
-                '[1,2,2]',
-                '{
+            'Non unique integers' => [
+                'input' => '[1,2,2]',
+                'schema' => '{
                   "type":"array",
                   "uniqueItems": true
                 }'
             ],
-            [
-                '[{"a":"b"},{"a":"c"},{"a":"b"}]',
-                '{
+            'Non unique objects' => [
+                'input' => '[{"a":"b"},{"a":"c"},{"a":"b"}]',
+                'schema' => '{
                   "type":"array",
                   "uniqueItems": true
                 }'
             ],
-            [
-                '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : true}}}]',
-                '{
+            'Non unique objects - three levels deep' => [
+                'input' => '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : true}}}]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[1.0, 1.00, 1]',
-                '{
+            'Non unique mathematical values for the number one' => [
+                'input' => '[1.0, 1.00, 1]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[["foo"], ["foo"]]',
-                '{
+            'Non unique arrays' => [
+                'input' => '[["foo"], ["foo"]]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[{}, [1], true, null, {}, 1]',
-                '{
+            'Non unique mix of different types' => [
+                'input' => '[{}, [1], true, null, {}, 1]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
+            ],
+            'objects are non-unique despite key order' => [
+                'input' => '[{"a": 1, "b": 2}, {"b": 2, "a": 1}]',
+                'schema' => '{"uniqueItems": true}',
             ]
         ];
     }
@@ -64,94 +68,94 @@ class UniqueItemsTest extends BaseTestCase
     public function getValidTests(): array
     {
         return [
-            [
-                '[1,2,3]',
-                '{
-                  "type":"array",
-                  "uniqueItems": true
+            'unique integers' => [
+                'input' => '[1,2,3]',
+                'schema' => '{
+                    "type":"array",
+                    "uniqueItems": true
                 }'
             ],
-            [
-                '[{"foo": 12}, {"bar": false}]',
-                '{
+            'unique objects' =>[
+                'input' => '[{"foo": 12}, {"bar": false}]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[1, true]',
-                '{
+            'Integer one and boolean true' => [
+                'input' => '[1, true]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[0, false]',
-                '{
+            'Integer zero and boolean false' => [
+                'input' => '[0, false]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : false}}}]',
-                '{
+            'Objects with different value three levels deep' => [
+                'input' => '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : false}}}]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[["foo"], ["bar"]]',
-                '{
+            'Array of strings' => [
+                'input' => '[["foo"], ["bar"]]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
-            [
-                '[{}, [1], true, null, 1]',
-                '{
+            'Object, Array, boolean, null and integer' => [
+                'input' => '[{}, [1], true, null, 1]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": true
                 }'
             ],
             // below equals the invalid tests, but with uniqueItems set to false
-            [
-                '[1,2,2]',
-                '{
+            'Non unique integers' => [
+                'input' => '[1,2,2]',
+                'schema' =>  '{
                   "type":"array",
                   "uniqueItems": false
                 }'
             ],
-            [
-                '[{"a":"b"},{"a":"c"},{"a":"b"}]',
-                '{
+            'Non unique objects' => [
+                'input' => '[{"a":"b"},{"a":"c"},{"a":"b"}]',
+                'schema' => '{
                   "type":"array",
                   "uniqueItems": false
                 }'
             ],
-            [
-                '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : true}}}]',
-                '{
+            'Non unique objects - three levels deep' => [
+                'input' => '[{"foo": {"bar" : {"baz" : true}}}, {"foo": {"bar" : {"baz" : true}}}]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": false
                 }'
             ],
-            [
-                '[1.0, 1.00, 1]',
-                '{
+            'Non unique mathematical values for the number one' => [
+                'input' => '[1.0, 1.00, 1]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": false
                 }'
             ],
-            [
-                '[["foo"], ["foo"]]',
-                '{
+            'Non unique arrays' => [
+                'input' => '[["foo"], ["foo"]]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": false
                 }'
             ],
-            [
-                '[{}, [1], true, null, {}, 1]',
-                '{
+            'Non unique mix of different types' => [
+                'input' => '[{}, [1], true, null, {}, 1]',
+                'schema' => '{
                     "type": "array",
                     "uniqueItems": false
                 }'
