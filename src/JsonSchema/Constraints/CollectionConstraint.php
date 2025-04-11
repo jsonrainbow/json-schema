@@ -13,6 +13,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\DeepComparer;
 
 /**
  * The CollectionConstraint Constraints, validates an array against a given schema
@@ -39,14 +40,14 @@ class CollectionConstraint extends Constraint
 
         // Verify uniqueItems
         if (isset($schema->uniqueItems) && $schema->uniqueItems) {
-            $unique = $value;
-            if (is_array($value) && count($value)) {
-                $unique = array_map(function ($e) {
-                    return var_export($e, true);
-                }, $value);
-            }
-            if (count(array_unique($unique)) != count($value)) {
-                $this->addError(ConstraintError::UNIQUE_ITEMS(), $path);
+            $count = count($value);
+            for ($x = 0; $x < $count - 1; $x++) {
+                for ($y = $x + 1; $y < $count; $y++) {
+                    if (DeepComparer::isEqual($value[$x], $value[$y])) {
+                        $this->addError(ConstraintError::UNIQUE_ITEMS(), $path);
+                        break 2;
+                    }
+                }
             }
         }
 
