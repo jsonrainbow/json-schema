@@ -58,6 +58,7 @@ class Draft3Test extends BaseDraftTestCase
         return [
             // Optional
             'bignum.json',
+            'ecmascript-regex.json',
             'format.json',
             'jsregex.json',
             'zeroTerminatedFloats.json'

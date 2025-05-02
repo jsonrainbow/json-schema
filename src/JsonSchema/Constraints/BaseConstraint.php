@@ -95,7 +95,7 @@ class BaseConstraint
             return $this->errors;
         }
 
-        return array_filter($this->errors, function ($error) use ($errorContext) {
+        return array_filter($this->errors, static function ($error) use ($errorContext) {
             if ($errorContext & $error['context']) {
                 return true;
             }
