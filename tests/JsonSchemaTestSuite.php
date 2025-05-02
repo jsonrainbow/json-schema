@@ -36,29 +36,13 @@ class JsonSchemaTestSuite extends TestCase
         self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
     }
 
-    public function testItOnce(): void
-    {
-        $schema = json_decode('{ "required": ["__proto__", "toString", "constructor"] }', false);
-        $data = [];
-
-        $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema(SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
-        $this->loadRemotesIntoStorage($schemaStorage);
-        $validator = new Validator(new Factory($schemaStorage));
-
-        $result = $validator->validate($data, $schema);
-
-        self::assertEquals(true, count($validator->getErrors()) === 0);
-    }
-
-
     public function casesDataProvider(): \Generator
     {
         $testDir = __DIR__ . '/../vendor/json-schema/json-schema-test-suite/tests';
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft3', 'draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
             if (in_array(basename($draft), $skippedDrafts, true)) {
@@ -85,7 +69,7 @@ class JsonSchemaTestSuite extends TestCase
                             $file->getBasename(),
                             $testCase->description,
                             $test->description,
-                            $test->valid ? 'valid' : 'invalid',
+                            $test->valid ? 'valid' : 'invalid'
                         );
 
                         yield $name => [
