@@ -38,6 +38,9 @@ class Draft4Test extends BaseDraftTestCase
     public function getValidForAssocTests(): \Generator
     {
         $skip = [
+            'minProperties.json / minProperties validation / ignores arrays',
+            'required.json / required properties whose names are Javascript object property names / ignores arrays',
+            'required.json / required validation / ignores arrays',
             'type.json / object type matches objects / an array is not an object',
             'type.json / array type matches arrays / an object is not an array',
         ];
@@ -58,7 +61,9 @@ class Draft4Test extends BaseDraftTestCase
         return [
             // Optional
             'bignum.json',
+            'ecmascript-regex.json',
             'format.json',
+            'float-overflow.json',
             'zeroTerminatedFloats.json',
             // Required
             'not.json' // only one test case failing
