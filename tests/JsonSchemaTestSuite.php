@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests;
 
+use CallbackFilterIterator;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class JsonSchemaTestSuite extends TestCase
 {
@@ -33,28 +36,53 @@ class JsonSchemaTestSuite extends TestCase
         self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
     }
 
+    public function testItOnce(): void
+    {
+        $schema = json_decode('{ "required": ["__proto__", "toString", "constructor"] }', false);
+        $data = [];
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema(SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
+        $this->loadRemotesIntoStorage($schemaStorage);
+        $validator = new Validator(new Factory($schemaStorage));
+
+        $result = $validator->validate($data, $schema);
+
+        self::assertEquals(true, count($validator->getErrors()) === 0);
+    }
+
+
     public function casesDataProvider(): \Generator
     {
         $testDir = __DIR__ . '/../vendor/json-schema/json-schema-test-suite/tests';
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft4', 'draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft3', 'draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
-            $files = glob($draft . '/*.json');
             if (in_array(basename($draft), $skippedDrafts, true)) {
                 continue;
             }
 
+            $files = new CallbackFilterIterator(
+                new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($draft)
+                ),
+                function ($file) {
+                    return $file->isFile() && strtolower($file->getExtension()) === 'json';
+                }
+            );
+            /** @var \SplFileInfo $file */
             foreach ($files as $file) {
-                $contents = json_decode(file_get_contents($file), false);
+                $contents = json_decode(file_get_contents($file->getPathname()), false);
                 foreach ($contents as $testCase) {
                     foreach ($testCase->tests as $test) {
                         $name = sprintf(
-                            '[%s/%s]: %s: %s is expected to be %s',
+                            '[%s/%s%s]: %s: %s is expected to be %s',
                             basename($draft),
-                            basename($file),
+                            str_contains($file->getPathname(), 'optional') ? 'optional/' : '',
+                            $file->getBasename(),
                             $testCase->description,
                             $test->description,
                             $test->valid ? 'valid' : 'invalid',

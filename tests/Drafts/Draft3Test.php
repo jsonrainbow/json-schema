@@ -111,6 +111,7 @@ JSON
         return [
             // Optional
             'bignum.json',
+            'ecmascript-regex.json',
             'format.json',
             'jsregex.json',
             'zeroTerminatedFloats.json'
