@@ -28,7 +28,7 @@ Thank you for your support and contributions to the project.
 
 ## BaseConstraint::addError signature changed
 
-* The signature for the `BaseContraint::AddError` method has changed.
+* The signature for the `BaseConstraint::AddError` method has changed.
 
 
     *Before*
