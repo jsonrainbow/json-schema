@@ -24,7 +24,7 @@ class JsonSchemaTestSuite extends TestCase
     ): void
     {
         $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema('internal://mySchema', $schema);
+        $schemaStorage->addSchema(property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
         $this->loadRemotesIntoStorage($schemaStorage);
         $validator = new Validator(new Factory($schemaStorage));
 
@@ -36,7 +36,9 @@ class JsonSchemaTestSuite extends TestCase
     public function casesDataProvider(): \Generator
     {
         $testDir = __DIR__ . '/../vendor/json-schema/json-schema-test-suite/tests';
-        $drafts = array_filter(glob($testDir . '/*'), is_dir(...));
+        $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
+            return is_dir($filename);
+        });
         $skippedDrafts = ['draft4', 'draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
