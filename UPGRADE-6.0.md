@@ -25,3 +25,19 @@ Thank you for your support and contributions to the project.
         echo $error['constraint']['name']; // required
     }
     ```
+
+## BaseConstraint::addError signature changed
+
+* The signature for the `BaseContraint::AddError` method has changed.
+
+
+    *Before*
+    ```php
+    public function addError(?JsonPointer $path, $message, $constraint = '', ?array $more = null)
+    ```
+
+    *After*
+    ```php
+    public function addError(ConstraintError $constraint, ?JsonPointer $path = null, array $more = []): void
+    ```
+
