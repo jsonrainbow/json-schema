@@ -28,12 +28,33 @@ class Draft3Test extends BaseDraftTestCase
         ];
     }
 
+    public function getInvalidTests(): array
+    {
+        $tests = parent::getInvalidTests();
+        unset(
+            $tests['ref.json / $ref prevents a sibling id from changing the base uri / $ref resolves to /definitions/base_foo, data does not validate']
+        );
+
+        return $tests;
+    }
+
     public function getInvalidForAssocTests(): array
     {
         $tests = parent::getInvalidForAssocTests();
         unset(
             $tests['type.json / object type matches objects / an array is not an object'],
             $tests['type.json / array type matches arrays / an object is not an array']
+        );
+
+        return $tests;
+    }
+
+    public function getValidTests(): array
+    {
+        $tests = parent::getValidTests();
+        unset(
+            $tests['ref.json / $ref prevents a sibling id from changing the base uri / $ref resolves to /definitions/base_foo, data validates'],
+            $tests['ref.json / naive replacement of $ref with its destination is not correct / match the enum exactly']
         );
 
         return $tests;
