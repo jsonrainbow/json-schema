@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix objects are non-unique despite key order ([#819](https://github.com/jsonrainbow/json-schema/pull/819))
 
+### Changed
+- Added extra breaking change to UPDATE-6.0.md regarding BaseConstraint::addError signature change ([#823](https://github.com/jsonrainbow/json-schema/pull/823)
+
 ## [6.4.1] - 2025-04-04
 ### Fixed
 - Fix support for 32bits PHP ([#817](https://github.com/jsonrainbow/json-schema/pull/817))
