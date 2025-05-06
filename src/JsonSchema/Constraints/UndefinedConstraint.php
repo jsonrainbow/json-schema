@@ -28,7 +28,7 @@ use JsonSchema\Uri\UriResolver;
 class UndefinedConstraint extends Constraint
 {
     /**
-     * @var array List of properties to which a default value has been applied
+     * @var list<string> List of properties to which a default value has been applied
      */
     protected $appliedDefaults = [];
 
@@ -72,9 +72,10 @@ class UndefinedConstraint extends Constraint
         }
 
         // check object
-        if (LooseTypeCheck::isObject($value)) { // object processing should always be run on assoc arrays,
-                                                // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
-                                                // is not set (i.e. don't use $this->getTypeCheck() here).
+        if (LooseTypeCheck::isObject($value)) {
+            // object processing should always be run on assoc arrays,
+            // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
+            // is not set (i.e. don't use $this->getTypeCheck() here).
             $this->checkObject(
                 $value,
                 $schema,
