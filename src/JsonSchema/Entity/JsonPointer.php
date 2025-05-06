@@ -146,7 +146,7 @@ class JsonPointer
     /**
      * Mark the value at this path as being set from a schema default
      */
-    public function setFromDefault()
+    public function setFromDefault(): void
     {
         $this->fromDefault = true;
     }

@@ -10,12 +10,14 @@ use JsonSchema\Entity\JsonPointer;
 class ObjectConstraint extends Constraint
 {
     /**
-     * @var array List of properties to which a default value has been applied
+     * @var list<string> List of properties to which a default value has been applied
      */
     protected $appliedDefaults = [];
 
     /**
      * {@inheritdoc}
+     *
+     * @param list<string> $appliedDefaults
      */
     public function check(
         &$element,
