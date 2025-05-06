@@ -86,7 +86,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     }
 
     /**
-     * Validates the type of the property
+     * Validates the type of the value
      *
      * @param mixed $value
      * @param mixed $schema
