@@ -2,23 +2,10 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Entity\JsonPointer;
 
-/**
- * The Base Constraints, all Validators should extend this class
- *
- * @author Robert Schönthal <seroscho@googlemail.com>
- * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
- */
 abstract class Constraint extends BaseConstraint implements ConstraintInterface
 {
     /** @var string  */

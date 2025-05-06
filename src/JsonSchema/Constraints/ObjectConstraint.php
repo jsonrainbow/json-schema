@@ -2,24 +2,11 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 
-/**
- * The ObjectConstraint Constraints, validates an object against a given schema
- *
- * @author Robert Schönthal <seroscho@googlemail.com>
- * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
- */
 class ObjectConstraint extends Constraint
 {
     /**

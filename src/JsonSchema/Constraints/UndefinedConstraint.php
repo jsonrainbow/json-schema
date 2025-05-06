@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
@@ -18,12 +11,6 @@ use JsonSchema\Exception\ValidationException;
 use JsonSchema\Tool\DeepCopy;
 use JsonSchema\Uri\UriResolver;
 
-/**
- * The UndefinedConstraint Constraints
- *
- * @author Robert Schönthal <seroscho@googlemail.com>
- * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
- */
 #[\AllowDynamicProperties]
 class UndefinedConstraint extends Constraint
 {
