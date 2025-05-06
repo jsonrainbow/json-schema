@@ -8,7 +8,7 @@ use JsonSchema\Entity\JsonPointer;
 
 abstract class Constraint extends BaseConstraint implements ConstraintInterface
 {
-    /** @var string  */
+    /** @var string */
     protected $inlineSchemaProperty = '$schema';
 
     public const CHECK_MODE_NONE =             0x00000000;
@@ -62,11 +62,11 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     /**
      * Validates an object
      *
-     * @param mixed $value
-     * @param mixed $schema
-     * @param mixed $properties
-     * @param mixed $additionalProperties
-     * @param mixed $patternProperties
+     * @param mixed         $value
+     * @param mixed         $schema
+     * @param mixed         $properties
+     * @param mixed         $additionalProperties
+     * @param mixed         $patternProperties
      * @param array<string> $appliedDefaults
      */
     protected function checkObject(
