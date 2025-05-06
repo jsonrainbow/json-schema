@@ -41,21 +41,6 @@ parameters:
 			path: src/JsonSchema/Constraints/CollectionConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkObject\\(\\) has parameter \\$appliedDefaults with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Constraint\\:\\:checkUndefined\\(\\) has parameter \\$fromDefault with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Constraint\\:\\:\\$inlineSchemaProperty has no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Constraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\ConstraintInterface\\:\\:addError\\(\\) has parameter \\$more with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
@@ -206,11 +191,6 @@ parameters:
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$appliedDefaults with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ObjectConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:check\\(\\) has parameter \\$patternProperties with no type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
@@ -252,11 +232,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$objectDefinition of method JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:validateMinMaxConstraint\\(\\) expects stdClass, stdClass\\|null given\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/ObjectConstraint.php
-
-		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\ObjectConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/ObjectConstraint.php
 
@@ -566,11 +541,6 @@ parameters:
 			path: src/JsonSchema/Constraints/TypeConstraint.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:check\\(\\) has parameter \\$fromDefault with no type specified\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/UndefinedConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:shouldApplyDefaultValue\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
@@ -611,17 +581,7 @@ parameters:
 			path: src/JsonSchema/Constraints/UndefinedConstraint.php
 
 		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\UndefinedConstraint\\:\\:\\$appliedDefaults type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/UndefinedConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:encodePropertyPaths\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/JsonSchema/Entity/JsonPointer.php
-
-		-
-			message: "#^Method JsonSchema\\\\Entity\\\\JsonPointer\\:\\:setFromDefault\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Entity/JsonPointer.php
 

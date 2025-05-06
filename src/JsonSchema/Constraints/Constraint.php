@@ -2,25 +2,13 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Entity\JsonPointer;
 
-/**
- * The Base Constraints, all Validators should extend this class
- *
- * @author Robert Schönthal <seroscho@googlemail.com>
- * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
- */
 abstract class Constraint extends BaseConstraint implements ConstraintInterface
 {
+    /** @var string */
     protected $inlineSchemaProperty = '$schema';
 
     public const CHECK_MODE_NONE =             0x00000000;
@@ -48,14 +36,12 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
             return $path;
         }
 
-        $path = $path->withPropertyPaths(
+        return $path->withPropertyPaths(
             array_merge(
                 $path->getPropertyPaths(),
                 [$i]
             )
         );
-
-        return $path;
     }
 
     /**
@@ -76,15 +62,22 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     /**
      * Validates an object
      *
-     * @param mixed $value
-     * @param mixed $schema
-     * @param mixed $properties
-     * @param mixed $additionalProperties
-     * @param mixed $patternProperties
+     * @param mixed         $value
+     * @param mixed         $schema
+     * @param mixed         $properties
+     * @param mixed         $additionalProperties
+     * @param mixed         $patternProperties
+     * @param array<string> $appliedDefaults
      */
-    protected function checkObject(&$value, $schema = null, ?JsonPointer $path = null, $properties = null,
-        $additionalProperties = null, $patternProperties = null, $appliedDefaults = []): void
-    {
+    protected function checkObject(
+        &$value,
+        $schema = null,
+        ?JsonPointer $path = null,
+        $properties = null,
+        $additionalProperties = null,
+        $patternProperties = null,
+        array $appliedDefaults = []
+    ): void {
         /** @var ObjectConstraint $validator */
         $validator = $this->factory->createInstanceFor('object');
         $validator->check($value, $schema, $path, $properties, $additionalProperties, $patternProperties, $appliedDefaults);
@@ -93,7 +86,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     }
 
     /**
-     * Validates the type of a property
+     * Validates the type of the value
      *
      * @param mixed $value
      * @param mixed $schema
@@ -114,7 +107,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
      * @param mixed $schema
      * @param mixed $i
      */
-    protected function checkUndefined(&$value, $schema = null, ?JsonPointer $path = null, $i = null, $fromDefault = false): void
+    protected function checkUndefined(&$value, $schema = null, ?JsonPointer $path = null, $i = null, bool $fromDefault = false): void
     {
         /** @var UndefinedConstraint $validator */
         $validator = $this->factory->createInstanceFor('undefined');

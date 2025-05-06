@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
@@ -18,24 +11,18 @@ use JsonSchema\Exception\ValidationException;
 use JsonSchema\Tool\DeepCopy;
 use JsonSchema\Uri\UriResolver;
 
-/**
- * The UndefinedConstraint Constraints
- *
- * @author Robert Schönthal <seroscho@googlemail.com>
- * @author Bruno Prieto Reis <bruno.p.reis@gmail.com>
- */
 #[\AllowDynamicProperties]
 class UndefinedConstraint extends Constraint
 {
     /**
-     * @var array List of properties to which a default value has been applied
+     * @var list<string> List of properties to which a default value has been applied
      */
     protected $appliedDefaults = [];
 
     /**
      * {@inheritdoc}
-     */
-    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null, $fromDefault = false): void
+     * */
+    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null, bool $fromDefault = false): void
     {
         if (is_null($schema) || !is_object($schema)) {
             return;
@@ -72,9 +59,10 @@ class UndefinedConstraint extends Constraint
         }
 
         // check object
-        if (LooseTypeCheck::isObject($value)) { // object processing should always be run on assoc arrays,
-                                                // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
-                                                // is not set (i.e. don't use $this->getTypeCheck() here).
+        if (LooseTypeCheck::isObject($value)) {
+            // object processing should always be run on assoc arrays,
+            // so use LooseTypeCheck here even if CHECK_MODE_TYPE_CAST
+            // is not set (i.e. don't use $this->getTypeCheck() here).
             $this->checkObject(
                 $value,
                 $schema,
