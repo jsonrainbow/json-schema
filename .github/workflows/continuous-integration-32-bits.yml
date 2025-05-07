@@ -1,0 +1,50 @@
+name: "Continuous Integration - 32-bits"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
+
+jobs:
+  tests:
+    name: "PHP 8.4 - 32-bits"
+
+    runs-on: ubuntu-latest
+    container: shivammathur/node:latest-i386
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "intl, zip"
+          ini-values: "memory_limit=-1, phar.readonly=0, error_reporting=E_ALL, display_errors=On"
+          php-version: "8.4"
+          tools: composer
+
+      - name: Check PHP_INT_MAX
+        run: |
+          MAX=$(php -r "echo PHP_INT_MAX;")
+          if [ "$MAX" -ne 2147483647 ]; then
+            echo "Error: PHP is not 32-bits (PHP_INT_MAX is $MAX)"
+            exit 1
+          fi
+        env:
+          MAX: ""
+
+      - name: Install dependencies
+        run: |
+          git config --global --add safe.directory $(pwd)
+          composer install
+
+      - name: Run tests
+        run: "composer test"
