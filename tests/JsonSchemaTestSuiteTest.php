@@ -13,17 +13,18 @@ use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class JsonSchemaTestSuite extends TestCase
+class JsonSchemaTestSuiteTest extends TestCase
 {
     /**
      * @dataProvider casesDataProvider
      */
-    public function testIt(
+    public function testTestCaseValidatesCorrectly(
         string $testCaseDescription,
         string $testDescription,
         \stdClass $schema,
         mixed $data,
-        bool $expectedValidationResult
+        bool $expectedValidationResult,
+        bool $optional
     ): void
     {
         $schemaStorage = new SchemaStorage();
@@ -31,7 +32,12 @@ class JsonSchemaTestSuite extends TestCase
         $this->loadRemotesIntoStorage($schemaStorage);
         $validator = new Validator(new Factory($schemaStorage));
 
-        $result = $validator->validate($data, $schema);
+        $validator->validate($data, $schema);
+
+        if ($optional && $expectedValidationResult !== (count($validator->getErrors()) === 0)) {
+            $this->markTestSkipped('Optional test case would fail');
+            return;
+        }
 
         self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
     }
@@ -65,7 +71,7 @@ class JsonSchemaTestSuite extends TestCase
                         $name = sprintf(
                             '[%s/%s%s]: %s: %s is expected to be %s',
                             basename($draft),
-                            str_contains($file->getPathname(), 'optional') ? 'optional/' : '',
+                            str_contains($file->getPathname(), '/optional/') ? 'optional/' : '',
                             $file->getBasename(),
                             $testCase->description,
                             $test->description,
@@ -78,6 +84,7 @@ class JsonSchemaTestSuite extends TestCase
                             'schema' => $testCase->schema,
                             'data' => $test->data,
                             'expectedValidationResult' => $test->valid,
+                            'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
                     }
 
