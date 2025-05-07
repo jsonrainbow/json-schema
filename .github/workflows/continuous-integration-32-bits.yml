@@ -35,7 +35,7 @@ jobs:
         run: |
           MAX=$(php -r "echo PHP_INT_MAX;")
           if [ "$MAX" -ne 2147483647 ]; then
-            echo "Error: PHP is not 32-bit (PHP_INT_MAX is $MAX)"
+            echo "Error: PHP is not 32-bits (PHP_INT_MAX is $MAX)"
             exit 1
           fi
         env:
