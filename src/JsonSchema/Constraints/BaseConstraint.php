@@ -2,15 +2,9 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Constraints;
 
+use const JSON_ERROR_NONE;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\InvalidArgumentException;
@@ -50,8 +44,8 @@ class BaseConstraint
         $name = $constraint->getValue();
         $error = [
             'property' => $this->convertJsonPointerIntoPropertyPath($path ?: new JsonPointer('')),
-            'pointer' => ltrim(strval($path ?: new JsonPointer('')), '#'),
-            'message' => ucfirst(vsprintf($message, array_map(function ($val) {
+            'pointer' => ltrim((string) ($path ?: new JsonPointer('')), '#'),
+            'message' => ucfirst(vsprintf($message, array_map(static function ($val) {
                 if (is_scalar($val)) {
                     return is_bool($val) ? var_export($val, true) : $val;
                 }
@@ -78,7 +72,7 @@ class BaseConstraint
         if ($errors) {
             $this->errors = array_merge($this->errors, $errors);
             $errorMask = &$this->errorMask;
-            array_walk($errors, function ($error) use (&$errorMask) {
+            array_walk($errors, static function ($error) use (&$errorMask) {
                 if (isset($error['context'])) {
                     $errorMask |= $error['context'];
                 }
@@ -95,10 +89,8 @@ class BaseConstraint
             return $this->errors;
         }
 
-        return array_filter($this->errors, function ($error) use ($errorContext) {
-            if ($errorContext & $error['context']) {
-                return true;
-            }
+        return array_filter($this->errors, static function ($error) use ($errorContext) {
+            return (bool) ($errorContext & $error['context']);
         });
     }
 
@@ -120,7 +112,7 @@ class BaseConstraint
     }
 
     /**
-     * Clears any reported errors.  Should be used between
+     * Clears any reported errors. Should be used between
      * multiple validation checks.
      */
     public function reset(): void
@@ -145,7 +137,7 @@ class BaseConstraint
     public static function arrayToObjectRecursive(array $array): object
     {
         $json = json_encode($array);
-        if (json_last_error() !== \JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             $message = 'Unable to encode schema array as JSON';
             if (function_exists('json_last_error_msg')) {
                 $message .= ': ' . json_last_error_msg();
@@ -153,7 +145,7 @@ class BaseConstraint
             throw new InvalidArgumentException($message);
         }
 
-        return (object) json_decode($json);
+        return (object) json_decode($json, false);
     }
 
     /**
@@ -164,13 +156,10 @@ class BaseConstraint
         return '~' . str_replace('~', '\\~', $pattern) . '~u';
     }
 
-    /**
-     * @return string property path
-     */
     protected function convertJsonPointerIntoPropertyPath(JsonPointer $pointer): string
     {
         $result = array_map(
-            function ($path) {
+            static function ($path) {
                 return sprintf(is_numeric($path) ? '[%d]' : '.%s', $path);
             },
             $pointer->getPropertyPaths()

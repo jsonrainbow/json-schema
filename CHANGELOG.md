@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Added extra breaking change to UPDATE-6.0.md regarding BaseConstraint::addError signature change ([#823](https://github.com/jsonrainbow/json-schema/pull/823))
 - Update constraint class to PHP 7.2 language level ([#824](https://github.com/jsonrainbow/json-schema/pull/824))
+- Update base constraint class to PHP 7.2 language level ([#826](https://github.com/jsonrainbow/json-schema/pull/826))
 
 ### Added
 - Introduce 32 bits CI workflow on latest php version ([#825](https://github.com/jsonrainbow/json-schema/pull/825))
