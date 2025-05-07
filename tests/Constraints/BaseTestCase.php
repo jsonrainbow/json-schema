@@ -43,7 +43,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $checkValue = json_decode($input);
         $errorMask = $validator->validate($checkValue, $schema);
 
-        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
+        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION), 'Document is invalid');
         $this->assertGreaterThan(0, $validator->numErrors());
 
         if ([] !== $errors) {
