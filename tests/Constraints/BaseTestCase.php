@@ -43,7 +43,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $checkValue = json_decode($input);
         $errorMask = $validator->validate($checkValue, $schema);
 
-        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
+        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION), 'Document is invalid');
         $this->assertGreaterThan(0, $validator->numErrors());
 
         if ([] !== $errors) {
@@ -129,7 +129,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
 
         $errorMask = $validator->validate($value, $schema);
-        $this->assertEquals(0, $errorMask);
+        $this->assertEquals(0, $errorMask, $this->validatorErrorsToString($validator));
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -145,5 +145,15 @@ abstract class BaseTestCase extends VeryBaseTestCase
     public function getInvalidForAssocTests(): array
     {
         return $this->getInvalidTests();
+    }
+
+    private function validatorErrorsToString(Validator $validator): string
+    {
+        return implode(
+            ', ',
+            array_map(
+                static function (array $error) { return $error['message']; }, $validator->getErrors()
+            )
+        );
     }
 }
