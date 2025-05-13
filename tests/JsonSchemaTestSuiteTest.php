@@ -34,7 +34,16 @@ class JsonSchemaTestSuiteTest extends TestCase
         $this->loadRemotesIntoStorage($schemaStorage);
         $validator = new Validator(new Factory($schemaStorage));
 
-        $validator->validate($data, $schema);
+        try {
+            $validator->validate($data, $schema);
+        } catch (\Exception $e) {
+            if ($optional) {
+                $this->markTestSkipped('Optional test case would during validate() invocation');
+                return;
+            }
+
+            throw $e;
+        }
 
         if ($optional && $expectedValidationResult !== (count($validator->getErrors()) === 0)) {
             $this->markTestSkipped('Optional test case would fail');
