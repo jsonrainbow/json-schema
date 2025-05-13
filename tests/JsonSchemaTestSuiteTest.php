@@ -17,12 +17,14 @@ class JsonSchemaTestSuiteTest extends TestCase
 {
     /**
      * @dataProvider casesDataProvider
+     *
+     * @param mixed $data
      */
     public function testTestCaseValidatesCorrectly(
         string $testCaseDescription,
         string $testDescription,
         \stdClass $schema,
-        mixed $data,
+        $data,
         bool $expectedValidationResult,
         bool $optional
     ): void
