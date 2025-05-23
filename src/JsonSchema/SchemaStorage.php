@@ -45,7 +45,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function addSchema($id, $schema = null)
+    public function addSchema($id, $schema = null): void
     {
         if (is_null($schema) && $id !== self::INTERNAL_PROVIDED_SCHEMA_URI) {
             // if the schema was user-provided to Validator and is still null, then assume this is
@@ -62,9 +62,9 @@ class SchemaStorage implements SchemaStorageInterface
         // workaround for bug in draft-03 & draft-04 meta-schemas (id & $ref defined with incorrect format)
         // see https://github.com/json-schema-org/JSON-Schema-Test-Suite/issues/177#issuecomment-293051367
         if (is_object($schema) && property_exists($schema, 'id')) {
-            if ($schema->id == 'http://json-schema.org/draft-04/schema#') {
+            if ($schema->id === 'http://json-schema.org/draft-04/schema#') {
                 $schema->properties->id->format = 'uri-reference';
-            } elseif ($schema->id == 'http://json-schema.org/draft-03/schema#') {
+            } elseif ($schema->id === 'http://json-schema.org/draft-03/schema#') {
                 $schema->properties->id->format = 'uri-reference';
                 $schema->properties->{'$ref'}->format = 'uri-reference';
             }
@@ -113,7 +113,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function getSchema($id)
+    public function getSchema(string $id)
     {
         if (!array_key_exists($id, $this->schemas)) {
             $this->addSchema($id);
@@ -125,7 +125,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveRef($ref, $resolveStack = [])
+    public function resolveRef(string $ref, $resolveStack = [])
     {
         $jsonPointer = new JsonPointer($ref);
 
