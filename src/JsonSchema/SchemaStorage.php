@@ -70,6 +70,8 @@ class SchemaStorage implements SchemaStorageInterface
             }
         }
 
+        $this->addSubschemas($schema, $id);
+
         // resolve references
         $this->expandRefs($schema, $id);
 
@@ -173,5 +175,25 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         return $refSchema;
+    }
+
+    private function addSubschemas($schema, string $parentId): void
+    {
+        if (!is_object($schema) && !is_array($schema)) {
+            return;
+        }
+
+        foreach ($schema as $potentialSubSchema) {
+            if (!is_object($potentialSubSchema)) {
+                continue;
+            }
+
+            // Found sub schema
+            if (property_exists($potentialSubSchema, 'id') && is_string($potentialSubSchema->id) && property_exists($potentialSubSchema, 'type')) {
+                $this->addSchema($parentId . $potentialSubSchema->id, $potentialSubSchema);
+            }
+
+            $this->addSubschemas($potentialSubSchema, $parentId);
+        }
     }
 }
