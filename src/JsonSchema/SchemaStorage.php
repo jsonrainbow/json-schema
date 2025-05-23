@@ -82,31 +82,31 @@ class SchemaStorage implements SchemaStorageInterface
      * Recursively resolve all references against the provided base
      *
      * @param mixed  $schema
-     * @param string $base
      */
-    private function expandRefs(&$schema, $base = null)
+    private function expandRefs(&$schema, string $parentId = null): void
     {
         if (!is_object($schema)) {
             if (is_array($schema)) {
                 foreach ($schema as &$member) {
-                    $this->expandRefs($member, $base);
+                    $this->expandRefs($member, $parentId);
                 }
             }
 
             return;
         }
 
-        if (property_exists($schema, 'id') && is_string($schema->id) && $base != $schema->id) {
-            $base = $this->uriResolver->resolve($schema->id, $base);
-        }
-
         if (property_exists($schema, '$ref') && is_string($schema->{'$ref'})) {
-            $refPointer = new JsonPointer($this->uriResolver->resolve($schema->{'$ref'}, $base));
+            $refPointer = new JsonPointer($this->uriResolver->resolve($schema->{'$ref'}, $parentId));
             $schema->{'$ref'} = (string) $refPointer;
         }
 
         foreach ($schema as &$member) {
-            $this->expandRefs($member, $base);
+            $childId = $parentId;
+            if (property_exists($schema, 'id') && is_string($schema->id) && $childId !== $schema->id) {
+                $childId = $this->uriResolver->resolve($schema->id, $childId);
+            }
+
+            $this->expandRefs($member, $childId);
         }
     }
 
