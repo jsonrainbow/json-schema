@@ -81,9 +81,9 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * Recursively resolve all references against the provided base
      *
-     * @param mixed  $schema
+     * @param mixed $schema
      */
-    private function expandRefs(&$schema, string $parentId = null): void
+    private function expandRefs(&$schema, ?string $parentId = null): void
     {
         if (!is_object($schema)) {
             if (is_array($schema)) {
@@ -182,7 +182,7 @@ class SchemaStorage implements SchemaStorageInterface
      */
     private function addSubschemas($schema, string $parentId): void
     {
-        if (! $schema instanceof \stdClass  && !is_array($schema)) {
+        if (!$schema instanceof \stdClass  && !is_array($schema)) {
             return;
         }
 
