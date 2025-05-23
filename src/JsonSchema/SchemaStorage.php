@@ -45,7 +45,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function addSchema($id, $schema = null): void
+    public function addSchema(string $id, $schema = null): void
     {
         if (is_null($schema) && $id !== self::INTERNAL_PROVIDED_SCHEMA_URI) {
             // if the schema was user-provided to Validator and is still null, then assume this is
@@ -177,9 +177,12 @@ class SchemaStorage implements SchemaStorageInterface
         return $refSchema;
     }
 
+    /**
+     * @param mixed $schema
+     */
     private function addSubschemas($schema, string $parentId): void
     {
-        if (!is_object($schema) && !is_array($schema)) {
+        if (! $schema instanceof \stdClass  && !is_array($schema)) {
             return;
         }
 
