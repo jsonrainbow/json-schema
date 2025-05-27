@@ -39,7 +39,6 @@ class JsonSchemaTestSuiteTest extends TestCase
         } catch (\Exception $e) {
             if ($optional) {
                 $this->markTestSkipped('Optional test case would during validate() invocation');
-                return;
             }
 
             throw $e;
@@ -47,7 +46,6 @@ class JsonSchemaTestSuiteTest extends TestCase
 
         if ($optional && $expectedValidationResult !== (count($validator->getErrors()) === 0)) {
             $this->markTestSkipped('Optional test case would fail');
-            return;
         }
 
         self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
