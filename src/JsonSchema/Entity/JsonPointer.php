@@ -50,11 +50,9 @@ class JsonPointer
     }
 
     /**
-     * @param string $propertyPathString
-     *
      * @return string[]
      */
-    private function decodePropertyPaths($propertyPathString)
+    private function decodePropertyPaths(string $propertyPathString): array
     {
         $paths = [];
         foreach (explode('/', trim($propertyPathString, '/')) as $path) {
@@ -67,10 +65,7 @@ class JsonPointer
         return $paths;
     }
 
-    /**
-     * @return array
-     */
-    private function encodePropertyPaths()
+    private function encodePropertyPaths(): array
     {
         return array_map(
             [$this, 'encodePath'],
@@ -78,22 +73,16 @@ class JsonPointer
         );
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
-    private function decodePath($path)
+    
+    private function decodePath(string $path): string
     {
         return strtr($path, ['~1' => '/', '~0' => '~', '%25' => '%']);
     }
 
     /**
      * @param string $path
-     *
-     * @return string
      */
-    private function encodePath($path)
+    private function encodePath($path): string
     {
         return strtr($path, ['/' => '~1', '~' => '~0', '%' => '%25']);
     }
@@ -114,12 +103,8 @@ class JsonPointer
         return $this->propertyPaths;
     }
 
-    /**
-     * @param array $propertyPaths
-     *
-     * @return JsonPointer
-     */
-    public function withPropertyPaths(array $propertyPaths)
+    
+    public function withPropertyPaths(array $propertyPaths): self
     {
         $new = clone $this;
         $new->propertyPaths = array_map(function ($p): string { return (string) $p; }, $propertyPaths);
@@ -127,18 +112,12 @@ class JsonPointer
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPropertyPathAsString()
+    public function getPropertyPathAsString(): string
     {
         return rtrim('#/' . implode('/', $this->encodePropertyPaths()), '/');
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getFilename() . $this->getPropertyPathAsString();
     }
