@@ -70,7 +70,7 @@ class SchemaStorage implements SchemaStorageInterface
             }
         }
 
-        $this->addSubschemas($schema, $id);
+        $this->scanForSubschemas($schema, $id);
 
         // resolve references
         $this->expandRefs($schema, $id);
@@ -100,7 +100,12 @@ class SchemaStorage implements SchemaStorageInterface
             $schema->{'$ref'} = (string) $refPointer;
         }
 
-        foreach ($schema as &$member) {
+        foreach ($schema as $propertyName => &$member) {
+            if (in_array($propertyName, ['enum', 'const'])) {
+                // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
+                continue;
+            }
+
             $childId = $parentId;
             if (property_exists($schema, 'id') && is_string($schema->id) && $childId !== $schema->id) {
                 $childId = $this->uriResolver->resolve($schema->id, $childId);
@@ -180,23 +185,28 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * @param mixed $schema
      */
-    private function addSubschemas($schema, string $parentId): void
+    private function scanForSubschemas($schema, string $parentId): void
     {
         if (!$schema instanceof \stdClass  && !is_array($schema)) {
             return;
         }
 
-        foreach ($schema as $potentialSubSchema) {
+        foreach ($schema as $propertyName => $potentialSubSchema) {
             if (!is_object($potentialSubSchema)) {
                 continue;
             }
 
-            // Found sub schema
             if (property_exists($potentialSubSchema, 'id') && is_string($potentialSubSchema->id) && property_exists($potentialSubSchema, 'type')) {
-                $this->addSchema($parentId . $potentialSubSchema->id, $potentialSubSchema);
+                // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
+                if (in_array($propertyName, ['enum', 'const'])) {
+                    continue;
+                }
+
+                // Found sub schema
+                $this->addSchema($this->uriResolver->resolve($potentialSubSchema->id, $parentId), $potentialSubSchema);
             }
 
-            $this->addSubschemas($potentialSubSchema, $parentId);
+            $this->scanForSubschemas($potentialSubSchema, $parentId);
         }
     }
 }
