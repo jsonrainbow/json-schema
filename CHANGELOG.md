@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.4.2] - 2025-06-03
 ### Fixed
 - Fix objects are non-unique despite key order ([#819](https://github.com/jsonrainbow/json-schema/pull/819))
 - Id's not being resolved and id property affects sibling ref which it should not do ([#828](https://github.com/jsonrainbow/json-schema/pull/828)) 
