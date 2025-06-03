@@ -9,28 +9,23 @@ interface SchemaStorageInterface
     /**
      * Adds schema with given identifier
      *
-     * @param string $id
      * @param object $schema
      */
-    public function addSchema($id, $schema = null);
+    public function addSchema(string $id, $schema = null): void;
 
     /**
      * Returns schema for given identifier, or null if it does not exist
      *
-     * @param string $id
-     *
      * @return object
      */
-    public function getSchema($id);
+    public function getSchema(string $id);
 
     /**
      * Returns schema for given reference with all sub-references resolved
      *
-     * @param string $ref
-     *
      * @return object
      */
-    public function resolveRef($ref);
+    public function resolveRef(string $ref);
 
     /**
      * Returns schema referenced by '$ref' property

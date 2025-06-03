@@ -45,7 +45,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function addSchema($id, $schema = null)
+    public function addSchema(string $id, $schema = null): void
     {
         if (is_null($schema) && $id !== self::INTERNAL_PROVIDED_SCHEMA_URI) {
             // if the schema was user-provided to Validator and is still null, then assume this is
@@ -62,13 +62,15 @@ class SchemaStorage implements SchemaStorageInterface
         // workaround for bug in draft-03 & draft-04 meta-schemas (id & $ref defined with incorrect format)
         // see https://github.com/json-schema-org/JSON-Schema-Test-Suite/issues/177#issuecomment-293051367
         if (is_object($schema) && property_exists($schema, 'id')) {
-            if ($schema->id == 'http://json-schema.org/draft-04/schema#') {
+            if ($schema->id === 'http://json-schema.org/draft-04/schema#') {
                 $schema->properties->id->format = 'uri-reference';
-            } elseif ($schema->id == 'http://json-schema.org/draft-03/schema#') {
+            } elseif ($schema->id === 'http://json-schema.org/draft-03/schema#') {
                 $schema->properties->id->format = 'uri-reference';
                 $schema->properties->{'$ref'}->format = 'uri-reference';
             }
         }
+
+        $this->scanForSubschemas($schema, $id);
 
         // resolve references
         $this->expandRefs($schema, $id);
@@ -79,39 +81,44 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * Recursively resolve all references against the provided base
      *
-     * @param mixed  $schema
-     * @param string $base
+     * @param mixed $schema
      */
-    private function expandRefs(&$schema, $base = null)
+    private function expandRefs(&$schema, ?string $parentId = null): void
     {
         if (!is_object($schema)) {
             if (is_array($schema)) {
                 foreach ($schema as &$member) {
-                    $this->expandRefs($member, $base);
+                    $this->expandRefs($member, $parentId);
                 }
             }
 
             return;
         }
 
-        if (property_exists($schema, 'id') && is_string($schema->id) && $base != $schema->id) {
-            $base = $this->uriResolver->resolve($schema->id, $base);
-        }
-
         if (property_exists($schema, '$ref') && is_string($schema->{'$ref'})) {
-            $refPointer = new JsonPointer($this->uriResolver->resolve($schema->{'$ref'}, $base));
+            $refPointer = new JsonPointer($this->uriResolver->resolve($schema->{'$ref'}, $parentId));
             $schema->{'$ref'} = (string) $refPointer;
         }
 
-        foreach ($schema as &$member) {
-            $this->expandRefs($member, $base);
+        foreach ($schema as $propertyName => &$member) {
+            if (in_array($propertyName, ['enum', 'const'])) {
+                // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
+                continue;
+            }
+
+            $childId = $parentId;
+            if (property_exists($schema, 'id') && is_string($schema->id) && $childId !== $schema->id) {
+                $childId = $this->uriResolver->resolve($schema->id, $childId);
+            }
+
+            $this->expandRefs($member, $childId);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSchema($id)
+    public function getSchema(string $id)
     {
         if (!array_key_exists($id, $this->schemas)) {
             $this->addSchema($id);
@@ -123,7 +130,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveRef($ref, $resolveStack = [])
+    public function resolveRef(string $ref, $resolveStack = [])
     {
         $jsonPointer = new JsonPointer($ref);
 
@@ -173,5 +180,33 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         return $refSchema;
+    }
+
+    /**
+     * @param mixed $schema
+     */
+    private function scanForSubschemas($schema, string $parentId): void
+    {
+        if (!$schema instanceof \stdClass  && !is_array($schema)) {
+            return;
+        }
+
+        foreach ($schema as $propertyName => $potentialSubSchema) {
+            if (!is_object($potentialSubSchema)) {
+                continue;
+            }
+
+            if (property_exists($potentialSubSchema, 'id') && is_string($potentialSubSchema->id) && property_exists($potentialSubSchema, 'type')) {
+                // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
+                if (in_array($propertyName, ['enum', 'const'])) {
+                    continue;
+                }
+
+                // Found sub schema
+                $this->addSchema($this->uriResolver->resolve($potentialSubSchema->id, $parentId), $potentialSubSchema);
+            }
+
+            $this->scanForSubschemas($potentialSubSchema, $parentId);
+        }
     }
 }

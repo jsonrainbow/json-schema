@@ -9,6 +9,10 @@
 
 namespace JsonSchema\Tests\Drafts;
 
+use JsonSchema\Constraints\Factory;
+use JsonSchema\SchemaStorage;
+use JsonSchema\Validator;
+
 /**
  * @package JsonSchema\Tests\Drafts
  */
@@ -16,6 +20,56 @@ class Draft3Test extends BaseDraftTestCase
 {
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = true;
+
+    /**
+     * This test is a copy of https://github.com/json-schema-org/JSON-Schema-Test-Suite/blob/main/tests/draft3/ref.json#L203-L225
+     *
+     * @todo cleanup when #821 gets merged
+     *
+     * @param mixed $data
+     * @dataProvider refPreventsASiblingIdFromChangingTheBaseUriProvider
+     */
+    public function testRefPreventsASiblingIdFromChangingTheBaseUriProvider($data, bool $expectedResult): void
+    {
+        $schema = json_decode(<<<'JSON'
+            {
+                "id": "http://localhost:1234/sibling_id/base/",
+                "definitions": {
+                    "foo": {
+                        "id": "http://localhost:1234/sibling_id/foo.json",
+                        "type": "string"
+                    },
+                    "base_foo": {
+                        "$comment": "this canonical uri is http://localhost:1234/sibling_id/base/foo.json",
+                        "id": "foo.json",
+                        "type": "number"
+                    }
+                },
+                "extends": [
+                    {
+                        "$comment": "$ref resolves to http://localhost:1234/sibling_id/base/foo.json, not http://localhost:1234/sibling_id/foo.json",
+                        "id": "http://localhost:1234/sibling_id/",
+                        "$ref": "foo.json"
+                    }
+                ]
+            }
+JSON
+        , false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema(property_exists($schema, 'id') ? $schema->id : 'internal://mySchema', $schema);
+        $validator = new Validator(new Factory($schemaStorage));
+        $validator->validate($data, $schema);
+
+        self::assertEquals($expectedResult, $validator->isValid());
+    }
+
+    public function refPreventsASiblingIdFromChangingTheBaseUriProvider(): \Generator
+    {
+        yield '$ref resolves to /definitions/base_foo, data does not validate' => ['data' => 'a', 'valid' => false];
+        yield '$ref resolves to /definitions/base_foo, data validate' => ['data' => 1, 'valid' => true];
+    }
+
 
     /**
      * {@inheritdoc}
