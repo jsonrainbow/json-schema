@@ -7,6 +7,7 @@ namespace JsonSchema\Tests\Constraints;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use stdClass;
+use JsonSchema\UriRetrieverInterface;
 
 /**
  * @package JsonSchema\Tests\Constraints
@@ -21,7 +22,7 @@ abstract class VeryBaseTestCase extends TestCase
 
     protected function getUriRetrieverMock(?object $schema): object
     {
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever = $this->prophesize(UriRetrieverInterface::class);
         $uriRetriever->retrieve('http://www.my-domain.com/schema.json')
             ->willReturn($schema)
             ->shouldBeCalled();
