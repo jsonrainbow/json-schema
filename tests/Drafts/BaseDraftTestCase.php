@@ -30,7 +30,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
                     continue;
                 }
 
-                $suites = json_decode(file_get_contents($file));
+                $suites = json_decode(file_get_contents($file), false);
                 foreach ($suites as $suite) {
                     $suiteDescription = $suite->description;
                     foreach ($suite->tests as $test) {

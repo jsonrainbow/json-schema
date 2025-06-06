@@ -35,14 +35,14 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
 
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema, false)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $checkValue = json_decode($input);
+        $checkValue = json_decode($input, false);
         $errorMask = $validator->validate($checkValue, $schema);
 
         $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
