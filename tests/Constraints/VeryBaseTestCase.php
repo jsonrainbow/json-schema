@@ -6,24 +6,21 @@ namespace JsonSchema\Tests\Constraints;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use stdClass;
 
 /**
  * @package JsonSchema\Tests\Constraints
  */
 abstract class VeryBaseTestCase extends TestCase
 {
-    /** @var object */
-    private $jsonSchemaDraft03;
-
-    /** @var object */
-    private $jsonSchemaDraft04;
+    private const DRAFT_SCHEMA_DIR = __DIR__ . '/../../dist/schema/';
+    /** @var array<string, stdClass>  */
+    private $draftSchemas = [];
 
     protected function getUriRetrieverMock(?object $schema): object
     {
         $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes');
 
-        $jsonSchemaDraft03 = $this->getJsonSchemaDraft03();
-        $jsonSchemaDraft04 = $this->getJsonSchemaDraft04();
 
         $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
         $uriRetriever->retrieve('http://www.my-domain.com/schema.json')
@@ -31,12 +28,16 @@ abstract class VeryBaseTestCase extends TestCase
             ->shouldBeCalled();
 
         $uriRetriever->retrieve(Argument::any())
-            ->will(function ($args) use ($jsonSchemaDraft03, $jsonSchemaDraft04, $relativeTestsRoot) {
+            ->will(function ($args) use ($relativeTestsRoot) {
                 if ('http://json-schema.org/draft-03/schema' === $args[0]) {
-                    return $jsonSchemaDraft03;
-                } elseif ('http://json-schema.org/draft-04/schema' === $args[0]) {
-                    return $jsonSchemaDraft04;
-                } elseif (0 === strpos($args[0], 'http://localhost:1234')) {
+                    return $this->getDraftSchema('json-schema-draft-03.json');
+                }
+
+                if ('http://json-schema.org/draft-04/schema' === $args[0]) {
+                    return $this->getDraftSchema('json-schema-draft-04.json');
+                }
+
+                if (0 === strpos($args[0], 'http://localhost:1234')) {
                     $urlParts = parse_url($args[0]);
 
                     return json_decode(file_get_contents($relativeTestsRoot . $urlParts['path']));
@@ -50,25 +51,12 @@ abstract class VeryBaseTestCase extends TestCase
         return $uriRetriever->reveal();
     }
 
-    private function getJsonSchemaDraft03(): object
+    private function getDraftSchema(string $draft): stdClass
     {
-        if (!$this->jsonSchemaDraft03) {
-            $this->jsonSchemaDraft03 = json_decode(
-                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-03.json')
-            );
+        if (!array_key_exists($draft, $this->draftSchemas)) {
+            $this->draftSchemas[$draft] = json_decode(file_get_contents(self::DRAFT_SCHEMA_DIR . '/' . $draft), false);
         }
 
-        return $this->jsonSchemaDraft03;
-    }
-
-    private function getJsonSchemaDraft04(): object
-    {
-        if (!$this->jsonSchemaDraft04) {
-            $this->jsonSchemaDraft04 = json_decode(
-                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-04.json')
-            );
-        }
-
-        return $this->jsonSchemaDraft04;
+        return $this->draftSchemas[$draft];
     }
 }
