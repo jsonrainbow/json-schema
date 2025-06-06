@@ -25,8 +25,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getInvalidTests
+     *
+     * @param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = []): void
+    public function testInvalidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL, array $errors = []): void
     {
         $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
         if ($this->validateSchema) {

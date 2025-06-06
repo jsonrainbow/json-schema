@@ -14,6 +14,9 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /** @var string */
     protected $relativeTestsRoot = '/../../vendor/json-schema/json-schema-test-suite/tests';
 
+    /**
+     * @return array<string, array{string, string}>
+     */
     private function setUpTests($isValid): array
     {
         $filePaths = $this->getFilePaths();
