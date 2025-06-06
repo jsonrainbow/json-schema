@@ -9,9 +9,6 @@ use Prophecy\Argument;
 use stdClass;
 use JsonSchema\UriRetrieverInterface;
 
-/**
- * @package JsonSchema\Tests\Constraints
- */
 abstract class VeryBaseTestCase extends TestCase
 {
     private const DRAFT_SCHEMA_DIR = __DIR__ . '/../../dist/schema/';
