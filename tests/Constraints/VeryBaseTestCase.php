@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\UriRetrieverInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use stdClass;
-use JsonSchema\UriRetrieverInterface;
 
 abstract class VeryBaseTestCase extends TestCase
 {
     private const DRAFT_SCHEMA_DIR = __DIR__ . '/../../dist/schema/';
     private const TEST_SUITE_REMOTES =  __DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes';
 
-    /** @var array<string, stdClass>  */
+    /** @var array<string, stdClass> */
     private $draftSchemas = [];
 
     protected function getUriRetrieverMock(?object $schema): object
@@ -26,7 +26,7 @@ abstract class VeryBaseTestCase extends TestCase
 
         $that = $this;
         $uriRetriever->retrieve(Argument::any())
-            ->will(function ($args) use ($that): stdClass  {
+            ->will(function ($args) use ($that): stdClass {
                 if (strpos($args[0], 'http://json-schema.org/draft-03/schema') === 0) {
                     return $that->getDraftSchema('json-schema-draft-03.json');
                 }
@@ -68,6 +68,7 @@ abstract class VeryBaseTestCase extends TestCase
         if (!file_exists($file)) {
             throw new \InvalidArgumentException(sprintf('File "%s" does not exist', $file));
         }
+
         return json_decode(file_get_contents($file), false);
     }
 }

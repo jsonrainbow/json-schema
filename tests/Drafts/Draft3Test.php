@@ -70,7 +70,6 @@ JSON
         yield '$ref resolves to /definitions/base_foo, data validate' => ['data' => 1, 'valid' => true];
     }
 
-
     /**
      * {@inheritdoc}
      */
