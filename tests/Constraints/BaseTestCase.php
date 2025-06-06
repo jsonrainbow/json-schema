@@ -30,7 +30,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
      */
     public function testInvalidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL, array $errors = []): void
     {
-        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
+        $checkMode = $checkMode ?? Constraint::CHECK_MODE_NORMAL;
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
