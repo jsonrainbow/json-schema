@@ -24,24 +24,28 @@ abstract class VeryBaseTestCase extends TestCase
             ->willReturn($schema)
             ->shouldBeCalled();
 
+        $that = $this;
         $uriRetriever->retrieve(Argument::any())
-            ->will(function ($args): stdClass  {
-                if ('http://json-schema.org/draft-03/schema' === $args[0]) {
-                    return $this->getDraftSchema('json-schema-draft-03.json');
+            ->will(function ($args) use ($that): stdClass  {
+                if (strpos($args[0], 'http://json-schema.org/draft-03/schema') === 0) {
+                    return $that->getDraftSchema('json-schema-draft-03.json');
                 }
 
-                if ('http://json-schema.org/draft-04/schema' === $args[0]) {
-                    return $this->getDraftSchema('json-schema-draft-04.json');
+                if (strpos($args[0], 'http://json-schema.org/draft-04/schema') === 0) {
+                    return $that->getDraftSchema('json-schema-draft-04.json');
+                }
+                if (strpos($args[0], 'http://json-schema.org/draft-06/schema') === 0) {
+                    return $that->getDraftSchema('json-schema-draft-06.json');
                 }
 
                 $urlParts = parse_url($args[0]);
 
                 if (0 === strpos($args[0], 'http://localhost:1234')) {
-                    return $this->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . $urlParts['path']);
+                    return $that->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . $urlParts['path']);
                 }
 
                 if (0 === strpos($args[0], 'http://www.my-domain.com')) {
-                    return $this->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . '/folder' . $urlParts['path']);
+                    return $that->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . '/folder' . $urlParts['path']);
                 }
 
                 throw new \InvalidArgumentException(sprintf('No handling for %s has been setup', $args[0]));
@@ -61,6 +65,9 @@ abstract class VeryBaseTestCase extends TestCase
 
     private function readAndJsonDecodeFile(string $file): stdClass
     {
+        if (!file_exists($file)) {
+            throw new \InvalidArgumentException(sprintf('File "%s" does not exist', $file));
+        }
         return json_decode(file_get_contents($file), false);
     }
 }
