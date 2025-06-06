@@ -28,7 +28,7 @@ abstract class VeryBaseTestCase extends TestCase
             ->shouldBeCalled();
 
         $uriRetriever->retrieve(Argument::any())
-            ->will(function ($args)  {
+            ->will(function ($args): stdClass  {
                 if ('http://json-schema.org/draft-03/schema' === $args[0]) {
                     return $this->getDraftSchema('json-schema-draft-03.json');
                 }
@@ -46,6 +46,8 @@ abstract class VeryBaseTestCase extends TestCase
                 if (0 === strpos($args[0], 'http://www.my-domain.com')) {
                     return $this->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . '/folder' . $urlParts['path']);
                 }
+
+                throw new \InvalidArgumentException(sprintf('No handling for %s has been setup', $args[0]));
             });
 
         return $uriRetriever->reveal();
