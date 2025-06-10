@@ -45,17 +45,11 @@ abstract class BaseDraftTestCase extends BaseTestCase
         return $tests;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInvalidTests(): array
     {
         return $this->setUpTests(false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValidTests(): array
     {
         return $this->setUpTests(true);
