@@ -6,9 +6,6 @@ namespace JsonSchema\Tests\Drafts;
 
 use JsonSchema\Tests\Constraints\BaseTestCase;
 
-/**
- * @package JsonSchema\Tests\Drafts
- */
 abstract class BaseDraftTestCase extends BaseTestCase
 {
     /** @var string */
