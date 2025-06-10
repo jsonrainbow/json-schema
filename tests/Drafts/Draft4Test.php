@@ -23,8 +23,8 @@ class Draft4Test extends BaseDraftTestCase
     protected function getFilePaths(): array
     {
         return [
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft4'),
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft4/optional')
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft4'),
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft4/optional')
         ];
     }
 

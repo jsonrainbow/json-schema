@@ -9,7 +9,7 @@ use JsonSchema\Tests\Constraints\BaseTestCase;
 abstract class BaseDraftTestCase extends BaseTestCase
 {
     /** @var string */
-    protected $relativeTestsRoot = '/../../vendor/json-schema/json-schema-test-suite/tests';
+    protected const RELATIVE_TESTS_ROOT = '/../../vendor/json-schema/json-schema-test-suite/tests';
 
     /**
      * @return array<string, array{string, string}>

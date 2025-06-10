@@ -76,8 +76,8 @@ JSON
     protected function getFilePaths(): array
     {
         return [
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft3'),
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft3/optional')
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft3'),
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft3/optional')
         ];
     }
 
