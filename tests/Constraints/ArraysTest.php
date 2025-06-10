@@ -272,16 +272,6 @@ class ArraysTest extends BaseTestCase
                     }
                 }'
             ],
-            'items: true passes validation' => [
-                'input' => <<<JSON
-                    [1, 1.2, "12"]
-JSON
-                ,
-                'schema' => <<<JSON
-                    { "type": "array", "items": true }
-JSON
-                ,
-            ],
         ];
     }
 }

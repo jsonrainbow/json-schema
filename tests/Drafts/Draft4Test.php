@@ -14,7 +14,7 @@ namespace JsonSchema\Tests\Drafts;
  */
 class Draft4Test extends BaseDraftTestCase
 {
-    protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
+    /** @var bool */
     protected $validateSchema = true;
 
     /**
@@ -23,8 +23,8 @@ class Draft4Test extends BaseDraftTestCase
     protected function getFilePaths(): array
     {
         return [
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft4'),
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft4/optional')
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft4'),
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft4/optional')
         ];
     }
 

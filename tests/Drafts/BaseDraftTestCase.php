@@ -6,15 +6,15 @@ namespace JsonSchema\Tests\Drafts;
 
 use JsonSchema\Tests\Constraints\BaseTestCase;
 
-/**
- * @package JsonSchema\Tests\Drafts
- */
 abstract class BaseDraftTestCase extends BaseTestCase
 {
     /** @var string */
-    protected $relativeTestsRoot = '/../../vendor/json-schema/json-schema-test-suite/tests';
+    protected const RELATIVE_TESTS_ROOT = '/../../vendor/json-schema/json-schema-test-suite/tests';
 
-    private function setUpTests($isValid): array
+    /**
+     * @return array<string, array{string, string}>
+     */
+    private function setUpTests(bool $isValid): array
     {
         $filePaths = $this->getFilePaths();
         $skippedTests = $this->getSkippedTests();
@@ -27,7 +27,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
                     continue;
                 }
 
-                $suites = json_decode(file_get_contents($file));
+                $suites = json_decode(file_get_contents($file), false);
                 foreach ($suites as $suite) {
                     $suiteDescription = $suite->description;
                     foreach ($suite->tests as $test) {
@@ -45,29 +45,23 @@ abstract class BaseDraftTestCase extends BaseTestCase
         return $tests;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInvalidTests(): array
     {
         return $this->setUpTests(false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValidTests(): array
     {
         return $this->setUpTests(true);
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     abstract protected function getFilePaths(): array;
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     abstract protected function getSkippedTests(): array;
 

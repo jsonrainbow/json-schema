@@ -2,80 +2,73 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\UriRetrieverInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use stdClass;
 
-/**
- * @package JsonSchema\Tests\Constraints
- */
 abstract class VeryBaseTestCase extends TestCase
 {
-    /** @var object */
-    private $jsonSchemaDraft03;
+    private const DRAFT_SCHEMA_DIR = __DIR__ . '/../../dist/schema/';
+    private const TEST_SUITE_REMOTES =  __DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes';
 
-    /** @var object */
-    private $jsonSchemaDraft04;
+    /** @var array<string, stdClass> */
+    private $draftSchemas = [];
 
     protected function getUriRetrieverMock(?object $schema): object
     {
-        $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes');
-
-        $jsonSchemaDraft03 = $this->getJsonSchemaDraft03();
-        $jsonSchemaDraft04 = $this->getJsonSchemaDraft04();
-
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever = $this->prophesize(UriRetrieverInterface::class);
         $uriRetriever->retrieve('http://www.my-domain.com/schema.json')
             ->willReturn($schema)
             ->shouldBeCalled();
 
+        $that = $this;
         $uriRetriever->retrieve(Argument::any())
-            ->will(function ($args) use ($jsonSchemaDraft03, $jsonSchemaDraft04, $relativeTestsRoot) {
-                if ('http://json-schema.org/draft-03/schema' === $args[0]) {
-                    return $jsonSchemaDraft03;
-                } elseif ('http://json-schema.org/draft-04/schema' === $args[0]) {
-                    return $jsonSchemaDraft04;
-                } elseif (0 === strpos($args[0], 'http://localhost:1234')) {
-                    $urlParts = parse_url($args[0]);
-
-                    return json_decode(file_get_contents($relativeTestsRoot . $urlParts['path']));
-                } elseif (0 === strpos($args[0], 'http://www.my-domain.com')) {
-                    $urlParts = parse_url($args[0]);
-
-                    return json_decode(file_get_contents($relativeTestsRoot . '/folder' . $urlParts['path']));
+            ->will(function ($args) use ($that): stdClass {
+                if (strpos($args[0], 'http://json-schema.org/draft-03/schema') === 0) {
+                    return $that->getDraftSchema('json-schema-draft-03.json');
                 }
+
+                if (strpos($args[0], 'http://json-schema.org/draft-04/schema') === 0) {
+                    return $that->getDraftSchema('json-schema-draft-04.json');
+                }
+                if (strpos($args[0], 'http://json-schema.org/draft-06/schema') === 0) {
+                    return $that->getDraftSchema('json-schema-draft-06.json');
+                }
+
+                $urlParts = parse_url($args[0]);
+
+                if (0 === strpos($args[0], 'http://localhost:1234')) {
+                    return $that->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . $urlParts['path']);
+                }
+
+                if (0 === strpos($args[0], 'http://www.my-domain.com')) {
+                    return $that->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . '/folder' . $urlParts['path']);
+                }
+
+                throw new \InvalidArgumentException(sprintf('No handling for %s has been setup', $args[0]));
             });
 
         return $uriRetriever->reveal();
     }
 
-    private function getJsonSchemaDraft03(): object
+    private function getDraftSchema(string $draft): stdClass
     {
-        if (!$this->jsonSchemaDraft03) {
-            $this->jsonSchemaDraft03 = json_decode(
-                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-03.json')
-            );
+        if (!array_key_exists($draft, $this->draftSchemas)) {
+            $this->draftSchemas[$draft] = $this->readAndJsonDecodeFile(self::DRAFT_SCHEMA_DIR . '/' . $draft);
         }
 
-        return $this->jsonSchemaDraft03;
+        return $this->draftSchemas[$draft];
     }
 
-    private function getJsonSchemaDraft04(): object
+    private function readAndJsonDecodeFile(string $file): stdClass
     {
-        if (!$this->jsonSchemaDraft04) {
-            $this->jsonSchemaDraft04 = json_decode(
-                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-04.json')
-            );
+        if (!file_exists($file)) {
+            throw new \InvalidArgumentException(sprintf('File "%s" does not exist', $file));
         }
 
-        return $this->jsonSchemaDraft04;
+        return json_decode(file_get_contents($file), false);
     }
 }

@@ -25,22 +25,24 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getInvalidTests
+     *
+     * @param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = []): void
+    public function testInvalidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL, array $errors = []): void
     {
-        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
+        $checkMode = $checkMode ?? Constraint::CHECK_MODE_NORMAL;
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
 
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema, false)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $checkValue = json_decode($input);
+        $checkValue = json_decode($input, false);
         $errorMask = $validator->validate($checkValue, $schema);
 
         $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
