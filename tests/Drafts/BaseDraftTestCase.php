@@ -14,7 +14,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
     /**
      * @return array<string, array{string, string}>
      */
-    private function setUpTests($isValid): array
+    private function setUpTests(bool $isValid): array
     {
         $filePaths = $this->getFilePaths();
         $skippedTests = $this->getSkippedTests();
@@ -62,12 +62,12 @@ abstract class BaseDraftTestCase extends BaseTestCase
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     abstract protected function getFilePaths(): array;
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     abstract protected function getSkippedTests(): array;
 
