@@ -14,138 +14,134 @@ class DependenciesTest extends BaseTestCase
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{"bar": 1}',
-                '{
-                    "dependencies": {"bar": "foo"}
-                }'
-            ],
-            [
-                '{"bar": 1}',
-                '{
-                    "dependencies": {"bar": ["foo"]}
-                }'
-            ],
-            [
-                '{"bar": 1, "foo": 1}',
-                '{
-                    "dependencies": {"bar": ["foo", "baz"]}
-                }'
-            ],
-            [
-                '{"bar": 1, "foo": 1}',
-                '{
-                    "dependencies": {"bar": {
-                        "properties": {
-                            "foo": {"type": "string"}
-                        }
-                    }}
-                }'
-            ],
-            [
-                '{"bar": 1}',
-                '{
-                    "dependencies": {"bar": {
-                        "properties": {
-                            "foo": {"type": "integer", "required": true}
-                        }
-                    }}
-                }'
-            ],
-            [
-                '{"bar": 1}',
-                '{
-                    "dependencies": {"bar": {
-                        "properties": {
-                            "foo": {"type": "integer"}
-                        },
-                        "required": ["foo"]
-                    }}
-                }'
-            ],
-            [
-                '{"bar": true, "foo": "ick"}',
-                '{
-                    "dependencies": {"bar": {
-                        "properties": {
-                            "bar": {"type": "integer"},
-                            "foo": {"type": "integer"}
-                        }
-                    }}
-                }'
-            ]
+        yield [
+            '{"bar": 1}',
+            '{
+                "dependencies": {"bar": "foo"}
+            }'
+        ];
+        yield [
+            '{"bar": 1}',
+            '{
+                "dependencies": {"bar": ["foo"]}
+            }'
+        ];
+        yield [
+            '{"bar": 1, "foo": 1}',
+            '{
+                "dependencies": {"bar": ["foo", "baz"]}
+            }'
+        ];
+        yield [
+            '{"bar": 1, "foo": 1}',
+            '{
+                "dependencies": {"bar": {
+                    "properties": {
+                        "foo": {"type": "string"}
+                    }
+                }}
+            }'
+        ];
+        yield [
+            '{"bar": 1}',
+            '{
+                "dependencies": {"bar": {
+                    "properties": {
+                        "foo": {"type": "integer", "required": true}
+                    }
+                }}
+            }'
+        ];
+        yield [
+            '{"bar": 1}',
+            '{
+                "dependencies": {"bar": {
+                    "properties": {
+                        "foo": {"type": "integer"}
+                    },
+                    "required": ["foo"]
+                }}
+            }'
+        ];
+        yield [
+            '{"bar": true, "foo": "ick"}',
+            '{
+                "dependencies": {"bar": {
+                    "properties": {
+                        "bar": {"type": "integer"},
+                        "foo": {"type": "integer"}
+                    }
+                }}
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{}',
-                '{
-                    "dependencies": {"bar": "foo"}
-                }'
-            ],
-            [
-                '{"foo": 1}',
-                '{
-                    "dependencies": {"bar": "foo"}
-                }'
-            ],
-            [
-                '"foo"',
-                '{
-                    "dependencies": {"bar": "foo"}
-                }'
-            ],
-            [
-                '{"bar": 1, "foo": 1}',
-                '{
-                    "dependencies": {"bar": "foo"}
-                }'
-            ],
-            [
-                '{"bar": 1, "foo": 1, "baz": 1}',
-                '{
-                    "dependencies": {"bar": ["foo", "baz"]}
-                }'
-            ],
-            [
-                '{}',
-                '{
-                    "dependencies": {"bar": ["foo", "baz"]}
-                }'
-            ],
-            [
-                '{"foo": 1, "baz": 1}',
-                '{
-                    "dependencies": {"bar": ["foo", "baz"]}
-                }'
-            ],
-            [
-                '{"bar": 1}',
-                '{
-                    "dependencies": {"bar": {
-                        "properties": {
-                            "foo": {"type": "integer"}
-                        }
-                    }}
-                }'
-            ],
-            [
-                '{"bar": 1, "foo": 1}',
-                '{
-                    "dependencies": {"bar": {
-                        "properties": {
-                            "bar": {"type": "integer"},
-                            "foo": {"type": "integer"}
-                        }
-                    }}
-                }'
-            ]
+        yield [
+            '{}',
+            '{
+                "dependencies": {"bar": "foo"}
+            }'
+        ];
+        yield [
+            '{"foo": 1}',
+            '{
+                "dependencies": {"bar": "foo"}
+            }'
+        ];
+        yield [
+            '"foo"',
+            '{
+                "dependencies": {"bar": "foo"}
+            }'
+        ];
+        yield [
+            '{"bar": 1, "foo": 1}',
+            '{
+                "dependencies": {"bar": "foo"}
+            }'
+        ];
+        yield [
+            '{"bar": 1, "foo": 1, "baz": 1}',
+            '{
+                "dependencies": {"bar": ["foo", "baz"]}
+            }'
+        ];
+        yield [
+            '{}',
+            '{
+                "dependencies": {"bar": ["foo", "baz"]}
+            }'
+        ];
+        yield [
+            '{"foo": 1, "baz": 1}',
+            '{
+                "dependencies": {"bar": ["foo", "baz"]}
+            }'
+        ];
+        yield [
+            '{"bar": 1}',
+            '{
+                "dependencies": {"bar": {
+                    "properties": {
+                        "foo": {"type": "integer"}
+                    }
+                }}
+            }'
+        ];
+        yield [
+            '{"bar": 1, "foo": 1}',
+            '{
+                "dependencies": {"bar": {
+                    "properties": {
+                        "bar": {"type": "integer"},
+                        "foo": {"type": "integer"}
+                    }
+                }}
+            }'
         ];
     }
 }
