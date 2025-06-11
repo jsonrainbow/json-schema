@@ -9,6 +9,7 @@
 
 namespace JsonSchema\Tests\Constraints;
 
+use Generator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
@@ -135,17 +136,17 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    abstract public function getValidTests(): array;
+    abstract public function getValidTests(): Generator;
 
-    public function getValidForAssocTests(): array
+    public function getValidForAssocTests(): Generator
     {
-        return $this->getValidTests();
+        yield from $this->getValidTests();
     }
 
-    abstract public function getInvalidTests(): array;
+    abstract public function getInvalidTests(): Generator;
 
-    public function getInvalidForAssocTests(): array
+    public function getInvalidForAssocTests(): Generator
     {
-        return $this->getInvalidTests();
+        yield from $this->getInvalidTests();
     }
 }
