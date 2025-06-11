@@ -16,9 +16,6 @@ use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
-/**
- * @package JsonSchema\Tests\Constraints
- */
 abstract class BaseTestCase extends VeryBaseTestCase
 {
     protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
