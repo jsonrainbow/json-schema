@@ -19,152 +19,148 @@ class DisallowTest extends BaseTestCase
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = false;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "value":"The xpto is weird"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{
-                      "type":"any",
-                      "disallow":{"type":"string","pattern":"xpto"}
+        yield [
+            '{
+              "value":"The xpto is weird"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{
+                  "type":"any",
+                  "disallow":{"type":"string","pattern":"xpto"}
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "value":null
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{
+                  "type":"any",
+                  "disallow":{"type":"null"}
+                }
+              }
+            }'
+        ];
+        yield [
+            '{"value": 1}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "any", "disallow": "integer"}
+                }
+            }'
+        ];
+        yield [
+            '{"value": true}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "any", "disallow": ["integer", "boolean"]}
+                }
+            }'
+        ];
+        yield [
+            '{"value": "foo"}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "any",
+                        "disallow":
+                            ["string", {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {"type": "string"}
+                                }
+                            }]
                     }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "value":null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{
-                      "type":"any",
-                      "disallow":{"type":"null"}
+                }
+            }'
+        ];
+        yield [
+            '{"value": {"foo": "bar"}}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "any",
+                        "disallow":
+                            ["string", {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {"type": "string"}
+                                }
+                            }]
                     }
-                  }
-                }'
-            ],
-            [
-                '{"value": 1}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "value": {"type": "any", "disallow": "integer"}
-                    }
-                }'
-            ],
-            [
-                '{"value": true}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "value": {"type": "any", "disallow": ["integer", "boolean"]}
-                    }
-                }'
-            ],
-            [
-                '{"value": "foo"}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "value": {
-                            "type": "any",
-                            "disallow":
-                                ["string", {
-                                    "type": "object",
-                                    "properties": {
-                                        "foo": {"type": "string"}
-                                    }
-                                }]
-                        }
-                    }
-                }'
-            ],
-            [
-                '{"value": {"foo": "bar"}}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "value": {
-                            "type": "any",
-                            "disallow":
-                                ["string", {
-                                    "type": "object",
-                                    "properties": {
-                                        "foo": {"type": "string"}
-                                    }
-                                }]
-                        }
-                    }
-                }'
-            ]
+                }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "value":"The xpto is weird"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{
-                      "type":"any",
-                      "disallow":{"type":"string","pattern":"^xpto"}
+        yield [
+            '{
+              "value":"The xpto is weird"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{
+                  "type":"any",
+                  "disallow":{"type":"string","pattern":"^xpto"}
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "value":1
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{
+                  "type":"any",
+                  "disallow":{"type":"null"}
+                }
+              }
+            }'
+        ];
+        yield [
+            '{"value": {"foo": 1}}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "any",
+                        "disallow":
+                            ["string", {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {"type": "string"}
+                                }
+                            }]
                     }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "value":1
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{
-                      "type":"any",
-                      "disallow":{"type":"null"}
-                    }
-                  }
-                }'
-            ],
-            [
-                '{"value": {"foo": 1}}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "value": {
-                            "type": "any",
-                            "disallow":
-                                ["string", {
-                                    "type": "object",
-                                    "properties": {
-                                        "foo": {"type": "string"}
-                                    }
-                                }]
-                        }
-                    }
-                }'
-            ],
-            [
-                '{"value": true}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "value": {"type": "any", "disallow": "string"}
-                    }
-                }'
-            ]
+                }
+            }'
+        ];
+        yield [
+            '{"value": true}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "any", "disallow": "string"}
+                }
+            }'
         ];
     }
 }
