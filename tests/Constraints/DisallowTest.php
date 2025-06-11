@@ -11,6 +11,7 @@ namespace JsonSchema\Tests\Constraints;
  */
 class DisallowTest extends BaseTestCase
 {
+    /** @var string */
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
 
     public function getInvalidTests(): \Generator
