@@ -35,8 +35,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
 
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema, false)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schema = json_decode($schema, false);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -67,8 +68,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schema = json_decode($schema, false);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -94,8 +96,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+
+        $schema = json_decode($schema, false);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -120,9 +124,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schema = json_decode($schema);
+        $schema = json_decode($schema, false);
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver());
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
