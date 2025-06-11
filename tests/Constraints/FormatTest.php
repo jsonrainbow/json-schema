@@ -95,204 +95,197 @@ class FormatTest extends BaseTestCase
         $this->assertEmpty($validator->getErrors());
     }
 
-    public function getValidFormats(): array
+    public function getValidFormats(): \Generator
     {
-        return [
-            ['2001-01-23', 'date'],
-            ['2000-02-29', 'date'],
-            [42, 'date'],
-            [4.2, 'date'],
+        yield ['2001-01-23', 'date'];
+        yield ['2000-02-29', 'date'];
+        yield [42, 'date'];
+        yield [4.2, 'date'];
 
-            ['12:22:01', 'time'],
-            ['00:00:00', 'time'],
-            ['23:59:59', 'time'],
-            [42, 'time'],
-            [4.2, 'time'],
+        yield ['12:22:01', 'time'];
+        yield ['00:00:00', 'time'];
+        yield ['23:59:59', 'time'];
+        yield [42, 'time'];
+        yield [4.2, 'time'];
 
-            ['2000-05-01T12:12:12Z', 'date-time'],
-            ['2000-05-01T12:12:12+0100', 'date-time'],
-            ['2000-05-01T12:12:12+01:00', 'date-time'],
-            ['2000-05-01T12:12:12.123456Z', 'date-time'],
-            ['2000-05-01T12:12:12.123Z', 'date-time'],
-            ['2000-05-01T12:12:12.123000Z', 'date-time'],
-            ['2000-05-01T12:12:12.0Z', 'date-time'],
-            ['2000-05-01T12:12:12.000Z', 'date-time'],
-            ['2000-05-01T12:12:12.000000Z', 'date-time'],
-            [42, 'date-time'],
-            [4.2, 'date-time'],
+        yield ['2000-05-01T12:12:12Z', 'date-time'];
+        yield ['2000-05-01T12:12:12+0100', 'date-time'];
+        yield ['2000-05-01T12:12:12+01:00', 'date-time'];
+        yield ['2000-05-01T12:12:12.123456Z', 'date-time'];
+        yield ['2000-05-01T12:12:12.123Z', 'date-time'];
+        yield ['2000-05-01T12:12:12.123000Z', 'date-time'];
+        yield ['2000-05-01T12:12:12.0Z', 'date-time'];
+        yield ['2000-05-01T12:12:12.000Z', 'date-time'];
+        yield ['2000-05-01T12:12:12.000000Z', 'date-time'];
+        yield [42, 'date-time'];
+        yield [4.2, 'date-time'];
 
-            ['0', 'utc-millisec'],
+        yield ['0', 'utc-millisec'];
 
-            ['aqua', 'color'],
-            ['black', 'color'],
-            ['blue', 'color'],
-            ['fuchsia', 'color'],
-            ['gray', 'color'],
-            ['green', 'color'],
-            ['lime', 'color'],
-            ['maroon', 'color'],
-            ['navy', 'color'],
-            ['olive', 'color'],
-            ['orange', 'color'],
-            ['purple', 'color'],
-            ['red', 'color'],
-            ['silver', 'color'],
-            ['teal', 'color'],
-            ['white', 'color'],
-            ['yellow', 'color'],
-            ['#fff', 'color'],
-            ['#00cc00', 'color'],
-            [42, 'color'],
-            [4.2, 'color'],
+        yield ['aqua', 'color'];
+        yield ['black', 'color'];
+        yield ['blue', 'color'];
+        yield ['fuchsia', 'color'];
+        yield ['gray', 'color'];
+        yield ['green', 'color'];
+        yield ['lime', 'color'];
+        yield ['maroon', 'color'];
+        yield ['navy', 'color'];
+        yield ['olive', 'color'];
+        yield ['orange', 'color'];
+        yield ['purple', 'color'];
+        yield ['red', 'color'];
+        yield ['silver', 'color'];
+        yield ['teal', 'color'];
+        yield ['white', 'color'];
+        yield ['yellow', 'color'];
+        yield ['#fff', 'color'];
+        yield ['#00cc00', 'color'];
+        yield [42, 'color'];
+        yield [4.2, 'color'];
 
-            ['background: blue', 'style'],
-            ['color: #000;', 'style'],
+        yield ['background: blue', 'style'];
+        yield ['color: #000;', 'style'];
 
-            ['555 320 1212', 'phone'],
+        yield ['555 320 1212', 'phone'];
 
-            ['http://bluebox.org', 'uri'],
-            ['//bluebox.org', 'uri-reference'],
-            ['/absolutePathReference/', 'uri-reference'],
-            ['./relativePathReference/', 'uri-reference'],
-            ['./relative:PathReference/', 'uri-reference'],
-            ['relativePathReference/', 'uri-reference'],
-            ['relative/Path:Reference/', 'uri-reference'],
-            [42, 'uri-reference'],
-            [4.2, 'uri-reference'],
+        yield ['http://bluebox.org', 'uri'];
+        yield ['//bluebox.org', 'uri-reference'];
+        yield ['/absolutePathReference/', 'uri-reference'];
+        yield ['./relativePathReference/', 'uri-reference'];
+        yield ['./relative:PathReference/', 'uri-reference'];
+        yield ['relativePathReference/', 'uri-reference'];
+        yield ['relative/Path:Reference/', 'uri-reference'];
+        yield [42, 'uri-reference'];
+        yield [4.2, 'uri-reference'];
 
-            ['info@something.edu', 'email'],
-            [42, 'email'],
-            [4.2, 'email'],
+        yield ['info@something.edu', 'email'];
+        yield [42, 'email'];
+        yield [4.2, 'email'];
 
-            ['10.10.10.10', 'ip-address'],
-            ['127.0.0.1', 'ip-address'],
-            [42, 'ip-address'],
-            [4.2, 'ip-address'],
+        yield ['10.10.10.10', 'ip-address'];
+        yield ['127.0.0.1', 'ip-address'];
+        yield [42, 'ip-address'];
+        yield [4.2, 'ip-address'];
 
-            ['127.0.0.1', 'ipv4'],
-            [42, 'ipv4'],
-            [4.2, 'ipv4'],
+        yield ['127.0.0.1', 'ipv4'];
+        yield [42, 'ipv4'];
+        yield [4.2, 'ipv4'];
 
-            ['::ff', 'ipv6'],
-            [42, 'ipv6'],
-            [4.2, 'ipv6'],
+        yield ['::ff', 'ipv6'];
+        yield [42, 'ipv6'];
+        yield [4.2, 'ipv6'];
 
-            ['www.example.com', 'host-name'],
-            ['3v4l.org', 'host-name'],
-            ['a-valid-host.com', 'host-name'],
-            ['localhost', 'host-name'],
-            [42, 'host-name'],
-            [4.2, 'host-name'],
+        yield ['www.example.com', 'host-name'];
+        yield ['3v4l.org', 'host-name'];
+        yield ['a-valid-host.com', 'host-name'];
+        yield ['localhost', 'host-name'];
+        yield [42, 'host-name'];
+        yield [4.2, 'host-name'];
 
-            ['www.example.com', 'hostname'],
-            ['3v4l.org', 'hostname'],
-            ['a-valid-host.com', 'hostname'],
-            ['localhost', 'hostname'],
-            [42, 'hostname'],
-            [4.2, 'hostname'],
+        yield ['www.example.com', 'hostname'];
+        yield ['3v4l.org', 'hostname'];
+        yield ['a-valid-host.com', 'hostname'];
+        yield ['localhost', 'hostname'];
+        yield [42, 'hostname'];
+        yield [4.2, 'hostname'];
 
-            ['anything', '*'],
-            ['unknown', '*'],
+        yield ['anything', '*'];
+        yield ['unknown', '*'];
+    }
+
+    public function getInvalidFormats(): \Generator
+    {
+        yield ['January 1st, 1910', 'date'];
+        yield ['199-01-1', 'date'];
+        yield ['2012-0-11', 'date'];
+        yield ['2012-10-1', 'date'];
+
+        yield ['24:01:00', 'time'];
+        yield ['00:00:60', 'time'];
+        yield ['25:00:00', 'time'];
+
+        yield ['invalid_value_2000-05-01T12:12:12Z', 'date-time'];
+        yield ['2000-05-01T12:12:12Z_invalid_value', 'date-time'];
+        yield ['1999-1-11T00:00:00Z', 'date-time'];
+        yield ['1999-01-11T00:00:00+100', 'date-time'];
+        yield ['1999-01-11T00:00:00+1:00', 'date-time'];
+        yield ['1999.000Z-01-11T00:00:00+1:00', 'date-time'];
+
+        yield [PHP_INT_MAX, 'utc-millisec'];
+
+        yield ['grey', 'color'];
+        yield ['#HHH', 'color'];
+        yield ['#000a', 'color'];
+        yield ['#aa', 'color'];
+
+        yield ['background; blue', 'style'];
+
+        yield ['1 123 4424', 'phone'];
+
+        yield ['htt:/bluebox.org', 'uri'];
+        yield ['.relative:path/reference/', 'uri'];
+        yield ['', 'uri'];
+        yield ['//bluebox.org', 'uri'];
+        yield ['/absolutePathReference/', 'uri'];
+        yield ['./relativePathReference/', 'uri'];
+        yield ['./relative:PathReference/', 'uri'];
+        yield ['relativePathReference/', 'uri'];
+        yield ['relative/Path:Reference/', 'uri'];
+
+        yield ['info@somewhere', 'email'];
+
+        yield ['256.2.2.2', 'ip-address'];
+
+        yield [':::ff', 'ipv6'];
+
+        yield ['@localhost', 'host-name'];
+        yield ['..nohost', 'host-name'];
+    }
+
+    public function getValidTests(): \Generator
+    {
+        yield [
+            '{ "counter": "10" }',
+            '{
+                "type": "object",
+                "properties": {
+                    "counter": {
+                        "type": "string",
+                        "format": "regex",
+                        "pattern": "[0-9]+"
+                    }
+                }
+            }'
         ];
     }
 
-    public function getInvalidFormats(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            ['January 1st, 1910', 'date'],
-            ['199-01-1', 'date'],
-            ['2012-0-11', 'date'],
-            ['2012-10-1', 'date'],
-
-            ['24:01:00', 'time'],
-            ['00:00:60', 'time'],
-            ['25:00:00', 'time'],
-
-            ['invalid_value_2000-05-01T12:12:12Z', 'date-time'],
-            ['2000-05-01T12:12:12Z_invalid_value', 'date-time'],
-            ['1999-1-11T00:00:00Z', 'date-time'],
-            ['1999-01-11T00:00:00+100', 'date-time'],
-            ['1999-01-11T00:00:00+1:00', 'date-time'],
-            ['1999.000Z-01-11T00:00:00+1:00', 'date-time'],
-
-            [PHP_INT_MAX, 'utc-millisec'],
-
-            ['grey', 'color'],
-            ['#HHH', 'color'],
-            ['#000a', 'color'],
-            ['#aa', 'color'],
-
-            ['background; blue', 'style'],
-
-            ['1 123 4424', 'phone'],
-
-            ['htt:/bluebox.org', 'uri'],
-            ['.relative:path/reference/', 'uri'],
-            ['', 'uri'],
-            ['//bluebox.org', 'uri'],
-            ['/absolutePathReference/', 'uri'],
-            ['./relativePathReference/', 'uri'],
-            ['./relative:PathReference/', 'uri'],
-            ['relativePathReference/', 'uri'],
-            ['relative/Path:Reference/', 'uri'],
-
-            ['info@somewhere', 'email'],
-
-            ['256.2.2.2', 'ip-address'],
-
-            [':::ff', 'ipv6'],
-
-            ['@localhost', 'host-name'],
-            ['..nohost', 'host-name'],
+        yield [
+            '{ "counter": "blue" }',
+            '{
+                "type": "object",
+                "properties": {
+                    "counter": {
+                        "type": "string",
+                        "format": "regex",
+                        "pattern": "[0-9]+"
+                    }
+                }
+            }'
         ];
-    }
-
-    public function getValidTests(): array
-    {
-        return [
-            [
-                '{ "counter": "10" }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "counter": {
-                            "type": "string",
-                            "format": "regex",
-                            "pattern": "[0-9]+"
-                        }
+        yield [
+            '{ "color": "blueberry" }',
+            '{
+                "type": "object",
+                "properties": {
+                    "color": {
+                        "type": "string",
+                        "format": "color"
                     }
-                }'],
-        ];
-    }
-
-    public function getInvalidTests(): array
-    {
-        return [
-            [
-                '{ "counter": "blue" }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "counter": {
-                            "type": "string",
-                            "format": "regex",
-                            "pattern": "[0-9]+"
-                        }
-                    }
-                }'
-            ],
-            [
-                '{ "color": "blueberry" }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "color": {
-                            "type": "string",
-                            "format": "color"
-                        }
-                    }
-                }'
-            ]
+                }
+            }'
         ];
     }
 }
