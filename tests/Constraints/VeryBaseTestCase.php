@@ -20,7 +20,7 @@ abstract class VeryBaseTestCase extends TestCase
     protected function getUriRetrieverMock(?object $schema): object
     {
         $uriRetriever = $this->prophesize(UriRetrieverInterface::class);
-        $uriRetriever->retrieve('http://www.my-domain.com/schema.json')
+        $uriRetriever->retrieve($schema->id ?? 'http://www.my-domain.com/schema.json')
             ->willReturn($schema)
             ->shouldBeCalled();
 
