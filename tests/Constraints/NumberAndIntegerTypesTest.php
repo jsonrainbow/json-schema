@@ -17,10 +17,10 @@ class NumberAndIntegerTypesTest extends BaseTestCase
     {
         return [
             [
-                '{
+                'input' => '{
                   "integer": 1.4
                 }',
-                '{
+                'schema' => '{
                   "type":"object",
                   "properties":{
                     "integer":{"type":"integer"}
@@ -28,8 +28,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{"integer": 1.001}',
-                '{
+                'input' => '{"integer": 1.001}',
+                'schema' => '{
                     "type": "object",
                     "properties": {
                         "integer": {"type": "integer"}
@@ -37,8 +37,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{"integer": true}',
-                '{
+                'input' => '{"integer": true}',
+                'schema' => '{
                     "type": "object",
                     "properties": {
                         "integer": {"type": "integer"}
@@ -46,8 +46,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{"number": "x"}',
-                '{
+                'input' => '{"number": "x"}',
+                'schema' => '{
                     "type": "object",
                     "properties": {
                         "number": {"type": "number"}
@@ -61,10 +61,10 @@ class NumberAndIntegerTypesTest extends BaseTestCase
     {
         return [
             [
-                '{
+                'input' => '{
                   "integer": 1
                 }',
-                '{
+                'schema' => '{
                   "type":"object",
                   "properties":{
                     "integer":{"type":"integer"}
@@ -72,10 +72,10 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{
+                'input' => '{
                   "number": 1.4
                 }',
-                '{
+                'schema' => '{
                   "type":"object",
                   "properties":{
                     "number":{"type":"number"}
@@ -83,8 +83,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{"number": 1e5}',
-                '{
+                'input' => '{"number": 1e5}',
+                'schema' => '{
                     "type": "object",
                     "properties": {
                         "number": {"type": "number"}
@@ -92,8 +92,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{"number": 1}',
-                '{
+                'input' => '{"number": 1}',
+                'schema' => '{
                     "type": "object",
                     "properties": {
                         "number": {"type": "number"}
@@ -102,8 +102,8 @@ class NumberAndIntegerTypesTest extends BaseTestCase
                 }'
             ],
             [
-                '{"number": -49.89}',
-                '{
+                'input' => '{"number": -49.89}',
+                'schema' => '{
                     "type": "object",
                     "properties": {
                         "number": {

@@ -33,7 +33,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.3.0",
-        "json-schema/json-schema-test-suite": "1.2.0",
+        "json-schema/json-schema-test-suite": "^23.2",
         "phpunit/phpunit": "^8.5",
         "phpspec/prophecy": "^1.19",
         "phpstan/phpstan": "^1.12",
@@ -59,11 +59,11 @@
             "type": "package",
             "package": {
                 "name": "json-schema/json-schema-test-suite",
-                "version": "1.2.0",
+                "version": "23.2.0",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/json-schema/JSON-Schema-Test-Suite",
-                    "reference": "1.2.0"
+                    "reference": "23.2.0"
                 }
             }
         }
