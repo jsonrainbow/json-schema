@@ -19,7 +19,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidTests
      *
-     * @param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
     public function testInvalidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL, array $errors = []): void
     {
@@ -50,8 +50,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getInvalidForAssocTests
+     *
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = []): void
+    public function testInvalidCasesUsingAssoc(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_TYPE_CAST, array $errors = []): void
     {
         $checkMode = $checkMode ?? Constraint::CHECK_MODE_TYPE_CAST;
         if ($this->validateSchema) {
@@ -83,8 +85,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getValidTests
+     *
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL): void
+    public function testValidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -107,8 +111,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getValidForAssocTests
+     *
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
+    public function testValidCasesUsingAssoc(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
