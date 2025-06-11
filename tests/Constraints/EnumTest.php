@@ -4,7 +4,9 @@ namespace JsonSchema\Tests\Constraints;
 
 class EnumTest extends BaseTestCase
 {
+    /** @var string  */
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    /** @var bool  */
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator
