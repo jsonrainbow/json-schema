@@ -9,6 +9,7 @@ use JsonSchema\Constraints\FormatConstraint;
 
 class FormatTest extends BaseTestCase
 {
+    /** @var bool  */
     protected $validateSchema = true;
 
     public function setUp(): void
