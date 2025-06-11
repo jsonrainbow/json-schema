@@ -14,141 +14,137 @@ class ExtendsTest extends BaseTestCase
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "name":"bruno",
-                  "age":50
-                }',
-                '{
-                    "properties": {
-                        "name": {"type": "string"},
-                        "age": {
-                            "type": "integer",
-                            "maximum": 120
-                        }
-                    },
-                    "extends": {
-                        "properties": {
-                            "age": {"minimum": 70}
-                        }
+        yield [
+            '{
+              "name":"bruno",
+              "age":50
+            }',
+            '{
+                "properties": {
+                    "name": {"type": "string"},
+                    "age": {
+                        "type": "integer",
+                        "maximum": 120
                     }
-                }'
-            ],
-            [
-                '{
-                  "name":"bruno",
-                  "age":180
-                }',
-                '{
+                },
+                "extends": {
                     "properties": {
-                        "name": {"type": "string"},
-                        "age": {
-                            "type": "integer",
-                            "maximum": 120
-                        }
-                    },
-                    "extends": {
-                        "properties": {
-                            "age": {"minimum":70}
-                        }
+                        "age": {"minimum": 70}
                     }
-                }'
-            ],
-            [
-                '{"foo": 2, "bar": "baz"}',
-                '{
+                }
+            }'
+        ];
+        yield [
+            '{
+              "name":"bruno",
+              "age":180
+            }',
+            '{
+                "properties": {
+                    "name": {"type": "string"},
+                    "age": {
+                        "type": "integer",
+                        "maximum": 120
+                    }
+                },
+                "extends": {
                     "properties": {
-                        "bar": {"type": "integer", "required": true}
-                    },
-                    "extends": {
+                        "age": {"minimum":70}
+                    }
+                }
+            }'
+        ];
+        yield [
+            '{"foo": 2, "bar": "baz"}',
+            '{
+                "properties": {
+                    "bar": {"type": "integer", "required": true}
+                },
+                "extends": {
+                    "properties": {
+                        "foo": {"type": "string", "required": true}
+                    }
+                }
+            }'
+        ];
+        yield [
+            '{"bar": 2}',
+            '{
+                "properties": {
+                    "bar": {"type": "integer", "required": true}
+                },
+                "extends" : [
+                    {
                         "properties": {
                             "foo": {"type": "string", "required": true}
                         }
-                    }
-                }'
-            ],
-            [
-                '{"bar": 2}',
-                '{
-                    "properties": {
-                        "bar": {"type": "integer", "required": true}
                     },
-                    "extends" : [
-                        {
-                            "properties": {
-                                "foo": {"type": "string", "required": true}
-                            }
-                        },
-                        {
-                            "properties": {
-                                "baz": {"type": "null", "required": true}
-                            }
+                    {
+                        "properties": {
+                            "baz": {"type": "null", "required": true}
                         }
-                    ]
-                }'
-            ]
+                    }
+                ]
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "name":"bruno",
-                  "age":80
-                }',
-                '{
-                    "properties": {
-                        "name": {"type": "string"},
-                        "age": {
-                            "type": "integer",
-                            "maximum": 120
-                        }
-                    },
-                    "extends": {
-                        "properties": {
-                            "age": {"minimum": 70}
-                        }
+        yield [
+            '{
+              "name":"bruno",
+              "age":80
+            }',
+            '{
+                "properties": {
+                    "name": {"type": "string"},
+                    "age": {
+                        "type": "integer",
+                        "maximum": 120
                     }
-                }'
-            ],
-            [
-                '{"foo": "baz", "bar": 2}',
-                '{
+                },
+                "extends": {
                     "properties": {
-                        "bar": {"type": "integer", "required": true}
-                    },
-                    "extends": {
+                        "age": {"minimum": 70}
+                    }
+                }
+            }'
+        ];
+        yield [
+            '{"foo": "baz", "bar": 2}',
+            '{
+                "properties": {
+                    "bar": {"type": "integer", "required": true}
+                },
+                "extends": {
+                    "properties": {
+                        "foo": {"type": "string", "required": true}
+                    }
+                }
+            }'
+        ];
+        yield [
+            '{"foo": "ick", "bar": 2, "baz": null}',
+            '{
+                "properties": {
+                    "bar": {"type": "integer", "required": true}
+                },
+                "extends" : [
+                    {
                         "properties": {
                             "foo": {"type": "string", "required": true}
                         }
-                    }
-                }'
-            ],
-            [
-                '{"foo": "ick", "bar": 2, "baz": null}',
-                '{
-                    "properties": {
-                        "bar": {"type": "integer", "required": true}
                     },
-                    "extends" : [
-                        {
-                            "properties": {
-                                "foo": {"type": "string", "required": true}
-                            }
-                        },
-                        {
-                            "properties": {
-                                "baz": {"type": "null", "required": true}
-                            }
+                    {
+                        "properties": {
+                            "baz": {"type": "null", "required": true}
                         }
-                    ]
-                }'
-            ]
+                    }
+                ]
+            }'
         ];
     }
 }
