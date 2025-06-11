@@ -6,6 +6,7 @@ use JsonSchema\Constraints\Constraint;
 
 class MinItemsMaxItemsTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator
