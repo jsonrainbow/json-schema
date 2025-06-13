@@ -222,7 +222,8 @@ class OfPropertiesTest extends BaseTestCase
 
     public function testNoPrematureAnyOfException(): void
     {
-        $schema = json_decode('{
+        $schema = json_decode(
+            '{
             "type": "object",
             "properties": {
                 "propertyOne": {
@@ -232,8 +233,10 @@ class OfPropertiesTest extends BaseTestCase
                     ]
                 }
             }
-        }');
-        $data = json_decode('{"propertyOne":"ABC"}');
+        }',
+            false
+        );
+        $data = json_decode('{"propertyOne":"ABC"}', false);
 
         $v = new Validator();
         $v->validate($data, $schema, Constraint::CHECK_MODE_EXCEPTIONS);
@@ -242,7 +245,8 @@ class OfPropertiesTest extends BaseTestCase
 
     public function testNoPrematureOneOfException(): void
     {
-        $schema = json_decode('{
+        $schema = json_decode(
+            '{
             "type": "object",
             "properties": {
                 "propertyOne": {
@@ -252,8 +256,10 @@ class OfPropertiesTest extends BaseTestCase
                     ]
                 }
             }
-        }');
-        $data = json_decode('{"propertyOne":"ABC"}');
+        }',
+            false
+        );
+        $data = json_decode('{"propertyOne":"ABC"}', false);
 
         $v = new Validator();
         $v->validate($data, $schema, Constraint::CHECK_MODE_EXCEPTIONS);
