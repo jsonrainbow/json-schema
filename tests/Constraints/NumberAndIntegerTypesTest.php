@@ -5,6 +5,7 @@ namespace JsonSchema\Tests\Constraints;
 
 class NumberAndIntegerTypesTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator
