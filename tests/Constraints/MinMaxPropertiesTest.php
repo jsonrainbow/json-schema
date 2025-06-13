@@ -6,6 +6,7 @@ use JsonSchema\Constraints\Constraint;
 
 class MinMaxPropertiesTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getValidTests(): \Generator
