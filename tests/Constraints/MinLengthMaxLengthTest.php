@@ -13,59 +13,55 @@ class MinLengthMaxLengthTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "value":"w"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "value":"wo7us"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "value":"w"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "value":"wo7us"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "value":"wo"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "value":"wo7u"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ],
+        yield [
+            '{
+              "value":"wo"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "value":"wo7u"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
         ];
     }
 }
