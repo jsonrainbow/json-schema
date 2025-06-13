@@ -20,59 +20,55 @@ class MinLengthMaxLengthMultiByteTest extends BaseTestCase
         }
     }
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "value":"☀"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "value":"☀☁☂☃☺"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "value":"☀"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "value":"☀☁☂☃☺"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "value":"☀☁"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "value":"☀☁☂☃"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","minLength":2,"maxLength":4}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "value":"☀☁"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "value":"☀☁☂☃"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","minLength":2,"maxLength":4}
+              }
+            }'
         ];
     }
 }
