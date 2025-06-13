@@ -18,217 +18,213 @@ class OfPropertiesTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{"prop1": "abc"}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {"type": "string"},
-                    "prop2": {
-                      "oneOf": [
-                        {"type": "number"},
-                        {"type": "string"}
-                      ]
-                    }
-                  },
-                  "required": ["prop1"]
-                }'
-            ],
-            [
-                '{"prop1": "abc", "prop2": 23}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {"type": "string"},
-                    "prop2": {
-                      "oneOf": [
-                        {"type": "number"},
-                        {"type": "string"}
-                      ]
-                    }
-                  },
-                  "required": ["prop1"]
-                }'
-            ],
+        yield [
+            '{"prop1": "abc"}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {"type": "string"},
+                "prop2": {
+                  "oneOf": [
+                    {"type": "number"},
+                    {"type": "string"}
+                  ]
+                }
+              },
+              "required": ["prop1"]
+            }'
+        ];
+        yield [
+            '{"prop1": "abc", "prop2": 23}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {"type": "string"},
+                "prop2": {
+                  "oneOf": [
+                    {"type": "number"},
+                    {"type": "string"}
+                  ]
+                }
+              },
+              "required": ["prop1"]
+            }'
         ];
     }
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
+        yield [
+            '{"prop1": "abc", "prop2": []}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {"type": "string"},
+                "prop2": {
+                  "oneOf": [
+                    {"type": "number"},
+                    {"type": "string"}
+                  ]
+                }
+              },
+              "required": ["prop1"]
+            }',
+            null,
             [
-                '{"prop1": "abc", "prop2": []}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {"type": "string"},
-                    "prop2": {
-                      "oneOf": [
-                        {"type": "number"},
-                        {"type": "string"}
-                      ]
-                    }
-                  },
-                  "required": ["prop1"]
-                }',
-                null,
                 [
-                    [
-                        'property'   => 'prop2',
-                        'pointer'    => '/prop2',
-                        'message'    => 'Array value found, but a string is required',
-                        'constraint' => [
-                            'name' => 'type',
-                            'params' => [
-                                'expected'   => 'a string',
-                                'found'      => 'array'
-                            ]
-                        ],
-                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
+                    'property'   => 'prop2',
+                    'pointer'    => '/prop2',
+                    'message'    => 'Array value found, but a string is required',
+                    'constraint' => [
+                        'name' => 'type',
+                        'params' => [
+                            'expected'   => 'a string',
+                            'found'      => 'array'
+                        ]
                     ],
-                    [
-                        'property'   => 'prop2',
-                        'pointer'    => '/prop2',
-                        'message'    => 'Array value found, but a number is required',
-                        'constraint' => [
-                            'name' => 'type',
-                            'params' => [
-                                'expected'   => 'a number',
-                                'found'      => 'array'
-                            ]
-                        ],
-                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
+                ],
+                [
+                    'property'   => 'prop2',
+                    'pointer'    => '/prop2',
+                    'message'    => 'Array value found, but a number is required',
+                    'constraint' => [
+                        'name' => 'type',
+                        'params' => [
+                            'expected'   => 'a number',
+                            'found'      => 'array'
+                        ]
                     ],
-                    [
-                        'property'   => 'prop2',
-                        'pointer'    => '/prop2',
-                        'message'    => 'Failed to match exactly one schema',
-                        'constraint' => [
-                            'name' => 'oneOf',
-                            'params' => []
-                        ],
-                        'context'    => Validator::ERROR_DOCUMENT_VALIDATION
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
+                ],
+                [
+                    'property'   => 'prop2',
+                    'pointer'    => '/prop2',
+                    'message'    => 'Failed to match exactly one schema',
+                    'constraint' => [
+                        'name' => 'oneOf',
+                        'params' => []
                     ],
+                    'context'    => Validator::ERROR_DOCUMENT_VALIDATION
                 ],
             ],
-            [
-                '{"prop1": [1,2]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "oneOf": [
-                        {
-                          "type": "string",
-                          "pattern": "^[a-z]*$"
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^[A-Z]*$"
-                        }
-                      ]
+        ];
+        yield [
+            '{"prop1": [1,2]}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-z]*$"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z]*$"
                     }
-                  }
-                }'
-            ],
-            [
-                '{"prop1": [1,2]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "pattern": "^[A-Z]*$"
-                        }
-                      ]
+                  ]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{"prop1": [1,2]}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z]*$"
                     }
-                  }
-                }'
-            ],
-            [
-                '{"prop1": [1,2]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "anyOf": [
-                        {
-                          "type": "number"
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^[A-Z]*$"
-                        }
-                      ]
+                  ]
+                }
+              }
+            }'
+        ];
+        yield[
+            '{"prop1": [1,2]}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z]*$"
                     }
-                  }
-                }'
-            ],
-            [
-                '{"prop1": [1,2]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^[A-Z]*$"
-                        }
-                      ]
+                  ]
+                }
+              }
+            }'
+        ];
+        yield[
+            '{"prop1": [1,2]}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z]*$"
                     }
-                  }
-                }'
-            ],
-            [
-                '{"prop1": [1,2]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "pattern": "^[a-z]*$"
-                        },
-                        {
-                          "type": "string",
-                          "pattern": "^[A-Z]*$"
-                        }
-                      ]
+                  ]
+                }
+              }
+            }'
+        ];
+        yield[
+            '{"prop1": [1,2]}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-z]*$"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z]*$"
                     }
-                  }
-                }'
-            ],
-            [
-                '{"prop1": [1,2]}',
-                '{
-                  "type": "object",
-                  "properties": {
-                    "prop1": {
-                      "anyOf": [
-                        {
-                          "type": "number"
-                        },
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                  ]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{"prop1": [1,2]}',
+            '{
+              "type": "object",
+              "properties": {
+                "prop1": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
                     }
-                  }
-                }'
-            ]
+                  ]
+                }
+              }
+            }'
         ];
     }
 
