@@ -7,6 +7,7 @@ use JsonSchema\Validator;
 
 class OfPropertiesTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getValidTests(): \Generator
