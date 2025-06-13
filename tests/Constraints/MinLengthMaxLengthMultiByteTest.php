@@ -4,6 +4,7 @@ namespace JsonSchema\Tests\Constraints;
 
 class MinLengthMaxLengthMultiByteTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     protected function setUp(): void
