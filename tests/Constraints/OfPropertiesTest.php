@@ -5,9 +5,6 @@ namespace JsonSchema\Tests\Constraints;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 
-/**
- * Class OfPropertiesTest
- */
 class OfPropertiesTest extends BaseTestCase
 {
     protected $validateSchema = true;
