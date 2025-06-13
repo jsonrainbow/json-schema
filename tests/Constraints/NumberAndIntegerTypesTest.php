@@ -13,106 +13,102 @@ class NumberAndIntegerTypesTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "integer": 1.4
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "integer":{"type":"integer"}
-                  }
-                }'
-            ],
-            [
-                '{"integer": 1.001}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "integer": {"type": "integer"}
-                    }
-                }'
-            ],
-            [
-                '{"integer": true}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "integer": {"type": "integer"}
-                    }
-                }'
-            ],
-            [
-                '{"number": "x"}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "number": {"type": "number"}
-                    }
-                }'
-            ]
+        yield [
+            '{
+              "integer": 1.4
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "integer":{"type":"integer"}
+              }
+            }'
+        ];
+        yield [
+            '{"integer": 1.001}',
+            '{
+                "type": "object",
+                "properties": {
+                    "integer": {"type": "integer"}
+                }
+            }'
+        ];
+        yield [
+            '{"integer": true}',
+            '{
+                "type": "object",
+                "properties": {
+                    "integer": {"type": "integer"}
+                }
+            }'
+        ];
+        yield [
+            '{"number": "x"}',
+            '{
+                "type": "object",
+                "properties": {
+                    "number": {"type": "number"}
+                }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "integer": 1
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "integer":{"type":"integer"}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "number": 1.4
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number"}
-                  }
-                }'
-            ],
-            [
-                '{"number": 1e5}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "number": {"type": "number"}
-                    }
-                }'
-            ],
-            [
-                '{"number": 1}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "number": {"type": "number"}
+        yield [
+            '{
+              "integer": 1
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "integer":{"type":"integer"}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "number": 1.4
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"number"}
+              }
+            }'
+        ];
+        yield [
+            '{"number": 1e5}',
+            '{
+                "type": "object",
+                "properties": {
+                    "number": {"type": "number"}
+                }
+            }'
+        ];
+        yield [
+            '{"number": 1}',
+            '{
+                "type": "object",
+                "properties": {
+                    "number": {"type": "number"}
 
+                }
+            }'
+        ];
+        yield [
+            '{"number": -49.89}',
+            '{
+                "type": "object",
+                "properties": {
+                    "number": {
+                      "type": "number",
+                      "multipleOf": 0.01
                     }
-                }'
-            ],
-            [
-                '{"number": -49.89}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "number": {
-                          "type": "number",
-                          "multipleOf": 0.01
-                        }
-                    }
-                }'
-            ]
+                }
+            }'
         ];
     }
 }
