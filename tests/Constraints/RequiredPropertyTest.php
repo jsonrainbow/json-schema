@@ -7,10 +7,15 @@ use JsonSchema\Constraints\UndefinedConstraint;
 
 class RequiredPropertyTest extends BaseTestCase
 {
-    // Most tests are draft-03 compliant, but some tests are draft-04, or mix draft-03 and
-    // draft-04 syntax within the same schema. Unfortunately, draft-03 and draft-04 required
-    // definitions are incompatible, so disabling schema validation for these tests.
+    /**
+     * Most tests are draft-03 compliant, but some tests are draft-04, or mix draft-03 and
+     * draft-04 syntax within the same schema. Unfortunately, draft-03 and draft-04 required
+     * definitions are incompatible, so disabling schema validation for these tests.
+     *
+     * @var string
+     * */
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    /** @var bool */
     protected $validateSchema = false;
 
     public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
