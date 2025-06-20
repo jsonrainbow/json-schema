@@ -13,36 +13,31 @@ class ReadOnlyTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        //is readonly really required?
-        return [
-            [
-                '{ "number": [] }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"string","readonly":true}
-                  }
-                }'
-            ]
+        yield 'is readonly really required?' => [
+            '{ "number": [] }',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"string","readonly":true}
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "number": "1.4"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"string","readonly":true}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "number": "1.4"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"string","readonly":true}
+              }
+            }'
         ];
     }
 }
