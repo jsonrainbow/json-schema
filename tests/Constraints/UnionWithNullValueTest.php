@@ -13,41 +13,37 @@ class UnionWithNullValueTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "stringOrNumber":null,
-                  "booleanOrNull":null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "stringOrNumber":null,
+              "booleanOrNull":null
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "stringOrNumber":{"type":["string","number"]},
+                "booleanOrNull":{"type":["boolean","null"]}
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "stringOrNumber":12,
-                  "booleanOrNull":null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "stringOrNumber":12,
+              "booleanOrNull":null
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "stringOrNumber":{"type":["string","number"]},
+                "booleanOrNull":{"type":["boolean","null"]}
+              }
+            }'
         ];
     }
 }
