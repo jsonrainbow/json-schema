@@ -4,6 +4,7 @@ namespace JsonSchema\Tests\Constraints;
 
 class UniqueItemsTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator
