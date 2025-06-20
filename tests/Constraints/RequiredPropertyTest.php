@@ -15,8 +15,6 @@ class RequiredPropertyTest extends BaseTestCase
      * @var string
      * */
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
-    /** @var bool */
-    protected $validateSchema = false;
 
     public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
     {
