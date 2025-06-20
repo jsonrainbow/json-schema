@@ -13,40 +13,36 @@ class RequireTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "state":"DF"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "state":{"type":"string","requires":"city"},
-                    "city":{"type":"string"}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "state":"DF"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "state":{"type":"string","requires":"city"},
+                "city":{"type":"string"}
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "state":"DF",
-                  "city":"Brasília"
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "state":{"type":"string","requires":"city"},
-                    "city":{"type":"string"}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "state":"DF",
+              "city":"Brasília"
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "state":{"type":"string","requires":"city"},
+                "city":{"type":"string"}
+              }
+            }'
         ];
     }
 }
