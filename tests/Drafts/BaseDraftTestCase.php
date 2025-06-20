@@ -45,14 +45,14 @@ abstract class BaseDraftTestCase extends BaseTestCase
         return $tests;
     }
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return $this->setUpTests(false);
+        yield from $this->setUpTests(false);
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return $this->setUpTests(true);
+        yield from $this->setUpTests(true);
     }
 
     /**
