@@ -15,55 +15,51 @@ class SelfDefinedSchemaTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                    "$schema": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "age" : {
-                                "type": "integer",
-                                "maximum": 25
-                            }
+        yield [
+            '{
+                "$schema": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "age" : {
+                            "type": "integer",
+                            "maximum": 25
                         }
-                    },
-                    "name" : "John Doe",
-                    "age" : 30,
-                    "type" : "object"
-                }',
-                ''
-            ]
+                    }
+                },
+                "name" : "John Doe",
+                "age" : 30,
+                "type" : "object"
+            }',
+            ''
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                    "$schema": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "age" : {
-                                "type": "integer",
-                                "maximum": 125
-                            }
+        yield [
+            '{
+                "$schema": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "age" : {
+                            "type": "integer",
+                            "maximum": 125
                         }
-                    },
-                    "name" : "John Doe",
-                    "age" : 30,
-                    "type" : "object"
-                }',
-                ''
-            ]
+                    }
+                },
+                "name" : "John Doe",
+                "age" : 30,
+                "type" : "object"
+            }',
+            ''
         ];
     }
 
