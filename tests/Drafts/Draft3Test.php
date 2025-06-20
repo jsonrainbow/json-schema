@@ -81,26 +81,34 @@ JSON
         ];
     }
 
-    public function getInvalidForAssocTests(): array
+    public function getInvalidForAssocTests(): \Generator
     {
-        $tests = parent::getInvalidForAssocTests();
-        unset(
-            $tests['type.json / object type matches objects / an array is not an object'],
-            $tests['type.json / array type matches arrays / an object is not an array']
-        );
+        $skip = [
+            'type.json / object type matches objects / an array is not an object',
+            'type.json / array type matches arrays / an object is not an array',
+        ];
 
-        return $tests;
+        foreach (parent::getInvalidForAssocTests() as $name => $testcase) {
+            if (in_array($name, $skip, true)) {
+                continue;
+            }
+            yield $name => $testcase;
+        }
     }
 
-    public function getValidForAssocTests(): array
+    public function getValidForAssocTests(): \Generator
     {
-        $tests = parent::getValidForAssocTests();
-        unset(
-            $tests['type.json / object type matches objects / an array is not an object'],
-            $tests['type.json / array type matches arrays / an object is not an array']
-        );
+        $skip = [
+            'type.json / object type matches objects / an array is not an object',
+            'type.json / array type matches arrays / an object is not an array',
+        ];
 
-        return $tests;
+        foreach (parent::getValidForAssocTests() as $name => $testcase) {
+            if (in_array($name, $skip, true)) {
+                continue;
+            }
+            yield $name => $testcase;
+        }
     }
 
     /**
