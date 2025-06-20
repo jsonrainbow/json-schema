@@ -21,20 +21,17 @@ class RequiredPropertyTest extends BaseTestCase
     public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
     {
         $validator = new UndefinedConstraint();
-        $document = json_decode(
-            '{
-            "bar": 42
-        }'
-        );
+        $document = json_decode('{ "bar": 42 }', false);
         $schema = json_decode(
             '{
-            "type": "object",
-            "properties": {
-                "foo": {"type": "number"},
-                "bar": {"type": "number"}
-            },
-            "required": ["foo"]
-        }'
+                "type": "object",
+                "properties": {
+                    "foo": {"type": "number"},
+                    "bar": {"type": "number"}
+                },
+                "required": ["foo"]
+            }',
+            false
         );
 
         $validator->check($document, $schema);
@@ -45,11 +42,7 @@ class RequiredPropertyTest extends BaseTestCase
     public function testPathErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
     {
         $validator = new UndefinedConstraint();
-        $document = json_decode(
-            '{
-                "foo": [{"baz": 1.5}]
-            }'
-        );
+        $document = json_decode('{ "foo": [{"baz": 1.5}] }', false);
         $schema = json_decode(
             '{
                 "type": "object",
@@ -67,7 +60,8 @@ class RequiredPropertyTest extends BaseTestCase
                     }
                 },
                 "required": ["foo"]
-            }'
+            }',
+            false
         );
 
         $validator->check($document, $schema);
@@ -78,21 +72,17 @@ class RequiredPropertyTest extends BaseTestCase
     public function testErrorPropertyIsPopulatedForRequiredIfEmptyValueInInput(): void
     {
         $validator = new UndefinedConstraint();
-        $document = json_decode(
-            '{
-            "bar": 42,
-            "foo": null
-        }'
-        );
+        $document = json_decode('{ "bar": 42, "foo": null }', false);
         $schema = json_decode(
             '{
-            "type": "object",
-            "properties": {
-                "foo": {"type": "number"},
-                "bar": {"type": "number"}
-            },
-            "required": ["foo"]
-        }'
+                "type": "object",
+                "properties": {
+                    "foo": {"type": "number"},
+                    "bar": {"type": "number"}
+                },
+                "required": ["foo"]
+            }',
+            false
         );
 
         $validator->check($document, $schema);
