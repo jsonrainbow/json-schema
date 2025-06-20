@@ -11,6 +11,7 @@ namespace JsonSchema\Tests\Constraints;
 
 class PatternPropertiesTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getInvalidTests(): array
