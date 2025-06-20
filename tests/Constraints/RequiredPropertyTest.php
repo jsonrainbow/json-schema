@@ -113,329 +113,325 @@ class RequiredPropertyTest extends BaseTestCase
         $this->assertEquals($propertyValue, $error[0]['property']);
     }
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number","required":true}
-                  }
-                }'
-            ],
-            [
-                '{}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "number": {"type": "number"}
-                    },
-                    "required": ["number"]
-                }'
-            ],
-            [
-                '{
-                    "foo": {}
-                }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "foo": {
-                            "type": "object",
-                            "properties": {
-                                "bar": {"type": "number"}
-                            },
-                            "required": ["bar"]
-                        }
+        yield [
+            '{}',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"number","required":true}
+              }
+            }'
+        ];
+        yield [
+            '{}',
+            '{
+                "type": "object",
+                "properties": {
+                    "number": {"type": "number"}
+                },
+                "required": ["number"]
+            }'
+        ];
+        yield [
+            '{
+                "foo": {}
+            }',
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {"type": "number"}
+                        },
+                        "required": ["bar"]
                     }
-                }'
-            ],
-            [
-                '{
-                    "bar": 1.4
-                 }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "foo": {"type": "string", "required": true},
-                        "bar": {"type": "number"}
-                    },
-                    "required": ["bar"]
-                }'
-            ],
-            [
-                '{}',
-                '{
-                    "required": ["foo"]
-                }'
-            ],
-            [
-                '{
-                }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "foo": { "required": true }
-                    }
-                }'
-            ],
-            [
-                '{
-                  "string":{}
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "string":{"type":"string", "required": true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "number":{}
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "number":{"type":"number", "required": true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "integer":{}
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "integer":{"type":"integer", "required": true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "boolean":{}
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "boolean":{"type":"boolean", "required": true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "array":{}
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "array":{"type":"array", "required": true}
-                  }
-                }',
-                Constraint::CHECK_MODE_NORMAL
-            ],
-            [
-                '{
-                  "null":{}
-                }',
-                '{
-                  "type":"object",
-                  "properties": {
-                    "null":{"type":"null", "required": true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "foo": {"baz": 1.5}
-                }',
-                '{
+                }
+            }'
+        ];
+        yield [
+            '{
+                "bar": 1.4
+             }',
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": {"type": "string", "required": true},
+                    "bar": {"type": "number"}
+                },
+                "required": ["bar"]
+            }'
+        ];
+        yield [
+            '{}',
+            '{
+                "required": ["foo"]
+            }'
+        ];
+        yield [
+            '{
+            }',
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": { "required": true }
+                }
+            }'
+        ];
+        yield [
+            '{
+              "string":{}
+            }',
+            '{
+              "type":"object",
+              "properties": {
+                "string":{"type":"string", "required": true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "number":{}
+            }',
+            '{
+              "type":"object",
+              "properties": {
+                "number":{"type":"number", "required": true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "integer":{}
+            }',
+            '{
+              "type":"object",
+              "properties": {
+                "integer":{"type":"integer", "required": true}
+              }
+            }'
+        ];
+        yield [
+            '{
+                "boolean":{}
+            }',
+            '{
+              "type":"object",
+              "properties": {
+                "boolean":{"type":"boolean", "required": true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "array":{}
+            }',
+            '{
+              "type":"object",
+              "properties": {
+                "array":{"type":"array", "required": true}
+              }
+            }',
+            Constraint::CHECK_MODE_NORMAL
+        ];
+        yield [
+            '{
+              "null":{}
+            }',
+            '{
+              "type":"object",
+              "properties": {
+                "null":{"type":"null", "required": true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "foo": {"baz": 1.5}
+            }',
+            '{
+              "type": "object",
+              "properties": {
+                "foo": {
                   "type": "object",
                   "properties": {
-                    "foo": {
-                      "type": "object",
-                      "properties": {
-                        "bar": {"type": "number"}
-                      },
-                      "required": ["bar"]
-                    }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "foo": {"baz": 1.5}
-                }',
-                '{
+                    "bar": {"type": "number"}
+                  },
+                  "required": ["bar"]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "foo": {"baz": 1.5}
+            }',
+            '{
+              "type": "object",
+              "properties": {
+                "foo": {
                   "type": "object",
                   "properties": {
-                    "foo": {
-                      "type": "object",
-                      "properties": {
-                        "bar": {"type": "number", "required": true}
-                      }
-                    }
+                    "bar": {"type": "number", "required": true}
                   }
-                }'
-            ],
+                }
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "number": 1.4
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number","required":true}
-                  }
-                }'
-            ],
-            [
-                '{}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number"}
-                  }
-                }'
-            ],
-            [
-                '{}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"number","required":false}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "number": 0
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "number":{"type":"integer","required":true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "is_active": false
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "is_active":{"type":"boolean","required":true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "status": null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "status":{"type":"null","required":true}
-                  }
-                }'
-            ],
-            [
-                '{
-                  "users": []
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "users":{"type":"array","required":true}
-                  }
-                }'
-            ],
-            [
-                '{
-                    "foo": "foo",
-                    "bar": 1.4
-                 }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "foo": {"type": "string", "required": true},
-                        "bar": {"type": "number"}
-                    },
-                    "required": ["bar"]
-                }'
-            ],
-            [
-                '{
-                    "foo": {"bar": 1.5}
-                }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "foo": {
-                            "type": "object",
-                            "properties": {
-                                "bar": {"type": "number"}
-                            },
-                            "required": ["bar"]
-                        }
-                    },
-                    "required": ["foo"]
-                }'
-            ],
-            [
-                '{
-                    "foo": {}
-                }',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "foo": { "required": true }
+        yield [
+            '{
+              "number": 1.4
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"number","required":true}
+              }
+            }'
+        ];
+        yield [
+            '{}',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"number"}
+              }
+            }'
+        ];
+        yield [
+            '{}',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"number","required":false}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "number": 0
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "number":{"type":"integer","required":true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "is_active": false
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "is_active":{"type":"boolean","required":true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "status": null
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "status":{"type":"null","required":true}
+              }
+            }'
+        ];
+        yield [
+            '{
+              "users": []
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "users":{"type":"array","required":true}
+              }
+            }'
+        ];
+        yield [
+            '{
+                "foo": "foo",
+                "bar": 1.4
+             }',
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": {"type": "string", "required": true},
+                    "bar": {"type": "number"}
+                },
+                "required": ["bar"]
+            }'
+        ];
+        yield [
+            '{
+                "foo": {"bar": 1.5}
+            }',
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "object",
+                        "properties": {
+                            "bar": {"type": "number"}
+                        },
+                        "required": ["bar"]
                     }
-                }'
-            ],
-            [
-                '{
-                  "boo": {"bar": 1.5}
-                }',
-                '{
+                },
+                "required": ["foo"]
+            }'
+        ];
+        yield [
+            '{
+                "foo": {}
+            }',
+            '{
+                "type": "object",
+                "properties": {
+                    "foo": { "required": true }
+                }
+            }'
+        ];
+        yield [
+            '{
+              "boo": {"bar": 1.5}
+            }',
+            '{
+              "type": "object",
+              "properties": {
+                "foo": {
                   "type": "object",
                   "properties": {
-                    "foo": {
-                      "type": "object",
-                      "properties": {
-                        "bar": {"type": "number"}
-                      },
-                      "required": ["bar"]
-                    }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "boo": {"bar": 1.5}
-                }',
-                '{
+                    "bar": {"type": "number"}
+                  },
+                  "required": ["bar"]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "boo": {"bar": 1.5}
+            }',
+            '{
+              "type": "object",
+              "properties": {
+                "foo": {
                   "type": "object",
                   "properties": {
-                    "foo": {
-                      "type": "object",
-                      "properties": {
-                        "bar": {"type": "number", "required": true}
-                      }
-                    }
+                    "bar": {"type": "number", "required": true}
                   }
-                }'
-            ],
+                }
+              }
+            }'
         ];
     }
 }
