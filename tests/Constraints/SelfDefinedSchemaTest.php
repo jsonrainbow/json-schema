@@ -6,6 +6,7 @@ use JsonSchema\Validator;
 
 class SelfDefinedSchemaTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator
