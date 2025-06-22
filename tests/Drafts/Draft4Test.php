@@ -2,9 +2,6 @@
 
 namespace JsonSchema\Tests\Drafts;
 
-/**
- * @package JsonSchema\Tests\Drafts
- */
 class Draft4Test extends BaseDraftTestCase
 {
     /** @var bool */
