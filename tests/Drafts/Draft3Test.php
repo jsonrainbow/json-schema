@@ -6,9 +6,6 @@ use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 
-/**
- * @package JsonSchema\Tests\Drafts
- */
 class Draft3Test extends BaseDraftTestCase
 {
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
