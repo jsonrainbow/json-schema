@@ -8,7 +8,9 @@ use JsonSchema\Validator;
 
 class Draft3Test extends BaseDraftTestCase
 {
+    /** @var string */
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    /** @var bool */
     protected $validateSchema = true;
 
     /**
