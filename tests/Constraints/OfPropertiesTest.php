@@ -139,7 +139,7 @@ class OfPropertiesTest extends BaseTestCase
               }
             }'
         ];
-        yield[
+        yield [
             '{"prop1": [1,2]}',
             '{
               "type": "object",
@@ -158,7 +158,7 @@ class OfPropertiesTest extends BaseTestCase
               }
             }'
         ];
-        yield[
+        yield [
             '{"prop1": [1,2]}',
             '{
               "type": "object",
@@ -177,7 +177,7 @@ class OfPropertiesTest extends BaseTestCase
               }
             }'
         ];
-        yield[
+        yield [
             '{"prop1": [1,2]}',
             '{
               "type": "object",

@@ -4,9 +4,9 @@ namespace JsonSchema\Tests\Constraints;
 
 class DependenciesTest extends BaseTestCase
 {
-    /** @var string  */
+    /** @var string */
     protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
-    /** @var bool  */
+    /** @var bool */
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator

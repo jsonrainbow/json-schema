@@ -1,6 +1,5 @@
 <?php
 
-
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
@@ -9,7 +8,7 @@ use JsonSchema\Constraints\FormatConstraint;
 
 class FormatTest extends BaseTestCase
 {
-    /** @var bool  */
+    /** @var bool */
     protected $validateSchema = true;
 
     public function setUp(): void

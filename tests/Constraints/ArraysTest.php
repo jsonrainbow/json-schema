@@ -9,7 +9,7 @@ class ArraysTest extends BaseTestCase
 
     public function getInvalidTests(): \Generator
     {
-            yield [
+        yield [
                 '{
                   "array":[1,2,"a"]
                 }',

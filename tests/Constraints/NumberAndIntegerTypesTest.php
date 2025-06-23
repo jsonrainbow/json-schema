@@ -1,6 +1,5 @@
 <?php
 
-
 namespace JsonSchema\Tests\Constraints;
 
 class NumberAndIntegerTypesTest extends BaseTestCase

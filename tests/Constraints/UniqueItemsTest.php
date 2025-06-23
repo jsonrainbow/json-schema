@@ -8,7 +8,7 @@ class UniqueItemsTest extends BaseTestCase
     protected $validateSchema = true;
 
     public function getInvalidTests(): \Generator
-{
+    {
         yield 'Non unique integers' => [
             'input' => '[1,2,2]',
             'schema' => '{

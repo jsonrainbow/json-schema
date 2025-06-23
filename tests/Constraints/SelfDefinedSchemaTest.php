@@ -2,8 +2,8 @@
 
 namespace JsonSchema\Tests\Constraints;
 
-use JsonSchema\Validator;
 use JsonSchema\Exception\InvalidArgumentException;
+use JsonSchema\Validator;
 use stdClass;
 
 class SelfDefinedSchemaTest extends BaseTestCase

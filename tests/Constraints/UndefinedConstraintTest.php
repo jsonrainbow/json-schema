@@ -9,11 +9,12 @@ use JsonSchema\Constraints\Constraint;
 class UndefinedConstraintTest extends BaseTestCase
 {
     public function getInvalidTests(): \Generator
-    {}
+    {
+    }
 
     public function getValidTests(): \Generator
     {
-            yield 'oneOf with type coercion should not affect value passed to each sub schema (#790)' => [
+        yield 'oneOf with type coercion should not affect value passed to each sub schema (#790)' => [
                 'input' => <<<JSON
                     {
                         "id": "LOC1",
