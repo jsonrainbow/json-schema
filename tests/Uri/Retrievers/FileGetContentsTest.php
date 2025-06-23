@@ -7,9 +7,6 @@ namespace JsonSchema\Tests\Uri\Retrievers;
 use JsonSchema\Uri\Retrievers\FileGetContents;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group FileGetContents
- */
 class FileGetContentsTest extends TestCase
 {
     public function testFetchMissingFile(): void

@@ -12,9 +12,6 @@ use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group UriRetriever
- */
 class UriRetrieverTest extends TestCase
 {
     protected $validator;
