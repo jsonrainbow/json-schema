@@ -8,11 +8,6 @@ use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @package JsonSchema\Tests\Entity
- *
- * @author Joost Nijhuis <jnijhuis81@gmail.com>
- */
 class JsonPointerTest extends TestCase
 {
     /**

@@ -8,13 +8,6 @@ use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
 use JsonSchema\Constraints\TypeConstraint;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class TypeTest
- *
- * @package JsonSchema\Tests\Constraints
- *
- * @author hakre <https://github.com/hakre>
- */
 class TypeTest extends TestCase
 {
     /**
