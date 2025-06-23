@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JsonSchema\Tests\Drafts;
 
 class Draft4Test extends BaseDraftTestCase
