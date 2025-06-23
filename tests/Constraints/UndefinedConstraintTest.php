@@ -10,144 +10,131 @@ class UndefinedConstraintTest extends BaseTestCase
 {
     public function getInvalidTests(): \Generator
     {
+        yield from [];
     }
 
     public function getValidTests(): \Generator
     {
         yield 'oneOf with type coercion should not affect value passed to each sub schema (#790)' => [
-                'input' => <<<JSON
+            'input' => '{
+                "id": "LOC1",
+                "related_locations": [
                     {
-                        "id": "LOC1",
-                        "related_locations": [
+                        "latitude": "51.047598",
+                        "longitude": "3.729943"
+                    }
+                ]
+            }',
+            'schema' => '{
+                "title": "Location",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "related_locations": {
+                        "oneOf": [
                             {
-                                "latitude": "51.047598",
-                                "longitude": "3.729943"
+                                "type": "null"
+                            },
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "latitude": {
+                                            "type": "string"
+                                        },
+                                        "longitude": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             }
                         ]
                     }
-JSON,
-                'schema' => <<<JSON
-                    {
-                        "title": "Location",
-                        "type": "object",
-                        "properties": {
-                            "id": {
-                                "type": "string"
-                            },
-                            "related_locations": {
-                                "oneOf": [
-                                    {
-                                        "type": "null"
-                                    },
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "object",
-                                            "properties": {
-                                                "latitude": {
-                                                    "type": "string"
-                                                },
-                                                "longitude": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-JSON,
+                }
+            }',
             'checkMode' => Constraint::CHECK_MODE_COERCE_TYPES
         ];
         yield 'oneOf with apply defaults should not affect value passed to each sub schema (#510)' => [
-            'input' => <<<JSON
-                {"foo": {"name": "bar"}}
-JSON,
-            'schema' => <<<JSON
-                {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "foo": {
-                                    "type": "object",
-                                    "properties": {
-                                        "name": {"enum":["baz"],"default":"baz"},
-                                        "meta": {"enum":["baz"],"default":"baz"}
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "foo": {
-                                    "type": "object",
-                                    "properties": {
-                                        "name": {"enum":["bar"],"default":"bar"},
-                                        "meta": {"enum":["bar"],"default":"bar"}
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "foo": {
-                                    "type": "object",
-                                    "properties": {
-                                        "name": {"enum":["zip"],"default":"zip"},
-                                        "meta": {"enum":["zip"],"default":"zip"}
-                                    }
+            'input' => '{"foo": {"name": "bar"}}',
+            'schema' => '{
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "foo": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {"enum":["baz"],"default":"baz"},
+                                    "meta": {"enum":["baz"],"default":"baz"}
                                 }
                             }
                         }
-                    ]
-                }
-JSON,
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "foo": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {"enum":["bar"],"default":"bar"},
+                                    "meta": {"enum":["bar"],"default":"bar"}
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "foo": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {"enum":["zip"],"default":"zip"},
+                                    "meta": {"enum":["zip"],"default":"zip"}
+                                }
+                            }
+                        }
+                    }
+                ]
+            }',
             'checkMode' => Constraint::CHECK_MODE_APPLY_DEFAULTS
         ];
         yield 'anyOf with apply defaults should not affect value passed to each sub schema (#711)' => [
-            'input' => <<<JSON
+            'input' => '{ "b": 2 }',
+            'schema' => '{
+              "anyOf": [
                 {
-                    "b": 2
-                }
-JSON,
-            'schema' => <<<JSON
-                {
-                  "anyOf": [
-                    {
-                      "required": [ "a" ],
-                      "pro": {
-                        "a": {
-                          "type": "integer"
-                        },
-                        "aDefault": {
-                          "type": "integer",
-                          "default": 1
-                        }
-                      },
-                      "type": "object",
-                      "additionalProperties": false
+                  "required": [ "a" ],
+                  "pro": {
+                    "a": {
+                      "type": "integer"
                     },
-                    {
-                      "required": [ "b" ],
-                      "properties": {
-                        "b": {
-                          "type": "integer"
-                        },
-                        "bDefault": {
-                          "type": "integer",
-                          "default": 2
-                        }
-                      },
-                      "type": "object",
-                      "additionalProperties": false
+                    "aDefault": {
+                      "type": "integer",
+                      "default": 1
                     }
-                  ]
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                },
+                {
+                  "required": [ "b" ],
+                  "properties": {
+                    "b": {
+                      "type": "integer"
+                    },
+                    "bDefault": {
+                      "type": "integer",
+                      "default": 2
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
                 }
-JSON,
+              ]
+            }',
             'checkMode' => Constraint::CHECK_MODE_APPLY_DEFAULTS
         ];
     }
