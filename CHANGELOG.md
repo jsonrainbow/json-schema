@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Update test case to current (PHP) standards ([#831](https://github.com/jsonrainbow/json-schema/pull/831))
+- Upgrade test suite to use generators ([#834](https://github.com/jsonrainbow/json-schema/pull/834))
 
 ## [6.4.2] - 2025-06-03
 ### Fixed
