@@ -51,7 +51,7 @@ class RefTest extends TestCase
                 }',
                 '{"propertyOne": 5}',
                 true,
-                '\JsonSchema\Exception\UnresolvableJsonPointerException'
+                \JsonSchema\Exception\UnresolvableJsonPointerException::class
             ]
         ];
     }

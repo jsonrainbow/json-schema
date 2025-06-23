@@ -16,7 +16,7 @@ class SchemaStorageTest extends TestCase
         $mainSchema = $this->getMainSchema();
         $mainSchemaPath = 'http://www.example.com/schema.json';
 
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever = $this->prophesize(\JsonSchema\UriRetrieverInterface::class);
         $uriRetriever->retrieve($mainSchemaPath)->willReturn($mainSchema)->shouldBeCalled();
 
         $schemaStorage = new SchemaStorage($uriRetriever->reveal());
@@ -50,7 +50,7 @@ class SchemaStorageTest extends TestCase
         $schema3Path = 'http://www.my-domain.com/schema3.json';
 
         /** @var UriRetriever $uriRetriever */
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever = $this->prophesize(\JsonSchema\UriRetrieverInterface::class);
         $uriRetriever->retrieve($mainSchemaPath)->willReturn($mainSchema)->shouldBeCalled();
         $uriRetriever->retrieve($schema2Path)->willReturn($schema2)->shouldBeCalled();
         $uriRetriever->retrieve($schema3Path)->willReturn($schema3)->shouldBeCalled();
@@ -97,13 +97,13 @@ class SchemaStorageTest extends TestCase
 
     public function testUnresolvableJsonPointExceptionShouldBeThrown(): void
     {
-        $this->expectException('JsonSchema\Exception\UnresolvableJsonPointerException');
+        $this->expectException(\JsonSchema\Exception\UnresolvableJsonPointerException::class);
         $this->expectExceptionMessage('File: http://www.example.com/schema.json is found, but could not resolve fragment: #/definitions/car');
 
         $mainSchema = $this->getInvalidSchema();
         $mainSchemaPath = 'http://www.example.com/schema.json';
 
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever = $this->prophesize(\JsonSchema\UriRetrieverInterface::class);
         $uriRetriever->retrieve($mainSchemaPath)
             ->willReturn($mainSchema)
             ->shouldBeCalled();
@@ -114,7 +114,7 @@ class SchemaStorageTest extends TestCase
 
     public function testResolveRefWithNoAssociatedFileName(): void
     {
-        $this->expectException('JsonSchema\Exception\UnresolvableJsonPointerException');
+        $this->expectException(\JsonSchema\Exception\UnresolvableJsonPointerException::class);
         $this->expectExceptionMessage("Could not resolve fragment '#': no file is defined");
 
         $schemaStorage = new SchemaStorage();
@@ -259,14 +259,14 @@ class SchemaStorageTest extends TestCase
     {
         $s = new SchemaStorage();
         $s->addSchema('http://json-schema.org/draft-04/schema#');
-        $this->assertInstanceOf('\JsonSchema\Uri\UriRetriever', $s->getUriRetriever());
+        $this->assertInstanceOf(\JsonSchema\Uri\UriRetriever::class, $s->getUriRetriever());
     }
 
     public function testGetUriResolver(): void
     {
         $s = new SchemaStorage();
         $s->addSchema('http://json-schema.org/draft-04/schema#');
-        $this->assertInstanceOf('\JsonSchema\Uri\UriResolver', $s->getUriResolver());
+        $this->assertInstanceOf(\JsonSchema\Uri\UriResolver::class, $s->getUriResolver());
     }
 
     public function testMetaSchemaFixes(): void
@@ -286,7 +286,7 @@ class SchemaStorageTest extends TestCase
     {
         $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');
 
-        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever = $this->prophesize(\JsonSchema\UriRetrieverInterface::class);
         $uriRetriever->retrieve('test/schema')->willReturn($schemaOne)->shouldBeCalled();
 
         $s = new SchemaStorage($uriRetriever->reveal());

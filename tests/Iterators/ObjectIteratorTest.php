@@ -34,7 +34,7 @@ class ObjectIteratorTest extends TestCase
     {
         $i = new ObjectIterator($this->testObject);
 
-        $this->assertInstanceOf('\JsonSchema\Iterator\ObjectIterator', $i);
+        $this->assertInstanceOf(\JsonSchema\Iterator\ObjectIterator::class, $i);
     }
 
     public function testInitialState(): void

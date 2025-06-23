@@ -121,7 +121,7 @@ class TypeTest extends TestCase
         $data = new \stdClass();
         $schema = json_decode('{"type": "notAValidTypeName"}');
 
-        $this->expectException('JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException(\JsonSchema\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('object is an invalid type for notAValidTypeName');
 
         $t->check($data, $schema);

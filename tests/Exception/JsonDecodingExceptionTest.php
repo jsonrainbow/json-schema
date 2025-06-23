@@ -13,8 +13,8 @@ class JsonDecodingExceptionTest extends TestCase
     {
         $exception = new JsonDecodingException();
         self::assertInstanceOf('\RuntimeException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\RuntimeException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\ExceptionInterface', $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\RuntimeException::class, $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\ExceptionInterface::class, $exception);
     }
 
     public function testDefaultMessage()

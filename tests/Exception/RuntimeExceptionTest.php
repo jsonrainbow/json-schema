@@ -13,6 +13,6 @@ class RuntimeExceptionTest extends TestCase
     {
         $exception = new RuntimeException();
         self::assertInstanceOf('\RuntimeException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\ExceptionInterface', $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\ExceptionInterface::class, $exception);
     }
 }

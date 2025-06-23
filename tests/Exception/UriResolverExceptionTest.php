@@ -13,7 +13,7 @@ class UriResolverExceptionTest extends TestCase
     {
         $exception = new UriResolverException();
         self::assertInstanceOf('\RuntimeException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\RuntimeException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\ExceptionInterface', $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\RuntimeException::class, $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\ExceptionInterface::class, $exception);
     }
 }

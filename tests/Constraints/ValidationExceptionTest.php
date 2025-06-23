@@ -14,7 +14,7 @@ class ValidationExceptionTest extends TestCase
     public function testValidationException(): void
     {
         $exception = new ValidationException();
-        $this->assertInstanceOf('\JsonSchema\Exception\ValidationException', $exception);
+        $this->assertInstanceOf(\JsonSchema\Exception\ValidationException::class, $exception);
 
         $checkValue = json_decode('{"propertyOne": "thisIsNotAnObject"}');
         $schema = json_decode('{
@@ -40,7 +40,7 @@ class ValidationExceptionTest extends TestCase
             $exception->getMessage()
         );
 
-        $this->expectException('JsonSchema\Exception\ValidationException');
+        $this->expectException(\JsonSchema\Exception\ValidationException::class);
         throw $exception;
     }
 }

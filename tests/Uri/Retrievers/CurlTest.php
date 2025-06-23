@@ -21,7 +21,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         {
             $c = new Curl();
 
-            $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
+            $this->expectException(\JsonSchema\Exception\ResourceNotFoundException::class);
             $this->expectExceptionMessage('JSON schema not found');
 
             $c->retrieve(__DIR__ . '/notARealFile');

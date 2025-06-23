@@ -13,6 +13,6 @@ class InvalidArgumentExceptionTest extends TestCase
     {
         $exception = new InvalidArgumentException();
         self::assertInstanceOf('\InvalidArgumentException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\ExceptionInterface', $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\ExceptionInterface::class, $exception);
     }
 }
