@@ -55,7 +55,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $tmp = new \stdClass();
         $tmp->p_array = array_map(function ($i) {
-            return rand(1, 1000) / 1000.0;
+            return random_int(1, 1000) / 1000.0;
         }, range(1, 100000));
         $input = json_encode($tmp);
 
