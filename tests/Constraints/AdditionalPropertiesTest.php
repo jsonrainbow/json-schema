@@ -1,11 +1,6 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
@@ -15,10 +10,9 @@ class AdditionalPropertiesTest extends BaseTestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
+        yield [
                 '{
                   "prop":"1",
                   "patternProp":"3",
@@ -49,8 +43,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                         'context' => Validator::ERROR_DOCUMENT_VALIDATION
                     ]
                 ]
-            ],
-            [
+            ];
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -62,8 +56,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": false
                 }'
-            ],
-            [
+            ];
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":2
@@ -75,8 +69,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
-            ],
-            [
+            ];
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":2
@@ -88,8 +82,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
-            ],
-            [
+            ];
+        yield [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -100,8 +94,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "type": "boolean"
                   }
                 }'
-            ],
-            [
+            ];
+        yield [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -110,14 +104,12 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "type": "object",
                   "additionalProperties": false
                 }'
-            ],
-        ];
+            ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -128,8 +120,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   }
                 }'
-            ],
-            [
+            ];
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -140,8 +132,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "prop":{"type":"string"}
                   }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":"2"
@@ -153,8 +145,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": {"type":"string"}
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{
                   "prop":"1",
                   "additionalProp":[]
@@ -166,8 +158,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": true
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -178,8 +170,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                     "type": "string"
                   }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{
                   "prop1": "a",
                   "prop2": "b"
@@ -188,8 +180,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "type": "object",
                   "additionalProperties": true
                 }'
-            ],
-            'additional property casted into int when actually is numeric string (#784)' => [
+        ];
+        yield 'additional property casted into int when actually is numeric string (#784)' => [
                 '{
                     "prop1": {
                         "123": "a"
@@ -206,7 +198,6 @@ class AdditionalPropertiesTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-        ];
+            ];
     }
 }

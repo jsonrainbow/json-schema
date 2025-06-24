@@ -1,140 +1,132 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
 class TupleTypingTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "tupleTyping":[2,"a"]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"string"},
-                        {"type":"number"}
-                      ]
+        yield [
+            '{
+              "tupleTyping":[2,"a"]
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "tupleTyping":{
+                  "type":"array",
+                  "items":[
+                    {"type":"string"},
+                    {"type":"number"}
+                  ]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "tupleTyping":["2",2,true]
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "tupleTyping":{
+                  "type":"array",
+                  "items":[
+                    {"type":"string"},
+                    {"type":"number"}
+                  ] ,
+                  "additionalItems":false
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "tupleTyping":["2",2,3]
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "tupleTyping":{
+                  "type":"array",
+                  "items":[
+                    {"type":"string"},
+                    {"type":"number"}
+                  ] ,
+                  "additionalItems":{"type":"string"}
+                }
+              }
+            }'
+        ];
+        yield [
+            '{"data": [1, "foo", true, 1.5]}',
+            '{
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": [{}, {}, {}],
+                        "additionalItems": false
                     }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "tupleTyping":["2",2,true]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"string"},
-                        {"type":"number"}
-                      ] ,
-                      "additionalItems":false
-                    }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "tupleTyping":["2",2,3]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"string"},
-                        {"type":"number"}
-                      ] ,
-                      "additionalItems":{"type":"string"}
-                    }
-                  }
-                }'
-            ],
-            [
-                '{"data": [1, "foo", true, 1.5]}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "data": {
-                            "type": "array",
-                            "items": [{}, {}, {}],
-                            "additionalItems": false
-                        }
-                    }
-                }'
-            ]
+                }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "tupleTyping":["2", 1]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"string"},
-                        {"type":"number"}
-                      ]
+        yield [
+            '{
+              "tupleTyping":["2", 1]
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "tupleTyping":{
+                  "type":"array",
+                  "items":[
+                    {"type":"string"},
+                    {"type":"number"}
+                  ]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{
+              "tupleTyping":["2",2,3]
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "tupleTyping":{
+                  "type":"array",
+                  "items":[
+                    {"type":"string"},
+                    {"type":"number"}
+                  ]
+                }
+              }
+            }'
+        ];
+        yield [
+            '{"data": [1, "foo", true]}',
+            '{
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": [{}, {}, {}],
+                        "additionalItems": false
                     }
-                  }
-                }'
-            ],
-            [
-                '{
-                  "tupleTyping":["2",2,3]
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "tupleTyping":{
-                      "type":"array",
-                      "items":[
-                        {"type":"string"},
-                        {"type":"number"}
-                      ]
-                    }
-                  }
-                }'
-            ],
-            [
-                '{"data": [1, "foo", true]}',
-                '{
-                    "type": "object",
-                    "properties": {
-                        "data": {
-                            "type": "array",
-                            "items": [{}, {}, {}],
-                            "additionalItems": false
-                        }
-                    }
-                }'
-            ]
+                }
+            }'
         ];
     }
 }

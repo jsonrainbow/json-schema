@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JsonSchema\Tests\Exception;
 
 use JsonSchema\Exception\UnresolvableJsonPointerException;
@@ -11,7 +13,7 @@ class UnresolvableJsonPointerExceptionTest extends TestCase
     {
         $exception = new UnresolvableJsonPointerException();
         self::assertInstanceOf('\InvalidArgumentException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\InvalidArgumentException', $exception);
-        self::assertInstanceOf('\JsonSchema\Exception\ExceptionInterface', $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\InvalidArgumentException::class, $exception);
+        self::assertInstanceOf(\JsonSchema\Exception\ExceptionInterface::class, $exception);
     }
 }

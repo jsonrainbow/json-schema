@@ -1,17 +1,9 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Drafts;
 
-/**
- * @package JsonSchema\Tests\Drafts
- */
 class Draft4Test extends BaseDraftTestCase
 {
     /** @var bool */
@@ -28,26 +20,34 @@ class Draft4Test extends BaseDraftTestCase
         ];
     }
 
-    public function getInvalidForAssocTests(): array
+    public function getInvalidForAssocTests(): \Generator
     {
-        $tests = parent::getInvalidForAssocTests();
-        unset(
-            $tests['type.json / object type matches objects / an array is not an object'],
-            $tests['type.json / array type matches arrays / an object is not an array']
-        );
+        $skip = [
+            'type.json / object type matches objects / an array is not an object',
+            'type.json / array type matches arrays / an object is not an array',
+        ];
 
-        return $tests;
+        foreach (parent::getInvalidForAssocTests() as $name => $testcase) {
+            if (in_array($name, $skip, true)) {
+                continue;
+            }
+            yield $name => $testcase;
+        }
     }
 
-    public function getValidForAssocTests(): array
+    public function getValidForAssocTests(): \Generator
     {
-        $tests = parent::getValidForAssocTests();
-        unset(
-            $tests['type.json / object type matches objects / an array is not an object'],
-            $tests['type.json / array type matches arrays / an object is not an array']
-        );
+        $skip = [
+            'type.json / object type matches objects / an array is not an object',
+            'type.json / array type matches arrays / an object is not an array',
+        ];
 
-        return $tests;
+        foreach (parent::getValidForAssocTests() as $name => $testcase) {
+            if (in_array($name, $skip, true)) {
+                continue;
+            }
+            yield $name => $testcase;
+        }
     }
 
     /**

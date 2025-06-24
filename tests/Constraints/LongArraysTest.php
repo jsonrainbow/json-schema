@@ -1,11 +1,6 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
@@ -60,7 +55,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $tmp = new \stdClass();
         $tmp->p_array = array_map(function ($i) {
-            return rand(1, 1000) / 1000.0;
+            return random_int(1, 1000) / 1000.0;
         }, range(1, 100000));
         $input = json_encode($tmp);
 

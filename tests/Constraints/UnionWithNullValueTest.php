@@ -1,53 +1,45 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
 class UnionWithNullValueTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "stringOrNumber":null,
-                  "booleanOrNull":null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "stringOrNumber":null,
+              "booleanOrNull":null
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "stringOrNumber":{"type":["string","number"]},
+                "booleanOrNull":{"type":["boolean","null"]}
+              }
+            }'
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                  "stringOrNumber":12,
-                  "booleanOrNull":null
-                }',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "stringOrNumber":{"type":["string","number"]},
-                    "booleanOrNull":{"type":["boolean","null"]}
-                  }
-                }'
-            ]
+        yield [
+            '{
+              "stringOrNumber":12,
+              "booleanOrNull":null
+            }',
+            '{
+              "type":"object",
+              "properties":{
+                "stringOrNumber":{"type":["string","number"]},
+                "booleanOrNull":{"type":["boolean","null"]}
+              }
+            }'
         ];
     }
 }

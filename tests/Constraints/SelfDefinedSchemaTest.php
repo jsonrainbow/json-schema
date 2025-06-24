@@ -1,80 +1,74 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Validator;
+use stdClass;
 
 class SelfDefinedSchemaTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
-                '{
-                    "$schema": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "age" : {
-                                "type": "integer",
-                                "maximum": 25
-                            }
+        yield [
+            '{
+                "$schema": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "age" : {
+                            "type": "integer",
+                            "maximum": 25
                         }
-                    },
-                    "name" : "John Doe",
-                    "age" : 30,
-                    "type" : "object"
-                }',
-                ''
-            ]
+                    }
+                },
+                "name" : "John Doe",
+                "age" : 30,
+                "type" : "object"
+            }',
+            ''
         ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
-                '{
-                    "$schema": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "age" : {
-                                "type": "integer",
-                                "maximum": 125
-                            }
+        yield [
+            '{
+                "$schema": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "age" : {
+                            "type": "integer",
+                            "maximum": 125
                         }
-                    },
-                    "name" : "John Doe",
-                    "age" : 30,
-                    "type" : "object"
-                }',
-                ''
-            ]
+                    }
+                },
+                "name" : "John Doe",
+                "age" : 30,
+                "type" : "object"
+            }',
+            ''
         ];
     }
 
     public function testInvalidArgumentException(): void
     {
-        $value = json_decode('{}');
-        $schema = json_decode('');
+        $value = new stdClass();
+        $schema = null;
 
         $v = new Validator();
 
-        $this->expectException('\JsonSchema\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
 
         $v->validate($value, $schema);
     }

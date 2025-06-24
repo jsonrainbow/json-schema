@@ -1,53 +1,49 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
 class ConstTest extends BaseTestCase
 {
+    /** @var string */
     protected $schemaSpec = 'http://json-schema.org/draft-06/schema#';
+    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            'Object with inner string value' => [
-                '{"value":"foo"}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","const":"bar"}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Object with inner integer value' => [
-                '{"value":5}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"integer","const":6}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Object with inner boolean value' => [
-                '{"value":false}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"boolean","const":true}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Object with inner numerical string value' => [
+        yield 'Object with inner string value' => [
+            '{"value":"foo"}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","const":"bar"}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Object with inner integer value' => [
+            '{"value":5}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"integer","const":6}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Object with inner boolean value' => [
+            '{"value":false}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"boolean","const":true}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Object with inner numerical string value' => [
                 '{
                     "value": {
                         "foo": "12"
@@ -64,54 +60,52 @@ class ConstTest extends BaseTestCase
                         }
                     }
                 }'
-            ]
-        ];
+            ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            'String value' => [
-                '{"value":"bar"}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"string","const":"bar"}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Boolean(false) value' => [
-                '{"value":false}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"boolean","const":false}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Boolean(true) value' => [
-                '{"value":true}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"boolean","const":true}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Integer value' => [
-                '{"value":5}',
-                '{
-                  "type":"object",
-                  "properties":{
-                    "value":{"type":"integer","const":5}
-                  },
-                  "additionalProperties":false
-                }'
-            ],
-            'Object with inner integer value' => [
+        yield 'String value' => [
+            '{"value":"bar"}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"string","const":"bar"}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Boolean(false) value' => [
+            '{"value":false}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"boolean","const":false}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Boolean(true) value' => [
+            '{"value":true}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"boolean","const":true}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Integer value' => [
+            '{"value":5}',
+            '{
+              "type":"object",
+              "properties":{
+                "value":{"type":"integer","const":5}
+              },
+              "additionalProperties":false
+            }'
+        ];
+        yield 'Object with inner integer value' => [
                 '{
                     "value": {
                         "foo": 12
@@ -128,7 +122,6 @@ class ConstTest extends BaseTestCase
                         }
                     }
                 }'
-            ]
-        ];
+            ];
     }
 }

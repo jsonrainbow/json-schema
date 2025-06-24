@@ -1,11 +1,6 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
@@ -102,7 +97,7 @@ class SchemaValidationTest extends TestCase
 
     public function testNonObjectSchema(): void
     {
-        $this->expectException('\JsonSchema\Exception\RuntimeException');
+        $this->expectException(\JsonSchema\Exception\RuntimeException::class);
         $this->expectExceptionMessage('Cannot validate the schema of a non-object');
 
         $this->testValidCases('"notAnObject"');
@@ -110,7 +105,7 @@ class SchemaValidationTest extends TestCase
 
     public function testInvalidSchemaException(): void
     {
-        $this->expectException('\JsonSchema\Exception\InvalidSchemaException');
+        $this->expectException(\JsonSchema\Exception\InvalidSchemaException::class);
         $this->expectExceptionMessage('Schema did not pass validation');
 
         $input = json_decode('{}');

@@ -1,23 +1,16 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use Generator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
-/**
- * @package JsonSchema\Tests\Constraints
- */
 abstract class BaseTestCase extends VeryBaseTestCase
 {
     protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
@@ -59,7 +52,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
      */
     public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = []): void
     {
-        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;
+        $checkMode = $checkMode ?? Constraint::CHECK_MODE_TYPE_CAST;
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
@@ -94,14 +87,14 @@ abstract class BaseTestCase extends VeryBaseTestCase
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema, false)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
 
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
-        $checkValue = json_decode($input);
+        $checkValue = json_decode($input, false);
         $errorMask = $validator->validate($checkValue, $schema);
         $this->assertEquals(0, $errorMask);
 
@@ -135,17 +128,17 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    abstract public function getValidTests(): array;
+    abstract public function getValidTests(): Generator;
 
-    public function getValidForAssocTests(): array
+    public function getValidForAssocTests(): Generator
     {
-        return $this->getValidTests();
+        yield from $this->getValidTests();
     }
 
-    abstract public function getInvalidTests(): array;
+    abstract public function getInvalidTests(): Generator;
 
-    public function getInvalidForAssocTests(): array
+    public function getInvalidForAssocTests(): Generator
     {
-        return $this->getInvalidTests();
+        yield from $this->getInvalidTests();
     }
 }

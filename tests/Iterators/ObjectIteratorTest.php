@@ -1,11 +1,6 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Iterators;
 
@@ -39,7 +34,7 @@ class ObjectIteratorTest extends TestCase
     {
         $i = new ObjectIterator($this->testObject);
 
-        $this->assertInstanceOf('\JsonSchema\Iterator\ObjectIterator', $i);
+        $this->assertInstanceOf(\JsonSchema\Iterator\ObjectIterator::class, $i);
     }
 
     public function testInitialState(): void

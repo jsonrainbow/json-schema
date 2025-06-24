@@ -1,22 +1,17 @@
 <?php
 
-/*
- * This file is part of the JsonSchema package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
 class ArraysTest extends BaseTestCase
 {
+    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests(): \Generator
     {
-        return [
-            [
+        yield [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -29,8 +24,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ],
-            [
+            ];
+        yield [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -44,8 +39,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{
                   "array":[1,2,null]
                 }',
@@ -58,8 +53,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{"data": [1, 2, 3, "foo"]}',
                 '{
                     "type": "object",
@@ -71,8 +66,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // Test array items.enum where type string fail validation if value(s) is/are not in items.enum
+        ];
+        yield 'Test array items.enum where type string fail validation if value(s) is/are not in items.enum' => [
                 '{"data": ["a", "b"]}',
                 '{
                     "type": "object",
@@ -86,8 +81,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // Test array items.enum where type integer fail validation if value(s) is/are not in items.enum
+        ];
+        yield 'Test array items.enum where type integer fail validation if value(s) is/are not in items.enum' => [
                 '{"data": [1, 2]}',
                 '{
                     "type": "object",
@@ -101,8 +96,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // Test array items.enum where type number fail validation if value(s) is/are not in items.enum
+        ];
+        yield 'Test array items.enum where type number fail validation if value(s) is/are not in items.enum' => [
                 '{"data": [1.25, 2.25]}',
                 '{
                     "type": "object",
@@ -116,8 +111,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{"data": [{"not_a_string_but_object":"string_but_in_object"}]}',
                 '{
                     "type": "object",
@@ -129,14 +124,12 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ]
-        ];
+            ];
     }
 
-    public function getValidTests(): array
+    public function getValidTests(): \Generator
     {
-        return [
-            [
+        yield [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -146,8 +139,8 @@ class ArraysTest extends BaseTestCase
                     "array":{"type":"array"}
                   }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{
                   "array":[1,2,"a"]
                 }',
@@ -161,8 +154,8 @@ class ArraysTest extends BaseTestCase
                     }
                   }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{"data": [1, 2, 3, 4]}',
                 '{
                     "type": "object",
@@ -174,8 +167,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{"data": [1, "foo", false]}',
                 '{
                     "type": "object",
@@ -186,8 +179,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{"data": [1, "foo", false]}',
                 '{
                     "type": "object",
@@ -198,8 +191,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [
+        ];
+        yield [
                 '{"data": [1, 2, 3, 4, 5]}',
                 '{
                     "type": "object",
@@ -210,8 +203,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // test more schema items than array items
+        ];
+        yield 'test more schema items than array items' => [
                 '{"data": [1, 2]}',
                 '{
                     "type": "object",
@@ -226,8 +219,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // Test array items.enum where type string passes validation if value(s) is/are in items.enum
+        ];
+        yield 'Test array items.enum where type string passes validation if value(s) is/are in items.enum' => [
                 '{"data": ["c", "c", "b"]}',
                 '{
                     "type": "object",
@@ -241,8 +234,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // Test array items.enum where type integer passes validation if value(s) is/are in items.enum
+        ];
+        yield 'Test array items.enum where type integer passes validation if value(s) is/are in items.enum' => [
                 '{"data": [1, 1, 2]}',
                 '{
                     "type": "object",
@@ -256,8 +249,8 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
-            [ // Test array items.enum where type number passes validation if value(s) is/are in items.enum
+        ];
+        yield 'Test array items.enum where type number passes validation if value(s) is/are in items.enum' => [
                 '{"data": [1.25, 1.25, 2.25]}',
                 '{
                     "type": "object",
@@ -271,7 +264,6 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
-            ],
         ];
     }
 }

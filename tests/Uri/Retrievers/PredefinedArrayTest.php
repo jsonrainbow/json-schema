@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JsonSchema\Tests\Uri\Retrievers;
 
 use JsonSchema\Uri\Retrievers\PredefinedArray;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group PredefinedArray
- */
 class PredefinedArrayTest extends TestCase
 {
     private $retriever;
