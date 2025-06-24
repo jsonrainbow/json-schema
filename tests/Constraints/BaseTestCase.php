@@ -19,7 +19,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
     /**
      * @dataProvider getInvalidTests
      *
-     * @param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
     public function testInvalidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL, array $errors = []): void
     {
@@ -28,8 +28,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
 
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema, false)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schema = json_decode($schema, false);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -38,7 +39,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $checkValue = json_decode($input, false);
         $errorMask = $validator->validate($checkValue, $schema);
 
-        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION));
+        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION), 'Document is invalid');
         $this->assertGreaterThan(0, $validator->numErrors());
 
         if ([] !== $errors) {
@@ -49,8 +50,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getInvalidForAssocTests
+     *
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = []): void
+    public function testInvalidCasesUsingAssoc(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_TYPE_CAST, array $errors = []): void
     {
         $checkMode = $checkMode ?? Constraint::CHECK_MODE_TYPE_CAST;
         if ($this->validateSchema) {
@@ -60,8 +63,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schema = json_decode($schema, false);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -81,14 +85,18 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getValidTests
+     *
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL): void
+    public function testValidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema, false)));
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+
+        $schema = json_decode($schema, false);
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -103,8 +111,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getValidForAssocTests
+     *
+     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
+    public function testValidCasesUsingAssoc(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -113,9 +123,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schema = json_decode($schema);
+        $schema = json_decode($schema, false);
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver());
-        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -124,7 +134,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $validator = new Validator(new Factory($schemaStorage, null, $checkMode));
 
         $errorMask = $validator->validate($value, $schema);
-        $this->assertEquals(0, $errorMask);
+        $this->assertEquals(0, $errorMask, $this->validatorErrorsToString($validator));
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
@@ -140,5 +150,15 @@ abstract class BaseTestCase extends VeryBaseTestCase
     public function getInvalidForAssocTests(): Generator
     {
         yield from $this->getInvalidTests();
+    }
+
+    private function validatorErrorsToString(Validator $validator): string
+    {
+        return implode(
+            ', ',
+            array_map(
+                static function (array $error) { return $error['message']; }, $validator->getErrors()
+            )
+        );
     }
 }

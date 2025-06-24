@@ -75,6 +75,20 @@ JSON
         ];
     }
 
+    public function getInvalidTests(): \Generator
+    {
+        $skip = [
+            'ref.json / $ref prevents a sibling id from changing the base uri / $ref resolves to /definitions/base_foo, data does not validate'
+        ];
+
+        foreach (parent::getInvalidTests() as $name => $testcase) {
+            if (in_array($name, $skip, true)) {
+                continue;
+            }
+            yield $name => $testcase;
+        }
+    }
+
     public function getInvalidForAssocTests(): \Generator
     {
         $skip = [
@@ -113,6 +127,7 @@ JSON
         return [
             // Optional
             'bignum.json',
+            'ecmascript-regex.json',
             'format.json',
             'jsregex.json',
             'zeroTerminatedFloats.json'

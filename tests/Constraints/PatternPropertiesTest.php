@@ -79,8 +79,8 @@ class PatternPropertiesTest extends BaseTestCase
 
     public function getValidTests(): \Generator
     {
-        [
-            yield 'validates pattern schema' => json_encode([
+        yield 'validates pattern schema' => [
+            json_encode([
                 'someobject' => [
                     'foobar' => 'foo',
                     'barfoo' => 'bar',
