@@ -142,7 +142,16 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
         ];
 
+        if ($this->is32Bit()) {
+            $skip[] = '[draft4/multipleOf.json]: small multiple of large integer: any integer is a multiple of 1e-8 is expected to be valid'; // Test case contains a number which doesn't fit in 32 bits
+        }
+
         return in_array($name, $skip, true);
+    }
+
+    private function is32Bit(): bool
+    {
+        return PHP_INT_SIZE === 4;
     }
 
 }

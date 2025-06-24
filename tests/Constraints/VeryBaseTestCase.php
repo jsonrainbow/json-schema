@@ -71,4 +71,9 @@ abstract class VeryBaseTestCase extends TestCase
 
         return json_decode(file_get_contents($file), false);
     }
+
+    protected function is32Bit(): bool
+    {
+        return PHP_INT_SIZE === 4;
+    }
 }

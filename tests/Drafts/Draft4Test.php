@@ -74,6 +74,10 @@ class Draft4Test extends BaseDraftTestCase
             'refRemote.json / base URI change - change folder / number is valid',
         ];
 
+        if ($this->is32Bit()) {
+            $skip[] = 'multipleOf.json / small multiple of large integer / any integer is a multiple of 1e-8'; // Test case contains a number which doesn't fit in 32 bits
+        }
+
         foreach (parent::getValidTests() as $name => $testcase) {
             if (in_array($name, $skip, true)) {
                 continue;
