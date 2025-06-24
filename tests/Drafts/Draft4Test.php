@@ -32,6 +32,7 @@ class Draft4Test extends BaseDraftTestCase
             'ref.json / empty tokens in $ref json-pointer / non-number is invalid',
             'ref.json / id must be resolved against nearest parent, not just immediate parent / non-number is invalid',
             'refRemote.json / Location-independent identifier in remote ref / string is invalid',
+            'refRemote.json / base URI change - change folder / string is invalid'
         ];
 
         foreach (parent::getInvalidTests() as $name => $testcase) {
@@ -68,7 +69,9 @@ class Draft4Test extends BaseDraftTestCase
             'ref.json / Location-independent identifier with base URI change in subschema / match',
             'ref.json / empty tokens in $ref json-pointer / number is valid',
             'ref.json / naive replacement of $ref with its destination is not correct / match the enum exactly',
+            'ref.json / id must be resolved against nearest parent, not just immediate parent / number is valid',
             'refRemote.json / Location-independent identifier in remote ref / integer is valid',
+            'refRemote.json / base URI change - change folder / number is valid',
         ];
 
         foreach (parent::getValidTests() as $name => $testcase) {
