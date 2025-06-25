@@ -17,7 +17,11 @@ abstract class VeryBaseTestCase extends TestCase
     /** @var array<string, stdClass> */
     private $draftSchemas = [];
 
-    protected function getUriRetrieverMock(?object $schema): object
+    /**
+     * @param object|bool|null $schema
+     * @return object
+     */
+    protected function getUriRetrieverMock($schema): object
     {
         $uriRetriever = $this->prophesize(UriRetrieverInterface::class);
         $uriRetriever->retrieve($schema->id ?? 'http://www.my-domain.com/schema.json')
