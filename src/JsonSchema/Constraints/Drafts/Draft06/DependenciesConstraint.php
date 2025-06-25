@@ -10,7 +10,7 @@ use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
-class TypeConstraint implements ConstraintInterface
+class DependenciesConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
@@ -21,19 +21,20 @@ class TypeConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'type')) {
+        if (!property_exists($schema, 'dependencies')) {
             return;
         }
 
-        $schemaTypes = (array)  $schema->type;
-        $valueType = gettype($value);
-
-        foreach ($schemaTypes as $type) {
-            if ($valueType === $type) {
-                return;
-            }
+        if (!is_object($value)) {
+            return;
         }
 
-        $this->addError(ConstraintError::TYPE(), $path, ['found' => $valueType, 'expected' => implode(', ', $schemaTypes)]);
+        foreach ($schema->dependencies as $dependant => $dependencies) {
+            foreach ($dependencies as $dependency) {
+                if (property_exists($value, $dependant) && !property_exists($value, $dependency)) {
+                    $this->addError(ConstraintError::DEPENDENCIES(), $path, ['dependant' => $dependant, 'dependency' => $dependency]);
+                }
+            }
+        }
     }
 }

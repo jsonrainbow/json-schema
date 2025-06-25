@@ -37,7 +37,7 @@ class Draft6Test extends BaseDraftTestCase
         $checkValue = json_decode($input, false);
         $errorMask = $validator->validate($checkValue, $schema);
 
-        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION), 'Document is invalid');
+        $this->assertTrue((bool) ($errorMask & Validator::ERROR_DOCUMENT_VALIDATION), 'Document is invalid: ' .print_r($validator->getErrors(), true));
         $this->assertGreaterThan(0, $validator->numErrors());
 
         if ([] !== $errors) {
@@ -58,6 +58,7 @@ class Draft6Test extends BaseDraftTestCase
         if (!($checkMode & Constraint::CHECK_MODE_TYPE_CAST)) {
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
+        $checkMode |= Constraint::CHECK_MODE_STRICT;
 
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
@@ -88,6 +89,8 @@ class Draft6Test extends BaseDraftTestCase
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
+        $checkMode |= Constraint::CHECK_MODE_STRICT;
+
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schemaObject));
         $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
@@ -113,6 +116,7 @@ class Draft6Test extends BaseDraftTestCase
         if (!($checkMode & Constraint::CHECK_MODE_TYPE_CAST)) {
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
+        $checkMode |= Constraint::CHECK_MODE_STRICT;
 
         $schema = json_decode($schema);
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver());
@@ -134,8 +138,8 @@ class Draft6Test extends BaseDraftTestCase
     protected function getFilePaths(): array
     {
         return [
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft6'),
-            realpath(__DIR__ . $this->relativeTestsRoot . '/draft6/optional')
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft6'),
+            realpath(__DIR__ . self::RELATIVE_TESTS_ROOT . '/draft6/optional')
         ];
     }
 
