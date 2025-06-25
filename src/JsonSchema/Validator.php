@@ -64,10 +64,20 @@ class Validator extends BaseConstraint
         $this->factory->getSchemaStorage()->addSchema($schemaURI, $schema);
 
         $validator = $this->factory->createInstanceFor('schema');
-        $validator->check(
-            $value,
-            $this->factory->getSchemaStorage()->getSchema($schemaURI)
-        );
+        $schema = $this->factory->getSchemaStorage()->getSchema($schemaURI);
+
+        // Boolean schema requires no further validation
+        if (is_bool($schema)) {
+            return $validator->getErrorMask();
+        }
+
+        if ($this->factory->getConfig(Constraint::CHECK_MODE_STRICT)) {
+            $validator = $this->factory->createInstanceFor(
+                $this->schemaUriToConstraintName($schema->{'$schema'})
+            );
+        }
+
+        $validator->check($value, $schema);
 
         $this->factory->setConfig($initialCheckMode);
 
@@ -104,5 +114,19 @@ class Validator extends BaseConstraint
     public function coerce(&$value, $schema): int
     {
         return $this->validate($value, $schema, Constraint::CHECK_MODE_COERCE_TYPES);
+    }
+
+    private function schemaUriToConstraintName(string $schemaUri): string
+    {
+        switch ($schemaUri) {
+            case 'http://json-schema.org/draft-03/schema#':
+                return 'draft03';
+            case 'http://json-schema.org/draft-04/schema#':
+                return 'draft04';
+            case 'http://json-schema.org/draft-06/schema#':
+                return 'draft06';
+        }
+
+        throw new \Exception('Unsupported schema URI: ' . $schemaUri);
     }
 }

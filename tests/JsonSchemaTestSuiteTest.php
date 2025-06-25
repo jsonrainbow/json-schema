@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests;
 
 use CallbackFilterIterator;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
@@ -35,7 +36,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $validator = new Validator(new Factory($schemaStorage));
 
         try {
-            $validator->validate($data, $schema);
+            $validator->validate($data, $schema, Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT);
         } catch (\Exception $e) {
             if ($optional) {
                 $this->markTestSkipped('Optional test case would during validate() invocation');
@@ -57,7 +58,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft3', 'draft4', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
             if (in_array(basename($draft), $skippedDrafts, true)) {
@@ -76,6 +77,9 @@ class JsonSchemaTestSuiteTest extends TestCase
             foreach ($files as $file) {
                 $contents = json_decode(file_get_contents($file->getPathname()), false);
                 foreach ($contents as $testCase) {
+                    if (is_object($testCase->schema)) {
+                        $testCase->schema->{'$schema'} = 'http://json-schema.org/draft-06/schema#'; // Hardcode $schema property in schema
+                    }
                     foreach ($testCase->tests as $test) {
                         $name = sprintf(
                             '[%s/%s%s]: %s: %s is expected to be %s',
