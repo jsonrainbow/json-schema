@@ -152,7 +152,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         yield from $this->getInvalidTests();
     }
 
-    private function validatorErrorsToString(Validator $validator): string
+    protected function validatorErrorsToString(Validator $validator): string
     {
         return implode(
             ', ',

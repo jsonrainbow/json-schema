@@ -10,7 +10,7 @@ use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
-class TypeConstraint implements ConstraintInterface
+class ExclusiveMaximumConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
@@ -21,19 +21,14 @@ class TypeConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'type')) {
+        if (!property_exists($schema, 'exclusiveMaximum')) {
             return;
         }
 
-        $schemaTypes = (array)  $schema->type;
-        $valueType = gettype($value);
-
-        foreach ($schemaTypes as $type) {
-            if ($valueType === $type) {
-                return;
-            }
+        if ($value < $schema->exclusiveMaximum) {
+            return;
         }
 
-        $this->addError(ConstraintError::TYPE(), $path, ['found' => $valueType, 'expected' => implode(', ', $schemaTypes)]);
+        $this->addError(ConstraintError::EXCLUSIVE_MAXIMUM(), $path, ['exclusiveMaximum' => $schema->exclusiveMaximum, 'found' => $value]);
     }
 }
