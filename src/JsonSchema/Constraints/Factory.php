@@ -65,7 +65,8 @@ class Factory
         'const' => 'JsonSchema\Constraints\ConstConstraint',
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
-        'validator' => 'JsonSchema\Validator'
+        'validator' => 'JsonSchema\Validator',
+        'draft06' => Drafts\Draft06\Draft06Constraint::class,
     ];
 
     /**

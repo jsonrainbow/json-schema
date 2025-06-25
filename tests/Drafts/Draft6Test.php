@@ -1,36 +1,34 @@
 <?php
 
-declare(strict_types=1);
+namespace Drafts;
 
-namespace JsonSchema\Tests\Constraints;
-
-use Generator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
+use JsonSchema\Tests\Drafts\BaseDraftTestCase;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
-abstract class BaseTestCase extends VeryBaseTestCase
+class Draft6Test extends BaseDraftTestCase
 {
-    protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
-    protected $validateSchema = false;
+    protected $schemaSpec = 'http://json-schema.org/draft-06/schema#';
+    protected $validateSchema = true;
 
     /**
      * @dataProvider getInvalidTests
-     *
-     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testInvalidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL, array $errors = []): void
+    public function testInvalidCases($input, $schema, $checkMode = Constraint::CHECK_MODE_NORMAL, $errors = []): void
     {
-        $checkMode = $checkMode ?? Constraint::CHECK_MODE_NORMAL;
+        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_NORMAL : $checkMode;
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
+        $checkMode |= Constraint::CHECK_MODE_STRICT;
 
-        $schema = json_decode($schema, false);
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
-        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
+
+        // add `$schema` if missing
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -50,12 +48,10 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getInvalidForAssocTests
-     *
-     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testInvalidCasesUsingAssoc(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_TYPE_CAST, array $errors = []): void
+    public function testInvalidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST, $errors = []): void
     {
-        $checkMode = $checkMode ?? Constraint::CHECK_MODE_TYPE_CAST;
+        $checkMode = $checkMode === null ? Constraint::CHECK_MODE_TYPE_CAST : $checkMode;
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
@@ -63,9 +59,8 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schema = json_decode($schema, false);
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
-        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock(json_decode($schema)));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -85,18 +80,16 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getValidTests
-     *
-     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
     public function testValidCases(string $input, string $schema, int $checkMode = Constraint::CHECK_MODE_NORMAL): void
     {
+        $schemaObject = json_decode($schema);
+        $checkMode |= Constraint::CHECK_MODE_STRICT;
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
         }
-
-        $schema = json_decode($schema, false);
-        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema));
-        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
+        $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schemaObject));
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -111,10 +104,8 @@ abstract class BaseTestCase extends VeryBaseTestCase
 
     /**
      * @dataProvider getValidForAssocTests
-     *
-     * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCasesUsingAssoc(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
+    public function testValidCasesUsingAssoc($input, $schema, $checkMode = Constraint::CHECK_MODE_TYPE_CAST): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -123,9 +114,9 @@ abstract class BaseTestCase extends VeryBaseTestCase
             $this->markTestSkipped('Test indicates that it is not for "CHECK_MODE_TYPE_CAST"');
         }
 
-        $schema = json_decode($schema, false);
+        $schema = json_decode($schema);
         $schemaStorage = new SchemaStorage($this->getUriRetrieverMock($schema), new UriResolver());
-        $schema = $schemaStorage->getSchema($schema->id ?? 'http://www.my-domain.com/schema.json');
+        $schema = $schemaStorage->getSchema('http://www.my-domain.com/schema.json');
         if (is_object($schema) && !isset($schema->{'$schema'})) {
             $schema->{'$schema'} = $this->schemaSpec;
         }
@@ -137,28 +128,19 @@ abstract class BaseTestCase extends VeryBaseTestCase
         $this->assertEquals(0, $errorMask, $this->validatorErrorsToString($validator));
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
-
-    abstract public function getValidTests(): Generator;
-
-    public function getValidForAssocTests(): Generator
+    /**
+     * {@inheritdoc}
+     */
+    protected function getFilePaths(): array
     {
-        yield from $this->getValidTests();
+        return [
+            realpath(__DIR__ . $this->relativeTestsRoot . '/draft6'),
+            realpath(__DIR__ . $this->relativeTestsRoot . '/draft6/optional')
+        ];
     }
 
-    abstract public function getInvalidTests(): Generator;
-
-    public function getInvalidForAssocTests(): Generator
+    protected function getSkippedTests(): array
     {
-        yield from $this->getInvalidTests();
-    }
-
-    private function validatorErrorsToString(Validator $validator): string
-    {
-        return implode(
-            ', ',
-            array_map(
-                static function (array $error) { return $error['message']; }, $validator->getErrors()
-            )
-        );
+        return [];
     }
 }
