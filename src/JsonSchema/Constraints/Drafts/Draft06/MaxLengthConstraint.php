@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft06;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
-class NumberConstraint implements ConstraintInterface
+class MaxLengthConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
@@ -20,10 +21,19 @@ class NumberConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'type')) {
+        if (!property_exists($schema, 'maxLength')) {
             return;
         }
 
-        throw new \Exception('Implement check method');
+        if (!is_string($value)) {
+            return;
+        }
+
+        $length = mb_strlen($value);
+        if ($length <= $schema->maxLength) {
+            return;
+        }
+
+        $this->addError(ConstraintError::LENGTH_MAX(), $path, ['maxLength' => $schema->maxLength, 'found' => $length]);
     }
 }
