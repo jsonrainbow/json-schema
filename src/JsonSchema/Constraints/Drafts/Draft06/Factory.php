@@ -20,10 +20,12 @@ class Factory extends \JsonSchema\Constraints\Factory
         'minProperties' => MinPropertiesConstraint::class,
         'maxProperties' => MaxPropertiesConstraint::class,
         'minimum' => MinimumConstraint::class,
+        'maximum' => MaximumConstraint::class,
         'exclusiveMinimum' => ExclusiveMinimumConstraint::class,
         'minLength' => MinLengthConstraint::class,
         'maxLength' => MaxLengthConstraint::class,
         'maxItems' => MaxItemsConstraint::class,
         'exclusiveMaximum' => ExclusiveMaximumConstraint::class,
+        'multipleOf' => MultipleOfConstraint::class,
     ];
 }

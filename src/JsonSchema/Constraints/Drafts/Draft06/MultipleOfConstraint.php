@@ -10,7 +10,7 @@ use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
-class ExclusiveMaximumConstraint implements ConstraintInterface
+class MultipleOfConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
@@ -21,7 +21,7 @@ class ExclusiveMaximumConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'exclusiveMaximum')) {
+        if (!property_exists($schema, 'multipleOf')) {
             return;
         }
 
@@ -29,10 +29,12 @@ class ExclusiveMaximumConstraint implements ConstraintInterface
             return;
         }
 
-        if ($value < $schema->exclusiveMaximum) {
+        if (fmod($value, $schema->multipleOf) === 0) {
             return;
         }
 
-        $this->addError(ConstraintError::EXCLUSIVE_MAXIMUM(), $path, ['exclusiveMaximum' => $schema->exclusiveMaximum, 'found' => $value]);
+        $this->addError(ConstraintError::MULTIPLE_OF(), $path, ['multipleOf' => $schema->multipleOf, 'found' => $value]);
+
+
     }
 }

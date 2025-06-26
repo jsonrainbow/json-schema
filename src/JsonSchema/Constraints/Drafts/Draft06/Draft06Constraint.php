@@ -34,6 +34,7 @@ class Draft06Constraint extends Constraint
         $this->checkForKeyword('minProperties', $value, $schema, $path, $i);
         $this->checkForKeyword('maxProperties', $value, $schema, $path, $i);
         $this->checkForKeyword('minimum', $value, $schema, $path, $i);
+        $this->checkForKeyword('maximum', $value, $schema, $path, $i);
         $this->checkForKeyword('minLength', $value, $schema, $path, $i);
         $this->checkForKeyword('exclusiveMinimum', $value, $schema, $path, $i);
         $this->checkForKeyword('maxItems', $value, $schema, $path, $i);
@@ -41,6 +42,7 @@ class Draft06Constraint extends Constraint
         $this->checkForKeyword('exclusiveMaximum', $value, $schema, $path, $i);
         $this->checkForKeyword('enum', $value, $schema, $path, $i);
         $this->checkForKeyword('const', $value, $schema, $path, $i);
+        $this->checkForKeyword('multipleOf', $value, $schema, $path, $i);
     }
 
     protected function checkForKeyword(string $keyword, $value, $schema = null, ?JsonPointer $path = null, $i = null): void
