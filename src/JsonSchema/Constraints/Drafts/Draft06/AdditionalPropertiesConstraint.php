@@ -33,8 +33,25 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
             return;
         }
 
-        $additionalProperties = array_diff_key(get_object_vars($value), (array) $schema->properties);
-        // @todo additional properties should bechecked against the patternProperties
+        $additionalProperties = get_object_vars($value);
+
+        if (isset($schema->properties)) {
+            $additionalProperties = array_diff_key($additionalProperties, (array)$schema->properties);
+        }
+
+        if (isset($schema->patternProperties)) {
+            $patterns = array_keys(get_object_vars($schema->patternProperties));
+
+            foreach ($additionalProperties as $key => $_) {
+                foreach ($patterns as $pattern) {
+                    if (preg_match("/{$pattern}/", $key)) {
+                        unset($additionalProperties[$key]);
+                        break;
+                    }
+                }
+            }
+        }
+
         if ($schema->additionalProperties === false && $additionalProperties !== []) {
             $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['additionalProperties' => array_keys($additionalProperties)]);
         }
