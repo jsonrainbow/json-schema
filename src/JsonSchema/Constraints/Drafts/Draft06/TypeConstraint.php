@@ -26,7 +26,12 @@ class TypeConstraint implements ConstraintInterface
         }
 
         $schemaTypes = (array)  $schema->type;
-        $valueType = gettype($value);
+        $valueType = strtolower(gettype($value));
+        if ($valueType === 'double' ||  $valueType === 'integer') {
+            $valueType = 'number';
+        }
+        // @todo 1.0 is considered an integer but also number
+
 
         foreach ($schemaTypes as $type) {
             if ($valueType === $type) {
