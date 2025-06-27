@@ -13,8 +13,8 @@ use JsonSchema\Constraints\Factory;
  */
 trait ErrorBagProxy
 {
-    /** @var ErrorBag */
-    protected $errorBag;
+    /** @var ?ErrorBag */
+    protected $errorBag = null;
 
     /** @return ErrorList */
     public function getErrors(): array
@@ -29,7 +29,7 @@ trait ErrorBagProxy
     }
 
     /**
-     * @param array $more more array elements to add to the error
+     * @param array<string, mixed> $more more array elements to add to the error
      */
     public function addError(ConstraintError $constraint, ?JsonPointer $path = null, array $more = []): void
     {
@@ -43,7 +43,7 @@ trait ErrorBagProxy
 
     protected function initialiseErrorBag(Factory $factory): ErrorBag
     {
-        if (!isset($this->errorBag)) {
+        if (is_null($this->errorBag)) {
             $this->errorBag = new ErrorBag($factory);
         }
 
@@ -52,7 +52,7 @@ trait ErrorBagProxy
 
     protected function errorBag(): ErrorBag
     {
-        if (!isset($this->errorBag)) {
+        if (is_null($this->errorBag)) {
             throw new \RuntimeException('ErrorBag not initialized');
         }
 
@@ -61,6 +61,6 @@ trait ErrorBagProxy
 
     public function __clone()
     {
-        $this->errorBag->reset();
+        $this->errorBag()->reset();
     }
 }
