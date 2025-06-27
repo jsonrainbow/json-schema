@@ -12,6 +12,7 @@ class Factory extends \JsonSchema\Constraints\Factory
     protected $constraintMap = [
         'schema' => Draft06Constraint::class,
         'additionalProperties' => AdditionalPropertiesConstraint::class,
+        'additionalItems' => AdditionalItemsConstraint::class,
         'dependencies' => DependenciesConstraint::class,
         'type' => TypeConstraint::class,
         'const' => ConstConstraint::class,
@@ -31,5 +32,9 @@ class Factory extends \JsonSchema\Constraints\Factory
         'required' => RequiredConstraint::class,
         'format' => FormatConstraint::class,
         'anyOf' => AnyOfConstraint::class,
+        'contains' => ContainsConstraint::class,
+        'propertyNames' => PropertiesNamesConstraint::class,
+        'patternProperties' => PatternPropertiesConstraint::class,
+        'items' => ItemsConstraint::class,
     ];
 }
