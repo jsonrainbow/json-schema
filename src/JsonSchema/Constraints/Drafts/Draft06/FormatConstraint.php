@@ -156,7 +156,7 @@ class FormatConstraint implements ConstraintInterface
         return empty($invalidEntries);
     }
 
-    private function validatePhone($phone): bool
+    private function validatePhone(string $phone): bool
     {
         return preg_match('/^\+?(\(\d{3}\)|\d{3}) \d{3} \d{4}$/', $phone) !== false;
     }
