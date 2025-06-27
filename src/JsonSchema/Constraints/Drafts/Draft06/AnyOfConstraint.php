@@ -39,9 +39,9 @@ class AnyOfConstraint implements ConstraintInterface
                     return;
                 }
             } catch (ValidationException $e) {}
-
-            $this->addError(ConstraintError::ANY_OF(), $path);
         }
+
+        $this->addError(ConstraintError::ANY_OF(), $path);
 
     }
 }

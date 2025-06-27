@@ -58,4 +58,9 @@ trait ErrorBagProxy
 
         return $this->errorBag;
     }
+
+    public function __clone()
+    {
+        $this->errorBag->reset();
+    }
 }
