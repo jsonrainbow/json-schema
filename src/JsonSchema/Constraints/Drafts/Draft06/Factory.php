@@ -10,6 +10,7 @@ class Factory extends \JsonSchema\Constraints\Factory
      * @var array<string, class-string>
      */
     protected $constraintMap = [
+        'schema' => Draft06Constraint::class,
         'additionalProperties' => AdditionalPropertiesConstraint::class,
         'dependencies' => DependenciesConstraint::class,
         'type' => TypeConstraint::class,
@@ -27,5 +28,8 @@ class Factory extends \JsonSchema\Constraints\Factory
         'maxItems' => MaxItemsConstraint::class,
         'exclusiveMaximum' => ExclusiveMaximumConstraint::class,
         'multipleOf' => MultipleOfConstraint::class,
+        'required' => RequiredConstraint::class,
+        'format' => FormatConstraint::class,
+        'anyOf' => AnyOfConstraint::class,
     ];
 }

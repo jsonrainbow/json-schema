@@ -17,12 +17,12 @@ class Draft06Constraint extends Constraint
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
         // Apply defaults
-        // Required keyword
+        $this->checkForKeyword('required', $value, $schema, $path, $i);
         $this->checkForKeyword('type', $value, $schema, $path, $i);
         // Not
         $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
         // allof
-        // anyof
+        $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
         // oneof
 
         // array
@@ -43,6 +43,7 @@ class Draft06Constraint extends Constraint
         $this->checkForKeyword('enum', $value, $schema, $path, $i);
         $this->checkForKeyword('const', $value, $schema, $path, $i);
         $this->checkForKeyword('multipleOf', $value, $schema, $path, $i);
+        $this->checkForKeyword('format', $value, $schema, $path, $i);
     }
 
     protected function checkForKeyword(string $keyword, $value, $schema = null, ?JsonPointer $path = null, $i = null): void
