@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\Constraints\ConstraintInterface;
-use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
@@ -13,7 +12,7 @@ class ItemsConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
-    /** @var \JsonSchema\Constraints\Drafts\Draft06\Factory */
+    /** @var Factory */
     private $factory;
 
     public function __construct(?Factory $factory = null)

@@ -58,6 +58,11 @@ class Draft06Constraint extends Constraint
         $this->checkForKeyword('format', $value, $schema, $path, $i);
     }
 
+    /**
+     * @param mixed $value
+     * @param mixed $schema
+     * @param mixed $i
+     */
     protected function checkForKeyword(string $keyword, $value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
         $validator = $this->factory->createInstanceFor($keyword);
