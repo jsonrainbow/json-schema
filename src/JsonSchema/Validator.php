@@ -71,6 +71,7 @@ class Validator extends BaseConstraint
             if ($schema === false) {
                 $this->addError(ConstraintError::FALSE());
             }
+
             return $this->getErrorMask();
         }
 

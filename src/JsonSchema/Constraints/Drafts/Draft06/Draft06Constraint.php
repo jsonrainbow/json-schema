@@ -21,6 +21,7 @@ class Draft06Constraint extends Constraint
             if ($schema === false) {
                 $this->addError(ConstraintError::FALSE(), $path, []);
             }
+
             return;
         }
 
