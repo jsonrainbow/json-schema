@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft06;
 
+use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Entity\JsonPointer;
 
@@ -16,8 +17,18 @@ class Draft06Constraint extends Constraint
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
+        if (is_bool($schema)) {
+            if ($schema === false) {
+                $this->addError(ConstraintError::FALSE(), $path, []);
+            }
+            return;
+        }
+
         // Apply defaults
         $this->checkForKeyword('required', $value, $schema, $path, $i);
+        $this->checkForKeyword('contains', $value, $schema, $path, $i);
+        $this->checkForKeyword('propertyNames', $value, $schema, $path, $i);
+        $this->checkForKeyword('patternProperties', $value, $schema, $path, $i);
         $this->checkForKeyword('type', $value, $schema, $path, $i);
         // Not
         $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
@@ -25,10 +36,9 @@ class Draft06Constraint extends Constraint
         $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
         // oneof
 
-        // array
-        // object
-        // string
         $this->checkForKeyword('additionalProperties', $value, $schema, $path, $i);
+        $this->checkForKeyword('items', $value, $schema, $path, $i);
+        $this->checkForKeyword('additionalItems', $value, $schema, $path, $i);
         $this->checkForKeyword('uniqueItems', $value, $schema, $path, $i);
         $this->checkForKeyword('minItems', $value, $schema, $path, $i);
         $this->checkForKeyword('minProperties', $value, $schema, $path, $i);

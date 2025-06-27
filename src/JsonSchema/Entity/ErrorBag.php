@@ -39,6 +39,12 @@ class ErrorBag
         $this->factory = $factory;
     }
 
+    public function reset(): void
+    {
+        $this->errors = [];
+        $this->errorMask = Validator::ERROR_NONE;
+    }
+
     /** @return ErrorList */
     public function getErrors(): array
     {

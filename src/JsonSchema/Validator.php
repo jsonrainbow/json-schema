@@ -68,7 +68,10 @@ class Validator extends BaseConstraint
 
         // Boolean schema requires no further validation
         if (is_bool($schema)) {
-            return $validator->getErrorMask();
+            if ($schema === false) {
+                $this->addError(ConstraintError::FALSE());
+            }
+            return $this->getErrorMask();
         }
 
         if ($this->factory->getConfig(Constraint::CHECK_MODE_STRICT)) {
