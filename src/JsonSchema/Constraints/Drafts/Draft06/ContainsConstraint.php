@@ -28,14 +28,11 @@ class ContainsConstraint implements ConstraintInterface
         }
 
         $properties = [];
-        if (is_array($value)) {
-            $properties = $value;
-        }
-        if (is_object($value)) {
-            $properties = get_object_vars($value);
+        if (!is_array($value)) {
+            return;
         }
 
-        foreach ($properties as $propertyName => $propertyValue) {
+        foreach ($value as $propertyName => $propertyValue) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
 
             $schemaConstraint->check($propertyValue, $schema->contains, $path, $i);
