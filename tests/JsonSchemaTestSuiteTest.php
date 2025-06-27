@@ -19,19 +19,21 @@ class JsonSchemaTestSuiteTest extends TestCase
     /**
      * @dataProvider casesDataProvider
      *
+     * @param \stdClass|bool $schema
      * @param mixed $data
      */
     public function testTestCaseValidatesCorrectly(
         string $testCaseDescription,
         string $testDescription,
-        \stdClass $schema,
+        $schema,
         $data,
         bool $expectedValidationResult,
         bool $optional
     ): void
     {
         $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema(property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
+        $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+        $schemaStorage->addSchema($id, $schema);
         $this->loadRemotesIntoStorage($schemaStorage);
         $validator = new Validator(new Factory($schemaStorage));
 
