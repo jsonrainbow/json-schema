@@ -7,7 +7,6 @@ namespace JsonSchema\Constraints\Drafts\Draft06;
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
-use JsonSchema\Constraints\UndefinedConstraint;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Tool\DeepComparer;

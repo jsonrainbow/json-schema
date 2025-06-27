@@ -19,6 +19,7 @@ abstract class VeryBaseTestCase extends TestCase
 
     /**
      * @param object|bool|null $schema
+     *
      * @return object
      */
     protected function getUriRetrieverMock($schema): object

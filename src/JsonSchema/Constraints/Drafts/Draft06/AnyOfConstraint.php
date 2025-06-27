@@ -38,10 +38,10 @@ class AnyOfConstraint implements ConstraintInterface
                 if ($schemaConstraint->isValid()) {
                     return;
                 }
-            } catch (ValidationException $e) {}
+            } catch (ValidationException $e) {
+            }
         }
 
         $this->addError(ConstraintError::ANY_OF(), $path);
-
     }
 }
