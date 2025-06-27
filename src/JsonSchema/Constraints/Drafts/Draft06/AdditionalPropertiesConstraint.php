@@ -6,7 +6,6 @@ namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
-use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
@@ -14,9 +13,13 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
+    /** @var Factory */
+    private $factory;
+
     public function __construct(?Factory $factory = null)
     {
-        $this->initialiseErrorBag($factory ?: new Factory());
+        $this->factory = $factory ?: new Factory();
+        $this->initialiseErrorBag($this->factory);
     }
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
@@ -52,8 +55,18 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
             }
         }
 
-        if ($schema->additionalProperties === false && $additionalProperties !== []) {
-            $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['additionalProperties' => array_keys($additionalProperties)]);
+        if (is_object($schema->additionalProperties)) {
+            foreach ($additionalProperties as $key => $additionalPropertiesValue) {
+                $schemaConstraint = $this->factory->createInstanceFor('schema');
+                $schemaConstraint->check($additionalPropertiesValue, $schema->additionalProperties, $path, $i); // @todo increment path
+                if ($schemaConstraint->isValid()) {
+                    unset($additionalProperties[$key]);
+                }
+            }
+        }
+
+        foreach ($additionalProperties as $key => $additionalPropertiesValue) {
+            $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['found' => $additionalPropertiesValue]);
         }
     }
 }

@@ -51,7 +51,11 @@ class JsonSchemaTestSuiteTest extends TestCase
             $this->markTestSkipped('Optional test case would fail');
         }
 
-        self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
+        self::assertEquals(
+            $expectedValidationResult,
+            count($validator->getErrors()) === 0,
+            $expectedValidationResult ? print_r($validator->getErrors(), true) : 'Validator returned valid but the testcase indicates it is invalid'
+        );
     }
 
     public function casesDataProvider(): \Generator
