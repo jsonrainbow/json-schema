@@ -32,7 +32,7 @@ class AdditionalItemsConstraint implements ConstraintInterface
         if ($schema->additionalItems === true) {
             return;
         }
-        if ($schema->additionalItems === false && ! property_exists($schema, 'items')) {
+        if ($schema->additionalItems === false && !property_exists($schema, 'items')) {
             return;
         }
 
@@ -58,7 +58,5 @@ class AdditionalItemsConstraint implements ConstraintInterface
 
             $this->addError(ConstraintError::ADDITIONAL_ITEMS(), $path, ['item' => $i, 'property' => $propertyName, 'additionalItems' => $schema->additionalItems]);
         }
-
-
     }
 }

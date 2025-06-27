@@ -111,7 +111,6 @@ class FormatConstraint implements ConstraintInterface
             default:
                 break;
         }
-
     }
 
     private function validateDateTime(string $datetime, string $format): bool

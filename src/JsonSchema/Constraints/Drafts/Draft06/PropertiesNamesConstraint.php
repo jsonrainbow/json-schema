@@ -41,10 +41,11 @@ class PropertiesNamesConstraint implements ConstraintInterface
             foreach ($propertyNames as $propertyName => $_) {
                 $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'false', 'name' => $propertyName]);
             }
+
             return;
         }
 
-        if (property_exists($schema->propertyNames, "maxLength")) {
+        if (property_exists($schema->propertyNames, 'maxLength')) {
             foreach ($propertyNames as $propertyName => $_) {
                 $length = mb_strlen($propertyName);
                 if ($length > $schema->propertyNames->maxLength) {
@@ -53,7 +54,7 @@ class PropertiesNamesConstraint implements ConstraintInterface
             }
         }
 
-        if (property_exists($schema->propertyNames, "pattern")) {
+        if (property_exists($schema->propertyNames, 'pattern')) {
             foreach ($propertyNames as $propertyName => $_) {
                 if (!preg_match('/' . str_replace('/', '\/', $schema->propertyNames->pattern) . '/', $propertyName)) {
                     $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'pattern', 'name' => $propertyName]);

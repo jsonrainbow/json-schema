@@ -8,7 +8,6 @@ use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Exception\ValidationException;
 
 class AllOfConstraint implements ConstraintInterface
 {

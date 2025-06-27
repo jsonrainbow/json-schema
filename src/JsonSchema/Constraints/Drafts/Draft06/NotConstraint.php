@@ -9,9 +9,6 @@ use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Rfc3339;
-use JsonSchema\Tool\Validator\RelativeReferenceValidator;
-use JsonSchema\Tool\Validator\UriValidator;
 
 class NotConstraint implements ConstraintInterface
 {
@@ -19,6 +16,7 @@ class NotConstraint implements ConstraintInterface
 
     /** @var \JsonSchema\Constraints\Drafts\Draft06\Factory */
     private $factory;
+
     public function __construct(?Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();
@@ -34,7 +32,7 @@ class NotConstraint implements ConstraintInterface
         $schemaConstraint = $this->factory->createInstanceFor('schema');
         $schemaConstraint->check($value, $schema->not, $path, $i);
 
-        if (! $schemaConstraint->isValid()) {
+        if (!$schemaConstraint->isValid()) {
             return;
         }
 

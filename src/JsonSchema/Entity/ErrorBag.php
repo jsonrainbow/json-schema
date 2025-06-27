@@ -84,7 +84,7 @@ class ErrorBag
     /** @param ErrorList $errors */
     public function addErrors(array $errors): void
     {
-        if (! $errors) {
+        if (!$errors) {
             return;
         }
 

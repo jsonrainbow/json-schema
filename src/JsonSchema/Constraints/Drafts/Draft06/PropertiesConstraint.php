@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft06;
 
-use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Rfc3339;
-use JsonSchema\Tool\Validator\RelativeReferenceValidator;
-use JsonSchema\Tool\Validator\UriValidator;
 
 class PropertiesConstraint implements ConstraintInterface
 {
@@ -19,6 +15,7 @@ class PropertiesConstraint implements ConstraintInterface
 
     /** @var \JsonSchema\Constraints\Drafts\Draft06\Factory */
     private $factory;
+
     public function __construct(?Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();
@@ -37,7 +34,7 @@ class PropertiesConstraint implements ConstraintInterface
 
         foreach ($schema->properties as $propertyName => $propertySchema) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
-            if (! property_exists($value, $propertyName)) {
+            if (!property_exists($value, $propertyName)) {
                 continue;
             }
 
