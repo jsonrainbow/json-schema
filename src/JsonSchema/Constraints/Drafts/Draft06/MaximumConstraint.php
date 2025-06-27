@@ -25,6 +25,10 @@ class MaximumConstraint implements ConstraintInterface
             return;
         }
 
+        if (!is_numeric($value)) {
+            return;
+        }
+
         if ($value <= $schema->maximum) {
             return;
         }
