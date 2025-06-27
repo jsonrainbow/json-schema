@@ -30,7 +30,7 @@ class RequiredConstraint implements ConstraintInterface
         }
 
         foreach ($schema->required as $required) {
-            if (isset($value->{$required})) {
+            if (property_exists($value, $required)) {
                 continue;
             }
 

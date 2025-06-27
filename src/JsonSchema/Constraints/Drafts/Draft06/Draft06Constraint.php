@@ -27,14 +27,15 @@ class Draft06Constraint extends Constraint
         // Apply defaults
         $this->checkForKeyword('required', $value, $schema, $path, $i);
         $this->checkForKeyword('contains', $value, $schema, $path, $i);
+        $this->checkForKeyword('properties', $value, $schema, $path, $i);
         $this->checkForKeyword('propertyNames', $value, $schema, $path, $i);
         $this->checkForKeyword('patternProperties', $value, $schema, $path, $i);
         $this->checkForKeyword('type', $value, $schema, $path, $i);
-        // Not
+        $this->checkForKeyword('not', $value, $schema, $path, $i);
         $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
-        // allof
+        $this->checkForKeyword('allOf', $value, $schema, $path, $i);
         $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
-        // oneof
+        $this->checkForKeyword('oneOf', $value, $schema, $path, $i);
 
         $this->checkForKeyword('additionalProperties', $value, $schema, $path, $i);
         $this->checkForKeyword('items', $value, $schema, $path, $i);

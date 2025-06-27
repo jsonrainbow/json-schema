@@ -6,19 +6,17 @@ namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
-use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Rfc3339;
-use JsonSchema\Tool\Validator\RelativeReferenceValidator;
-use JsonSchema\Tool\Validator\UriValidator;
+use JsonSchema\Exception\ValidationException;
 
-class ItemsConstraint implements ConstraintInterface
+class AllOfConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
-    /** @var \JsonSchema\Constraints\Drafts\Draft06\Factory */
+    /** @var Factory */
     private $factory;
+
     public function __construct(?Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();
@@ -27,29 +25,18 @@ class ItemsConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'items')) {
+        if (!property_exists($schema, 'allOf')) {
             return;
         }
 
-        if (!is_array($value)) {
-            return;
-        }
-
-        foreach ($value as $propertyName => $propertyValue) {
-            $itemSchema = $schema->items;
-            if (is_array($itemSchema)) {
-                if (!array_key_exists($propertyName, $itemSchema)) {
-                    continue;
-                }
-
-                $itemSchema  = $itemSchema[$propertyName];
-            }
+        foreach ($schema->allOf as $allOfSchema) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
-            $schemaConstraint->check($propertyValue, $itemSchema, $path, $i);
+            $schemaConstraint->check($value, $allOfSchema, $path, $i);
+
             if ($schemaConstraint->isValid()) {
                 continue;
             }
-
+            $this->addError(ConstraintError::ALL_OF(), $path);
             $this->addErrors($schemaConstraint->getErrors());
         }
     }

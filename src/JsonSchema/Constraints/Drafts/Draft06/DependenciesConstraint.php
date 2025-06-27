@@ -30,6 +30,16 @@ class DependenciesConstraint implements ConstraintInterface
         }
 
         foreach ($schema->dependencies as $dependant => $dependencies) {
+            if (!property_exists($value, $dependant)) {
+                continue;
+            }
+            if ($dependencies === true) {
+                continue;
+            }
+            if ($dependencies === false) {
+                $this->addError(ConstraintError::FALSE(), $path, ['dependant' => $dependant]);
+                continue;
+            }
             foreach ($dependencies as $dependency) {
                 if (property_exists($value, $dependant) && !property_exists($value, $dependency)) {
                     $this->addError(ConstraintError::DEPENDENCIES(), $path, ['dependant' => $dependant, 'dependency' => $dependency]);
