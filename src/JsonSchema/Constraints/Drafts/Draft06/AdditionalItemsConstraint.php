@@ -33,6 +33,7 @@ class AdditionalItemsConstraint implements ConstraintInterface
             return;
         }
 
+
         $additionalItems = array_diff_key($value, $schema->items);
 
         foreach ($additionalItems as $key => $_) {

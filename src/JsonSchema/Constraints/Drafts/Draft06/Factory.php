@@ -32,9 +32,13 @@ class Factory extends \JsonSchema\Constraints\Factory
         'required' => RequiredConstraint::class,
         'format' => FormatConstraint::class,
         'anyOf' => AnyOfConstraint::class,
+        'allOf' => AllOfConstraint::class,
+        'oneOf' => OneOfConstraint::class,
+        'not' => NotConstraint::class,
         'contains' => ContainsConstraint::class,
         'propertyNames' => PropertiesNamesConstraint::class,
         'patternProperties' => PatternPropertiesConstraint::class,
+        'properties' => PropertiesConstraint::class,
         'items' => ItemsConstraint::class,
     ];
 }

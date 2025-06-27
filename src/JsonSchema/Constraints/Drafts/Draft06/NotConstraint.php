@@ -13,7 +13,7 @@ use JsonSchema\Rfc3339;
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use JsonSchema\Tool\Validator\UriValidator;
 
-class ItemsConstraint implements ConstraintInterface
+class NotConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
@@ -27,30 +27,17 @@ class ItemsConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'items')) {
+        if (!property_exists($schema, 'not')) {
             return;
         }
 
-        if (!is_array($value)) {
+        $schemaConstraint = $this->factory->createInstanceFor('schema');
+        $schemaConstraint->check($value, $schema->not, $path, $i);
+
+        if (! $schemaConstraint->isValid()) {
             return;
         }
 
-        foreach ($value as $propertyName => $propertyValue) {
-            $itemSchema = $schema->items;
-            if (is_array($itemSchema)) {
-                if (!array_key_exists($propertyName, $itemSchema)) {
-                    continue;
-                }
-
-                $itemSchema  = $itemSchema[$propertyName];
-            }
-            $schemaConstraint = $this->factory->createInstanceFor('schema');
-            $schemaConstraint->check($propertyValue, $itemSchema, $path, $i);
-            if ($schemaConstraint->isValid()) {
-                continue;
-            }
-
-            $this->addErrors($schemaConstraint->getErrors());
-        }
+        $this->addError(ConstraintError::NOT(), $path);
     }
 }

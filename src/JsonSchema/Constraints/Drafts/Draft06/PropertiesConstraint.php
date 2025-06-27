@@ -13,7 +13,7 @@ use JsonSchema\Rfc3339;
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use JsonSchema\Tool\Validator\UriValidator;
 
-class ItemsConstraint implements ConstraintInterface
+class PropertiesConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
@@ -27,25 +27,21 @@ class ItemsConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'items')) {
+        if (!property_exists($schema, 'properties')) {
             return;
         }
 
-        if (!is_array($value)) {
+        if (!is_object($value)) {
             return;
         }
 
-        foreach ($value as $propertyName => $propertyValue) {
-            $itemSchema = $schema->items;
-            if (is_array($itemSchema)) {
-                if (!array_key_exists($propertyName, $itemSchema)) {
-                    continue;
-                }
-
-                $itemSchema  = $itemSchema[$propertyName];
-            }
+        foreach ($schema->properties as $propertyName => $propertySchema) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
-            $schemaConstraint->check($propertyValue, $itemSchema, $path, $i);
+            if (! property_exists($value, $propertyName)) {
+                continue;
+            }
+
+            $schemaConstraint->check($value->{$propertyName}, $propertySchema, $path, $i);
             if ($schemaConstraint->isValid()) {
                 continue;
             }
