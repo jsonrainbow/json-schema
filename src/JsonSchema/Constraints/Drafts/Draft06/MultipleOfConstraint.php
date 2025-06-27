@@ -29,7 +29,7 @@ class MultipleOfConstraint implements ConstraintInterface
             return;
         }
 
-        if (fmod($value, $schema->multipleOf) === 0) {
+        if (fmod($value, $schema->multipleOf) === 0.0) {
             return;
         }
 
