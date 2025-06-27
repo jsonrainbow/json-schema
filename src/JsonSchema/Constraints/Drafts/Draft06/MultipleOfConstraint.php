@@ -29,12 +29,22 @@ class MultipleOfConstraint implements ConstraintInterface
             return;
         }
 
-        if (fmod($value, $schema->multipleOf) === 0.0) {
+        if (fmod($value, $schema->multipleOf) === 0.0 || $this->isMultipleOf((string) $value, (string) $schema->multipleOf)) {
             return;
         }
 
         $this->addError(ConstraintError::MULTIPLE_OF(), $path, ['multipleOf' => $schema->multipleOf, 'found' => $value]);
 
 
+    }
+
+    private function isMultipleOf(string $value, string $multipleOf): bool
+    {
+        if (bccomp($multipleOf, '0', 20) === 0) {
+            return false;
+        }
+
+        $div = bcdiv($value, $multipleOf, 20);
+        return bccomp(bcmod($div, '1', 20), '0', 20) === 0;
     }
 }

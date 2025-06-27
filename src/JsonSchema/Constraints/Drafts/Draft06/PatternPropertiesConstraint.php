@@ -28,8 +28,11 @@ class PatternPropertiesConstraint implements ConstraintInterface
             return;
         }
 
-        $properties = get_object_vars($value);
+        if (!is_object($value)) {
+            return;
+        }
 
+        $properties = get_object_vars($value);
 
         foreach ($properties as $propertyName => $propertyValue) {
             foreach ($schema->patternProperties as $patternPropertyRegex => $patternPropertySchema) {
@@ -37,7 +40,7 @@ class PatternPropertiesConstraint implements ConstraintInterface
                     $schemaConstraint = $this->factory->createInstanceFor('schema');
                     $schemaConstraint->check($propertyValue, $patternPropertySchema, $path, $i);
                     if ($schemaConstraint->isValid()) {
-                        continue 2;
+                        continue;
                     }
 
                     $this->addErrors($schemaConstraint->getErrors());
