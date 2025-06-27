@@ -15,6 +15,7 @@ class ContainsConstraint implements ConstraintInterface
 
     /** @var Factory */
     private $factory;
+
     public function __construct(?Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();

@@ -25,7 +25,7 @@ class TypeConstraint implements ConstraintInterface
             return;
         }
 
-        $schemaTypes = (array)  $schema->type;
+        $schemaTypes = (array) $schema->type;
         $valueType = strtolower(gettype($value));
         // All specific number types are a number
         $valueIsNumber = $valueType === 'double' ||  $valueType === 'integer';
@@ -40,7 +40,7 @@ class TypeConstraint implements ConstraintInterface
             if ($type === 'number' && $valueIsNumber) {
                 return;
             }
-            if  ($type === 'integer' && $isInteger) {
+            if ($type === 'integer' && $isInteger) {
                 return;
             }
         }

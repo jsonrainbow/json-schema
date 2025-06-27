@@ -36,6 +36,7 @@ class UniqueItemsConstraint implements ConstraintInterface
             for ($y = $x + 1; $y < $count; $y++) {
                 if (DeepComparer::isEqual($value[$x], $value[$y])) {
                     $this->addError(ConstraintError::UNIQUE_ITEMS(), $path);
+
                     return;
                 }
             }

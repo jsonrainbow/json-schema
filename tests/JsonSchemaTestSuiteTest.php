@@ -20,7 +20,7 @@ class JsonSchemaTestSuiteTest extends TestCase
      * @dataProvider casesDataProvider
      *
      * @param \stdClass|bool $schema
-     * @param mixed $data
+     * @param mixed          $data
      */
     public function testTestCaseValidatesCorrectly(
         string $testCaseDescription,
@@ -29,8 +29,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $data,
         bool $expectedValidationResult,
         bool $optional
-    ): void
-    {
+    ): void {
         $schemaStorage = new SchemaStorage();
         $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
         $schemaStorage->addSchema($id, $schema);
@@ -110,7 +109,6 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
                     }
-
                 }
             }
         }
@@ -163,5 +161,4 @@ class JsonSchemaTestSuiteTest extends TestCase
     {
         return PHP_INT_SIZE === 4;
     }
-
 }

@@ -34,8 +34,6 @@ class MultipleOfConstraint implements ConstraintInterface
         }
 
         $this->addError(ConstraintError::MULTIPLE_OF(), $path, ['multipleOf' => $schema->multipleOf, 'found' => $value]);
-
-
     }
 
     private function isMultipleOf(string $value, string $multipleOf): bool
@@ -45,6 +43,7 @@ class MultipleOfConstraint implements ConstraintInterface
         }
 
         $div = bcdiv($value, $multipleOf, 20);
+
         return bccomp(bcmod($div, '1', 20), '0', 20) === 0;
     }
 }

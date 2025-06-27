@@ -39,7 +39,7 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         $additionalProperties = get_object_vars($value);
 
         if (isset($schema->properties)) {
-            $additionalProperties = array_diff_key($additionalProperties, (array)$schema->properties);
+            $additionalProperties = array_diff_key($additionalProperties, (array) $schema->properties);
         }
 
         if (isset($schema->patternProperties)) {
