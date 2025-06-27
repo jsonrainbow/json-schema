@@ -6,7 +6,6 @@ namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
-use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
@@ -14,7 +13,7 @@ class NotConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
-    /** @var \JsonSchema\Constraints\Drafts\Draft06\Factory */
+    /** @var Factory */
     private $factory;
 
     public function __construct(?Factory $factory = null)
