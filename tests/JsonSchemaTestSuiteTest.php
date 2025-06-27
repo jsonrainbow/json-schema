@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests;
 
 use CallbackFilterIterator;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
@@ -18,24 +19,25 @@ class JsonSchemaTestSuiteTest extends TestCase
     /**
      * @dataProvider casesDataProvider
      *
-     * @param mixed $data
+     * @param \stdClass|bool $schema
+     * @param mixed          $data
      */
     public function testTestCaseValidatesCorrectly(
         string $testCaseDescription,
         string $testDescription,
-        \stdClass $schema,
+        $schema,
         $data,
         bool $expectedValidationResult,
         bool $optional
-    ): void
-    {
+    ): void {
         $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema(property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
+        $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+        $schemaStorage->addSchema($id, $schema);
         $this->loadRemotesIntoStorage($schemaStorage);
         $validator = new Validator(new Factory($schemaStorage));
 
         try {
-            $validator->validate($data, $schema);
+            $validator->validate($data, $schema, Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT);
         } catch (\Exception $e) {
             if ($optional) {
                 $this->markTestSkipped('Optional test case would during validate() invocation');
@@ -48,7 +50,11 @@ class JsonSchemaTestSuiteTest extends TestCase
             $this->markTestSkipped('Optional test case would fail');
         }
 
-        self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
+        self::assertEquals(
+            $expectedValidationResult,
+            count($validator->getErrors()) === 0,
+            $expectedValidationResult ? print_r($validator->getErrors(), true) : 'Validator returned valid but the testcase indicates it is invalid'
+        );
     }
 
     public function casesDataProvider(): \Generator
@@ -57,7 +63,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft3', 'draft4', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
             if (in_array(basename($draft), $skippedDrafts, true)) {
@@ -76,6 +82,9 @@ class JsonSchemaTestSuiteTest extends TestCase
             foreach ($files as $file) {
                 $contents = json_decode(file_get_contents($file->getPathname()), false);
                 foreach ($contents as $testCase) {
+                    if (is_object($testCase->schema)) {
+                        $testCase->schema->{'$schema'} = 'http://json-schema.org/draft-06/schema#'; // Hardcode $schema property in schema
+                    }
                     foreach ($testCase->tests as $test) {
                         $name = sprintf(
                             '[%s/%s%s]: %s: %s is expected to be %s',
@@ -100,7 +109,6 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
                     }
-
                 }
             }
         }
@@ -153,5 +161,4 @@ class JsonSchemaTestSuiteTest extends TestCase
     {
         return PHP_INT_SIZE === 4;
     }
-
 }

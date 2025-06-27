@@ -88,7 +88,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
      *
      * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL): void
+    public function testValidCases(string $input, string $schema, int $checkMode = Constraint::CHECK_MODE_NORMAL): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -152,7 +152,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         yield from $this->getInvalidTests();
     }
 
-    private function validatorErrorsToString(Validator $validator): string
+    protected function validatorErrorsToString(Validator $validator): string
     {
         return implode(
             ', ',
