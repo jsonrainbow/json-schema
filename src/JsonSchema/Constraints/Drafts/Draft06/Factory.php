@@ -38,6 +38,7 @@ class Factory extends \JsonSchema\Constraints\Factory
         'contains' => ContainsConstraint::class,
         'propertyNames' => PropertiesNamesConstraint::class,
         'patternProperties' => PatternPropertiesConstraint::class,
+        'pattern' => PatternConstraint::class,
         'properties' => PropertiesConstraint::class,
         'items' => ItemsConstraint::class,
     ];
