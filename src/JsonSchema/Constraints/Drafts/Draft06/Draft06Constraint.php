@@ -7,12 +7,19 @@ namespace JsonSchema\Constraints\Drafts\Draft06;
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\SchemaStorage;
+use JsonSchema\Uri\UriRetriever;
 
 class Draft06Constraint extends Constraint
 {
-    public function __construct()
+    public function __construct(\JsonSchema\Constraints\Factory $factory = null)
     {
-        parent::__construct(new Factory());
+
+        parent::__construct(new Factory(
+            $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
+            $factory ? $factory->getUriRetriever() : new UriRetriever(),
+            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL,
+        ));
     }
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
@@ -26,6 +33,7 @@ class Draft06Constraint extends Constraint
         }
 
         // Apply defaults
+        $this->checkForKeyword('ref', $value, $schema, $path, $i);
         $this->checkForKeyword('required', $value, $schema, $path, $i);
         $this->checkForKeyword('contains', $value, $schema, $path, $i);
         $this->checkForKeyword('properties', $value, $schema, $path, $i);
