@@ -6,7 +6,6 @@ namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
-use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 
@@ -14,9 +13,13 @@ class DependenciesConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
+    /** @var Factory */
+    private $factory;
+
     public function __construct(?Factory $factory = null)
     {
-        $this->initialiseErrorBag($factory ?: new Factory());
+        $this->factory = $factory ?: new Factory();
+        $this->initialiseErrorBag($this->factory);
     }
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
@@ -40,9 +43,20 @@ class DependenciesConstraint implements ConstraintInterface
                 $this->addError(ConstraintError::FALSE(), $path, ['dependant' => $dependant]);
                 continue;
             }
-            foreach ($dependencies as $dependency) {
-                if (property_exists($value, $dependant) && !property_exists($value, $dependency)) {
-                    $this->addError(ConstraintError::DEPENDENCIES(), $path, ['dependant' => $dependant, 'dependency' => $dependency]);
+
+            if (is_array($dependencies)) {
+                foreach ($dependencies as $dependency) {
+                    if (property_exists($value, $dependant) && !property_exists($value, $dependency)) {
+                        $this->addError(ConstraintError::DEPENDENCIES(), $path, ['dependant' => $dependant, 'dependency' => $dependency]);
+                    }
+                }
+            }
+
+            if (is_object($dependencies)) {
+                $schemaConstraint = $this->factory->createInstanceFor('schema');
+                $schemaConstraint->check($value, $dependencies, $path, $i);
+                if (!$schemaConstraint->isValid()) {
+                    $this->addErrors($schemaConstraint->getErrors());
                 }
             }
         }
