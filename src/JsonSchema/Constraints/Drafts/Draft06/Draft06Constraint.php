@@ -12,13 +12,13 @@ use JsonSchema\Uri\UriRetriever;
 
 class Draft06Constraint extends Constraint
 {
-    public function __construct(\JsonSchema\Constraints\Factory $factory = null)
+    public function __construct(?\JsonSchema\Constraints\Factory $factory = null)
     {
 
         parent::__construct(new Factory(
             $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
             $factory ? $factory->getUriRetriever() : new UriRetriever(),
-            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL,
+            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL
         ));
     }
 
