@@ -35,7 +35,7 @@ class PatternPropertiesConstraint implements ConstraintInterface
 
         foreach ($properties as $propertyName => $propertyValue) {
             foreach ($schema->patternProperties as $patternPropertyRegex => $patternPropertySchema) {
-                if (preg_match('/' . str_replace('/', '\/', $patternPropertyRegex) . '/', $propertyName)) {
+                if (preg_match('/' . str_replace('/', '\/', $patternPropertyRegex) . '/', (string) $propertyName)) {
                     $schemaConstraint = $this->factory->createInstanceFor('schema');
                     $schemaConstraint->check($propertyValue, $patternPropertySchema, $path, $i);
                     if ($schemaConstraint->isValid()) {
