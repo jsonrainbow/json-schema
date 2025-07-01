@@ -25,6 +25,10 @@ class MinimumConstraint implements ConstraintInterface
             return;
         }
 
+        if (! is_numeric($value)) {
+            return;
+        }
+
         if ($value >= $schema->minimum) {
             return;
         }
