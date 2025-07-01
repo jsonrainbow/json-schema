@@ -61,6 +61,9 @@ class Validator extends BaseConstraint
         if (LooseTypeCheck::propertyExists($schema, 'id')) {
             $schemaURI = LooseTypeCheck::propertyGet($schema, 'id');
         }
+        if (LooseTypeCheck::propertyExists($schema, '$id')) {
+            $schemaURI = LooseTypeCheck::propertyGet($schema, '$id');
+        }
         $this->factory->getSchemaStorage()->addSchema($schemaURI, $schema);
 
         $validator = $this->factory->createInstanceFor('schema');

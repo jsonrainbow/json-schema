@@ -106,9 +106,10 @@ class SchemaStorage implements SchemaStorageInterface
                 continue;
             }
 
+            $schemaId = $this->findSchemaIdInObject($schema);
             $childId = $parentId;
-            if (property_exists($schema, 'id') && is_string($schema->id) && $childId !== $schema->id) {
-                $childId = $this->uriResolver->resolve($schema->id, $childId);
+            if (is_string($schemaId) && $childId !== $schemaId) {
+                $childId = $this->uriResolver->resolve($schemaId, $childId);
             }
 
             $this->expandRefs($member, $childId);
@@ -196,17 +197,30 @@ class SchemaStorage implements SchemaStorageInterface
                 continue;
             }
 
-            if (property_exists($potentialSubSchema, 'id') && is_string($potentialSubSchema->id) && property_exists($potentialSubSchema, 'type')) {
+            $potentialSubSchemaId = $this->findSchemaIdInObject($potentialSubSchema);
+            if (is_string($potentialSubSchemaId) && property_exists($potentialSubSchema, 'type')) {
                 // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
                 if (in_array($propertyName, ['enum', 'const'])) {
                     continue;
                 }
 
                 // Found sub schema
-                $this->addSchema($this->uriResolver->resolve($potentialSubSchema->id, $parentId), $potentialSubSchema);
+                $this->addSchema($this->uriResolver->resolve($potentialSubSchemaId, $parentId), $potentialSubSchema);
             }
 
             $this->scanForSubschemas($potentialSubSchema, $parentId);
         }
+    }
+
+    private function findSchemaIdInObject(object $schema): ?string
+    {
+        if (property_exists($schema, 'id') && is_string($schema->id)) {
+            return $schema->id;
+        }
+        if (property_exists($schema, '$id') && is_string($schema->{'$id'})) {
+            return $schema->{'$id'};
+        }
+
+        return null;
     }
 }
