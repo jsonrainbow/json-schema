@@ -47,7 +47,7 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
 
             foreach ($additionalProperties as $key => $_) {
                 foreach ($patterns as $pattern) {
-                    if (preg_match("/{$pattern}/", $key)) {
+                    if (preg_match("/{$pattern}/", (string) $key)) {
                         unset($additionalProperties[$key]);
                         break;
                     }

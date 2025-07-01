@@ -25,6 +25,9 @@ class UniqueItemsConstraint implements ConstraintInterface
         if (!property_exists($schema, 'uniqueItems')) {
             return;
         }
+        if (!is_array($value)) {
+            return;
+        }
 
         if ($schema->uniqueItems !== true) {
             // If unique items not is true duplicates are allowed.
