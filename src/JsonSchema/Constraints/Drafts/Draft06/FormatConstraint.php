@@ -44,7 +44,7 @@ class FormatConstraint implements ConstraintInterface
                 }
                 break;
             case 'date-time':
-                if (Rfc3339::createFromString($value) === null) {
+                if (!$this->validateRfc3339DateTime($value)) {
                     $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, ['dateTime' => $value, 'format' => $schema->format]);
                 }
                 break;
@@ -108,6 +108,12 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_HOSTNAME(), $path, ['format' => $schema->format]);
                 }
                 break;
+            case 'json-pointer':
+                if (!$this->validateJsonPointer($value)) {
+                    $this->addError(ConstraintError::FORMAT_JSON_POINTER(), $path, ['format' => $schema->format]);
+                }
+                break;
+                break;
             default:
                 break;
         }
@@ -166,5 +172,37 @@ class FormatConstraint implements ConstraintInterface
         $hostnameRegex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/i';
 
         return preg_match($hostnameRegex, $host) !== false;
+    }
+
+    private function validateJsonPointer(string $value): bool
+    {
+        // Must be empty or start with a forward slash
+        if ($value !== '' && $value[0] !== '/') {
+            return false;
+        }
+
+        // Split into reference tokens and check for invalid escape sequences
+        $tokens = explode('/', $value);
+        array_shift($tokens); // remove leading empty part due to leading slash
+
+        foreach ($tokens as $token) {
+            // "~" must only be followed by "0" or "1"
+            if (preg_match('/~(?![01])/', $token)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function validateRfc3339DateTime(string $value): bool
+    {
+        $dateTime = Rfc3339::createFromString($value);
+        if (is_null($dateTime)) {
+            return false;
+        }
+
+        // Compare value and date result to be equal
+        return true;
     }
 }
