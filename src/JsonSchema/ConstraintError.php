@@ -28,6 +28,7 @@ class ConstraintError extends Enum
     public const FORMAT_EMAIL = 'emailFormat';
     public const FORMAT_HOSTNAME = 'styleHostName';
     public const FORMAT_IP = 'ipFormat';
+    public const FORMAT_JSON_POINTER = 'jsonPointerFormat';
     public const FORMAT_PHONE = 'phoneFormat';
     public const FORMAT_REGEX= 'regexFormat';
     public const FORMAT_STYLE = 'styleFormat';
@@ -84,6 +85,7 @@ class ConstraintError extends Enum
             self::FORMAT_EMAIL => 'Invalid email',
             self::FORMAT_HOSTNAME => 'Invalid hostname',
             self::FORMAT_IP => 'Invalid IP address',
+            self::FORMAT_JSON_POINTER => 'Invalid JSON pointer',
             self::FORMAT_PHONE => 'Invalid phone number',
             self::FORMAT_REGEX=> 'Invalid regex format %s',
             self::FORMAT_STYLE => 'Invalid style',
