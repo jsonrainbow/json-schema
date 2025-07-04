@@ -33,6 +33,7 @@ class ConstraintError extends Enum
     public const FORMAT_REGEX= 'regexFormat';
     public const FORMAT_STYLE = 'styleFormat';
     public const FORMAT_TIME = 'timeFormat';
+    public const FORMAT_URI_TEMPLATE = 'uriTemplateFormat';
     public const FORMAT_URL = 'urlFormat';
     public const FORMAT_URL_REF = 'urlRefFormat';
     public const INVALID_SCHEMA = 'invalidSchema';
@@ -90,6 +91,7 @@ class ConstraintError extends Enum
             self::FORMAT_REGEX=> 'Invalid regex format %s',
             self::FORMAT_STYLE => 'Invalid style',
             self::FORMAT_TIME => 'Invalid time %s, expected format hh:mm:ss',
+            self::FORMAT_URI_TEMPLATE => 'Invalid URI template format',
             self::FORMAT_URL => 'Invalid URL format',
             self::FORMAT_URL_REF => 'Invalid URL reference format',
             self::LENGTH_MAX => 'Must be at most %d characters long',
