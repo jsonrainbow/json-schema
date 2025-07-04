@@ -169,9 +169,9 @@ class FormatConstraint implements ConstraintInterface
 
     private function validateHostname(string $host): bool
     {
-        $hostnameRegex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/i';
+        $hostnameRegex = '/^(?!-)(?!.*?[^A-Za-z0-9\-\.])(?:(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?\.)*(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$/';
 
-        return preg_match($hostnameRegex, $host) !== false;
+        return preg_match($hostnameRegex, $host) === 1;
     }
 
     private function validateJsonPointer(string $value): bool
