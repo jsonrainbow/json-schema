@@ -16,6 +16,10 @@ class RelativeReferenceValidator
         }
 
         // Additional checks for invalid cases
+        if (strpos($ref, '\\') !== false) {
+            return false; // Backslashes are not allowed in URI references
+        }
+
         if (preg_match('/^(http|https):\/\//', $ref)) {
             return false; // Absolute URI
         }
