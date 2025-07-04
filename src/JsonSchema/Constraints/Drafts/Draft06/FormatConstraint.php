@@ -96,6 +96,11 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
                 }
                 break;
+            case 'uri-template':
+                if (!$this->validateUriTemplate($value)) {
+                    $this->addError(ConstraintError::FORMAT_URI_TEMPLATE(), $path, ['format' => $schema->format]);
+                }
+                break;
 
             case 'email':
                 if (filter_var($value, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE) === null) {
@@ -112,7 +117,6 @@ class FormatConstraint implements ConstraintInterface
                 if (!$this->validateJsonPointer($value)) {
                     $this->addError(ConstraintError::FORMAT_JSON_POINTER(), $path, ['format' => $schema->format]);
                 }
-                break;
                 break;
             default:
                 break;
@@ -204,5 +208,13 @@ class FormatConstraint implements ConstraintInterface
 
         // Compare value and date result to be equal
         return true;
+    }
+
+    private function validateUriTemplate(string $value): bool
+    {
+        return preg_match(
+            '/^(?:[^\{\}]*|\{[a-zA-Z0-9_:%\/\.~\-\+\*]+\})*$/',
+            $value
+        ) === 1;
     }
 }
