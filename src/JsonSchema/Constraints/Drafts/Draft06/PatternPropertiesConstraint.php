@@ -35,7 +35,8 @@ class PatternPropertiesConstraint implements ConstraintInterface
 
         foreach ($properties as $propertyName => $propertyValue) {
             foreach ($schema->patternProperties as $patternPropertyRegex => $patternPropertySchema) {
-                if (preg_match('/' . str_replace('/', '\/', $patternPropertyRegex) . '/', (string) $propertyName)) {
+                $matchPattern = $this->createPregMatchPattern($patternPropertyRegex);
+                if (preg_match($matchPattern, (string) $propertyName)) {
                     $schemaConstraint = $this->factory->createInstanceFor('schema');
                     $schemaConstraint->check($propertyValue, $patternPropertySchema, $path, $i);
                     if ($schemaConstraint->isValid()) {
@@ -46,5 +47,26 @@ class PatternPropertiesConstraint implements ConstraintInterface
                 }
             }
         }
+    }
+
+    private function createPregMatchPattern(string $pattern): string
+    {
+        $replacements = [
+//            '\D' => '[^0-9]',
+            '\d' => '[0-9]',
+            '\p{digit}' => '[0-9]',
+//            '\w' => '[A-Za-z0-9_]',
+//            '\W' => '[^A-Za-z0-9_]',
+//            '\s' => '[\s\x{200B}]' // Explicitly include zero width white space
+            '\p{Letter}' => '\p{L}', // Map ECMA long property name to PHP (PCRE) Unicode property abbreviations
+        ];
+//
+        $pattern = str_replace(
+            array_keys($replacements),
+            array_values($replacements),
+            $pattern
+        );
+
+        return '/' . str_replace('/', '\/', $pattern) . '/u';
     }
 }
