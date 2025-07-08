@@ -14,7 +14,6 @@ class Draft06Constraint extends Constraint
 {
     public function __construct(?\JsonSchema\Constraints\Factory $factory = null)
     {
-
         parent::__construct(new Factory(
             $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
             $factory ? $factory->getUriRetriever() : new UriRetriever(),
