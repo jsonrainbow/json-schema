@@ -40,7 +40,7 @@ class JsonSchemaTestSuiteTest extends TestCase
             $validator->validate($data, $schema, Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT);
         } catch (\Exception $e) {
             if ($optional) {
-                $this->markTestSkipped('Optional test case would during validate() invocation');
+                $this->markTestSkipped('Optional test case throws exception during validate() invocation');
             }
 
             throw $e;
