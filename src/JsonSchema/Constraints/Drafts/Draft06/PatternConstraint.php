@@ -32,10 +32,32 @@ class PatternConstraint implements ConstraintInterface
             return;
         }
 
-        if (preg_match('/' . str_replace('/', '\/', $schema->pattern) . '/', $value) === 1) {
+        $matchPattern = $this->createPregMatchPattern($schema->pattern);
+        if (preg_match($matchPattern, $value) === 1) {
             return;
         }
 
         $this->addError(ConstraintError::PATTERN(), $path, ['found' => $value, 'pattern' => $schema->pattern]);
+    }
+
+    private function createPregMatchPattern(string $pattern): string
+    {
+        $replacements = [
+            '\D' => '[^0-9]',
+            '\d' => '[0-9]',
+            '\p{digit}' => '[0-9]',
+            '\w' => '[A-Za-z0-9_]',
+            '\W' => '[^A-Za-z0-9_]',
+            '\s' => '[\s\x{200B}]', // Explicitly include zero width white space
+            '\p{Letter}' => '\p{L}', // Map ECMA long property name to PHP (PCRE) Unicode property abbreviations
+        ];
+
+        $pattern = str_replace(
+            array_keys($replacements),
+            array_values($replacements),
+            $pattern
+        );
+
+        return '/' . str_replace('/', '\/', $pattern) . '/u';
     }
 }
