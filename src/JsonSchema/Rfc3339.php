@@ -49,6 +49,9 @@ class Rfc3339
         }
 
         $mutable = \DateTime::createFromFormat('U.u', $dateTime->format('U.u'));
+        if ($mutable === false) {
+            throw new \RuntimeException('Unable to create DateTime from DateTimeImmutable');
+        }
         $mutable->setTimezone($dateTime->getTimezone());
 
         return $mutable;
