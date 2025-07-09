@@ -66,17 +66,12 @@ parameters:
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getConfig\\(\\) should return int\\<0, 511\\> but returns int\\.$#"
+			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getConfig\\(\\) should return int\\<0, 1023\\> but returns int\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
 
 		-
-			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:getErrorContext\\(\\) should return 1\\|2 but returns int\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/Factory.php
-
-		-
-			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$checkMode \\(int\\<0, 511\\>\\) does not accept int\\.$#"
+			message: "#^Property JsonSchema\\\\Constraints\\\\Factory\\:\\:\\$checkMode \\(int\\<0, 1023\\>\\) does not accept int\\.$#"
 			count: 2
 			path: src/JsonSchema/Constraints/Factory.php
 
@@ -629,16 +624,6 @@ parameters:
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/JsonSchema/Iterator/ObjectIterator.php
-
-		-
-			message: "#^Offset 4 does not exist on array\\{0\\: string, 1\\: non\\-falsy\\-string, 2\\: string, 3\\: non\\-falsy\\-string, 4\\?\\: string, 5\\?\\: non\\-falsy\\-string&numeric\\-string\\}\\.$#"
-			count: 1
-			path: src/JsonSchema/Rfc3339.php
-
-		-
-			message: "#^Offset 5 does not exist on array\\{0\\: string, 1\\: non\\-falsy\\-string, 2\\: string, 3\\: non\\-falsy\\-string, 4\\?\\: string, 5\\?\\: non\\-falsy\\-string&numeric\\-string\\}\\.$#"
-			count: 1
-			path: src/JsonSchema/Rfc3339.php
 
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$properties\\.$#"
