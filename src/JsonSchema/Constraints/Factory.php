@@ -46,7 +46,7 @@ class Factory
     private $typeCheck = [];
 
     /**
-     * @var int Validation context
+     * @var int-mask-of<Validator::ERROR_*> Validation context
      */
     protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
 
@@ -199,7 +199,7 @@ class Factory
     /**
      * Get the error context
      *
-     * @phpstan-return Validator::ERROR_DOCUMENT_VALIDATION|Validator::ERROR_SCHEMA_VALIDATION
+     * @return int-mask-of<Validator::ERROR_*>
      */
     public function getErrorContext(): int
     {
@@ -209,7 +209,7 @@ class Factory
     /**
      * Set the error context
      *
-     * @phpstan-param Validator::ERROR_DOCUMENT_VALIDATION|Validator::ERROR_SCHEMA_VALIDATION $errorContext
+     * @param int-mask-of<Validator::ERROR_*> $errorContext
      */
     public function setErrorContext(int $errorContext): void
     {
