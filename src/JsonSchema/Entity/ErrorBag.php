@@ -16,7 +16,7 @@ use JsonSchema\Validator;
  *     pointer: string,
  *     message: string,
  *     constraint: array{name: string, params: array<string, mixed>},
- *     context: int
+ *     "context": int-mask-of<Validator::ERROR_*>
  * }
  * @phpstan-type ErrorList list<Error>
  */
@@ -29,8 +29,7 @@ class ErrorBag
     private $errors = [];
 
     /**
-     * @var int All error types that have occurred
-     * @phpstan-var int-mask-of<Validator::ERROR_*>
+     * @var int-mask-of<Validator::ERROR_*> All error types that have occurred
      */
     protected $errorMask = Validator::ERROR_NONE;
 
@@ -56,6 +55,7 @@ class ErrorBag
     {
         $message = $constraint->getMessage();
         $name = $constraint->getValue();
+        /** @var Error $error */
         $error = [
             'property' => $this->convertJsonPointerIntoPropertyPath($path ?: new JsonPointer('')),
             'pointer' => ltrim((string) ($path ?: new JsonPointer('')), '#'),
