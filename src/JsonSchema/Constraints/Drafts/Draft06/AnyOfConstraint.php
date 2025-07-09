@@ -36,8 +36,11 @@ class AnyOfConstraint implements ConstraintInterface
                 $schemaConstraint->check($value, $anyOfSchema, $path, $i);
 
                 if ($schemaConstraint->isValid()) {
+                    $this->errorBag()->reset();
                     return;
                 }
+
+                $this->addErrors($schemaConstraint->getErrors());
             } catch (ValidationException $e) {
             }
         }
