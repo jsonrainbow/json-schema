@@ -147,6 +147,7 @@ class SchemaStorage implements SchemaStorageInterface
         // get & process the schema
         $refSchema = $this->getSchema($fileName);
         foreach ($jsonPointer->getPropertyPaths() as $path) {
+            $path = urldecode($path);
             if (is_object($refSchema) && property_exists($refSchema, $path)) {
                 $refSchema = $this->resolveRefSchema($refSchema->{$path}, $resolveStack);
             } elseif (is_array($refSchema) && array_key_exists($path, $refSchema)) {
@@ -178,6 +179,10 @@ class SchemaStorage implements SchemaStorageInterface
             $resolveStack[] = $refSchema;
 
             return $this->resolveRef($refSchema->{'$ref'}, $resolveStack);
+        }
+
+        if (is_object($refSchema) && array_keys(get_object_vars($refSchema)) === ['']) {
+            $refSchema = $refSchema->{''};
         }
 
         return $refSchema;
