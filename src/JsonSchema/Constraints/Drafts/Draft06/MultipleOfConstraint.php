@@ -25,7 +25,7 @@ class MultipleOfConstraint implements ConstraintInterface
             return;
         }
 
-        if (!is_numeric($value)) {
+        if (!is_int($value) && !is_float($value)) {
             return;
         }
 
@@ -36,7 +36,11 @@ class MultipleOfConstraint implements ConstraintInterface
         $this->addError(ConstraintError::MULTIPLE_OF(), $path, ['multipleOf' => $schema->multipleOf, 'found' => $value]);
     }
 
-    private function isMultipleOf($number1, $number2)
+    /**
+     * @param int|float $number1
+     * @param int|float $number2
+     */
+    private function isMultipleOf($number1, $number2): bool
     {
         $modulus = ($number1 - round($number1 / $number2) * $number2);
         $precision = 0.0000000001;
