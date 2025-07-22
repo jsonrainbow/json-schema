@@ -37,6 +37,7 @@ class AnyOfConstraint implements ConstraintInterface
 
                 if ($schemaConstraint->isValid()) {
                     $this->errorBag()->reset();
+
                     return;
                 }
 
