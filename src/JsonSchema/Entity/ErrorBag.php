@@ -12,10 +12,10 @@ use JsonSchema\Validator;
 
 /**
  * @phpstan-type Error array{
- *     property: string,
- *     pointer: string,
- *     message: string,
- *     constraint: array{name: string, params: array<string, mixed>},
+ *     "property": string,
+ *     "pointer": string,
+ *     "message": string,
+ *     "constraint": array{"name": string, "params": array<string, mixed>},
  *     "context": int-mask-of<Validator::ERROR_*>
  * }
  * @phpstan-type ErrorList list<Error>
@@ -91,9 +91,7 @@ class ErrorBag
         $this->errors = array_merge($this->errors, $errors);
         $errorMask = &$this->errorMask;
         array_walk($errors, static function ($error) use (&$errorMask) {
-            if (isset($error['context'])) {
-                $errorMask |= $error['context'];
-            }
+            $errorMask |= $error['context'];
         });
     }
 
