@@ -60,7 +60,7 @@ class PatternPropertiesConstraint implements ConstraintInterface
 //            '\s' => '[\s\x{200B}]' // Explicitly include zero width white space
             '\p{Letter}' => '\p{L}', // Map ECMA long property name to PHP (PCRE) Unicode property abbreviations
         ];
-//
+
         $pattern = str_replace(
             array_keys($replacements),
             array_values($replacements),
