@@ -79,8 +79,13 @@ class Validator extends BaseConstraint
         }
 
         if ($this->factory->getConfig(Constraint::CHECK_MODE_STRICT)) {
+            $dialect = $this->factory->getDefaultDialect();
+            if (property_exists($schema, '$schema')) {
+                $dialect = $schema->{'$schema'};
+            }
+
             $validator = $this->factory->createInstanceFor(
-                $this->schemaUriToConstraintName($schema->{'$schema'})
+                $this->schemaUriToConstraintName($dialect)
             );
         }
 
