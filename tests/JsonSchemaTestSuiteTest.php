@@ -40,7 +40,7 @@ class JsonSchemaTestSuiteTest extends TestCase
             $validator->validate($data, $schema, Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT);
         } catch (\Exception $e) {
             if ($optional) {
-                $this->markTestSkipped('Optional test case throws exception during validate() invocation');
+                $this->markTestSkipped('Optional test case throws exception during validate() invocation: "' . $e->getMessage() . '"');
             }
 
             throw $e;
@@ -148,6 +148,13 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft4/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: integer is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
+            '[draft6/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
+            '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
+            '[draft6/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
+            '[draft6/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
+
+
+
         ];
 
         if ($this->is32Bit()) {
