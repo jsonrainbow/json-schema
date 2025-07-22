@@ -50,6 +50,8 @@ class Factory
      */
     protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
 
+    private $defaultDialect = 'http://json-schema.org/draft-06/schema#';
+
     /**
      * @var array
      */
@@ -214,5 +216,15 @@ class Factory
     public function setErrorContext(int $errorContext): void
     {
         $this->errorContext = $errorContext;
+    }
+
+    public function getDefaultDialect(): string
+    {
+        return $this->defaultDialect;
+    }
+
+    public function setDefaultDialect(string $defaultDialect): void
+    {
+        $this->defaultDialect = $defaultDialect;
     }
 }
