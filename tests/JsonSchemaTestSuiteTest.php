@@ -152,9 +152,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
             '[draft6/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
             '[draft6/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was skipped from draft4, skip for draft6 as well.
-
-
-
         ];
 
         if ($this->is32Bit()) {
