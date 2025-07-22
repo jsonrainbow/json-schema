@@ -209,6 +209,11 @@ class SchemaStorage implements SchemaStorageInterface
                     continue;
                 }
 
+                // $id in unknow keywords is not valid
+                if (in_array($propertyName, [])) {
+                    continue;
+                }
+
                 // Found sub schema
                 $this->addSchema($this->uriResolver->resolve($potentialSubSchemaId, $parentId), $potentialSubSchema);
             }
