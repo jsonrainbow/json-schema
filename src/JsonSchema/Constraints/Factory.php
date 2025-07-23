@@ -50,6 +50,7 @@ class Factory
      */
     protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
 
+    /** @var string */
     private $defaultDialect = 'http://json-schema.org/draft-06/schema#';
 
     /**

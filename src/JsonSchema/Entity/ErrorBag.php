@@ -76,9 +76,9 @@ class ErrorBag
         if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
             throw new ValidationException(sprintf('Error validating %s: %s', $error['pointer'], $error['message']));
         }
-
         $this->errors[] = $error;
-        $this->errorMask |= $error['context'];
+        /** @see https://github.com/phpstan/phpstan/issues/9384 */
+        $this->errorMask |= $error['context']; // @phpstan-ignore assign.propertyType
     }
 
     /** @param ErrorList $errors */
