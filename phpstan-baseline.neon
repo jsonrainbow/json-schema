@@ -641,7 +641,7 @@ parameters:
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with object will always evaluate to false\\.$#"
+			message: "#^Call to function is_array\\(\\) with bool|object will always evaluate to false\\.$#"
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
