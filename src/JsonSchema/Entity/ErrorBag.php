@@ -77,7 +77,7 @@ class ErrorBag
             throw new ValidationException(sprintf('Error validating %s: %s', $error['pointer'], $error['message']));
         }
         $this->errors[] = $error;
-        /** @see https://github.com/phpstan/phpstan/issues/9384 */
+        /* @see https://github.com/phpstan/phpstan/issues/9384 */
         $this->errorMask |= $error['context']; // @phpstan-ignore assign.propertyType
     }
 
