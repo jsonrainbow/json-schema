@@ -25,6 +25,10 @@ class MultipleOfConstraint implements ConstraintInterface
             return;
         }
 
+        if (!is_int($schema->multipleOf) && !is_float($schema->multipleOf) && $schema->multipleOf <= 0.0) {
+            return;
+        }
+
         if (!is_int($value) && !is_float($value)) {
             return;
         }
@@ -45,10 +49,6 @@ class MultipleOfConstraint implements ConstraintInterface
         $modulus = ($number1 - round($number1 / $number2) * $number2);
         $precision = 0.0000000001;
 
-        if (-$precision < $modulus && $modulus < $precision) {
-            return true;
-        }
-
-        return false;
+        return -$precision < $modulus && $modulus < $precision;
     }
 }
