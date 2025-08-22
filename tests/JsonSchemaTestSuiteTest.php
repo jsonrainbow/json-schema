@@ -27,6 +27,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         string $testDescription,
         $schema,
         $data,
+        int $checkMode,
         bool $expectedValidationResult,
         bool $optional
     ): void {
@@ -37,7 +38,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $validator = new Validator(new Factory($schemaStorage));
 
         try {
-            $validator->validate($data, $schema, Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT);
+            $validator->validate($data, $schema, $checkMode);
         } catch (\Exception $e) {
             if ($optional) {
                 $this->markTestSkipped('Optional test case throws exception during validate() invocation: "' . $e->getMessage() . '"');
@@ -63,10 +64,11 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft3', 'draft4', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
-            if (in_array(basename($draft), $skippedDrafts, true)) {
+            $baseDraftName = basename($draft);
+            if (in_array($baseDraftName, $skippedDrafts, true)) {
                 continue;
             }
 
@@ -82,8 +84,10 @@ class JsonSchemaTestSuiteTest extends TestCase
             foreach ($files as $file) {
                 $contents = json_decode(file_get_contents($file->getPathname()), false);
                 foreach ($contents as $testCase) {
-                    if (is_object($testCase->schema)) {
-                        $testCase->schema->{'$schema'} = 'http://json-schema.org/draft-06/schema#'; // Hardcode $schema property in schema
+                    // Since draft6 can only be validated using the strict check mode we need to ensure the $schema
+                    // property is set in the test schema
+                    if ($baseDraftName === 'draft6' && is_object($testCase->schema)) {
+                        $testCase->schema->{'$schema'} = 'http://json-schema.org/draft-06/schema#';
                     }
                     foreach ($testCase->tests as $test) {
                         $name = sprintf(
@@ -105,6 +109,7 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'testDescription' => $test->description,
                             'schema' => $testCase->schema,
                             'data' => $test->data,
+                            'checkMode' => $this->getCheckModeForDraft($baseDraftName),
                             'expectedValidationResult' => $test->valid,
                             'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
@@ -167,5 +172,18 @@ class JsonSchemaTestSuiteTest extends TestCase
     private function is32Bit(): bool
     {
         return PHP_INT_SIZE === 4;
+    }
+
+    /**
+     * @phpstan-return int-mask-of<Validator::ERROR_*>
+     */
+    private function getCheckModeForDraft(string $draft): int
+    {
+        switch ($draft) {
+            case 'draft6':
+                return Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT;
+            default:
+                return Constraint::CHECK_MODE_NORMAL;
+        }
     }
 }
