@@ -51,6 +51,9 @@ class FileGetContents extends AbstractRetriever
         }
 
         $this->messageBody = $response;
+        if (function_exists('http_get_last_response_headers')) {
+            $http_response_header = http_get_last_response_headers();
+        }
         if (!empty($http_response_header)) {
             // $http_response_header cannot be tested, because it's defined in the method's local scope
             // See http://php.net/manual/en/reserved.variables.httpresponseheader.php for more info.
