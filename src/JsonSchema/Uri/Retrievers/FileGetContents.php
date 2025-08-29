@@ -55,7 +55,7 @@ class FileGetContents extends AbstractRetriever
         if (function_exists('http_get_last_response_headers')) {
             $httpResponseHeaders = http_get_last_response_headers();
         } else {
-            /** @phpstan-ignore nullCoalesce.variable ($http_response_header can non-existing when no request was made) */
+            /** @phpstan-ignore nullCoalesce.variable ($http_response_header can non-existing when no http request was done) */
             $httpResponseHeaders = $http_response_header ?? [];
         }
 
