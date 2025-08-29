@@ -31,7 +31,7 @@ class UriRetriever implements BaseUriRetrieverInterface
      */
     protected $translationMap = [
         // use local copies of the spec schemas
-        '|^https?://json-schema.org/draft-(0[34])/schema#?|' => 'package://dist/schema/json-schema-draft-$1.json'
+        '|^https?://json-schema.org/draft-(0[346])/schema#?|' => 'package://dist/schema/json-schema-draft-$1.json'
     ];
 
     /**
