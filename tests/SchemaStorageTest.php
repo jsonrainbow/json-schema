@@ -311,11 +311,13 @@ class SchemaStorageTest extends TestCase
         $uriRetriever->retrieve('test/schema')->willReturn($schemaOne)->shouldBeCalled();
 
         $s = new SchemaStorage($uriRetriever->reveal());
-        $schema = $s->addSchema('test/schema');
+        $s->addSchema('test/schema');
 
         $r = new \ReflectionObject($s);
         $p = $r->getProperty('schemas');
-        $p->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $p->setAccessible(true);
+        }
         $schemas = $p->getValue($s);
 
         $this->assertEquals(
