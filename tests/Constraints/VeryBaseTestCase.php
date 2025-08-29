@@ -40,7 +40,7 @@ abstract class VeryBaseTestCase extends TestCase
                 if (strpos($args[0], DraftIdentifiers::DRAFT_4()->withoutFragment()) === 0) {
                     return $that->getDraftSchema('json-schema-draft-04.json');
                 }
-                if (strpos($args[0],DraftIdentifiers::DRAFT_6()->withoutFragment()) === 0) {
+                if (strpos($args[0], DraftIdentifiers::DRAFT_6()->withoutFragment()) === 0) {
                     return $that->getDraftSchema('json-schema-draft-06.json');
                 }
 

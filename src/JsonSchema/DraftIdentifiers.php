@@ -38,7 +38,6 @@ class DraftIdentifiers extends Enum
                 return 'draft2019-09';
             case self::DRAFT_2020_12:
                 return 'draft2020-12';
-
         }
 
         throw new \Exception('Unsupported schema URI: ' . $this->getValue());
