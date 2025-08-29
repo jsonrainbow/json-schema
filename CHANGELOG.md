@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- ### Changed
+
+## [6.5.1] - 2025-08-29
+### Changed
 - ci: Add PHP 8.5 to pipeline, ignoring dependencies and as experimental ([#842](https://github.com/jsonrainbow/json-schema/pull/842))
 
 ## [6.5.0] - 2025-08-29
@@ -14,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update test case to current (PHP) standards ([#831](https://github.com/jsonrainbow/json-schema/pull/831))
 - Upgrade test suite to use generators ([#834](https://github.com/jsonrainbow/json-schema/pull/834))
 - update to latest json schema test suite ([#821](https://github.com/jsonrainbow/json-schema/pull/821))
-- ### Fixed
+### Fixed
 - Fix PHP 8.5 $http_response_header deprecation ([#840](https://github.com/jsonrainbow/json-schema/pull/840))
 
 ## [6.4.2] - 2025-06-03
