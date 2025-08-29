@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\UriRetrieverInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -32,14 +33,14 @@ abstract class VeryBaseTestCase extends TestCase
         $that = $this;
         $uriRetriever->retrieve(Argument::any())
             ->will(function ($args) use ($that): stdClass {
-                if (strpos($args[0], 'http://json-schema.org/draft-03/schema') === 0) {
+                if (strpos($args[0], DraftIdentifiers::DRAFT_3()->withoutFragment()) === 0) {
                     return $that->getDraftSchema('json-schema-draft-03.json');
                 }
 
-                if (strpos($args[0], 'http://json-schema.org/draft-04/schema') === 0) {
+                if (strpos($args[0], DraftIdentifiers::DRAFT_4()->withoutFragment()) === 0) {
                     return $that->getDraftSchema('json-schema-draft-04.json');
                 }
-                if (strpos($args[0], 'http://json-schema.org/draft-06/schema') === 0) {
+                if (strpos($args[0],DraftIdentifiers::DRAFT_6()->withoutFragment()) === 0) {
                     return $that->getDraftSchema('json-schema-draft-06.json');
                 }
 

@@ -6,6 +6,7 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\UndefinedConstraint;
+use JsonSchema\DraftIdentifiers;
 
 class RequiredPropertyTest extends BaseTestCase
 {
@@ -16,7 +17,7 @@ class RequiredPropertyTest extends BaseTestCase
      *
      * @var string
      * */
-    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $schemaSpec = DraftIdentifiers::DRAFT_3;
 
     public function testErrorPropertyIsPopulatedForRequiredIfMissingInInput(): void
     {

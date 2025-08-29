@@ -7,13 +7,14 @@ namespace JsonSchema\Tests\Constraints;
 use Generator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
 abstract class BaseTestCase extends VeryBaseTestCase
 {
-    protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
+    protected $schemaSpec = DraftIdentifiers::DRAFT_4;
     protected $validateSchema = false;
 
     /**
