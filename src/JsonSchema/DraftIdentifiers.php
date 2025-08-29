@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace JsonSchema;
 
 /**
- * @extends Enum<DraftIdentifiers::*>
- *
  * @method static DraftIdentifiers DRAFT_3()
  * @method static DraftIdentifiers DRAFT_4()
  * @method static DraftIdentifiers DRAFT_6()
@@ -38,9 +36,9 @@ class DraftIdentifiers extends Enum
                 return 'draft2019-09';
             case self::DRAFT_2020_12:
                 return 'draft2020-12';
+            default:
+                throw new \Exception('Unsupported schema URI: ' . $this->getValue());
         }
-
-        throw new \Exception('Unsupported schema URI: ' . $this->getValue());
     }
 
     public function withoutFragment(): string
