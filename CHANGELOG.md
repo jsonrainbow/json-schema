@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.5.0] - 2025-08-29
 ### Changed
 - Update test case to current (PHP) standards ([#831](https://github.com/jsonrainbow/json-schema/pull/831))
 - Upgrade test suite to use generators ([#834](https://github.com/jsonrainbow/json-schema/pull/834))
