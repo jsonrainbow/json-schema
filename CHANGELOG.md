@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update test case to current (PHP) standards ([#831](https://github.com/jsonrainbow/json-schema/pull/831))
 - Upgrade test suite to use generators ([#834](https://github.com/jsonrainbow/json-schema/pull/834))
 - update to latest json schema test suite ([#821](https://github.com/jsonrainbow/json-schema/pull/821))
+- ### Fixed
+- Fix PHP 8.5 $http_response_header deprecation ([#840](https://github.com/jsonrainbow/json-schema/pull/840))
 
 ## [6.4.2] - 2025-06-03
 ### Fixed
