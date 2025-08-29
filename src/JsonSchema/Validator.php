@@ -85,7 +85,7 @@ class Validator extends BaseConstraint
             }
 
             $validator = $this->factory->createInstanceFor(
-                $this->schemaUriToConstraintName($dialect)
+                DraftIdentifiers::byValue($dialect)->toConstraintName()
             );
         }
 
@@ -126,19 +126,5 @@ class Validator extends BaseConstraint
     public function coerce(&$value, $schema): int
     {
         return $this->validate($value, $schema, Constraint::CHECK_MODE_COERCE_TYPES);
-    }
-
-    private function schemaUriToConstraintName(string $schemaUri): string
-    {
-        switch ($schemaUri) {
-            case 'http://json-schema.org/draft-03/schema#':
-                return 'draft03';
-            case 'http://json-schema.org/draft-04/schema#':
-                return 'draft04';
-            case 'http://json-schema.org/draft-06/schema#':
-                return 'draft06';
-        }
-
-        throw new \Exception('Unsupported schema URI: ' . $schemaUri);
     }
 }

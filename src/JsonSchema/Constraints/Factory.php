@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
@@ -51,7 +52,7 @@ class Factory
     protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
 
     /** @var string */
-    private $defaultDialect = 'http://json-schema.org/draft-06/schema#';
+    private $defaultDialect = DraftIdentifiers::DRAFT_6;
 
     /**
      * @var array
