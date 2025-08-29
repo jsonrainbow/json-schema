@@ -31,7 +31,9 @@ class FileGetContentsTest extends TestCase
 
         $reflector = new \ReflectionObject($res);
         $fetchContentType = $reflector->getMethod('fetchContentType');
-        $fetchContentType->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $fetchContentType->setAccessible(true);
+        }
 
         $this->assertTrue($fetchContentType->invoke($res, ['Content-Type: application/json']));
         $this->assertFalse($fetchContentType->invoke($res, ['X-Some-Header: whateverValue']));

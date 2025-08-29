@@ -267,11 +267,15 @@ EOF;
         $retrieverMock = $this->getRetrieverMock($schema);
 
         $factory = new \ReflectionProperty(\JsonSchema\Constraints\BaseConstraint::class, 'factory');
-        $factory->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $factory->setAccessible(true);
+        }
         $factory = $factory->getValue($this->validator);
 
         $retriever = new \ReflectionProperty(\JsonSchema\Constraints\Factory::class, 'uriRetriever');
-        $retriever->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $retriever->setAccessible(true);
+        }
         $retriever->setValue($factory, $retrieverMock);
     }
 
@@ -362,12 +366,16 @@ EOF;
 
         // inject a schema cache value
         $schemaCache = $reflector->getProperty('schemaCache');
-        $schemaCache->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $schemaCache->setAccessible(true);
+        }
         $schemaCache->setValue($retriever, ['local://test/uri' => 'testSchemaValue']);
 
         // retrieve from schema cache
         $loadSchema = $reflector->getMethod('loadSchema');
-        $loadSchema->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $loadSchema->setAccessible(true);
+        }
         $this->assertEquals(
             'testSchemaValue',
             $loadSchema->invoke($retriever, 'local://test/uri')

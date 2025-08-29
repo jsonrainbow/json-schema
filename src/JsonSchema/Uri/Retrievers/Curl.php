@@ -53,7 +53,9 @@ class Curl extends AbstractRetriever
         $this->fetchMessageBody($response);
         $this->fetchContentType($response);
 
-        curl_close($ch);
+        if (PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
 
         return $this->messageBody;
     }

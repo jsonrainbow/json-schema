@@ -96,7 +96,9 @@ class TypeTest extends TestCase
         $t = new TypeConstraint();
         $r = new \ReflectionObject($t);
         $m = $r->getMethod('validateTypeNameWording');
-        $m->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $m->setAccessible(true);
+        }
 
         $m->invoke($t, $nameWording);
         $this->expectNotToPerformAssertions();
@@ -107,7 +109,9 @@ class TypeTest extends TestCase
         $t = new TypeConstraint();
         $r = new \ReflectionObject($t);
         $m = $r->getMethod('validateTypeNameWording');
-        $m->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $m->setAccessible(true);
+        }
 
         $this->expectException('\UnexpectedValueException');
         $this->expectExceptionMessage("No wording for 'notAValidTypeName' available, expected wordings are: [an integer, a number, a boolean, an object, an array, a string, a null]");
