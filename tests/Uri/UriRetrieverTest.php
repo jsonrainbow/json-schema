@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Uri;
 
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Exception\ResourceNotFoundException;
@@ -306,12 +307,12 @@ EOF;
 
         $this->assertEquals(
             $root . 'json-schema-draft-03.json',
-            $retriever->translate('http://json-schema.org/draft-03/schema#')
+            $retriever->translate(DraftIdentifiers::DRAFT_3)
         );
 
         $this->assertEquals(
             $root . 'json-schema-draft-04.json',
-            $retriever->translate('http://json-schema.org/draft-04/schema#')
+            $retriever->translate(DraftIdentifiers::DRAFT_4)
         );
     }
 

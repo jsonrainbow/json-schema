@@ -7,6 +7,7 @@ namespace JsonSchema\Tests;
 use CallbackFilterIterator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Validator;
@@ -87,7 +88,7 @@ class JsonSchemaTestSuiteTest extends TestCase
                     // Since draft6 can only be validated using the strict check mode we need to ensure the $schema
                     // property is set in the test schema
                     if ($baseDraftName === 'draft6' && is_object($testCase->schema)) {
-                        $testCase->schema->{'$schema'} = 'http://json-schema.org/draft-06/schema#';
+                        $testCase->schema->{'$schema'} = DraftIdentifiers::DRAFT_6;
                     }
                     foreach ($testCase->tests as $test) {
                         $name = sprintf(
