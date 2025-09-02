@@ -91,7 +91,7 @@ class UriRetriever implements BaseUriRetrieverInterface
             }
         }
 
-        throw new InvalidSchemaMediaTypeException(sprintf('Media type %s expected', Validator::SCHEMA_MEDIA_TYPE));
+        throw new InvalidSchemaMediaTypeException(sprintf('Media type %s expected, %s was given for %s', Validator::SCHEMA_MEDIA_TYPE, $contentType, $uri));
     }
 
     /**

@@ -33,6 +33,12 @@ class FileGetContents extends AbstractRetriever
         set_error_handler(function ($errno, $errstr) use (&$errorMessage) {
             $errorMessage = $errstr;
         });
+
+        // Ensure clean state for http_get_last_response_headers
+        if (function_exists('http_clear_last_response_headers')) {
+            http_clear_last_response_headers();
+        }
+
         $response = file_get_contents($uri);
         restore_error_handler();
 
