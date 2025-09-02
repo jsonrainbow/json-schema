@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\DraftIdentifiers;
+
 /**
  * Schemas in these tests look like draft-03, but the 'disallow' patterns provided are in
  * violation of the spec - 'disallow' as defined in draft-03 accepts the same values as the
@@ -14,7 +16,7 @@ namespace JsonSchema\Tests\Constraints;
 class DisallowTest extends BaseTestCase
 {
     /** @var string */
-    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $schemaSpec = DraftIdentifiers::DRAFT_3;
 
     public function getInvalidTests(): \Generator
     {
