@@ -29,6 +29,10 @@ class FileGetContents extends AbstractRetriever
      */
     public function retrieve($uri)
     {
+        if (function_exists('http_clear_last_response_headers')) {
+            http_clear_last_response_headers();
+        }
+
         $errorMessage = null;
         set_error_handler(function ($errno, $errstr) use (&$errorMessage) {
             $errorMessage = $errstr;
