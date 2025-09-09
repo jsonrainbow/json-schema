@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
@@ -125,7 +126,7 @@ class SchemaStorageTest extends TestCase
     {
         return (object) [
             'version' => 'v1',
-            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            '$schema' => DraftIdentifiers::DRAFT_4,
             'id' => 'http://www.example.com/schema.json',
             'type' => 'object',
             'additionalProperties' => true,
@@ -184,7 +185,7 @@ class SchemaStorageTest extends TestCase
     {
         return (object) [
             'version' => 'v1',
-            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            '$schema' => DraftIdentifiers::DRAFT_4,
             'id' => 'http://www.my-domain.com/schema2.json',
             'definitions' => (object) [
                 'car' => (object) [
@@ -211,7 +212,7 @@ class SchemaStorageTest extends TestCase
     {
         return (object) [
             'version' => 'v1',
-            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            '$schema' => DraftIdentifiers::DRAFT_4,
             'title' => 'wheel',
             'wheel' => (object) [
                 'properties' => (object) [
@@ -233,7 +234,7 @@ class SchemaStorageTest extends TestCase
     {
         return (object) [
             'version' => 'v1',
-            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            '$schema' => DraftIdentifiers::DRAFT_4,
             'type' => 'object',
             'properties' => (object) [
                 'spokes' => (object) [
@@ -258,24 +259,24 @@ class SchemaStorageTest extends TestCase
     public function testGetUriRetriever(): void
     {
         $s = new SchemaStorage();
-        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $s->addSchema(DraftIdentifiers::DRAFT_4);
         $this->assertInstanceOf(\JsonSchema\Uri\UriRetriever::class, $s->getUriRetriever());
     }
 
     public function testGetUriResolver(): void
     {
         $s = new SchemaStorage();
-        $s->addSchema('http://json-schema.org/draft-04/schema#');
+        $s->addSchema(DraftIdentifiers::DRAFT_4);
         $this->assertInstanceOf(\JsonSchema\Uri\UriResolver::class, $s->getUriResolver());
     }
 
     public function testMetaSchemaFixes(): void
     {
         $s = new SchemaStorage();
-        $s->addSchema('http://json-schema.org/draft-03/schema#');
-        $s->addSchema('http://json-schema.org/draft-04/schema#');
-        $draft_03 = $s->getSchema('http://json-schema.org/draft-03/schema#');
-        $draft_04 = $s->getSchema('http://json-schema.org/draft-04/schema#');
+        $s->addSchema(DraftIdentifiers::DRAFT_3);
+        $s->addSchema(DraftIdentifiers::DRAFT_4);
+        $draft_03 = $s->getSchema(DraftIdentifiers::DRAFT_3);
+        $draft_04 = $s->getSchema(DraftIdentifiers::DRAFT_4);
 
         $this->assertEquals('uri-reference', $draft_03->properties->id->format);
         $this->assertEquals('uri-reference', $draft_03->properties->{'$ref'}->format);

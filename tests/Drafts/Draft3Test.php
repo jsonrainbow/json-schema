@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Drafts;
 
 use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 
 class Draft3Test extends BaseDraftTestCase
 {
     /** @var string */
-    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $schemaSpec = DraftIdentifiers::DRAFT_3;
     /** @var bool */
     protected $validateSchema = true;
 
