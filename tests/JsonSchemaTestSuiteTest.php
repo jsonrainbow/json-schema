@@ -85,11 +85,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             foreach ($files as $file) {
                 $contents = json_decode(file_get_contents($file->getPathname()), false);
                 foreach ($contents as $testCase) {
-                    // Since draft6 can only be validated using the strict check mode we need to ensure the $schema
-                    // property is set in the test schema
-                    if ($baseDraftName === 'draft6' && is_object($testCase->schema)) {
-                        $testCase->schema->{'$schema'} = DraftIdentifiers::DRAFT_6;
-                    }
                     foreach ($testCase->tests as $test) {
                         $name = sprintf(
                             '[%s/%s%s]: %s: %s is expected to be %s',
