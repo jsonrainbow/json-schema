@@ -7,7 +7,6 @@ namespace JsonSchema\Tests;
 use CallbackFilterIterator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
-use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Validator;
@@ -68,8 +67,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $skippedDrafts = ['draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
-            $baseDraftName = basename($draft);
-            if (in_array($baseDraftName, $skippedDrafts, true)) {
+            if (in_array(basename($draft), $skippedDrafts, true)) {
                 continue;
             }
 

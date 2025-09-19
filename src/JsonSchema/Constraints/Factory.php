@@ -53,6 +53,7 @@ class Factory
 
     /**
      * The default dialect used for strict mode (Constraint::CHECK_MODE_STRICT) when the schema is without a schema property
+     *
      * @var string
      */
     private $defaultDialect = DraftIdentifiers::DRAFT_6;
