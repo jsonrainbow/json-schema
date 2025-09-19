@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests;
 
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
