@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tool\Validator;
+namespace JsonSchema\Tests\Tool\Validator;
 
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use PHPUnit\Framework\TestCase;
