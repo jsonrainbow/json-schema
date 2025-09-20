@@ -36,3 +36,7 @@ jobs:
       - name: "Lint PHP files"
         run: |
           parallel-lint . --checkstyle --exclude vendor --show-deprecated | cs2pr
+
+      - name: "Validate conforming class autoloading"
+        run: |
+          composer dump-autoload --no-dev --optimize --strict-psr --strict-ambiguous
