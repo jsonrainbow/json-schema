@@ -21,6 +21,7 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     public const CHECK_MODE_EARLY_COERCE =     0x00000040;
     public const CHECK_MODE_ONLY_REQUIRED_DEFAULTS   = 0x00000080;
     public const CHECK_MODE_VALIDATE_SCHEMA =  0x00000100;
+    public const CHECK_MODE_STRICT =  0x00000200;
 
     /**
      * Bubble down the path

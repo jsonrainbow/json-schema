@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
@@ -46,9 +47,16 @@ class Factory
     private $typeCheck = [];
 
     /**
-     * @var int Validation context
+     * @var int-mask-of<Validator::ERROR_*> Validation context
      */
     protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
+
+    /**
+     * The default dialect used for strict mode (Constraint::CHECK_MODE_STRICT) when the schema is without a schema property
+     *
+     * @var string
+     */
+    private $defaultDialect = DraftIdentifiers::DRAFT_6;
 
     /**
      * @var array
@@ -65,7 +73,8 @@ class Factory
         'const' => 'JsonSchema\Constraints\ConstConstraint',
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
-        'validator' => 'JsonSchema\Validator'
+        'validator' => 'JsonSchema\Validator',
+        'draft06' => Drafts\Draft06\Draft06Constraint::class,
     ];
 
     /**
@@ -198,7 +207,7 @@ class Factory
     /**
      * Get the error context
      *
-     * @phpstan-return Validator::ERROR_DOCUMENT_VALIDATION|Validator::ERROR_SCHEMA_VALIDATION
+     * @return int-mask-of<Validator::ERROR_*>
      */
     public function getErrorContext(): int
     {
@@ -208,10 +217,20 @@ class Factory
     /**
      * Set the error context
      *
-     * @phpstan-param Validator::ERROR_DOCUMENT_VALIDATION|Validator::ERROR_SCHEMA_VALIDATION $errorContext
+     * @param int-mask-of<Validator::ERROR_*> $errorContext
      */
     public function setErrorContext(int $errorContext): void
     {
         $this->errorContext = $errorContext;
+    }
+
+    public function getDefaultDialect(): string
+    {
+        return $this->defaultDialect;
+    }
+
+    public function setDefaultDialect(string $defaultDialect): void
+    {
+        $this->defaultDialect = $defaultDialect;
     }
 }

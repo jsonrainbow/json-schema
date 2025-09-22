@@ -239,12 +239,19 @@ class UndefinedConstraint extends Constraint
             return;
         }
 
+        if (is_bool($schema)) {
+            return;
+        }
+
         // apply defaults if appropriate
         $requiredOnly = (bool) $this->factory->getConfig(self::CHECK_MODE_ONLY_REQUIRED_DEFAULTS);
         if (isset($schema->properties) && LooseTypeCheck::isObject($value)) {
             // $value is an object or assoc array, and properties are defined - treat as an object
             foreach ($schema->properties as $currentProperty => $propertyDefinition) {
                 $propertyDefinition = $this->factory->getSchemaStorage()->resolveRefSchema($propertyDefinition);
+                if (is_bool($propertyDefinition)) {
+                    continue;
+                }
                 if (
                     !LooseTypeCheck::propertyExists($value, $currentProperty)
                     && property_exists($propertyDefinition, 'default')
@@ -269,6 +276,10 @@ class UndefinedConstraint extends Constraint
             // $value is an array, and items are defined - treat as plain array
             foreach ($items as $currentItem => $itemDefinition) {
                 $itemDefinition = $this->factory->getSchemaStorage()->resolveRefSchema($itemDefinition);
+                if (is_bool($itemDefinition)) {
+                    continue;
+                }
+
                 if (
                     !array_key_exists($currentItem, $value)
                     && property_exists($itemDefinition, 'default')
