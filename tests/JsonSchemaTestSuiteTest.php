@@ -190,6 +190,7 @@ class JsonSchemaTestSuiteTest extends TestCase
     {
         switch ($draft) {
             case 'draft6':
+            case 'draft7':
                 return Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT;
             default:
                 return Constraint::CHECK_MODE_NORMAL;
