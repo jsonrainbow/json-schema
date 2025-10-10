@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\DraftIdentifiers;
+
 class BasicTypesTest extends BaseTestCase
 {
     /** @var string */
-    protected $schemaSpec = 'http://json-schema.org/draft-03/schema#';
+    protected $schemaSpec = DraftIdentifiers::DRAFT_3;
     /** @var bool */
     protected $validateSchema = true;
 

@@ -17,8 +17,10 @@ class ConstraintError extends Enum
     public const DIVISIBLE_BY = 'divisibleBy';
     public const ENUM = 'enum';
     public const CONSTANT = 'const';
+    public const CONTAINS = 'contains';
     public const EXCLUSIVE_MINIMUM = 'exclusiveMinimum';
     public const EXCLUSIVE_MAXIMUM = 'exclusiveMaximum';
+    public const FALSE = 'false';
     public const FORMAT_COLOR = 'colorFormat';
     public const FORMAT_DATE = 'dateFormat';
     public const FORMAT_DATE_TIME = 'dateTimeFormat';
@@ -26,10 +28,12 @@ class ConstraintError extends Enum
     public const FORMAT_EMAIL = 'emailFormat';
     public const FORMAT_HOSTNAME = 'styleHostName';
     public const FORMAT_IP = 'ipFormat';
+    public const FORMAT_JSON_POINTER = 'jsonPointerFormat';
     public const FORMAT_PHONE = 'phoneFormat';
     public const FORMAT_REGEX= 'regexFormat';
     public const FORMAT_STYLE = 'styleFormat';
     public const FORMAT_TIME = 'timeFormat';
+    public const FORMAT_URI_TEMPLATE = 'uriTemplateFormat';
     public const FORMAT_URL = 'urlFormat';
     public const FORMAT_URL_REF = 'urlRefFormat';
     public const INVALID_SCHEMA = 'invalidSchema';
@@ -51,6 +55,7 @@ class ConstraintError extends Enum
     public const PREGEX_INVALID = 'pregrex';
     public const PROPERTIES_MIN = 'minProperties';
     public const PROPERTIES_MAX = 'maxProperties';
+    public const PROPERTY_NAMES = 'propertyNames';
     public const TYPE = 'type';
     public const UNIQUE_ITEMS = 'uniqueItems';
 
@@ -70,8 +75,10 @@ class ConstraintError extends Enum
             self::DIVISIBLE_BY => 'Is not divisible by %d',
             self::ENUM => 'Does not have a value in the enumeration %s',
             self::CONSTANT => 'Does not have a value equal to %s',
+            self::CONTAINS => 'Does not have a value valid to contains schema',
             self::EXCLUSIVE_MINIMUM => 'Must have a minimum value greater than %d',
             self::EXCLUSIVE_MAXIMUM => 'Must have a maximum value less than %d',
+            self::FALSE => 'Boolean schema false',
             self::FORMAT_COLOR => 'Invalid color',
             self::FORMAT_DATE => 'Invalid date %s, expected format YYYY-MM-DD',
             self::FORMAT_DATE_TIME => 'Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm',
@@ -79,10 +86,12 @@ class ConstraintError extends Enum
             self::FORMAT_EMAIL => 'Invalid email',
             self::FORMAT_HOSTNAME => 'Invalid hostname',
             self::FORMAT_IP => 'Invalid IP address',
+            self::FORMAT_JSON_POINTER => 'Invalid JSON pointer',
             self::FORMAT_PHONE => 'Invalid phone number',
             self::FORMAT_REGEX=> 'Invalid regex format %s',
             self::FORMAT_STYLE => 'Invalid style',
             self::FORMAT_TIME => 'Invalid time %s, expected format hh:mm:ss',
+            self::FORMAT_URI_TEMPLATE => 'Invalid URI template format',
             self::FORMAT_URL => 'Invalid URL format',
             self::FORMAT_URL_REF => 'Invalid URL reference format',
             self::LENGTH_MAX => 'Must be at most %d characters long',
@@ -104,6 +113,7 @@ class ConstraintError extends Enum
             self::PREGEX_INVALID => 'The pattern %s is invalid',
             self::PROPERTIES_MIN => 'Must contain a minimum of %d properties',
             self::PROPERTIES_MAX => 'Must contain no more than %d properties',
+            self::PROPERTY_NAMES => 'Property name %s is invalid',
             self::TYPE => '%s value found, but %s is required',
             self::UNIQUE_ITEMS => 'There are no duplicates allowed in the array'
         ];

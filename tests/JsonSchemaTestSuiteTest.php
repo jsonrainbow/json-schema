@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests;
 
 use CallbackFilterIterator;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
@@ -18,27 +19,29 @@ class JsonSchemaTestSuiteTest extends TestCase
     /**
      * @dataProvider casesDataProvider
      *
-     * @param mixed $data
+     * @param \stdClass|bool $schema
+     * @param mixed          $data
      */
     public function testTestCaseValidatesCorrectly(
         string $testCaseDescription,
         string $testDescription,
-        \stdClass $schema,
+        $schema,
         $data,
+        int $checkMode,
         bool $expectedValidationResult,
         bool $optional
-    ): void
-    {
+    ): void {
         $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema(property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI, $schema);
+        $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
+        $schemaStorage->addSchema($id, $schema);
         $this->loadRemotesIntoStorage($schemaStorage);
         $validator = new Validator(new Factory($schemaStorage));
 
         try {
-            $validator->validate($data, $schema);
+            $validator->validate($data, $schema, $checkMode);
         } catch (\Exception $e) {
             if ($optional) {
-                $this->markTestSkipped('Optional test case would during validate() invocation');
+                $this->markTestSkipped('Optional test case throws exception during validate() invocation: "' . $e->getMessage() . '"');
             }
 
             throw $e;
@@ -48,7 +51,11 @@ class JsonSchemaTestSuiteTest extends TestCase
             $this->markTestSkipped('Optional test case would fail');
         }
 
-        self::assertEquals($expectedValidationResult, count($validator->getErrors()) === 0);
+        self::assertEquals(
+            $expectedValidationResult,
+            count($validator->getErrors()) === 0,
+            $expectedValidationResult ? print_r($validator->getErrors(), true) : 'Validator returned valid but the testcase indicates it is invalid'
+        );
     }
 
     public function casesDataProvider(): \Generator
@@ -57,7 +64,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft6', 'draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
             if (in_array(basename($draft), $skippedDrafts, true)) {
@@ -96,11 +103,11 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'testDescription' => $test->description,
                             'schema' => $testCase->schema,
                             'data' => $test->data,
+                            'checkMode' => $this->getCheckModeForDraft($baseDraftName),
                             'expectedValidationResult' => $test->valid,
                             'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
                     }
-
                 }
             }
         }
@@ -140,6 +147,27 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft4/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: integer is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
+            '[draft6/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
+            '[draft6/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
+            '[draft6/ref.json]: refs with quote: object with strings is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
+            '[draft6/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
+            '[draft6/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
+            '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
+            // Skipping complex edge cases for now
+            '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
+            '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
+            '[draft6/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
+            '[draft6/ref.json]: ref overrides any sibling keywords: ref valid, maxItems ignored is expected to be valid',
+            '[draft6/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
+            '[draft6/ref.json]: refs with relative uris and defs: invalid on inner field is expected to be invalid',
+            '[draft6/ref.json]: refs with relative uris and defs: invalid on outer field is expected to be invalid',
+            '[draft6/ref.json]: relative refs with absolute uris and defs: invalid on inner field is expected to be invalid',
+            '[draft6/ref.json]: relative refs with absolute uris and defs: invalid on outer field is expected to be invalid',
+            '[draft6/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
+            '[draft6/ref.json]: URN base URI with NSS: a non-string is invalid is expected to be invalid',
+            '[draft6/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
+            '[draft6/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
+            '[draft6/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
@@ -154,4 +182,16 @@ class JsonSchemaTestSuiteTest extends TestCase
         return PHP_INT_SIZE === 4;
     }
 
+    /**
+     * @phpstan-return int-mask-of<Validator::ERROR_*>
+     */
+    private function getCheckModeForDraft(string $draft): int
+    {
+        switch ($draft) {
+            case 'draft6':
+                return Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT;
+            default:
+                return Constraint::CHECK_MODE_NORMAL;
+        }
+    }
 }

@@ -61,13 +61,35 @@ class Validator extends BaseConstraint
         if (LooseTypeCheck::propertyExists($schema, 'id')) {
             $schemaURI = LooseTypeCheck::propertyGet($schema, 'id');
         }
+        if (LooseTypeCheck::propertyExists($schema, '$id')) {
+            $schemaURI = LooseTypeCheck::propertyGet($schema, '$id');
+        }
         $this->factory->getSchemaStorage()->addSchema($schemaURI, $schema);
 
         $validator = $this->factory->createInstanceFor('schema');
-        $validator->check(
-            $value,
-            $this->factory->getSchemaStorage()->getSchema($schemaURI)
-        );
+        $schema = $this->factory->getSchemaStorage()->getSchema($schemaURI);
+
+        // Boolean schema requires no further validation
+        if (is_bool($schema)) {
+            if ($schema === false) {
+                $this->addError(ConstraintError::FALSE());
+            }
+
+            return $this->getErrorMask();
+        }
+
+        if ($this->factory->getConfig(Constraint::CHECK_MODE_STRICT)) {
+            $dialect = $this->factory->getDefaultDialect();
+            if (property_exists($schema, '$schema')) {
+                $dialect = $schema->{'$schema'};
+            }
+
+            $validator = $this->factory->createInstanceFor(
+                DraftIdentifiers::byValue($dialect)->toConstraintName()
+            );
+        }
+
+        $validator->check($value, $schema);
 
         $this->factory->setConfig($initialCheckMode);
 

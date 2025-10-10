@@ -7,13 +7,14 @@ namespace JsonSchema\Tests\Constraints;
 use Generator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriResolver;
 use JsonSchema\Validator;
 
 abstract class BaseTestCase extends VeryBaseTestCase
 {
-    protected $schemaSpec = 'http://json-schema.org/draft-04/schema#';
+    protected $schemaSpec = DraftIdentifiers::DRAFT_4;
     protected $validateSchema = false;
 
     /**
@@ -88,7 +89,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
      *
      * @param ?int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function testValidCases(string $input, string $schema, ?int $checkMode = Constraint::CHECK_MODE_NORMAL): void
+    public function testValidCases(string $input, string $schema, int $checkMode = Constraint::CHECK_MODE_NORMAL): void
     {
         if ($this->validateSchema) {
             $checkMode |= Constraint::CHECK_MODE_VALIDATE_SCHEMA;
@@ -152,7 +153,7 @@ abstract class BaseTestCase extends VeryBaseTestCase
         yield from $this->getInvalidTests();
     }
 
-    private function validatorErrorsToString(Validator $validator): string
+    protected function validatorErrorsToString(Validator $validator): string
     {
         return implode(
             ', ',
