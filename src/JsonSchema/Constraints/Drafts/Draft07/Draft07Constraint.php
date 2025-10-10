@@ -65,6 +65,7 @@ class Draft07Constraint extends Constraint
         $this->checkForKeyword('multipleOf', $value, $schema, $path, $i);
         $this->checkForKeyword('format', $value, $schema, $path, $i);
         $this->checkForKeyword('pattern', $value, $schema, $path, $i);
+        $this->checkForKeyword('content', $value, $schema, $path, $i);
     }
 
     /**

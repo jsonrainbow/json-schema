@@ -43,5 +43,6 @@ class Factory extends \JsonSchema\Constraints\Factory
         'properties' => PropertiesConstraint::class,
         'items' => ItemsConstraint::class,
         'ref' => RefConstraint::class,
+        'content' => ContentConstraint::class,
     ];
 }
