@@ -67,7 +67,8 @@ class JsonSchemaTestSuiteTest extends TestCase
         $skippedDrafts = ['draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
-            if (in_array(basename($draft), $skippedDrafts, true)) {
+            $baseDraftName = basename($draft);
+            if (in_array($baseDraftName, $skippedDrafts, true)) {
                 continue;
             }
 
