@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft07;
 
-use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
@@ -50,6 +49,7 @@ class IfThenElseConstraint implements ConstraintInterface
             }
 
             $this->addErrors($schemaConstraint->getErrors());
+
             return;
         }
 

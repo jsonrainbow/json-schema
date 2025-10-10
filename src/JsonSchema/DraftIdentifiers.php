@@ -21,7 +21,7 @@ class DraftIdentifiers extends Enum
     public const DRAFT_2019_09 = 'https://json-schema.org/draft/2019-09/schema';
     public const DRAFT_2020_12 = 'https://json-schema.org/draft/2020-12/schema';
 
-    /** @var array<DraftIdentifiers::DRAFT_*, string>  */
+    /** @var array<DraftIdentifiers::DRAFT_*, string> */
     private const MAPPING = [
         self::DRAFT_3 => 'draft03',
         self::DRAFT_4 => 'draft04',
