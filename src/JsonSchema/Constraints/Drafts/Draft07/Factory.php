@@ -35,6 +35,7 @@ class Factory extends \JsonSchema\Constraints\Factory
         'allOf' => AllOfConstraint::class,
         'oneOf' => OneOfConstraint::class,
         'not' => NotConstraint::class,
+        'ifThenElse' => IfThenElseConstraint::class,
         'contains' => ContainsConstraint::class,
         'propertyNames' => PropertiesNamesConstraint::class,
         'patternProperties' => PatternPropertiesConstraint::class,
