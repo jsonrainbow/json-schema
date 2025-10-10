@@ -7,6 +7,7 @@ namespace JsonSchema\Tests;
 use CallbackFilterIterator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Validator;
@@ -28,6 +29,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $schema,
         $data,
         int $checkMode,
+        DraftIdentifiers $draft,
         bool $expectedValidationResult,
         bool $optional
     ): void {
@@ -35,7 +37,9 @@ class JsonSchemaTestSuiteTest extends TestCase
         $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
         $schemaStorage->addSchema($id, $schema);
         $this->loadRemotesIntoStorage($schemaStorage);
-        $validator = new Validator(new Factory($schemaStorage));
+        $factory = new Factory($schemaStorage);
+        $factory->setDefaultDialect($draft->getValue());
+        $validator = new Validator($factory);
 
         try {
             $validator->validate($data, $schema, $checkMode);
@@ -64,7 +68,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft3', 'draft4', 'draft6', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
             $baseDraftName = basename($draft);
@@ -105,6 +109,7 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'schema' => $testCase->schema,
                             'data' => $test->data,
                             'checkMode' => $this->getCheckModeForDraft($baseDraftName),
+                            'draft' => DraftIdentifiers::fromConstraintName($baseDraftName),
                             'expectedValidationResult' => $test->valid,
                             'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
