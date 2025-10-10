@@ -32,38 +32,39 @@ class Draft07Constraint extends Constraint
         }
 
         // Apply defaults
-//        $this->checkForKeyword('ref', $value, $schema, $path, $i);
-//        $this->checkForKeyword('required', $value, $schema, $path, $i);
-//        $this->checkForKeyword('contains', $value, $schema, $path, $i);
-//        $this->checkForKeyword('properties', $value, $schema, $path, $i);
-//        $this->checkForKeyword('propertyNames', $value, $schema, $path, $i);
-//        $this->checkForKeyword('patternProperties', $value, $schema, $path, $i);
-//        $this->checkForKeyword('type', $value, $schema, $path, $i);
-//        $this->checkForKeyword('not', $value, $schema, $path, $i);
-//        $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
-//        $this->checkForKeyword('allOf', $value, $schema, $path, $i);
-//        $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
-//        $this->checkForKeyword('oneOf', $value, $schema, $path, $i);
-//
-//        $this->checkForKeyword('additionalProperties', $value, $schema, $path, $i);
-//        $this->checkForKeyword('items', $value, $schema, $path, $i);
-//        $this->checkForKeyword('additionalItems', $value, $schema, $path, $i);
+        $this->checkForKeyword('ref', $value, $schema, $path, $i);
+        $this->checkForKeyword('required', $value, $schema, $path, $i);
+        $this->checkForKeyword('contains', $value, $schema, $path, $i);
+        $this->checkForKeyword('properties', $value, $schema, $path, $i);
+        $this->checkForKeyword('propertyNames', $value, $schema, $path, $i);
+        $this->checkForKeyword('patternProperties', $value, $schema, $path, $i);
+        $this->checkForKeyword('type', $value, $schema, $path, $i);
+        $this->checkForKeyword('not', $value, $schema, $path, $i);
+        $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
+        $this->checkForKeyword('allOf', $value, $schema, $path, $i);
+        $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
+        $this->checkForKeyword('oneOf', $value, $schema, $path, $i);
+        $this->checkForKeyword('ifThenElse', $value, $schema, $path, $i);
+
+        $this->checkForKeyword('additionalProperties', $value, $schema, $path, $i);
+        $this->checkForKeyword('items', $value, $schema, $path, $i);
+        $this->checkForKeyword('additionalItems', $value, $schema, $path, $i);
         $this->checkForKeyword('uniqueItems', $value, $schema, $path, $i);
         $this->checkForKeyword('minItems', $value, $schema, $path, $i);
-//        $this->checkForKeyword('minProperties', $value, $schema, $path, $i);
-//        $this->checkForKeyword('maxProperties', $value, $schema, $path, $i);
-//        $this->checkForKeyword('minimum', $value, $schema, $path, $i);
-//        $this->checkForKeyword('maximum', $value, $schema, $path, $i);
-//        $this->checkForKeyword('minLength', $value, $schema, $path, $i);
-//        $this->checkForKeyword('exclusiveMinimum', $value, $schema, $path, $i);
-//        $this->checkForKeyword('maxItems', $value, $schema, $path, $i);
-//        $this->checkForKeyword('maxLength', $value, $schema, $path, $i);
-//        $this->checkForKeyword('exclusiveMaximum', $value, $schema, $path, $i);
-//        $this->checkForKeyword('enum', $value, $schema, $path, $i);
+        $this->checkForKeyword('minProperties', $value, $schema, $path, $i);
+        $this->checkForKeyword('maxProperties', $value, $schema, $path, $i);
+        $this->checkForKeyword('minimum', $value, $schema, $path, $i);
+        $this->checkForKeyword('maximum', $value, $schema, $path, $i);
+        $this->checkForKeyword('minLength', $value, $schema, $path, $i);
+        $this->checkForKeyword('exclusiveMinimum', $value, $schema, $path, $i);
+        $this->checkForKeyword('maxItems', $value, $schema, $path, $i);
+        $this->checkForKeyword('maxLength', $value, $schema, $path, $i);
+        $this->checkForKeyword('exclusiveMaximum', $value, $schema, $path, $i);
+        $this->checkForKeyword('enum', $value, $schema, $path, $i);
         $this->checkForKeyword('const', $value, $schema, $path, $i);
-//        $this->checkForKeyword('multipleOf', $value, $schema, $path, $i);
-//        $this->checkForKeyword('format', $value, $schema, $path, $i);
-//        $this->checkForKeyword('pattern', $value, $schema, $path, $i);
+        $this->checkForKeyword('multipleOf', $value, $schema, $path, $i);
+        $this->checkForKeyword('format', $value, $schema, $path, $i);
+        $this->checkForKeyword('pattern', $value, $schema, $path, $i);
     }
 
     /**

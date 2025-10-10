@@ -174,6 +174,20 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
+            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
+            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
+            '[draft7/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
+            '[draft7/ref.json]: ref overrides any sibling keywords: ref valid, maxItems ignored is expected to be valid',
+            '[draft7/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
+            '[draft7/ref.json]: refs with relative uris and defs: invalid on inner field is expected to be invalid',
+            '[draft7/ref.json]: refs with relative uris and defs: invalid on outer field is expected to be invalid',
+            '[draft7/ref.json]: relative refs with absolute uris and defs: invalid on inner field is expected to be invalid',
+            '[draft7/ref.json]: relative refs with absolute uris and defs: invalid on outer field is expected to be invalid',
+            '[draft7/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with NSS: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
