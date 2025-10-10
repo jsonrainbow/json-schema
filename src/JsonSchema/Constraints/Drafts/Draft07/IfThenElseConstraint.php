@@ -34,6 +34,7 @@ class IfThenElseConstraint implements ConstraintInterface
         if (!is_bool($ifSchema)) {
             $schemaConstraint->check($value, $ifSchema, $path, $i);
             $meetsIfConditions = $schemaConstraint->isValid();
+            $schemaConstraint->reset();
         } else {
             $meetsIfConditions = $ifSchema;
         }
