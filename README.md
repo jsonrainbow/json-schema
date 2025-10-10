@@ -3,15 +3,19 @@
 [![Build Status](https://github.com/jsonrainbow/json-schema/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/jsonrainbow/json-schema/actions)
 [![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable)](https://packagist.org/packages/justinrainbow/json-schema)
 [![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads)](https://packagist.org/packages/justinrainbow/json-schema/stats)
+![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fsupported_versions.json)
 
 A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3, 
 Draft-4 or Draft-6. 
 
 Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview 
-of all existing Drafts.
+of all existing Drafts. See [json-schema](http://json-schema.org/) for more details about the JSON Schema specification
 
+# Compliance
+![Draft 3](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft3.json)
+![Draft 4](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft4.json)
+![Draft 6](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft6.json)
 
-See [json-schema](http://json-schema.org/) for more details.
 
 ## Installation
 
