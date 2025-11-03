@@ -308,7 +308,8 @@ class SchemaStorageTest extends TestCase
 
     /**
      * Test that definitions named 'enum' or 'const' are properly resolved
-     * Regression test for: https://github.com/jsonrainbow/json-schema/issues/XXX
+     * Regression test for UnresolvableJsonPointerException when definitions are named 'enum' or 'const'
+     * Related to: https://github.com/mxr576/oas-validation-issue-on-v6
      */
     public function testDefinitionNamedEnumIsResolved(): void
     {

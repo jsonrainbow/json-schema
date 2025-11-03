@@ -16,7 +16,10 @@ class SchemaStorage implements SchemaStorageInterface
 
     /**
      * JSON Schema keywords that indicate an object is a schema with validation rules,
-     * not a pure container (like definitions, properties)
+     * not a pure container (like the value of definitions or properties keywords).
+     * 
+     * Note: 'properties' is a schema keyword (e.g., {"type": "object", "properties": {...}}).
+     * The properties *container* (the value) won't have these keywords, so it won't match.
      */
     private const SCHEMA_KEYWORDS = [
         'type', 'properties', 'items', 'additionalProperties', 'additionalItems',
