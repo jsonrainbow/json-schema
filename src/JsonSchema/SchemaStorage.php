@@ -14,6 +14,20 @@ class SchemaStorage implements SchemaStorageInterface
 {
     public const INTERNAL_PROVIDED_SCHEMA_URI = 'internal://provided-schema/';
 
+    /**
+     * JSON Schema keywords that indicate an object is a schema with validation rules,
+     * not a pure container (like definitions, properties)
+     */
+    private const SCHEMA_KEYWORDS = [
+        'type', 'properties', 'items', 'additionalProperties', 'additionalItems',
+        'required', 'allOf', 'anyOf', 'oneOf', 'not', 'format',
+        'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
+        'minLength', 'maxLength', 'pattern', 'minItems', 'maxItems',
+        'uniqueItems', 'minProperties', 'maxProperties', 'multipleOf',
+        '$schema', 'id', '$id', 'title', 'description',
+        'default', 'examples', 'patternProperties', 'dependencies'
+    ];
+
     protected $uriRetriever;
     protected $uriResolver;
     protected $schemas = [];
@@ -243,18 +257,7 @@ class SchemaStorage implements SchemaStorageInterface
      */
     private function isSchemaObject(object $schema): bool
     {
-        // Common JSON Schema keywords that indicate this is a schema, not a container
-        $schemaKeywords = [
-            'type', 'properties', 'items', 'additionalProperties', 'additionalItems',
-            'required', 'allOf', 'anyOf', 'oneOf', 'not', 'format',
-            'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
-            'minLength', 'maxLength', 'pattern', 'minItems', 'maxItems',
-            'uniqueItems', 'minProperties', 'maxProperties', 'multipleOf',
-            '$ref', '$schema', 'id', '$id', 'title', 'description',
-            'default', 'examples', 'patternProperties', 'dependencies'
-        ];
-
-        foreach ($schemaKeywords as $keyword) {
+        foreach (self::SCHEMA_KEYWORDS as $keyword) {
             if (property_exists($schema, $keyword)) {
                 return true;
             }
