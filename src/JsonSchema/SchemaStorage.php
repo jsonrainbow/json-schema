@@ -22,13 +22,25 @@ class SchemaStorage implements SchemaStorageInterface
      * The properties *container* (the value) won't have these keywords, so it won't match.
      */
     private const SCHEMA_KEYWORDS = [
-        'type', 'properties', 'items', 'additionalProperties', 'additionalItems',
-        'required', 'allOf', 'anyOf', 'oneOf', 'not', 'format',
-        'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
-        'minLength', 'maxLength', 'pattern', 'minItems', 'maxItems',
-        'uniqueItems', 'minProperties', 'maxProperties', 'multipleOf',
+        // Core schema identifiers
         '$schema', 'id', '$id', 'title', 'description',
-        'default', 'examples', 'patternProperties', 'dependencies'
+        
+        // Type and structure
+        'type', 'properties', 'patternProperties', 'additionalProperties',
+        'items', 'additionalItems', 'required', 'dependencies',
+        
+        // Validation keywords
+        'format', 'pattern',
+        'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'multipleOf',
+        'minLength', 'maxLength',
+        'minItems', 'maxItems', 'uniqueItems',
+        'minProperties', 'maxProperties',
+        
+        // Composition
+        'allOf', 'anyOf', 'oneOf', 'not',
+        
+        // Metadata
+        'default', 'examples'
     ];
 
     protected $uriRetriever;
