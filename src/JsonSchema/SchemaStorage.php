@@ -207,7 +207,8 @@ class SchemaStorage implements SchemaStorageInterface
             $potentialSubSchemaId = $this->findSchemaIdInObject($potentialSubSchema);
             if (is_string($potentialSubSchemaId) && property_exists($potentialSubSchema, 'type')) {
                 // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
-                if (in_array($propertyName, ['enum', 'const'])) {
+                // Only skip if we're in an actual schema context, not when 'enum'/'const' is a property/definition name
+                if (in_array($propertyName, ['enum', 'const']) && $this->isSchemaObject($schema)) {
                     continue;
                 }
 
