@@ -305,4 +305,45 @@ class SchemaStorageTest extends TestCase
             $schemas['test/schema']->{'$ref'}
         );
     }
+
+    /**
+     * Test that definitions named 'enum' or 'const' are properly resolved
+     * Regression test for: https://github.com/jsonrainbow/json-schema/issues/XXX
+     */
+    public function testDefinitionNamedEnumIsResolved(): void
+    {
+        // Schema with a definition named 'enum' that contains a $ref
+        $schema = (object) [
+            'id' => 'http://example.com/schema.json',
+            'definitions' => (object) [
+                'enum' => (object) [
+                    '$ref' => 'http://json-schema.org/draft-04/schema#/properties/enum'
+                ],
+                'const' => (object) [
+                    '$ref' => 'http://json-schema.org/draft-04/schema#/properties/const'
+                ]
+            ]
+        ];
+
+        $uriRetriever = $this->prophesize(\JsonSchema\UriRetrieverInterface::class);
+        $uriRetriever->retrieve('http://example.com/schema.json')
+            ->willReturn($schema)
+            ->shouldBeCalled();
+
+        $schemaStorage = new SchemaStorage($uriRetriever->reveal());
+        $schemaStorage->addSchema('http://example.com/schema.json');
+
+        // Verify the refs in the 'enum' and 'const' definitions were expanded
+        $storedSchema = $schemaStorage->getSchema('http://example.com/schema.json');
+        
+        // The $ref should have been expanded to include the full URI
+        $this->assertStringContainsString(
+            'http://json-schema.org/draft-04/schema#',
+            $storedSchema->definitions->enum->{'$ref'}
+        );
+        $this->assertStringContainsString(
+            'http://json-schema.org/draft-04/schema#',
+            $storedSchema->definitions->const->{'$ref'}
+        );
+    }
 }

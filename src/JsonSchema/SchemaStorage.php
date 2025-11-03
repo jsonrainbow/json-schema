@@ -101,7 +101,9 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         foreach ($schema as $propertyName => &$member) {
-            if (in_array($propertyName, ['enum', 'const'])) {
+            // Only skip enum/const if we're in an actual schema object (has validation keywords),
+            // not in a container object like definitions where 'enum' might be a property/definition name
+            if (in_array($propertyName, ['enum', 'const']) && $this->isSchemaObject($schema)) {
                 // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
                 continue;
             }
@@ -232,5 +234,31 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         return null;
+    }
+
+    /**
+     * Check if an object appears to be a JSON Schema object (with validation keywords)
+     * vs a pure container object (like definitions, properties containers)
+     */
+    private function isSchemaObject(object $schema): bool
+    {
+        // Common JSON Schema keywords that indicate this is a schema, not a container
+        $schemaKeywords = [
+            'type', 'properties', 'items', 'additionalProperties', 'additionalItems',
+            'required', 'allOf', 'anyOf', 'oneOf', 'not', 'format',
+            'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
+            'minLength', 'maxLength', 'pattern', 'minItems', 'maxItems',
+            'uniqueItems', 'minProperties', 'maxProperties', 'multipleOf',
+            '$ref', '$schema', 'id', '$id', 'title', 'description',
+            'default', 'examples', 'patternProperties', 'dependencies'
+        ];
+
+        foreach ($schemaKeywords as $keyword) {
+            if (property_exists($schema, $keyword)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
