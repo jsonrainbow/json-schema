@@ -82,6 +82,7 @@ class SchemaStorage implements SchemaStorageInterface
      * Recursively resolve all references against the provided base
      *
      * @param mixed $schema
+     * @param list<string> $propertyStack
      */
     private function expandRefs(&$schema, ?string $parentId = null, array $propertyStack = []): void
     {
