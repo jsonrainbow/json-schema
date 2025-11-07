@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Rename master to main ([#848](https://github.com/jsonrainbow/json-schema/pull/848))
+### Fixed
+- Don't skip ref expanding for property called enum when child of property called properties ([#851](https://github.com/jsonrainbow/json-schema/pull/851))
 
 ## [6.6.0] - 2025-10-10
 ### Added

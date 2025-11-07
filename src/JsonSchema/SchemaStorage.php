@@ -81,9 +81,10 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * Recursively resolve all references against the provided base
      *
-     * @param mixed $schema
+     * @param mixed        $schema
+     * @param list<string> $propertyStack
      */
-    private function expandRefs(&$schema, ?string $parentId = null): void
+    private function expandRefs(&$schema, ?string $parentId = null, array $propertyStack = []): void
     {
         if (!is_object($schema)) {
             if (is_array($schema)) {
@@ -100,8 +101,9 @@ class SchemaStorage implements SchemaStorageInterface
             $schema->{'$ref'} = (string) $refPointer;
         }
 
+        $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
         foreach ($schema as $propertyName => &$member) {
-            if (in_array($propertyName, ['enum', 'const'])) {
+            if ($parentProperty !== 'properties' && in_array($propertyName, ['enum', 'const'])) {
                 // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
                 continue;
             }
@@ -112,7 +114,9 @@ class SchemaStorage implements SchemaStorageInterface
                 $childId = $this->uriResolver->resolve($schemaId, $childId);
             }
 
-            $this->expandRefs($member, $childId);
+            $clonedPropertyStack = $propertyStack;
+            $clonedPropertyStack[] = $propertyName;
+            $this->expandRefs($member, $childId, $clonedPropertyStack);
         }
     }
 
