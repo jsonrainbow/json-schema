@@ -7,6 +7,7 @@ namespace JsonSchema\Tests;
 use CallbackFilterIterator;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\Validator;
@@ -28,6 +29,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $schema,
         $data,
         int $checkMode,
+        DraftIdentifiers $draft,
         bool $expectedValidationResult,
         bool $optional
     ): void {
@@ -35,7 +37,9 @@ class JsonSchemaTestSuiteTest extends TestCase
         $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
         $schemaStorage->addSchema($id, $schema);
         $this->loadRemotesIntoStorage($schemaStorage);
-        $validator = new Validator(new Factory($schemaStorage));
+        $factory = new Factory($schemaStorage);
+        $factory->setDefaultDialect($draft->getValue());
+        $validator = new Validator($factory);
 
         try {
             $validator->validate($data, $schema, $checkMode);
@@ -64,10 +68,11 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft7', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft3', 'draft4', 'draft6', 'draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
-            if (in_array(basename($draft), $skippedDrafts, true)) {
+            $baseDraftName = basename($draft);
+            if (in_array($baseDraftName, $skippedDrafts, true)) {
                 continue;
             }
 
@@ -104,6 +109,7 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'schema' => $testCase->schema,
                             'data' => $test->data,
                             'checkMode' => $this->getCheckModeForDraft($baseDraftName),
+                            'draft' => DraftIdentifiers::fromConstraintName($baseDraftName),
                             'expectedValidationResult' => $test->valid,
                             'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
@@ -168,6 +174,20 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
+            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
+            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
+            '[draft7/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
+            '[draft7/ref.json]: ref overrides any sibling keywords: ref valid, maxItems ignored is expected to be valid',
+            '[draft7/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
+            '[draft7/ref.json]: refs with relative uris and defs: invalid on inner field is expected to be invalid',
+            '[draft7/ref.json]: refs with relative uris and defs: invalid on outer field is expected to be invalid',
+            '[draft7/ref.json]: relative refs with absolute uris and defs: invalid on inner field is expected to be invalid',
+            '[draft7/ref.json]: relative refs with absolute uris and defs: invalid on outer field is expected to be invalid',
+            '[draft7/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with NSS: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
@@ -189,6 +209,7 @@ class JsonSchemaTestSuiteTest extends TestCase
     {
         switch ($draft) {
             case 'draft6':
+            case 'draft7':
                 return Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT;
             default:
                 return Constraint::CHECK_MODE_NORMAL;
