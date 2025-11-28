@@ -58,6 +58,8 @@ class ConstraintError extends Enum
     public const PROPERTY_NAMES = 'propertyNames';
     public const TYPE = 'type';
     public const UNIQUE_ITEMS = 'uniqueItems';
+    public const CONTENT_MEDIA_TYPE = 'contentMediaType';
+    public const CONTENT_ENCODING = 'contentEncoding';
 
     /**
      * @return string
@@ -115,7 +117,9 @@ class ConstraintError extends Enum
             self::PROPERTIES_MAX => 'Must contain no more than %d properties',
             self::PROPERTY_NAMES => 'Property name %s is invalid',
             self::TYPE => '%s value found, but %s is required',
-            self::UNIQUE_ITEMS => 'There are no duplicates allowed in the array'
+            self::UNIQUE_ITEMS => 'There are no duplicates allowed in the array',
+            self::CONTENT_MEDIA_TYPE => 'Value is not valid with content media type',
+            self::CONTENT_ENCODING => 'Value is not valid with content encoding',
         ];
 
         if (!isset($messages[$name])) {
