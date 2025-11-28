@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Allow underscore and tilde in URI hostnames as per RFC 3986 ([#853](https://github.com/jsonrainbow/json-schema/pull/853))
 
 ## [6.6.1] - 2025-11-07
 ### Changed

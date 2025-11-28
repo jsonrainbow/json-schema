@@ -12,7 +12,7 @@ class UriValidator
         $hierarchicalPattern = '/^
             ([a-z][a-z0-9+\-.]*):\/\/                # Scheme (http, https, ftp, etc.)
             (?:([^:@\/?#]+)(?::([^@\/?#]*))?@)?      # Optional userinfo (user:pass@)
-            ([a-z0-9.-]+|\[[a-f0-9:.]+\])            # Hostname or IPv6 in brackets
+            ([a-z0-9._~-]+|\[[a-f0-9:.]+\])          # Hostname or IPv6 in brackets
             (?::(\d{1,5}))?                          # Optional port
             (\/[a-zA-Z0-9._~!$&\'()*+,;=:@\/%-]*)*   # Path (valid characters only)
             (\?([^#]*))?                             # Optional query
