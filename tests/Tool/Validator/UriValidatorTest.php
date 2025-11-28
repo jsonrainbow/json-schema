@@ -32,6 +32,7 @@ class UriValidatorTest extends TestCase
         yield 'Data URI' => ['uri' => 'data:text/plain;charset=utf-8,Hello%20World!'];
         yield 'ISBN URN URI' => ['uri' => 'urn:isbn:0451450523'];
         yield 'OASIS URN URI' => ['uri' => 'urn:oasis:names:specification:docbook:dtd:xml:4.1.2'];
+        yield 'Custom URI' => ['uri' => 'custom://reg_name/path/file.json'];
     }
 
     public function invalidUriDataProvider(): \Generator
