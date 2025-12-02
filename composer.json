@@ -29,7 +29,7 @@
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "marc-mabe/php-enum":"^4.0"
+        "marc-mabe/php-enum":"^4.4"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.3.0",
