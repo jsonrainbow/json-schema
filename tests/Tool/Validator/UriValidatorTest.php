@@ -34,6 +34,9 @@ class UriValidatorTest extends TestCase
         yield 'OASIS URN URI' => ['uri' => 'urn:oasis:names:specification:docbook:dtd:xml:4.1.2'];
         yield 'Custom URI with underscore' => ['uri' => 'custom://reg_name/path/file.json'];
         yield 'Custom URI with tilde' => ['uri' => 'custom://reg~name/path/file.json'];
+        yield 'File URI with implicit localhost (empty host)' => ['uri' => 'file:///path/to/file.txt'];
+        yield 'File URI with explicit host' => ['uri' => 'file://some-host/path/to/file.txt'];
+        yield 'File URI without any host' => ['uri' => 'file:/path/to/file.txt'];
     }
 
     public function invalidUriDataProvider(): \Generator
@@ -47,5 +50,7 @@ class UriValidatorTest extends TestCase
         yield 'Invalid path characters with "^"' => ['uri' => 'http://example.com/^invalid'];
         yield 'Only mailto:' => ['uri' => 'mailto:'];
         yield 'Invalid email used in mailto:' => ['uri' => 'mailto:user@.com'];
+        // Cannot be validated properly with regex only
+        // yield 'Invalid file uri (missing host)' => ['uri' => 'file://path/to/file.txt'];
     }
 }
