@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - 5.x.x
   pull_request:
     branches:
       - main
+      - 5.x.x
 
 env:
   COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
