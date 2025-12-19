@@ -21,7 +21,7 @@ class UriValidator
 
         // RFC 3986: Non-Hierarchical URIs (mailto, data, urn, news)
         $nonHierarchicalPattern = '/^
-                (mailto|data|urn|news|tel):          # Only allow known non-hierarchical schemes
+                (mailto|data|urn|news|tel|file):     # Only allow known non-hierarchical schemes
                 (.+)                                 # Must contain at least one character after scheme
         $/ix';
 

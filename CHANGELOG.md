@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - ci: Run workflows against 5.x.x branches ([#859](https://github.com/jsonrainbow/json-schema/pull/859))
+### Fixed
+- UriValidator: Allow `file:/` and `file:///` ([#856](https://github.com/jsonrainbow/json-schema/discussions/856))
 
 ## [6.6.3] - 2025-12-02
 ### Changed
