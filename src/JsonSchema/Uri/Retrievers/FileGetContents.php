@@ -49,17 +49,19 @@ class FileGetContents extends AbstractRetriever
         }
 
         $this->messageBody = $response;
+
         if (function_exists('http_get_last_response_headers')) {
-            // Use http_get_last_response_headers() for BC compatibility with PHP 8.5+
+            // Use http_get_last_response_headers() for compatibility with PHP 8.5+
             // where $http_response_header is deprecated.
-            $http_response_header = http_get_last_response_headers();
+            $httpResponseHeaders = http_get_last_response_headers();
+        } else {
+            /** @phpstan-ignore nullCoalesce.variable ($http_response_header can non-existing when no http request was done) */
+            $httpResponseHeaders = $http_response_header ?? [];
         }
-        if (!empty($http_response_header)) {
-            // $http_response_header cannot be tested, because it's defined in the method's local scope
-            // See http://php.net/manual/en/reserved.variables.httpresponseheader.php for more info.
-            $this->fetchContentType($http_response_header); // @codeCoverageIgnore
-        } else {                                            // @codeCoverageIgnore
-            // Could be a "file://" url or something else - fake up the response
+
+        if (!empty($httpResponseHeaders)) {
+            $this->fetchContentType($httpResponseHeaders);
+        } else {
             $this->contentType = null;
         }
 
@@ -71,7 +73,7 @@ class FileGetContents extends AbstractRetriever
      *
      * @return bool Whether the Content-Type header was found or not
      */
-    private function fetchContentType(array $headers)
+    private function fetchContentType(array $headers): bool
     {
         foreach ($headers as $header) {
             if ($this->contentType = self::getContentTypeMatchInHeader($header)) {
