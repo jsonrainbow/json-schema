@@ -303,7 +303,7 @@ EOF;
         $root = sprintf('file://%s/', realpath(__DIR__ . '/../..'));
 
         $uri = $retriever->translate('package://foo/bar.json');
-        $this->assertEquals("${root}foo/bar.json", $uri);
+        $this->assertEquals("{$root}foo/bar.json", $uri);
     }
 
     public function testDefaultDistTranslations()
