@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft07;
 
+use IntlChar;
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
@@ -113,6 +114,11 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_HOSTNAME(), $path, ['format' => $schema->format]);
                 }
                 break;
+            case 'idn-hostname':
+                if (!$this->validateInternationalizedHostname($value)) {
+                    $this->addError(ConstraintError::FORMAT_HOSTNAME(), $path, ['format' => $schema->format]);
+                }
+                break;
             case 'json-pointer':
                 if (!$this->validateJsonPointer($value)) {
                     $this->addError(ConstraintError::FORMAT_JSON_POINTER(), $path, ['format' => $schema->format]);
@@ -176,6 +182,87 @@ class FormatConstraint implements ConstraintInterface
         $hostnameRegex = '/^(?!-)(?!.*?[^A-Za-z0-9\-\.])(?:(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?\.)*(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$/';
 
         return preg_match($hostnameRegex, $host) === 1;
+    }
+
+    private function validateInternationalizedHostname(string $host): bool
+    {
+        if ($host === '') {
+            return false;
+        }
+        $host = rtrim($host, '.');
+        $labels = explode('.', $host);
+        $asciiLabels = [];
+
+        if (!$labels) {
+            return false;
+        }
+
+        foreach ($labels as $label) {
+            if ($label === '') {
+                return false;
+            }
+
+            // CONTEXTJ / CONTEXTO checks
+            if (
+                // Greek KERAIA U+0375
+                preg_match('/\x{0375}/u', $label) &&
+                !preg_match('/\x{0375}[\x{0370}-\x{03FF}]/u', $label)
+            ) {
+                return false;
+            }
+
+            // Hebrew GERESH / GERSHAYIM U+05F3 / U+05F4
+            if (preg_match('/[\x{05F3}\x{05F4}]/u', $label) &&
+                !preg_match('/[\x{0590}-\x{05FF}][\x{05F3}\x{05F4}]/u', $label)
+            ) {
+                return false;
+            }
+
+            // Katakana middle dot U+30FB
+            if (str_contains($label, "\u{30FB}") &&
+                !preg_match('/[\x{30A0}-\x{30FF}]/u', $label)
+            ) {
+                return false;
+            }
+
+            // Arabic digit mixing
+            $hasArabicIndic = preg_match('/[\x{0660}-\x{0669}]/u', $label);
+            $hasExtArabicIndic = preg_match('/[\x{06F0}-\x{06F9}]/u', $label);
+            if ($hasArabicIndic && $hasExtArabicIndic) {
+                return false;
+            }
+
+            // Devanagari danda U+0964 / U+0965
+            if (preg_match('/[\x{0964}\x{0965}]/u', $label) &&
+                !preg_match('/[\x{0900}-\x{097F}]/u', $label)
+            ) {
+                return false;
+            }
+
+            // ZWNJ / ZWJ U+200C / U+200D
+            if (preg_match('/[\x{200C}\x{200D}]/u', $label)) {
+                return false;
+            }
+
+            $ascii = idn_to_ascii($label);
+            if ($ascii === false) {
+                return false;
+            }
+            // DNS label length
+            if (strlen($ascii) > 63) {
+                return false;
+            }
+            // LDH rule (after IDNA)
+            if (!preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i', $ascii)) {
+                return false;
+            }
+            $asciiLabels[] = $ascii;
+        }
+
+        // Total hostname length (ASCII)
+        $asciiHost = implode('.', $asciiLabels);
+
+        return strlen($asciiHost) <= 253;
     }
 
     private function validateJsonPointer(string $value): bool
