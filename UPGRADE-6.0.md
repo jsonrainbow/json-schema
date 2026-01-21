@@ -30,7 +30,7 @@ Thank you for your support and contributions to the project.
 
 * The signature for the `BaseConstraint::AddError` method has changed.
 
-  The `$message` parameter has been removed and replaced by the `ConstraintError` parameter. 
+  The `$message` parameter has been removed and replaced by the `ConstraintError` parameter.
   The `ConstraintError` object encapsulates the error message along with additional information about the constraint violation.
 
     *Before*
