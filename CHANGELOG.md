@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.4.2] - 2025-06-03
 ### Fixed
 - Fix objects are non-unique despite key order ([#819](https://github.com/jsonrainbow/json-schema/pull/819))
-- Id's not being resolved and id property affects sibling ref which it should not do ([#828](https://github.com/jsonrainbow/json-schema/pull/828)) 
+- Id's not being resolved and id property affects sibling ref which it should not do ([#828](https://github.com/jsonrainbow/json-schema/pull/828))
 
 ### Changed
 - Added extra breaking change to UPDATE-6.0.md regarding BaseConstraint::addError signature change ([#823](https://github.com/jsonrainbow/json-schema/pull/823))
@@ -92,7 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changed
 - replace icecave/parity with custom deep comparator ([#803](https://github.com/jsonrainbow/json-schema/pull/803))
- 
+
 ## [6.2.1] - 2025-03-06
 ### Fixed
 - allow items: true to pass validation ([#801](https://github.com/jsonrainbow/json-schema/pull/801))
@@ -122,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add return types in the test suite ([#748](https://github.com/jsonrainbow/json-schema/pull/748))
 - Add test case for validating array of strings with objects ([#704](https://github.com/jsonrainbow/json-schema/pull/704))
-- Add contributing information, contributor recognition and security information ([#771](https://github.com/jsonrainbow/json-schema/pull/771)) 
+- Add contributing information, contributor recognition and security information ([#771](https://github.com/jsonrainbow/json-schema/pull/771))
 
 ### Fixed
 - Correct misconfigured mocks in JsonSchema\Tests\Uri\UriRetrieverTest ([#741](https://github.com/jsonrainbow/json-schema/pull/741))
