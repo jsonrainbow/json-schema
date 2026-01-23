@@ -10,4 +10,4 @@
 
 ## Reporting a Vulnerability
 
-JSON Schema uses the GitHub feature to safely report vulnerabilities, please report them using https://github.com/jsonrainbow/json-schema/security 
+JSON Schema uses the GitHub feature to safely report vulnerabilities, please report them using https://github.com/jsonrainbow/json-schema/security
