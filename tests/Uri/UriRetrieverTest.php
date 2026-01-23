@@ -263,6 +263,20 @@ EOF;
         $retriever->confirmMediaType($uriRetriever, null);
     }
 
+    public function testConfirmMediaTypeExceptionIncludesActualMediaType(): void
+    {
+        $uriRetriever = $this->createMock(\JsonSchema\Uri\Retrievers\UriRetrieverInterface::class);
+        $retriever = new UriRetriever();
+        $uriRetriever->expects($this->at(0))
+                ->method('getContentType')
+                ->willReturn('text/html');
+
+        $this->expectException(InvalidSchemaMediaTypeException::class);
+        $this->expectExceptionMessage('Media type application/schema+json expected, but text/html given');
+
+        $retriever->confirmMediaType($uriRetriever, null);
+    }
+
     private function mockRetriever($schema): void
     {
         $retrieverMock = $this->getRetrieverMock($schema);

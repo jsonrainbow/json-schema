@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- UriRetriever: Include actual media type in InvalidSchemaMediaTypeException message ([#872](https://github.com/jsonrainbow/json-schema/pull/872))
 
 ## [6.6.4] - 2025-12-19
 ### Changed
