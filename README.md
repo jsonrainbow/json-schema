@@ -5,10 +5,10 @@
 [![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads)](https://packagist.org/packages/justinrainbow/json-schema/stats)
 ![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fsupported_versions.json)
 
-A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3, 
-Draft-4 or Draft-6. 
+A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3,
+Draft-4 or Draft-6.
 
-Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview 
+Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview
 of all existing Drafts. See [json-schema](http://json-schema.org/) for more details about the JSON Schema specification
 
 # Compliance
@@ -207,7 +207,7 @@ third argument to `Validator::validate()`, or can be provided as the third argum
 | `Constraint::CHECK_MODE_EXCEPTIONS`             | Throw an exception immediately if validation fails              |
 | `Constraint::CHECK_MODE_DISABLE_FORMAT`         | Do not validate "format" constraints                            |
 | `Constraint::CHECK_MODE_VALIDATE_SCHEMA`        | Validate the schema as well as the provided document            |
-| `Constraint::CHECK_MODE_STRICT` [^3]            | Validate the scheme using strict mode using the specified draft | 
+| `Constraint::CHECK_MODE_STRICT` [^3]            | Validate the scheme using strict mode using the specified draft |
 
 [^1]: Please note that using `CHECK_MODE_COERCE_TYPES` or `CHECK_MODE_APPLY_DEFAULTS` will modify your
 original data.
