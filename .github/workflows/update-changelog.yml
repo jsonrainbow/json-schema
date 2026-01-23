@@ -80,7 +80,7 @@ jobs:
           # Detect next version section (end of Unreleased)
           /^## \[/ {
             if (in_unreleased && !added) {
-              # If we are leaving Unreleased and havent added entry yet
+              # If we are leaving Unreleased and haven't added entry yet
               # Add category and entry before this line
               if (!found_category) {
                 print category
