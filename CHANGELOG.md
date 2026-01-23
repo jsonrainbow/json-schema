@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - UriRetriever: Include actual media type in InvalidSchemaMediaTypeException message ([#872](https://github.com/jsonrainbow/json-schema/pull/872))
+- docs: Correct trailing spaces in Markdown ([#873](https://github.com/jsonrainbow/json-schema/pull/873))
 
 ## [6.6.4] - 2025-12-19
 ### Changed
