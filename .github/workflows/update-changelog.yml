@@ -1,0 +1,136 @@
+name: "Update Changelog"
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    name: "Update CHANGELOG.md"
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: "Determine changelog category from labels"
+        id: category
+        run: |
+          # Get PR labels
+          LABELS=$(cat <<'EOF'
+          ${{ toJson(github.event.pull_request.labels.*.name) }}
+          EOF
+          )
+          
+          echo "Labels: $LABELS"
+          
+          # Determine category based on labels
+          # Priority order: breaking -> added -> changed -> deprecated -> removed -> fixed -> security
+          if echo "$LABELS" | grep -qi "breaking"; then
+            CATEGORY="Changed"
+          elif echo "$LABELS" | grep -qi "enhancement\|feature\|added"; then
+            CATEGORY="Added"
+          elif echo "$LABELS" | grep -qi "changed"; then
+            CATEGORY="Changed"
+          elif echo "$LABELS" | grep -qi "deprecated"; then
+            CATEGORY="Deprecated"
+          elif echo "$LABELS" | grep -qi "removed"; then
+            CATEGORY="Removed"
+          elif echo "$LABELS" | grep -qi "bug\|fix"; then
+            CATEGORY="Fixed"
+          elif echo "$LABELS" | grep -qi "security"; then
+            CATEGORY="Security"
+          else
+            # Default category if no matching label
+            CATEGORY="Changed"
+          fi
+          
+          echo "category=$CATEGORY" >> $GITHUB_OUTPUT
+          echo "Determined category: $CATEGORY"
+
+      - name: "Update CHANGELOG.md"
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          CATEGORY="${{ steps.category.outputs.category }}"
+          REPO_URL="https://github.com/${{ github.repository }}"
+          
+          # Create the changelog entry
+          ENTRY="- ${PR_TITLE} ([#${PR_NUMBER}](${REPO_URL}/pull/${PR_NUMBER}))"
+          
+          echo "Adding entry: $ENTRY"
+          echo "Under category: $CATEGORY"
+          
+          # Use awk to insert the entry under the correct category in the Unreleased section
+          awk -v entry="$ENTRY" -v category="### $CATEGORY" '
+          BEGIN { in_unreleased=0; found_category=0; added=0 }
+          
+          # Detect Unreleased section
+          /^## \[Unreleased\]/ { in_unreleased=1; print; next }
+          
+          # Detect next version section (end of Unreleased)
+          /^## \[/ { 
+            if (in_unreleased && !added) {
+              # If we are leaving Unreleased and havent added entry yet
+              # Add category and entry before this line
+              if (!found_category) {
+                print category
+              }
+              print entry
+              print ""
+              added=1
+            }
+            in_unreleased=0
+            found_category=0
+            print
+            next
+          }
+          
+          # If in Unreleased section, look for matching category
+          in_unreleased && $0 == category {
+            found_category=1
+            print
+            # Add entry right after category header
+            print entry
+            added=1
+            next
+          }
+          
+          # Always print the current line
+          { print }
+          
+          # At end of file, if still in unreleased and not added
+          END {
+            if (in_unreleased && !added) {
+              if (!found_category) {
+                print category
+              }
+              print entry
+            }
+          }
+          ' CHANGELOG.md > CHANGELOG.md.tmp
+          
+          mv CHANGELOG.md.tmp CHANGELOG.md
+
+      - name: "Commit and push changes"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if git diff --quiet CHANGELOG.md; then
+            echo "No changes to CHANGELOG.md"
+            exit 0
+          fi
+          
+          git add CHANGELOG.md
+          git commit -m "docs: Update CHANGELOG.md for PR #${{ github.event.pull_request.number }}"
+          git push origin main
