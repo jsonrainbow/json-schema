@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 # Script to update CHANGELOG.md with a new entry
@@ -35,8 +35,14 @@ ENTRY="- ${PR_TITLE} ([#${PR_NUMBER}](${REPO_URL}/pull/${PR_NUMBER}))"
 echo "Adding entry: $ENTRY"
 echo "Under category: ### $CATEGORY"
 
+# Check if CHANGELOG.md exists
+if [ ! -f CHANGELOG.md ]; then
+  echo "Error: CHANGELOG.md not found in current directory"
+  exit 1
+fi
+
 # Use awk to insert the entry under the correct category in the Unreleased section
-awk -v entry="$ENTRY" -v category="### $CATEGORY" '
+if ! awk -v entry="$ENTRY" -v category="### $CATEGORY" '
 BEGIN { in_unreleased=0; found_category=0; added=0 }
 
 # Detect Unreleased section
@@ -82,7 +88,11 @@ END {
     print entry
   }
 }
-' CHANGELOG.md > CHANGELOG.md.tmp
+' CHANGELOG.md > CHANGELOG.md.tmp; then
+  echo "Error: Failed to update CHANGELOG.md"
+  rm -f CHANGELOG.md.tmp
+  exit 1
+fi
 
 mv CHANGELOG.md.tmp CHANGELOG.md
 
