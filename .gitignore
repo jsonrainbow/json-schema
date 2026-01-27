@@ -1,6 +1,7 @@
 /vendor
 /bin
 !/bin/validate-json
+!/bin/update-changelog.sh
 coverage
 .buildpath
 .project

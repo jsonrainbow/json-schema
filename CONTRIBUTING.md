@@ -16,6 +16,7 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [I Want To Contribute](#i-want-to-contribute)
 - [Reporting Bugs](#reporting-bugs)
 - [Suggesting Enhancements](#suggesting-enhancements)
+- [Pull Requests](#pull-requests)
 
 ## I Have a Question
 
@@ -89,6 +90,34 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/jsonra
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
 - You may want to **include screenshots or screen recordings** which help you demonstrate the steps or point out the part which the suggestion is related to. 
 - **Explain why this enhancement would be useful** to most JSON Schema users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
+
+## Pull Requests
+
+When submitting a pull request, please keep the following in mind:
+
+### Automated Changelog
+
+This project uses an automated changelog system. When your PR is merged to `main`, a GitHub Actions workflow will automatically add an entry to the CHANGELOG.md file under the "Unreleased" section.
+
+**PR Labels and Changelog Categories:**
+
+The workflow determines which category to place your entry under based on the labels on your PR:
+
+- `bug`, `fix` → **Fixed** - for bug fixes
+- `enhancement`, `feature`, `added` → **Added** - for new features
+- `changed` → **Changed** - for changes in existing functionality
+- `deprecated` → **Deprecated** - for soon-to-be removed features
+- `removed` → **Removed** - for now removed features
+- `security` → **Security** - for security-related changes
+- `breaking` → **Changed** - for breaking changes
+- No matching label → **Changed** (default)
+
+**What this means for you:**
+
+- ✅ You do NOT need to manually update CHANGELOG.md in your PR
+- ✅ Make sure your PR title is clear and descriptive (it will become the changelog entry)
+- ✅ Add appropriate labels to your PR to ensure it appears in the correct category
+- ✅ Maintainers will add labels during the review process if needed
 
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 

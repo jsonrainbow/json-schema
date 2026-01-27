@@ -1,0 +1,82 @@
+name: "Update Changelog"
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    name: "Update CHANGELOG.md"
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: "Determine changelog category from labels"
+        id: category
+        run: |
+          # Get PR labels
+          LABELS=$(cat <<'EOF'
+          ${{ toJson(github.event.pull_request.labels.*.name) }}
+          EOF
+          )
+
+          echo "Labels: $LABELS"
+
+          # Determine category based on labels
+          # Priority order: breaking -> added -> changed -> deprecated -> removed -> fixed -> security
+          if echo "$LABELS" | grep -qi "breaking"; then
+            CATEGORY="Changed"
+          elif echo "$LABELS" | grep -qi "enhancement\|feature\|added"; then
+            CATEGORY="Added"
+          elif echo "$LABELS" | grep -qi "changed"; then
+            CATEGORY="Changed"
+          elif echo "$LABELS" | grep -qi "deprecated"; then
+            CATEGORY="Deprecated"
+          elif echo "$LABELS" | grep -qi "removed"; then
+            CATEGORY="Removed"
+          elif echo "$LABELS" | grep -qi "bug\|fix"; then
+            CATEGORY="Fixed"
+          elif echo "$LABELS" | grep -qi "security"; then
+            CATEGORY="Security"
+          else
+            # Default category if no matching label
+            CATEGORY="Changed"
+          fi
+
+          echo "category=$CATEGORY" >> $GITHUB_OUTPUT
+          echo "Determined category: $CATEGORY"
+
+      - name: "Update CHANGELOG.md"
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          CATEGORY="${{ steps.category.outputs.category }}"
+
+          # Use the standalone script to update the changelog
+          export GITHUB_REPOSITORY_URL="https://github.com/${{ github.repository }}"
+          ./bin/update-changelog.sh "$PR_TITLE" "$PR_NUMBER" "$CATEGORY"
+
+      - name: "Commit and push changes"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet CHANGELOG.md; then
+            echo "No changes to CHANGELOG.md"
+            exit 0
+          fi
+
+          git add CHANGELOG.md
+          git commit -m "docs: Update CHANGELOG.md for PR #${{ github.event.pull_request.number }}"
+          git push origin main
