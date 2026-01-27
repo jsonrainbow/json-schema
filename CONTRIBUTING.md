@@ -119,10 +119,6 @@ The workflow determines which category to place your entry under based on the la
 - ✅ Add appropriate labels to your PR to ensure it appears in the correct category
 - ✅ Maintainers will add labels during the review process if needed
 
-### Code Quality
-
-Please ensure your code follows the project's coding standards and passes all tests before submitting your PR.
-
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ## Attribution

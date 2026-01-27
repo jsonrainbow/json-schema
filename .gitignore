@@ -1,8 +1,7 @@
 /vendor
-/bin/*
+/bin
 !/bin/validate-json
 !/bin/update-changelog.sh
-!/bin/README.md
 coverage
 .buildpath
 .project
