@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft07;
 
+use DateTimeZone;
 use IntlChar;
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
@@ -40,7 +41,7 @@ class FormatConstraint implements ConstraintInterface
                 }
                 break;
             case 'time':
-                if (!$this->validateDateTime($value, 'H:i:s')) {
+                if (!$this->validateDateTime($value, 'H:i:sp') && !$this->validateDateTime($value, 'H:i:s.up')) {
                     $this->addError(ConstraintError::FORMAT_TIME(), $path, ['time' => $value, 'format' => $schema->format]);
                 }
                 break;
@@ -131,13 +132,49 @@ class FormatConstraint implements ConstraintInterface
 
     private function validateDateTime(string $datetime, string $format): bool
     {
-        $dt = \DateTime::createFromFormat($format, $datetime);
+        $datetime = strtoupper($datetime); // Cleanup for lowercase z
+        $isLeap = substr($datetime, 6, 2) === '60';
+        $input = $datetime;
 
+        // Correct for leap second
+        if ($isLeap) {
+            $input = sprintf('%s59%s', substr($datetime, 0, 6), substr($datetime, 8));
+        }
+
+        $dt = \DateTimeImmutable::createFromFormat($format, $input);
         if (!$dt) {
             return false;
         }
 
-        return $datetime === $dt->format($format);
+        // Handle invalid timezone offsets
+        $timezoneOffset = $dt->getTimezone()->getOffset($dt);
+        if ($timezoneOffset >= 86400 || $timezoneOffset <= -86400) {
+            return false;
+        }
+
+        $expected = $dt->format($format);
+        // Correct for trailing zeros on microseconds
+        if ($format === 'H:i:s.up') {
+            $expected = sprintf(
+                '%s%s',
+                rtrim($dt->format('H:i:s.u'), '0'),
+                $dt->format('p')
+            );
+        }
+        // Correct back for leap seconds
+        if ($isLeap) {
+            // Only when 23:59:59 in UTC
+            $utcDT = $dt->setTimezone(new DateTimeZone('UTC'));
+            if ($utcDT->format('H:i:s') !== '23:59:59') {
+                return false;
+            }
+
+            $expected = sprintf('%s60%s', substr($expected, 0, 6), substr($expected, 8));
+        }
+
+
+
+        return $datetime === $expected;
     }
 
     private function validateRegex(string $regex): bool
