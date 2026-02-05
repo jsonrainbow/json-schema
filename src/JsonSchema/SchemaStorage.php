@@ -203,6 +203,11 @@ class SchemaStorage implements SchemaStorageInterface
 
         foreach ($schema as $propertyName => $potentialSubSchema) {
             if (!is_object($potentialSubSchema)) {
+                if (is_array($potentialSubSchema)) {
+                    foreach ($potentialSubSchema as $potentialSubSchemaItem) {
+                        $this->scanForSubschemas($potentialSubSchemaItem, $parentId);
+                    }
+                }
                 continue;
             }
 
