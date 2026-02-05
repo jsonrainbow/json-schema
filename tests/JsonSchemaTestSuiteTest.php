@@ -89,11 +89,10 @@ class JsonSchemaTestSuiteTest extends TestCase
                 $contents = json_decode(file_get_contents($file->getPathname()), false);
                 foreach ($contents as $testCase) {
                     foreach ($testCase->tests as $test) {
+                        [,$filename] = explode('/tests/', $file->getRealPath(), 2);
                         $name = sprintf(
-                            '[%s/%s%s]: %s: %s is expected to be %s',
-                            basename($draft),
-                            str_contains($file->getPathname(), '/optional/') ? 'optional/' : '',
-                            $file->getBasename(),
+                            '[%s]: %s: %s is expected to be %s',
+                            $filename,
                             $testCase->description,
                             $test->description,
                             $test->valid ? 'valid' : 'invalid'
