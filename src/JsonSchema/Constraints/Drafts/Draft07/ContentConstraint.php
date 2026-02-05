@@ -9,7 +9,6 @@ use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\Tool\DeepComparer;
 
 class ContentConstraint implements ConstraintInterface
 {
@@ -25,7 +24,7 @@ class ContentConstraint implements ConstraintInterface
         if (!property_exists($schema, 'contentMediaType') && !property_exists($schema, 'contentEncoding')) {
             return;
         }
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return;
         }
 
@@ -35,6 +34,7 @@ class ContentConstraint implements ConstraintInterface
             if ($schema->contentEncoding === 'base64') {
                 if (!preg_match('/^[A-Za-z0-9+\/=]+$/', $decodedValue)) {
                     $this->addError(ConstraintError::CONTENT_ENCODING(), $path, ['contentEncoding' => $schema->contentEncoding]);
+
                     return;
                 }
                 $decodedValue = base64_decode($decodedValue);
@@ -50,8 +50,6 @@ class ContentConstraint implements ConstraintInterface
             }
 
             $this->addError(ConstraintError::CONTENT_MEDIA_TYPE(), $path, ['contentMediaType' => $schema->contentMediaType]);
-
         }
-
     }
 }

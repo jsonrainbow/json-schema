@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace JsonSchema\Constraints\Drafts\Draft07;
 
 use DateTimeZone;
-use IntlChar;
 use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
@@ -171,8 +170,6 @@ class FormatConstraint implements ConstraintInterface
 
             $expected = sprintf('%s60%s', substr($expected, 0, 6), substr($expected, 8));
         }
-
-
 
         return $datetime === $expected;
     }
