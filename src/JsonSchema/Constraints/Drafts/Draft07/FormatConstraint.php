@@ -227,7 +227,7 @@ class FormatConstraint implements ConstraintInterface
         $labels = explode('.', $host);
         $asciiLabels = [];
 
-        if (!$labels) {
+        if ($labels === false) {
             return false;
         }
 
