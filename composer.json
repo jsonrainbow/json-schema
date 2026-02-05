@@ -37,7 +37,8 @@
         "phpunit/phpunit": "^8.5",
         "phpspec/prophecy": "^1.19",
         "phpstan/phpstan": "^1.12",
-        "marc-mabe/php-enum-phpstan": "^2.0"
+        "marc-mabe/php-enum-phpstan": "^2.0",
+        "staabm/annotate-pull-request-from-checkstyle": "^1.8"
     },
     "extra": {
         "branch-alias": {
