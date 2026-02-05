@@ -187,6 +187,11 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
             '[draft7/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
             '[draft7/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
+            '[draft7/ref.json]: $id must be resolved against nearest parent, not just immediate parent: non-number is invalid is expected to be invalid',
+            '[draft7/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid',
+            '[draft7/ref.json]: Location-independent identifier: mismatch is expected to be invalid',
+            '[draft7/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid',
+            '[draft7/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
