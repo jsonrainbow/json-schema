@@ -32,7 +32,9 @@ if [ ! -f CHANGELOG.md ]; then
 fi
 
 # Check if there is content in the Unreleased section
-if ! grep -A 5 "^## \[Unreleased\]" CHANGELOG.md | grep -q "^### "; then
+# Extract content between [Unreleased] and the next version header
+UNRELEASED_CONTENT=$(awk '/^## \[Unreleased\]/ {flag=1; next} /^## \[/ {flag=0} flag' CHANGELOG.md)
+if ! echo "$UNRELEASED_CONTENT" | grep -q "^### "; then
   echo "Error: No changes found in [Unreleased] section"
   exit 1
 fi

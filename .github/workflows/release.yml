@@ -19,6 +19,7 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
         with:
+          ref: main
           fetch-depth: 0
 
       - name: "Validate version format"
@@ -52,12 +53,24 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
+          # Check if there are changes to commit
+          if git diff --quiet CHANGELOG.md; then
+            echo "Error: No changes made to CHANGELOG.md"
+            exit 1
+          fi
+          
           git add CHANGELOG.md
           git commit -m "docs: Prepare release ${{ inputs.version }}"
           git push origin main
 
       - name: "Create and push tag"
         run: |
+          # Check if tag already exists
+          if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
+            echo "Error: Tag v${{ inputs.version }} already exists"
+            exit 1
+          fi
+          
           git tag -a "v${{ inputs.version }}" -m "Release ${{ inputs.version }}"
           git push origin "v${{ inputs.version }}"
 
