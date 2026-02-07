@@ -2,6 +2,8 @@
 /bin
 !/bin/validate-json
 !/bin/update-changelog.sh
+!/bin/prepare-release.sh
+!/bin/extract-release-notes.sh
 coverage
 .buildpath
 .project
