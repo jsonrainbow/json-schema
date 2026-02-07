@@ -1,3 +1,18 @@
+# This workflow automates the release process for the project.
+#
+# Usage (for maintainers):
+# 1. Go to Actions -> Create Release -> Run workflow
+# 2. Enter the version number (e.g., 6.7.0)
+# 3. The workflow will:
+#    - Move unreleased changes in CHANGELOG.md to a new version section
+#    - Create a commit with the updated changelog
+#    - Create and push a git tag (e.g., v6.7.0)
+#    - Create a GitHub release with the changelog as release notes
+#
+# Prerequisites:
+# - All changes for the release must be in the [Unreleased] section of CHANGELOG.md
+# - The version number must follow semantic versioning (X.Y.Z)
+
 name: "Create Release"
 
 on:
