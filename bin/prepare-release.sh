@@ -20,6 +20,13 @@ if [ $# -lt 1 ]; then
 fi
 
 VERSION="$1"
+
+# Validate version format (semantic versioning X.Y.Z)
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "Error: Version must be in format X.Y.Z (e.g., 6.7.0)"
+  exit 1
+fi
+
 RELEASE_DATE=$(date +%Y-%m-%d)
 
 echo "Preparing release for version: $VERSION"
@@ -81,6 +88,15 @@ in_unreleased {
 
 # Print all other lines
 { print }
+
+# At end of file, if still in unreleased section (no version sections exist)
+END {
+  if (in_unreleased && unreleased_content != "") {
+    print ""
+    print "## [" version "] - " date
+    print unreleased_content
+  }
+}
 ' CHANGELOG.md > CHANGELOG.md.tmp
 
 if [ ! -s CHANGELOG.md.tmp ]; then
