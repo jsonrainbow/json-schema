@@ -20,14 +20,12 @@ if [ $# -lt 1 ]; then
 fi
 
 VERSION="$1"
-
-# Validate version format (semantic versioning X.Y.Z)
-if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  echo "Error: Version must be in format X.Y.Z (e.g., 6.7.0)"
-  exit 1
-fi
-
 RELEASE_DATE=$(date +%Y-%m-%d)
+
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version must be in format X.Y.Z (e.g., 6.7.0)"
+    exit 1
+fi
 
 echo "Preparing release for version: $VERSION"
 echo "Release date: $RELEASE_DATE"
@@ -50,51 +48,36 @@ fi
 awk -v version="$VERSION" -v date="$RELEASE_DATE" '
 BEGIN {
   in_unreleased = 0
-  printed_unreleased = 0
-  unreleased_content = ""
+  buf = ""
 }
 
-# Match the Unreleased header
 /^## \[Unreleased\]/ {
-  print $0
-  printed_unreleased = 1
+  print
+  print ""
+  print "## [" version "] - " date
   in_unreleased = 1
   next
 }
 
-# Match any other version header (## [X.X.X])
 /^## \[/ {
   if (in_unreleased) {
-    # We are leaving the unreleased section
-    # Print the new version with the unreleased content
-    print ""
-    print "## [" version "] - " date
-    print unreleased_content
+    print buf
     in_unreleased = 0
   }
   print
   next
 }
 
-# Collect content from unreleased section
 in_unreleased {
-  if (unreleased_content != "") {
-    unreleased_content = unreleased_content "\n" $0
-  } else {
-    unreleased_content = $0
-  }
+  buf = buf $0 "\n"
   next
 }
 
-# Print all other lines
 { print }
 
-# At end of file, if still in unreleased section (no version sections exist)
 END {
-  if (in_unreleased && unreleased_content != "") {
-    print ""
-    print "## [" version "] - " date
-    print unreleased_content
+  if (in_unreleased) {
+    print buf
   }
 }
 ' CHANGELOG.md > CHANGELOG.md.tmp

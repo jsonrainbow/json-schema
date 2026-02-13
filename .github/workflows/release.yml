@@ -16,74 +16,83 @@
 name: "Create Release"
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version number (e.g., 6.7.0)'
-        required: true
-        type: string
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Version number (e.g., 6.7.0)'
+                required: true
+                type: string
 
 jobs:
-  create-release:
-    name: "Create Release"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    create-release:
+        name: "Create Release"
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
 
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v4"
-        with:
-          ref: main
-          fetch-depth: 0
+        steps:
+            - name: "Checkout"
+              uses: "actions/checkout@v4"
+              with:
+                  ref: main
+                  fetch-depth: 0
 
-      - name: "Update CHANGELOG.md"
-        run: |
-          bash bin/prepare-release.sh "${{ inputs.version }}"
+            - name: "Validate version format"
+              run: |
+                  VERSION="${{ inputs.version }}"
+                  if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                    echo "Error: Version must be in format X.Y.Z (e.g., 6.7.0)"
+                    exit 1
+                  fi
+                  echo "Version format is valid: $VERSION"
 
-      - name: "Extract release notes"
-        id: release_notes
-        run: |
-          RELEASE_NOTES=$(bash bin/extract-release-notes.sh "${{ inputs.version }}")
-          echo "Release notes extracted successfully"
-          
-          # Save to a file for the release step
-          echo "$RELEASE_NOTES" > /tmp/release-notes.md
-          
-          # Also output for verification
-          echo "Release notes:"
-          cat /tmp/release-notes.md
+            - name: "Update CHANGELOG.md"
+              run: |
+                  bash bin/prepare-release.sh "${{ inputs.version }}"
 
-      - name: "Commit changelog changes"
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Check if there are changes to commit
-          if git diff --quiet CHANGELOG.md; then
-            echo "Error: No changes made to CHANGELOG.md"
-            exit 1
-          fi
-          
-          git add CHANGELOG.md
-          git commit -m "docs: Prepare release ${{ inputs.version }}"
-          git push origin main
+            - name: "Extract release notes"
+              id: release_notes
+              run: |
+                  RELEASE_NOTES=$(bash bin/extract-release-notes.sh "${{ inputs.version }}")
+                  echo "Release notes extracted successfully"
 
-      - name: "Create and push tag"
-        run: |
-          # Check if tag already exists
-          if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
-            echo "Error: Tag v${{ inputs.version }} already exists"
-            exit 1
-          fi
-          
-          git tag -a "v${{ inputs.version }}" -m "Release ${{ inputs.version }}"
-          git push origin "v${{ inputs.version }}"
+                  # Save to a file for the release step
+                  echo "$RELEASE_NOTES" > /tmp/release-notes.md
 
-      - name: "Create GitHub Release"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create "v${{ inputs.version }}" \
-            --title "Release ${{ inputs.version }}" \
-            --notes-file /tmp/release-notes.md
+                  # Also output for verification
+                  echo "Release notes:"
+                  cat /tmp/release-notes.md
+
+            - name: "Commit changelog changes"
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+                  # Check if there are changes to commit
+                  if git diff --quiet CHANGELOG.md; then
+                    echo "Error: No changes made to CHANGELOG.md"
+                    exit 1
+                  fi
+
+                  git add CHANGELOG.md
+                  git commit -m "docs: Prepare release ${{ inputs.version }}"
+                  git push origin main
+
+            - name: "Create and push tag"
+              run: |
+                  # Check if tag already exists
+                  if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
+                    echo "Error: Tag v${{ inputs.version }} already exists"
+                    exit 1
+                  fi
+
+                  git tag -a "v${{ inputs.version }}" -m "Release ${{ inputs.version }}"
+                  git push origin "v${{ inputs.version }}"
+
+            - name: "Create GitHub Release"
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  gh release create "v${{ inputs.version }}" \
+                    --title "${{ inputs.version }}" \
+                    --notes-file /tmp/release-notes.md

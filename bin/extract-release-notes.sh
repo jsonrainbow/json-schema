@@ -19,6 +19,11 @@ fi
 
 VERSION="$1"
 
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version must be in format X.Y.Z (e.g., 6.7.0)"
+    exit 1
+fi
+
 # Check if CHANGELOG.md exists
 if [ ! -f CHANGELOG.md ]; then
   echo "Error: CHANGELOG.md not found in current directory"
