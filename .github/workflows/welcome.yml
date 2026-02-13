@@ -10,7 +10,7 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    if: github.actor != 'copilot-swe-agent[bot]' && !contains(github.actor, '[bot]')
+    if: "!contains(github.actor, '[bot]')"
     steps:
       - uses: wow-actions/welcome@v1
         with:
