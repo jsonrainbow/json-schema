@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.7.1] - 2026-02-13
+
 ### Fixed
 - Fix TypeError in pattern property validation with integer keys ([#880](https://github.com/jsonrainbow/json-schema/pull/880))
+
 
 ## [6.7.0] - 2026-02-13
 ### Fixed
