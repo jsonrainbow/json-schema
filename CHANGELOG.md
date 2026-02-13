@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Enforce RFC 1035 hostname label length limits in draft 3/4 ([#878](https://github.com/jsonrainbow/json-schema/pull/878))
 - UriRetriever: Include actual media type in InvalidSchemaMediaTypeException message ([#872](https://github.com/jsonrainbow/json-schema/pull/872))
 - docs: Correct trailing spaces in Markdown ([#873](https://github.com/jsonrainbow/json-schema/pull/873))
 
