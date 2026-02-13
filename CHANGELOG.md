@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fix TypeError in pattern property validation with integer keys ([#880](https://github.com/jsonrainbow/json-schema/pull/880))
+
 ## [6.7.0] - 2026-02-13
 ### Fixed
 - Enforce RFC 1035 hostname label length limits in draft 3/4 ([#878](https://github.com/jsonrainbow/json-schema/pull/878))
