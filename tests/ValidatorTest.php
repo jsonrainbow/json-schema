@@ -69,7 +69,7 @@ class ValidatorTest extends TestCase
     }
 
     /** @dataProvider draftIdentifiersNotSupportedForStrictMode */
-    public function testItThrowsForStrictValidationOnDraft(DraftIdentifiers $draft): void
+    public function testItThrowsForStrictValidationOnNonSupportingDraft(DraftIdentifiers $draft): void
     {
         $data = json_decode('"42"', false);
         $schema = json_decode('{"type":"integer"}', false);
@@ -88,6 +88,7 @@ class ValidatorTest extends TestCase
         foreach (DraftIdentifiers::getEnumerators() as $draft) {
             switch ($draft) {
                 case DraftIdentifiers::DRAFT_6():
+                case DraftIdentifiers::DRAFT_7():
                     break;
                 default:
                     yield $draft->toConstraintName() => [$draft];

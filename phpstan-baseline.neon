@@ -61,6 +61,11 @@ parameters:
 			path: src/JsonSchema/Constraints/ConstraintInterface.php
 
 		-
+			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-array\\<int, string\\> and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/JsonSchema/Constraints/Drafts/Draft07/FormatConstraint.php
+
+		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\Factory\\:\\:createInstanceFor\\(\\) should return JsonSchema\\\\Constraints\\\\BaseConstraint&JsonSchema\\\\Constraints\\\\ConstraintInterface but returns object\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/Factory.php
@@ -641,7 +646,7 @@ parameters:
 			path: src/JsonSchema/SchemaStorage.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with bool|object will always evaluate to false\\.$#"
+			message: "#^Call to function is_array\\(\\) with bool\\|object will always evaluate to false\\.$#"
 			count: 1
 			path: src/JsonSchema/SchemaStorage.php
 
