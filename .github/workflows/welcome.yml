@@ -7,7 +7,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.actor, 'copilot-') }}
+    if: "!startsWith(github.actor, 'copilot-')"
     permissions:
       issues: write
       pull-requests: write
