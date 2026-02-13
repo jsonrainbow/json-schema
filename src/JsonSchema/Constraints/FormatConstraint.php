@@ -210,7 +210,8 @@ class FormatConstraint extends Constraint
             return true;
         }
 
-        $hostnameRegex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/i';
+        // RFC 1035: labels are max 63 chars (1 start + 0-61 middle + 1 end)
+        $hostnameRegex = '/^(?!-)(?!.*?[^A-Za-z0-9\-\.])(?:(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?\.)*(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$/';
 
         return preg_match($hostnameRegex, $host);
     }
