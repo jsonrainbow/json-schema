@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.7.0] - 2026-02-13
 ### Fixed
 - Enforce RFC 1035 hostname label length limits in draft 3/4 ([#878](https://github.com/jsonrainbow/json-schema/pull/878))
 - UriRetriever: Include actual media type in InvalidSchemaMediaTypeException message ([#872](https://github.com/jsonrainbow/json-schema/pull/872))
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Add automated release workflow with changelog integration ([#879](https://github.com/jsonrainbow/json-schema/pull/879))
 - Fix welcome workflow permission errors from forked PRs ([#875](https://github.com/jsonrainbow/json-schema/pull/875))
+
 
 ## [6.6.4] - 2025-12-19
 ### Changed
