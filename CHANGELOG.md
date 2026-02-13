@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automate changelog updates on PR merge ([#874](https://github.com/jsonrainbow/json-schema/pull/874))
 
 ### Changed
+- Add automated release workflow with changelog integration ([#879](https://github.com/jsonrainbow/json-schema/pull/879))
 - Fix welcome workflow permission errors from forked PRs ([#875](https://github.com/jsonrainbow/json-schema/pull/875))
 
 ## [6.6.4] - 2025-12-19
