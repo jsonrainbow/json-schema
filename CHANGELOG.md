@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: Correct trailing spaces in Markdown ([#873](https://github.com/jsonrainbow/json-schema/pull/873))
 
 ### Added
+- Feat: Add Draft-07 support ([#847](https://github.com/jsonrainbow/json-schema/pull/847))
 - Automate changelog updates on PR merge ([#874](https://github.com/jsonrainbow/json-schema/pull/874))
 
 ### Changed
