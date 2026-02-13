@@ -197,4 +197,41 @@ class PatternPropertiesTest extends BaseTestCase
             ])
         ];
     }
+
+    public function getValidForAssocTests(): \Generator
+    {
+        // First yield all the regular valid tests
+        yield from $this->getValidTests();
+
+        // OpenAPI-like scenario with numeric keys (HTTP status codes)
+        // When JSON is decoded with associative=true, numeric keys become integers
+        yield 'validates OpenAPI responses with numeric status codes using assoc arrays' => [
+            json_encode([
+                'responses' => [
+                    '200' => [
+                        'description' => 'OK'
+                    ],
+                    '404' => [
+                        'description' => 'Not Found'
+                    ]
+                ]
+            ]),
+            json_encode([
+                'type' => 'object',
+                'properties' => [
+                    'responses' => [
+                        'type' => 'object',
+                        'patternProperties' => [
+                            '^[0-9]+$' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'description' => ['type' => 'string']
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ])
+        ];
+    }
 }
