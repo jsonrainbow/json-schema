@@ -1,10 +1,12 @@
-/.github export-ignore
-/demo export-ignore
-/docs export-ignore
-/tests export-ignore
 /.gitattributes export-ignore
+/.github export-ignore
 /.gitignore export-ignore
 /.php-cs-fixer.dist.php export-ignore
+/CHANGELOG.md export-ignore
+/UPGRADE-6.0.md export-ignore
+/demo export-ignore
+/docs export-ignore
 /phpstan-baseline.neon export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
+/tests export-ignore
