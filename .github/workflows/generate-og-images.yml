@@ -26,4 +26,4 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         with:
           path: og-images/
-          ignorePatterns: "/README.md,/CHANGELOG.md,/LICENSE.md,/SECURITY.md,/CONTRIBUTING.md"
+          ignorePatterns: "/README.md"
