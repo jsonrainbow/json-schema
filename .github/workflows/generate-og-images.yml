@@ -1,0 +1,29 @@
+name: "Generate OG Images"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.md'
+      - '**.mdx'
+
+jobs:
+  generate_og_images:
+    name: "Generate Open Graph Images"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Generate OG Images"
+        uses: BoyWithSilverWings/generate-og-image@3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        with:
+          path: og-images/
+          ignorePatterns: "/README.md,/CHANGELOG.md,/LICENSE.md,/SECURITY.md,/CONTRIBUTING.md"
