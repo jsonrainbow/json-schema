@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fix idn_to_ascii deprecation warning by using INTL_IDNA_VARIANT_UTS46 ([#887](https://github.com/jsonrainbow/json-schema/pull/887))
+
 ## [6.7.1] - 2026-02-13
 
 ### Fixed
