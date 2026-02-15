@@ -68,7 +68,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft2019-09', 'draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft2020-12', 'draft-next', 'latest'];
 
         foreach ($drafts as $draft) {
             $baseDraftName = basename($draft);
@@ -214,6 +214,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         switch ($draft) {
             case 'draft6':
             case 'draft7':
+            case 'draft2019-09':
                 return Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT;
             default:
                 return Constraint::CHECK_MODE_NORMAL;
