@@ -278,7 +278,7 @@ class FormatConstraint implements ConstraintInterface
                 return false;
             }
 
-            $ascii = idn_to_ascii($label);
+            $ascii = idn_to_ascii($label, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
             if ($ascii === false) {
                 return false;
             }
