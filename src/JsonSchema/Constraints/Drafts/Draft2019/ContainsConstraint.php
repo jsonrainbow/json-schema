@@ -28,20 +28,27 @@ class ContainsConstraint implements ConstraintInterface
             return;
         }
 
-        $properties = [];
         if (!is_array($value)) {
             return;
         }
 
-        foreach ($value as $propertyName => $propertyValue) {
+        $validElementCount = 0;
+        foreach ($value as $propertyValue) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
 
             $schemaConstraint->check($propertyValue, $schema->contains, $path, $i);
             if ($schemaConstraint->isValid()) {
-                return;
+                $validElementCount++;
             }
         }
 
-        $this->addError(ConstraintError::CONTAINS(), $path, ['contains' => $schema->contains]);
+        if (property_exists($schema, 'maxContains') && $validElementCount > $schema->maxContains) {
+            $this->addError(ConstraintError::MAX_CONTAINS(), $path, ['maxContains' => $schema->maxContains, 'count' => $validElementCount]);
+        }
+
+        $minContains = property_exists($schema, 'minContains') ? $schema->minContains : 1;
+        if ($validElementCount < $minContains) {
+            $this->addError(ConstraintError::MIN_CONTAINS(), $path, ['minContains' => $minContains, 'count' => $validElementCount]);
+        }
     }
 }
