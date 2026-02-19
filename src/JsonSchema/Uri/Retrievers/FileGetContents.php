@@ -55,11 +55,14 @@ class FileGetContents extends AbstractRetriever
         }
 
         $this->messageBody = $response;
+        $isHttp = strpos($uri, 'http://') === 0 || strpos($uri, 'https://') === 0;
 
-        if (function_exists('http_get_last_response_headers')) {
+        if (!$isHttp) {
+            $httpResponseHeaders = [];
+        } elseif (function_exists('http_get_last_response_headers')) {
             // Use http_get_last_response_headers() for compatibility with PHP 8.5+
             // where $http_response_header is deprecated.
-            $httpResponseHeaders = http_get_last_response_headers();
+            $httpResponseHeaders = http_get_last_response_headers() ?: [];
         } else {
             /** @phpstan-ignore nullCoalesce.variable ($http_response_header can non-existing when no http request was done) */
             $httpResponseHeaders = $http_response_header ?? [];
