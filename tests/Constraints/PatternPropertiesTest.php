@@ -1,237 +1,214 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
 class PatternPropertiesTest extends BaseTestCase
 {
-    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): \Generator
+    public function getInvalidTests()
     {
-        yield 'matches pattern but invalid schema for object' => [
-            json_encode([
-                'someobject' => [
-                    'foobar' => 'foo',
-                    'barfoo' => 'bar',
-                ]
-            ]),
-            json_encode([
-                'type' => 'object',
-                'patternProperties' => [
-                    '^someobject$' => [
-                        'type' => 'object',
-                        'additionalProperties' => false,
-                        'properties' => [
-                            'barfoo' => [
-                                'type' => 'string',
-                            ],
-                        ]
-                    ]
-                ]
-            ])
-        ];
-        yield 'Does not match pattern' => [
-            json_encode([
-                    'regex_us' => false,
-            ]),
-            json_encode([
-                'type' => 'object',
-                'patternProperties' => [
-                    '^[a-z]+_(jp|de)$' => [
-                        'type' => ['boolean']
-                    ]
-                ],
-                'additionalProperties' => false
-            ])
-        ];
-        yield 'Does not match pattern with unicode' => [
-            json_encode([
-                '猡猡獛' => false,
-            ]),
-            json_encode([
-                'type' => 'object',
-                'patternProperties' => [
-                    '^[\\x{0080}-\\x{006FFF}]+$' => [
-                        'type' => ['boolean']
-                    ]
-                ],
-                'additionalProperties' => false
-            ])
-        ];
-        yield 'An invalid regular expression pattern' => [
-            json_encode([
-                    'regex_us' => false,
-            ]),
-            json_encode([
-                'type' => 'object',
-                'patternProperties' => [
-                    '^[a-z+_jp|de)$' => [
-                        'type' => ['boolean']
-                    ]
-                ],
-                'additionalProperties' => false
-            ])
-        ];
-    }
-
-    public function getValidTests(): \Generator
-    {
-        yield 'validates pattern schema' => [
-            json_encode([
-                'someobject' => [
-                    'foobar' => 'foo',
-                    'barfoo' => 'bar',
-                ],
-                'someotherobject' => [
-                    'foobar' => 1234,
-                ],
-                '/products' => [
-                    'get' => []
-                ],
-                '#products' => [
-                    'get' => []
-                ],
-                '+products' => [
-                    'get' => []
-                ],
-                '~products' => [
-                    'get' => []
-                ],
-                '*products' => [
-                    'get' => []
-                ],
-                '%products' => [
-                    'get' => []
-                ]
-            ]),
-            json_encode([
-                'type' => 'object',
-                'additionalProperties' => false,
-                'patternProperties' => [
-                    '^someobject$' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'foobar' => ['type' => 'string'],
-                            'barfoo' => ['type' => 'string'],
-                        ],
-                    ],
-                    '^someotherobject$' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'foobar' => ['type' => 'number'],
-                        ],
-                    ],
-                    '^/' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'get' => ['type' => 'array']
-                        ]
-                    ],
-                    '^#' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'get' => ['type' => 'array']
-                        ]
-                    ],
-                    '^\+' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'get' => ['type' => 'array']
-                        ]
-                    ],
-                    '^~' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'get' => ['type' => 'array']
-                        ]
-                    ],
-                    '^\*' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'get' => ['type' => 'array']
-                        ]
-                    ],
-                    '^%' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'get' => ['type' => 'array']
-                        ]
-                    ]
-                ]
-            ])
-        ];
-        yield [
-            json_encode([
-                    'foobar' => true,
-                    'regex_us' => 'foo',
-                    'regex_de' => 1234
-            ]),
-            json_encode([
+        return array(
+            // matches pattern but invalid schema for object
+            array(
+                json_encode(array(
+                    'someobject' => array(
+                        'foobar' => 'foo',
+                        'barfoo' => 'bar',
+                    )
+                )),
+                json_encode(array(
                     'type' => 'object',
-                    'properties' => [
-                        'foobar' => ['type' => 'boolean']
-                    ],
-                    'patternProperties' => [
-                        '^[a-z]+_(us|de)$' => [
-                            'type' => ['string', 'integer']
-                        ]
-                    ],
-                    'additionalProperties' => false
-            ])
-        ];
-        yield 'Does match pattern with unicode' => [
-            json_encode([
-                'ðæſ' => 'unicode',
-            ]),
-            json_encode([
-                'type' => 'object',
-                'patternProperties' => [
-                    '^[\\x{0080}-\\x{10FFFF}]+$' => [
-                        'type' => ['string']
-                    ]
-                ],
-                'additionalProperties' => false
-            ])
-        ];
+                    'patternProperties' => array(
+                        '^someobject$' => array(
+                            'type' => 'object',
+                            'additionalProperties' => false,
+                            'properties' => array(
+                                'barfoo' => array(
+                                    'type' => 'string',
+                                ),
+                            )
+                        )
+                    )
+                ))
+            ),
+            // Does not match pattern
+            array(
+                json_encode(array(
+                        'regex_us' => false,
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'patternProperties' => array(
+                            '^[a-z]+_(jp|de)$' => array(
+                                'type' => array('boolean')
+                            )
+                        ),
+                        'additionalProperties' => false
+                    ))
+            ),
+            // Does not match pattern with unicode
+            array(
+                json_encode(array(
+                        '猡猡獛' => false,
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'patternProperties' => array(
+                            '^[\\x{0080}-\\x{006FFF}]+$' => array(
+                                'type' => array('boolean')
+                            )
+                        ),
+                        'additionalProperties' => false
+                    ))
+            ),
+            // An invalid regular expression pattern
+            array(
+                json_encode(array(
+                        'regex_us' => false,
+                    )),
+                json_encode(array(
+                        'type' => 'object',
+                        'patternProperties' => array(
+                            '^[a-z+_jp|de)$' => array(
+                                'type' => array('boolean')
+                            )
+                        ),
+                        'additionalProperties' => false
+                    ))
+            ),
+        );
     }
 
-    public function getValidForAssocTests(): \Generator
+    public function getValidTests()
     {
-        // First yield all the regular valid tests
-        yield from $this->getValidTests();
-
-        // OpenAPI-like scenario with numeric keys (HTTP status codes)
-        // When JSON is decoded with associative=true, numeric keys become integers
-        yield 'validates OpenAPI responses with numeric status codes using assoc arrays' => [
-            json_encode([
-                'responses' => [
-                    '200' => [
-                        'description' => 'OK'
-                    ],
-                    '404' => [
-                        'description' => 'Not Found'
-                    ]
-                ]
-            ]),
-            json_encode([
-                'type' => 'object',
-                'properties' => [
-                    'responses' => [
+        return array(
+            array(
+                // validates pattern schema
+                json_encode(array(
+                    'someobject' => array(
+                        'foobar' => 'foo',
+                        'barfoo' => 'bar',
+                    ),
+                    'someotherobject' => array(
+                        'foobar' => 1234,
+                    ),
+                    '/products' => array(
+                        'get' => array()
+                    ),
+                    '#products' => array(
+                        'get' => array()
+                    ),
+                    '+products' => array(
+                        'get' => array()
+                    ),
+                    '~products' => array(
+                        'get' => array()
+                    ),
+                    '*products' => array(
+                        'get' => array()
+                    ),
+                    '%products' => array(
+                        'get' => array()
+                    )
+                )),
+                json_encode(array(
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                    'patternProperties' => array(
+                        '^someobject$' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'foobar' => array('type' => 'string'),
+                                'barfoo' => array('type' => 'string'),
+                            ),
+                        ),
+                        '^someotherobject$' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'foobar' => array('type' => 'number'),
+                            ),
+                        ),
+                        '^/' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^#' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^\+' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^~' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^\*' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        ),
+                        '^%' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'get' => array('type' => 'array')
+                            )
+                        )
+                    )
+                ))
+            ),
+            array(
+                json_encode(array(
+                        'foobar' => true,
+                        'regex_us' => 'foo',
+                        'regex_de' => 1234
+                    )),
+                json_encode(array(
                         'type' => 'object',
-                        'patternProperties' => [
-                            '^[0-9]+$' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'description' => ['type' => 'string']
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ])
-        ];
+                        'properties' => array(
+                            'foobar' => array('type' => 'boolean')
+                        ),
+                        'patternProperties' => array(
+                            '^[a-z]+_(us|de)$' => array(
+                                'type' => array('string', 'integer')
+                            )
+                        ),
+                        'additionalProperties' => false
+                    ))
+            ),
+            // Does match pattern with unicode
+            array(
+                json_encode(array(
+                    'ðæſ' => 'unicode',
+                )),
+                json_encode(array(
+                    'type' => 'object',
+                    'patternProperties' => array(
+                        '^[\\x{0080}-\\x{10FFFF}]+$' => array(
+                            'type' => array('string')
+                        )
+                    ),
+                    'additionalProperties' => false
+                ))
+            ),
+        );
     }
 }

@@ -1,85 +1,90 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
-use JsonSchema\DraftIdentifiers;
-use JsonSchema\UriRetrieverInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use stdClass;
 
+/**
+ * @package JsonSchema\Tests\Constraints
+ */
 abstract class VeryBaseTestCase extends TestCase
 {
-    private const DRAFT_SCHEMA_DIR = __DIR__ . '/../../dist/schema/';
-    private const TEST_SUITE_REMOTES =  __DIR__ . '/../../vendor/json-schema/json-schema-test-suite/remotes';
+    /** @var object */
+    private $jsonSchemaDraft03;
 
-    /** @var array<string, stdClass> */
-    private $draftSchemas = [];
+    /** @var object */
+    private $jsonSchemaDraft04;
 
     /**
-     * @param object|bool|null $schema
+     * @param object $schema
      *
      * @return object
      */
-    protected function getUriRetrieverMock($schema): object
+    protected function getUriRetrieverMock($schema)
     {
-        $uriRetriever = $this->prophesize(UriRetrieverInterface::class);
-        $uriRetriever->retrieve($schema->id ?? 'http://www.my-domain.com/schema.json')
+        $relativeTestsRoot = realpath(__DIR__ . '/../../vendor/json-schema/JSON-Schema-Test-Suite/remotes');
+
+        $jsonSchemaDraft03 = $this->getJsonSchemaDraft03();
+        $jsonSchemaDraft04 = $this->getJsonSchemaDraft04();
+
+        $uriRetriever = $this->prophesize('JsonSchema\UriRetrieverInterface');
+        $uriRetriever->retrieve('http://www.my-domain.com/schema.json')
             ->willReturn($schema)
             ->shouldBeCalled();
 
-        $that = $this;
         $uriRetriever->retrieve(Argument::any())
-            ->will(function ($args) use ($that): stdClass {
-                if (strpos($args[0], DraftIdentifiers::DRAFT_3()->withoutFragment()) === 0) {
-                    return $that->getDraftSchema('json-schema-draft-03.json');
-                }
+            ->will(function ($args) use ($jsonSchemaDraft03, $jsonSchemaDraft04, $relativeTestsRoot) {
+                if ('http://json-schema.org/draft-03/schema' === $args[0]) {
+                    return $jsonSchemaDraft03;
+                } elseif ('http://json-schema.org/draft-04/schema' === $args[0]) {
+                    return $jsonSchemaDraft04;
+                } elseif (0 === strpos($args[0], 'http://localhost:1234')) {
+                    $urlParts = parse_url($args[0]);
 
-                if (strpos($args[0], DraftIdentifiers::DRAFT_4()->withoutFragment()) === 0) {
-                    return $that->getDraftSchema('json-schema-draft-04.json');
-                }
-                if (strpos($args[0], DraftIdentifiers::DRAFT_6()->withoutFragment()) === 0) {
-                    return $that->getDraftSchema('json-schema-draft-06.json');
-                }
+                    return json_decode(file_get_contents($relativeTestsRoot . $urlParts['path']));
+                } elseif (0 === strpos($args[0], 'http://www.my-domain.com')) {
+                    $urlParts = parse_url($args[0]);
 
-                $urlParts = parse_url($args[0]);
-
-                if (0 === strpos($args[0], 'http://localhost:1234')) {
-                    return $that->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . $urlParts['path']);
+                    return json_decode(file_get_contents($relativeTestsRoot . '/folder' . $urlParts['path']));
                 }
-
-                if (0 === strpos($args[0], 'http://www.my-domain.com')) {
-                    return $that->readAndJsonDecodeFile(self::TEST_SUITE_REMOTES . '/folder' . $urlParts['path']);
-                }
-
-                throw new \InvalidArgumentException(sprintf('No handling for %s has been setup', $args[0]));
             });
 
         return $uriRetriever->reveal();
     }
 
-    private function getDraftSchema(string $draft): stdClass
+    /**
+     * @return object
+     */
+    private function getJsonSchemaDraft03()
     {
-        if (!array_key_exists($draft, $this->draftSchemas)) {
-            $this->draftSchemas[$draft] = $this->readAndJsonDecodeFile(self::DRAFT_SCHEMA_DIR . '/' . $draft);
+        if (!$this->jsonSchemaDraft03) {
+            $this->jsonSchemaDraft03 = json_decode(
+                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-03.json')
+            );
         }
 
-        return $this->draftSchemas[$draft];
+        return $this->jsonSchemaDraft03;
     }
 
-    private function readAndJsonDecodeFile(string $file): stdClass
+    /**
+     * @return object
+     */
+    private function getJsonSchemaDraft04()
     {
-        if (!file_exists($file)) {
-            throw new \InvalidArgumentException(sprintf('File "%s" does not exist', $file));
+        if (!$this->jsonSchemaDraft04) {
+            $this->jsonSchemaDraft04 = json_decode(
+                file_get_contents(__DIR__ . '/../../dist/schema/json-schema-draft-04.json')
+            );
         }
 
-        return json_decode(file_get_contents($file), false);
-    }
-
-    protected function is32Bit(): bool
-    {
-        return PHP_INT_SIZE === 4;
+        return $this->jsonSchemaDraft04;
     }
 }

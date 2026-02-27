@@ -1,28 +1,19 @@
 # JSON Schema for PHP
 
-[![Build Status](https://github.com/jsonrainbow/json-schema/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/jsonrainbow/json-schema/actions)
-[![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable)](https://packagist.org/packages/justinrainbow/json-schema)
-[![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads)](https://packagist.org/packages/justinrainbow/json-schema/stats)
-![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fsupported_versions.json)
+[![Build Status](https://travis-ci.org/justinrainbow/json-schema.svg?branch=master)](https://travis-ci.org/justinrainbow/json-schema)
+[![Latest Stable Version](https://poser.pugx.org/justinrainbow/json-schema/v/stable.png)](https://packagist.org/packages/justinrainbow/json-schema)
+[![Total Downloads](https://poser.pugx.org/justinrainbow/json-schema/downloads.png)](https://packagist.org/packages/justinrainbow/json-schema)
 
-A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3,
-Draft-4 or Draft-6.
+A PHP Implementation for validating `JSON` Structures against a given `Schema`.
 
-Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview
-of all existing Drafts. See [json-schema](http://json-schema.org/) for more details about the JSON Schema specification
-
-# Compliance
-![Draft 3](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft3.json)
-![Draft 4](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft4.json)
-![Draft 6](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft6.json)
-
+See [json-schema](http://json-schema.org/) for more details.
 
 ## Installation
 
 ### Library
 
 ```bash
-git clone https://github.com/jsonrainbow/json-schema.git
+git clone https://github.com/justinrainbow/json-schema.git
 ```
 
 ### Composer
@@ -34,12 +25,6 @@ composer require justinrainbow/json-schema
 ```
 
 ## Usage
-
-For a complete reference see [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/).
-
-__Note:__ features of Drafts newer than Draft-4 might not be supported!
-
-### Basic usage
 
 ```php
 <?php
@@ -55,7 +40,7 @@ if ($validator->isValid()) {
 } else {
     echo "JSON does not validate. Violations:\n";
     foreach ($validator->getErrors() as $error) {
-        printf("[%s] %s\n", $error['property'], $error['message']);
+        echo sprintf("[%s] %s\n", $error['property'], $error['message']);
     }
 }
 ```
@@ -80,7 +65,7 @@ $request = (object)[
 
 $validator->validate(
     $request, (object) [
-        "type"=>"object",
+    "type"=>"object",
         "properties"=>(object)[
             "processRefund"=>(object)[
                 "type"=>"boolean"
@@ -182,7 +167,7 @@ $schemaStorage = new SchemaStorage();
 $schemaStorage->addSchema('file://mySchema', $jsonSchemaObject);
 
 // Provide $schemaStorage to the Validator so that references can be resolved during validation
-$jsonValidator = new Validator(new Factory($schemaStorage));
+$jsonValidator = new Validator( new Factory($schemaStorage));
 
 // JSON must be decoded before it can be validated
 $jsonToValidateObject = json_decode('{"data":123}');
@@ -196,25 +181,19 @@ A number of flags are available to alter the behavior of the validator. These ca
 third argument to `Validator::validate()`, or can be provided as the third argument to
 `Factory::__construct()` if you wish to persist them across multiple `validate()` calls.
 
-| Flag                                            | Description                                                     |
-|-------------------------------------------------|-----------------------------------------------------------------|
-| `Constraint::CHECK_MODE_NORMAL`                 | Validate in 'normal' mode - this is the default                 |
-| `Constraint::CHECK_MODE_TYPE_CAST`              | Enable fuzzy type checking for associative arrays and objects   |
-| `Constraint::CHECK_MODE_COERCE_TYPES` [^1][^2]  | Convert data types to match the schema where possible           |
-| `Constraint::CHECK_MODE_EARLY_COERCE` [^2]      | Apply type coercion as soon as possible                         |
-| `Constraint::CHECK_MODE_APPLY_DEFAULTS` [^1]    | Apply default values from the schema if not set                 |
-| `Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS` | When applying defaults, only set values that are required       |
-| `Constraint::CHECK_MODE_EXCEPTIONS`             | Throw an exception immediately if validation fails              |
-| `Constraint::CHECK_MODE_DISABLE_FORMAT`         | Do not validate "format" constraints                            |
-| `Constraint::CHECK_MODE_VALIDATE_SCHEMA`        | Validate the schema as well as the provided document            |
-| `Constraint::CHECK_MODE_STRICT` [^3]            | Validate the scheme using strict mode using the specified draft |
+| Flag | Description |
+|------|-------------|
+| `Constraint::CHECK_MODE_NORMAL` | Validate in 'normal' mode - this is the default |
+| `Constraint::CHECK_MODE_TYPE_CAST` | Enable fuzzy type checking for associative arrays and objects |
+| `Constraint::CHECK_MODE_COERCE_TYPES` | Convert data types to match the schema where possible |
+| `Constraint::CHECK_MODE_APPLY_DEFAULTS` | Apply default values from the schema if not set |
+| `Constraint::CHECK_MODE_ONLY_REQUIRED_DEFAULTS` | When applying defaults, only set values that are required |
+| `Constraint::CHECK_MODE_EXCEPTIONS` | Throw an exception immediately if validation fails |
+| `Constraint::CHECK_MODE_DISABLE_FORMAT` | Do not validate "format" constraints |
+| `Constraint::CHECK_MODE_VALIDATE_SCHEMA` | Validate the schema as well as the provided document |
 
-[^1]: Please note that using `CHECK_MODE_COERCE_TYPES` or `CHECK_MODE_APPLY_DEFAULTS` will modify your
-original data.
-[^2]: `CHECK_MODE_EARLY_COERCE` has no effect unless used in combination with `CHECK_MODE_COERCE_TYPES`. If
-enabled, the validator will use (and coerce) the first compatible type it encounters, even if the
-schema defines another type that matches directly and does not require coercion.
-[^3]: `CHECK_MODE_STRICT` only can be used for Draft-6 at this point.
+Please note that using `Constraint::CHECK_MODE_COERCE_TYPES` or `Constraint::CHECK_MODE_APPLY_DEFAULTS`
+will modify your original data.
 
 ## Running the tests
 
@@ -225,10 +204,3 @@ composer testOnly TestClass::testMethod  # run specific unit test method
 composer style-check                     # check code style for errors
 composer style-fix                       # automatically fix code style errors
 ```
-
-# Contributors  ✨
-Thanks go to these wonderful people, without their effort this project wasn't possible.
-
-<a href="https://github.com/jsonrainbow/json-schema/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=jsonrainbow/json-schema" />
-</a>

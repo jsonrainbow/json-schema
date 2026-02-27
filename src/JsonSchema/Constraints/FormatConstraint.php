@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the JsonSchema package.
  *
@@ -11,11 +9,8 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Rfc3339;
-use JsonSchema\Tool\Validator\RelativeReferenceValidator;
-use JsonSchema\Tool\Validator\UriValidator;
 
 /**
  * Validates against the "format" property
@@ -29,7 +24,7 @@ class FormatConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null): void
+    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null)
     {
         if (!isset($schema->format) || $this->factory->getConfig(self::CHECK_MODE_DISABLE_FORMAT)) {
             return;
@@ -37,107 +32,113 @@ class FormatConstraint extends Constraint
 
         switch ($schema->format) {
             case 'date':
-                if (is_string($element) && !$date = $this->validateDateTime($element, 'Y-m-d')) {
-                    $this->addError(ConstraintError::FORMAT_DATE(), $path, [
-                            'date' => $element,
-                            'format' => $schema->format
-                        ]
-                    );
+                if (!$date = $this->validateDateTime($element, 'Y-m-d')) {
+                    $this->addError($path, sprintf('Invalid date %s, expected format YYYY-MM-DD', json_encode($element)), 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'time':
-                if (is_string($element) && !$this->validateDateTime($element, 'H:i:s')) {
-                    $this->addError(ConstraintError::FORMAT_TIME(), $path, [
-                            'time' => json_encode($element),
-                            'format' => $schema->format,
-                        ]
-                    );
+                if (!$this->validateDateTime($element, 'H:i:s')) {
+                    $this->addError($path, sprintf('Invalid time %s, expected format hh:mm:ss', json_encode($element)), 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'date-time':
-                if (is_string($element) && null === Rfc3339::createFromString($element)) {
-                    $this->addError(ConstraintError::FORMAT_DATE_TIME(), $path, [
-                            'dateTime' => json_encode($element),
-                            'format' => $schema->format
-                        ]
-                    );
+                if (null === Rfc3339::createFromString($element)) {
+                    $this->addError($path, sprintf('Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm', json_encode($element)), 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'utc-millisec':
                 if (!$this->validateDateTime($element, 'U')) {
-                    $this->addError(ConstraintError::FORMAT_DATE_UTC(), $path, [
-                        'value' => $element,
-                        'format' => $schema->format]);
+                    $this->addError($path, sprintf('Invalid time %s, expected integer of milliseconds since Epoch', json_encode($element)), 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'regex':
                 if (!$this->validateRegex($element)) {
-                    $this->addError(ConstraintError::FORMAT_REGEX(), $path, [
-                            'value' => $element,
-                            'format' => $schema->format
-                        ]
-                    );
+                    $this->addError($path, 'Invalid regex format ' . $element, 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'color':
                 if (!$this->validateColor($element)) {
-                    $this->addError(ConstraintError::FORMAT_COLOR(), $path, ['format' => $schema->format]);
+                    $this->addError($path, 'Invalid color', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'style':
                 if (!$this->validateStyle($element)) {
-                    $this->addError(ConstraintError::FORMAT_STYLE(), $path, ['format' => $schema->format]);
+                    $this->addError($path, 'Invalid style', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'phone':
                 if (!$this->validatePhone($element)) {
-                    $this->addError(ConstraintError::FORMAT_PHONE(), $path, ['format' => $schema->format]);
+                    $this->addError($path, 'Invalid phone number', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'uri':
-                if (is_string($element) && !UriValidator::isValid($element)) {
-                    $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
+                if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
+                    $this->addError($path, 'Invalid URL format', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'uriref':
             case 'uri-reference':
-                if (is_string($element) && !(UriValidator::isValid($element) || RelativeReferenceValidator::isValid($element))) {
-                    $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
+                if (null === filter_var($element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE)) {
+                    // FILTER_VALIDATE_URL does not conform to RFC-3986, and cannot handle relative URLs, but
+                    // the json-schema spec uses RFC-3986, so need a bit of hackery to properly validate them.
+                    // See https://tools.ietf.org/html/rfc3986#section-4.2 for additional information.
+                    if (substr($element, 0, 2) === '//') { // network-path reference
+                        $validURL = filter_var('scheme:' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                    } elseif (substr($element, 0, 1) === '/') { // absolute-path reference
+                        $validURL = filter_var('scheme://host' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                    } elseif (strlen($element)) { // relative-path reference
+                        $pathParts = explode('/', $element, 2);
+                        if (strpos($pathParts[0], ':') !== false) {
+                            $validURL = null;
+                        } else {
+                            $validURL = filter_var('scheme://host/' . $element, FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE);
+                        }
+                    } else {
+                        $validURL = null;
+                    }
+                    if ($validURL === null) {
+                        $this->addError($path, 'Invalid URL format', 'format', array('format' => $schema->format));
+                    }
                 }
                 break;
 
             case 'email':
-                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE)) {
-                    $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
+                $filterFlags = FILTER_NULL_ON_FAILURE;
+                if (defined('FILTER_FLAG_EMAIL_UNICODE')) {
+                    // Only available from PHP >= 7.1.0, so ignore it for coverage checks
+                    $filterFlags |= constant('FILTER_FLAG_EMAIL_UNICODE'); // @codeCoverageIgnore
+                }
+                if (null === filter_var($element, FILTER_VALIDATE_EMAIL, $filterFlags)) {
+                    $this->addError($path, 'Invalid email', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'ip-address':
             case 'ipv4':
-                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV4)) {
-                    $this->addError(ConstraintError::FORMAT_IP(), $path, ['format' => $schema->format]);
+                if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV4)) {
+                    $this->addError($path, 'Invalid IP address', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'ipv6':
-                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV6)) {
-                    $this->addError(ConstraintError::FORMAT_IP(), $path, ['format' => $schema->format]);
+                if (null === filter_var($element, FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE | FILTER_FLAG_IPV6)) {
+                    $this->addError($path, 'Invalid IP address', 'format', array('format' => $schema->format));
                 }
                 break;
 
             case 'host-name':
             case 'hostname':
                 if (!$this->validateHostname($element)) {
-                    $this->addError(ConstraintError::FORMAT_HOSTNAME(), $path, ['format' => $schema->format]);
+                    $this->addError($path, 'Invalid hostname', 'format', array('format' => $schema->format));
                 }
                 break;
 
@@ -154,7 +155,7 @@ class FormatConstraint extends Constraint
 
     protected function validateDateTime($datetime, $format)
     {
-        $dt = \DateTime::createFromFormat($format, (string) $datetime);
+        $dt = \DateTime::createFromFormat($format, $datetime);
 
         if (!$dt) {
             return false;
@@ -164,27 +165,27 @@ class FormatConstraint extends Constraint
             return true;
         }
 
+        // handles the case where a non-6 digit microsecond datetime is passed
+        // which will fail the above string comparison because the passed
+        // $datetime may be '2000-05-01T12:12:12.123Z' but format() will return
+        // '2000-05-01T12:12:12.123000Z'
+        if ((strpos('u', $format) !== -1) && (preg_match('/\.\d+Z$/', $datetime))) {
+            return true;
+        }
+
         return false;
     }
 
     protected function validateRegex($regex)
     {
-        if (!is_string($regex)) {
-            return true;
-        }
-
-        return false !== @preg_match(self::jsonPatternToPhpRegex($regex), '');
+        return false !== @preg_match('/' . $regex . '/u', '');
     }
 
     protected function validateColor($color)
     {
-        if (!is_string($color)) {
-            return true;
-        }
-
-        if (in_array(strtolower($color), ['aqua', 'black', 'blue', 'fuchsia',
+        if (in_array(strtolower($color), array('aqua', 'black', 'blue', 'fuchsia',
             'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple',
-            'red', 'silver', 'teal', 'white', 'yellow'])) {
+            'red', 'silver', 'teal', 'white', 'yellow'))) {
             return true;
         }
 
@@ -206,12 +207,7 @@ class FormatConstraint extends Constraint
 
     protected function validateHostname($host)
     {
-        if (!is_string($host)) {
-            return true;
-        }
-
-        // RFC 1035: labels are max 63 chars (1 start + 0-61 middle + 1 end)
-        $hostnameRegex = '/^(?!-)(?!.*?[^A-Za-z0-9\-\.])(?:(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?\.)*(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$/';
+        $hostnameRegex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/i';
 
         return preg_match($hostnameRegex, $host);
     }

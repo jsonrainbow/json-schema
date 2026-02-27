@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the JsonSchema package.
  *
@@ -11,7 +9,6 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\SchemaStorageInterface;
@@ -25,7 +22,7 @@ use JsonSchema\Validator;
 class Factory
 {
     /**
-     * @var SchemaStorageInterface
+     * @var SchemaStorage
      */
     protected $schemaStorage;
 
@@ -36,32 +33,23 @@ class Factory
 
     /**
      * @var int
-     * @phpstan-var int-mask-of<Constraint::CHECK_MODE_*>
      */
     private $checkMode = Constraint::CHECK_MODE_NORMAL;
 
     /**
-     * @var array<int, TypeCheck\TypeCheckInterface>
-     * @phpstan-var array<int-mask-of<Constraint::CHECK_MODE_*>, TypeCheck\TypeCheckInterface>
+     * @var TypeCheck\TypeCheckInterface[]
      */
-    private $typeCheck = [];
+    private $typeCheck = array();
 
     /**
-     * @var int-mask-of<Validator::ERROR_*> Validation context
+     * @var int Validation context
      */
     protected $errorContext = Validator::ERROR_DOCUMENT_VALIDATION;
 
     /**
-     * The default dialect used for strict mode (Constraint::CHECK_MODE_STRICT) when the schema is without a schema property
-     *
-     * @var string
-     */
-    private $defaultDialect = DraftIdentifiers::DRAFT_6;
-
-    /**
      * @var array
      */
-    protected $constraintMap = [
+    protected $constraintMap = array(
         'array' => 'JsonSchema\Constraints\CollectionConstraint',
         'collection' => 'JsonSchema\Constraints\CollectionConstraint',
         'object' => 'JsonSchema\Constraints\ObjectConstraint',
@@ -70,26 +58,25 @@ class Factory
         'string' => 'JsonSchema\Constraints\StringConstraint',
         'number' => 'JsonSchema\Constraints\NumberConstraint',
         'enum' => 'JsonSchema\Constraints\EnumConstraint',
-        'const' => 'JsonSchema\Constraints\ConstConstraint',
         'format' => 'JsonSchema\Constraints\FormatConstraint',
         'schema' => 'JsonSchema\Constraints\SchemaConstraint',
-        'validator' => 'JsonSchema\Validator',
-        'draft06' => Drafts\Draft06\Draft06Constraint::class,
-        'draft07' => Drafts\Draft07\Draft07Constraint::class,
-    ];
+        'validator' => 'JsonSchema\Validator'
+    );
 
     /**
      * @var array<ConstraintInterface>
      */
-    private $instanceCache = [];
+    private $instanceCache = array();
 
     /**
-     * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
+     * @param SchemaStorage         $schemaStorage
+     * @param UriRetrieverInterface $uriRetriever
+     * @param int                   $checkMode
      */
     public function __construct(
         ?SchemaStorageInterface $schemaStorage = null,
         ?UriRetrieverInterface $uriRetriever = null,
-        int $checkMode = Constraint::CHECK_MODE_NORMAL
+        $checkMode = Constraint::CHECK_MODE_NORMAL
     ) {
         // set provided config options
         $this->setConfig($checkMode);
@@ -102,9 +89,8 @@ class Factory
      * Set config values
      *
      * @param int $checkMode Set checkMode options - does not preserve existing flags
-     * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
-    public function setConfig(int $checkMode = Constraint::CHECK_MODE_NORMAL): void
+    public function setConfig($checkMode = Constraint::CHECK_MODE_NORMAL)
     {
         $this->checkMode = $checkMode;
     }
@@ -112,9 +98,9 @@ class Factory
     /**
      * Enable checkMode flags
      *
-     * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $options
+     * @param int $options
      */
-    public function addConfig(int $options): void
+    public function addConfig($options)
     {
         $this->checkMode |= $options;
     }
@@ -122,9 +108,9 @@ class Factory
     /**
      * Disable checkMode flags
      *
-     * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $options
+     * @param int $options
      */
-    public function removeConfig(int $options): void
+    public function removeConfig($options)
     {
         $this->checkMode &= ~$options;
     }
@@ -132,12 +118,11 @@ class Factory
     /**
      * Get checkMode option
      *
-     * @param int|null $options Options to get, if null then return entire bitmask
-     * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*>|null $options Options to get, if null then return entire bitmask
+     * @param int $options Options to get, if null then return entire bitmask
      *
-     * @phpstan-return int-mask-of<Constraint::CHECK_MODE_*>
+     * @return int
      */
-    public function getConfig(?int $options = null): int
+    public function getConfig($options = null)
     {
         if ($options === null) {
             return $this->checkMode;
@@ -146,17 +131,20 @@ class Factory
         return $this->checkMode & $options;
     }
 
-    public function getUriRetriever(): UriRetrieverInterface
+    /**
+     * @return UriRetrieverInterface
+     */
+    public function getUriRetriever()
     {
         return $this->uriRetriever;
     }
 
-    public function getSchemaStorage(): SchemaStorageInterface
+    public function getSchemaStorage()
     {
         return $this->schemaStorage;
     }
 
-    public function getTypeCheck(): TypeCheck\TypeCheckInterface
+    public function getTypeCheck()
     {
         if (!isset($this->typeCheck[$this->checkMode])) {
             $this->typeCheck[$this->checkMode] = ($this->checkMode & Constraint::CHECK_MODE_TYPE_CAST)
@@ -167,7 +155,13 @@ class Factory
         return $this->typeCheck[$this->checkMode];
     }
 
-    public function setConstraintClass(string $name, string $class): Factory
+    /**
+     * @param string $name
+     * @param string $class
+     *
+     * @return Factory
+     */
+    public function setConstraintClass($name, $class)
     {
         // Ensure class exists
         if (!class_exists($class)) {
@@ -189,8 +183,7 @@ class Factory
      *
      * @throws InvalidArgumentException if is not possible create the constraint instance
      *
-     * @return ConstraintInterface&BaseConstraint
-     * @phpstan-return ConstraintInterface&BaseConstraint
+     * @return ConstraintInterface|ObjectConstraint
      */
     public function createInstanceFor($constraintName)
     {
@@ -208,9 +201,9 @@ class Factory
     /**
      * Get the error context
      *
-     * @return int-mask-of<Validator::ERROR_*>
+     * @return string
      */
-    public function getErrorContext(): int
+    public function getErrorContext()
     {
         return $this->errorContext;
     }
@@ -218,20 +211,10 @@ class Factory
     /**
      * Set the error context
      *
-     * @param int-mask-of<Validator::ERROR_*> $errorContext
+     * @param string $validationContext
      */
-    public function setErrorContext(int $errorContext): void
+    public function setErrorContext($errorContext)
     {
         $this->errorContext = $errorContext;
-    }
-
-    public function getDefaultDialect(): string
-    {
-        return $this->defaultDialect;
-    }
-
-    public function setDefaultDialect(string $defaultDialect): void
-    {
-        $this->defaultDialect = $defaultDialect;
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the JsonSchema package.
  *
@@ -11,8 +9,6 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\ConstraintError;
-use JsonSchema\DraftIdentifiers;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Exception\InvalidArgumentException;
 use JsonSchema\Exception\InvalidSchemaException;
@@ -27,12 +23,12 @@ use JsonSchema\Validator;
  */
 class SchemaConstraint extends Constraint
 {
-    private const DEFAULT_SCHEMA_SPEC = DraftIdentifiers::DRAFT_4;
+    const DEFAULT_SCHEMA_SPEC = 'http://json-schema.org/draft-04/schema#';
 
     /**
      * {@inheritdoc}
      */
-    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null): void
+    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null)
     {
         if ($schema !== null) {
             // passed schema
@@ -84,7 +80,7 @@ class SchemaConstraint extends Constraint
                 }
             }
             if ($this->numErrors() > $initialErrorCount) {
-                $this->addError(ConstraintError::INVALID_SCHEMA(), $path);
+                $this->addError($path, 'Schema is not valid', 'schema');
             }
 
             // restore the initial config

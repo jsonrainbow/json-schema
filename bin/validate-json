@@ -6,22 +6,35 @@
  * @author Christian Weiske <christian.weiske@netresearch.de>
  */
 
+/**
+ * Dead simple autoloader
+ *
+ * @param string $className Name of class to load
+ *
+ * @return void
+ */
+spl_autoload_register(function ($className)
+{
+    $className = ltrim($className, '\\');
+    $fileName  = '';
+    if ($lastNsPos = strrpos($className, '\\')) {
+        $namespace = substr($className, 0, $lastNsPos);
+        $className = substr($className, $lastNsPos + 1);
+        $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+    }
+    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+    if (stream_resolve_include_path($fileName)) {
+        require_once $fileName;
+    }
+});
+
 // support running this tool from git checkout
-$projectDirectory = dirname(__DIR__);
-if (is_dir($projectDirectory . DIRECTORY_SEPARATOR . 'vendor')) {
-    set_include_path($projectDirectory . PATH_SEPARATOR . get_include_path());
+if (is_dir(__DIR__ . '/../src/JsonSchema')) {
+    set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
 }
 
-// autoload composer classes
-$composerAutoload = stream_resolve_include_path('vendor/autoload.php');
-if (!$composerAutoload) {
-    echo("Cannot load json-schema library\n");
-    exit(1);
-}
-require($composerAutoload);
-
-$arOptions = [];
-$arArgs = [];
+$arOptions = array();
+$arArgs = array();
 array_shift($argv);//script itself
 foreach ($argv as $arg) {
     if ($arg[0] == '-') {
@@ -60,11 +73,13 @@ if (count($arArgs) == 1) {
 
 /**
  * Show the json parse error that happened last
+ *
+ * @return void
  */
-function showJsonError(): void
+function showJsonError()
 {
     $constants = get_defined_constants(true);
-    $json_errors = [];
+    $json_errors = array();
     foreach ($constants['json'] as $name => $value) {
         if (!strncmp($name, 'JSON_ERROR_', 11)) {
             $json_errors[$value] = $name;
@@ -99,11 +114,11 @@ function getUrlFromPath($path)
 function parseHeaderValue($headerValue)
 {
     if (strpos($headerValue, ';') === false) {
-        return ['_value' => $headerValue];
+        return array('_value' => $headerValue);
     }
 
     $parts = explode(';', $headerValue);
-    $arData = ['_value' => array_shift($parts)];
+    $arData = array('_value' => array_shift($parts));
     foreach ($parts as $part) {
         list($name, $value) = explode('=', $part);
         $arData[$name] = trim($value, ' "\'');
@@ -126,15 +141,15 @@ function output($str) {
 $urlData = getUrlFromPath($pathData);
 
 $context = stream_context_create(
-    [
-        'http' => [
-            'header'        => [
+    array(
+        'http' => array(
+            'header'        => array(
                 'Accept: */*',
                 'Connection: Close'
-            ],
+            ),
             'max_redirects' => 5
-        ]
-    ]
+        )
+    )
 );
 $dataString = file_get_contents($pathData, false, $context);
 if ($dataString == '') {
@@ -215,7 +230,7 @@ if (isset($arOptions['--dump-schema'])) {
 
 try {
     $validator = new JsonSchema\Validator();
-    $validator->validate($data, $schema);
+    $validator->check($data, $schema);
 
     if ($validator->isValid()) {
         if(isset($arOptions['--verbose'])) {

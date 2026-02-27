@@ -1,24 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 namespace JsonSchema\Tests\Drafts;
 
 use JsonSchema\Tests\Constraints\BaseTestCase;
 
+/**
+ * @package JsonSchema\Tests\Drafts
+ */
 abstract class BaseDraftTestCase extends BaseTestCase
 {
     /** @var string */
-    protected const RELATIVE_TESTS_ROOT = '/../../vendor/json-schema/json-schema-test-suite/tests';
+    protected $relativeTestsRoot = '/../../vendor/json-schema/JSON-Schema-Test-Suite/tests';
 
-    /**
-     * @return array<string, array{string, string}>
-     */
-    private function setUpTests(bool $isValid): array
+    private function setUpTests($isValid)
     {
         $filePaths = $this->getFilePaths();
         $skippedTests = $this->getSkippedTests();
-        $tests = [];
+        $tests = array();
 
         foreach ($filePaths as $path) {
             foreach (glob($path . '/*.json') as $file) {
@@ -27,7 +25,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
                     continue;
                 }
 
-                $suites = json_decode(file_get_contents($file), false);
+                $suites = json_decode(file_get_contents($file));
                 foreach ($suites as $suite) {
                     $suiteDescription = $suite->description;
                     foreach ($suite->tests as $test) {
@@ -35,7 +33,7 @@ abstract class BaseDraftTestCase extends BaseTestCase
                         if ($isValid === $test->valid) {
                             $tests[
                                 $this->createDataSetPath($filename, $suiteDescription, $testCaseDescription)
-                            ] = [json_encode($test->data), json_encode($suite->schema)];
+                            ] = array(json_encode($test->data), json_encode($suite->schema));
                         }
                     }
                 }
@@ -45,30 +43,42 @@ abstract class BaseDraftTestCase extends BaseTestCase
         return $tests;
     }
 
-    public function getInvalidTests(): \Generator
+    /**
+     * {@inheritdoc}
+     */
+    public function getInvalidTests()
     {
-        yield from $this->setUpTests(false);
-    }
-
-    public function getValidTests(): \Generator
-    {
-        yield from $this->setUpTests(true);
+        return $this->setUpTests(false);
     }
 
     /**
-     * @return list<string>
+     * {@inheritdoc}
      */
-    abstract protected function getFilePaths(): array;
+    public function getValidTests()
+    {
+        return $this->setUpTests(true);
+    }
 
     /**
-     * @return list<string>
+     * @return string[]
      */
-    abstract protected function getSkippedTests(): array;
+    abstract protected function getFilePaths();
+
+    /**
+     * @return string[]
+     */
+    abstract protected function getSkippedTests();
 
     /**
      * Generates a readable path to Json Schema Test Suite data set under test
+     *
+     * @param string $filename
+     * @param string $suiteDesc
+     * @param string $testCaseDesc
+     *
+     * @return string
      */
-    private function createDataSetPath(string $filename, string $suiteDesc, string $testCaseDesc): string
+    private function createDataSetPath($filename, $suiteDesc, $testCaseDesc)
     {
         $separator = ' / ';
 

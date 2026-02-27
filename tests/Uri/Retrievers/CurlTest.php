@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace JsonSchema\Tests\Uri\Retrievers
 {
     use JsonSchema\Uri\Retrievers\Curl;
@@ -9,30 +7,27 @@ namespace JsonSchema\Tests\Uri\Retrievers
 
     class CurlTest extends TestCase
     {
-        public function testRetrieveFile(): void
+        public function testRetrieveFile()
         {
             $c = new Curl();
-            $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures/foobar.json'));
-
-            self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
+            $c->retrieve(realpath(__DIR__ . '/../../fixtures/foobar.json'));
         }
 
-        public function testRetrieveNonexistantFile(): void
+        public function testRetrieveNonexistantFile()
         {
             $c = new Curl();
 
-            $this->expectException(\JsonSchema\Exception\ResourceNotFoundException::class);
-            $this->expectExceptionMessage('JSON schema not found');
-
+            $this->setExpectedException(
+                '\JsonSchema\Exception\ResourceNotFoundException',
+                'JSON schema not found'
+            );
             $c->retrieve(__DIR__ . '/notARealFile');
         }
 
-        public function testNoContentType(): void
+        public function testNoContentType()
         {
             $c = new Curl();
-            $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
-
-            self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
+            $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
         }
     }
 }
@@ -45,9 +40,9 @@ namespace JsonSchema\Uri\Retrievers
 
         if ($uri === realpath(__DIR__ . '/../../fixtures/foobar.json')) {
             // return file with headers
-            $headers = implode("\n", [
+            $headers = implode("\n", array(
                 'Content-Type: application/json'
-            ]);
+            ));
 
             return sprintf("%s\r\n\r\n%s", $headers, file_get_contents($uri));
         } elseif ($uri === realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json') {

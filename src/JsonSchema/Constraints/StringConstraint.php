@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the JsonSchema package.
  *
@@ -11,7 +9,6 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints;
 
-use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 
 /**
@@ -25,27 +22,27 @@ class StringConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null): void
+    public function check(&$element, $schema = null, ?JsonPointer $path = null, $i = null)
     {
         // Verify maxLength
         if (isset($schema->maxLength) && $this->strlen($element) > $schema->maxLength) {
-            $this->addError(ConstraintError::LENGTH_MAX(), $path, [
+            $this->addError($path, 'Must be at most ' . $schema->maxLength . ' characters long', 'maxLength', array(
                 'maxLength' => $schema->maxLength,
-            ]);
+            ));
         }
 
         //verify minLength
         if (isset($schema->minLength) && $this->strlen($element) < $schema->minLength) {
-            $this->addError(ConstraintError::LENGTH_MIN(), $path, [
+            $this->addError($path, 'Must be at least ' . $schema->minLength . ' characters long', 'minLength', array(
                 'minLength' => $schema->minLength,
-            ]);
+            ));
         }
 
         // Verify a regex pattern
-        if (isset($schema->pattern) && !preg_match(self::jsonPatternToPhpRegex($schema->pattern), $element)) {
-            $this->addError(ConstraintError::PATTERN(), $path, [
+        if (isset($schema->pattern) && !preg_match('#' . str_replace('#', '\\#', $schema->pattern) . '#u', $element)) {
+            $this->addError($path, 'Does not match the regex pattern ' . $schema->pattern, 'pattern', array(
                 'pattern' => $schema->pattern,
-            ]);
+            ));
         }
 
         $this->checkFormat($element, $schema, $path, $i);

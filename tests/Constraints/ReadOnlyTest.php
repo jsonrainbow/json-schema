@@ -1,39 +1,48 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
 class ReadOnlyTest extends BaseTestCase
 {
-    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): \Generator
+    public function getInvalidTests()
     {
-        yield 'is readonly really required?' => [
-            '{ "number": [] }',
-            '{
-              "type":"object",
-              "properties":{
-                "number":{"type":"string","readonly":true}
-              }
-            }'
-        ];
+        //is readonly really required?
+        return array(
+            array(
+                '{ "number": [] }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "number":{"type":"string","readonly":true}
+                  }
+                }'
+            )
+        );
     }
 
-    public function getValidTests(): \Generator
+    public function getValidTests()
     {
-        yield [
-            '{
-              "number": "1.4"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "number":{"type":"string","readonly":true}
-              }
-            }'
-        ];
+        return array(
+            array(
+                '{
+                  "number": "1.4"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "number":{"type":"string","readonly":true}
+                  }
+                }'
+            )
+        );
     }
 }

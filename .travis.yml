@@ -1,0 +1,43 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.phpcsfixer
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.3
+      dist: precise
+    - php: 5.4
+      dist: trusty
+    - php: 5.5
+      dist: trusty
+    - php: 5.6
+    - php: 7.0
+      env: WITH_COVERAGE=true
+    - php: 7.0
+      env: WITH_PHPCSFIXER=true
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+    - php: 7.4
+    - php: nightly
+    - php: hhvm-3.18
+      dist: trusty
+  allow_failures:
+    - php: nightly
+    - php: hhvm-3.18
+
+before_install:
+  - if [[ "$WITH_COVERAGE" != "true" && "$TRAVIS_PHP_VERSION" != "hhvm-3.18" && "$TRAVIS_PHP_VERSION" != "nightly" && "$TRAVIS_PHP_VERSION" != "7.1" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "hhvm-3.18" || "$TRAVIS_PHP_VERSION" = "nightly" ]]; then sed -i '/^.*friendsofphp\/php-cs-fixer.*$/d' composer.json; fi
+
+install:
+  - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]]; then travis_retry composer install; fi
+  - if [[ "$TRAVIS_PHP_VERSION" = "nightly" ]]; then travis_retry composer install --ignore-platform-reqs; fi
+
+script:
+  - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-text; else composer test; fi
+  - if [[ "$WITH_PHPCSFIXER" == "true" ]]; then mkdir -p $HOME/.phpcsfixer && vendor/bin/php-cs-fixer fix --cache-file "$HOME/.phpcsfixer/.php_cs.cache" --dry-run --diff --verbose; fi

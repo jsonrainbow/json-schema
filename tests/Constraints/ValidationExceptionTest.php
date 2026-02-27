@@ -1,6 +1,11 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
@@ -11,10 +16,10 @@ use PHPUnit\Framework\TestCase;
 
 class ValidationExceptionTest extends TestCase
 {
-    public function testValidationException(): void
+    public function testValidationException()
     {
         $exception = new ValidationException();
-        $this->assertInstanceOf(\JsonSchema\Exception\ValidationException::class, $exception);
+        $this->assertInstanceOf('\JsonSchema\Exception\ValidationException', $exception);
 
         $checkValue = json_decode('{"propertyOne": "thisIsNotAnObject"}');
         $schema = json_decode('{
@@ -40,7 +45,7 @@ class ValidationExceptionTest extends TestCase
             $exception->getMessage()
         );
 
-        $this->expectException(\JsonSchema\Exception\ValidationException::class);
+        $this->setExpectedException('JsonSchema\Exception\ValidationException');
         throw $exception;
     }
 }

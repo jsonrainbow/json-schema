@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace JsonSchema;
 
 interface SchemaStorageInterface
@@ -9,30 +7,35 @@ interface SchemaStorageInterface
     /**
      * Adds schema with given identifier
      *
-     * @param object|bool $schema
+     * @param string $id
+     * @param object $schema
      */
-    public function addSchema(string $id, $schema = null): void;
+    public function addSchema($id, $schema = null);
 
     /**
      * Returns schema for given identifier, or null if it does not exist
      *
-     * @return object|bool
+     * @param string $id
+     *
+     * @return object
      */
-    public function getSchema(string $id);
+    public function getSchema($id);
 
     /**
      * Returns schema for given reference with all sub-references resolved
      *
-     * @return object|bool
+     * @param string $ref
+     *
+     * @return object
      */
-    public function resolveRef(string $ref);
+    public function resolveRef($ref);
 
     /**
      * Returns schema referenced by '$ref' property
      *
      * @param mixed $refSchema
      *
-     * @return object|bool
+     * @return object
      */
     public function resolveRefSchema($refSchema);
 }

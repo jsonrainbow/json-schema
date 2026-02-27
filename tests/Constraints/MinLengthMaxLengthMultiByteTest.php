@@ -1,70 +1,78 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
 class MinLengthMaxLengthMultiByteTest extends BaseTestCase
 {
-    /** @var bool */
     protected $validateSchema = true;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         if (!extension_loaded('mbstring')) {
             $this->markTestSkipped('mbstring extension is not available');
         }
     }
 
-    public function getInvalidTests(): \Generator
+    public function getInvalidTests()
     {
-        yield [
-            '{
-              "value":"☀"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","minLength":2,"maxLength":4}
-              }
-            }'
-        ];
-        yield [
-            '{
-              "value":"☀☁☂☃☺"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","minLength":2,"maxLength":4}
-              }
-            }'
-        ];
+        return array(
+            array(
+                '{
+                  "value":"☀"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "value":"☀☁☂☃☺"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
+                }'
+            )
+        );
     }
 
-    public function getValidTests(): \Generator
+    public function getValidTests()
     {
-        yield [
-            '{
-              "value":"☀☁"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","minLength":2,"maxLength":4}
-              }
-            }'
-        ];
-        yield [
-            '{
-              "value":"☀☁☂☃"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","minLength":2,"maxLength":4}
-              }
-            }'
-        ];
+        return array(
+            array(
+                '{
+                  "value":"☀☁"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
+                }'
+            ),
+            array(
+                '{
+                  "value":"☀☁☂☃"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","minLength":2,"maxLength":4}
+                  }
+                }'
+            )
+        );
     }
 }

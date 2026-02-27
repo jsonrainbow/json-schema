@@ -1,95 +1,103 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
 class PatternTest extends BaseTestCase
 {
-    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): \Generator
+    public function getInvalidTests()
     {
-        yield [
-            '{
-              "value":"Abacates"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","pattern":"^cat"}
-              },
-              "additionalProperties":false
-            }'
-        ];
-        yield [
-            '{"value": "abc"}',
-            '{
-                "type": "object",
-                "properties": {
-                    "value": {"type": "string", "pattern": "^a*$"}
-                },
-                "additionalProperties": false
-            }'
-        ];
-        yield [
-            '{"value": "Ã¼"}',
-            '{
-                "type": "object",
-                "properties": {
-                    "value": {"type": "string", "pattern": "^ü$"}
-                },
-                "additionalProperties": false
-            }'
-        ];
+        return array(
+            array(
+                '{
+                  "value":"Abacates"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","pattern":"^cat"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{"value": "abc"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "string", "pattern": "^a*$"}
+                    },
+                    "additionalProperties": false
+                }'
+            ),
+            array(
+                '{"value": "Ã¼"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "string", "pattern": "^ü$"}
+                    },
+                    "additionalProperties": false
+                }'
+            ),
+        );
     }
 
-    public function getValidTests(): \Generator
+    public function getValidTests()
     {
-        yield [
-            '{
-              "value":"Abacates"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","pattern":"tes$"}
-              },
-              "additionalProperties":false
-            }'
-        ];
-        yield [
-            '{
-              "value":"Abacates"
-            }',
-            '{
-              "type":"object",
-              "properties":{
-                "value":{"type":"string","pattern":"cat"}
-              },
-              "additionalProperties":false
-            }'
-        ];
-        yield [
-            '{"value": "aaa"}',
-            '{
-                "type": "object",
-                "properties": {
-                    "value": {"type": "string", "pattern": "^a*$"}
-                },
-                "additionalProperties": false
-            }'
-        ];
-        yield [
-            '{"value": "↓æ→"}',
-            '{
-                "type": "object",
-                "properties": {
-                    "value": {"type": "string", "pattern": "^↓æ.$"}
-                },
-                "additionalProperties": false
-            }'
-        ];
+        return array(
+            array(
+                '{
+                  "value":"Abacates"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","pattern":"tes$"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{
+                  "value":"Abacates"
+                }',
+                '{
+                  "type":"object",
+                  "properties":{
+                    "value":{"type":"string","pattern":"cat"}
+                  },
+                  "additionalProperties":false
+                }'
+            ),
+            array(
+                '{"value": "aaa"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "string", "pattern": "^a*$"}
+                    },
+                    "additionalProperties": false
+                }'
+            ),
+            array(
+                '{"value": "↓æ→"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "string", "pattern": "^↓æ.$"}
+                    },
+                    "additionalProperties": false
+                }'
+            )
+        );
     }
 }

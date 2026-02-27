@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the JsonSchema package.
  *
@@ -25,7 +23,7 @@ class ObjectIterator implements \Iterator, \Countable
     private $position = 0;
 
     /** @var array */
-    private $data = [];
+    private $data = array();
 
     /** @var bool */
     private $initialized = false;
@@ -41,7 +39,6 @@ class ObjectIterator implements \Iterator, \Countable
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
     public function current()
     {
         $this->initialize();
@@ -52,7 +49,7 @@ class ObjectIterator implements \Iterator, \Countable
     /**
      * {@inheritdoc}
      */
-    public function next(): void
+    public function next()
     {
         $this->initialize();
         $this->position++;
@@ -61,7 +58,7 @@ class ObjectIterator implements \Iterator, \Countable
     /**
      * {@inheritdoc}
      */
-    public function key(): int
+    public function key()
     {
         $this->initialize();
 
@@ -71,7 +68,7 @@ class ObjectIterator implements \Iterator, \Countable
     /**
      * {@inheritdoc}
      */
-    public function valid(): bool
+    public function valid()
     {
         $this->initialize();
 
@@ -81,7 +78,7 @@ class ObjectIterator implements \Iterator, \Countable
     /**
      * {@inheritdoc}
      */
-    public function rewind(): void
+    public function rewind()
     {
         $this->initialize();
         $this->position = 0;
@@ -90,7 +87,7 @@ class ObjectIterator implements \Iterator, \Countable
     /**
      * {@inheritdoc}
      */
-    public function count(): int
+    public function count()
     {
         $this->initialize();
 
@@ -115,7 +112,7 @@ class ObjectIterator implements \Iterator, \Countable
      */
     private function buildDataFromObject($object)
     {
-        $result = [];
+        $result = array();
 
         $stack = new \SplStack();
         $stack->push($object);
@@ -144,7 +141,7 @@ class ObjectIterator implements \Iterator, \Countable
     private function getDataFromItem($item)
     {
         if (!is_object($item) && !is_array($item)) {
-            return [];
+            return array();
         }
 
         return is_object($item) ? get_object_vars($item) : $item;

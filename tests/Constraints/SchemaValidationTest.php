@@ -1,6 +1,11 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
@@ -12,10 +17,10 @@ class SchemaValidationTest extends TestCase
 {
     protected $validateSchema = true;
 
-    public function getInvalidTests(): array
+    public function getInvalidTests()
     {
-        return [
-            [// invalid v4 schema (uses v3 require)
+        return array(
+            array(// invalid v4 schema (uses v3 require)
                 '{
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "properties": {
@@ -25,8 +30,8 @@ class SchemaValidationTest extends TestCase
                         }
                     }
                 }'
-            ],
-            [// invalid v4 schema (uses v3 required), use default spec instead of specifying $schema
+            ),
+            array(// invalid v4 schema (uses v3 required), use default spec instead of specifying $schema
                 '{
                     "properties": {
                         "propertyOne": {
@@ -35,14 +40,14 @@ class SchemaValidationTest extends TestCase
                         }
                     }
                 }'
-            ]
-        ];
+            )
+        );
     }
 
-    public function getValidTests(): array
+    public function getValidTests()
     {
-        return [
-            [// valid v4 schema (uses v4 require)
+        return array(
+            array(// valid v4 schema (uses v4 require)
                 '{
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "properties": {
@@ -52,14 +57,14 @@ class SchemaValidationTest extends TestCase
                     },
                     "required": ["propertyOne"]
                 }'
-            ]
-        ];
+            )
+        );
     }
 
     /**
      * @dataProvider getInvalidTests
      */
-    public function testInvalidCases($schema): void
+    public function testInvalidCases($schema)
     {
         $input = json_decode('{"propertyOne":"valueOne"}');
         $schema = json_decode($schema);
@@ -80,7 +85,7 @@ class SchemaValidationTest extends TestCase
     /**
      * @dataProvider getValidTests
      */
-    public function testValidCases($schema): void
+    public function testValidCases($schema)
     {
         $input = json_decode('{"propertyOne":"valueOne"}');
         $schema = json_decode($schema);
@@ -95,18 +100,21 @@ class SchemaValidationTest extends TestCase
         $this->assertTrue($v->isValid(), 'Validation failed on a valid test case');
     }
 
-    public function testNonObjectSchema(): void
+    public function testNonObjectSchema()
     {
-        $this->expectException(\JsonSchema\Exception\RuntimeException::class);
-        $this->expectExceptionMessage('Cannot validate the schema of a non-object');
-
+        $this->setExpectedException(
+            '\JsonSchema\Exception\RuntimeException',
+            'Cannot validate the schema of a non-object'
+        );
         $this->testValidCases('"notAnObject"');
     }
 
-    public function testInvalidSchemaException(): void
+    public function testInvalidSchemaException()
     {
-        $this->expectException(\JsonSchema\Exception\InvalidSchemaException::class);
-        $this->expectExceptionMessage('Schema did not pass validation');
+        $this->setExpectedException(
+            '\JsonSchema\Exception\InvalidSchemaException',
+            'Schema did not pass validation'
+        );
 
         $input = json_decode('{}');
         $schema = json_decode('{"properties":{"propertyOne":{"type":"string","required":true}}}');

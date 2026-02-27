@@ -1,16 +1,12 @@
 /vendor
 /bin
 !/bin/validate-json
-!/bin/update-changelog.sh
-!/bin/prepare-release.sh
-!/bin/extract-release-notes.sh
 coverage
 .buildpath
 .project
 .settings
 .php_cs
-.php-cs-fixer.cache
+.php_cs.cache
 composer.lock
 docs-api
 phpunit.xml
-.phpunit.result.cache

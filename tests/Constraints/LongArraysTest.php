@@ -1,6 +1,11 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
@@ -12,7 +17,7 @@ class LongArraysTest extends VeryBaseTestCase
 {
     protected $validateSchema = true;
 
-    public function testLongStringArray(): void
+    public function testLongStringArray()
     {
         $schema =
             '{
@@ -36,11 +41,11 @@ class LongArraysTest extends VeryBaseTestCase
 
         $validator = new Validator(new Factory($schemaStorage));
         $checkValue = json_decode($input);
-        $validator->validate($checkValue, $schema);
+        $validator->check($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    public function testLongNumberArray(): void
+    public function testLongNumberArray()
     {
         $schema =
             '{
@@ -55,7 +60,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $tmp = new \stdClass();
         $tmp->p_array = array_map(function ($i) {
-            return random_int(1, 1000) / 1000.0;
+            return rand(1, 1000) / 1000.0;
         }, range(1, 100000));
         $input = json_encode($tmp);
 
@@ -64,11 +69,11 @@ class LongArraysTest extends VeryBaseTestCase
 
         $validator = new Validator(new Factory($schemaStorage));
         $checkValue = json_decode($input);
-        $validator->validate($checkValue, $schema);
+        $validator->check($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 
-    public function testLongIntegerArray(): void
+    public function testLongIntegerArray()
     {
         $schema =
             '{
@@ -92,7 +97,7 @@ class LongArraysTest extends VeryBaseTestCase
 
         $validator = new Validator(new Factory($schemaStorage));
         $checkValue = json_decode($input);
-        $validator->validate($checkValue, $schema);
+        $validator->check($checkValue, $schema);
         $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
     }
 }

@@ -1,94 +1,102 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Constraints;
 
 class NotTest extends BaseTestCase
 {
-    /** @var bool */
     protected $validateSchema = true;
 
-    public function getInvalidTests(): \Generator
+    public function getInvalidTests()
     {
-        yield [
-            '{
-                "x": [1, 2]
-            }',
-            '{
-                "properties": {
-                    "x": {
-                        "not": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                            "minItems": 2
+        return array(
+            array(
+                '{
+                    "x": [1, 2]
+                }',
+                '{
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "array",
+                                "items": {"type": "integer"},
+                                "minItems": 2
+                            }
                         }
                     }
-                }
-            }'
-        ];
-        yield 'check that a missing, required property is correctly validated' => [
-            '{"y": "foo"}',
-            '{
-                "type": "object",
-                "required": ["x"],
-                "properties": {
-                    "x": {
-                        "not": {
-                            "type": "null"
+                }'
+            ),
+            array( // check that a missing, required property is correctly validated
+                '{"y": "foo"}',
+                '{
+                    "type": "object",
+                    "required": ["x"],
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "null"
+                            }
                         }
                     }
-                }
-            }'
-        ];
+                }'
+            )
+        );
     }
 
-    public function getValidTests(): \Generator
+    public function getValidTests()
     {
-        yield [
-            '{
-                "x": [1]
-            }',
-            '{
-                "properties": {
-                    "x": {
-                        "not": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                            "minItems": 2
+        return array(
+            array(
+                '{
+                    "x": [1]
+                }',
+                '{
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "array",
+                                "items": {"type": "integer"},
+                                "minItems": 2
+                            }
                         }
                     }
-                }
-            }'
-        ];
-        yield [
-            '{
-                "x": ["foo", 2]
-            }',
-            '{
-                "properties": {
-                    "x": {
-                        "not": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                            "minItems": 2
+                }'
+            ),
+            array(
+                '{
+                    "x": ["foo", 2]
+                }',
+                '{
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "array",
+                                "items": {"type": "integer"},
+                                "minItems": 2
+                            }
                         }
                     }
-                }
-            }'
-        ];
-        yield "check that a missing, non-required property isn't validated" => [
-            '{"y": "foo"}',
-            '{
-                "type": "object",
-                "properties": {
-                    "x": {
-                        "not": {
-                            "type": "null"
+                }'
+            ),
+            array( // check that a missing, non-required property isn't validated
+                '{"y": "foo"}',
+                '{
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "not": {
+                                "type": "null"
+                            }
                         }
                     }
-                }
-            }'
-        ];
+                }'
+            )
+        );
     }
 }

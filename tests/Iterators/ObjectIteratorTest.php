@@ -1,6 +1,11 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the JsonSchema package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JsonSchema\Tests\Iterators;
 
@@ -11,47 +16,47 @@ class ObjectIteratorTest extends TestCase
 {
     protected $testObject;
 
-    public function setUp(): void
+    public function setUp()
     {
-        $this->testObject = (object) [
-            'subOne' => (object) [
+        $this->testObject = (object) array(
+            'subOne' => (object) array(
                 'propertyOne' => 'valueOne',
                 'propertyTwo' => 'valueTwo',
                 'propertyThree' => 'valueThree'
-            ],
-            'subTwo' => (object) [
+            ),
+            'subTwo' => (object) array(
                 'propertyFour' => 'valueFour',
-                'subThree' => (object) [
+                'subThree' => (object) array(
                     'propertyFive' => 'valueFive',
                     'propertySix' => 'valueSix'
-                ]
-            ],
+                )
+            ),
             'propertySeven' => 'valueSeven'
-        ];
+        );
     }
 
-    public function testCreate(): void
+    public function testCreate()
     {
         $i = new ObjectIterator($this->testObject);
 
-        $this->assertInstanceOf(\JsonSchema\Iterator\ObjectIterator::class, $i);
+        $this->assertInstanceOf('\JsonSchema\Iterator\ObjectIterator', $i);
     }
 
-    public function testInitialState(): void
+    public function testInitialState()
     {
         $i = new ObjectIterator($this->testObject);
 
         $this->assertEquals($this->testObject, $i->current());
     }
 
-    public function testCount(): void
+    public function testCount()
     {
         $i = new ObjectIterator($this->testObject);
 
         $this->assertEquals(4, $i->count());
     }
 
-    public function testKey(): void
+    public function testKey()
     {
         $i = new ObjectIterator($this->testObject);
 
@@ -62,7 +67,7 @@ class ObjectIteratorTest extends TestCase
         $this->assertEquals($this->testObject->subTwo->subThree, $i->current());
     }
 
-    public function testAlwaysObjects(): void
+    public function testAlwaysObjects()
     {
         $i= new ObjectIterator($this->testObject);
 
@@ -71,7 +76,7 @@ class ObjectIteratorTest extends TestCase
         }
     }
 
-    public function testReachesAllProperties(): void
+    public function testReachesAllProperties()
     {
         $i = new ObjectIterator($this->testObject);
 

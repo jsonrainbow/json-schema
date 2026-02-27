@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the JsonSchema package.
  *
@@ -55,19 +53,17 @@ class FileGetContents extends AbstractRetriever
         }
 
         $this->messageBody = $response;
-
         if (function_exists('http_get_last_response_headers')) {
-            // Use http_get_last_response_headers() for compatibility with PHP 8.5+
+            // Use http_get_last_response_headers() for BC compatibility with PHP 8.5+
             // where $http_response_header is deprecated.
-            $httpResponseHeaders = http_get_last_response_headers();
-        } else {
-            /** @phpstan-ignore nullCoalesce.variable ($http_response_header can non-existing when no http request was done) */
-            $httpResponseHeaders = $http_response_header ?? [];
+            $http_response_header = http_get_last_response_headers();
         }
-
-        if (!empty($httpResponseHeaders)) {
-            $this->fetchContentType($httpResponseHeaders);
-        } else {
+        if (!empty($http_response_header)) {
+            // $http_response_header cannot be tested, because it's defined in the method's local scope
+            // See http://php.net/manual/en/reserved.variables.httpresponseheader.php for more info.
+            $this->fetchContentType($http_response_header); // @codeCoverageIgnore
+        } else {                                            // @codeCoverageIgnore
+            // Could be a "file://" url or something else - fake up the response
             $this->contentType = null;
         }
 
@@ -79,9 +75,9 @@ class FileGetContents extends AbstractRetriever
      *
      * @return bool Whether the Content-Type header was found or not
      */
-    private function fetchContentType(array $headers): bool
+    private function fetchContentType(array $headers)
     {
-        foreach (array_reverse($headers) as $header) {
+        foreach ($headers as $header) {
             if ($this->contentType = self::getContentTypeMatchInHeader($header)) {
                 return true;
             }
