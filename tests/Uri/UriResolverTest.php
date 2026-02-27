@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UriResolverTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->resolver = new UriResolver();
     }
@@ -94,11 +94,9 @@ class UriResolverTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\UriResolverException
-     */
     public function testResolveRelativeUriNoBase()
     {
+        $this->expectException('\JsonSchema\Exception\UriResolverException');
         $this->assertEquals(
             'http://example.org/foo/bar.json',
             $this->resolver->resolve(

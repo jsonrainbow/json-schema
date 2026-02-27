@@ -45,7 +45,7 @@ class ValidationExceptionTest extends TestCase
             $exception->getMessage()
         );
 
-        $this->setExpectedException('JsonSchema\Exception\ValidationException');
+        $this->expectException('JsonSchema\Exception\ValidationException');
         throw $exception;
     }
 }

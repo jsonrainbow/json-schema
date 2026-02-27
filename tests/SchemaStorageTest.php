@@ -102,10 +102,8 @@ class SchemaStorageTest extends TestCase
 
     public function testUnresolvableJsonPointExceptionShouldBeThrown()
     {
-        $this->setExpectedException(
-            'JsonSchema\Exception\UnresolvableJsonPointerException',
-            'File: http://www.example.com/schema.json is found, but could not resolve fragment: #/definitions/car'
-        );
+        $this->expectException('JsonSchema\Exception\UnresolvableJsonPointerException');
+        $this->expectExceptionMessage('File: http://www.example.com/schema.json is found, but could not resolve fragment: #/definitions/car');
 
         $mainSchema = $this->getInvalidSchema();
         $mainSchemaPath = 'http://www.example.com/schema.json';
@@ -121,10 +119,8 @@ class SchemaStorageTest extends TestCase
 
     public function testResolveRefWithNoAssociatedFileName()
     {
-        $this->setExpectedException(
-            'JsonSchema\Exception\UnresolvableJsonPointerException',
-            "Could not resolve fragment '#': no file is defined"
-        );
+        $this->expectException('JsonSchema\Exception\UnresolvableJsonPointerException');
+        $this->expectExceptionMessage("Could not resolve fragment '#': no file is defined");
 
         $schemaStorage = new SchemaStorage();
         $schemaStorage->resolveRef('#');

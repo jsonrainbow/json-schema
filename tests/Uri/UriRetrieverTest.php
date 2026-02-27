@@ -21,7 +21,7 @@ class UriRetrieverTest extends TestCase
 {
     protected $validator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->validator = new Validator();
     }
@@ -34,7 +34,9 @@ class UriRetrieverTest extends TestCase
             throw new JsonDecodingException($error);
         }
 
-        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('retrieve'));
+        $retriever = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->onlyMethods(array('retrieve'))
+            ->getMock();
 
         $retriever->expects($this->at(0))
                   ->method('retrieve')
@@ -182,11 +184,9 @@ EOF;
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testResolvePointerFragmentNotFound()
     {
+        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
         $schema = (object) array(
             'definitions' => (object) array(
                 'foo' => (object) array(
@@ -202,11 +202,9 @@ EOF;
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\ResourceNotFoundException
-     */
     public function testResolvePointerFragmentNoArray()
     {
+        $this->expectException('\JsonSchema\Exception\ResourceNotFoundException');
         $schema = (object) array(
             'definitions' => (object) array(
                 'foo' => array(
@@ -222,11 +220,9 @@ EOF;
         );
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\UriResolverException
-     */
     public function testResolveExcessLevelUp()
     {
+        $this->expectException('\JsonSchema\Exception\UriResolverException');
         $retriever = new \JsonSchema\Uri\UriRetriever();
         $retriever->resolve(
             '../schema.json#', 'http://example.org/schema.json#'
@@ -235,7 +231,9 @@ EOF;
 
     public function testConfirmMediaTypeAcceptsJsonSchemaType()
     {
-        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $retriever = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->addMethods(array('getContentType'))
+            ->getMock();
 
         $retriever->expects($this->at(0))
                 ->method('getContentType')
@@ -246,7 +244,9 @@ EOF;
 
     public function testConfirmMediaTypeAcceptsJsonType()
     {
-        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $retriever = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->addMethods(array('getContentType'))
+            ->getMock();
 
         $retriever->expects($this->at(0))
                 ->method('getContentType')
@@ -255,12 +255,12 @@ EOF;
         $this->assertEquals(null, $retriever->confirmMediaType($retriever, null));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
     public function testConfirmMediaTypeThrowsExceptionForUnsupportedTypes()
     {
-        $retriever = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $this->expectException('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
+        $retriever = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->addMethods(array('getContentType'))
+            ->getMock();
 
         $retriever->expects($this->at(0))
                 ->method('getContentType')
@@ -332,7 +332,9 @@ EOF;
 
     public function testInvalidContentTypeEndpointsDefault()
     {
-        $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $mock = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->addMethods(array('getContentType'))
+            ->getMock();
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
@@ -340,12 +342,12 @@ EOF;
         $this->assertTrue($retriever->confirmMediaType($mock, 'https://json-schema.org/'));
     }
 
-    /**
-     * @expectedException \JsonSchema\Exception\InvalidSchemaMediaTypeException
-     */
     public function testInvalidContentTypeEndpointsUnknown()
     {
-        $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $this->expectException('\JsonSchema\Exception\InvalidSchemaMediaTypeException');
+        $mock = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->addMethods(array('getContentType'))
+            ->getMock();
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
 
@@ -354,7 +356,9 @@ EOF;
 
     public function testInvalidContentTypeEndpointsAdded()
     {
-        $mock = $this->getMock('JsonSchema\Uri\UriRetriever', array('getContentType'));
+        $mock = $this->getMockBuilder('JsonSchema\Uri\UriRetriever')
+            ->addMethods(array('getContentType'))
+            ->getMock();
         $mock->method('getContentType')->willReturn('Application/X-Fake-Type');
         $retriever = new UriRetriever();
         $retriever->addInvalidContentTypeEndpoint('http://example.com');
@@ -385,10 +389,8 @@ EOF;
     {
         $retriever = new UriRetriever();
 
-        $this->setExpectedException(
-            'JsonSchema\Exception\JsonDecodingException',
-            'JSON syntax is malformed'
-        );
+        $this->expectException('JsonSchema\Exception\JsonDecodingException');
+        $this->expectExceptionMessage('JSON syntax is malformed');
         $schema = $retriever->retrieve('package://tests/fixtures/bad-syntax.json');
     }
 

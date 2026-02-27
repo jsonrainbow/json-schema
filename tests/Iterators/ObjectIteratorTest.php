@@ -16,7 +16,7 @@ class ObjectIteratorTest extends TestCase
 {
     protected $testObject;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->testObject = (object) array(
             'subOne' => (object) array(

@@ -27,12 +27,13 @@
         }
     ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
         "json-schema/json-schema-test-suite": "1.2.0",
-        "phpunit/phpunit": "^4.8.35"
+        "phpspec/prophecy": "^1.21",
+        "phpunit/phpunit": "^8.5.52"
     },
     "autoload": {
         "psr-4": {
