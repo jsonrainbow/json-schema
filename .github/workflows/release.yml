@@ -6,7 +6,7 @@
 # 3. The workflow will:
 #    - Move unreleased changes in CHANGELOG.md to a new version section
 #    - Create a commit with the updated changelog
-#    - Create and push a git tag (e.g., v6.7.0)
+#    - Create and push a git tag (e.g., 6.7.0)
 #    - Create a GitHub release with the changelog as release notes
 #
 # Prerequisites:
@@ -81,18 +81,18 @@ jobs:
             - name: "Create and push tag"
               run: |
                   # Check if tag already exists
-                  if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
-                    echo "Error: Tag v${{ inputs.version }} already exists"
+                  if git rev-parse "${{ inputs.version }}" >/dev/null 2>&1; then
+                    echo "Error: Tag ${{ inputs.version }} already exists"
                     exit 1
                   fi
 
-                  git tag -a "v${{ inputs.version }}" -m "Release ${{ inputs.version }}"
-                  git push origin "v${{ inputs.version }}"
+                  git tag -a "${{ inputs.version }}" -m "Release ${{ inputs.version }}"
+                  git push origin "${{ inputs.version }}"
 
             - name: "Create GitHub Release"
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  gh release create "v${{ inputs.version }}" \
+                  gh release create "${{ inputs.version }}" \
                     --title "${{ inputs.version }}" \
                     --notes-file /tmp/release-notes.md
