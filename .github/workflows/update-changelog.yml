@@ -58,13 +58,13 @@ jobs:
           echo "Determined category: $CATEGORY"
 
       - name: "Update CHANGELOG.md"
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          CATEGORY: ${{ steps.category.outputs.category }}
+          GITHUB_REPOSITORY_URL: "https://github.com/${{ github.repository }}"
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          CATEGORY="${{ steps.category.outputs.category }}"
-
           # Use the standalone script to update the changelog
-          export GITHUB_REPOSITORY_URL="https://github.com/${{ github.repository }}"
           ./bin/update-changelog.sh "$PR_TITLE" "$PR_NUMBER" "$CATEGORY"
 
       - name: "Commit and push changes"
