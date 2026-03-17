@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix shell injection in update-changelog workflow for PR titles with backticks ([#897](https://github.com/jsonrainbow/json-schema/pull/897))
 - Remove `v` prefix from release tags and GitHub releases ([#895](https://github.com/jsonrainbow/json-schema/pull/895))
 
+### Deprecated
+- Deprecate `Constraint::CHECK_MODE_NONE` ([#896](https://github.com/jsonrainbow/json-schema/pull/896))
+
 ## [6.7.2] - 2026-02-15
 
 ### Fixed
