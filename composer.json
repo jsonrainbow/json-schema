@@ -61,6 +61,11 @@
     "bin": [
         "bin/validate-json"
     ],
+    "config": {
+        "audit": {
+            "ignored": ["CVE-2026-24765"]
+        }
+    },
     "scripts": {
         "coverage": "@php phpunit --coverage-text",
         "style-check": "@php php-cs-fixer fix --dry-run --verbose --diff",
