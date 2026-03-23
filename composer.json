@@ -63,7 +63,7 @@
     ],
     "config": {
         "audit": {
-            "ignored": ["CVE-2026-24765"]
+            "ignored": ["PKSA-z3gr-8qht-p93v"]
         }
     },
     "scripts": {
