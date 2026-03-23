@@ -8,12 +8,9 @@ on:
     branches:
       - 5.x.x
 
-env:
-  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
-
 jobs:
   tests:
-    name: "PHP ${{ matrix.php-version }}, ${{ matrix.dependencies }} dependencies"
+    name: "PHP ${{ matrix.php-version }}"
 
     runs-on: ubuntu-latest
 
@@ -21,7 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         php-version: ['7.1', '7.2', '7.3', '7.4']
-        dependencies: [highest]
 
     steps:
       - name: "Checkout"
@@ -36,12 +32,8 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           tools: composer
 
-      - name: "Handle lowest dependencies update"
-        if: "contains(matrix.dependencies, 'lowest')"
-        run: "echo \"COMPOSER_UPDATE_FLAGS=$COMPOSER_UPDATE_FLAGS --prefer-lowest\" >> $GITHUB_ENV"
-
       - name: "Update dependencies"
-        run: "composer update ${{ env.COMPOSER_UPDATE_FLAGS }} ${{ env.COMPOSER_FLAGS }}"
+        run: "composer update --ansi --no-interaction --no-progress --prefer-dist"
 
       - name: "Validate composer.json"
         run: "composer validate"
