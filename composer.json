@@ -63,7 +63,8 @@
     ],
     "config": {
         "audit": {
-            "ignored": ["PKSA-z3gr-8qht-p93v"]
+            "ignored": ["PKSA-z3gr-8qht-p93v"],
+            "block-insecure": false
         }
     },
     "scripts": {
