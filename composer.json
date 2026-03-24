@@ -61,6 +61,12 @@
     "bin": [
         "bin/validate-json"
     ],
+    "config": {
+        "audit": {
+            "ignored": ["PKSA-z3gr-8qht-p93v"],
+            "block-insecure": false
+        }
+    },
     "scripts": {
         "coverage": "@php phpunit --coverage-text",
         "style-check": "@php php-cs-fixer fix --dry-run --verbose --diff",
