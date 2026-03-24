@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Update readme for draft 7 ([#899](https://github.com/jsonrainbow/json-schema/pull/899))
 - ci: Add Copilot setup steps ([#892](https://github.com/jsonrainbow/json-schema/pull/892))
 
 ### Fixed
