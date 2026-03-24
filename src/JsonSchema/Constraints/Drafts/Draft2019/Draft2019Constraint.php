@@ -41,6 +41,7 @@ class Draft2019Constraint extends Constraint
         $this->checkForKeyword('type', $value, $schema, $path, $i);
         $this->checkForKeyword('not', $value, $schema, $path, $i);
         $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
+        $this->checkForKeyword('dependentSchemas', $value, $schema, $path, $i);
         $this->checkForKeyword('allOf', $value, $schema, $path, $i);
         $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
         $this->checkForKeyword('oneOf', $value, $schema, $path, $i);
