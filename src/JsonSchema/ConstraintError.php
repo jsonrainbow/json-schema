@@ -39,7 +39,9 @@ class ConstraintError extends Enum
     public const INVALID_SCHEMA = 'invalidSchema';
     public const LENGTH_MAX = 'maxLength';
     public const LENGTH_MIN = 'minLength';
+    public const MAX_CONTAINS = 'maxContains';
     public const MAXIMUM = 'maximum';
+    public const MIN_CONTAINS = 'minContains';
     public const MIN_ITEMS = 'minItems';
     public const MINIMUM = 'minimum';
     public const MISSING_ERROR = 'missingError';
@@ -99,8 +101,10 @@ class ConstraintError extends Enum
             self::LENGTH_MAX => 'Must be at most %d characters long',
             self::INVALID_SCHEMA => 'Schema is not valid',
             self::LENGTH_MIN => 'Must be at least %d characters long',
+            self::MAX_CONTAINS => 'There must be a maximum of %d valid items in the array, %d found',
             self::MAX_ITEMS => 'There must be a maximum of %d items in the array, %d found',
             self::MAXIMUM => 'Must have a maximum value less than or equal to %d',
+            self::MIN_CONTAINS => 'There must be a minimum of %d valid items in the array, %d found',
             self::MIN_ITEMS => 'There must be a minimum of %d items in the array, %d found',
             self::MINIMUM => 'Must have a minimum value greater than or equal to %d',
             self::MISSING_MAXIMUM => 'Use of exclusiveMaximum requires presence of maximum',
