@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 
 class AdditionalPropertiesTest extends BaseTestCase
@@ -118,7 +119,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": false
                 }',
-                null,
+                Constraint::CHECK_MODE_STRICT,
                 [
                     [
                         'property'   => '',
@@ -145,7 +146,7 @@ class AdditionalPropertiesTest extends BaseTestCase
                   },
                   "additionalProperties": false
                 }',
-                null,
+                Constraint::CHECK_MODE_STRICT,
                 [
                     [
                         'property'   => '',
