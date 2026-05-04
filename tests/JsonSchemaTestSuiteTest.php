@@ -300,7 +300,7 @@ class JsonSchemaTestSuiteTest extends TestCase
     }
 
     /**
-     * @phpstan-return int-mask-of<Validator::ERROR_*>
+     * @phpstan-return int-mask-of<Constraint::CHECK_MODE_*>
      */
     private function getCheckModeForDraft(string $draft): int
     {
