@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft2019;
 
-use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
