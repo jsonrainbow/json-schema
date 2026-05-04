@@ -61,5 +61,20 @@ class PropertiesNamesConstraint implements ConstraintInterface
                 }
             }
         }
+
+        if (property_exists($schema->propertyNames, 'const')) {
+            foreach ($propertyNames as $propertyName => $_) {
+                if ($propertyName !== $schema->propertyNames->const) {
+                    $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'const', 'name' => $propertyName]);
+                }
+            }
+        }
+
+        if (property_exists($schema->propertyNames, 'enum')) {
+            $diff = array_diff(array_keys($propertyNames), $schema->propertyNames->enum);
+            foreach ($diff as $propertyName) {
+                $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'enum', 'name' => $propertyName]);
+            }
+        }
     }
 }
