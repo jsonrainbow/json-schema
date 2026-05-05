@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 
 class AdditionalPropertiesTest extends BaseTestCase
@@ -104,6 +105,60 @@ class AdditionalPropertiesTest extends BaseTestCase
                   "type": "object",
                   "additionalProperties": false
                 }'
+            ];
+        yield 'Draft 6: error message contains property name not value' => [
+                '{
+                  "knownProp": "hello",
+                  "extraProp": 42
+                }',
+                '{
+                  "$schema": "http://json-schema.org/draft-06/schema#",
+                  "type": "object",
+                  "properties": {
+                    "knownProp": {"type": "string"}
+                  },
+                  "additionalProperties": false
+                }',
+                Constraint::CHECK_MODE_STRICT,
+                [
+                    [
+                        'property'   => '',
+                        'pointer'    => '',
+                        'message'    => 'The property extraProp is not defined and the definition does not allow additional properties',
+                        'constraint' => [
+                            'name'   => 'additionalProp',
+                            'params' => ['found' => 'extraProp']
+                        ],
+                        'context' => Validator::ERROR_DOCUMENT_VALIDATION
+                    ]
+                ]
+            ];
+        yield 'Draft 7: error message contains property name not value' => [
+                '{
+                  "knownProp": "hello",
+                  "extraProp": 42
+                }',
+                '{
+                  "$schema": "http://json-schema.org/draft-07/schema#",
+                  "type": "object",
+                  "properties": {
+                    "knownProp": {"type": "string"}
+                  },
+                  "additionalProperties": false
+                }',
+                Constraint::CHECK_MODE_STRICT,
+                [
+                    [
+                        'property'   => '',
+                        'pointer'    => '',
+                        'message'    => 'The property extraProp is not defined and the definition does not allow additional properties',
+                        'constraint' => [
+                            'name'   => 'additionalProp',
+                            'params' => ['found' => 'extraProp']
+                        ],
+                        'context' => Validator::ERROR_DOCUMENT_VALIDATION
+                    ]
+                ]
             ];
     }
 
