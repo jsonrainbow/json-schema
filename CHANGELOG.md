@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Update to json schema test suite main branch ([#906](https://github.com/jsonrainbow/json-schema/pull/906))
+
 ## [6.8.1] - 2026-05-04
 
 ### Fixed
