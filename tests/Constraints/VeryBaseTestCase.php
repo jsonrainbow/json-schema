@@ -43,6 +43,9 @@ abstract class VeryBaseTestCase extends TestCase
                 if (strpos($args[0], DraftIdentifiers::DRAFT_6()->withoutFragment()) === 0) {
                     return $that->getDraftSchema('json-schema-draft-06.json');
                 }
+                if (strpos($args[0], DraftIdentifiers::DRAFT_7()->withoutFragment()) === 0) {
+                    return $that->getDraftSchema('json-schema-draft-07.json');
+                }
 
                 $urlParts = parse_url($args[0]);
 
