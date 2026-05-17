@@ -66,7 +66,7 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         }
 
         foreach ($additionalProperties as $key => $additionalPropertiesValue) {
-            $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['found' => $additionalPropertiesValue]);
+            $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['found' => $key]);
         }
     }
 
