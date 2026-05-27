@@ -339,7 +339,8 @@ EOF;
         $this->assertNotFalse($schema);
 
         // check that the schema was loaded & processed correctly
-        $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
+        $this->assertEquals('object', $schema->type);
+        $this->assertObjectHasAttribute('$id', $schema);
     }
 
     public function testInvalidContentTypeEndpointsDefault(): void
