@@ -26,6 +26,11 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Relative path from root' => ['ref' => '/relative/path'];
         yield 'Relative path up one level' => ['ref' => '../up-one-level'];
         yield 'Relative path from current' => ['ref' => 'foo/bar'];
+        yield 'Empty fragment (RFC 3986: path-empty + fragment)' => ['ref' => '#'];
+        yield 'Fragment only' => ['ref' => '#section'];
+        yield 'Empty query (RFC 3986: path-empty + query)' => ['ref' => '?'];
+        yield 'Empty query and empty fragment' => ['ref' => '?#'];
+        yield 'Query and fragment' => ['ref' => '?query#fragment'];
     }
 
     public function invalidRelativeReferenceDataProvider(): \Generator
@@ -33,8 +38,5 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Absolute URI' => ['ref' => 'http://example.com'];
         yield 'Three slashes' => ['ref' => '///three/slashes'];
         yield 'Path with spaces' => ['ref' => '/path with spaces'];
-        yield 'No path having query and fragment' => ['ref' => '?#invalid'];
-        yield 'Missing path having fragment' => ['ref' => '#'];
-        yield 'Missing path having query' => ['ref' => '?'];
     }
 }
