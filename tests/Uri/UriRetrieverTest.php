@@ -343,6 +343,51 @@ EOF;
         $this->assertObjectHasAttribute('$id', $schema);
     }
 
+    public function testRetrieveDraft04SchemaWithFragmentUsesId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft04-schema-with-fragment.json');
+
+        $this->assertObjectHasAttribute('id', $schema);
+        $this->assertObjectNotHasAttribute('$id', $schema);
+    }
+
+    public function testRetrieveDraft04SchemaWithoutFragmentUsesId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft04-schema-without-fragment.json');
+
+        $this->assertObjectHasAttribute('id', $schema);
+        $this->assertObjectNotHasAttribute('$id', $schema);
+    }
+
+    public function testRetrieveDraft07SchemaWithFragmentUsesDollarId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft07-schema.json');
+
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertObjectNotHasAttribute('id', $schema);
+    }
+
+    public function testRetrieveDraft07SchemaWithoutFragmentUsesDollarId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft07-schema-without-fragment.json');
+
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertObjectNotHasAttribute('id', $schema);
+    }
+
+    public function testRetrieveSchemaWithoutDialectDefaultsToDollarId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/foobar.json');
+
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertObjectNotHasAttribute('id', $schema);
+    }
+
     public function testInvalidContentTypeEndpointsDefault(): void
     {
         $mock = $this->createMock(\JsonSchema\Uri\Retrievers\UriRetrieverInterface::class);

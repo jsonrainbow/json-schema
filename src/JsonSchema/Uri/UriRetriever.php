@@ -185,8 +185,8 @@ class UriRetriever implements BaseUriRetrieverInterface
 
         // Detect dialect from the root schema's $schema keyword before
         // resolvePointer() may walk into a sub-schema.
-        $dialect = isset($jsonSchema->{'$schema'}) ? $jsonSchema->{'$schema'} : null;
-        $usesDollarId = !in_array($dialect, [DraftIdentifiers::DRAFT_3, DraftIdentifiers::DRAFT_4], true);
+        $dialect = isset($jsonSchema->{'$schema'}) ? rtrim($jsonSchema->{'$schema'}, '#') : null;
+        $usesDollarId = !in_array($dialect, [DraftIdentifiers::DRAFT_3()->withoutFragment(), DraftIdentifiers::DRAFT_4()->withoutFragment()], true);
 
         // Use the JSON pointer if specified
         $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
