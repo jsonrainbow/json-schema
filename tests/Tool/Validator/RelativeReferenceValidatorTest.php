@@ -30,6 +30,7 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Fragment only' => ['ref' => '#section'];
         yield 'Empty query (RFC 3986: path-empty + query)' => ['ref' => '?'];
         yield 'Empty query and empty fragment' => ['ref' => '?#'];
+        yield 'Empty query and fragment' => ['ref' => '?#fragment'];
         yield 'Query and fragment' => ['ref' => '?query#fragment'];
     }
 
