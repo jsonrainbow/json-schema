@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Bump actions/checkout from v4 to v5 was re-applied due to PR merge issues with GitHub ([#902](https://github.com/jsonrainbow/json-schema/pull/902))
 - fix: allow "#", "?", and "?#" as valid URI references per RFC 3986 ([#910](https://github.com/jsonrainbow/json-schema/pull/910))
+- fix: annotate resolved schemas with dialect-aware id keyword ([#912](https://github.com/jsonrainbow/json-schema/pull/912))
 
 ### Added
 - feat: add bin/run-test-case to run a single test suite case by description ([#914](https://github.com/jsonrainbow/json-schema/pull/914))
