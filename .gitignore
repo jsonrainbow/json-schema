@@ -4,6 +4,7 @@
 !/bin/update-changelog.sh
 !/bin/prepare-release.sh
 !/bin/extract-release-notes.sh
+!/bin/run-test-case
 coverage
 .buildpath
 .project
