@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace JsonSchema\Uri;
 
+use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Exception\ResourceNotFoundException;
@@ -182,11 +183,17 @@ class UriRetriever implements BaseUriRetrieverInterface
 
         $jsonSchema = $this->loadSchema($fetchUri);
 
+        // Detect dialect from the root schema's $schema keyword before
+        // resolvePointer() may walk into a sub-schema.
+        $dialect = isset($jsonSchema->{'$schema'}) ? rtrim($jsonSchema->{'$schema'}, '#') : null;
+        $usesDollarId = !in_array($dialect, [DraftIdentifiers::DRAFT_3()->withoutFragment(), DraftIdentifiers::DRAFT_4()->withoutFragment()], true);
+
         // Use the JSON pointer if specified
         $jsonSchema = $this->resolvePointer($jsonSchema, $resolvedUri);
 
         if ($jsonSchema instanceof \stdClass) {
-            $jsonSchema->id = $resolvedUri;
+            $idKeyword = $usesDollarId ? '$id' : 'id';
+            $jsonSchema->{$idKeyword} = $resolvedUri;
         }
 
         return $jsonSchema;

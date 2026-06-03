@@ -339,7 +339,59 @@ EOF;
         $this->assertNotFalse($schema);
 
         // check that the schema was loaded & processed correctly
-        $this->assertEquals('454f423bd7edddf0bc77af4130ed9161', md5(json_encode($schema)));
+        $this->assertEquals('object', $schema->type);
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertEquals('package://tests/fixtures/foobar.json', $schema->{'$id'});
+    }
+
+    public function testRetrieveDraft04SchemaWithFragmentUsesId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft04-schema-with-fragment.json');
+
+        $this->assertObjectHasAttribute('id', $schema);
+        $this->assertObjectNotHasAttribute('$id', $schema);
+        $this->assertEquals('package://tests/fixtures/draft04-schema-with-fragment.json', $schema->id);
+    }
+
+    public function testRetrieveDraft04SchemaWithoutFragmentUsesId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft04-schema-without-fragment.json');
+
+        $this->assertObjectHasAttribute('id', $schema);
+        $this->assertObjectNotHasAttribute('$id', $schema);
+        $this->assertEquals('package://tests/fixtures/draft04-schema-without-fragment.json', $schema->id);
+    }
+
+    public function testRetrieveDraft07SchemaWithFragmentUsesDollarId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft07-schema.json');
+
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertObjectNotHasAttribute('id', $schema);
+        $this->assertEquals('package://tests/fixtures/draft07-schema.json', $schema->{'$id'});
+    }
+
+    public function testRetrieveDraft07SchemaWithoutFragmentUsesDollarId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/draft07-schema-without-fragment.json');
+
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertObjectNotHasAttribute('id', $schema);
+        $this->assertEquals('package://tests/fixtures/draft07-schema-without-fragment.json', $schema->{'$id'});
+    }
+
+    public function testRetrieveSchemaWithoutDialectDefaultsToDollarId(): void
+    {
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('package://tests/fixtures/foobar.json');
+
+        $this->assertObjectHasAttribute('$id', $schema);
+        $this->assertObjectNotHasAttribute('id', $schema);
+        $this->assertEquals('package://tests/fixtures/foobar.json', $schema->{'$id'});
     }
 
     public function testInvalidContentTypeEndpointsDefault(): void
