@@ -30,8 +30,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $data,
         int $checkMode,
         DraftIdentifiers $draft,
-        bool $expectedValidationResult,
-        bool $optional
+        bool $expectedValidationResult
     ): void {
         $schemaStorage = new SchemaStorage();
         $id = is_object($schema) && property_exists($schema, 'id') ? $schema->id : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
@@ -41,19 +40,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $factory->setDefaultDialect($draft->getValue());
         $validator = new Validator($factory);
 
-        try {
-            $validator->validate($data, $schema, $checkMode);
-        } catch (\Exception $e) {
-            if ($optional) {
-                $this->markTestSkipped('Optional test case throws exception during validate() invocation: "' . $e->getMessage() . '"');
-            }
-
-            throw $e;
-        }
-
-        if ($optional && $expectedValidationResult !== (count($validator->getErrors()) === 0)) {
-            $this->markTestSkipped('Optional test case would fail');
-        }
+        $validator->validate($data, $schema, $checkMode);
 
         self::assertEquals(
             $expectedValidationResult,
@@ -110,7 +97,6 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'checkMode' => $this->getCheckModeForDraft($baseDraftName),
                             'draft' => DraftIdentifiers::fromConstraintName($baseDraftName),
                             'expectedValidationResult' => $test->valid,
-                            'optional' => str_contains($file->getPathname(), '/optional/')
                         ];
                     }
                 }
@@ -192,6 +178,91 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/ref.json]: Location-independent identifier: mismatch is expected to be invalid',
             '[draft7/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid',
             '[draft7/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid',
+            // Optional: bignum — PHP does not natively support arbitrary-precision integers/floats
+            '[draft3/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
+            '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
+            '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
+            '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
+            // Optional: float-overflow — PHP float precision differs from the ECMAScript model
+            '[draft4/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
+            '[draft6/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
+            '[draft7/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
+            // Optional: ecmascript-regex — PHP uses PCRE which does not implement ECMAScript regex semantics
+            '[draft3/optional/ecmascript-regex.json]: ECMA 262 regex dialect recognition: [^] is a valid regex is expected to be valid',
+            '[draft3/optional/ecmascript-regex.json]: ECMA 262 regex dialect recognition: ECMA 262 has no support for lookbehind is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \D matches everything but ascii digits: NKO DIGIT ZERO (as \u escape) matches is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \D matches everything but ascii digits: NKO DIGIT ZERO matches (unlike e.g. Python) is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \W matches everything but ascii letters: latin-1 e-acute matches (unlike e.g. Python) is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \d matches ascii digits only: NKO DIGIT ZERO (as \u escape) does not match is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \d matches ascii digits only: NKO DIGIT ZERO does not match (unlike e.g. Python) is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \w matches ascii letters only: latin-1 e-acute does not match (unlike e.g. Python) is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: \d in pattern matches [0-9], not unicode digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: \d in patternProperties matches [0-9], not unicode digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: \w in patternProperties matches [A-Za-z0-9_], not unicode letters: literal unicode character in json string is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: \w in patternProperties matches [A-Za-z0-9_], not unicode letters: unicode character in hex format in string is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: \w in patterns matches [A-Za-z0-9_], not unicode letters: literal unicode character in json string is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: \w in patterns matches [A-Za-z0-9_], not unicode letters: unicode character in hex format in string is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: pattern with non-ASCII digits: ascii digits is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: pattern with non-ASCII digits: ascii non-digits is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: pattern with non-ASCII digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patternProperties with non-ASCII digits: ascii digits is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patternProperties with non-ASCII digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with pattern: ascii character in json string is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with pattern: literal unicode character in json string is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with pattern: unicode character in hex format in string is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with pattern: unicode matching is case-sensitive is expected to be invalid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with patternProperties: ascii character in json string is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with patternProperties: literal unicode character in json string is expected to be valid',
+            '[draft4/optional/ecmascript-regex.json]: patterns always use unicode semantics with patternProperties: unicode character in hex format in string is expected to be valid',
+            '[draft6/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
+            '[draft6/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
+            '[draft6/optional/ecmascript-regex.json]: \d in patternProperties matches [0-9], not unicode digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be invalid',
+            '[draft6/optional/ecmascript-regex.json]: \w in patternProperties matches [A-Za-z0-9_], not unicode letters: literal unicode character in json string is expected to be invalid',
+            '[draft6/optional/ecmascript-regex.json]: \w in patternProperties matches [A-Za-z0-9_], not unicode letters: unicode character in hex format in string is expected to be invalid',
+            '[draft6/optional/ecmascript-regex.json]: pattern with non-ASCII digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be valid',
+            '[draft7/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
+            '[draft7/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
+            '[draft7/optional/ecmascript-regex.json]: \d in patternProperties matches [0-9], not unicode digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be invalid',
+            '[draft7/optional/ecmascript-regex.json]: \w in patternProperties matches [A-Za-z0-9_], not unicode letters: literal unicode character in json string is expected to be invalid',
+            '[draft7/optional/ecmascript-regex.json]: \w in patternProperties matches [A-Za-z0-9_], not unicode letters: unicode character in hex format in string is expected to be invalid',
+            '[draft7/optional/ecmascript-regex.json]: pattern with non-ASCII digits: non-ascii digits (BENGALI DIGIT FOUR, BENGALI DIGIT TWO) is expected to be valid',
+            // Optional: cross-draft — cross-draft schema resolution ($ref across drafts) is not implemented
+            '[draft7/optional/cross-draft.json]: refs to future drafts are processed as future drafts: missing bar is invalid is expected to be invalid',
+            // Optional: idn-email — IDN e-mail format validation is not implemented
+            '[draft7/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: an invalid e-mail address is expected to be invalid',
+            '[draft7/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: an invalid idn e-mail address is expected to be invalid',
+            // Optional: idn-hostname — IDN hostname format validation is not implemented
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: Exceptions that are DISALLOWED, left-to-right chars is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: Exceptions that are DISALLOWED, right-to-left chars is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: KATAKANA MIDDLE DOT with no Hiragana, Katakana, or Han is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: KATAKANA MIDDLE DOT with no other characters is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: MIDDLE DOT with no following \'l\' is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: MIDDLE DOT with no preceding \'l\' is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: MIDDLE DOT with nothing following is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: MIDDLE DOT with nothing preceding is expected to be invalid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: ZERO WIDTH JOINER preceded by Virama is expected to be valid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: ZERO WIDTH NON-JOINER not preceded by Virama but matches regexp is expected to be valid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: ZERO WIDTH NON-JOINER preceded by Virama is expected to be valid',
+            '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: contains illegal char U+302E Hangul single dot tone mark is expected to be invalid',
+            // Optional: iri / iri-reference — IRI format validation is not implemented
+            '[draft7/optional/format/iri-reference.json]: validation of IRI References: an invalid IRI Reference is expected to be invalid',
+            '[draft7/optional/format/iri-reference.json]: validation of IRI References: an invalid IRI fragment is expected to be invalid',
+            '[draft7/optional/format/iri.json]: validation of IRIs: an invalid IRI based on IPv6 is expected to be invalid',
+            '[draft7/optional/format/iri.json]: validation of IRIs: an invalid IRI is expected to be invalid',
+            '[draft7/optional/format/iri.json]: validation of IRIs: an invalid IRI though valid IRI reference is expected to be invalid',
+            '[draft7/optional/format/iri.json]: validation of IRIs: an invalid relative IRI Reference is expected to be invalid',
+            // Optional: regex format — regex format validation does not check for valid ECMA-262 regex syntax
+            '[draft7/optional/format/regex.json]: validation of regular expressions: a regular expression with unclosed parens is invalid is expected to be invalid',
+            // Optional: relative-json-pointer — relative JSON pointer format validation is not implemented
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): ## is not a valid json-pointer is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): an invalid RJP that is a valid JSON Pointer is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): empty string is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): explicit positive prefix is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): negative prefix is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): zero cannot be followed by other digits, plus json-pointer is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): zero cannot be followed by other digits, plus octothorpe is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
