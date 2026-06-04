@@ -36,24 +36,25 @@ foreach ($argv as $arg) {
 
 if (count($arArgs) < 2 || isset($arOptions['--help']) || isset($arOptions['-h'])) {
     echo <<<HLP
-Run a single JSON Schema test suite test case
-Usage: run-test-case <test-file> "<group description>/<test description>"
+Run JSON Schema test suite test cases
+Usage: run-test-case <test-file> "<group description>[/<test description>]"
 
 Arguments:
   test-file     Path to a test JSON file. Resolved in order:
                 1. As given (absolute or relative to CWD)
                 2. Relative to the bundled test suite root
-  description   "<group>/<test>" — split on the first "/" only.
+  description   "<group>" or "<group>/<test>" — split on the first "/" only.
                 Exact match is tried first, then case-insensitive substring.
+                Omit the test part to run all tests in the group.
 
 Options:
   -v --verbose  Also print the schema
   -h --help     Show this help
 
 Exit codes:
-  0  Test found and result matches expected
-  1  Test found but result does not match expected
-  2  Usage error, file not found, or test not found
+  0  All matched tests passed
+  1  At least one test failed
+  2  Usage error, file not found, or group/test not found
 
 HLP;
     exit(0);
@@ -148,17 +149,6 @@ if ($testDesc !== null && $foundTest === null) {
     exit(2);
 }
 
-// No test description given — list tests in the matched group
-if ($foundTest === null) {
-    echo "Group: {$foundGroup->description}\n";
-    echo "Tests:\n";
-    foreach ($foundGroup->tests as $test) {
-        $expect = $test->valid ? 'valid' : 'invalid';
-        echo "  [{$expect}] {$test->description}\n";
-    }
-    exit(0);
-}
-
 // Determine check mode (mirrors JsonSchemaTestSuiteTest::getCheckModeForDraft)
 $checkMode = in_array($draft, ['draft6', 'draft7'], true)
     ? Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT
@@ -192,36 +182,86 @@ if (is_dir($remotesDir)) {
 
 $factory = new Factory($schemaStorage);
 $factory->setDefaultDialect($draftIdentifier->getValue());
-$validator = new Validator($factory);
 
-try {
-    $validator->validate($foundTest->data, $schema, $checkMode);
-} catch (\Exception $e) {
-    echo "Error during validation: " . $e->getMessage() . "\n";
+/** @param object $test */
+$runTest = static function (object $test) use ($factory, $schema, $checkMode): array {
+    $validator = new Validator($factory);
+    try {
+        $validator->validate($test->data, $schema, $checkMode);
+    } catch (\Exception $e) {
+        return ['error' => $e->getMessage()];
+    }
+    $isValid = count($validator->getErrors()) === 0;
+    return [
+        'passed'  => $isValid === $test->valid,
+        'isValid' => $isValid,
+        'errors'  => $validator->getErrors(),
+    ];
+};
+
+$verbose = isset($arOptions['--verbose']) || isset($arOptions['-v']);
+
+// Run all tests in the group when no specific test was requested
+if ($foundTest === null) {
+    echo "Group: {$foundGroup->description}\n";
+    if ($verbose) {
+        echo "Schema: " . json_encode($schema, JSON_PRETTY_PRINT) . "\n";
+    }
+    $passCount = 0;
+    $failCount = 0;
+    foreach ($foundGroup->tests as $test) {
+        $result = $runTest($test);
+        if (isset($result['error'])) {
+            echo sprintf("[ERROR] %s\n", $test->description);
+            echo "  Error during validation: {$result['error']}\n";
+            $failCount++;
+            continue;
+        }
+        $expect = $test->valid ? 'valid' : 'invalid';
+        $label  = $result['passed'] ? 'PASS' : 'FAIL';
+        echo sprintf("[%s] [%s] %s\n", $label, $expect, $test->description);
+        if (!$result['passed']) {
+            if ($result['isValid']) {
+                echo "  Validator returned valid but the test case expects invalid.\n";
+            } else {
+                foreach ($result['errors'] as $error) {
+                    echo sprintf("  [%s] %s\n", $error['property'], $error['message']);
+                }
+            }
+            $failCount++;
+        } else {
+            $passCount++;
+        }
+    }
+    echo "\n{$passCount} passed, {$failCount} failed.\n";
+    exit($failCount > 0 ? 1 : 0);
+}
+
+$result = $runTest($foundTest);
+
+if (isset($result['error'])) {
+    echo "Error during validation: {$result['error']}\n";
     exit(2);
 }
 
-$isValid   = count($validator->getErrors()) === 0;
-$passed    = $isValid === $foundTest->valid;
-
 echo "Group : {$foundGroup->description}\n";
 echo "Test  : {$foundTest->description}\n";
-if (isset($arOptions['--verbose']) || isset($arOptions['-v'])) {
+if ($verbose) {
     echo "Schema: " . json_encode($schema, JSON_PRETTY_PRINT) . "\n";
 }
 echo "Data  : " . json_encode($foundTest->data) . "\n";
 echo "Expect: " . ($foundTest->valid ? 'valid' : 'invalid') . "\n";
-echo "Result: " . ($passed ? 'PASS' : 'FAIL') . "\n";
+echo "Result: " . ($result['passed'] ? 'PASS' : 'FAIL') . "\n";
 
-if (!$passed) {
-    if ($isValid) {
+if (!$result['passed']) {
+    if ($result['isValid']) {
         echo "\nValidator returned valid but the test case expects invalid.\n";
     } else {
         echo "\nValidation errors:\n";
-        foreach ($validator->getErrors() as $error) {
+        foreach ($result['errors'] as $error) {
             echo sprintf("  [%s] %s\n", $error['property'], $error['message']);
         }
     }
 }
 
-exit($passed ? 0 : 1);
+exit($result['passed'] ? 0 : 1);
