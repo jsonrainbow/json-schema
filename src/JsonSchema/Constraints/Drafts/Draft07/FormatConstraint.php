@@ -40,7 +40,11 @@ class FormatConstraint implements ConstraintInterface
                 }
                 break;
             case 'time':
-                if (!$this->validateDateTime($value, 'H:i:sp') && !$this->validateDateTime($value, 'H:i:s.up')) {
+                if (!$this->validateDateTime($value, 'H:i:sP')
+                    && !$this->validateDateTime($value, 'H:i:sp')
+                    && !$this->validateDateTime($value, 'H:i:s.up')
+                    && !$this->validateDateTime($value, 'H:i:s.uP')
+                ) {
                     $this->addError(ConstraintError::FORMAT_TIME(), $path, ['time' => $value, 'format' => $schema->format]);
                 }
                 break;
