@@ -181,8 +181,17 @@ class JsonSchemaTestSuiteTest extends TestCase
             // Optional: bignum — PHP does not natively support arbitrary-precision integers/floats
             '[draft3/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
             '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
+            '[draft3/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
             '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
+            '[draft4/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
+            '[draft3/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
             '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
+            '[draft4/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
+            '[draft4/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
+            '[draft6/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
+            '[draft6/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
+            '[draft7/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
+            '[draft7/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
             // Optional: float-overflow — PHP float precision differs from the ECMAScript model
             '[draft4/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
             '[draft6/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
