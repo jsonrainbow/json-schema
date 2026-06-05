@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.9.0] - 2026-06-05
+
 ### Fixed
 - fix: allow "#", "?", and "?#" as valid URI references per RFC 3986 ([#910](https://github.com/jsonrainbow/json-schema/pull/910))
 - fix: annotate resolved schemas with dialect-aware id keyword ([#912](https://github.com/jsonrainbow/json-schema/pull/912))
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - fix: treat optional JSON Schema test suite cases as real tests (#913) ([#915](https://github.com/jsonrainbow/json-schema/pull/915))
 - feat: add bin/run-test-case to run a single test suite case by description ([#914](https://github.com/jsonrainbow/json-schema/pull/914))
+
 
 ## [6.8.2] - 2026-05-05
 
