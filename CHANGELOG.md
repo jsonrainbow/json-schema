@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: annotate resolved schemas with dialect-aware id keyword ([#912](https://github.com/jsonrainbow/json-schema/pull/912))
 
 ### Added
+- fix: treat optional JSON Schema test suite cases as real tests (#913) ([#915](https://github.com/jsonrainbow/json-schema/pull/915))
 - feat: add bin/run-test-case to run a single test suite case by description ([#914](https://github.com/jsonrainbow/json-schema/pull/914))
 
 ## [6.8.2] - 2026-05-05
