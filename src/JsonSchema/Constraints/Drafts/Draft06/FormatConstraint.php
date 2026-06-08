@@ -136,7 +136,7 @@ class FormatConstraint implements ConstraintInterface
 
     private function validateRegex(string $regex): bool
     {
-        return preg_match(self::jsonPatternToPhpRegex($regex), '') === 1;
+        return preg_match(self::jsonPatternToPhpRegex($regex), '') !== false;
     }
 
     /**
@@ -168,7 +168,7 @@ class FormatConstraint implements ConstraintInterface
 
     private function validatePhone(string $phone): bool
     {
-        return preg_match('/^\+?(\(\d{3}\)|\d{3}) \d{3} \d{4}$/', $phone) ===1;
+        return preg_match('/^\+?(\(\d{3}\)|\d{3}) \d{3} \d{4}$/', $phone) === 1;
     }
 
     private function validateHostname(string $host): bool

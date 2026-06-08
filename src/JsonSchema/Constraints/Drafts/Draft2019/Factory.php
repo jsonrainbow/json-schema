@@ -13,7 +13,6 @@ class Factory extends \JsonSchema\Constraints\Factory
         'schema' => Draft2019Constraint::class,
         'additionalProperties' => AdditionalPropertiesConstraint::class,
         'additionalItems' => AdditionalItemsConstraint::class,
-        'dependencies' => DependenciesConstraint::class,
         'dependentSchemas' => DependentSchemasConstraint::class,
         'dependentRequired' => DependentRequiredConstraint::class,
         'type' => TypeConstraint::class,
