@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonSchema\Constraints\Drafts\Draft07;
+namespace JsonSchema\Constraints\Drafts\Draft2019;
 
 use DateTimeZone;
 use JsonSchema\ConstraintError;
@@ -40,11 +40,7 @@ class FormatConstraint implements ConstraintInterface
                 }
                 break;
             case 'time':
-                if (!$this->validateDateTime($value, 'H:i:sP')
-                    && !$this->validateDateTime($value, 'H:i:sp')
-                    && !$this->validateDateTime($value, 'H:i:s.up')
-                    && !$this->validateDateTime($value, 'H:i:s.uP')
-                ) {
+                if (!$this->validateDateTime($value, 'H:i:sp') && !$this->validateDateTime($value, 'H:i:s.up')) {
                     $this->addError(ConstraintError::FORMAT_TIME(), $path, ['time' => $value, 'format' => $schema->format]);
                 }
                 break;
@@ -136,14 +132,9 @@ class FormatConstraint implements ConstraintInterface
     private function validateDateTime(string $datetime, string $format): bool
     {
         $datetime = strtoupper($datetime); // Cleanup for lowercase z
-        $isPhpLt80WithZulu = PHP_VERSION_ID < 80000 && substr($datetime, -1) === 'Z';
         $isLeap = substr($datetime, 6, 2) === '60';
         $input = $datetime;
 
-        // Correct for Zulu in PHP < 8.0
-        if ($isPhpLt80WithZulu) {
-            $input = sprintf('%s+00:00', substr($input, 0, -1));
-        }
         // Correct for leap second
         if ($isLeap) {
             $input = sprintf('%s59%s', substr($datetime, 0, 6), substr($datetime, 8));
@@ -162,11 +153,11 @@ class FormatConstraint implements ConstraintInterface
 
         $expected = $dt->format($format);
         // Correct for trailing zeros on microseconds
-        if ($format === 'H:i:s.up' || $format === 'H:i:s.uP') {
+        if ($format === 'H:i:s.up') {
             $expected = sprintf(
                 '%s%s',
                 rtrim($dt->format('H:i:s.u'), '0'),
-                $dt->format(substr($format, -1))
+                $dt->format('p')
             );
         }
         // Correct back for leap seconds
@@ -178,10 +169,6 @@ class FormatConstraint implements ConstraintInterface
             }
 
             $expected = sprintf('%s60%s', substr($expected, 0, 6), substr($expected, 8));
-        }
-        // Correct back for PHP > 8.0 and Zulu
-        if ($isPhpLt80WithZulu) {
-            $expected = sprintf('%sZ', substr($expected, 0, -6));
         }
 
         return $datetime === $expected;
@@ -240,10 +227,6 @@ class FormatConstraint implements ConstraintInterface
         $labels = explode('.', $host);
         $asciiLabels = [];
 
-        if ($labels === false) {
-            return false;
-        }
-
         foreach ($labels as $label) {
             if ($label === '') {
                 return false;
@@ -291,7 +274,7 @@ class FormatConstraint implements ConstraintInterface
                 return false;
             }
 
-            $ascii = idn_to_ascii($label, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
+            $ascii = idn_to_ascii($label);
             if ($ascii === false) {
                 return false;
             }

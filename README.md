@@ -6,7 +6,7 @@
 ![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fsupported_versions.json)
 
 A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3,
-Draft-4, Draft-6 or Draft-7.
+Draft-4, Draft-6,Draft-7 or Draft 2019-09.
 
 Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview
 of all existing Drafts. See [json-schema](http://json-schema.org/) for more details about the JSON Schema specification
@@ -15,7 +15,8 @@ of all existing Drafts. See [json-schema](http://json-schema.org/) for more deta
 ![Draft 3](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft3.json)
 ![Draft 4](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft4.json)
 ![Draft 6](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft6.json)
-![Draft 7](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft7.json)
+![Draft 7](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft7.json)))
+![Draft 2019-09](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fdraft2019-09.json)
 
 
 ## Installation
@@ -215,7 +216,7 @@ original data.
 [^2]: `CHECK_MODE_EARLY_COERCE` has no effect unless used in combination with `CHECK_MODE_COERCE_TYPES`. If
 enabled, the validator will use (and coerce) the first compatible type it encounters, even if the
 schema defines another type that matches directly and does not require coercion.
-[^3]: `CHECK_MODE_STRICT` only can be used for Draft-6 at this point.
+[^3]: `CHECK_MODE_STRICT` only can be used for Draft-6, Draft 7 or Draft 2019-09 at this point.
 
 ## Running the tests
 
