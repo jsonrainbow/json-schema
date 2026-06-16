@@ -33,12 +33,15 @@ class PatternPropertiesConstraint implements ConstraintInterface
 
         $properties = get_object_vars($value);
 
+        $basePath = $path ?? new JsonPointer('');
         foreach ($properties as $propertyName => $propertyValue) {
+            $incrementedPath = $basePath->withPropertyPaths(array_merge($basePath->getPropertyPaths(), [$propertyName]));
+
             foreach ($schema->patternProperties as $patternPropertyRegex => $patternPropertySchema) {
                 $matchPattern = $this->createPregMatchPattern($patternPropertyRegex);
                 if (preg_match($matchPattern, (string) $propertyName)) {
                     $schemaConstraint = $this->factory->createInstanceFor('schema');
-                    $schemaConstraint->check($propertyValue, $patternPropertySchema, $path, $i);
+                    $schemaConstraint->check($propertyValue, $patternPropertySchema, $incrementedPath, $i);
                     if ($schemaConstraint->isValid()) {
                         continue;
                     }

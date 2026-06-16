@@ -31,6 +31,7 @@ class ItemsConstraint implements ConstraintInterface
             return;
         }
 
+        $basePath = $path ?? new JsonPointer('');
         foreach ($value as $propertyName => $propertyValue) {
             $itemSchema = $schema->items;
             if (is_array($itemSchema)) {
@@ -40,8 +41,9 @@ class ItemsConstraint implements ConstraintInterface
 
                 $itemSchema  = $itemSchema[$propertyName];
             }
+            $incrementedPath = $basePath->withPropertyPaths(array_merge($basePath->getPropertyPaths(), [$propertyName]));
             $schemaConstraint = $this->factory->createInstanceFor('schema');
-            $schemaConstraint->check($propertyValue, $itemSchema, $path, $i);
+            $schemaConstraint->check($propertyValue, $itemSchema, $incrementedPath, $i);
             if ($schemaConstraint->isValid()) {
                 continue;
             }
