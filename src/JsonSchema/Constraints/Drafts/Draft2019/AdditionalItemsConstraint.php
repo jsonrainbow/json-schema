@@ -41,7 +41,7 @@ class AdditionalItemsConstraint implements ConstraintInterface
         if (!property_exists($schema, 'items')) {
             return;
         }
-        if (property_exists($schema, 'items') && is_object($schema->items)) {
+        if (is_object($schema->items)) {
             return;
         }
 
