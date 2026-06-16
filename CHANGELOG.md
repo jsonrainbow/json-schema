@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- feat: Add Draft-2019-09 ([#885](https://github.com/jsonrainbow/json-schema/pull/885))
+
 ## [6.9.0] - 2026-06-05
 
 ### Fixed
