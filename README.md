@@ -15,7 +15,7 @@ of all existing Drafts. See [json-schema](http://json-schema.org/) for more deta
 ![Draft 3](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft3.json)
 ![Draft 4](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft4.json)
 ![Draft 6](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft6.json)
-![Draft 7](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft7.json)))
+![Draft 7](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft7.json)
 ![Draft 2019-09](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fdraft2019-09.json)
 
 
@@ -234,3 +234,7 @@ Thanks go to these wonderful people, without their effort this project wasn't po
 <a href="https://github.com/jsonrainbow/json-schema/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=jsonrainbow/json-schema" />
 </a>
+
+# Powered by
+
+[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)
