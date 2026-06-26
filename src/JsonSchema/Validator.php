@@ -84,9 +84,13 @@ class Validator extends BaseConstraint
                 $dialect = $schema->{'$schema'};
             }
 
-            $validator = $this->factory->createInstanceFor(
-                DraftIdentifiers::byValue($dialect)->toConstraintName()
-            );
+            try {
+                $constraintName = DraftIdentifiers::byValue($dialect)->toConstraintName();
+            } catch (\InvalidArgumentException $e) {
+                // Unknown $schema URI (e.g. a custom metaschema); fall back to the configured default.
+                $constraintName = DraftIdentifiers::byValue($this->factory->getDefaultDialect())->toConstraintName();
+            }
+            $validator = $this->factory->createInstanceFor($constraintName);
         }
 
         $validator->check($value, $schema);
