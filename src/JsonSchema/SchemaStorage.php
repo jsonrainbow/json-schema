@@ -17,6 +17,7 @@ class SchemaStorage implements SchemaStorageInterface
     protected $uriRetriever;
     protected $uriResolver;
     protected $schemas = [];
+    protected $anchorIndex = [];
 
     public function __construct(
         ?UriRetrieverInterface $uriRetriever = null,
@@ -71,6 +72,7 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         $this->scanForSubschemas($schema, $id);
+        $this->scanForAnchors($schema, $id);
 
         // resolve references
         $this->expandRefs($schema, $id);
@@ -137,6 +139,21 @@ class SchemaStorage implements SchemaStorageInterface
      */
     public function resolveRef(string $ref, $resolveStack = [])
     {
+        // Named anchor fragment (e.g. #foo) — not a JSON pointer (which would start with #/)
+        $hashPos = strpos($ref, '#');
+        if ($hashPos !== false) {
+            $fragment = substr($ref, $hashPos + 1);
+            if ($fragment !== '' && $fragment[0] !== '/') {
+                if (isset($this->anchorIndex[$ref])) {
+                    return $this->anchorIndex[$ref];
+                }
+                throw new UnresolvableJsonPointerException(sprintf(
+                    "Could not resolve anchor '%s'",
+                    $fragment
+                ));
+            }
+        }
+
         $jsonPointer = new JsonPointer($ref);
 
         // resolve filename for pointer
@@ -228,6 +245,45 @@ class SchemaStorage implements SchemaStorageInterface
             }
 
             $this->scanForSubschemas($potentialSubSchema, $parentId);
+        }
+    }
+
+    /**
+     * Walk the schema tree and register every $anchor value in the anchor index.
+     *
+     * @param mixed $schema
+     */
+    private function scanForAnchors($schema, string $baseUri): void
+    {
+        if (!is_object($schema) && !is_array($schema)) {
+            return;
+        }
+
+        if (is_array($schema)) {
+            foreach ($schema as $item) {
+                $this->scanForAnchors($item, $baseUri);
+            }
+            return;
+        }
+
+        // If this subschema changes the base URI via $id, update it for descendants
+        $schemaId = $this->findSchemaIdInObject($schema);
+        if (is_string($schemaId)) {
+            $resolved = $this->uriResolver->resolve($schemaId, $baseUri);
+            if ($resolved !== $baseUri) {
+                $baseUri = $resolved;
+            }
+        }
+
+        if (property_exists($schema, '$anchor') && is_string($schema->{'$anchor'})) {
+            $anchorBase = strpos($baseUri, '#') !== false
+                ? substr($baseUri, 0, strpos($baseUri, '#'))
+                : $baseUri;
+            $this->anchorIndex[$anchorBase . '#' . $schema->{'$anchor'}] = $schema;
+        }
+
+        foreach ($schema as $member) {
+            $this->scanForAnchors($member, $baseUri);
         }
     }
 

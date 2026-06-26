@@ -78,11 +78,12 @@ class UriResolver implements UriResolverInterface
      */
     public function resolve($uri, $baseUri = null)
     {
-        // treat non-uri base as local file path
+        // treat non-uri base as local file path, but not opaque URIs like urn:uuid:...
         if (
             !is_null($baseUri) &&
             !filter_var($baseUri, \FILTER_VALIDATE_URL) &&
-            !preg_match('|^[^/]+://|u', $baseUri)
+            !preg_match('|^[^/]+://|u', $baseUri) &&
+            !preg_match('|^[^:/?#]+:[^/]|u', $baseUri)
         ) {
             if (is_file($baseUri)) {
                 $baseUri = 'file://' . realpath($baseUri);
@@ -103,6 +104,20 @@ class UriResolver implements UriResolverInterface
         if (!empty($components['scheme'])) {
             return $uri;
         }
+
+        // For opaque base URIs (e.g. urn:uuid:...) the only meaningful relative
+        // reference is a fragment-only reference; resolve it by appending to the base.
+        if (!is_null($baseUri) && preg_match('|^[^:/?#]+:[^/]|u', $baseUri)) {
+            $baseWithoutFragment = strpos($baseUri, '#') !== false
+                ? substr($baseUri, 0, strpos($baseUri, '#'))
+                : $baseUri;
+            if ($path === '') {
+                return $baseWithoutFragment . (isset($components['fragment']) ? '#' . $components['fragment'] : '');
+            }
+
+            return $uri;
+        }
+
         $baseComponents = $this->parse($baseUri);
         $basePath = $baseComponents['path'];
 
