@@ -28,6 +28,7 @@
     ],
     "require": {
         "php": "^7.2 || ^8.0",
+        "ext-filter": "*",
         "ext-json": "*",
         "marc-mabe/php-enum":"^4.4"
     },
