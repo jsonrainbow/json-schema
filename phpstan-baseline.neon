@@ -246,11 +246,6 @@ parameters:
 			path: src/JsonSchema/Constraints/StringConstraint.php
 
 		-
-			message: "#^Parameter \\#2 \\$encoding of function mb_strlen expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/JsonSchema/Constraints/StringConstraint.php
-
-		-
 			message: "#^Method JsonSchema\\\\Constraints\\\\TypeCheck\\\\LooseTypeCheck\\:\\:isArray\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/JsonSchema/Constraints/TypeCheck/LooseTypeCheck.php

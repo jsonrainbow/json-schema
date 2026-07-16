@@ -54,7 +54,7 @@ class StringConstraint extends Constraint
     private function strlen($string)
     {
         if (extension_loaded('mbstring')) {
-            return mb_strlen($string, mb_detect_encoding($string));
+            return mb_strlen($string);
         }
 
         // mbstring is present on all test platforms, so strlen() can be ignored for coverage
