@@ -10,20 +10,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Bruno Prieto Reis",
-            "email": "bruno.p.reis@gmail.com"
-        },
-        {
-            "name": "Justin Rainbow",
-            "email": "justin.rainbow@gmail.com"
-        },
-        {
-            "name": "Igor Wiedler",
-            "email": "igor@wiedler.ch"
-        },
-        {
-            "name": "Robert Schönthal",
-            "email": "seroscho@googlemail.com"
+            "name": "Danny van der Sluijs",
+            "email": "danny.vandersluijs@icloud.com",
+            "role": "Maintainer"
         }
     ],
     "require": {
