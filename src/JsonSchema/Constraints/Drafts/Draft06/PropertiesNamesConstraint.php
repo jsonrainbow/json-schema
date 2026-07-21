@@ -47,7 +47,7 @@ class PropertiesNamesConstraint implements ConstraintInterface
 
         if (property_exists($schema->propertyNames, 'maxLength')) {
             foreach ($propertyNames as $propertyName => $_) {
-                $length = mb_strlen($propertyName);
+                $length = mb_strlen($propertyName, 'UTF-8');
                 if ($length > $schema->propertyNames->maxLength) {
                     $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'maxLength', 'length' => $length, 'name' => $propertyName]);
                 }

@@ -29,7 +29,7 @@ class MaxLengthConstraint implements ConstraintInterface
             return;
         }
 
-        $length = mb_strlen($value);
+        $length = mb_strlen($value, 'UTF-8');
         if ($length <= $schema->maxLength) {
             return;
         }
