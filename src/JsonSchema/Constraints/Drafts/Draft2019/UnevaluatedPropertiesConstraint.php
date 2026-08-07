@@ -31,7 +31,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'unevaluatedProperties') || !is_object($value)) {
+        if (!is_object($schema) || !property_exists($schema, 'unevaluatedProperties') || !is_object($value)) {
             return;
         }
 
@@ -65,10 +65,16 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
     }
 
     /**
+     * @param object $schema
+     * @param object $value
      * @return array<int, string>
      */
     private function collectEvaluatedProperties($schema, object $value): array
     {
+        if (!is_object($schema)) {
+            return [];
+        }
+
         $evaluated = [];
 
         if (isset($schema->properties) && is_object($schema->properties)) {

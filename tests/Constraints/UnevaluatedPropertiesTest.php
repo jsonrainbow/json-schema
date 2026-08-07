@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\DraftIdentifiers;
+use JsonSchema\Constraints\Constraint;
 
 class UnevaluatedPropertiesTest extends BaseTestCase
 {
@@ -23,6 +24,7 @@ class UnevaluatedPropertiesTest extends BaseTestCase
                     {"properties":{"world":{"type":"string"}},"required":["world"]}
                 ]
             }',
+            Constraint::CHECK_MODE_STRICT,
         ];
     }
 
@@ -39,6 +41,7 @@ class UnevaluatedPropertiesTest extends BaseTestCase
                     {"properties":{"world":{"type":"string"}},"required":["world"]}
                 ]
             }',
+            Constraint::CHECK_MODE_STRICT,
         ];
     }
 }
