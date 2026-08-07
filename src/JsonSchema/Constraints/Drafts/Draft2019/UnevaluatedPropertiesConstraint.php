@@ -29,7 +29,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
         $this->initialiseErrorBag($this->factory);
     }
 
-    public function check(& $value, $schema = null, ?JsonPointer $path = null, $i = null): void
+    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
         if (!is_object($schema) || !property_exists($schema, 'unevaluatedProperties') || !is_object($value)) {
             return;
