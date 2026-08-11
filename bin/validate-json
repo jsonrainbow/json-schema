@@ -24,7 +24,12 @@ $arOptions = [];
 $arArgs = [];
 array_shift($argv);//script itself
 foreach ($argv as $arg) {
-    if ($arg[0] == '-') {
+    if (strpos($arg, '--allow-invalid-content-type-endpoint=') === 0) {
+        $endpoint = substr($arg, strlen('--allow-invalid-content-type-endpoint='));
+        if ($endpoint !== '') {
+            $arOptions['--allow-invalid-content-type-endpoint'][] = $endpoint;
+        }
+    } elseif ($arg[0] == '-') {
         $arOptions[$arg] = true;
     } else {
         $arArgs[] = $arg;
@@ -42,6 +47,10 @@ Usage: validate-json data.json
 Options:
       --dump-schema     Output full schema and exit
       --dump-schema-url Output URL of schema
+      --allow-invalid-content-type-endpoint=<url>
+                        Skip the Content-Type check for schemas fetched
+                        from the given URL prefix. May be given multiple
+                        times.
       --verbose         Show additional output
       --quiet           Suppress all output
    -h --help            Show this help
@@ -191,6 +200,13 @@ if ($pathSchema[0] == '/') {
 
 $resolver = new JsonSchema\Uri\UriResolver();
 $retriever = new JsonSchema\Uri\UriRetriever();
+if (isset($arOptions['--allow-invalid-content-type-endpoint'])
+    && is_array($arOptions['--allow-invalid-content-type-endpoint'])
+) {
+    foreach ($arOptions['--allow-invalid-content-type-endpoint'] as $endpoint) {
+        $retriever->addInvalidContentTypeEndpoint($endpoint);
+    }
+}
 try {
     $urlSchema = $resolver->resolve($pathSchema, $urlData);
 
