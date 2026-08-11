@@ -25,24 +25,10 @@ class FileGetContentsTest extends TestCase
         $this->assertNotEmpty($result);
     }
 
-    public function testContentType(): void
-    {
-        $res = new FileGetContents();
-
-        $reflector = new \ReflectionObject($res);
-        $fetchContentType = $reflector->getMethod('fetchContentType');
-        if (PHP_VERSION_ID < 80100) {
-            $fetchContentType->setAccessible(true);
-        }
-
-        $this->assertTrue($fetchContentType->invoke($res, ['Content-Type: application/json']));
-        $this->assertFalse($fetchContentType->invoke($res, ['X-Some-Header: whateverValue']));
-    }
-
     /**
      * @dataProvider contentTypeParameterProvider
      */
-    public function testContentTypeIgnoresParameters(string $header, string $expected): void
+    public function testContentTypeIgnoresParameters(string $header, ?string $expected, bool $matches): void
     {
         $res = new FileGetContents();
 
@@ -52,16 +38,19 @@ class FileGetContentsTest extends TestCase
             $fetchContentType->setAccessible(true);
         }
 
-        $this->assertTrue($fetchContentType->invoke($res, [$header]));
+        $this->assertSame($matches, $fetchContentType->invoke($res, [$header]));
         $this->assertSame($expected, $res->getContentType());
     }
 
     public function contentTypeParameterProvider(): array
     {
         return [
-            'json with charset' => ['Content-Type: application/json; charset=utf-8', 'application/json'],
-            'schema media type with charset' => ['Content-Type: application/schema+json; charset=utf-8', 'application/schema+json'],
-            'multiple parameters' => ['Content-Type: application/json; charset=utf-8; profile=schema', 'application/json'],
+            'json without parameters' => ['Content-Type: application/json', 'application/json', true],
+            'json with charset' => ['Content-Type: application/json; charset=utf-8', 'application/json', true],
+            'schema media type with charset' => ['Content-Type: application/schema+json; charset=utf-8', 'application/schema+json', true],
+            'multiple parameters' => ['Content-Type: application/json; charset=utf-8; profile=schema', 'application/json', true],
+            'non-content-type header' => ['X-Some-Header: whateverValue', null, false],
+            'X-Content-Type is not a content type' => ['X-Content-Type: text/plain', null, false],
         ];
     }
 

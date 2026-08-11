@@ -38,7 +38,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         /**
          * @dataProvider contentTypeParameterProvider
          */
-        public function testContentTypeIgnoresParameters(string $response, string $expected): void
+        public function testContentTypeIgnoresParameters(string $response, ?string $expected, bool $matches): void
         {
             $c = new Curl();
 
@@ -48,16 +48,18 @@ namespace JsonSchema\Tests\Uri\Retrievers
                 $fetchContentType->setAccessible(true);
             }
 
-            $this->assertTrue($fetchContentType->invoke($c, $response));
+            $this->assertSame($matches, $fetchContentType->invoke($c, $response));
             $this->assertSame($expected, $c->getContentType());
         }
 
         public function contentTypeParameterProvider(): array
         {
             return [
-                'json with charset' => ["Content-Type: application/json; charset=utf-8\r\n\r\n{}", 'application/json'],
-                'schema media type with charset' => ["Content-Type: application/schema+json; charset=utf-8\r\n\r\n{}", 'application/schema+json'],
-                'multiple parameters' => ["Content-Type: application/json; charset=utf-8; profile=schema\r\n\r\n{}", 'application/json'],
+                'json without parameters' => ["Content-Type: application/json\r\n\r\n{}", 'application/json', true],
+                'json with charset' => ["Content-Type: application/json; charset=utf-8\r\n\r\n{}", 'application/json', true],
+                'schema media type with charset' => ["Content-Type: application/schema+json; charset=utf-8\r\n\r\n{}", 'application/schema+json', true],
+                'multiple parameters' => ["Content-Type: application/json; charset=utf-8; profile=schema\r\n\r\n{}", 'application/json', true],
+                'X-Content-Type is not a content type' => ["HTTP/1.1 200 OK\r\nX-Content-Type: text/plain\r\n\r\n{}", null, false],
             ];
         }
     }
