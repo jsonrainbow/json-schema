@@ -97,7 +97,7 @@ class FileGetContents extends AbstractRetriever
      */
     protected static function getContentTypeMatchInHeader($header)
     {
-        if (0 < preg_match("/Content-Type:(\V*)/ims", $header, $match)) {
+        if (0 < preg_match("/Content-Type:([^;\v]*)/ims", $header, $match)) {
             return trim($match[1]);
         }
 

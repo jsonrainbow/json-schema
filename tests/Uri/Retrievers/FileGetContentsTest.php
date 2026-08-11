@@ -39,6 +39,32 @@ class FileGetContentsTest extends TestCase
         $this->assertFalse($fetchContentType->invoke($res, ['X-Some-Header: whateverValue']));
     }
 
+    /**
+     * @dataProvider contentTypeParameterProvider
+     */
+    public function testContentTypeIgnoresParameters(string $header, string $expected): void
+    {
+        $res = new FileGetContents();
+
+        $reflector = new \ReflectionObject($res);
+        $fetchContentType = $reflector->getMethod('fetchContentType');
+        if (PHP_VERSION_ID < 80100) {
+            $fetchContentType->setAccessible(true);
+        }
+
+        $this->assertTrue($fetchContentType->invoke($res, [$header]));
+        $this->assertSame($expected, $res->getContentType());
+    }
+
+    public function contentTypeParameterProvider(): array
+    {
+        return [
+            'json with charset' => ['Content-Type: application/json; charset=utf-8', 'application/json'],
+            'schema media type with charset' => ['Content-Type: application/schema+json; charset=utf-8', 'application/schema+json'],
+            'multiple parameters' => ['Content-Type: application/json; charset=utf-8; profile=schema', 'application/json'],
+        ];
+    }
+
     public function testCanHandleHttp301PermanentRedirect(): void
     {
         $res = new FileGetContents();

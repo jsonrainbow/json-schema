@@ -34,6 +34,32 @@ namespace JsonSchema\Tests\Uri\Retrievers
 
             self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
         }
+
+        /**
+         * @dataProvider contentTypeParameterProvider
+         */
+        public function testContentTypeIgnoresParameters(string $response, string $expected): void
+        {
+            $c = new Curl();
+
+            $reflector = new \ReflectionObject($c);
+            $fetchContentType = $reflector->getMethod('fetchContentType');
+            if (PHP_VERSION_ID < 80100) {
+                $fetchContentType->setAccessible(true);
+            }
+
+            $this->assertTrue($fetchContentType->invoke($c, $response));
+            $this->assertSame($expected, $c->getContentType());
+        }
+
+        public function contentTypeParameterProvider(): array
+        {
+            return [
+                'json with charset' => ["Content-Type: application/json; charset=utf-8\r\n\r\n{}", 'application/json'],
+                'schema media type with charset' => ["Content-Type: application/schema+json; charset=utf-8\r\n\r\n{}", 'application/schema+json'],
+                'multiple parameters' => ["Content-Type: application/json; charset=utf-8; profile=schema\r\n\r\n{}", 'application/json'],
+            ];
+        }
     }
 }
 

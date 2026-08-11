@@ -76,7 +76,7 @@ class Curl extends AbstractRetriever
      */
     protected function fetchContentType($response)
     {
-        if (0 < preg_match("/Content-Type:(\V*)/ims", $response, $match)) {
+        if (0 < preg_match("/Content-Type:([^;\v]*)/ims", $response, $match)) {
             $this->contentType = trim($match[1]);
 
             return true;
