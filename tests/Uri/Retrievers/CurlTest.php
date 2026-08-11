@@ -36,9 +36,9 @@ namespace JsonSchema\Tests\Uri\Retrievers
         }
 
         /**
-         * @dataProvider contentTypeParameterProvider
+         * @dataProvider contentTypeProvider
          */
-        public function testContentTypeIgnoresParameters(string $response, ?string $expected, bool $matches): void
+        public function testFetchContentType(string $response, ?string $expected, bool $matches): void
         {
             $c = new Curl();
 
@@ -52,7 +52,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
             $this->assertSame($expected, $c->getContentType());
         }
 
-        public function contentTypeParameterProvider(): array
+        public function contentTypeProvider(): array
         {
             return [
                 'json without parameters' => ["Content-Type: application/json\r\n\r\n{}", 'application/json', true],

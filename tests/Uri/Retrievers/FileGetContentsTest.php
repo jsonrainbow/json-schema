@@ -26,9 +26,9 @@ class FileGetContentsTest extends TestCase
     }
 
     /**
-     * @dataProvider contentTypeParameterProvider
+     * @dataProvider contentTypeProvider
      */
-    public function testContentTypeIgnoresParameters(string $header, ?string $expected, bool $matches): void
+    public function testFetchContentType(string $header, ?string $expected, bool $matches): void
     {
         $res = new FileGetContents();
 
@@ -42,7 +42,7 @@ class FileGetContentsTest extends TestCase
         $this->assertSame($expected, $res->getContentType());
     }
 
-    public function contentTypeParameterProvider(): array
+    public function contentTypeProvider(): array
     {
         return [
             'json without parameters' => ['Content-Type: application/json', 'application/json', true],
