@@ -23,13 +23,40 @@ require($composerAutoload);
 $arOptions = [];
 $arArgs = [];
 array_shift($argv);//script itself
-foreach ($argv as $arg) {
-    if (strpos($arg, '--allow-invalid-content-type-endpoint=') === 0) {
-        $endpoint = substr($arg, strlen('--allow-invalid-content-type-endpoint='));
-        if ($endpoint !== '') {
-            $arOptions['--allow-invalid-content-type-endpoint'][] = $endpoint;
+
+// options that take a value; each may be repeated
+$multiValueOptions = [
+    '--allow-invalid-content-type-endpoint',
+];
+
+$argCount = count($argv);
+for ($i = 0; $i < $argCount; $i++) {
+    $arg = $argv[$i];
+
+    foreach ($multiValueOptions as $valueOption) {
+        if ($arg === $valueOption) {
+            // space-separated form: --option <value>
+            if (!isset($argv[$i + 1]) || strpos($argv[$i + 1], '-') === 0) {
+                output("Missing value for $valueOption\n");
+                exit(1);
+            }
+            $arOptions[$valueOption][] = $argv[++$i];
+            continue 2;
         }
-    } elseif ($arg[0] == '-') {
+
+        if (strpos($arg, $valueOption . '=') === 0) {
+            // equals form: --option=<value>
+            $value = substr($arg, strlen($valueOption . '='));
+            if ($value === '') {
+                output("Missing value for $valueOption\n");
+                exit(1);
+            }
+            $arOptions[$valueOption][] = $value;
+            continue 2;
+        }
+    }
+
+    if ($arg[0] == '-') {
         $arOptions[$arg] = true;
     } else {
         $arArgs[] = $arg;
