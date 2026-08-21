@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- fix: Handle null byte when validating date/time formats ([#939](https://github.com/jsonrainbow/json-schema/pull/939))
 - fix: Correct php-cs-fixer setup ([#938](https://github.com/jsonrainbow/json-schema/pull/938))
 - fix: Ignore Content-Type header parameters when checking media type ([#934](https://github.com/jsonrainbow/json-schema/pull/934))
 - fix: Dont use mb_detect_encoding for mb_string function calls ([#924](https://github.com/jsonrainbow/json-schema/pull/924))
