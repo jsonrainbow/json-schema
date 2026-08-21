@@ -31,4 +31,4 @@ jobs:
 
       - name: "Run style-check"
         run: |
-          composer style-check -- --format=checkstyle src | cs2pr
+          composer style-check -- --format=checkstyle | cs2pr
