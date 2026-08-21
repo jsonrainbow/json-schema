@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- fix: Correct php-cs-fixer setup ([#938](https://github.com/jsonrainbow/json-schema/pull/938))
 - fix: Ignore Content-Type header parameters when checking media type ([#934](https://github.com/jsonrainbow/json-schema/pull/934))
 - fix: Dont use mb_detect_encoding for mb_string function calls ([#924](https://github.com/jsonrainbow/json-schema/pull/924))
 - Add missing ext-filter dependency ([#922](https://github.com/jsonrainbow/json-schema/pull/922))
