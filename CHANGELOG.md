@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update README with Draft 7 badge correction and include JetBrains logo ([#921](https://github.com/jsonrainbow/json-schema/pull/921))
 
+### Added
+- Update composer.json authors to reflect current active maintainer ([#928](https://github.com/jsonrainbow/json-schema/pull/928))
+
 ## [6.10.0] - 2026-06-16
 
 ### Added
