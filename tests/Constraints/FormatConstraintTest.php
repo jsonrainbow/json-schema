@@ -8,7 +8,7 @@ use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Constraints\FormatConstraint;
 
-class FormatTest extends BaseTestCase
+class FormatConstraintTest extends BaseTestCase
 {
     /** @var bool */
     protected $validateSchema = true;
@@ -196,10 +196,12 @@ class FormatTest extends BaseTestCase
         yield ['199-01-1', 'date'];
         yield ['2012-0-11', 'date'];
         yield ['2012-10-1', 'date'];
+        yield 'Date format with value containing null byte' => ["2020-01-01\x00", 'date'];
 
         yield ['24:01:00', 'time'];
         yield ['00:00:60', 'time'];
         yield ['25:00:00', 'time'];
+        yield 'Time format with value containing null byte' => ["13:37:00\x00", 'time'];
 
         yield ['invalid_value_2000-05-01T12:12:12Z', 'date-time'];
         yield ['2000-05-01T12:12:12Z_invalid_value', 'date-time'];
