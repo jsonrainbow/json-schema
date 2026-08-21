@@ -8,7 +8,7 @@ use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Constraints\FormatConstraint;
 
-class FormatTest extends BaseTestCase
+class FormatConstraintTest extends BaseTestCase
 {
     /** @var bool */
     protected $validateSchema = true;
