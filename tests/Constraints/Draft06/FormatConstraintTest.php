@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Constraints\Draft06;
+namespace JsonSchema\Tests\Constraints\Draft06;
 
 use Generator;
 use JsonSchema\Constraints\Drafts\Draft06\FormatConstraint;
@@ -25,10 +25,10 @@ class FormatConstraintTest extends VeryBaseTestCase
 
     public function getInvalidFormats(): Generator
     {
-        yield 'Date-time format with value containing null byte' => ['2020-01-01T12:34:56\x00', 'date'];
+        yield 'Date-time format with value containing null byte' => ["2020-01-01T12:34:56\x00", 'date-time'];
 
-        yield 'Date format with value containing null byte' => ['2020-01-01\x00', 'date'];
+        yield 'Date format with value containing null byte' => ["2020-01-01\x00", 'date'];
 
-        yield 'Time format with value containing null byte' => ['13:37:00\x00', 'time'];
+        yield 'Time format with value containing null byte' => ["13:37:00\x00", 'time'];
     }
 }

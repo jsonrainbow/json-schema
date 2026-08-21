@@ -16,7 +16,6 @@ use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Rfc3339;
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use JsonSchema\Tool\Validator\UriValidator;
-use Throwable;
 
 /**
  * Validates against the "format" property
@@ -153,11 +152,11 @@ class FormatConstraint extends Constraint
         }
     }
 
-    protected function validateDateTime($datetime, $format): bool
+    protected function validateDateTime($datetime, $format)
     {
         try {
             $dt = \DateTime::createFromFormat($format, (string) $datetime);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             return false;
         }
 
