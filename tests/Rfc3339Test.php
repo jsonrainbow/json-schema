@@ -46,6 +46,18 @@ class Rfc3339Test extends TestCase
             '2000-05-01T12:12:12.123456Z',
             \DateTime::createFromFormat('Y-m-d\TH:i:s.u', '2000-05-01T12:12:12.123456', new \DateTimeZone('UTC'))
         ];
+        yield 'Zulu time - with seven fractional digits' => [
+            '2020-01-01T12:00:02.0000001Z',
+            \DateTime::createFromFormat('Y-m-d\TH:i:s.u', '2020-01-01T12:00:02.000000', new \DateTimeZone('UTC'))
+        ];
+        yield 'Zulu time - with nine fractional digits' => [
+            '2020-01-01T12:00:02.123456789Z',
+            \DateTime::createFromFormat('Y-m-d\TH:i:s.u', '2020-01-01T12:00:02.123456', new \DateTimeZone('UTC'))
+        ];
+        yield 'With time offset - with seven fractional digits' => [
+            '2020-01-01T12:00:02.1234567+01:00',
+            \DateTime::createFromFormat('Y-m-d\TH:i:s.uP', '2020-01-01T12:00:02.123456+01:00')
+        ];
         yield 'Zulu time - with milliseconds' => [
             '2000-05-01T12:12:12.123Z',
             \DateTime::createFromFormat('Y-m-d\TH:i:s.u', '2000-05-01T12:12:12.123000', new \DateTimeZone('UTC'))
@@ -67,5 +79,6 @@ class Rfc3339Test extends TestCase
         yield 'Missing leading zero in timezone offset - with colon' => ['1999-01-11T00:00:00+1:00'];
         yield 'Double space between date and time' => ['1999-01-01  00:00:00Z'];
         yield 'Missing leading zero in month - without T separator' => ['1999-1-11 00:00:00Z'];
+        yield 'Non-digit in long fractional seconds' => ['2020-01-01T12:00:02.123456aZ'];
     }
 }
