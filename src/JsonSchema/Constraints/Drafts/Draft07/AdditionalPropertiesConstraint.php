@@ -58,10 +58,15 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         if (is_object($schema->additionalProperties)) {
             foreach ($additionalProperties as $key => $additionalPropertiesValue) {
                 $schemaConstraint = $this->factory->createInstanceFor('schema');
-                $schemaConstraint->check($additionalPropertiesValue, $schema->additionalProperties, $path, $i); // @todo increment path
-                if ($schemaConstraint->isValid()) {
-                    unset($additionalProperties[$key]);
+                $schemaConstraint->check($additionalPropertiesValue, $schema->additionalProperties, ($path ?? new JsonPointer(''))->withAppendedPath($key), $i);
+
+                // The property is permitted by the schema, so it is never an "additional property"
+                // error; what it failed is the sub-schema, and those errors carry the reason.
+                if (!$schemaConstraint->isValid()) {
+                    $this->addErrors($schemaConstraint->getErrors());
                 }
+
+                unset($additionalProperties[$key]);
             }
         }
 
