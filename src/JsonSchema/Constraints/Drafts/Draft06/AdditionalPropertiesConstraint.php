@@ -73,13 +73,16 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
     private function createPregMatchPattern(string $pattern): string
     {
         $replacements = [
-//            '\D' => '[^0-9]',
-//            '\d' => '[0-9]',
-            '\p{digit}' => '\p{Nd}',
-//            '\w' => '[A-Za-z0-9_]',
-//            '\W' => '[^A-Za-z0-9_]',
-//            '\s' => '[\s\x{200B}]' // Explicitly include zero width white space,
-            '\p{Letter}' => '\p{L}', // Map ECMA long property name to PHP (PCRE) Unicode property abbreviations
+            // PCRE with /u makes \d, \D, \w and \W Unicode aware, while ECMA-262 defines
+            // them over ASCII only, so they are narrowed back to their ECMA meaning.
+            '\\D' => '[^0-9]',
+            '\\d' => '[0-9]',
+            '\\w' => '[A-Za-z0-9_]',
+            '\\W' => '[^A-Za-z0-9_]',
+            '\\s' => '[\\s\\x{200B}]', // Explicitly include zero width white space
+            // PCRE rejects the ECMA long property names, so they are mapped to its abbreviations.
+            '\\p{digit}' => '\\p{Nd}',
+            '\\p{Letter}' => '\\p{L}',
         ];
 
         $pattern = str_replace(
