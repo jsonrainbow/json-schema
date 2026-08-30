@@ -52,6 +52,7 @@ class ConstraintError extends Enum
     public const NOT = 'not';
     public const ONE_OF = 'oneOf';
     public const REQUIRED = 'required';
+    public const UNRESOLVABLE_REF = 'unresolvableRef';
     public const REQUIRES = 'requires';
     public const PATTERN = 'pattern';
     public const PREGEX_INVALID = 'pregrex';
@@ -114,6 +115,7 @@ class ConstraintError extends Enum
             self::NOT => 'Matched a schema which it should not',
             self::ONE_OF => 'Failed to match exactly one schema',
             self::REQUIRED => 'The property %s is required',
+            self::UNRESOLVABLE_REF => 'The $ref "%s" could not be resolved',
             self::REQUIRES => 'The presence of the property %s requires that %s also be present',
             self::PATTERN => 'Does not match the regex pattern %s',
             self::PREGEX_INVALID => 'The pattern %s is invalid',
