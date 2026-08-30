@@ -15,6 +15,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     strategy:
       matrix:
         php-version:
