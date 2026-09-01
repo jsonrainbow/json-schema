@@ -18,6 +18,9 @@ jobs:
     name: "PHP 8.4 - 32-bits"
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
     container: shivammathur/node:latest-i386
 
     steps:

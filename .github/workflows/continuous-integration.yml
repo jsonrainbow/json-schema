@@ -18,6 +18,9 @@ jobs:
     name: "PHP ${{ matrix.php-version }}, ${{ matrix.dependencies }} dependecies, experimental: ${{ matrix.experimental || false}}"
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
     continue-on-error: ${{ matrix.experimental || false }}
 
     strategy:
