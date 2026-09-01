@@ -44,6 +44,7 @@ class AdditionalPropertiesConstraintTest extends VeryBaseTestCase
 
         $errors = $constraint->getErrors();
         $this->assertCount(1, $errors);
+        $this->assertSame('/bar', $errors[0]['pointer']);
         $this->assertSame('additionalProp', $errors[0]['constraint']['name']);
     }
 }
