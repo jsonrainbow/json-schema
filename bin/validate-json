@@ -23,7 +23,39 @@ require($composerAutoload);
 $arOptions = [];
 $arArgs = [];
 array_shift($argv);//script itself
-foreach ($argv as $arg) {
+
+// options that take a value; each may be repeated
+$multiValueOptions = [
+    '--allow-invalid-content-type-endpoint',
+];
+
+$argCount = count($argv);
+for ($i = 0; $i < $argCount; $i++) {
+    $arg = $argv[$i];
+
+    foreach ($multiValueOptions as $valueOption) {
+        if ($arg === $valueOption) {
+            // space-separated form: --option <value>
+            if (!isset($argv[$i + 1]) || strpos($argv[$i + 1], '-') === 0) {
+                output("Missing value for $valueOption\n");
+                exit(1);
+            }
+            $arOptions[$valueOption][] = $argv[++$i];
+            continue 2;
+        }
+
+        if (strpos($arg, $valueOption . '=') === 0) {
+            // equals form: --option=<value>
+            $value = substr($arg, strlen($valueOption . '='));
+            if ($value === '') {
+                output("Missing value for $valueOption\n");
+                exit(1);
+            }
+            $arOptions[$valueOption][] = $value;
+            continue 2;
+        }
+    }
+
     if ($arg[0] == '-') {
         $arOptions[$arg] = true;
     } else {
@@ -42,6 +74,10 @@ Usage: validate-json data.json
 Options:
       --dump-schema     Output full schema and exit
       --dump-schema-url Output URL of schema
+      --allow-invalid-content-type-endpoint=<url>
+                        Skip the Content-Type check for schemas fetched
+                        from the given URL prefix. May be given multiple
+                        times.
       --verbose         Show additional output
       --quiet           Suppress all output
    -h --help            Show this help
@@ -191,6 +227,13 @@ if ($pathSchema[0] == '/') {
 
 $resolver = new JsonSchema\Uri\UriResolver();
 $retriever = new JsonSchema\Uri\UriRetriever();
+if (isset($arOptions['--allow-invalid-content-type-endpoint'])
+    && is_array($arOptions['--allow-invalid-content-type-endpoint'])
+) {
+    foreach ($arOptions['--allow-invalid-content-type-endpoint'] as $endpoint) {
+        $retriever->addInvalidContentTypeEndpoint($endpoint);
+    }
+}
 try {
     $urlSchema = $resolver->resolve($pathSchema, $urlData);
 
@@ -214,7 +257,7 @@ if (isset($arOptions['--dump-schema'])) {
 }
 
 try {
-    $validator = new JsonSchema\Validator();
+    $validator = new JsonSchema\Validator(new JsonSchema\Constraints\Factory($refResolver, $retriever));
     $validator->validate($data, $schema);
 
     if ($validator->isValid()) {
