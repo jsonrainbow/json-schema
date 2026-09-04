@@ -25,7 +25,7 @@ class Rfc3339
         $inputHasTSeparator = strpos($input, 'T');
 
         $dateAndTime = $matches[1];
-        $microseconds = $matches[5] ?: '.000000';
+        $microseconds = $matches[5] ? substr($matches[5], 0, 7) : '.000000';
         $timeZone = 'Z' !== $matches[6] ? $matches[6] : '+00:00';
         $dateFormat = $inputHasTSeparator === false ? 'Y-m-d H:i:s.uP' : 'Y-m-d\TH:i:s.uP';
         $dateTime = \DateTimeImmutable::createFromFormat($dateFormat, $dateAndTime . $microseconds . $timeZone, new \DateTimeZone('UTC'));

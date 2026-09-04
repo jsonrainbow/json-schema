@@ -113,6 +113,7 @@ class FormatConstraintTest extends BaseTestCase
         yield ['2000-05-01T12:12:12.0Z', 'date-time'];
         yield ['2000-05-01T12:12:12.000Z', 'date-time'];
         yield ['2000-05-01T12:12:12.000000Z', 'date-time'];
+        yield 'Date-time format with value containing high-precision fractional seconds' => ['2020-01-01T12:00:02.0000001Z', 'date-time'];
         yield [42, 'date-time'];
         yield [4.2, 'date-time'];
 
