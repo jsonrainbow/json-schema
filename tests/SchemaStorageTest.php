@@ -283,6 +283,53 @@ class SchemaStorageTest extends TestCase
         $this->assertEquals('uri-reference', $draft_04->properties->id->format);
     }
 
+    /**
+     * A nested id changes the base uri for everything below it, so a relative id must be
+     * resolved against the closest enclosing id rather than against the document uri.
+     *
+     * @dataProvider nestedIdDocumentUriProvider
+     */
+    public function testNestedRelativeIdIsResolvedAgainstEnclosingId(string $documentUri): void
+    {
+        $schema = json_decode(<<<'JSON'
+            {
+                "id": "http://localhost:1234/sibling_id/base/",
+                "definitions": {
+                    "foo": {
+                        "id": "http://localhost:1234/sibling_id/foo.json",
+                        "type": "string"
+                    },
+                    "base_foo": {
+                        "$comment": "this canonical uri is http://localhost:1234/sibling_id/base/foo.json",
+                        "id": "foo.json",
+                        "type": "number"
+                    }
+                }
+            }
+JSON
+        , false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema($documentUri, $schema);
+
+        $this->assertEquals(
+            $schema->definitions->foo,
+            $schemaStorage->getSchema('http://localhost:1234/sibling_id/foo.json')
+        );
+        $this->assertEquals(
+            $schema->definitions->base_foo,
+            $schemaStorage->getSchema('http://localhost:1234/sibling_id/base/foo.json')
+        );
+    }
+
+    public function nestedIdDocumentUriProvider(): \Generator
+    {
+        yield 'document uri matching the root id' => ['http://localhost:1234/sibling_id/base/'];
+        yield 'internal document uri' => [SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI];
+        // a document uri without a path used to make the relative id unresolvable
+        yield 'internal document uri without a path' => ['internal://mySchema'];
+    }
+
     public function testNoDoubleResolve(): void
     {
         $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');

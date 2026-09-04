@@ -70,7 +70,16 @@ class SchemaStorage implements SchemaStorageInterface
             }
         }
 
-        $this->scanForSubschemas($schema, $id);
+        // an id on the document root changes the base uri for the whole document
+        $baseId = $id;
+        if (is_object($schema)) {
+            $rootId = $this->findSchemaIdInObject($schema);
+            if (is_string($rootId)) {
+                $baseId = $this->uriResolver->resolve($rootId, $id);
+            }
+        }
+
+        $this->scanForSubschemas($schema, $baseId);
 
         // resolve references
         $this->expandRefs($schema, $id);
@@ -211,23 +220,24 @@ class SchemaStorage implements SchemaStorageInterface
                 continue;
             }
 
-            $potentialSubSchemaId = $this->findSchemaIdInObject($potentialSubSchema);
-            if (is_string($potentialSubSchemaId) && property_exists($potentialSubSchema, 'type')) {
-                // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
-                if (in_array($propertyName, ['enum', 'const'])) {
-                    continue;
-                }
-
-                // $id in unknow keywords is not valid
-                if (in_array($propertyName, [])) {
-                    continue;
-                }
-
-                // Found sub schema
-                $this->addSchema($this->uriResolver->resolve($potentialSubSchemaId, $parentId), $potentialSubSchema);
+            // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
+            if (in_array($propertyName, ['enum', 'const'], true)) {
+                continue;
             }
 
-            $this->scanForSubschemas($potentialSubSchema, $parentId);
+            $childId = $parentId;
+            $potentialSubSchemaId = $this->findSchemaIdInObject($potentialSubSchema);
+            if (is_string($potentialSubSchemaId)) {
+                // An id nested in the document changes the base uri for everything below it
+                $childId = $this->uriResolver->resolve($potentialSubSchemaId, $parentId);
+
+                if (property_exists($potentialSubSchema, 'type')) {
+                    // Found sub schema
+                    $this->addSchema($childId, $potentialSubSchema);
+                }
+            }
+
+            $this->scanForSubschemas($potentialSubSchema, $childId);
         }
     }
 

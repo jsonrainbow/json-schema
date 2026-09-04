@@ -188,6 +188,30 @@ class UriResolverTest extends TestCase
         );
     }
 
+    public function testResolveRelativeUriAgainstBaseWithoutPath(): void
+    {
+        // RFC 3986 section 5.3: a base uri with an authority but an empty path merges onto '/'
+        $this->assertEquals(
+            'internal://mySchema/bar.json',
+            $this->resolver->resolve(
+                'bar.json',
+                'internal://mySchema'
+            )
+        );
+    }
+
+    public function testResolveAnchorAgainstBaseWithoutPath(): void
+    {
+        // an anchor-only reference must not gain a path of its own
+        $this->assertEquals(
+            'internal://mySchema#/definitions/foo',
+            $this->resolver->resolve(
+                '#/definitions/foo',
+                'internal://mySchema'
+            )
+        );
+    }
+
     public function testReversable(): void
     {
         $uri = 'scheme://user:password@authority/path?query#fragment';
