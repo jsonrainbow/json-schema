@@ -6,21 +6,33 @@ on:
     types: [opened]
 jobs:
   run:
+    # Skip bot-authored issues and pull requests. The action looks the author up
+    # with GET /search/issues, which rejects bot accounts with "The listed users
+    # cannot be searched...", failing the run. Checked on the author rather than
+    # github.actor, because Copilot opens its pull requests on a maintainer's
+    # behalf and the actor is therefore human. See #933.
+    if: ${{ !(github.event.issue.user.type == 'Bot' || github.event.pull_request.user.type == 'Bot') }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
     steps:
+      # NOTE: STAR_MESSAGE is deliberately not set. It makes the action call
+      # GET /repos/{owner}/{repo}/stargazers, which GitHub restricted to admins
+      # and collaborators in July 2026, so GITHUB_TOKEN gets "Resource not
+      # accessible by integration" and the whole run fails. See #933. The star
+      # nudge is folded into the messages below instead.
       - uses: wow-actions/welcome@v1
         with:
           FIRST_ISSUE: |
             🚀 @{{ author }}, thanks for your contribution! Every idea, bug report, and discussion helps make this project better. Your input is invaluable, and we appreciate the time you took to share it. A maintainer will review it soon—stay awesome! 💡✨
 
+            ⭐ Enjoying contributing? Star the project! ⭐ Your contributions help this project grow, and we'd love your support in another way too! If you find this repo helpful, consider leaving a star 🌟 on GitHub.
+
           FIRST_PR: |
             🎉 You're making a difference! We appreciate your effort and dedication. A reviewer will check it out soon, but in the meantime, give yourself a pat on the back. Keep up the great work! 💪🚀
 
+            ⭐ Enjoying contributing? Star the project! ⭐ Your contributions help this project grow, and we'd love your support in another way too! If you find this repo helpful, consider leaving a star 🌟 on GitHub.
+
           FIRST_PR_MERGED: |
             💖 Welcome @{{ author }} as first-time contributor! Your efforts matter, and we’re so grateful for your contribution. Open source thrives because of people like you. Keep going, keep learning, and know that your work is truly valued. 🌱✨
-
-          STAR_MESSAGE: |
-            ⭐ Enjoying contributing? Star the project! ⭐Your contributions help this project grow, and we'd love your support in another way too! If you find this repo helpful, consider leaving a star 🌟 on GitHub.
