@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Changed
+- fix: Avoid restricted stargazers endpoint in Welcome workflow and avoid running for bot user types ([#946](https://github.com/jsonrainbow/json-schema/pull/946))
 - fix: Correct changelog and changelog updates ([#945](https://github.com/jsonrainbow/json-schema/pull/945))
 
 ## [6.11.0] - 2026-08-21
