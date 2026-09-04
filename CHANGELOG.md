@@ -7,10 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fix RFC 3339 date-time validation with high-precision fractional seconds ([#940](https://github.com/jsonrainbow/json-schema/pull/940))
+
+### Added
+- Define minimal permissions on every workflow ([#941](https://github.com/jsonrainbow/json-schema/pull/941))
+- feat: Add --allow-invalid-content-type-endpoint option to validate-json ([#932](https://github.com/jsonrainbow/json-schema/pull/932))
+
+
 ## [6.11.0] - 2026-08-21
 
 ### Fixed
-- Fix RFC 3339 date-time validation with high-precision fractional seconds ([#940]
 - fix: Handle null byte when validating date/time formats ([#939](https://github.com/jsonrainbow/json-schema/pull/939))
 - fix: Correct php-cs-fixer setup ([#938](https://github.com/jsonrainbow/json-schema/pull/938))
 - fix: Ignore Content-Type header parameters when checking media type ([#934](https://github.com/jsonrainbow/json-schema/pull/934))
@@ -21,8 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update README with Draft 7 badge correction and include JetBrains logo ([#921](https://github.com/jsonrainbow/json-schema/pull/921))
 
 ### Added
-- feat: Add --allow-invalid-content-type-endpoint option to validate-json ([#932](https://github.com/jsonrainbow/json-schema/pull/932))
-- Define minimal permissions on every workflow ([#941](https://github.com/jsonrainbow/json-schema/pull/941))
 - Update composer.json authors to reflect current active maintainer ([#928](https://github.com/jsonrainbow/json-schema/pull/928))
 
 
