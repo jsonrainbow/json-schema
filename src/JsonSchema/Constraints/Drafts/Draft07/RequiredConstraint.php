@@ -34,25 +34,7 @@ class RequiredConstraint implements ConstraintInterface
                 continue;
             }
 
-            $this->addError(ConstraintError::REQUIRED(), $this->incrementPath($path, $required), ['property' => $required]);
+            $this->addError(ConstraintError::REQUIRED(), ($path ?? new JsonPointer(''))->withAppendedPath($required), ['property' => $required]);
         }
-    }
-
-    /**
-     * @todo refactor as this was only copied from UndefinedConstraint
-     * Bubble down the path
-     *
-     * @param JsonPointer|null $path Current path
-     * @param mixed            $i    What to append to the path
-     */
-    protected function incrementPath(?JsonPointer $path, $i): JsonPointer
-    {
-        $path = $path ?? new JsonPointer('');
-
-        if ($i === null || $i === '') {
-            return $path;
-        }
-
-        return $path->withPropertyPaths(array_merge($path->getPropertyPaths(), [$i]));
     }
 }

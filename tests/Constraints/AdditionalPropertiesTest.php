@@ -122,8 +122,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                 Constraint::CHECK_MODE_STRICT,
                 [
                     [
-                        'property'   => '',
-                        'pointer'    => '',
+                        'property'   => 'extraProp',
+                        'pointer'    => '/extraProp',
                         'message'    => 'The property extraProp is not defined and the definition does not allow additional properties',
                         'constraint' => [
                             'name'   => 'additionalProp',
@@ -149,8 +149,8 @@ class AdditionalPropertiesTest extends BaseTestCase
                 Constraint::CHECK_MODE_STRICT,
                 [
                     [
-                        'property'   => '',
-                        'pointer'    => '',
+                        'property'   => 'extraProp',
+                        'pointer'    => '/extraProp',
                         'message'    => 'The property extraProp is not defined and the definition does not allow additional properties',
                         'constraint' => [
                             'name'   => 'additionalProp',
