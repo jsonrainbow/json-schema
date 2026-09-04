@@ -1,7 +1,7 @@
 name: "Update Changelog"
 
 on:
-  pull_request:
+  pull_request_target:
     types: [closed]
     branches:
       - main
@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v5"
+        uses: "actions/checkout@v7"
         with:
           ref: main
           fetch-depth: 0
