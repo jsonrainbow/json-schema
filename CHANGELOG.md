@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Report additional property errors at the property path ([#942](https://github.com/jsonrainbow/json-schema/pull/942))
 - Fix RFC 3339 date-time validation with high-precision fractional seconds ([#940](https://github.com/jsonrainbow/json-schema/pull/940))
 
 ### Added
