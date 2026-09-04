@@ -130,8 +130,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft4/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: match is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: id must be resolved against nearest parent, not just immediate parent: number is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: id must be resolved against nearest parent, not just immediate parent: non-number is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: empty tokens in $ref json-pointer: number is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: base URI change - change folder: number is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
@@ -173,7 +171,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
             '[draft7/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
             '[draft7/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
-            '[draft7/ref.json]: $id must be resolved against nearest parent, not just immediate parent: non-number is invalid is expected to be invalid',
             '[draft7/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid',
             '[draft7/ref.json]: Location-independent identifier: mismatch is expected to be invalid',
             '[draft7/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid',
@@ -254,7 +251,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/ref.json]: refs with relative uris and defs: invalid on outer field is expected to be invalid',
             '[draft2019-09/ref.json]: relative refs with absolute uris and defs: invalid on inner field is expected to be invalid',
             '[draft2019-09/ref.json]: relative refs with absolute uris and defs: invalid on outer field is expected to be invalid',
-            '[draft2019-09/ref.json]: $id must be resolved against nearest parent, not just immediate parent: non-number is invalid is expected to be invalid',
             '[draft2019-09/ref.json]: order of evaluation: $id and $ref: data is invalid against first definition is expected to be invalid',
             '[draft2019-09/ref.json]: order of evaluation: $id and $anchor and $ref: data is invalid against first definition is expected to be invalid',
             '[draft2019-09/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
