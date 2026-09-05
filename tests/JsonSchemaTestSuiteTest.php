@@ -132,15 +132,12 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: empty tokens in $ref json-pointer: number is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/refRemote.json]: base URI change - change folder: number is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: integer is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft6/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft6/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             '[draft6/ref.json]: refs with quote: object with strings is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             '[draft6/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
-            '[draft6/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             // Skipping complex edge cases for now
             '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
@@ -173,7 +170,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
             '[draft7/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid',
             '[draft7/ref.json]: Location-independent identifier: mismatch is expected to be invalid',
-            '[draft7/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid',
             '[draft7/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid',
             // Draft 2019-09 complex constraints, which aren't supported initially
             '[draft2019-09/recursiveRef.json]: $recursiveRef without $recursiveAnchor works like $ref: recursive mismatch is expected to be invalid',
@@ -282,7 +278,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems can see annotations from if without then and else: invalid in case if is evaluated is expected to be invalid',
             '[draft2019-09/not.json]: collect annotations inside a \'not\', even if collection is disabled: unevaluated property is expected to be valid',
             '[draft2019-09/refRemote.json]: anchor within remote ref: remote anchor invalid is expected to be invalid',
-            '[draft2019-09/refRemote.json]: base URI change - change folder: string is invalid is expected to be invalid',
             '[draft2019-09/refRemote.json]: base URI change - change folder in subschema: string is invalid is expected to be invalid',
             '[draft2019-09/refRemote.json]: remote ref with ref to defs: invalid is expected to be invalid',
             '[draft2019-09/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid',

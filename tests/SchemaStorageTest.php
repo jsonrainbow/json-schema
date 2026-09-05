@@ -330,6 +330,78 @@ JSON
         yield 'internal document uri without a path' => ['internal://mySchema'];
     }
 
+    /**
+     * @dataProvider subschemaRegistrationProvider
+     *
+     * @param list<string> $expectedUris
+     * @param list<string> $unexpectedUris
+     */
+    public function testSubschemasAreRegisteredUnderTheirCanonicalUri(
+        string $schema,
+        array $expectedUris,
+        array $unexpectedUris
+    ): void {
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root/', json_decode($schema, false));
+
+        $reflection = new \ReflectionObject($schemaStorage);
+        $property = $reflection->getProperty('schemas');
+        if (PHP_VERSION_ID < 80100) {
+            $property->setAccessible(true);
+        }
+        $registered = array_keys($property->getValue($schemaStorage));
+
+        foreach ($expectedUris as $expectedUri) {
+            $this->assertContains($expectedUri, $registered);
+        }
+        foreach ($unexpectedUris as $unexpectedUri) {
+            $this->assertNotContains($unexpectedUri, $registered);
+        }
+    }
+
+    public function subschemaRegistrationProvider(): \Generator
+    {
+        yield 'a relative id is resolved once, not against itself again' => [
+            'schema' => '{"definitions": {"a": {"id": "nested/schema.json", "type": "number",
+                "definitions": {"b": {"id": "deep.json", "type": "string"}}}}}',
+            'expectedUris' => [
+                'http://example.org/root/nested/schema.json',
+                'http://example.org/root/nested/deep.json',
+            ],
+            'unexpectedUris' => ['http://example.org/root/nested/nested/deep.json'],
+        ];
+
+        yield 'an id on an array item changes the base uri below it' => [
+            'schema' => '{"allOf": [{"id": "sub/", "definitions": {"b": {"id": "b.json", "type": "number"}}}]}',
+            'expectedUris' => ['http://example.org/root/sub/b.json'],
+            'unexpectedUris' => ['http://example.org/root/b.json'],
+        ];
+
+        yield 'an id inside an enum value is not an identifier' => [
+            'schema' => '{"enum": [{"wrapper": {"id": "leaked.json", "type": "string"}}]}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'an id inside a const value is not an identifier' => [
+            'schema' => '{"const": {"wrapper": {"id": "leaked.json", "type": "string"}}}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'a subschema named enum is still a subschema' => [
+            'schema' => '{"properties": {"enum": {"id": "real.json", "type": "string"}}}',
+            'expectedUris' => ['http://example.org/root/real.json'],
+            'unexpectedUris' => [],
+        ];
+
+        yield 'a subschema named const is still traversed' => [
+            'schema' => '{"properties": {"const": {"definitions": {"x": {"id": "deep.json", "type": "string"}}}}}',
+            'expectedUris' => ['http://example.org/root/deep.json'],
+            'unexpectedUris' => [],
+        ];
+    }
+
     public function testNoDoubleResolve(): void
     {
         $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');
