@@ -395,11 +395,68 @@ JSON
             'unexpectedUris' => [],
         ];
 
+        yield 'an id bearing subschema without a type is still registered' => [
+            'schema' => '{"$defs": {"baz": {"$id": "baz/", "$defs": {"x": {"$id": "x.json", "type": "string"}}}}}',
+            'expectedUris' => ['http://example.org/root/baz/', 'http://example.org/root/baz/x.json'],
+            'unexpectedUris' => ['http://example.org/root/x.json'],
+        ];
+
         yield 'a subschema named const is still traversed' => [
             'schema' => '{"properties": {"const": {"definitions": {"x": {"id": "deep.json", "type": "string"}}}}}',
             'expectedUris' => ['http://example.org/root/deep.json'],
             'unexpectedUris' => [],
         ];
+    }
+
+    /**
+     * A relative root id that is identical to the uri the document is registered under must
+     * not be resolved against itself, or every nested id below it is misregistered.
+     */
+    public function testRelativeRootIdEqualToTheRegistrationUriIsNotResolvedTwice(): void
+    {
+        $schema = json_decode('{"id": "test/schema", "definitions": {"a": {"id": "deep.json", "type": "string"}}}', false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('test/schema', $schema);
+
+        $reflection = new \ReflectionObject($schemaStorage);
+        $property = $reflection->getProperty('schemas');
+        if (PHP_VERSION_ID < 80100) {
+            $property->setAccessible(true);
+        }
+        $registered = array_keys($property->getValue($schemaStorage));
+
+        $this->assertContains('file://' . getcwd() . '/test/deep.json', $registered);
+        $this->assertNotContains('file://' . getcwd() . '/test/test/deep.json', $registered);
+    }
+
+    /**
+     * A subschema named after a keyword must be traversed by expandRefs() on the same terms
+     * the scanner registers it on, otherwise it is registered with unexpanded references.
+     */
+    public function testRefsInsideASubschemaNamedAfterAKeywordAreExpanded(): void
+    {
+        $schema = json_decode(<<<'JSON'
+            {
+                "definitions": {
+                    "enum": {
+                        "id": "named.json",
+                        "type": "object",
+                        "properties": {"p": {"$ref": "#/definitions/target"}}
+                    },
+                    "target": {"type": "integer"}
+                }
+            }
+JSON
+        , false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root/', $schema);
+
+        $this->assertEquals(
+            'http://example.org/root/named.json#/definitions/target',
+            $schemaStorage->getSchema('http://example.org/root/named.json')->properties->p->{'$ref'}
+        );
     }
 
     public function testNoDoubleResolve(): void

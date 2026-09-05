@@ -87,7 +87,7 @@ class SchemaStorage implements SchemaStorageInterface
         $baseId = $id;
         if (is_object($schema)) {
             $rootId = $this->findSchemaIdInObject($schema);
-            if (is_string($rootId)) {
+            if (is_string($rootId) && $rootId !== $id) {
                 $baseId = $this->uriResolver->resolve($rootId, $id);
             }
         }
@@ -125,7 +125,10 @@ class SchemaStorage implements SchemaStorageInterface
 
         $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
         foreach ($schema as $propertyName => &$member) {
-            if ($parentProperty !== 'properties' && in_array($propertyName, ['enum', 'const'])) {
+            if (
+                in_array($propertyName, ['enum', 'const'], true)
+                && !in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)
+            ) {
                 // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
                 continue;
             }
@@ -265,11 +268,9 @@ class SchemaStorage implements SchemaStorageInterface
             // An id nested in the document changes the base uri for everything below it
             $childId = $this->uriResolver->resolve($subSchemaId, $parentId);
 
-            if (property_exists($subSchema, 'type')) {
-                // Found sub schema. It is registered directly rather than through addSchema(),
-                // which would resolve the already resolved id against itself a second time.
-                $this->schemas[$childId] = $subSchema;
-            }
+            // Found sub schema. It is registered directly rather than through addSchema(),
+            // which would resolve the already resolved id against itself a second time.
+            $this->schemas[$childId] = $subSchema;
         }
 
         $this->scanForSubschemas($subSchema, $childId, $parentProperty);
