@@ -14,6 +14,19 @@ class SchemaStorage implements SchemaStorageInterface
 {
     public const INTERNAL_PROVIDED_SCHEMA_URI = 'internal://provided-schema/';
 
+    /**
+     * Keywords whose value is a map of subschemas keyed by an arbitrary name, so a member
+     * named after a keyword is a schema rather than that keyword's value.
+     */
+    private const SCHEMA_MAP_KEYWORDS = [
+        'properties',
+        'patternProperties',
+        'definitions',
+        '$defs',
+        'dependencies',
+        'dependentSchemas',
+    ];
+
     protected $uriRetriever;
     protected $uriResolver;
     protected $schemas = [];
@@ -70,7 +83,16 @@ class SchemaStorage implements SchemaStorageInterface
             }
         }
 
-        $this->scanForSubschemas($schema, $id);
+        // an id on the document root changes the base uri for the whole document
+        $baseId = $id;
+        if (is_object($schema)) {
+            $rootId = $this->findSchemaIdInObject($schema);
+            if (is_string($rootId) && $rootId !== $id) {
+                $baseId = $this->uriResolver->resolve($rootId, $id);
+            }
+        }
+
+        $this->scanForSubschemas($schema, $baseId);
 
         // resolve references
         $this->expandRefs($schema, $id);
@@ -103,7 +125,10 @@ class SchemaStorage implements SchemaStorageInterface
 
         $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
         foreach ($schema as $propertyName => &$member) {
-            if ($parentProperty !== 'properties' && in_array($propertyName, ['enum', 'const'])) {
+            if (
+                in_array($propertyName, ['enum', 'const'], true)
+                && !in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)
+            ) {
                 // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
                 continue;
             }
@@ -195,40 +220,60 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * @param mixed $schema
      */
-    private function scanForSubschemas($schema, string $parentId): void
+    private function scanForSubschemas($schema, string $parentId, string $parentProperty = ''): void
     {
         if (!$schema instanceof \stdClass  && !is_array($schema)) {
             return;
         }
 
         foreach ($schema as $propertyName => $potentialSubSchema) {
-            if (!is_object($potentialSubSchema)) {
-                if (is_array($potentialSubSchema)) {
-                    foreach ($potentialSubSchema as $potentialSubSchemaItem) {
-                        $this->scanForSubschemas($potentialSubSchemaItem, $parentId);
-                    }
+            // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
+            // Their values are skipped entirely, but a subschema may legitimately be named
+            // 'enum' or 'const', so the enclosing keyword decides which of the two this is.
+            if (
+                in_array($propertyName, ['enum', 'const'], true)
+                && !in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)
+            ) {
+                continue;
+            }
+
+            if (is_array($potentialSubSchema)) {
+                foreach ($potentialSubSchema as $potentialSubSchemaItem) {
+                    $this->scanSubschema($potentialSubSchemaItem, $parentId, (string) $propertyName);
                 }
                 continue;
             }
 
-            $potentialSubSchemaId = $this->findSchemaIdInObject($potentialSubSchema);
-            if (is_string($potentialSubSchemaId) && property_exists($potentialSubSchema, 'type')) {
-                // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
-                if (in_array($propertyName, ['enum', 'const'])) {
-                    continue;
-                }
-
-                // $id in unknow keywords is not valid
-                if (in_array($propertyName, [])) {
-                    continue;
-                }
-
-                // Found sub schema
-                $this->addSchema($this->uriResolver->resolve($potentialSubSchemaId, $parentId), $potentialSubSchema);
-            }
-
-            $this->scanForSubschemas($potentialSubSchema, $parentId);
+            $this->scanSubschema($potentialSubSchema, $parentId, (string) $propertyName);
         }
+    }
+
+    /**
+     * Register a subschema under the base uri established by its own id, if it has one, and
+     * continue scanning below it against that base uri.
+     *
+     * @param mixed $subSchema
+     */
+    private function scanSubschema($subSchema, string $parentId, string $parentProperty): void
+    {
+        if (!is_object($subSchema)) {
+            $this->scanForSubschemas($subSchema, $parentId, $parentProperty);
+
+            return;
+        }
+
+        $childId = $parentId;
+        $subSchemaId = $this->findSchemaIdInObject($subSchema);
+        if (is_string($subSchemaId)) {
+            // An id nested in the document changes the base uri for everything below it
+            $childId = $this->uriResolver->resolve($subSchemaId, $parentId);
+
+            // Found sub schema. It is registered directly rather than through addSchema(),
+            // which would resolve the already resolved id against itself a second time.
+            $this->schemas[$childId] = $subSchema;
+        }
+
+        $this->scanForSubschemas($subSchema, $childId, $parentProperty);
     }
 
     private function findSchemaIdInObject(object $schema): ?string

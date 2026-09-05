@@ -105,6 +105,11 @@ class UriResolver implements UriResolverInterface
         }
         $baseComponents = $this->parse($baseUri);
         $basePath = $baseComponents['path'];
+        if ($path !== '' && $basePath === '' && $baseComponents['authority'] !== '') {
+            // RFC 3986 section 5.3: when the base uri has an authority but an empty path,
+            // the reference is merged onto '/' rather than being unresolvable.
+            $basePath = '/';
+        }
 
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
         if (isset($components['fragment'])) {
