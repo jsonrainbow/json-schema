@@ -232,7 +232,7 @@ class SchemaStorage implements SchemaStorageInterface
             return;
         }
 
-        foreach ($schema as $propertyName => $potentialSubSchema) {
+        foreach ($schema as $propertyName => $member) {
             // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
             // Their values are skipped entirely, but a subschema may legitimately be named
             // 'enum' or 'const', so the enclosing keyword decides which of the two this is.
@@ -243,14 +243,14 @@ class SchemaStorage implements SchemaStorageInterface
                 continue;
             }
 
-            if (is_array($potentialSubSchema)) {
-                foreach ($potentialSubSchema as $potentialSubSchemaItem) {
-                    $this->registerAndScanSubschema($potentialSubSchemaItem, $parentId, (string) $propertyName);
+            if (is_array($member)) {
+                foreach ($member as $item) {
+                    $this->registerAndScanSubschema($item, $parentId, (string) $propertyName);
                 }
                 continue;
             }
 
-            $this->registerAndScanSubschema($potentialSubSchema, $parentId, (string) $propertyName);
+            $this->registerAndScanSubschema($member, $parentId, (string) $propertyName);
         }
     }
 
