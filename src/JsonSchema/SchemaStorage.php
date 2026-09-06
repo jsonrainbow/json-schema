@@ -92,7 +92,7 @@ class SchemaStorage implements SchemaStorageInterface
             }
         }
 
-        $this->scanForSubschemas($schema, $baseId);
+        $this->scanMembersForSubschemas($schema, $baseId);
 
         // resolve references
         $this->expandRefs($schema, $id);
@@ -218,9 +218,15 @@ class SchemaStorage implements SchemaStorageInterface
     }
 
     /**
+     * Walk the members of one container - a schema object, or an array such as allOf or a
+     * tuple items - handing each member to registerAndScanSubschema().
+     *
+     * $parentProperty is the keyword the container itself sits under, which is what decides
+     * whether a member named 'enum' or 'const' is that keyword's value or a schema.
+     *
      * @param mixed $schema
      */
-    private function scanForSubschemas($schema, string $parentId, string $parentProperty = ''): void
+    private function scanMembersForSubschemas($schema, string $parentId, string $parentProperty = ''): void
     {
         if (!$schema instanceof \stdClass  && !is_array($schema)) {
             return;
@@ -239,25 +245,25 @@ class SchemaStorage implements SchemaStorageInterface
 
             if (is_array($potentialSubSchema)) {
                 foreach ($potentialSubSchema as $potentialSubSchemaItem) {
-                    $this->scanSubschema($potentialSubSchemaItem, $parentId, (string) $propertyName);
+                    $this->registerAndScanSubschema($potentialSubSchemaItem, $parentId, (string) $propertyName);
                 }
                 continue;
             }
 
-            $this->scanSubschema($potentialSubSchema, $parentId, (string) $propertyName);
+            $this->registerAndScanSubschema($potentialSubSchema, $parentId, (string) $propertyName);
         }
     }
 
     /**
-     * Register a subschema under the base uri established by its own id, if it has one, and
-     * continue scanning below it against that base uri.
+     * Handle a single member. An object declaring an id is registered under the base uri that
+     * id establishes, and everything below it is then scanned against that base uri.
      *
      * @param mixed $subSchema
      */
-    private function scanSubschema($subSchema, string $parentId, string $parentProperty): void
+    private function registerAndScanSubschema($subSchema, string $parentId, string $parentProperty): void
     {
         if (!is_object($subSchema)) {
-            $this->scanForSubschemas($subSchema, $parentId, $parentProperty);
+            $this->scanMembersForSubschemas($subSchema, $parentId, $parentProperty);
 
             return;
         }
@@ -273,7 +279,7 @@ class SchemaStorage implements SchemaStorageInterface
             $this->schemas[$childId] = $subSchema;
         }
 
-        $this->scanForSubschemas($subSchema, $childId, $parentProperty);
+        $this->scanMembersForSubschemas($subSchema, $childId, $parentProperty);
     }
 
     private function findSchemaIdInObject(object $schema): ?string
