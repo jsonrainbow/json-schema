@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Uri\UriResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class UriResolverTest extends TestCase
@@ -186,6 +187,38 @@ class UriResolverTest extends TestCase
                 'http://example.org/foo/bar.json'
             )
         );
+    }
+
+    /**
+     * @dataProvider queryAndFragmentInheritanceCases
+     */
+    #[DataProvider('queryAndFragmentInheritanceCases')]
+    public function testResolveDoesNotInheritQueryAndFragmentFromBase(string $expected, string $uri, string $baseUri): void
+    {
+        $this->assertEquals($expected, $this->resolver->resolve($uri, $baseUri));
+    }
+
+    /**
+     * @return array<string, array{string, string, string}>
+     */
+    public static function queryAndFragmentInheritanceCases(): array
+    {
+        $base = 'http://example.org/foo/x.json?old#frag';
+
+        return [
+            // RFC 3986 section 5.3: neither is inherited when the reference has a path
+            'plain reference' => ['http://example.org/foo/bar.json', 'bar.json', $base],
+            'reference with its own query' => ['http://example.org/foo/bar.json?new', 'bar.json?new', $base],
+            'reference with its own fragment' => ['http://example.org/foo/bar.json#f2', 'bar.json#f2', $base],
+            'reference with both' => ['http://example.org/foo/bar.json?new#f2', 'bar.json?new#f2', $base],
+            'absolute path reference' => ['http://example.org/abs.json', '/abs.json', $base],
+            // a reference without a path keeps the query of the base
+            'bare fragment' => [
+                'http://example.org/schema.json?q=1#/definitions/x',
+                '#/definitions/x',
+                'http://example.org/schema.json?q=1',
+            ],
+        ];
     }
 
     public function testReversable(): void
