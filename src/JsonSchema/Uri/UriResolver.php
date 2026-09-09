@@ -107,6 +107,21 @@ class UriResolver implements UriResolverInterface
         $basePath = $baseComponents['path'];
 
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
+
+        // RFC 3986 section 5.3: a reference carrying a path replaces the query of the base,
+        // whether or not it has one of its own. Only a reference without a path, such as a
+        // bare fragment, keeps it.
+        if ('' !== $path) {
+            unset($baseComponents['query']);
+        }
+        // parse() reports an empty query for a bare fragment, and generate() drops an empty
+        // one anyway, so only a query with a value is carried over
+        if (isset($components['query']) && '' !== $components['query']) {
+            $baseComponents['query'] = $components['query'];
+        }
+
+        // the fragment always comes from the reference and is never inherited
+        unset($baseComponents['fragment']);
         if (isset($components['fragment'])) {
             $baseComponents['fragment'] = $components['fragment'];
         }
