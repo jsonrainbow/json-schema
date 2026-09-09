@@ -8,7 +8,6 @@ use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidSchemaMediaTypeException;
 use JsonSchema\Exception\JsonDecodingException;
 use JsonSchema\Exception\ResourceNotFoundException;
-use JsonSchema\Exception\UriResolverException;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
@@ -220,9 +219,11 @@ EOF;
     {
         $retriever = new UriRetriever();
 
-        $this->expectException(UriResolverException::class);
-        $retriever->resolve(
-            '../schema.json#', 'http://example.org/schema.json#'
+        // RFC 3986 section 5.2.4: the parent segment climbs past the root, so it is
+        // discarded instead of making the reference unresolvable
+        $this->assertEquals(
+            'http://example.org/schema.json',
+            $retriever->resolve('../schema.json#', 'http://example.org/schema.json#')
         );
     }
 

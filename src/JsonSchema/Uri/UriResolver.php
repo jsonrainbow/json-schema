@@ -144,14 +144,12 @@ class UriResolver implements UriResolverInterface
         while ($combinedSegments) {
             $segment = array_shift($combinedSegments);
             if ($segment === '..') {
-                if (count($collapsedSegments) <= 1) {
-                    // Do not remove the top level (domain)
-                    // This is not ideal - the domain should not be part of the path here. parse() and generate()
-                    // should handle the "domain" separately, like the schema.
-                    // Then the if-condition here would be `if (!$collapsedSegments) {`.
-                    throw new UriResolverException(sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
+                // RFC 3986 section 5.2.4: a parent segment climbing past the root is
+                // discarded rather than being an error. The leading empty segment of an
+                // absolute path is the root itself, so it is never popped.
+                if ([] !== $collapsedSegments && [''] !== $collapsedSegments) {
+                    array_pop($collapsedSegments);
                 }
-                array_pop($collapsedSegments);
             } else {
                 $collapsedSegments[] = $segment;
             }
