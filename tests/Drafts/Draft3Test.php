@@ -24,7 +24,7 @@ class Draft3Test extends BaseDraftTestCase
      * @param mixed $data
      * @dataProvider refPreventsASiblingIdFromChangingTheBaseUriProvider
      */
-    public function testRefPreventsASiblingIdFromChangingTheBaseUriProvider($data, bool $expectedResult): void
+    public function testRefPreventsASiblingIdFromChangingTheBaseUriProvider($data, bool $expectedResult, string $documentUri): void
     {
         $schema = json_decode(<<<'JSON'
             {
@@ -52,7 +52,7 @@ JSON
         , false);
 
         $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema(property_exists($schema, 'id') ? $schema->id : 'internal://mySchema', $schema);
+        $schemaStorage->addSchema($documentUri, $schema);
         $validator = new Validator(new Factory($schemaStorage));
         $validator->validate($data, $schema);
 
@@ -61,8 +61,26 @@ JSON
 
     public function refPreventsASiblingIdFromChangingTheBaseUriProvider(): \Generator
     {
-        yield '$ref resolves to /definitions/base_foo, data does not validate' => ['data' => 'a', 'valid' => false];
-        yield '$ref resolves to /definitions/base_foo, data validate' => ['data' => 1, 'valid' => true];
+        // the document uri the schema is registered under must not affect how the nested,
+        // relative id is resolved; 'internal://mySchema' is what the Bowtie harness uses
+        $documentUris = [
+            'registered under its own id' => 'http://localhost:1234/sibling_id/base/',
+            'registered under an internal uri' => SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI,
+            'registered under an internal uri without a path' => 'internal://mySchema',
+        ];
+
+        foreach ($documentUris as $uriDescription => $documentUri) {
+            yield sprintf('$ref resolves to /definitions/base_foo, data does not validate, %s', $uriDescription) => [
+                'data' => 'a',
+                'valid' => false,
+                'documentUri' => $documentUri,
+            ];
+            yield sprintf('$ref resolves to /definitions/base_foo, data validates, %s', $uriDescription) => [
+                'data' => 1,
+                'valid' => true,
+                'documentUri' => $documentUri,
+            ];
+        }
     }
 
     /**

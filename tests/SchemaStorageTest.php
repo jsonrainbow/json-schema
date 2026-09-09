@@ -283,6 +283,182 @@ class SchemaStorageTest extends TestCase
         $this->assertEquals('uri-reference', $draft_04->properties->id->format);
     }
 
+    /**
+     * A nested id changes the base uri for everything below it, so a relative id must be
+     * resolved against the closest enclosing id rather than against the document uri.
+     *
+     * @dataProvider nestedIdDocumentUriProvider
+     */
+    public function testNestedRelativeIdIsResolvedAgainstEnclosingId(string $documentUri): void
+    {
+        $schema = json_decode(<<<'JSON'
+            {
+                "id": "http://localhost:1234/sibling_id/base/",
+                "definitions": {
+                    "foo": {
+                        "id": "http://localhost:1234/sibling_id/foo.json",
+                        "type": "string"
+                    },
+                    "base_foo": {
+                        "$comment": "this canonical uri is http://localhost:1234/sibling_id/base/foo.json",
+                        "id": "foo.json",
+                        "type": "number"
+                    }
+                }
+            }
+JSON
+        , false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema($documentUri, $schema);
+
+        $this->assertEquals(
+            $schema->definitions->foo,
+            $schemaStorage->getSchema('http://localhost:1234/sibling_id/foo.json')
+        );
+        $this->assertEquals(
+            $schema->definitions->base_foo,
+            $schemaStorage->getSchema('http://localhost:1234/sibling_id/base/foo.json')
+        );
+    }
+
+    public function nestedIdDocumentUriProvider(): \Generator
+    {
+        yield 'document uri matching the root id' => ['http://localhost:1234/sibling_id/base/'];
+        yield 'internal document uri' => [SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI];
+        // a document uri without a path used to make the relative id unresolvable
+        yield 'internal document uri without a path' => ['internal://mySchema'];
+    }
+
+    /**
+     * @dataProvider subschemaRegistrationProvider
+     *
+     * @param list<string> $expectedUris
+     * @param list<string> $unexpectedUris
+     */
+    public function testSubschemasAreRegisteredUnderTheirCanonicalUri(
+        string $schema,
+        array $expectedUris,
+        array $unexpectedUris
+    ): void {
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root/', json_decode($schema, false));
+
+        $reflection = new \ReflectionObject($schemaStorage);
+        $property = $reflection->getProperty('schemas');
+        if (PHP_VERSION_ID < 80100) {
+            $property->setAccessible(true);
+        }
+        $registered = array_keys($property->getValue($schemaStorage));
+
+        foreach ($expectedUris as $expectedUri) {
+            $this->assertContains($expectedUri, $registered);
+        }
+        foreach ($unexpectedUris as $unexpectedUri) {
+            $this->assertNotContains($unexpectedUri, $registered);
+        }
+    }
+
+    public function subschemaRegistrationProvider(): \Generator
+    {
+        yield 'a relative id is resolved once, not against itself again' => [
+            'schema' => '{"definitions": {"a": {"id": "nested/schema.json", "type": "number",
+                "definitions": {"b": {"id": "deep.json", "type": "string"}}}}}',
+            'expectedUris' => [
+                'http://example.org/root/nested/schema.json',
+                'http://example.org/root/nested/deep.json',
+            ],
+            'unexpectedUris' => ['http://example.org/root/nested/nested/deep.json'],
+        ];
+
+        yield 'an id on an array item changes the base uri below it' => [
+            'schema' => '{"allOf": [{"id": "sub/", "definitions": {"b": {"id": "b.json", "type": "number"}}}]}',
+            'expectedUris' => ['http://example.org/root/sub/b.json'],
+            'unexpectedUris' => ['http://example.org/root/b.json'],
+        ];
+
+        yield 'an id inside an enum value is not an identifier' => [
+            'schema' => '{"enum": [{"wrapper": {"id": "leaked.json", "type": "string"}}]}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'an id inside a const value is not an identifier' => [
+            'schema' => '{"const": {"wrapper": {"id": "leaked.json", "type": "string"}}}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'a subschema named enum is still a subschema' => [
+            'schema' => '{"properties": {"enum": {"id": "real.json", "type": "string"}}}',
+            'expectedUris' => ['http://example.org/root/real.json'],
+            'unexpectedUris' => [],
+        ];
+
+        yield 'an id bearing subschema without a type is still registered' => [
+            'schema' => '{"$defs": {"baz": {"$id": "baz/", "$defs": {"x": {"$id": "x.json", "type": "string"}}}}}',
+            'expectedUris' => ['http://example.org/root/baz/', 'http://example.org/root/baz/x.json'],
+            'unexpectedUris' => ['http://example.org/root/x.json'],
+        ];
+
+        yield 'a subschema named const is still traversed' => [
+            'schema' => '{"properties": {"const": {"definitions": {"x": {"id": "deep.json", "type": "string"}}}}}',
+            'expectedUris' => ['http://example.org/root/deep.json'],
+            'unexpectedUris' => [],
+        ];
+    }
+
+    /**
+     * A relative root id that is identical to the uri the document is registered under must
+     * not be resolved against itself, or every nested id below it is misregistered.
+     */
+    public function testRelativeRootIdEqualToTheRegistrationUriIsNotResolvedTwice(): void
+    {
+        $schema = json_decode('{"id": "test/schema", "definitions": {"a": {"id": "deep.json", "type": "string"}}}', false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('test/schema', $schema);
+
+        $reflection = new \ReflectionObject($schemaStorage);
+        $property = $reflection->getProperty('schemas');
+        if (PHP_VERSION_ID < 80100) {
+            $property->setAccessible(true);
+        }
+        $registered = array_keys($property->getValue($schemaStorage));
+
+        $this->assertContains('file://' . getcwd() . '/test/deep.json', $registered);
+        $this->assertNotContains('file://' . getcwd() . '/test/test/deep.json', $registered);
+    }
+
+    /**
+     * A subschema named after a keyword must be traversed by expandRefs() on the same terms
+     * the scanner registers it on, otherwise it is registered with unexpanded references.
+     */
+    public function testRefsInsideASubschemaNamedAfterAKeywordAreExpanded(): void
+    {
+        $schema = json_decode(<<<'JSON'
+            {
+                "definitions": {
+                    "enum": {
+                        "id": "named.json",
+                        "type": "object",
+                        "properties": {"p": {"$ref": "#/definitions/target"}}
+                    },
+                    "target": {"type": "integer"}
+                }
+            }
+JSON
+        , false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root/', $schema);
+
+        $this->assertEquals(
+            'http://example.org/root/named.json#/definitions/target',
+            $schemaStorage->getSchema('http://example.org/root/named.json')->properties->p->{'$ref'}
+        );
+    }
+
     public function testNoDoubleResolve(): void
     {
         $schemaOne = json_decode('{"id": "test/schema", "$ref": "../test2/schema2"}');
