@@ -189,6 +189,17 @@ class UriResolverTest extends TestCase
         );
     }
 
+    public function testResolveEmptyDropsTheFragmentOfTheBase(): void
+    {
+        $this->assertEquals(
+            'http://example.org/foo/bar.json?q=1',
+            $this->resolver->resolve(
+                '',
+                'http://example.org/foo/bar.json?q=1#frag'
+            )
+        );
+    }
+
     /**
      * @dataProvider queryAndFragmentInheritanceCases
      */
@@ -212,12 +223,15 @@ class UriResolverTest extends TestCase
             'reference with its own fragment' => ['http://example.org/foo/bar.json#f2', 'bar.json#f2', $base],
             'reference with both' => ['http://example.org/foo/bar.json?new#f2', 'bar.json?new#f2', $base],
             'absolute path reference' => ['http://example.org/abs.json', '/abs.json', $base],
-            // a reference without a path keeps the query of the base
+            // a reference without a path or query of its own keeps the query of the base
             'bare fragment' => [
                 'http://example.org/schema.json?q=1#/definitions/x',
                 '#/definitions/x',
                 'http://example.org/schema.json?q=1',
             ],
+            // an empty query is supplied, not absent, so it replaces the one of the base
+            'empty query' => ['http://example.org/foo/x.json', '?', $base],
+            'empty query with a fragment' => ['http://example.org/foo/x.json#f2', '?#f2', $base],
         ];
     }
 

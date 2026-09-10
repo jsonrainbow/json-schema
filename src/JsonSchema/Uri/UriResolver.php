@@ -93,7 +93,7 @@ class UriResolver implements UriResolverInterface
             }
         }
 
-        if ($uri == '') {
+        if ($uri === '' && (null === $baseUri || '' === $baseUri)) {
             return $baseUri;
         }
 
@@ -108,15 +108,16 @@ class UriResolver implements UriResolverInterface
 
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
 
-        // RFC 3986 section 5.3: a reference carrying a path replaces the query of the base,
-        // whether or not it has one of its own. Only a reference without a path, such as a
-        // bare fragment, keeps it.
-        if ('' !== $path) {
+        // RFC 3986 section 5.2.2: the query of the base survives only for a reference that
+        // carries neither a path nor a query of its own, such as a bare fragment. parse()
+        // cannot tell an empty query from an absent one, both being '', so the delimiter is
+        // looked for in the reference itself.
+        $hasQuery = false !== strpos(explode('#', $uri, 2)[0], '?');
+
+        if ('' !== $path || $hasQuery) {
             unset($baseComponents['query']);
         }
-        // parse() reports an empty query for a bare fragment, and generate() drops an empty
-        // one anyway, so only a query with a value is carried over
-        if (isset($components['query']) && '' !== $components['query']) {
+        if ($hasQuery && '' !== $components['query']) {
             $baseComponents['query'] = $components['query'];
         }
 
