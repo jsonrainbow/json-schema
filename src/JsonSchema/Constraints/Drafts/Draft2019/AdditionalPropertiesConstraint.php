@@ -58,7 +58,10 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         if (is_object($schema->additionalProperties)) {
             foreach ($additionalProperties as $key => $additionalPropertiesValue) {
                 $schemaConstraint = $this->factory->createInstanceFor('schema');
-                $schemaConstraint->check($additionalPropertiesValue, $schema->additionalProperties, $path, $i); // @todo increment path
+                $propertyPath = ($path ?? new JsonPointer(''))->withPropertyPaths(
+                    array_merge(($path ?? new JsonPointer(''))->getPropertyPaths(), [$key])
+                );
+                $schemaConstraint->check($additionalPropertiesValue, $schema->additionalProperties, $propertyPath, $i);
                 if ($schemaConstraint->isValid()) {
                     unset($additionalProperties[$key]);
                 }
@@ -66,7 +69,10 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         }
 
         foreach ($additionalProperties as $key => $additionalPropertiesValue) {
-            $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $path, ['found' => $key]);
+            $propertyPath = ($path ?? new JsonPointer(''))->withPropertyPaths(
+                array_merge(($path ?? new JsonPointer(''))->getPropertyPaths(), [$key])
+            );
+            $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), $propertyPath, ['found' => $key]);
         }
     }
 
@@ -91,3 +97,4 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         return '/' . str_replace('/', '\/', $pattern) . '/u';
     }
 }
+
