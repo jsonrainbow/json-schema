@@ -1,3 +1,10 @@
+MethodException: 
+Line |
+   2 |  … tedPropertiesTest.php'; $s=$s.Replace([char]13+[char]10,[char]10); $s
+     |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Cannot convert argument "oldChar", with value: "
+", for "Replace" to type "System.Char": "Cannot convert value "
+" to type "System.Char". Error: "String must be exactly one character long.""
 <?php
 
 declare(strict_types=1);
