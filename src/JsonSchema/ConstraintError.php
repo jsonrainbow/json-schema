@@ -25,6 +25,7 @@ class ConstraintError extends Enum
     public const FORMAT_DATE = 'dateFormat';
     public const FORMAT_DATE_TIME = 'dateTimeFormat';
     public const FORMAT_DATE_UTC = 'dateUtcFormat';
+    public const FORMAT_DURATION = 'durationFormat';
     public const FORMAT_EMAIL = 'emailFormat';
     public const FORMAT_HOSTNAME = 'styleHostName';
     public const FORMAT_IP = 'ipFormat';
@@ -88,6 +89,7 @@ class ConstraintError extends Enum
             self::FORMAT_DATE => 'Invalid date %s, expected format YYYY-MM-DD',
             self::FORMAT_DATE_TIME => 'Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm',
             self::FORMAT_DATE_UTC => 'Invalid time %s, expected integer of milliseconds since Epoch',
+            self::FORMAT_DURATION => 'Invalid duration %s, expected ISO 8601 duration such as P1DT12H',
             self::FORMAT_EMAIL => 'Invalid email',
             self::FORMAT_HOSTNAME => 'Invalid hostname',
             self::FORMAT_IP => 'Invalid IP address',

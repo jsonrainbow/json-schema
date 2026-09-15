@@ -54,6 +54,11 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_DATE_UTC(), $path, ['value' => $value, 'format' => $schema->format]);
                 }
                 break;
+            case 'duration':
+                if (!$this->validateDuration($value)) {
+                    $this->addError(ConstraintError::FORMAT_DURATION(), $path, ['value' => $value, 'format' => $schema->format]);
+                }
+                break;
             case 'regex':
                 if (!$this->validateRegex($value)) {
                     $this->addError(ConstraintError::FORMAT_REGEX(), $path, ['value' => $value, 'format' => $schema->format]);
@@ -347,5 +352,16 @@ class FormatConstraint implements ConstraintInterface
     private function validateUuid(string $value): bool
     {
         return preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iD', $value) === 1;
+    }
+
+    /**
+     * Validates against the duration ABNF from RFC 3339 Appendix A.
+     */
+    private function validateDuration(string $value): bool
+    {
+        $time = 'T(?:[0-9]+H(?:[0-9]+M(?:[0-9]+S)?)?|[0-9]+M(?:[0-9]+S)?|[0-9]+S)';
+        $date = '(?:[0-9]+D|[0-9]+M(?:[0-9]+D)?|[0-9]+Y(?:[0-9]+M(?:[0-9]+D)?)?)';
+
+        return preg_match('/^P(?:' . $date . '(?:' . $time . ')?|' . $time . '|[0-9]+W)$/D', $value) === 1;
     }
 }
