@@ -25,6 +25,7 @@ class ConstraintError extends Enum
     public const FORMAT_DATE = 'dateFormat';
     public const FORMAT_DATE_TIME = 'dateTimeFormat';
     public const FORMAT_DATE_UTC = 'dateUtcFormat';
+    public const FORMAT_DURATION = 'durationFormat';
     public const FORMAT_EMAIL = 'emailFormat';
     public const FORMAT_HOSTNAME = 'styleHostName';
     public const FORMAT_IP = 'ipFormat';
@@ -36,6 +37,7 @@ class ConstraintError extends Enum
     public const FORMAT_URI_TEMPLATE = 'uriTemplateFormat';
     public const FORMAT_URL = 'urlFormat';
     public const FORMAT_URL_REF = 'urlRefFormat';
+    public const FORMAT_UUID = 'uuidFormat';
     public const INVALID_SCHEMA = 'invalidSchema';
     public const LENGTH_MAX = 'maxLength';
     public const LENGTH_MIN = 'minLength';
@@ -87,6 +89,7 @@ class ConstraintError extends Enum
             self::FORMAT_DATE => 'Invalid date %s, expected format YYYY-MM-DD',
             self::FORMAT_DATE_TIME => 'Invalid date-time %s, expected format YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss+hh:mm',
             self::FORMAT_DATE_UTC => 'Invalid time %s, expected integer of milliseconds since Epoch',
+            self::FORMAT_DURATION => 'Invalid duration %s, expected ISO 8601 duration such as P1DT12H',
             self::FORMAT_EMAIL => 'Invalid email',
             self::FORMAT_HOSTNAME => 'Invalid hostname',
             self::FORMAT_IP => 'Invalid IP address',
@@ -98,6 +101,7 @@ class ConstraintError extends Enum
             self::FORMAT_URI_TEMPLATE => 'Invalid URI template format',
             self::FORMAT_URL => 'Invalid URL format',
             self::FORMAT_URL_REF => 'Invalid URL reference format',
+            self::FORMAT_UUID => 'Invalid UUID format',
             self::LENGTH_MAX => 'Must be at most %d characters long',
             self::INVALID_SCHEMA => 'Schema is not valid',
             self::LENGTH_MIN => 'Must be at least %d characters long',

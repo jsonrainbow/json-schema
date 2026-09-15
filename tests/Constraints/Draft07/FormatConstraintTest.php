@@ -42,6 +42,7 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'Date-time format with value containing null byte' => ["2020-01-01T12:34:56\x00", 'date-time'];
         yield 'Date format with value containing null byte' => ["2020-01-01\x00", 'date'];
         yield 'Time format with value containing null byte' => ["13:37:00\x00", 'time'];
+        yield 'Date-time format with trailing new line' => ["1985-04-12T23:20:50Z\n", 'date-time'];
     }
 
     public function getValidFormats(): Generator

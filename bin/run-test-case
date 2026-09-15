@@ -150,7 +150,7 @@ if ($testDesc !== null && $foundTest === null) {
 }
 
 // Determine check mode (mirrors JsonSchemaTestSuiteTest::getCheckModeForDraft)
-$checkMode = in_array($draft, ['draft6', 'draft7'], true)
+$checkMode = in_array($draft, ['draft6', 'draft7', 'draft2019-09'], true)
     ? Constraint::CHECK_MODE_NORMAL | Constraint::CHECK_MODE_STRICT
     : Constraint::CHECK_MODE_NORMAL;
 
