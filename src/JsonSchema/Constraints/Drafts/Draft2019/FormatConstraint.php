@@ -102,7 +102,11 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_URI_TEMPLATE(), $path, ['format' => $schema->format]);
                 }
                 break;
-
+            case 'uuid':
+                if (!$this->validateUuid($value)) {
+                    $this->addError(ConstraintError::FORMAT_UUID(), $path, ['format' => $schema->format]);
+                }
+                break;
             case 'email':
                 if (filter_var($value, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE) === null) {
                     $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
@@ -338,5 +342,10 @@ class FormatConstraint implements ConstraintInterface
             '/^(?:[^\{\}]*|\{[a-zA-Z0-9_:%\/\.~\-\+\*]+\})*$/',
             $value
         ) === 1;
+    }
+
+    private function validateUuid(string $value): bool
+    {
+        return preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iD', $value) === 1;
     }
 }

@@ -36,6 +36,7 @@ class ConstraintError extends Enum
     public const FORMAT_URI_TEMPLATE = 'uriTemplateFormat';
     public const FORMAT_URL = 'urlFormat';
     public const FORMAT_URL_REF = 'urlRefFormat';
+    public const FORMAT_UUID = 'uuidFormat';
     public const INVALID_SCHEMA = 'invalidSchema';
     public const LENGTH_MAX = 'maxLength';
     public const LENGTH_MIN = 'minLength';
@@ -98,6 +99,7 @@ class ConstraintError extends Enum
             self::FORMAT_URI_TEMPLATE => 'Invalid URI template format',
             self::FORMAT_URL => 'Invalid URL format',
             self::FORMAT_URL_REF => 'Invalid URL reference format',
+            self::FORMAT_UUID => 'Invalid UUID format',
             self::LENGTH_MAX => 'Must be at most %d characters long',
             self::INVALID_SCHEMA => 'Schema is not valid',
             self::LENGTH_MIN => 'Must be at least %d characters long',
