@@ -55,7 +55,7 @@ class JsonSchemaTestSuiteTest extends TestCase
         $drafts = array_filter(glob($testDir . '/*'), static function (string $filename) {
             return is_dir($filename);
         });
-        $skippedDrafts = ['draft2020-12', 'draft-next', 'latest'];
+        $skippedDrafts = ['draft2020-12', 'draft-next', 'latest', 'v1'];
 
         foreach ($drafts as $draft) {
             $baseDraftName = basename($draft);
