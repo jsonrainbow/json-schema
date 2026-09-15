@@ -12,6 +12,7 @@
          stopOnFailure="false"
          bootstrap="vendor/autoload.php"
          verbose="true"
+         failOnWarning="true"
 >
     <testsuites>
         <testsuite name="JSON Schema Test Suite">
