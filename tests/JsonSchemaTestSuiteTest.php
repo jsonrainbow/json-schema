@@ -140,8 +140,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             // Skipping complex edge cases for now
-            '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
             '[draft6/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
             '[draft6/ref.json]: ref overrides any sibling keywords: ref valid, maxItems ignored is expected to be valid',
             '[draft6/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
@@ -150,8 +148,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
-            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
             '[draft7/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
             '[draft7/ref.json]: ref overrides any sibling keywords: ref valid, maxItems ignored is expected to be valid',
             '[draft7/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
@@ -250,8 +246,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/ref.json]: ref with absolute-path-reference: an integer is invalid is expected to be invalid',
             '[draft2019-09/ref.json]: order of evaluation: $id and $ref on nested schema: data is invalid against nested sibling is expected to be invalid',
             '[draft2019-09/ref.json]: $ref with $recursiveAnchor: extra items disallowed for root is expected to be invalid',
-            '[draft2019-09/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft2019-09/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems false: with unevaluated items is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems as schema: with invalid unevaluated items is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems with tuple: with unevaluated items is expected to be invalid',
@@ -711,12 +705,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/uri-template.json]: format: uri-template: a space in a literal is invalid is expected to be invalid',
             '[draft2019-09/optional/format/uri-template.json]: format: uri-template: a delete character in a literal is invalid is expected to be invalid',
             // Optional unknown keyword: Not yet implemented
-            '[draft6/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft6/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
-            '[draft7/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft7/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
-            '[draft2019-09/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft2019-09/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
