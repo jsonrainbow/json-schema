@@ -58,6 +58,23 @@ class UnevaluatedPropertiesTest extends BaseTestCase
     public function getValidTests(): \Generator
     {
         yield [
+            '{"foo":"foo","bar":"bar","qux":"qux","trigger":"on"}',
+            '{
+                "$schema":"' . DraftIdentifiers::DRAFT_2019_09 . '",
+                "type":"object",
+                "properties":{"trigger":{"type":"string"}},
+                "unevaluatedProperties":false,
+                "allOf":[true,{"properties":{"foo":{"type":"string"}}}],
+                "anyOf":[true,{"properties":{"bar":{"type":"string"}}}],
+                "oneOf":[true],
+                "if":true,
+                "then":{"properties":{"qux":{"type":"string"}}},
+                "dependentSchemas":{"trigger":true}
+            }',
+            Constraint::CHECK_MODE_STRICT,
+        ];
+
+        yield [
             '{"hello":"world","world":"hello"}',
             '{
                 "$schema":"' . DraftIdentifiers::DRAFT_2019_09 . '",

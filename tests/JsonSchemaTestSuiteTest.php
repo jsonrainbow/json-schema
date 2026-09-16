@@ -204,9 +204,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier path with absolute URI is expected to be invalid',
             '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier name with base URI change in subschema is expected to be invalid',
             '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier path with base URI change in subschema is expected to be invalid',
-            '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties + single cyclic ref: Unevaluated on 1st level is invalid is expected to be invalid',
-            '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties + single cyclic ref: Unevaluated on 2nd level is invalid is expected to be invalid',
-            '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties + single cyclic ref: Unevaluated on 3rd level is invalid is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties with $recursiveRef: with no unevaluated properties is expected to be valid', // Recursive references are not supported yet.
             '[draft2019-09/anchor.json]: Location-independent identifier: mismatch is expected to be invalid',
             '[draft2019-09/anchor.json]: Location-independent identifier with absolute URI: mismatch is expected to be invalid',

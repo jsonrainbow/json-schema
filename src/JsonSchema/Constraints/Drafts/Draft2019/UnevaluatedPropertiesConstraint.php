@@ -22,7 +22,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
         $this->initialiseErrorBag($this->factory);
     }
 
-    public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
+    public function check(& $value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
         if (!is_object($schema) || !property_exists($schema, 'unevaluatedProperties') || !is_object($value)) {
             return;
@@ -58,18 +58,15 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
     }
 
     /**
-     * @param object             $schema
-     * @param object             $value
+     * The validator does not propagate annotations between applicators, so this
+     * constraint derives the evaluated property names from the supported schema branches.
+     *
      * @param array<int, string> $visitedRefs
      *
      * @return array<int, string>
      */
-    private function collectEvaluatedProperties($schema, object $value, ?JsonPointer $path = null, array $visitedRefs = []): array
+    private function collectEvaluatedProperties(object $schema, object $value, ?JsonPointer $path = null, array $visitedRefs = []): array
     {
-        if (!is_object($schema)) {
-            return [];
-        }
-
         $evaluated = [];
         if (property_exists($schema, '$ref') && is_string($schema->{'$ref'})) {
             $reference = $schema->{'$ref'};
@@ -130,7 +127,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
 
         if (isset($schema->allOf) && is_array($schema->allOf)) {
             foreach ($schema->allOf as $branch) {
-                if (!$this->schemaIsValid($branch, $value, $path)) {
+                if (!is_object($branch) || !$this->schemaIsValid($branch, $value, $path)) {
                     continue;
                 }
 
@@ -140,7 +137,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
 
         if (isset($schema->anyOf) && is_array($schema->anyOf)) {
             foreach ($schema->anyOf as $branch) {
-                if (!$this->schemaIsValid($branch, $value, $path)) {
+                if (!is_object($branch) || !$this->schemaIsValid($branch, $value, $path)) {
                     continue;
                 }
 
@@ -149,14 +146,18 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
         }
 
         if (isset($schema->oneOf) && is_array($schema->oneOf)) {
+            $validBranchCount = 0;
             $validBranches = [];
             foreach ($schema->oneOf as $branch) {
                 if ($this->schemaIsValid($branch, $value, $path)) {
-                    $validBranches[] = $branch;
+                    ++$validBranchCount;
+                    if (is_object($branch)) {
+                        $validBranches[] = $branch;
+                    }
                 }
             }
 
-            if (count($validBranches) === 1) {
+            if ($validBranchCount === 1 && count($validBranches) === 1) {
                 $evaluated = array_merge(
                     $evaluated,
                     $this->collectEvaluatedProperties($validBranches[0], $value, $path, $visitedRefs)
@@ -167,18 +168,20 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
         if (property_exists($schema, 'if')) {
             $ifMatches = $this->schemaIsValid($schema->if, $value, $path);
             if ($ifMatches) {
-                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->if, $value, $path, $visitedRefs));
-                if (property_exists($schema, 'then') && $this->schemaIsValid($schema->then, $value, $path)) {
+                if (is_object($schema->if)) {
+                    $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->if, $value, $path, $visitedRefs));
+                }
+                if (property_exists($schema, 'then') && is_object($schema->then) && $this->schemaIsValid($schema->then, $value, $path)) {
                     $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->then, $value, $path, $visitedRefs));
                 }
-            } elseif (property_exists($schema, 'else') && $this->schemaIsValid($schema->else, $value, $path)) {
+            } elseif (property_exists($schema, 'else') && is_object($schema->else) && $this->schemaIsValid($schema->else, $value, $path)) {
                 $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->else, $value, $path, $visitedRefs));
             }
         }
 
         if (isset($schema->dependentSchemas) && is_object($schema->dependentSchemas)) {
             foreach (get_object_vars($schema->dependentSchemas) as $propertyName => $dependentSchema) {
-                if (!array_key_exists($propertyName, $properties) || !$this->schemaIsValid($dependentSchema, $value, $path)) {
+                if (!array_key_exists($propertyName, $properties) || !is_object($dependentSchema) || !$this->schemaIsValid($dependentSchema, $value, $path)) {
                     continue;
                 }
 
