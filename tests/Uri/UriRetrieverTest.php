@@ -314,6 +314,42 @@ EOF;
         $this->assertEquals("{$root}foo/bar.json", $uri);
     }
 
+    /**
+     * The package path is data, not a pattern: a Windows install under C:\Users\4223627 used to
+     * lose its \4 to a backreference. Runs the retriever from a copy of the library installed in
+     * such a path, since the path comes from __DIR__ and cannot be injected.
+     */
+    public function testPackageURITranslationKeepsBackreferenceLikeSequencesOfTheInstallPath(): void
+    {
+        if ('\\' === DIRECTORY_SEPARATOR) {
+            $this->markTestSkipped('A directory name cannot hold a backslash on Windows.');
+        }
+
+        $root = sys_get_temp_dir() . '/json-schema-957-' . uniqid() . '/C\\4223627';
+        self::copyDirectory(__DIR__ . '/../../src', $root . '/src');
+
+        $script = sprintf(
+            'spl_autoload_register(function ($class) { require %s . "/src/" . strtr($class, "\\\\", "/") . ".php"; });'
+                . 'echo (new JsonSchema\Uri\UriRetriever())->translate("package://foo/bar.json");',
+            var_export($root, true)
+        );
+
+        exec(sprintf('%s -r %s', escapeshellarg(PHP_BINARY), escapeshellarg($script)), $output);
+
+        self::assertSame("file://{$root}/foo/bar.json", $output[0] ?? '');
+    }
+
+    private static function copyDirectory(string $from, string $to): void
+    {
+        mkdir($to, 0777, true);
+
+        /** @var \SplFileInfo $file */
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $file) {
+            $target = $to . '/' . substr($file->getPathname(), strlen($from) + 1);
+            $file->isDir() ? mkdir($target) : copy($file->getPathname(), $target);
+        }
+    }
+
     public function testDefaultDistTranslations(): void
     {
         $retriever = new UriRetriever();
