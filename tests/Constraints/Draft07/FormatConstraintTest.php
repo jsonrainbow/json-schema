@@ -48,6 +48,9 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'IRI format with relative reference' => ['/π', 'iri'];
         yield 'IRI reference format with lone percent sign' => ['/π%', 'iri-reference'];
         yield 'IRI format with IPvFuture literal without address' => ['http://[v1.]/', 'iri'];
+        yield 'IDN e-mail format with trailing dot in the domain' => ['δοκιμή@example.com.', 'idn-email'];
+        yield 'IDN e-mail format with consecutive dots in the local part' => ['a..b@example.com', 'idn-email'];
+        yield 'IDN e-mail format with local part exceeding 64 octets' => [str_repeat('a', 65) . '@example.com', 'idn-email'];
     }
 
     public function getValidFormats(): Generator
@@ -58,5 +61,7 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'IRI reference format with long path' => ['/' . str_repeat('π', 100000), 'iri-reference'];
         yield 'IRI format with IPvFuture literal' => ['http://[v1.fe:a]/π', 'iri'];
         yield 'IRI reference format with IPvFuture literal' => ['//[V1.fe]/p', 'iri-reference'];
+        yield 'IDN e-mail format' => ['실례@실례.테스트', 'idn-email'];
+        yield 'IDN e-mail format with quoted local part' => ['"a b"@example.com', 'idn-email'];
     }
 }

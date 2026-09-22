@@ -422,13 +422,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a quoted string containing only a space in the local part is valid is expected to be valid',
             '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a non-ASCII character in the local part is not valid is expected to be invalid',
             '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a single-label domain is valid is expected to be valid',
-            // Optional: idn-email — IDN e-mail format validation is not implemented
-            '[draft7/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: an invalid e-mail address is expected to be invalid',
-            '[draft7/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: an invalid idn e-mail address is expected to be invalid',
-            '[draft7/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: an invalid e-mail/idn e-mail address is expected to be invalid',
-            '[draft7/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: a fullwidth commercial at is not a local-part separator is expected to be invalid',
-            '[draft2019-09/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: an invalid e-mail/idn e-mail address is expected to be invalid',
-            '[draft2019-09/optional/format/idn-email.json]: validation of an internationalized e-mail addresses: a fullwidth commercial at is not a local-part separator is expected to be invalid',
             // Optional: idn-hostname — IDN hostname format validation is not implemented
             '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: Exceptions that are DISALLOWED, left-to-right chars is expected to be invalid',
             '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: Exceptions that are DISALLOWED, right-to-left chars is expected to be invalid',
