@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- fix: Reject percent signs that do not introduce a hex triplet in relative references ([#959](https://github.com/jsonrainbow/json-schema/pull/959))
 - Validate iri and iri-reference formats according to RFC 3987 ([#962](https://github.com/jsonrainbow/json-schema/pull/962))
 - Fix uri-template rejecting non-Latin literals on PCRE2 10.46 ([#961](https://github.com/jsonrainbow/json-schema/pull/961))
 - Validate uri-template format according to RFC 6570 ([#960](https://github.com/jsonrainbow/json-schema/pull/960))
