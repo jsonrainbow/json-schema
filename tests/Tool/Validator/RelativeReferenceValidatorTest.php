@@ -32,6 +32,8 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Empty query and empty fragment' => ['ref' => '?#'];
         yield 'Empty query and fragment' => ['ref' => '?#fragment'];
         yield 'Query and fragment' => ['ref' => '?query#fragment'];
+        yield 'Percent-encoded triplet' => ['ref' => '/%41'];
+        yield 'Percent-encoded triplet in lower case' => ['ref' => '/%c3%a9'];
     }
 
     public function invalidRelativeReferenceDataProvider(): \Generator
@@ -39,5 +41,9 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Absolute URI' => ['ref' => 'http://example.com'];
         yield 'Three slashes' => ['ref' => '///three/slashes'];
         yield 'Path with spaces' => ['ref' => '/path with spaces'];
+        yield 'Lone percent sign' => ['ref' => '/%'];
+        yield 'Incomplete percent-encoding triplet' => ['ref' => '/%A'];
+        yield 'Percent-encoding with non-hex digits' => ['ref' => '/%zz'];
+        yield 'Percent sign in a query' => ['ref' => '?100%'];
     }
 }
