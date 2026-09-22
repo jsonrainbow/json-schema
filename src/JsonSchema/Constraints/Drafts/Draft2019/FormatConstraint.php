@@ -365,9 +365,6 @@ class FormatConstraint implements ConstraintInterface
     }
 
     /**
-     * Validates a URI template according to the ABNF of RFC 6570 section 2.
-     */
-    /**
      * Validates an IRI or, when $allowRelative is set, an IRI reference according to the ABNF of RFC 3987 section 2.2.
      */
     private function validateIri(string $value, bool $allowRelative): bool
@@ -384,7 +381,8 @@ class FormatConstraint implements ConstraintInterface
         };
 
         $scheme = '[A-Za-z][A-Za-z0-9+\-.]*+';
-        $iauthority = '(?:' . $chars(':') . '*+@)?(?:\[(?<ipLiteral>[0-9A-Fa-f:.]++)\]|' . $chars('') . '*+)(?::[0-9]*+)?';
+        $ipvFuture = '[vV][0-9A-Fa-f]++\.[A-Za-z0-9\-._~!$&\'()*+,;=:]++';
+        $iauthority = '(?:' . $chars(':') . '*+@)?(?:\[(?:(?<ipLiteral>[0-9A-Fa-f:.]++)|' . $ipvFuture . ')\]|' . $chars('') . '*+)(?::[0-9]*+)?';
         $ipathAbempty = '(?:\/' . $chars(':@') . '*+)*+';
         $ipathAbsolute = '\/(?:' . $chars(':@') . '++' . $ipathAbempty . ')?';
         $ipathRootless = $chars(':@') . '++' . $ipathAbempty;
@@ -408,6 +406,9 @@ class FormatConstraint implements ConstraintInterface
         return true;
     }
 
+    /**
+     * Validates a URI template according to the ABNF of RFC 6570 section 2.
+     */
     private function validateUriTemplate(string $value): bool
     {
         $pctEncoded = '%[0-9A-Fa-f]{2}';

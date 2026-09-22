@@ -47,6 +47,7 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'IRI format with trailing new line' => ["http://例え.jp/π\n", 'iri'];
         yield 'IRI format with relative reference' => ['/π', 'iri'];
         yield 'IRI reference format with lone percent sign' => ['/π%', 'iri-reference'];
+        yield 'IRI format with IPvFuture literal without address' => ['http://[v1.]/', 'iri'];
     }
 
     public function getValidFormats(): Generator
@@ -55,5 +56,7 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'URI template format with non-Latin literal' => ['http://例え.jp/π/{term}', 'uri-template'];
         yield 'IRI format with non-Latin characters' => ['http://例え.jp/π?q=日本#frag', 'iri'];
         yield 'IRI reference format with long path' => ['/' . str_repeat('π', 100000), 'iri-reference'];
+        yield 'IRI format with IPvFuture literal' => ['http://[v1.fe:a]/π', 'iri'];
+        yield 'IRI reference format with IPvFuture literal' => ['//[V1.fe]/p', 'iri-reference'];
     }
 }
