@@ -131,6 +131,11 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
                 }
                 break;
+            case 'idn-email':
+                if (!$this->validateInternationalizedEmail($value)) {
+                    $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
+                }
+                break;
             case 'host-name':
             case 'hostname':
                 if (!$this->validateHostname($value)) {
@@ -253,6 +258,37 @@ class FormatConstraint implements ConstraintInterface
         $hostnameRegex = '/^(?!-)(?!.*?[^A-Za-z0-9\-\.])(?:(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?\.)*(?!-)[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$/';
 
         return preg_match($hostnameRegex, $host) === 1;
+    }
+
+    /**
+     * Validates an internationalized e-mail address: a local part according to RFC 6531 section 3.3 and RFC 5321
+     * section 4.1.2, and a domain that is a valid internationalized hostname.
+     */
+    private function validateInternationalizedEmail(string $value): bool
+    {
+        $at = strrpos($value, '@');
+        if ($at === false) {
+            return false;
+        }
+
+        $localPart = substr($value, 0, $at);
+        $domain = substr($value, $at + 1);
+
+        // atext extended with UTF8-non-ascii
+        $atext = '[A-Za-z0-9!#$%&\'*+\-\/=?^_`{|}~]|[^\x00-\x7F]';
+        $dotString = '(?:' . $atext . ')++(?:\.(?:' . $atext . ')++)*+';
+        $quotedString = '"(?:[\x20\x21\x23-\x5B\x5D-\x7E]|[^\x00-\x7F]|\\\\[\x20-\x7E])*+"';
+
+        if (strlen($localPart) > 64 || preg_match('/^(?:' . $dotString . '|' . $quotedString . ')\z/u', $localPart) !== 1) {
+            return false;
+        }
+
+        // Unlike a hostname, the domain of an e-mail address can not be written in its absolute form
+        if (substr($domain, -1) === '.') {
+            return false;
+        }
+
+        return $this->validateInternationalizedHostname($domain);
     }
 
     private function validateInternationalizedHostname(string $host): bool
