@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: Address warning on PHPUnit process due to upstream changes ([#956](https://github.com/jsonrainbow/json-schema/pull/956))
 - Resolve nested schema ids against their enclosing base uri ([#947](https://github.com/jsonrainbow/json-schema/pull/947))
 
+### Added
+- Validate idn-email format ([#963](https://github.com/jsonrainbow/json-schema/pull/963))
+
 ## [6.12.0] - 2026-09-04
 
 ### Fixed
