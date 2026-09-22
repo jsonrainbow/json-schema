@@ -106,6 +106,16 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
                 }
                 break;
+            case 'iri':
+                if (!$this->validateIri($value, false)) {
+                    $this->addError(ConstraintError::FORMAT_URL(), $path, ['format' => $schema->format]);
+                }
+                break;
+            case 'iri-reference':
+                if (!$this->validateIri($value, true)) {
+                    $this->addError(ConstraintError::FORMAT_URL_REF(), $path, ['format' => $schema->format]);
+                }
+                break;
             case 'uri-template':
                 if (!$this->validateUriTemplate($value)) {
                     $this->addError(ConstraintError::FORMAT_URI_TEMPLATE(), $path, ['format' => $schema->format]);
@@ -357,6 +367,47 @@ class FormatConstraint implements ConstraintInterface
     /**
      * Validates a URI template according to the ABNF of RFC 6570 section 2.
      */
+    /**
+     * Validates an IRI or, when $allowRelative is set, an IRI reference according to the ABNF of RFC 3987 section 2.2.
+     */
+    private function validateIri(string $value, bool $allowRelative): bool
+    {
+        // iunreserved and sub-delims; BMP and supplementary ranges are kept in separate classes, as PCRE2 10.46 fails
+        // to match some BMP code points when a single class holds too many ranges.
+        $bmp = 'A-Za-z0-9\-._~!$&\'()*+,;=\x{A0}-\x{D7FF}\x{F900}-\x{FDCF}\x{FDF0}-\x{FFEF}';
+        $supplementary = '\x{10000}-\x{1FFFD}\x{20000}-\x{2FFFD}\x{30000}-\x{3FFFD}\x{40000}-\x{4FFFD}\x{50000}-\x{5FFFD}'
+            . '\x{60000}-\x{6FFFD}\x{70000}-\x{7FFFD}\x{80000}-\x{8FFFD}\x{90000}-\x{9FFFD}\x{A0000}-\x{AFFFD}'
+            . '\x{B0000}-\x{BFFFD}\x{C0000}-\x{CFFFD}\x{D0000}-\x{DFFFD}\x{E1000}-\x{EFFFD}';
+        // Matches runs of characters possessively, keeping long values within the PCRE backtracking limits
+        $chars = static function (string $extraBmp, string $extraSupplementary = '') use ($bmp, $supplementary): string {
+            return '(?:[' . $bmp . $extraBmp . ']++|[' . $supplementary . $extraSupplementary . ']++|%[0-9A-Fa-f]{2})';
+        };
+
+        $scheme = '[A-Za-z][A-Za-z0-9+\-.]*+';
+        $iauthority = '(?:' . $chars(':') . '*+@)?(?:\[(?<ipLiteral>[0-9A-Fa-f:.]++)\]|' . $chars('') . '*+)(?::[0-9]*+)?';
+        $ipathAbempty = '(?:\/' . $chars(':@') . '*+)*+';
+        $ipathAbsolute = '\/(?:' . $chars(':@') . '++' . $ipathAbempty . ')?';
+        $ipathRootless = $chars(':@') . '++' . $ipathAbempty;
+        $ipathNoScheme = $chars('@') . '++' . $ipathAbempty;
+        $iquery = '(?:\?' . $chars(':@\/?\x{E000}-\x{F8FF}', '\x{F0000}-\x{FFFFD}\x{100000}-\x{10FFFD}') . '*+)?';
+        $ifragment = '(?:#' . $chars(':@\/?') . '*+)?';
+
+        $sharedPart = '(?:\/\/' . $iauthority . $ipathAbempty . '|' . $ipathAbsolute . '|)';
+        $pattern = $allowRelative
+            ? '(?:(?:' . $scheme . ':)?' . $sharedPart . '|' . $scheme . ':' . $ipathRootless . '|' . $ipathNoScheme . ')'
+            : $scheme . ':(?:' . $sharedPart . '|' . $ipathRootless . ')';
+
+        if (preg_match('/^' . $pattern . $iquery . $ifragment . '\z/u', $value, $matches) !== 1) {
+            return false;
+        }
+
+        if (isset($matches['ipLiteral']) && $matches['ipLiteral'] !== '') {
+            return filter_var($matches['ipLiteral'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false;
+        }
+
+        return true;
+    }
+
     private function validateUriTemplate(string $value): bool
     {
         $pctEncoded = '%[0-9A-Fa-f]{2}';
