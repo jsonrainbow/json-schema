@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Uri\UriResolver;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class UriResolverTest extends TestCase
@@ -227,7 +226,6 @@ class UriResolverTest extends TestCase
     /**
      * @dataProvider queryAndFragmentInheritanceCases
      */
-    #[DataProvider('queryAndFragmentInheritanceCases')]
     public function testResolveDoesNotInheritQueryAndFragmentFromBase(string $expected, string $uri, string $baseUri): void
     {
         $this->assertEquals($expected, $this->resolver->resolve($uri, $baseUri));
