@@ -212,6 +212,18 @@ class UriResolverTest extends TestCase
         );
     }
 
+    public function testResolveNullIsTreatedAsEmpty(): void
+    {
+        $this->assertNull($this->resolver->resolve(null, null));
+        $this->assertEquals(
+            'http://example.org/foo/bar.json?q=1',
+            $this->resolver->resolve(
+                null,
+                'http://example.org/foo/bar.json?q=1#frag'
+            )
+        );
+    }
+
     public function testResolveEmptyDropsTheFragmentOfTheBase(): void
     {
         $this->assertEquals(

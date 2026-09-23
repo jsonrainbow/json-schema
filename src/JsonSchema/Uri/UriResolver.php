@@ -93,6 +93,9 @@ class UriResolver implements UriResolverInterface
             }
         }
 
+        // a null reference used to pass as an empty one, keep accepting it
+        $uri = (string) $uri;
+
         if ($uri === '' && (null === $baseUri || '' === $baseUri)) {
             return $baseUri;
         }
