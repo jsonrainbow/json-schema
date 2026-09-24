@@ -93,7 +93,10 @@ class UriResolver implements UriResolverInterface
             }
         }
 
-        if ($uri == '') {
+        // a null reference used to pass as an empty one, keep accepting it
+        $uri = (string) $uri;
+
+        if ($uri === '' && (null === $baseUri || '' === $baseUri)) {
             return $baseUri;
         }
 
@@ -112,6 +115,22 @@ class UriResolver implements UriResolverInterface
         }
 
         $baseComponents['path'] = self::combineRelativePathWithBasePath($path, $basePath);
+
+        // RFC 3986 section 5.2.2: the query of the base survives only for a reference that
+        // carries neither a path nor a query of its own, such as a bare fragment. parse()
+        // cannot tell an empty query from an absent one, both being '', so the delimiter is
+        // looked for in the reference itself.
+        $hasQuery = false !== strpos(explode('#', $uri, 2)[0], '?');
+
+        if ('' !== $path || $hasQuery) {
+            unset($baseComponents['query']);
+        }
+        if ($hasQuery && '' !== $components['query']) {
+            $baseComponents['query'] = $components['query'];
+        }
+
+        // the fragment always comes from the reference and is never inherited
+        unset($baseComponents['fragment']);
         if (isset($components['fragment'])) {
             $baseComponents['fragment'] = $components['fragment'];
         }
