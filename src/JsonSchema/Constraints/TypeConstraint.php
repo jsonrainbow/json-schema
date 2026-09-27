@@ -248,10 +248,10 @@ class TypeConstraint extends Constraint
      */
     protected function toBoolean($value)
     {
-        if ($value === 1 || $value === 'true') {
+        if ($value === 1 || $value === '1' || $value === 'true') {
             return true;
         }
-        if (is_null($value) || $value === 0 || $value === 'false') {
+        if (is_null($value) || $value === 0 || $value === '0' || $value === 'false') {
             return false;
         }
         if ($this->getTypeCheck()->isArray($value) && count($value) === 1) {
