@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Fix: Coerce quoted 0 and 1 to booleans ([#965](https://github.com/jsonrainbow/json-schema/pull/965))
 - Fix badge URL for Draft 2019-09 in README ([#964](https://github.com/jsonrainbow/json-schema/pull/964))
 
 ## [6.13.0] - 2026-09-23
