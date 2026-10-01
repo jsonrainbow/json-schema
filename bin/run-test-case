@@ -34,10 +34,10 @@ foreach ($argv as $arg) {
     }
 }
 
-if (count($arArgs) < 2 || isset($arOptions['--help']) || isset($arOptions['-h'])) {
+if (count($arArgs) < 1 || isset($arOptions['--help']) || isset($arOptions['-h'])) {
     echo <<<HLP
 Run JSON Schema test suite test cases
-Usage: run-test-case <test-file> "<group description>[/<test description>]"
+Usage: run-test-case <test-file> ["<group description>[/<test description>]"]
 
 Arguments:
   test-file     Path to a test JSON file. Resolved in order:
@@ -46,6 +46,7 @@ Arguments:
   description   "<group>" or "<group>/<test>" — split on the first "/" only.
                 Exact match is tried first, then case-insensitive substring.
                 Omit the test part to run all tests in the group.
+                Omit the description to run every group in the file.
 
 Options:
   -v --verbose  Also print the schema
@@ -53,7 +54,8 @@ Options:
 
 Exit codes:
   0  All matched tests passed
-  1  At least one test failed
+  1  At least one test failed (or errored during validation when running
+     more than a single test)
   2  Usage error, file not found, or group/test not found
 
 HLP;
@@ -81,9 +83,14 @@ if (preg_match('/(draft[^\/]+)/i', str_replace('\\', '/', $filePath), $m)) {
 }
 
 // Parse "<group>/<test>" — split on first "/" only so slashes in test descriptions are preserved
-$descParts = explode('/', $arArgs[1], 2);
-$groupDesc = $descParts[0];
-$testDesc  = $descParts[1] ?? null;
+$description = $arArgs[1] ?? null;
+$groupDesc   = null;
+$testDesc    = null;
+if ($description !== null) {
+    $descParts = explode('/', $description, 2);
+    $groupDesc = $descParts[0];
+    $testDesc  = $descParts[1] ?? null;
+}
 
 // Load test file
 $contents = json_decode((string) file_get_contents($filePath), false);
@@ -98,55 +105,57 @@ $foundGroup   = null;
 $foundTest    = null;
 $matchedGroup = null;
 
-foreach ([true, false] as $exact) {
-    foreach ($contents as $group) {
-        $groupMatch = $exact
-            ? $group->description === $groupDesc
-            : stripos($group->description, $groupDesc) !== false;
+if ($groupDesc !== null) {
+    foreach ([true, false] as $exact) {
+        foreach ($contents as $group) {
+            $groupMatch = $exact
+                ? $group->description === $groupDesc
+                : stripos($group->description, $groupDesc) !== false;
 
-        if (!$groupMatch) {
-            continue;
-        }
+            if (!$groupMatch) {
+                continue;
+            }
 
-        if ($testDesc === null) {
-            $foundGroup = $group;
-            break 2;
-        }
-
-        $matchedGroup = $group;
-
-        foreach ($group->tests as $test) {
-            $testMatch = $exact
-                ? $test->description === $testDesc
-                : stripos($test->description, $testDesc) !== false;
-
-            if ($testMatch) {
+            if ($testDesc === null) {
                 $foundGroup = $group;
-                $foundTest  = $test;
-                break 3;
+                break 2;
+            }
+
+            $matchedGroup = $group;
+
+            foreach ($group->tests as $test) {
+                $testMatch = $exact
+                    ? $test->description === $testDesc
+                    : stripos($test->description, $testDesc) !== false;
+
+                if ($testMatch) {
+                    $foundGroup = $group;
+                    $foundTest  = $test;
+                    break 3;
+                }
             }
         }
     }
-}
 
-if ($matchedGroup === null && $foundGroup === null) {
-    echo "Error: no matching group found for: {$groupDesc}\n";
-    echo "Available groups:\n";
-    foreach ($contents as $group) {
-        echo "  - {$group->description}\n";
+    if ($matchedGroup === null && $foundGroup === null) {
+        echo "Error: no matching group found for: {$groupDesc}\n";
+        echo "Available groups:\n";
+        foreach ($contents as $group) {
+            echo "  - {$group->description}\n";
+        }
+        exit(2);
     }
-    exit(2);
-}
 
-if ($testDesc !== null && $foundTest === null) {
-    echo "Error: no matching test found for: {$testDesc}\n";
-    $listGroup = $matchedGroup ?? $foundGroup;
-    echo "Available tests in \"{$listGroup->description}\":\n";
-    foreach ($listGroup->tests as $test) {
-        $expect = $test->valid ? 'valid' : 'invalid';
-        echo "  [{$expect}] {$test->description}\n";
+    if ($testDesc !== null && $foundTest === null) {
+        echo "Error: no matching test found for: {$testDesc}\n";
+        $listGroup = $matchedGroup ?? $foundGroup;
+        echo "Available tests in \"{$listGroup->description}\":\n";
+        foreach ($listGroup->tests as $test) {
+            $expect = $test->valid ? 'valid' : 'invalid';
+            echo "  [{$expect}] {$test->description}\n";
+        }
+        exit(2);
     }
-    exit(2);
 }
 
 // Determine check mode (mirrors JsonSchemaTestSuiteTest::getCheckModeForDraft)
@@ -160,15 +169,8 @@ try {
     $draftIdentifier = DraftIdentifiers::DRAFT_4();
 }
 
-// Set up validator (mirrors JsonSchemaTestSuiteTest::testTestCaseValidatesCorrectly)
-$schema = $foundGroup->schema;
-$schemaId = is_object($schema) && property_exists($schema, 'id')
-    ? $schema->id
-    : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
-
-$schemaStorage = new SchemaStorage();
-$schemaStorage->addSchema($schemaId, $schema);
-
+// Load remote schemas once; they are registered for every group
+$remotes = [];
 if (is_dir($remotesDir)) {
     $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($remotesDir));
     foreach ($iterator as $info) {
@@ -176,15 +178,29 @@ if (is_dir($remotesDir)) {
             continue;
         }
         $remoteId = str_replace($remotesDir, 'http://localhost:1234', $info->getPathname());
-        $schemaStorage->addSchema($remoteId, json_decode((string) file_get_contents($info->getPathname()), false));
+        $remotes[$remoteId] = json_decode((string) file_get_contents($info->getPathname()), false);
     }
 }
 
-$factory = new Factory($schemaStorage);
-$factory->setDefaultDialect($draftIdentifier->getValue());
+// Set up a factory for a group's schema (mirrors JsonSchemaTestSuiteTest::testTestCaseValidatesCorrectly)
+$createFactory = static function ($schema) use ($remotes, $draftIdentifier): Factory {
+    $schemaId = is_object($schema) && property_exists($schema, 'id')
+        ? $schema->id
+        : SchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI;
 
-/** @param object $test */
-$runTest = static function (object $test) use ($factory, $schema, $checkMode): array {
+    $schemaStorage = new SchemaStorage();
+    $schemaStorage->addSchema($schemaId, $schema);
+    foreach ($remotes as $remoteId => $remote) {
+        $schemaStorage->addSchema($remoteId, $remote);
+    }
+
+    $factory = new Factory($schemaStorage);
+    $factory->setDefaultDialect($draftIdentifier->getValue());
+
+    return $factory;
+};
+
+$runTest = static function (Factory $factory, $schema, object $test) use ($checkMode): array {
     $validator = new Validator($factory);
     try {
         $validator->validate($test->data, $schema, $checkMode);
@@ -201,16 +217,17 @@ $runTest = static function (object $test) use ($factory, $schema, $checkMode): a
 
 $verbose = isset($arOptions['--verbose']) || isset($arOptions['-v']);
 
-// Run all tests in the group when no specific test was requested
-if ($foundTest === null) {
-    echo "Group: {$foundGroup->description}\n";
+// Run all tests in a group, returning [passCount, failCount]
+$runGroup = static function (object $group) use ($createFactory, $runTest, $verbose): array {
+    echo "Group: {$group->description}\n";
     if ($verbose) {
-        echo "Schema: " . json_encode($schema, JSON_PRETTY_PRINT) . "\n";
+        echo "Schema: " . json_encode($group->schema, JSON_PRETTY_PRINT) . "\n";
     }
+    $factory   = $createFactory($group->schema);
     $passCount = 0;
     $failCount = 0;
-    foreach ($foundGroup->tests as $test) {
-        $result = $runTest($test);
+    foreach ($group->tests as $test) {
+        $result = $runTest($factory, $group->schema, $test);
         if (isset($result['error'])) {
             echo sprintf("[ERROR] %s\n", $test->description);
             echo "  Error during validation: {$result['error']}\n";
@@ -233,11 +250,35 @@ if ($foundTest === null) {
             $passCount++;
         }
     }
+
+    return [$passCount, $failCount];
+};
+
+// Run every group in the file when no description was given
+if ($groupDesc === null) {
+    $passCount = 0;
+    $failCount = 0;
+    foreach ($contents as $index => $group) {
+        if ($index > 0) {
+            echo "\n";
+        }
+        [$groupPass, $groupFail] = $runGroup($group);
+        $passCount += $groupPass;
+        $failCount += $groupFail;
+    }
+    echo sprintf("\n%d groups: %d passed, %d failed.\n", count($contents), $passCount, $failCount);
+    exit($failCount > 0 ? 1 : 0);
+}
+
+// Run all tests in the group when no specific test was requested
+if ($foundTest === null) {
+    [$passCount, $failCount] = $runGroup($foundGroup);
     echo "\n{$passCount} passed, {$failCount} failed.\n";
     exit($failCount > 0 ? 1 : 0);
 }
 
-$result = $runTest($foundTest);
+$schema = $foundGroup->schema;
+$result = $runTest($createFactory($schema), $schema, $foundTest);
 
 if (isset($result['error'])) {
     echo "Error during validation: {$result['error']}\n";
