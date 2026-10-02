@@ -8,6 +8,7 @@ use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\EcmaPatternConverter;
 
 class PatternConstraint implements ConstraintInterface
 {
@@ -32,35 +33,11 @@ class PatternConstraint implements ConstraintInterface
             return;
         }
 
-        $matchPattern = $this->createPregMatchPattern($schema->pattern);
+        $matchPattern = EcmaPatternConverter::toPcre($schema->pattern);
         if (preg_match($matchPattern, $value) === 1) {
             return;
         }
 
         $this->addError(ConstraintError::PATTERN(), $path, ['found' => $value, 'pattern' => $schema->pattern]);
-    }
-
-    private function createPregMatchPattern(string $pattern): string
-    {
-        $replacements = [
-            // PCRE with /u makes \d, \D, \w and \W Unicode aware, while ECMA-262 defines
-            // them over ASCII only, so they are narrowed back to their ECMA meaning.
-            '\\D' => '[^0-9]',
-            '\\d' => '[0-9]',
-            '\\w' => '[A-Za-z0-9_]',
-            '\\W' => '[^A-Za-z0-9_]',
-            '\\s' => '[\\s\\x{200B}]', // Explicitly include zero width white space
-            // PCRE rejects the ECMA long property names, so they are mapped to its abbreviations.
-            '\\p{digit}' => '\\p{Nd}',
-            '\\p{Letter}' => '\\p{L}',
-        ];
-
-        $pattern = str_replace(
-            array_keys($replacements),
-            array_values($replacements),
-            $pattern
-        );
-
-        return '/' . str_replace('/', '\/', $pattern) . '/u';
     }
 }

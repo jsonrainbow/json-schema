@@ -8,6 +8,7 @@ use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\EcmaPatternConverter;
 
 class AdditionalPropertiesConstraint implements ConstraintInterface
 {
@@ -47,7 +48,7 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
 
             foreach ($additionalProperties as $key => $_) {
                 foreach ($patterns as $pattern) {
-                    if (preg_match($this->createPregMatchPattern($pattern), (string) $key)) {
+                    if (preg_match(EcmaPatternConverter::toPcre($pattern), (string) $key)) {
                         unset($additionalProperties[$key]);
                         break;
                     }
@@ -73,29 +74,5 @@ class AdditionalPropertiesConstraint implements ConstraintInterface
         foreach ($additionalProperties as $key => $additionalPropertiesValue) {
             $this->addError(ConstraintError::ADDITIONAL_PROPERTIES(), ($path ?? new JsonPointer(''))->withAppendedPath($key), ['found' => $key]);
         }
-    }
-
-    private function createPregMatchPattern(string $pattern): string
-    {
-        $replacements = [
-            // PCRE with /u makes \d, \D, \w and \W Unicode aware, while ECMA-262 defines
-            // them over ASCII only, so they are narrowed back to their ECMA meaning.
-            '\\D' => '[^0-9]',
-            '\\d' => '[0-9]',
-            '\\w' => '[A-Za-z0-9_]',
-            '\\W' => '[^A-Za-z0-9_]',
-            '\\s' => '[\\s\\x{200B}]', // Explicitly include zero width white space
-            // PCRE rejects the ECMA long property names, so they are mapped to its abbreviations.
-            '\\p{digit}' => '\\p{Nd}',
-            '\\p{Letter}' => '\\p{L}',
-        ];
-
-        $pattern = str_replace(
-            array_keys($replacements),
-            array_values($replacements),
-            $pattern
-        );
-
-        return '/' . str_replace('/', '\/', $pattern) . '/u';
     }
 }
