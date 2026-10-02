@@ -31,23 +31,54 @@ class EcmaPatternTest extends VeryBaseTestCase
      */
     public static function provideNonAsciiCases(): array
     {
-        $dialect = '"$schema": "https://json-schema.org/draft/2019-09/schema"';
-
         return [
             'ASCII digit matches \\d in patternProperties' => [
-                '{' . $dialect . ', "patternProperties": {"^\\\\d+$": {"type": "string"}}, "additionalProperties": false}',
+                <<<'JSON'
+                {
+                    "$schema": "https://json-schema.org/draft/2019-09/schema",
+                    "patternProperties": {"^\\d+$": {"type": "string"}},
+                    "additionalProperties": false
+                }
+JSON
+                ,
                 '{"5": "ok"}',
                 true,
             ],
             'Arabic-Indic digit does not match \\d in patternProperties' => [
-                '{' . $dialect . ', "patternProperties": {"^\\\\d+$": {"type": "string"}}, "additionalProperties": false}',
+                <<<'JSON'
+                {
+                    "$schema": "https://json-schema.org/draft/2019-09/schema",
+                    "patternProperties": {"^\\d+$": {"type": "string"}},
+                    "additionalProperties": false
+                }
+JSON
+                ,
                 '{"٣": "ok"}',
                 false,
             ],
             'accented letter does not match \\w in pattern' => [
-                '{' . $dialect . ', "type": "string", "pattern": "^\\\\w+$"}',
+                <<<'JSON'
+                {
+                    "$schema": "https://json-schema.org/draft/2019-09/schema",
+                    "type": "string",
+                    "pattern": "^\\w+$"
+                }
+JSON
+                ,
                 '"é"',
                 false,
+            ],
+            '\\w inside a character class in patternProperties' => [
+                <<<'JSON'
+                {
+                    "$schema": "https://json-schema.org/draft/2019-09/schema",
+                    "patternProperties": {"^[\\w-]+$": {"type": "string"}},
+                    "additionalProperties": false
+                }
+JSON
+                ,
+                '{"foo-bar": "ok"}',
+                true,
             ],
         ];
     }
