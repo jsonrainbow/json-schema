@@ -27,6 +27,8 @@ use JsonSchema\Validator;
  */
 class UriRetriever implements BaseUriRetrieverInterface
 {
+    private const PACKAGE_SCHEME = 'package://';
+
     /**
      * @var array Map of URL translations
      */
@@ -352,7 +354,11 @@ class UriRetriever implements BaseUriRetrieverInterface
         }
 
         // translate references to local files within the json-schema package
-        $uri = preg_replace('|^package://|', sprintf('file://%s/', realpath(__DIR__ . '/../../..')), $uri);
+        // a plain replacement, because the package path is data: a Windows path such as
+        // C:\Users\4223627 would otherwise have its \4 read as a backreference
+        if (0 === strpos($uri, self::PACKAGE_SCHEME)) {
+            $uri = sprintf('file://%s/', realpath(__DIR__ . '/../../..')) . substr($uri, strlen(self::PACKAGE_SCHEME));
+        }
 
         return $uri;
     }
