@@ -406,6 +406,42 @@ JSON
             'expectedUris' => ['http://example.org/root/deep.json'],
             'unexpectedUris' => [],
         ];
+
+        yield 'an id inside a default value is not an identifier' => [
+            'schema' => '{"default": {"wrapper": {"id": "leaked.json", "type": "string"}}}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'an id inside an examples entry is not an identifier' => [
+            'schema' => '{"examples": [{"id": "leaked.json", "type": "string"}]}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'an id inside an unknown keyword holding a list is not an identifier' => [
+            'schema' => '{"not": {"array_of_schemas": [{"id": "leaked.json", "type": "null"}]}}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'an id inside an unknown keyword holding a map is not an identifier' => [
+            'schema' => '{"not": {"object_of_schemas": {"foo": {"id": "leaked.json", "type": "integer"}}}}',
+            'expectedUris' => [],
+            'unexpectedUris' => ['http://example.org/root/leaked.json'],
+        ];
+
+        yield 'an id under a keyword holding a single schema is an identifier' => [
+            'schema' => '{"not": {"id": "real.json", "type": "null"}}',
+            'expectedUris' => ['http://example.org/root/real.json'],
+            'unexpectedUris' => [],
+        ];
+
+        yield 'an id under a keyword holding a tuple is an identifier' => [
+            'schema' => '{"items": [{"id": "first.json", "type": "null"}]}',
+            'expectedUris' => ['http://example.org/root/first.json'],
+            'unexpectedUris' => [],
+        ];
     }
 
     /**

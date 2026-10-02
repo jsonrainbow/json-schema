@@ -15,6 +15,37 @@ class SchemaStorage implements SchemaStorageInterface
     public const INTERNAL_PROVIDED_SCHEMA_URI = 'internal://provided-schema/';
 
     /**
+     * Keywords whose value is a schema.
+     *
+     * 'items' also appears below: it holds a single schema since 2020-12 and a tuple before that.
+     */
+    private const SCHEMA_KEYWORDS = [
+        'additionalItems',
+        'additionalProperties',
+        'contains',
+        'contentSchema',
+        'else',
+        'if',
+        'items',
+        'not',
+        'propertyNames',
+        'then',
+        'unevaluatedItems',
+        'unevaluatedProperties',
+    ];
+
+    /**
+     * Keywords whose value is a list of schemas.
+     */
+    private const SCHEMA_ARRAY_KEYWORDS = [
+        'allOf',
+        'anyOf',
+        'items',
+        'oneOf',
+        'prefixItems',
+    ];
+
+    /**
      * Keywords whose value is a map of subschemas keyed by an arbitrary name, so a member
      * named after a keyword is a schema rather than that keyword's value.
      */
@@ -233,13 +264,11 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         foreach ($schema as $propertyName => $member) {
-            // Enum and const don't allow id as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
-            // Their values are skipped entirely, but a subschema may legitimately be named
-            // 'enum' or 'const', so the enclosing keyword decides which of the two this is.
-            if (
-                in_array($propertyName, ['enum', 'const'], true)
-                && !in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)
-            ) {
+            // An id only identifies a schema, so only positions holding schemas are descended
+            // into. Data positions such as 'default', 'examples', 'enum', 'const' and any unknown
+            // keyword are left alone, and an id written there identifies nothing,
+            // see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471
+            if (!self::holdsSchemas((string) $propertyName, $parentProperty)) {
                 continue;
             }
 
@@ -280,6 +309,23 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         $this->scanMembersForSubschemas($subSchema, $childId, $parentProperty);
+    }
+
+    /**
+     * Whether the member named $propertyName holds schemas rather than data.
+     *
+     * The members of a schema map are named by the schema author, so a member named after a
+     * keyword is a schema there, which is what $parentProperty decides.
+     */
+    private static function holdsSchemas(string $propertyName, string $parentProperty): bool
+    {
+        if (in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)) {
+            return true;
+        }
+
+        return in_array($propertyName, self::SCHEMA_KEYWORDS, true)
+            || in_array($propertyName, self::SCHEMA_ARRAY_KEYWORDS, true)
+            || in_array($propertyName, self::SCHEMA_MAP_KEYWORDS, true);
     }
 
     private function findSchemaIdInObject(object $schema): ?string
