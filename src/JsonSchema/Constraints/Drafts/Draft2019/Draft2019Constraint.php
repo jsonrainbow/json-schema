@@ -69,6 +69,12 @@ class Draft2019Constraint extends Constraint
         $this->checkForKeyword('content', $value, $schema, $path, $i);
     }
 
+    private const KEYWORD_SCHEMA_PROPERTIES = [
+        'ref' => ['$ref'],
+        'ifThenElse' => ['if'],
+        'content' => ['contentMediaType', 'contentEncoding'],
+    ];
+
     /**
      * @param mixed $value
      * @param mixed $schema
@@ -76,9 +82,15 @@ class Draft2019Constraint extends Constraint
      */
     protected function checkForKeyword(string $keyword, $value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        $validator = $this->factory->createInstanceFor($keyword);
-        $validator->check($value, $schema, $path, $i);
+        foreach (self::KEYWORD_SCHEMA_PROPERTIES[$keyword] ?? [$keyword] as $property) {
+            if (property_exists($schema, $property)) {
+                $validator = $this->factory->createInstanceFor($keyword);
+                $validator->check($value, $schema, $path, $i);
 
-        $this->addErrors($validator->getErrors());
+                $this->addErrors($validator->getErrors());
+
+                return;
+            }
+        }
     }
 }
