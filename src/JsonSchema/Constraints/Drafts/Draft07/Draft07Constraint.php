@@ -33,6 +33,11 @@ class Draft07Constraint extends Constraint
 
         // Apply defaults
         $this->checkForKeyword('ref', $value, $schema, $path, $i);
+        if (property_exists($schema, '$ref')) {
+            // All other keywords in a schema containing $ref are ignored
+            return;
+        }
+
         $this->checkForKeyword('required', $value, $schema, $path, $i);
         $this->checkForKeyword('contains', $value, $schema, $path, $i);
         $this->checkForKeyword('properties', $value, $schema, $path, $i);
