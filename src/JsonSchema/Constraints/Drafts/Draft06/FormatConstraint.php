@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\ConstraintError;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
@@ -17,14 +18,18 @@ class FormatConstraint implements ConstraintInterface
 {
     use ErrorBagProxy;
 
+    /** @var Factory */
+    private $factory;
+
     public function __construct(?Factory $factory = null)
     {
-        $this->initialiseErrorBag($factory ?: new Factory());
+        $this->factory = $factory ?: new Factory();
+        $this->initialiseErrorBag($this->factory);
     }
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
-        if (!property_exists($schema, 'format')) {
+        if (!property_exists($schema, 'format') || $this->factory->getConfig(Constraint::CHECK_MODE_DISABLE_FORMAT)) {
             return;
         }
 
