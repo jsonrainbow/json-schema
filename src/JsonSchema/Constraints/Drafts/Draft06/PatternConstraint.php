@@ -38,6 +38,6 @@ class PatternConstraint implements ConstraintInterface
             return;
         }
 
-        $this->addError(ConstraintError::PATTERN(), $path, ['found' => $value, 'pattern' => $schema->pattern]);
+        $this->addError(ConstraintError::PATTERN(), $path, ['pattern' => $schema->pattern, 'found' => $value]);
     }
 }
