@@ -31,6 +31,14 @@ class SchemaStorage implements SchemaStorageInterface
     protected $uriResolver;
     protected $schemas = [];
 
+    /**
+     * Schemas named by a plain-name fragment, keyed by the absolute uri including that fragment:
+     * a fragment-only id in draft-04 to draft-07, or an $anchor in draft 2019-09.
+     *
+     * @var array<string, object>
+     */
+    private $anchors = [];
+
     public function __construct(
         ?UriRetrieverInterface $uriRetriever = null,
         ?UriResolverInterface $uriResolver = null
@@ -86,10 +94,7 @@ class SchemaStorage implements SchemaStorageInterface
         // an id on the document root changes the base uri for the whole document
         $baseId = $id;
         if (is_object($schema)) {
-            $rootId = $this->findSchemaIdInObject($schema);
-            if (is_string($rootId) && $rootId !== $id) {
-                $baseId = $this->uriResolver->resolve($rootId, $id);
-            }
+            $baseId = $this->registerIdentifiers($schema, $id);
         }
 
         $this->scanMembersForSubschemas($schema, $baseId);
@@ -103,24 +108,40 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * Recursively resolve all references against the provided base
      *
+     * $refSeesSiblingId tells whether a $ref is resolved against an id next to it. Since draft
+     * 2019-09 it is, while up to draft-07 a $ref makes its siblings ignored, the id among them.
+     *
      * @param mixed        $schema
      * @param list<string> $propertyStack
      */
-    private function expandRefs(&$schema, ?string $parentId = null, array $propertyStack = []): void
+    private function expandRefs(&$schema, ?string $parentId = null, array $propertyStack = [], bool $refSeesSiblingId = false): void
     {
         if (!is_object($schema)) {
             if (is_array($schema)) {
                 foreach ($schema as &$member) {
-                    $this->expandRefs($member, $parentId);
+                    $this->expandRefs($member, $parentId, [], $refSeesSiblingId);
                 }
             }
 
             return;
         }
 
+        if (property_exists($schema, '$schema') && is_string($schema->{'$schema'})) {
+            $refSeesSiblingId = in_array(
+                rtrim($schema->{'$schema'}, '#'),
+                [DraftIdentifiers::DRAFT_2019_09, DraftIdentifiers::DRAFT_2020_12],
+                true
+            );
+        }
+
+        $childId = is_string($parentId) ? $this->baseUriOf($schema, $parentId) : $parentId;
+
         if (property_exists($schema, '$ref') && is_string($schema->{'$ref'})) {
-            $refPointer = new JsonPointer($this->uriResolver->resolve($schema->{'$ref'}, $parentId));
-            $schema->{'$ref'} = (string) $refPointer;
+            $ref = $this->uriResolver->resolve($schema->{'$ref'}, $refSeesSiblingId ? $childId : $parentId);
+            if (!$this->isAnchorReference($ref)) {
+                $ref = (string) new JsonPointer($ref);
+            }
+            $schema->{'$ref'} = $ref;
         }
 
         $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
@@ -133,15 +154,9 @@ class SchemaStorage implements SchemaStorageInterface
                 continue;
             }
 
-            $schemaId = $this->findSchemaIdInObject($schema);
-            $childId = $parentId;
-            if (is_string($schemaId) && $childId !== $schemaId) {
-                $childId = $this->uriResolver->resolve($schemaId, $childId);
-            }
-
             $clonedPropertyStack = $propertyStack;
             $clonedPropertyStack[] = $propertyName;
-            $this->expandRefs($member, $childId, $clonedPropertyStack);
+            $this->expandRefs($member, $childId, $clonedPropertyStack, $refSeesSiblingId);
         }
     }
 
@@ -162,6 +177,10 @@ class SchemaStorage implements SchemaStorageInterface
      */
     public function resolveRef(string $ref, $resolveStack = [])
     {
+        if ($this->isAnchorReference($ref)) {
+            return $this->resolveAnchor($ref, $resolveStack);
+        }
+
         $jsonPointer = new JsonPointer($ref);
 
         // resolve filename for pointer
@@ -268,18 +287,89 @@ class SchemaStorage implements SchemaStorageInterface
             return;
         }
 
-        $childId = $parentId;
-        $subSchemaId = $this->findSchemaIdInObject($subSchema);
-        if (is_string($subSchemaId)) {
-            // An id nested in the document changes the base uri for everything below it
-            $childId = $this->uriResolver->resolve($subSchemaId, $parentId);
-
-            // Found sub schema. It is registered directly rather than through addSchema(),
-            // which would resolve the already resolved id against itself a second time.
-            $this->schemas[$childId] = $subSchema;
-        }
+        $childId = $this->registerIdentifiers($subSchema, $parentId);
 
         $this->scanMembersForSubschemas($subSchema, $childId, $parentProperty);
+    }
+
+    /**
+     * Register every name a schema object declares and return the base uri for its members
+     *
+     * An id that is more than a fragment establishes a new base uri, under which the object is
+     * registered directly rather than through addSchema(), which would resolve the already
+     * resolved id against itself a second time. A plain-name fragment, whether the whole of a
+     * draft-04 to draft-07 id or a draft 2019-09 $anchor, names the object without moving the base.
+     */
+    private function registerIdentifiers(object $schema, string $parentId): string
+    {
+        $baseId = $this->baseUriOf($schema, $parentId);
+
+        $schemaId = $this->findSchemaIdInObject($schema);
+        if (is_string($schemaId) && $schemaId !== '') {
+            $resolvedId = $this->uriResolver->resolve($schemaId, $parentId);
+            if ($schemaId[0] !== '#') {
+                $this->schemas[$baseId] = $schema;
+            }
+            if ($this->isAnchorReference($resolvedId)) {
+                $this->anchors[$resolvedId] = $schema;
+            }
+        }
+
+        if (property_exists($schema, '$anchor') && is_string($schema->{'$anchor'})) {
+            $this->anchors[$this->uriResolver->resolve('#' . $schema->{'$anchor'}, $baseId)] = $schema;
+        }
+
+        return $baseId;
+    }
+
+    /**
+     * The base uri for the members of a schema object: its id resolved against the base uri it
+     * sits under, without a fragment, as a fragment names a schema but never forms a base.
+     */
+    private function baseUriOf(object $schema, string $parentId): string
+    {
+        $schemaId = $this->findSchemaIdInObject($schema);
+        if (!is_string($schemaId) || $schemaId === '' || $schemaId === $parentId) {
+            return $parentId;
+        }
+
+        return explode('#', $this->uriResolver->resolve($schemaId, $parentId), 2)[0];
+    }
+
+    /**
+     * Whether the fragment of a uri is a plain name (an anchor) rather than a JSON pointer
+     */
+    private function isAnchorReference(string $uri): bool
+    {
+        $fragment = explode('#', $uri, 2)[1] ?? '';
+
+        return $fragment !== '' && $fragment[0] !== '/';
+    }
+
+    /**
+     * Resolve a reference whose fragment is a plain name (an anchor) rather than a JSON pointer
+     *
+     * @param list<object> $resolveStack
+     *
+     * @return mixed
+     */
+    private function resolveAnchor(string $ref, array $resolveStack)
+    {
+        // load the document first, as retrieving it is what registers the anchors it declares
+        $fileName = explode('#', $ref, 2)[0];
+        if ($fileName !== '') {
+            $this->getSchema($fileName);
+        }
+
+        if (!array_key_exists($ref, $this->anchors)) {
+            throw new UnresolvableJsonPointerException(sprintf(
+                'File: %s is found, but could not resolve anchor: %s',
+                $fileName,
+                '#' . explode('#', $ref, 2)[1]
+            ));
+        }
+
+        return $this->resolveRefSchema($this->anchors[$ref], $resolveStack);
     }
 
     private function findSchemaIdInObject(object $schema): ?string
