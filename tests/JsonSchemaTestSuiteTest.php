@@ -225,7 +225,7 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties + single cyclic ref: Unevaluated on 1st level is invalid is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties + single cyclic ref: Unevaluated on 2nd level is invalid is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties + single cyclic ref: Unevaluated on 3rd level is invalid is expected to be invalid',
-            '[draft2019-09/unevaluatedProperties.json]: dynamic evalation inside nested refs: xx + foo is invalid is expected to be invalid',
+            '[draft2019-09/unevaluatedProperties.json]: dynamic evaluation inside nested refs: xx + foo is invalid is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties not affected by propertyNames: string property is invalid is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties can see annotations from if without then and else: invalid in case if is evaluated is expected to be invalid',
             '[draft2019-09/anchor.json]: Location-independent identifier: mismatch is expected to be invalid',
