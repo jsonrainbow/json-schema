@@ -209,11 +209,7 @@ class FormatConstraint implements ConstraintInterface
 
     private function validateRegex(string $regex): bool
     {
-        try {
-            return preg_match(self::jsonPatternToPhpRegex($regex), '') !== false;
-        } catch (\Throwable $e) {
-            return false;
-        }
+        return @preg_match(self::jsonPatternToPhpRegex($regex), '') !== false;
     }
 
     /**
