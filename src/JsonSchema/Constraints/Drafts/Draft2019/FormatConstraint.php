@@ -218,7 +218,7 @@ class FormatConstraint implements ConstraintInterface
 
     private function validateRegex(string $regex): bool
     {
-        return preg_match(self::jsonPatternToPhpRegex($regex), '') !== false;
+        return @preg_match(self::jsonPatternToPhpRegex($regex), '') !== false;
     }
 
     /**
@@ -347,7 +347,7 @@ class FormatConstraint implements ConstraintInterface
                 return false;
             }
 
-            $ascii = idn_to_ascii($label);
+            $ascii = idn_to_ascii($label, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
             if ($ascii === false) {
                 return false;
             }
