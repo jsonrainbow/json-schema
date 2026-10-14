@@ -6,7 +6,7 @@
 ![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fsupported_versions.json)
 
 A PHP Implementation for validating `JSON` Structures against a given `Schema` with support for `Schemas` of Draft-3,
-Draft-4, Draft-6,Draft-7 or Draft 2019-09.
+Draft-4, Draft-6,Draft-7, Draft 2019-09 or Draft 2020-12.
 
 Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview
 of all existing Drafts. See [json-schema](http://json-schema.org/) for more details about the JSON Schema specification
@@ -19,6 +19,7 @@ The documentation for this library is available at [jsonrainbow.github.io/docs](
 ![Draft 6](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft6.json)
 ![Draft 7](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft7.json)
 ![Draft 2019-09](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft2019-09.json)
+![Draft 2020-12](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft2020-12.json)
 
 ## Installation
 
@@ -211,13 +212,16 @@ third argument to `Validator::validate()`, or can be provided as the third argum
 | `Constraint::CHECK_MODE_DISABLE_FORMAT`         | Do not validate "format" constraints                            |
 | `Constraint::CHECK_MODE_VALIDATE_SCHEMA`        | Validate the schema as well as the provided document            |
 | `Constraint::CHECK_MODE_STRICT` [^3]            | Validate the scheme using strict mode using the specified draft |
+| `Constraint::CHECK_MODE_FORMAT_ASSERTION` [^4]  | Validate "format" constraints, which are annotations by default |
 
 [^1]: Please note that using `CHECK_MODE_COERCE_TYPES` or `CHECK_MODE_APPLY_DEFAULTS` will modify your
 original data.
 [^2]: `CHECK_MODE_EARLY_COERCE` has no effect unless used in combination with `CHECK_MODE_COERCE_TYPES`. If
 enabled, the validator will use (and coerce) the first compatible type it encounters, even if the
 schema defines another type that matches directly and does not require coercion.
-[^3]: `CHECK_MODE_STRICT` only can be used for Draft-6, Draft 7 or Draft 2019-09 at this point.
+[^3]: `CHECK_MODE_STRICT` only can be used for Draft-6, Draft 7, Draft 2019-09 or Draft 2020-12 at this point.
+[^4]: `CHECK_MODE_FORMAT_ASSERTION` only affects Draft 2020-12, other drafts validate "format" constraints unless
+`CHECK_MODE_DISABLE_FORMAT` is set. `CHECK_MODE_DISABLE_FORMAT` takes precedence when both are set.
 
 ## Running the tests
 
