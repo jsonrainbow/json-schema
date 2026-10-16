@@ -11,6 +11,8 @@ Draft-4, Draft-6,Draft-7 or Draft 2019-09.
 Features of newer Drafts might not be supported. See [Table of All Versions of Everything](https://json-schema.org/specification-links.html#table-of-all-versions-of-everything) to get an overview
 of all existing Drafts. See [json-schema](http://json-schema.org/) for more details about the JSON Schema specification
 
+The documentation for this library is available at [jsonrainbow.github.io/docs](https://jsonrainbow.github.io/docs/).
+
 # Compliance
 ![Draft 3](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft3.json)
 ![Draft 4](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fphp-justinrainbow-json-schema%2Fcompliance%2Fdraft4.json)
