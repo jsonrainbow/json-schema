@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow bin/run-test-case to run a complete test file ([#966](https://github.com/jsonrainbow/json-schema/pull/966))
 
 ### Fixed
+- fix: Respect CHECK_MODE_DISABLE_FORMAT in Draft-06, Draft-07 and Draft 2019-09 format constraints ([#972](https://github.com/jsonrainbow/json-schema/pull/972))
 - fix: Show the regex instead of the value in the pattern error message ([#974](https://github.com/jsonrainbow/json-schema/pull/974))
 - Apply the same ECMA to PCRE pattern replacements everywhere ([#943](https://github.com/jsonrainbow/json-schema/pull/943))
 - fix: Keep backslash sequences of the install path in package:// translation ([#958](https://github.com/jsonrainbow/json-schema/pull/958))
