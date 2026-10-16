@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Constraints\Draft06;
 
 use Generator;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Drafts\Draft06\FormatConstraint;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 
 class FormatConstraintTest extends VeryBaseTestCase
@@ -34,6 +36,18 @@ class FormatConstraintTest extends VeryBaseTestCase
         $schema->format = $format;
 
         $validator->check($string, $schema);
+
+        $this->assertTrue($validator->isValid());
+    }
+
+    public function testFormatIsIgnoredWhenDisabled(): void
+    {
+        $validator = new FormatConstraint(new Factory(null, null, Constraint::CHECK_MODE_DISABLE_FORMAT));
+        $schema = new \stdClass();
+        $schema->format = 'date';
+        $value = 'not-a-date';
+
+        $validator->check($value, $schema);
 
         $this->assertTrue($validator->isValid());
     }
