@@ -102,6 +102,70 @@ class MinimumMaximumTest extends BaseTestCase
                 }
             }'
         ];
+        yield 'Float minimum is reported without being cast to int' => [
+            '{"value": 1.2}',
+            '{
+                "properties": {
+                    "value": {"type": "number", "minimum": 1.5}
+                }
+            }',
+            null,
+            [[
+                'property' => 'value',
+                'pointer' => '/value',
+                'message' => 'Must have a minimum value greater than or equal to 1.5',
+                'constraint' => ['name' => 'minimum', 'params' => ['minimum' => 1.5]],
+                'context' => 1,
+            ]],
+        ];
+        yield 'Float exclusive minimum is reported without being cast to int' => [
+            '{"value": 1.5}',
+            '{
+                "properties": {
+                    "value": {"type": "number", "minimum": 1.5, "exclusiveMinimum": true}
+                }
+            }',
+            null,
+            [[
+                'property' => 'value',
+                'pointer' => '/value',
+                'message' => 'Must have a minimum value greater than 1.5',
+                'constraint' => ['name' => 'exclusiveMinimum', 'params' => ['minimum' => 1.5]],
+                'context' => 1,
+            ]],
+        ];
+        yield 'Float maximum is reported without being cast to int' => [
+            '{"value": 2.7}',
+            '{
+                "properties": {
+                    "value": {"type": "number", "maximum": 2.5}
+                }
+            }',
+            null,
+            [[
+                'property' => 'value',
+                'pointer' => '/value',
+                'message' => 'Must have a maximum value less than or equal to 2.5',
+                'constraint' => ['name' => 'maximum', 'params' => ['maximum' => 2.5]],
+                'context' => 1,
+            ]],
+        ];
+        yield 'Float exclusive maximum is reported without being cast to int' => [
+            '{"value": 2.5}',
+            '{
+                "properties": {
+                    "value": {"type": "number", "maximum": 2.5, "exclusiveMaximum": true}
+                }
+            }',
+            null,
+            [[
+                'property' => 'value',
+                'pointer' => '/value',
+                'message' => 'Must have a maximum value less than 2.5',
+                'constraint' => ['name' => 'exclusiveMaximum', 'params' => ['maximum' => 2.5]],
+                'context' => 1,
+            ]],
+        ];
     }
 
     public function getValidTests(): \Generator
