@@ -224,7 +224,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
             '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
             '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
-            // Optional: bignum float comparison — error messages cast large floats to int, which warns on PHP 8.5+ (see #979)
             '[draft3/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
             '[draft3/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
             '[draft4/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
