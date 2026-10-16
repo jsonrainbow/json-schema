@@ -13,7 +13,9 @@ namespace JsonSchema;
 
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
+use JsonSchema\Exception\InvalidSchemaException;
 
 /**
  * A JsonSchema Constraint
@@ -84,9 +86,12 @@ class Validator extends BaseConstraint
                 $dialect = $schema->{'$schema'};
             }
 
-            $validator = $this->factory->createInstanceFor(
-                DraftIdentifiers::byValue($dialect)->toConstraintName()
-            );
+            $constraintName = DraftIdentifiers::byValue($dialect)->toConstraintName();
+            $validator = $this->factory->createInstanceFor($constraintName);
+
+            if ($this->factory->getConfig(Constraint::CHECK_MODE_VALIDATE_SCHEMA)) {
+                $this->validateSchema($schema, $dialect, $constraintName);
+            }
         }
 
         $validator->check($value, $schema);
@@ -95,7 +100,47 @@ class Validator extends BaseConstraint
 
         $this->addErrors(array_unique($validator->getErrors(), SORT_REGULAR));
 
-        return $validator->getErrorMask();
+        return $this->getErrorMask();
+    }
+
+    /**
+     * Validates the schema against the meta-schema of its dialect, using the constraints of that dialect
+     */
+    private function validateSchema(object $schema, string $dialect, string $constraintName): void
+    {
+        $schemaStorage = $this->factory->getSchemaStorage();
+        $metaSchema = $schemaStorage->getSchema($dialect);
+
+        // the meta-schema must neither be validated itself nor modify the schema
+        $factory = new Factory($schemaStorage, $this->factory->getUriRetriever(), $this->factory->getConfig());
+        $factory->removeConfig(Constraint::CHECK_MODE_VALIDATE_SCHEMA | Constraint::CHECK_MODE_APPLY_DEFAULTS);
+        $factory->addConfig(Constraint::CHECK_MODE_TYPE_CAST);
+        $validator = $factory->createInstanceFor($constraintName);
+
+        try {
+            $validator->check($schema, $metaSchema);
+        } catch (\Exception $e) {
+            if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
+                throw new InvalidSchemaException('Schema did not pass validation', 0, $e);
+            }
+        }
+
+        $errors = $validator->getErrors();
+        if (count($errors) === 0) {
+            return;
+        }
+
+        foreach ($errors as &$error) {
+            $error['context'] = self::ERROR_SCHEMA_VALIDATION;
+        }
+        unset($error);
+
+        $this->addErrors($errors);
+
+        $initialContext = $this->factory->getErrorContext();
+        $this->factory->setErrorContext(self::ERROR_SCHEMA_VALIDATION);
+        $this->addError(ConstraintError::INVALID_SCHEMA());
+        $this->factory->setErrorContext($initialContext);
     }
 
     /**
