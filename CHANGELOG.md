@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- feat: support unevaluatedProperties in Draft 2019-09 ([#931](https://github.com/jsonrainbow/json-schema/pull/931))
 - Allow bin/run-test-case to run a complete test file ([#966](https://github.com/jsonrainbow/json-schema/pull/966))
 
 ### Fixed
