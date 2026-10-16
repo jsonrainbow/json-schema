@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: Ignore sibling keywords of $ref in Draft-06 and Draft-07 ([#968](https://github.com/jsonrainbow/json-schema/pull/968))
 - fix: Handle invalid regex patterns from user input ([#969](https://github.com/jsonrainbow/json-schema/pull/969))
 
+### Removed
+- chore: Remove legacy Sphinx docs folder ([#981](https://github.com/jsonrainbow/json-schema/pull/981))
+
 ## [6.13.1] - 2026-09-30
 
 ### Fixed
