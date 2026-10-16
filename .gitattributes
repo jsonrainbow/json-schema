@@ -1,7 +1,11 @@
+# Normalize line endings: store and check out text files as LF on every OS
+* text=auto eol=lf
+
 /.github export-ignore
 /demo export-ignore
 /docs export-ignore
 /tests export-ignore
+/.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /.php-cs-fixer.dist.php export-ignore
