@@ -29,6 +29,23 @@ class DivisibleByTest extends BaseTestCase
                 }
             }'
         ];
+        yield 'Float divisibleBy is reported without being cast to int' => [
+            '{"value": 35}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "integer", "divisibleBy": 1.5}
+                }
+            }',
+            null,
+            [[
+                'property' => 'value',
+                'pointer' => '/value',
+                'message' => 'Is not divisible by 1.5',
+                'constraint' => ['name' => 'divisibleBy', 'params' => ['divisibleBy' => 1.5]],
+                'context' => 1,
+            ]],
+        ];
         yield [
             '{"value": 0.00751}',
             '{
