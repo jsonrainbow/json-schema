@@ -125,24 +125,16 @@ class JsonSchemaTestSuiteTest extends TestCase
     private function shouldNotYieldTest(string $name): bool
     {
         $skip = [
-            '[draft4/ref.json]: refs with quote: object with numbers is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: refs with quote: object with strings is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: Location-independent identifier: match is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: match is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: empty tokens in $ref json-pointer: number is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: integer is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
             '[draft4/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft6/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
             '[draft6/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
-            '[draft6/ref.json]: refs with quote: object with strings is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
-            '[draft6/ref.json]: empty tokens in $ref json-pointer: non-number is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
             // Skipping complex edge cases for now
-            '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft6/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
             '[draft6/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
             '[draft6/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
             '[draft6/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
@@ -150,8 +142,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
             '[draft6/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
-            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft7/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
             '[draft7/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
             '[draft7/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
             '[draft7/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
@@ -179,20 +169,10 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/vocabulary.json]: schema that uses custom metaschema with with no validation vocabulary: no validation: invalid number, but it still validates is expected to be valid',
             '[draft2019-09/vocabulary.json]: ignore unrecognized optional vocabulary: string value is expected to be invalid',
             '[draft2019-09/vocabulary.json]: ignore unrecognized optional vocabulary: number value is expected to be valid',
-            '[draft2019-09/defs.json]: validate definition against metaschema: invalid definition schema is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier name is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier name and no ref is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier path is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier name with absolute URI is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier path with absolute URI is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier name with base URI change in subschema is expected to be invalid',
-            '[draft2019-09/id.json]: Invalid use of fragments in location-independent $id: Identifier path with base URI change in subschema is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties with $recursiveRef: with unevaluated properties is expected to be invalid',
             '[draft2019-09/anchor.json]: Location-independent identifier: mismatch is expected to be invalid',
             '[draft2019-09/anchor.json]: Location-independent identifier with absolute URI: mismatch is expected to be invalid',
             '[draft2019-09/anchor.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid',
-            '[draft2019-09/anchor.json]: $anchor inside an enum is not a real identifier: in implementations that strip $anchor, this may match either $def is expected to be invalid',
-            '[draft2019-09/anchor.json]: $anchor inside an enum is not a real identifier: no match on enum or $ref to $anchor is expected to be invalid',
             '[draft2019-09/anchor.json]: same $anchor with different base uri: $ref does not resolve to /$defs/A/allOf/0 is expected to be invalid',
             '[draft2019-09/ref.json]: ref creates new scope when adjacent to keywords: referenced subschema doesn\'t see annotations from properties is expected to be invalid',
             '[draft2019-09/ref.json]: refs with relative uris and defs: invalid on inner field is expected to be invalid',
@@ -210,8 +190,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/ref.json]: ref with absolute-path-reference: an integer is invalid is expected to be invalid',
             '[draft2019-09/ref.json]: order of evaluation: $id and $ref on nested schema: data is invalid against nested sibling is expected to be invalid',
             '[draft2019-09/ref.json]: $ref with $recursiveAnchor: extra items disallowed for root is expected to be invalid',
-            '[draft2019-09/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft2019-09/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems false: with unevaluated items is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems as schema: with invalid unevaluated items is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems with tuple: with unevaluated items is expected to be invalid',
@@ -244,19 +222,8 @@ class JsonSchemaTestSuiteTest extends TestCase
             // Optional: bignum — PHP does not natively support arbitrary-precision integers/floats
             '[draft3/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
             '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
-            '[draft3/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
             '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
-            '[draft4/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
-            '[draft3/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
             '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
-            '[draft4/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
-            '[draft4/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
-            '[draft6/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
-            '[draft6/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
-            '[draft7/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
-            '[draft7/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
-            '[draft2019-09/optional/bignum.json]: float comparison with high precision: comparison works for high numbers is expected to be invalid',
-            '[draft2019-09/optional/bignum.json]: float comparison with high precision on negative numbers: comparison works for very negative numbers is expected to be invalid',
 
             // Optional: float-overflow — PHP float precision differs from the ECMAScript model
             '[draft4/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
@@ -279,8 +246,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/dependencies-compatibility.json]: schema dependencies with escaped characters: quoted tab invalid under dependent schema is expected to be invalid',
             '[draft2019-09/optional/dependencies-compatibility.json]: schema dependencies with escaped characters: quoted quote invalid under dependent schema is expected to be invalid',
             // Optional: ecmascript-regex — PHP uses PCRE which does not implement ECMAScript regex semantics
-            '[draft3/optional/ecmascript-regex.json]: ECMA 262 regex dialect recognition: [^] is a valid regex is expected to be valid',
-            '[draft3/optional/ecmascript-regex.json]: ECMA 262 regex dialect recognition: ECMA 262 has no support for lookbehind is expected to be invalid',
             '[draft4/optional/ecmascript-regex.json]: ECMA 262 \D matches everything but ascii digits: NKO DIGIT ZERO (as \u escape) matches is expected to be valid',
             '[draft4/optional/ecmascript-regex.json]: ECMA 262 \D matches everything but ascii digits: NKO DIGIT ZERO matches (unlike e.g. Python) is expected to be valid',
             '[draft4/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
@@ -311,9 +276,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
             '[draft7/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
             '[draft7/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
-            '[draft7/optional/ecmascript-regex.json]: Python-specific regular expression syntax is not valid ECMA 262: inline comment group (?#...) is not ECMA 262 is expected to be invalid',
-            '[draft7/optional/ecmascript-regex.json]: global inline flag groups are not valid ECMA 262: a single global inline flag (?i) is expected to be invalid',
-            '[draft7/optional/ecmascript-regex.json]: global inline flag groups are not valid ECMA 262: multiple global inline flags (?ims) is expected to be invalid',
             '[draft2019-09/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
             '[draft2019-09/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
             // Optional: cross-draft — cross-draft schema resolution ($ref across drafts) is not implemented
@@ -467,18 +429,7 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/idn-hostname.json]: validation of separators in internationalized host names: label too long if separator ignored (ideographic full stop) is expected to be valid',
             '[draft2019-09/optional/format/idn-hostname.json]: validation of separators in internationalized host names: label too long if separator ignored (fullwidth full stop) is expected to be valid',
             '[draft2019-09/optional/format/idn-hostname.json]: validation of separators in internationalized host names: label too long if separator ignored (halfwidth ideographic full stop) is expected to be valid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: illegal first char U+302E Hangul single dot tone mark is expected to be invalid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: invalid Punycode is expected to be invalid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: U-label contains "--" in the 3rd and 4th position is expected to be invalid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: Begins with a Spacing Combining Mark is expected to be invalid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: Begins with a Nonspacing Mark is expected to be invalid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: Begins with an Enclosing Mark is expected to be invalid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: the two Arabic-Indic digit blocks may appear in different labels is expected to be valid',
-            '[draft2019-09/optional/format/idn-hostname.json]: validation of internationalized host names: non-canonical Punycode that does not re-encode to itself is invalid is expected to be invalid',
             '[draft2019-09/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid',
-            // Optional: regex format — regex format validation does not check for valid ECMA-262 regex syntax
-            '[draft7/optional/format/regex.json]: validation of regular expressions: a regular expression with unclosed parens is invalid is expected to be invalid',
-            '[draft2019-09/optional/format/regex.json]: validation of regular expressions: a regular expression with unclosed parens is invalid is expected to be invalid',
             // Optional: relative-json-pointer — relative JSON pointer format validation is not implemented
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): ## is not a valid json-pointer is expected to be invalid',
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): an invalid RJP that is a valid JSON Pointer is expected to be invalid',
@@ -511,7 +462,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/optional/format/time.json]: validation of time strings: a valid time string with a 15 digit second fraction is expected to be valid',
             '[draft2019-09/optional/format/time.json]: validation of time strings: time with unknown local offset is valid is expected to be valid', // Input contains -00:00 fails on last comparison.
             '[draft2019-09/optional/format/time.json]: validation of time strings: a valid time string with a 15 digit second fraction is expected to be valid', // should be handled same as PR#940
-            '[draft2019-09/optional/format/time.json]: validation of time strings: valid leap second, zero time-offset is expected to be valid',
             // Optional format uri: Not yet implemented
             '[draft4/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid',
             '[draft4/optional/format/uri.json]: validation of URIs: invalid percent-encoding with non-hex digits is expected to be invalid',
@@ -539,7 +489,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             // Optional format uri-reference: Not yet implemented
             '[draft6/optional/format/uri-reference.json]: validation of URI References: unescaped non US-ASCII characters is expected to be invalid',
             '[draft6/optional/format/uri-reference.json]: validation of URI References: a network-path reference with an empty authority is expected to be valid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: an incomplete percent-encoding is expected to be invalid',
             '[draft6/optional/format/uri-reference.json]: validation of URI References: a double quote in a path is expected to be invalid',
             '[draft6/optional/format/uri-reference.json]: validation of URI References: square brackets outside an authority is expected to be invalid',
             '[draft6/optional/format/uri-reference.json]: validation of URI References: a non-numeric port in a network-path reference is expected to be invalid',
@@ -548,7 +497,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/optional/format/uri-reference.json]: validation of URI References: a colon in the first segment of a relative-path reference is expected to be invalid',
             '[draft7/optional/format/uri-reference.json]: validation of URI References: unescaped non US-ASCII characters is expected to be invalid',
             '[draft7/optional/format/uri-reference.json]: validation of URI References: a network-path reference with an empty authority is expected to be valid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: an incomplete percent-encoding is expected to be invalid',
             '[draft7/optional/format/uri-reference.json]: validation of URI References: a double quote in a path is expected to be invalid',
             '[draft7/optional/format/uri-reference.json]: validation of URI References: square brackets outside an authority is expected to be invalid',
             '[draft7/optional/format/uri-reference.json]: validation of URI References: a non-numeric port in a network-path reference is expected to be invalid',
@@ -557,7 +505,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/optional/format/uri-reference.json]: validation of URI References: a colon in the first segment of a relative-path reference is expected to be invalid',
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: unescaped non US-ASCII characters is expected to be invalid',
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a network-path reference with an empty authority is expected to be valid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: an incomplete percent-encoding is expected to be invalid',
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a double quote in a path is expected to be invalid',
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: square brackets outside an authority is expected to be invalid',
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a non-numeric port in a network-path reference is expected to be invalid',
