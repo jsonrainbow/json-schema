@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow bin/run-test-case to run a complete test file ([#966](https://github.com/jsonrainbow/json-schema/pull/966))
 
 ### Fixed
+- fix: Show the regex instead of the value in the pattern error message ([#974](https://github.com/jsonrainbow/json-schema/pull/974))
 - Apply the same ECMA to PCRE pattern replacements everywhere ([#943](https://github.com/jsonrainbow/json-schema/pull/943))
 - fix: Keep backslash sequences of the install path in package:// translation ([#958](https://github.com/jsonrainbow/json-schema/pull/958))
 - fix: Ignore sibling keywords of $ref in Draft-06 and Draft-07 ([#968](https://github.com/jsonrainbow/json-schema/pull/968))
