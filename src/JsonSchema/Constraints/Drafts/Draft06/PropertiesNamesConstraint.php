@@ -22,6 +22,7 @@ class PropertiesNamesConstraint implements ConstraintInterface
         $this->initialiseErrorBag($this->factory);
     }
 
+    /** @param mixed $value */
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
         if (!property_exists($schema, 'propertyNames')) {
@@ -35,45 +36,21 @@ class PropertiesNamesConstraint implements ConstraintInterface
             return;
         }
 
-        $propertyNames = get_object_vars($value);
+        // PHP turns numeric property names into integer keys, while property names are always strings
+        $propertyNames = array_map('strval', array_keys(get_object_vars($value)));
 
-        if ($schema->propertyNames === false) {
-            foreach ($propertyNames as $propertyName => $_) {
-                $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'false', 'name' => $propertyName]);
+        foreach ($propertyNames as $propertyName) {
+            $nameConstraint = $this->factory->createInstanceFor('schema');
+            $nameConstraint->check($propertyName, $schema->propertyNames, $path, $i);
+            if ($nameConstraint->isValid()) {
+                continue;
             }
 
-            return;
-        }
-
-        if (property_exists($schema->propertyNames, 'maxLength')) {
-            foreach ($propertyNames as $propertyName => $_) {
-                $length = mb_strlen($propertyName, 'UTF-8');
-                if ($length > $schema->propertyNames->maxLength) {
-                    $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'maxLength', 'length' => $length, 'name' => $propertyName]);
-                }
-            }
-        }
-
-        if (property_exists($schema->propertyNames, 'pattern')) {
-            foreach ($propertyNames as $propertyName => $_) {
-                if (!preg_match('/' . str_replace('/', '\/', $schema->propertyNames->pattern) . '/', $propertyName)) {
-                    $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'pattern', 'name' => $propertyName]);
-                }
-            }
-        }
-
-        if (property_exists($schema->propertyNames, 'const')) {
-            foreach ($propertyNames as $propertyName => $_) {
-                if ($propertyName !== $schema->propertyNames->const) {
-                    $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'const', 'name' => $propertyName]);
-                }
-            }
-        }
-
-        if (property_exists($schema->propertyNames, 'enum')) {
-            $diff = array_diff(array_keys($propertyNames), $schema->propertyNames->enum);
-            foreach ($diff as $propertyName) {
-                $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['propertyNames' => $schema->propertyNames, 'violating' => 'enum', 'name' => $propertyName]);
+            $violatedKeywords = array_unique(array_map(static function (array $error): string {
+                return $error['constraint']['name'];
+            }, $nameConstraint->getErrors()));
+            foreach ($violatedKeywords as $violatedKeyword) {
+                $this->addError(ConstraintError::PROPERTY_NAMES(), $path, ['name' => $propertyName, 'violating' => $violatedKeyword, 'propertyNames' => $schema->propertyNames]);
             }
         }
     }
