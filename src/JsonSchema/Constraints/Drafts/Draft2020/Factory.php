@@ -12,6 +12,7 @@ class Factory extends \JsonSchema\Constraints\Factory
     protected $constraintMap = [
         'schema' => Draft2020Constraint::class,
         'additionalProperties' => AdditionalPropertiesConstraint::class,
+        'unevaluatedProperties' => UnevaluatedPropertiesConstraint::class,
         'dependentSchemas' => DependentSchemasConstraint::class,
         'dependentRequired' => DependentRequiredConstraint::class,
         'type' => TypeConstraint::class,
