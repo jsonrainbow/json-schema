@@ -125,33 +125,6 @@ class JsonSchemaTestSuiteTest extends TestCase
     private function shouldNotYieldTest(string $name): bool
     {
         $skip = [
-            '[draft4/ref.json]: Location-independent identifier: match is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: match is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/refRemote.json]: Location-independent identifier in remote ref: integer is valid is expected to be valid', // Test case was added after v1.2.0, skip test for now.
-            '[draft4/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft6/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid', // Test case was added after v1.2.0, skip test for now.
-            '[draft6/ref.json]: Location-independent identifier: mismatch is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
-            '[draft6/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid', // Same test case is skipped for draft4, skip for now as well.
-            // Skipping complex edge cases for now
-            '[draft6/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
-            '[draft6/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
-            '[draft6/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
-            '[draft6/ref.json]: URN base URI with NSS: a non-string is invalid is expected to be invalid',
-            '[draft6/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
-            '[draft6/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
-            '[draft6/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
-            '[draft7/refRemote.json]: $ref to $ref finds location-independent $id: non-number is invalid is expected to be invalid',
-            '[draft7/ref.json]: Reference an anchor with a non-relative URI: mismatch is expected to be invalid',
-            '[draft7/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
-            '[draft7/ref.json]: URN base URI with NSS: a non-string is invalid is expected to be invalid',
-            '[draft7/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
-            '[draft7/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
-            '[draft7/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
-            '[draft7/ref.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid',
-            '[draft7/ref.json]: Location-independent identifier: mismatch is expected to be invalid',
-            '[draft7/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid',
             // Draft 2019-09 complex constraints, which aren't supported initially
             '[draft2019-09/recursiveRef.json]: $recursiveRef without $recursiveAnchor works like $ref: recursive mismatch is expected to be invalid',
             '[draft2019-09/recursiveRef.json]: $recursiveRef without using nesting: integer does not match as a property value is expected to be invalid',
@@ -169,26 +142,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/vocabulary.json]: schema that uses custom metaschema with with no validation vocabulary: no validation: invalid number, but it still validates is expected to be valid',
             '[draft2019-09/vocabulary.json]: ignore unrecognized optional vocabulary: string value is expected to be invalid',
             '[draft2019-09/vocabulary.json]: ignore unrecognized optional vocabulary: number value is expected to be valid',
-            '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties with $recursiveRef: with unevaluated properties is expected to be invalid',
-            '[draft2019-09/anchor.json]: Location-independent identifier: mismatch is expected to be invalid',
-            '[draft2019-09/anchor.json]: Location-independent identifier with absolute URI: mismatch is expected to be invalid',
-            '[draft2019-09/anchor.json]: Location-independent identifier with base URI change in subschema: mismatch is expected to be invalid',
-            '[draft2019-09/anchor.json]: same $anchor with different base uri: $ref does not resolve to /$defs/A/allOf/0 is expected to be invalid',
-            '[draft2019-09/ref.json]: ref creates new scope when adjacent to keywords: referenced subschema doesn\'t see annotations from properties is expected to be invalid',
-            '[draft2019-09/ref.json]: refs with relative uris and defs: invalid on inner field is expected to be invalid',
-            '[draft2019-09/ref.json]: refs with relative uris and defs: invalid on outer field is expected to be invalid',
-            '[draft2019-09/ref.json]: relative refs with absolute uris and defs: invalid on inner field is expected to be invalid',
-            '[draft2019-09/ref.json]: relative refs with absolute uris and defs: invalid on outer field is expected to be invalid',
-            '[draft2019-09/ref.json]: order of evaluation: $id and $ref: data is invalid against first definition is expected to be invalid',
-            '[draft2019-09/ref.json]: order of evaluation: $id and $anchor and $ref: data is invalid against first definition is expected to be invalid',
-            '[draft2019-09/ref.json]: simple URN base URI with JSON pointer: a non-string is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: URN base URI with NSS: a non-string is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: URN base URI with r-component: a non-string is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: URN base URI with q-component: a non-string is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: URN base URI with URN and anchor ref: a non-string is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: URN ref with nested pointer ref: a non-string is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: ref with absolute-path-reference: an integer is invalid is expected to be invalid',
-            '[draft2019-09/ref.json]: order of evaluation: $id and $ref on nested schema: data is invalid against nested sibling is expected to be invalid',
             '[draft2019-09/ref.json]: $ref with $recursiveAnchor: extra items disallowed for root is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems false: with unevaluated items is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems as schema: with invalid unevaluated items is expected to be invalid',
@@ -210,15 +163,9 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems can see annotations from if without then and else: invalid in case if is evaluated is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems before $ref: with unevaluated items is expected to be invalid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems with $recursiveRef: with unevaluated items is expected to be invalid',
+            '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties with $recursiveRef: with no unevaluated properties is expected to be valid',
             '[draft2019-09/unevaluatedItems.json]: Evaluated items collection needs to consider instance location: with an unevaluated item that exists at another location is expected to be invalid',
             '[draft2019-09/not.json]: collect annotations inside a \'not\', even if collection is disabled: unevaluated property is expected to be valid',
-            '[draft2019-09/refRemote.json]: anchor within remote ref: remote anchor invalid is expected to be invalid',
-            '[draft2019-09/refRemote.json]: remote ref with ref to defs: invalid is expected to be invalid',
-            '[draft2019-09/refRemote.json]: Location-independent identifier in remote ref: string is invalid is expected to be invalid',
-            '[draft2019-09/refRemote.json]: $ref to $ref finds detached $anchor: non-number is invalid is expected to be invalid',
-            // Optional: Anchor, not yet implemented
-            '[draft2019-09/optional/anchor.json]: $anchor inside an enum is not a real identifier: in implementations that strip $anchor, this may match either $def is expected to be invalid',
-            '[draft2019-09/optional/anchor.json]: $anchor inside an enum is not a real identifier: no match on enum or $ref to $anchor is expected to be invalid',
             // Optional: bignum — PHP does not natively support arbitrary-precision integers/floats
             '[draft3/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
             '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',

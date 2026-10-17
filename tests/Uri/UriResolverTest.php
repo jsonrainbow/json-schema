@@ -212,6 +212,39 @@ class UriResolverTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider fragmentAgainstUrnBaseProvider
+     */
+    public function testResolveFragmentAgainstUrnBase(string $expected, string $uri, string $baseUri): void
+    {
+        // a urn has no authority, so it must neither gain one nor be taken for a local file path
+        $this->assertEquals($expected, $this->resolver->resolve($uri, $baseUri));
+    }
+
+    public function fragmentAgainstUrnBaseProvider(): \Generator
+    {
+        yield 'json pointer' => [
+            'urn:uuid:deadbeef-1234-ffff-ffff-4321feebdaed#/definitions/bar',
+            '#/definitions/bar',
+            'urn:uuid:deadbeef-1234-ffff-ffff-4321feebdaed',
+        ];
+        yield 'plain name' => [
+            'urn:uuid:deadbeef-1234-ffff-ffff-4321feebdaed#something',
+            '#something',
+            'urn:uuid:deadbeef-1234-ffff-ffff-4321feebdaed',
+        ];
+        yield 'base fragment is replaced' => [
+            'urn:example:foo#/definitions/bar',
+            '#/definitions/bar',
+            'urn:example:foo#something',
+        ];
+        yield 'q-component is kept' => [
+            'urn:example:weather?=op=map&lat=39.56&lon=-104.85#/definitions/bar',
+            '#/definitions/bar',
+            'urn:example:weather?=op=map&lat=39.56&lon=-104.85',
+        ];
+    }
+
     public function testReversable(): void
     {
         $uri = 'scheme://user:password@authority/path?query#fragment';
