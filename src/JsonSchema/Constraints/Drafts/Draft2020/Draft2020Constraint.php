@@ -46,6 +46,7 @@ class Draft2020Constraint extends Constraint
         $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
         $this->checkForKeyword('oneOf', $value, $schema, $path, $i);
         $this->checkForKeyword('ifThenElse', $value, $schema, $path, $i);
+        $this->checkForKeyword('unevaluatedProperties', $value, $schema, $path, $i);
 
         $this->checkForKeyword('additionalProperties', $value, $schema, $path, $i);
         $this->checkForKeyword('prefixItems', $value, $schema, $path, $i);
