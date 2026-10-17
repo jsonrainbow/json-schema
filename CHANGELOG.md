@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- test: Remove JSON Schema Test Suite skips for cases that already pass ([#985](https://github.com/jsonrainbow/json-schema/pull/985))
 - chore: Enforce LF line endings via .gitattributes and .editorconfig ([#980](https://github.com/jsonrainbow/json-schema/pull/980))
 - test: Clean up JSON Schema Test Suite skip list ([#978](https://github.com/jsonrainbow/json-schema/pull/978))
 - feat: support unevaluatedProperties in Draft 2019-09 ([#931](https://github.com/jsonrainbow/json-schema/pull/931))
