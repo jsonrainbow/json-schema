@@ -510,12 +510,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a leading zero in the IPv4 part of an IPv6 literal is expected to be invalid',
             '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a colon in the first segment of a relative-path reference is expected to be invalid',
             // Optional unknown keyword: Not yet implemented
-            '[draft6/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft6/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
-            '[draft7/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft7/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
-            '[draft2019-09/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
-            '[draft2019-09/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',
         ];
 
         if ($this->is32Bit()) {
