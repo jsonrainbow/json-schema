@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft07;
 
-use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
@@ -28,15 +27,9 @@ class RefConstraint implements ConstraintInterface
             return;
         }
 
-        try {
-            $refSchema = $this->factory->getSchemaStorage()->resolveRefSchema($schema);
-        } catch (\Exception $e) {
-            // A $ref that cannot be resolved is a broken schema, not an absent keyword:
-            // returning here would let the value pass as if the $ref had not been written.
-            $this->addError(ConstraintError::UNRESOLVABLE_REF(), $path, ['ref' => $schema->{'$ref'}]);
-
-            return;
-        }
+        // A $ref that cannot be resolved is a broken schema, not invalid data: the exception
+        // is left to propagate rather than letting the value pass as if the $ref was absent.
+        $refSchema = $this->factory->getSchemaStorage()->resolveRefSchema($schema);
 
         $schemaConstraint = $this->factory->createInstanceFor('schema');
         $schemaConstraint->check($value, $refSchema, $path, $i);

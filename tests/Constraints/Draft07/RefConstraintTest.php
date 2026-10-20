@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Constraints\Draft07;
 
 use JsonSchema\Constraints\Constraint;
+use JsonSchema\Exception\UnresolvableJsonPointerException;
 use JsonSchema\Tests\Constraints\VeryBaseTestCase;
 use JsonSchema\Validator;
 
@@ -12,18 +13,26 @@ class RefConstraintTest extends VeryBaseTestCase
 {
     private const DIALECT = 'http://json-schema.org/draft-07/schema#';
 
-    public function testAnUnresolvableRefIsReportedInsteadOfSilentlyPassing(): void
+    public function testAnUnresolvableRefThrowsInsteadOfSilentlyPassing(): void
     {
         $validator = new Validator();
         $data = new \stdClass();
         $schema = json_decode('{"$schema": "' . self::DIALECT . '", "$ref": "#/$defs/nonExistent"}');
 
-        $validator->validate($data, $schema, Constraint::CHECK_MODE_STRICT);
+        $this->expectException(UnresolvableJsonPointerException::class);
 
-        self::assertFalse($validator->isValid());
-        $errors = $validator->getErrors();
-        self::assertCount(1, $errors);
-        self::assertSame('unresolvableRef', $errors[0]['constraint']['name']);
+        $validator->validate($data, $schema, Constraint::CHECK_MODE_STRICT);
+    }
+
+    public function testAnUnresolvableRefInsideAnApplicatorIsNotSwallowed(): void
+    {
+        $validator = new Validator();
+        $data = new \stdClass();
+        $schema = json_decode('{"$schema": "' . self::DIALECT . '", "anyOf": [{"$ref": "#/$defs/nonExistent"}, {}]}');
+
+        $this->expectException(UnresolvableJsonPointerException::class);
+
+        $validator->validate($data, $schema, Constraint::CHECK_MODE_STRICT);
     }
 
     public function testAResolvableRefStillValidates(): void
