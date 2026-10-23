@@ -12,7 +12,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         public function testRetrieveFile(): void
         {
             $c = new Curl();
-            $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures/foobar.json'));
+            $result = $c->retrieve('file://' . realpath(__DIR__ . '/../../fixtures/foobar.json'));
 
             self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
         }
@@ -30,7 +30,7 @@ namespace JsonSchema\Tests\Uri\Retrievers
         public function testNoContentType(): void
         {
             $c = new Curl();
-            $result = $c->retrieve(realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
+            $result = $c->retrieve('file://' . realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json');
 
             self::assertStringEqualsFileCanonicalizing(realpath(__DIR__ . '/../../fixtures/foobar.json'), $result);
         }
@@ -71,14 +71,14 @@ namespace JsonSchema\Uri\Retrievers
     {
         $uri = curl_getinfo($curl, \CURLINFO_EFFECTIVE_URL);
 
-        if ($uri === realpath(__DIR__ . '/../../fixtures/foobar.json')) {
+        if ($uri === 'file://' . realpath(__DIR__ . '/../../fixtures/foobar.json')) {
             // return file with headers
             $headers = implode("\n", [
                 'Content-Type: application/json'
             ]);
 
-            return sprintf("%s\r\n\r\n%s", $headers, file_get_contents($uri));
-        } elseif ($uri === realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json') {
+            return sprintf("%s\r\n\r\n%s", $headers, file_get_contents(realpath(__DIR__ . '/../../fixtures/foobar.json')));
+        } elseif ($uri === 'file://' . realpath(__DIR__ . '/../../fixtures') . '/foobar-noheader.json') {
             // return file without headers
             $uri = realpath(__DIR__ . '/../../fixtures/foobar.json');
 
