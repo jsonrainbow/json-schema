@@ -356,7 +356,7 @@ class FormatConstraint implements ConstraintInterface
                 return false;
             }
             // LDH rule (after IDNA)
-            if (!preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i', $ascii)) {
+            if (!preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\z/i', $ascii)) {
                 return false;
             }
             $asciiLabels[] = $ascii;
