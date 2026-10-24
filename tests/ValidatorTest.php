@@ -90,6 +90,7 @@ class ValidatorTest extends TestCase
                 case DraftIdentifiers::DRAFT_6():
                 case DraftIdentifiers::DRAFT_7():
                 case DraftIdentifiers::DRAFT_2019_09():
+                case DraftIdentifiers::DRAFT_2020_12():
                     break;
                 default:
                     yield $draft->toConstraintName() => [$draft];
