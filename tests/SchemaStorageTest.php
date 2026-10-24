@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Tests;
 
 use JsonSchema\DraftIdentifiers;
+use JsonSchema\Exception\UnresolvableJsonPointerException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
@@ -457,6 +458,76 @@ JSON
             'http://example.org/root/named.json#/definitions/target',
             $schemaStorage->getSchema('http://example.org/root/named.json')->properties->p->{'$ref'}
         );
+    }
+
+    /**
+     * A plain-name fragment names a schema without being a JSON pointer into the document.
+     *
+     * @dataProvider anchorProvider
+     */
+    public function testRefToAnAnchorResolvesToTheNamedSchema(string $schema, string $ref): void
+    {
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root.json', json_decode($schema, false));
+
+        $this->assertSame('integer', $schemaStorage->resolveRef($ref)->type);
+    }
+
+    public function anchorProvider(): \Generator
+    {
+        yield 'draft-04 fragment-only id' => [
+            '{"definitions": {"A": {"id": "#foo", "type": "integer"}}}',
+            'http://example.org/root.json#foo',
+        ];
+        yield 'draft-06 fragment-only $id below a base uri change' => [
+            '{"definitions": {"A": {"$id": "nested.json", "definitions": {"B": {"$id": "#foo", "type": "integer"}}}}}',
+            'http://example.org/nested.json#foo',
+        ];
+        yield 'draft 2019-09 $anchor resolved against the $id beside it' => [
+            '{"$defs": {"A": {"$id": "child.json", "$anchor": "foo", "type": "integer"}}}',
+            'http://example.org/child.json#foo',
+        ];
+    }
+
+    public function testFragmentOnlyIdDoesNotChangeTheBaseUri(): void
+    {
+        $schema = json_decode('{"definitions": {"A": {"$id": "#foo", "properties": {"p": {"$ref": "#/definitions/B"}}}, "B": {}}}', false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root.json', $schema);
+
+        $this->assertEquals('http://example.org/root.json#/definitions/B', $schema->definitions->A->properties->p->{'$ref'});
+    }
+
+    public function testRefToAnUnknownAnchorIsUnresolvable(): void
+    {
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root.json', json_decode('{"definitions": {"A": {"$id": "#foo"}}}', false));
+
+        $this->expectException(UnresolvableJsonPointerException::class);
+        $schemaStorage->resolveRef('http://example.org/root.json#bar');
+    }
+
+    /**
+     * Up to draft-07 a $ref makes its siblings ignored, an $id among them, while from draft
+     * 2019-09 on the $ref is resolved against the $id next to it.
+     *
+     * @dataProvider refBesideIdProvider
+     */
+    public function testRefBesideAnIdIsResolvedPerDialect(string $dialect, string $expectedRef): void
+    {
+        $schema = json_decode(sprintf('{"$schema": "%s", "allOf": [{"$id": "sub/", "$ref": "target.json"}]}', $dialect), false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root/', $schema);
+
+        $this->assertEquals($expectedRef, $schema->allOf[0]->{'$ref'});
+    }
+
+    public function refBesideIdProvider(): \Generator
+    {
+        yield 'draft-07' => [DraftIdentifiers::DRAFT_7, 'http://example.org/root/target.json#'];
+        yield 'draft 2019-09' => [DraftIdentifiers::DRAFT_2019_09, 'http://example.org/root/sub/target.json#'];
     }
 
     public function testNoDoubleResolve(): void
