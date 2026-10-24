@@ -27,11 +27,9 @@ class RefConstraint implements ConstraintInterface
             return;
         }
 
-        try {
-            $refSchema = $this->factory->getSchemaStorage()->resolveRefSchema($schema);
-        } catch (\Exception $e) {
-            return;
-        }
+        // A $ref that cannot be resolved is a broken schema, not invalid data: the exception
+        // is left to propagate rather than letting the value pass as if the $ref was absent.
+        $refSchema = $this->factory->getSchemaStorage()->resolveRefSchema($schema);
 
         $schemaConstraint = $this->factory->createInstanceFor('schema');
         $schemaConstraint->check($value, $refSchema, $path, $i);
