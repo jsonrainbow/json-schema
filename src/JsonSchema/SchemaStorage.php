@@ -82,10 +82,11 @@ class SchemaStorage implements SchemaStorageInterface
 
         // workaround for bug in draft-03 & draft-04 meta-schemas (id & $ref defined with incorrect format)
         // see https://github.com/json-schema-org/JSON-Schema-Test-Suite/issues/177#issuecomment-293051367
-        if (is_object($schema) && property_exists($schema, 'id')) {
-            if ($schema->id === DraftIdentifiers::DRAFT_4) {
+        // The meta-schema id has no fragment when it was retrieved by a uri without one
+        if (is_object($schema) && property_exists($schema, 'id') && is_string($schema->id)) {
+            if ($this->withoutEmptyFragment($schema->id) === DraftIdentifiers::DRAFT_4()->withoutFragment()) {
                 $schema->properties->id->format = 'uri-reference';
-            } elseif ($schema->id === DraftIdentifiers::DRAFT_3) {
+            } elseif ($this->withoutEmptyFragment($schema->id) === DraftIdentifiers::DRAFT_3()->withoutFragment()) {
                 $schema->properties->id->format = 'uri-reference';
                 $schema->properties->{'$ref'}->format = 'uri-reference';
             }
@@ -102,7 +103,7 @@ class SchemaStorage implements SchemaStorageInterface
         // resolve references
         $this->expandRefs($schema, $id);
 
-        $this->schemas[$id] = $schema;
+        $this->schemas[$this->withoutEmptyFragment($id)] = $schema;
     }
 
     /**
@@ -165,11 +166,11 @@ class SchemaStorage implements SchemaStorageInterface
      */
     public function getSchema(string $id)
     {
-        if (!array_key_exists($id, $this->schemas)) {
+        if (!array_key_exists($this->withoutEmptyFragment($id), $this->schemas)) {
             $this->addSchema($id);
         }
 
-        return $this->schemas[$id];
+        return $this->schemas[$this->withoutEmptyFragment($id)];
     }
 
     /**
@@ -308,7 +309,7 @@ class SchemaStorage implements SchemaStorageInterface
         if (is_string($schemaId) && $schemaId !== '') {
             $resolvedId = $this->uriResolver->resolve($schemaId, $parentId);
             if ($schemaId[0] !== '#') {
-                $this->schemas[$baseId] = $schema;
+                $this->schemas[$this->withoutEmptyFragment($baseId)] = $schema;
             }
             if ($this->isAnchorReference($resolvedId)) {
                 $this->anchors[$resolvedId] = $schema;
@@ -382,5 +383,14 @@ class SchemaStorage implements SchemaStorageInterface
         }
 
         return null;
+    }
+
+    /**
+     * An empty fragment identifies the whole document, so "http://example.com/schema#" and
+     * "http://example.com/schema" are the same schema.
+     */
+    private function withoutEmptyFragment(string $id): string
+    {
+        return substr($id, -1) === '#' ? substr($id, 0, -1) : $id;
     }
 }
