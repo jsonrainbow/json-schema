@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.14.0] - 2026-10-24
+
 ### Added
 - test: Remove JSON Schema Test Suite skips for cases that already pass ([#985](https://github.com/jsonrainbow/json-schema/pull/985))
 - chore: Enforce LF line endings via .gitattributes and .editorconfig ([#980](https://github.com/jsonrainbow/json-schema/pull/980))
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - chore: Remove legacy Sphinx docs folder ([#981](https://github.com/jsonrainbow/json-schema/pull/981))
+
 
 ## [6.13.1] - 2026-09-30
 
