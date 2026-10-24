@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow bin/run-test-case to run a complete test file ([#966](https://github.com/jsonrainbow/json-schema/pull/966))
 
 ### Fixed
+- fix: Reject a trailing newline in idn-hostname ([#990](https://github.com/jsonrainbow/json-schema/pull/990))
 - fix: Report Draft-06/07 sub-schema errors at the property and item path ([#967](https://github.com/jsonrainbow/json-schema/pull/967))
 - fix: Report float limits in numeric error messages without casting to int ([#982](https://github.com/jsonrainbow/json-schema/pull/982))
 - fix: Respect CHECK_MODE_DISABLE_FORMAT in Draft-06, Draft-07 and Draft 2019-09 format constraints ([#972](https://github.com/jsonrainbow/json-schema/pull/972))
