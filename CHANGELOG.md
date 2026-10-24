@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow bin/run-test-case to run a complete test file ([#966](https://github.com/jsonrainbow/json-schema/pull/966))
 
 ### Fixed
+- test: Pass file URLs to the Curl retriever tests ([#989](https://github.com/jsonrainbow/json-schema/pull/989))
 - fix: Reject a trailing newline in idn-hostname ([#990](https://github.com/jsonrainbow/json-schema/pull/990))
 - fix: Report Draft-06/07 sub-schema errors at the property and item path ([#967](https://github.com/jsonrainbow/json-schema/pull/967))
 - fix: Report float limits in numeric error messages without casting to int ([#982](https://github.com/jsonrainbow/json-schema/pull/982))
