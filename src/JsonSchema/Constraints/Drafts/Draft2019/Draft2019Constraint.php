@@ -12,13 +12,22 @@ use JsonSchema\Uri\UriRetriever;
 
 class Draft2019Constraint extends Constraint
 {
+    /** @var Factory */
+    protected $factory;
+
     public function __construct(?\JsonSchema\Constraints\Factory $factory = null)
     {
-        parent::__construct(new Factory(
+        $draftFactory = new Factory(
             $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
             $factory ? $factory->getUriRetriever() : new UriRetriever(),
             $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL
-        ));
+        );
+        if ($factory instanceof Factory) {
+            // Nested schemas share the dynamic scope of the evaluation they are part of
+            $draftFactory->setDynamicScope($factory->getDynamicScope());
+        }
+
+        parent::__construct($draftFactory);
     }
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
@@ -31,8 +40,33 @@ class Draft2019Constraint extends Constraint
             return;
         }
 
+        // The evaluation enters a new schema resource at the root schema and at each $id
+        $dynamicScope = $this->factory->getDynamicScope();
+        $entersResource = is_object($schema)
+            && ($dynamicScope->isEmpty() || (property_exists($schema, '$id') && is_string($schema->{'$id'})));
+        if ($entersResource) {
+            $dynamicScope->enter($schema);
+        }
+
+        try {
+            $this->checkKeywords($value, $schema, $path, $i);
+        } finally {
+            if ($entersResource) {
+                $dynamicScope->leave();
+            }
+        }
+    }
+
+    /**
+     * @param mixed $value
+     * @param mixed $schema
+     * @param mixed $i
+     */
+    private function checkKeywords(&$value, $schema, ?JsonPointer $path, $i): void
+    {
         // Apply defaults
         $this->checkForKeyword('ref', $value, $schema, $path, $i);
+        $this->checkForKeyword('recursiveRef', $value, $schema, $path, $i);
         $this->checkForKeyword('required', $value, $schema, $path, $i);
         $this->checkForKeyword('contains', $value, $schema, $path, $i);
         $this->checkForKeyword('properties', $value, $schema, $path, $i);
