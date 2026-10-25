@@ -7,7 +7,7 @@ namespace JsonSchema\Tests\Constraints\Drafts\Draft07;
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Drafts\Draft07\Draft07Constraint;
-use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\Drafts\Draft07\Factory;
 use PHPUnit\Framework\TestCase;
 
 class Draft07ConstraintTest extends TestCase
