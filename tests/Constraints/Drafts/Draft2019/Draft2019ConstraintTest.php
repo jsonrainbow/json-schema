@@ -7,7 +7,7 @@ namespace JsonSchema\Tests\Constraints\Drafts\Draft2019;
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Drafts\Draft2019\Draft2019Constraint;
-use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\Drafts\Draft2019\Factory;
 use PHPUnit\Framework\TestCase;
 
 class Draft2019ConstraintTest extends TestCase
@@ -87,17 +87,26 @@ class Draft2019ConstraintTest extends TestCase
         yield 'contentEncoding' => ['contentEncoding'];
     }
 
-    public function testDependentSchemasAndDependentRequiredAreInstantiatedIndependently(): void
+    /**
+     * @dataProvider dependentKeywordProvider
+     */
+    public function testDependentSchemasAndDependentRequiredAreInstantiatedIndependently(string $schemaJson, string $expectedKeyword): void
     {
         $constraint = new Draft2019Constraint();
         $calledKeywords = [];
         $this->injectFactory($constraint, $this->createSpyFactory($calledKeywords));
 
-        $schema = json_decode('{"dependentRequired": {"a": ["b"]}}');
+        $schema = json_decode($schemaJson);
         $value = json_decode('{"a": 1, "b": 2}');
         $constraint->check($value, $schema);
 
-        $this->assertSame(['dependentRequired'], $calledKeywords);
+        $this->assertSame([$expectedKeyword], $calledKeywords);
+    }
+
+    public function dependentKeywordProvider(): \Generator
+    {
+        yield 'dependentSchemas' => ['{"dependentSchemas": {"a": {"required": ["b"]}}}', 'dependentSchemas'];
+        yield 'dependentRequired' => ['{"dependentRequired": {"a": ["b"]}}', 'dependentRequired'];
     }
 
     private function createSpyFactory(array &$calledKeywords): Factory
