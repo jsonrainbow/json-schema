@@ -12,6 +12,12 @@ use JsonSchema\Uri\UriRetriever;
 
 class Draft07Constraint extends Constraint
 {
+    private const KEYWORD_SCHEMA_PROPERTIES = [
+        'ref' => ['$ref'],
+        'ifThenElse' => ['if'],
+        'content' => ['contentMediaType', 'contentEncoding'],
+    ];
+
     public function __construct(?\JsonSchema\Constraints\Factory $factory = null)
     {
         parent::__construct(new Factory(
@@ -67,12 +73,6 @@ class Draft07Constraint extends Constraint
         $this->checkForKeyword('pattern', $value, $schema, $path, $i);
         $this->checkForKeyword('content', $value, $schema, $path, $i);
     }
-
-    private const KEYWORD_SCHEMA_PROPERTIES = [
-        'ref' => ['$ref'],
-        'ifThenElse' => ['if'],
-        'content' => ['contentMediaType', 'contentEncoding'],
-    ];
 
     /**
      * @param mixed $value
