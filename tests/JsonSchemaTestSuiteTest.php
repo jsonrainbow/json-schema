@@ -222,6 +222,11 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
             '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
             '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
+            '[draft3/optional/bignum.json]: divisibleBy with integers above 2^53: 1e20 is not divisible by 3 is expected to be invalid',
+            '[draft4/optional/bignum.json]: multipleOf with integers above 2^53: 1e20 is not multiple of 3 is expected to be invalid',
+            '[draft6/optional/bignum.json]: multipleOf with integers above 2^53: 1e20 is not multiple of 3 is expected to be invalid',
+            '[draft7/optional/bignum.json]: multipleOf with integers above 2^53: 1e20 is not multiple of 3 is expected to be invalid',
+            '[draft2019-09/optional/bignum.json]: multipleOf with integers above 2^53: 1e20 is not multiple of 3 is expected to be invalid',
 
             // Optional: float-overflow — PHP float precision differs from the ECMAScript model
             '[draft4/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
@@ -439,6 +444,7 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): non-ASCII digit in the prefix is not allowed is expected to be invalid',
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): tilde not followed by 0 or 1 in the json-pointer part is expected to be invalid',
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): unescaped tilde at the end of the json-pointer part is expected to be invalid',
+            '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): multiple unescaped tildes in the json-pointer part is expected to be invalid',
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): octothorpe followed by a json-pointer is expected to be invalid',
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): trailing newline after the non-negative integer is expected to be invalid',
             '[draft7/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): a json-pointer part that does not start with a slash is invalid is expected to be invalid',
@@ -452,6 +458,7 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): empty string is expected to be invalid',
             '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): tilde not followed by 0 or 1 in the json-pointer part is expected to be invalid',
             '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): unescaped tilde at the end of the json-pointer part is expected to be invalid',
+            '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): multiple unescaped tildes in the json-pointer part is expected to be invalid',
             '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): octothorpe followed by a json-pointer is expected to be invalid',
             '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): trailing newline after the non-negative integer is expected to be invalid',
             '[draft2019-09/optional/format/relative-json-pointer.json]: validation of Relative JSON Pointers (RJP): a json-pointer part that does not start with a slash is invalid is expected to be invalid',
