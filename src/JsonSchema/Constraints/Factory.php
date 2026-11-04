@@ -77,6 +77,7 @@ class Factory
         'draft06' => Drafts\Draft06\Draft06Constraint::class,
         'draft07' => Drafts\Draft07\Draft07Constraint::class,
         'draft2019-09' => Drafts\Draft2019\Draft2019Constraint::class,
+        'draft2020-12' => Drafts\Draft2020\Draft2020Constraint::class,
     ];
 
     /**
