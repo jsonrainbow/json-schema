@@ -123,6 +123,17 @@ class SchemaStorage implements SchemaStorageInterface
             $schema->{'$ref'} = (string) $refPointer;
         }
 
+        if (property_exists($schema, '$recursiveRef') && is_string($schema->{'$recursiveRef'})) {
+            // The initial target of $recursiveRef is resolved against the id of its own schema
+            $baseId = $parentId;
+            $schemaId = $this->findSchemaIdInObject($schema);
+            if (is_string($schemaId)) {
+                $baseId = $this->uriResolver->resolve($schemaId, $parentId);
+            }
+            $refPointer = new JsonPointer($this->uriResolver->resolve($schema->{'$recursiveRef'}, $baseId));
+            $schema->{'$recursiveRef'} = (string) $refPointer;
+        }
+
         $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
         foreach ($schema as $propertyName => &$member) {
             if (
