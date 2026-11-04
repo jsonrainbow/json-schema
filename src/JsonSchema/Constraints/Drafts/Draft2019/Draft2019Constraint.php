@@ -17,7 +17,8 @@ class Draft2019Constraint extends Constraint
         parent::__construct(new Factory(
             $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
             $factory ? $factory->getUriRetriever() : new UriRetriever(),
-            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL
+            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL,
+            $factory
         ));
     }
 

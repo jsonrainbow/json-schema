@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace JsonSchema\Constraints\Drafts\Draft2019;
 
-class Factory extends \JsonSchema\Constraints\Factory
+use JsonSchema\Constraints\Drafts\DraftFactory;
+
+class Factory extends DraftFactory
 {
     /**
      * @var array<string, class-string>
