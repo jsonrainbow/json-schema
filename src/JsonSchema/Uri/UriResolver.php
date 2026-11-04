@@ -78,11 +78,13 @@ class UriResolver implements UriResolverInterface
      */
     public function resolve($uri, $baseUri = null)
     {
-        // treat non-uri base as local file path
+        // treat non-uri base as local file path. A scheme without an authority (urn:) is still a uri,
+        // a single letter before the colon is not, as that is a windows drive.
         if (
             !is_null($baseUri) &&
             !filter_var($baseUri, \FILTER_VALIDATE_URL) &&
-            !preg_match('|^[^/]+://|u', $baseUri)
+            !preg_match('|^[^/]+://|u', $baseUri) &&
+            !preg_match('|^[a-z][a-z0-9+.\-]+:|i', $baseUri)
         ) {
             if (is_file($baseUri)) {
                 $baseUri = 'file://' . realpath($baseUri);
@@ -95,6 +97,12 @@ class UriResolver implements UriResolverInterface
 
         if ($uri == '') {
             return $baseUri;
+        }
+
+        // RFC 3986 section 5.2.2: a fragment-only reference keeps everything of the base but its
+        // fragment. Handled up front as generate() cannot rebuild a base without an authority (urn:).
+        if ($uri[0] === '#' && !is_null($baseUri)) {
+            return explode('#', $baseUri, 2)[0] . $uri;
         }
 
         $components = $this->parse($uri);
