@@ -63,8 +63,9 @@ class UnevaluatedItemsConstraint implements ConstraintInterface
      *
      * @param array<int, mixed>  $value
      * @param array<int, string> $visitedRefs
+     * @param bool               $nested      Whether the schema is a subschema of the schema with the validated unevaluatedItems
      */
-    private function countEvaluatedItems(object $schema, array $value, ?JsonPointer $path = null, array $visitedRefs = []): int
+    private function countEvaluatedItems(object $schema, array $value, ?JsonPointer $path = null, array $visitedRefs = [], bool $nested = false): int
     {
         $itemCount = count($value);
         $evaluated = 0;
@@ -79,14 +80,16 @@ class UnevaluatedItemsConstraint implements ConstraintInterface
                 $visitedRefs[] = $reference;
                 $resolvedSchema = $this->factory->getSchemaStorage()->resolveRefSchema($schema);
                 if (is_object($resolvedSchema)) {
-                    $evaluated = max($evaluated, $this->countEvaluatedItems($resolvedSchema, $value, $path, $visitedRefs));
+                    $evaluated = max($evaluated, $this->countEvaluatedItems($resolvedSchema, $value, $path, $visitedRefs, true));
                 }
             } catch (\Exception $e) {
                 // Let the normal reference validation report resolution errors.
             }
         }
 
-        if (property_exists($schema, 'unevaluatedItems') && $schema->unevaluatedItems === true) {
+        // A nested unevaluatedItems applies to every item its subschema has not evaluated otherwise, so
+        // a subschema containing it evaluates all items (it can only be valid if all of them were validated)
+        if (property_exists($schema, 'unevaluatedItems') && ($nested || $schema->unevaluatedItems === true)) {
             return $itemCount;
         }
 
@@ -111,7 +114,7 @@ class UnevaluatedItemsConstraint implements ConstraintInterface
                     continue;
                 }
 
-                $evaluated = max($evaluated, $this->countEvaluatedItems($branch, $value, $path, $visitedRefs));
+                $evaluated = max($evaluated, $this->countEvaluatedItems($branch, $value, $path, $visitedRefs, true));
             }
         }
 
@@ -128,20 +131,20 @@ class UnevaluatedItemsConstraint implements ConstraintInterface
             }
 
             if ($validBranchCount === 1 && count($validBranches) === 1) {
-                $evaluated = max($evaluated, $this->countEvaluatedItems($validBranches[0], $value, $path, $visitedRefs));
+                $evaluated = max($evaluated, $this->countEvaluatedItems($validBranches[0], $value, $path, $visitedRefs, true));
             }
         }
 
         if (property_exists($schema, 'if')) {
             if ($this->schemaIsValid($schema->if, $value, $path)) {
                 if (is_object($schema->if)) {
-                    $evaluated = max($evaluated, $this->countEvaluatedItems($schema->if, $value, $path, $visitedRefs));
+                    $evaluated = max($evaluated, $this->countEvaluatedItems($schema->if, $value, $path, $visitedRefs, true));
                 }
                 if (property_exists($schema, 'then') && is_object($schema->then) && $this->schemaIsValid($schema->then, $value, $path)) {
-                    $evaluated = max($evaluated, $this->countEvaluatedItems($schema->then, $value, $path, $visitedRefs));
+                    $evaluated = max($evaluated, $this->countEvaluatedItems($schema->then, $value, $path, $visitedRefs, true));
                 }
             } elseif (property_exists($schema, 'else') && is_object($schema->else) && $this->schemaIsValid($schema->else, $value, $path)) {
-                $evaluated = max($evaluated, $this->countEvaluatedItems($schema->else, $value, $path, $visitedRefs));
+                $evaluated = max($evaluated, $this->countEvaluatedItems($schema->else, $value, $path, $visitedRefs, true));
             }
         }
 
