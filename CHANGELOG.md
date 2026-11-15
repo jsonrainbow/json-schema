@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- fix: Merge errors in linear time ([#994](https://github.com/jsonrainbow/json-schema/pull/994))
 - ci: Run the 32-bit job on ubuntu-24.04 ([#996](https://github.com/jsonrainbow/json-schema/pull/996))
 - test: Skip new bignum and relative-json-pointer cases of the JSON Schema Test Suite ([#995](https://github.com/jsonrainbow/json-schema/pull/995))
 
