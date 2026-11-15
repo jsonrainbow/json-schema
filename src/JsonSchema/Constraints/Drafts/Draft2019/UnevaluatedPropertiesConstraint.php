@@ -62,10 +62,11 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
      * constraint derives the evaluated property names from the supported schema branches.
      *
      * @param array<int, string> $visitedRefs
+     * @param bool               $nested      Whether the schema is a subschema of the schema with the validated unevaluatedProperties
      *
      * @return array<int, string>
      */
-    private function collectEvaluatedProperties(object $schema, object $value, ?JsonPointer $path = null, array $visitedRefs = []): array
+    private function collectEvaluatedProperties(object $schema, object $value, ?JsonPointer $path = null, array $visitedRefs = [], bool $nested = false): array
     {
         $evaluated = [];
         if (property_exists($schema, '$ref') && is_string($schema->{'$ref'})) {
@@ -80,7 +81,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
                 if (is_object($resolvedSchema)) {
                     $evaluated = array_merge(
                         $evaluated,
-                        $this->collectEvaluatedProperties($resolvedSchema, $value, $path, $visitedRefs)
+                        $this->collectEvaluatedProperties($resolvedSchema, $value, $path, $visitedRefs, true)
                     );
                 }
             } catch (\Exception $e) {
@@ -90,7 +91,9 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
 
         $properties = get_object_vars($value);
 
-        if (property_exists($schema, 'unevaluatedProperties') && $schema->unevaluatedProperties === true) {
+        // A nested unevaluatedProperties applies to every property its subschema has not evaluated otherwise, so
+        // a subschema containing it evaluates all properties (it can only be valid if all of them were validated)
+        if (property_exists($schema, 'unevaluatedProperties') && ($nested || $schema->unevaluatedProperties === true)) {
             $evaluated = array_merge($evaluated, array_keys($properties));
         }
 
@@ -131,7 +134,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
                     continue;
                 }
 
-                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($branch, $value, $path, $visitedRefs));
+                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($branch, $value, $path, $visitedRefs, true));
             }
         }
 
@@ -141,7 +144,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
                     continue;
                 }
 
-                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($branch, $value, $path, $visitedRefs));
+                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($branch, $value, $path, $visitedRefs, true));
             }
         }
 
@@ -160,7 +163,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
             if ($validBranchCount === 1 && count($validBranches) === 1) {
                 $evaluated = array_merge(
                     $evaluated,
-                    $this->collectEvaluatedProperties($validBranches[0], $value, $path, $visitedRefs)
+                    $this->collectEvaluatedProperties($validBranches[0], $value, $path, $visitedRefs, true)
                 );
             }
         }
@@ -169,13 +172,13 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
             $ifMatches = $this->schemaIsValid($schema->if, $value, $path);
             if ($ifMatches) {
                 if (is_object($schema->if)) {
-                    $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->if, $value, $path, $visitedRefs));
+                    $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->if, $value, $path, $visitedRefs, true));
                 }
                 if (property_exists($schema, 'then') && is_object($schema->then) && $this->schemaIsValid($schema->then, $value, $path)) {
-                    $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->then, $value, $path, $visitedRefs));
+                    $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->then, $value, $path, $visitedRefs, true));
                 }
             } elseif (property_exists($schema, 'else') && is_object($schema->else) && $this->schemaIsValid($schema->else, $value, $path)) {
-                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->else, $value, $path, $visitedRefs));
+                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($schema->else, $value, $path, $visitedRefs, true));
             }
         }
 
@@ -185,7 +188,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
                     continue;
                 }
 
-                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($dependentSchema, $value, $path, $visitedRefs));
+                $evaluated = array_merge($evaluated, $this->collectEvaluatedProperties($dependentSchema, $value, $path, $visitedRefs, true));
             }
         }
 
