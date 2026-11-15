@@ -47,6 +47,20 @@ class UnevaluatedItemsTest extends BaseTestCase
             }',
             Constraint::CHECK_MODE_STRICT,
         ];
+
+        yield [
+            '[1]',
+            '{
+                "$schema":"' . DraftIdentifiers::DRAFT_2019_09 . '",
+                "type":"array",
+                "unevaluatedItems":false,
+                "anyOf":[
+                    {"unevaluatedItems":{"type":"string"}},
+                    true
+                ]
+            }',
+            Constraint::CHECK_MODE_STRICT,
+        ];
     }
 
     public function getValidTests(): \Generator
@@ -84,6 +98,17 @@ class UnevaluatedItemsTest extends BaseTestCase
                 "type":"array",
                 "items":[{"type":"string"}],
                 "unevaluatedItems":{"type":"string"}
+            }',
+            Constraint::CHECK_MODE_STRICT,
+        ];
+
+        yield [
+            '["foo"]',
+            '{
+                "$schema":"' . DraftIdentifiers::DRAFT_2019_09 . '",
+                "type":"array",
+                "unevaluatedItems":false,
+                "allOf":[{"unevaluatedItems":{"type":"string"}}]
             }',
             Constraint::CHECK_MODE_STRICT,
         ];
