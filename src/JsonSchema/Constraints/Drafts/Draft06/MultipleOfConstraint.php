@@ -25,7 +25,7 @@ class MultipleOfConstraint implements ConstraintInterface
             return;
         }
 
-        if (!is_int($schema->multipleOf) && !is_float($schema->multipleOf) && $schema->multipleOf <= 0.0) {
+        if ((!is_int($schema->multipleOf) && !is_float($schema->multipleOf)) || $schema->multipleOf <= 0.0) {
             return;
         }
 
