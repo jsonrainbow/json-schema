@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- fix: Ignore a non-positive multipleOf in Draft-06 and Draft-07 ([#997](https://github.com/jsonrainbow/json-schema/pull/997))
 - Stop inheriting the query and fragment of the base URI ([#951](https://github.com/jsonrainbow/json-schema/pull/951))
 - fix: Merge errors in linear time ([#994](https://github.com/jsonrainbow/json-schema/pull/994))
 - ci: Run the 32-bit job on ubuntu-24.04 ([#996](https://github.com/jsonrainbow/json-schema/pull/996))
