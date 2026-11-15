@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace JsonSchema\Tests\Constraints;
 
+use JsonSchema\Validator;
+
 class ArraysTest extends BaseTestCase
 {
     /** @var bool */
@@ -264,6 +266,58 @@ class ArraysTest extends BaseTestCase
                         }
                     }
                 }'
+        ];
+    }
+
+    /**
+     * @dataProvider itemsWithAdditionalItemsProvider
+     *
+     * @param list<array{string, string}> $expectedErrors pairs of pointer and constraint name
+     */
+    public function testErrorsOfItemsWithAdditionalItems(string $schema, string $data, array $expectedErrors): void
+    {
+        $value = json_decode($data, false);
+        $validator = new Validator();
+        $validator->validate($value, json_decode($schema, false));
+
+        $errors = array_map(static function (array $error): array {
+            return [$error['pointer'], $error['constraint']['name']];
+        }, $validator->getErrors());
+
+        self::assertSame($expectedErrors, $errors);
+    }
+
+    public function itemsWithAdditionalItemsProvider(): \Generator
+    {
+        yield 'Item failing "items" is valid against "additionalItems"' => [
+            '{"items": {"type": "string"}, "additionalItems": {"type": "integer"}}',
+            '[1, 2, 3]',
+            [],
+        ];
+        yield 'Item failing "items" and "additionalItems" reports only the "items" errors' => [
+            '{"items": {"type": "string"}, "additionalItems": {"type": "integer"}}',
+            '[true, "a", null]',
+            [['/0', 'type'], ['/2', 'type']],
+        ];
+        yield 'Errors of earlier items are kept when a later item passes "additionalItems"' => [
+            '{"items": {"type": "string", "minLength": 2, "pattern": "^[a-z]+$"}, "additionalItems": {"type": "integer"}}',
+            '["A", 1, true, "ok", "b"]',
+            [['/0', 'minLength'], ['/0', 'pattern'], ['/2', 'type'], ['/4', 'minLength']],
+        ];
+        yield '"additionalItems": true' => [
+            '{"items": {"type": "string"}, "additionalItems": true}',
+            '[1, "a"]',
+            [],
+        ];
+        yield '"additionalItems": false' => [
+            '{"items": {"type": "string"}, "additionalItems": false}',
+            '[1, "a"]',
+            [['/0', 'type']],
+        ];
+        yield 'Without "additionalItems"' => [
+            '{"items": {"type": "string"}}',
+            '[1, "a", 2]',
+            [['/0', 'type'], ['/2', 'type']],
         ];
     }
 }

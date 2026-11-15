@@ -74,22 +74,22 @@ class CollectionConstraint extends Constraint
         if (is_object($schema->items)) {
             // just one type definition for the whole array
             foreach ($value as $k => &$v) {
-                $initErrors = $this->getErrors();
+                $initCount = count($this->errors);
 
                 // First check if its defined in "items"
                 $this->checkUndefined($v, $schema->items, $path, $k);
 
                 // Recheck with "additionalItems" if the first test fails
-                if (count($initErrors) < count($this->getErrors()) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
-                    $secondErrors = $this->getErrors();
+                if ($initCount < count($this->errors) && (isset($schema->additionalItems) && $schema->additionalItems !== false)) {
+                    $secondCount = count($this->errors);
                     $this->checkUndefined($v, $schema->additionalItems, $path, $k);
-                }
 
-                // Reset errors if needed
-                if (isset($secondErrors) && count($secondErrors) < count($this->getErrors())) {
-                    $this->errors = $secondErrors;
-                } elseif (isset($secondErrors) && count($secondErrors) === count($this->getErrors())) {
-                    $this->errors = $initErrors;
+                    // Keep the errors of "items" only if "additionalItems" also fails
+                    if ($secondCount < count($this->errors)) {
+                        array_splice($this->errors, $secondCount);
+                    } else {
+                        array_splice($this->errors, $initCount);
+                    }
                 }
             }
             unset($v); /* remove dangling reference to prevent any future bugs

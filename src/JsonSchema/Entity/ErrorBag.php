@@ -88,7 +88,11 @@ class ErrorBag
             return;
         }
 
-        $this->errors = array_merge($this->errors, $errors);
+        // Append in place: array_merge() copies all errors collected so far, which is quadratic
+        // when a constraint adds the errors of many sub-schemas one by one (e.g. long arrays).
+        foreach ($errors as $error) {
+            $this->errors[] = $error;
+        }
         $errorMask = &$this->errorMask;
         array_walk($errors, static function ($error) use (&$errorMask) {
             $errorMask |= $error['context'];
