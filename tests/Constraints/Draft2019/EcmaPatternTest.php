@@ -80,6 +80,30 @@ JSON
                 '{"foo-bar": "ok"}',
                 true,
             ],
+            'Arabic-Indic digit does not match \\d in patternProperties with unevaluatedProperties' => [
+                <<<'JSON'
+                {
+                    "$schema": "https://json-schema.org/draft/2019-09/schema",
+                    "patternProperties": {"^\\d+$": {"type": "string"}},
+                    "unevaluatedProperties": false
+                }
+JSON
+                ,
+                '{"٣": "ok"}',
+                false,
+            ],
+            'ASCII digit matches \\d in patternProperties with unevaluatedProperties' => [
+                <<<'JSON'
+                {
+                    "$schema": "https://json-schema.org/draft/2019-09/schema",
+                    "patternProperties": {"^\\d+$": {"type": "string"}},
+                    "unevaluatedProperties": false
+                }
+JSON
+                ,
+                '{"5": "ok"}',
+                true,
+            ],
         ];
     }
 }
