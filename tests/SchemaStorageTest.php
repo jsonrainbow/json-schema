@@ -283,6 +283,56 @@ class SchemaStorageTest extends TestCase
         $this->assertEquals('uri-reference', $draft_04->properties->id->format);
     }
 
+    public function testMetaSchemaFixesApplyWhenRetrievedWithoutEmptyFragment(): void
+    {
+        $s = new SchemaStorage();
+        $draft_03 = $s->getSchema(DraftIdentifiers::DRAFT_3()->withoutFragment());
+        $draft_04 = $s->getSchema(DraftIdentifiers::DRAFT_4()->withoutFragment());
+
+        $this->assertEquals('uri-reference', $draft_03->properties->id->format);
+        $this->assertEquals('uri-reference', $draft_03->properties->{'$ref'}->format);
+        $this->assertEquals('uri-reference', $draft_04->properties->id->format);
+    }
+
+    public function testUriWithAndWithoutEmptyFragmentIdentifyTheSameSchema(): void
+    {
+        $schema = json_decode('{"$id": "http://example.com/schema.json#", "type": "object"}');
+        $uriRetriever = $this->prophesize(\JsonSchema\UriRetrieverInterface::class);
+        $uriRetriever->retrieve(\Prophecy\Argument::any())->shouldNotBeCalled();
+
+        $s = new SchemaStorage($uriRetriever->reveal());
+        $s->addSchema('http://example.com/schema.json#', $schema);
+
+        $this->assertSame($schema, $s->getSchema('http://example.com/schema.json'));
+        $this->assertSame($schema, $s->getSchema('http://example.com/schema.json#'));
+        $this->assertSame($schema, $s->resolveRef('http://example.com/schema.json#'));
+    }
+
+    /**
+     * A schema whose id is a meta-schema uri with an empty fragment must resolve "#" to itself,
+     * not to the meta-schema shipped with the library.
+     */
+    public function testRefToRootResolvesToTheProvidedSchemaWhoseIdHasAnEmptyFragment(): void
+    {
+        $schema = json_decode(<<<'JSON'
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "id": {"type": "string"},
+        "definitions": {"additionalProperties": {"$ref": "#"}}
+    }
+}
+JSON
+        );
+        $value = json_decode('{"definitions": {"Product": {"id": "Product"}}}');
+
+        $validator = new Validator();
+        $validator->validate($value, $schema);
+
+        $this->assertTrue($validator->isValid(), print_r($validator->getErrors(), true));
+    }
+
     /**
      * A nested id changes the base uri for everything below it, so a relative id must be
      * resolved against the closest enclosing id rather than against the document uri.
