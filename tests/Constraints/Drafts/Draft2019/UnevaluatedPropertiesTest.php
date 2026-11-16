@@ -53,6 +53,20 @@ class UnevaluatedPropertiesTest extends BaseTestCase
             }',
             Constraint::CHECK_MODE_STRICT,
         ];
+
+        yield [
+            '{"foo":1}',
+            '{
+                "$schema":"' . DraftIdentifiers::DRAFT_2019_09 . '",
+                "type":"object",
+                "unevaluatedProperties":false,
+                "anyOf":[
+                    {"unevaluatedProperties":{"type":"string"}},
+                    true
+                ]
+            }',
+            Constraint::CHECK_MODE_STRICT,
+        ];
     }
 
     public function getValidTests(): \Generator
@@ -133,6 +147,17 @@ class UnevaluatedPropertiesTest extends BaseTestCase
                 "properties":{"foo":{"type":"string"}},
                 "unevaluatedProperties":false,
                 "dependentSchemas":{"foo":{"properties":{"bar":{"type":"string"}}}}
+            }',
+            Constraint::CHECK_MODE_STRICT,
+        ];
+
+        yield [
+            '{"foo":"foo"}',
+            '{
+                "$schema":"' . DraftIdentifiers::DRAFT_2019_09 . '",
+                "type":"object",
+                "unevaluatedProperties":false,
+                "allOf":[{"unevaluatedProperties":{"type":"string"}}]
             }',
             Constraint::CHECK_MODE_STRICT,
         ];
