@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace JsonSchema\Tests\Uri;
 
 use JsonSchema\Uri\UriResolver;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class UriResolverTest extends TestCase
@@ -109,7 +108,6 @@ class UriResolverTest extends TestCase
     /**
      * @dataProvider excessParentSegmentCases
      */
-    #[DataProvider('excessParentSegmentCases')]
     public function testCombineRelativePathWithBasePathDiscardsExcessParentSegments(string $expected, string $relativePath, string $basePath): void
     {
         $this->assertEquals($expected, UriResolver::combineRelativePathWithBasePath($relativePath, $basePath));
