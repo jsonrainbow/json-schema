@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonSchema\Constraints\Drafts\Draft06;
 
 use JsonSchema\ConstraintError;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
@@ -39,8 +40,14 @@ class PropertiesNamesConstraint implements ConstraintInterface
         // PHP turns numeric property names into integer keys, while property names are always strings
         $propertyNames = array_map('strval', array_keys(get_object_vars($value)));
 
+        // the property names are checked without exceptions, so that a violation is reported as a propertyNames error
+        $initialConfig = $this->factory->getConfig();
+        $this->factory->removeConfig(Constraint::CHECK_MODE_EXCEPTIONS);
+        $nameConstraint = new Draft06Constraint($this->factory);
+        $this->factory->setConfig($initialConfig);
+
         foreach ($propertyNames as $propertyName) {
-            $nameConstraint = $this->factory->createInstanceFor('schema');
+            $nameConstraint->reset();
             $nameConstraint->check($propertyName, $schema->propertyNames, $path, $i);
             if ($nameConstraint->isValid()) {
                 continue;

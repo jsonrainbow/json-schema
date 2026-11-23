@@ -6,6 +6,7 @@ namespace JsonSchema\Tests\Constraints;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\DraftIdentifiers;
+use JsonSchema\Exception\ValidationException;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -60,6 +61,20 @@ class PropertyNamesTest extends TestCase
         self::assertSame('propertyNames', $errors[0]['constraint']['name']);
         self::assertSame('toolong', $errors[0]['constraint']['params']['name']);
         self::assertSame('maxLength', $errors[0]['constraint']['params']['violating']);
+    }
+
+    /**
+     * @dataProvider draftProvider
+     */
+    public function testExceptionNamesThePropertyName(string $draft): void
+    {
+        $schema = json_decode(sprintf('{"$schema": "%s", "propertyNames": {"maxLength": 1}}', $draft), false);
+        $value = json_decode('{"ab": 1}', false);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Error validating : Property name ab is invalid');
+
+        (new Validator())->validate($value, $schema, Constraint::CHECK_MODE_STRICT | Constraint::CHECK_MODE_EXCEPTIONS);
     }
 
     public function draftProvider(): \Generator
