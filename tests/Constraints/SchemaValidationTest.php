@@ -100,8 +100,9 @@ class SchemaValidationTest extends TestCase
     {
         foreach ([DraftIdentifiers::DRAFT_6, DraftIdentifiers::DRAFT_7, DraftIdentifiers::DRAFT_2019_09] as $dialect) {
             yield $dialect . ' top-level keyword' => [$dialect, '{"minLength": "1"}'];
-            yield $dialect . ' keyword reached through $ref' => [$dialect, '{"properties": {"propertyOne": {"minLength": "1"}}}'];
-            yield $dialect . ' keyword reached through nested $ref' => [$dialect, '{"properties": {"propertyOne": {"items": {"properties": {"a": {"type": 5}}}}}}'];
+            yield $dialect . ' keyword in a subschema' => [$dialect, '{"properties": {"propertyOne": {"minLength": "1"}}}'];
+            yield $dialect . ' keyword in a nested subschema' => [$dialect, '{"properties": {"propertyOne": {"items": {"properties": {"a": {"type": 5}}}}}}'];
+            yield $dialect . ' keyword in a subschema referenced by $ref' => [$dialect, '{"definitions": {"a": {"minLength": "1"}}, "properties": {"propertyOne": {"$ref": "#/definitions/a"}}}'];
         }
     }
 
