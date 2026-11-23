@@ -105,6 +105,36 @@ class UriResolverTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider excessParentSegmentCases
+     */
+    public function testCombineRelativePathWithBasePathDiscardsExcessParentSegments(string $expected, string $relativePath, string $basePath): void
+    {
+        $this->assertEquals($expected, UriResolver::combineRelativePathWithBasePath($relativePath, $basePath));
+    }
+
+    /**
+     * @return array<string, array{string, string, string}>
+     */
+    public static function excessParentSegmentCases(): array
+    {
+        return [
+            // RFC 3986 section 5.2.4: a parent segment climbing past the root is discarded
+            'more parents than segments' => ['/bar.json', '../../../bar.json', '/a/'],
+            'parent against the root itself' => ['/bar.json', '../bar.json', '/'],
+            // the root is never popped, but a real leading segment still is
+            'parent against a relative base' => ['bar.json', '../bar.json', 'foo/baz.json'],
+        ];
+    }
+
+    public function testResolveDiscardsExcessParentSegments(): void
+    {
+        $this->assertEquals(
+            'http://example.org/bar.json',
+            $this->resolver->resolve('../../../bar.json', 'http://example.org/a/')
+        );
+    }
+
     public function testResolveAbsoluteUri(): void
     {
         $this->assertEquals(
