@@ -8,6 +8,10 @@ class UriValidator
 {
     public static function isValid(string $uri): bool
     {
+        if (!Rfc3986::isUri($uri)) {
+            return false;
+        }
+
         // RFC 3986: Hierarchical URIs (http, https, ftp, etc.)
         $hierarchicalPattern = '/^
             ([a-z][a-z0-9+\-.]*):\/\/                # Scheme (http, https, ftp, etc.)
