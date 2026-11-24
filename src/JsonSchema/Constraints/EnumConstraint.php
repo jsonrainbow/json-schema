@@ -45,11 +45,7 @@ class EnumConstraint extends Constraint
                 return;
             }
 
-            if (($type === $enumType) && DeepComparer::isEqual($element, $enum)) {
-                return;
-            }
-
-            if (is_numeric($element) && is_numeric($enum) && DeepComparer::isEqual((float) $element, (float) $enum)) {
+            if (DeepComparer::isEqual($element, $enum)) {
                 return;
             }
         }
