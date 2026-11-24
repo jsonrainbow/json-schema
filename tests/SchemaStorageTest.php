@@ -443,6 +443,30 @@ JSON
             'expectedUris' => ['http://example.org/root/first.json'],
             'unexpectedUris' => [],
         ];
+
+        yield 'an id under the Draft 3 extends keyword holding a schema is an identifier' => [
+            'schema' => '{"extends": {"id": "base.json", "type": "object"}}',
+            'expectedUris' => ['http://example.org/root/base.json'],
+            'unexpectedUris' => [],
+        ];
+
+        yield 'an id under the Draft 3 extends keyword holding a list is an identifier' => [
+            'schema' => '{"extends": [{"id": "base.json", "type": "object"}]}',
+            'expectedUris' => ['http://example.org/root/base.json'],
+            'unexpectedUris' => [],
+        ];
+
+        yield 'an id in a schema of the Draft 3 disallow keyword is an identifier' => [
+            'schema' => '{"disallow": ["string", {"id": "disallowed.json", "type": "integer"}]}',
+            'expectedUris' => ['http://example.org/root/disallowed.json'],
+            'unexpectedUris' => [],
+        ];
+
+        yield 'an id in a schema of the Draft 3 type keyword is an identifier' => [
+            'schema' => '{"type": ["null", {"id": "typed.json", "type": "string"}]}',
+            'expectedUris' => ['http://example.org/root/typed.json'],
+            'unexpectedUris' => [],
+        ];
     }
 
     /**
@@ -564,6 +588,30 @@ JSON
     {
         yield 'draft-07' => [DraftIdentifiers::DRAFT_7, 'http://example.org/root/target.json#'];
         yield 'draft 2019-09' => [DraftIdentifiers::DRAFT_2019_09, 'http://example.org/root/sub/target.json#'];
+    }
+
+    /**
+     * A $ref is only a reference inside a schema: in a data position it is plain data, and
+     * expandRefs() must leave it as written.
+     */
+    public function testRefsInDataPositionsAreNotExpanded(): void
+    {
+        $schema = json_decode(<<<'JSON'
+            {
+                "default": {"$ref": "other.json"},
+                "examples": [{"$ref": "other.json"}],
+                "properties": {"p": {"$ref": "other.json"}}
+            }
+JSON
+        , false);
+
+        $schemaStorage = new SchemaStorage();
+        $schemaStorage->addSchema('http://example.org/root/', $schema);
+        $stored = $schemaStorage->getSchema('http://example.org/root/');
+
+        $this->assertSame('other.json', $stored->default->{'$ref'});
+        $this->assertSame('other.json', $stored->examples[0]->{'$ref'});
+        $this->assertSame('http://example.org/root/other.json#', $stored->properties->p->{'$ref'});
     }
 
     public function testNoDoubleResolve(): void

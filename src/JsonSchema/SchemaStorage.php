@@ -17,7 +17,7 @@ class SchemaStorage implements SchemaStorageInterface
     /**
      * Keywords whose value is a schema.
      *
-     * 'items' also appears below: it holds a single schema since 2020-12 and a tuple before that.
+     * 'items' and 'extends' also appear below, as they hold either a schema or a list of schemas.
      */
     private const SCHEMA_KEYWORDS = [
         'additionalItems',
@@ -25,6 +25,7 @@ class SchemaStorage implements SchemaStorageInterface
         'contains',
         'contentSchema',
         'else',
+        'extends',
         'if',
         'items',
         'not',
@@ -36,13 +37,19 @@ class SchemaStorage implements SchemaStorageInterface
 
     /**
      * Keywords whose value is a list of schemas.
+     *
+     * Draft 3's 'disallow' and 'type' take a list mixing type names and schemas: only the
+     * schemas among them are objects, so the type names are skipped like any other scalar.
      */
     private const SCHEMA_ARRAY_KEYWORDS = [
         'allOf',
         'anyOf',
+        'disallow',
+        'extends',
         'items',
         'oneOf',
         'prefixItems',
+        'type',
     ];
 
     /**
@@ -177,11 +184,9 @@ class SchemaStorage implements SchemaStorageInterface
 
         $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
         foreach ($schema as $propertyName => &$member) {
-            if (
-                in_array($propertyName, ['enum', 'const'], true)
-                && !in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)
-            ) {
-                // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
+            // A $ref is only a reference inside a schema, so data positions such as 'enum',
+            // 'const' or 'default' are left untouched, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
+            if (!self::holdsSchemas((string) $propertyName, $parentProperty)) {
                 continue;
             }
 
@@ -271,8 +276,8 @@ class SchemaStorage implements SchemaStorageInterface
      * Walk the members of one container - a schema object, or an array such as allOf or a
      * tuple items - handing each member to registerAndScanSubschema().
      *
-     * $parentProperty is the keyword the container itself sits under, which is what decides
-     * whether a member named 'enum' or 'const' is that keyword's value or a schema.
+     * $parentProperty is the keyword the container itself sits under: inside a schema map, every
+     * member is a schema whatever its name, see holdsSchemas().
      *
      * @param mixed $schema
      */
