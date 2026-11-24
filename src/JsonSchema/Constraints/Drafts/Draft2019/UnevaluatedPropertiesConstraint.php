@@ -8,6 +8,7 @@ use JsonSchema\ConstraintError;
 use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\EcmaPatternConverter;
 
 class UnevaluatedPropertiesConstraint implements ConstraintInterface
 {
@@ -104,7 +105,7 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
         if (isset($schema->patternProperties) && is_object($schema->patternProperties)) {
             foreach ($properties as $propertyName => $_) {
                 foreach (array_keys(get_object_vars($schema->patternProperties)) as $pattern) {
-                    if (preg_match($this->createPregMatchPattern($pattern), (string) $propertyName)) {
+                    if (preg_match(EcmaPatternConverter::toPcre($pattern), (string) $propertyName)) {
                         $evaluated[] = $propertyName;
                         break;
                     }
@@ -209,13 +210,5 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
         $basePath = $path ?? new JsonPointer('');
 
         return $basePath->withPropertyPaths(array_merge($basePath->getPropertyPaths(), [$propertyName]));
-    }
-
-    private function createPregMatchPattern(string $pattern): string
-    {
-        $pattern = str_replace('\\p{digit}', '\\p{Nd}', $pattern);
-        $pattern = str_replace('\\p{Letter}', '\\p{L}', $pattern);
-
-        return '/' . str_replace('/', '\\/', $pattern) . '/u';
     }
 }
