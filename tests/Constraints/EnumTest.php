@@ -89,6 +89,22 @@ class EnumTest extends BaseTestCase
                 }
             }'
         ];
+        yield 'Numeric string does not match a number' => [
+            'input' => '"1"',
+            'schema' => '{
+                "enum": [
+                    1
+                ]
+            }',
+        ];
+        yield 'Number does not match a numeric string' => [
+            'input' => '1',
+            'schema' => '{
+                "enum": [
+                    "1"
+                ]
+            }',
+        ];
     }
 
     public function getValidTests(): \Generator

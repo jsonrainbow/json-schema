@@ -30,10 +30,6 @@ class EnumConstraint implements ConstraintInterface
             if (DeepComparer::isEqual($value, $enumCase)) {
                 return;
             }
-
-            if (is_numeric($value) && is_numeric($enumCase) && DeepComparer::isEqual((float) $value, (float) $enumCase)) {
-                return;
-            }
         }
 
         $this->addError(ConstraintError::ENUM(), $path, ['enum' => $schema->enum]);
