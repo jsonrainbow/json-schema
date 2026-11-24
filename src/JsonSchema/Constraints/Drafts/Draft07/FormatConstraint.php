@@ -148,6 +148,11 @@ class FormatConstraint implements ConstraintInterface
                     $this->addError(ConstraintError::FORMAT_JSON_POINTER(), $path, ['format' => $schema->format]);
                 }
                 break;
+            case 'relative-json-pointer':
+                if (!$this->validateRelativeJsonPointer($value)) {
+                    $this->addError(ConstraintError::FORMAT_RELATIVE_JSON_POINTER(), $path, ['format' => $schema->format]);
+                }
+                break;
             default:
                 break;
         }
@@ -387,6 +392,16 @@ class FormatConstraint implements ConstraintInterface
         }
 
         return true;
+    }
+
+    private function validateRelativeJsonPointer(string $value): bool
+    {
+        // A non-negative integer without leading zeros, followed by "#" or a JSON pointer
+        if (!preg_match('/^(?:0|[1-9][0-9]*)(.*)$/sD', $value, $matches)) {
+            return false;
+        }
+
+        return $matches[1] === '#' || $this->validateJsonPointer($matches[1]);
     }
 
     private function validateRfc3339DateTime(string $value): bool

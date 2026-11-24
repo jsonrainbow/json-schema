@@ -32,6 +32,7 @@ class ConstraintError extends Enum
     public const FORMAT_JSON_POINTER = 'jsonPointerFormat';
     public const FORMAT_PHONE = 'phoneFormat';
     public const FORMAT_REGEX= 'regexFormat';
+    public const FORMAT_RELATIVE_JSON_POINTER = 'relativeJsonPointerFormat';
     public const FORMAT_STYLE = 'styleFormat';
     public const FORMAT_TIME = 'timeFormat';
     public const FORMAT_URI_TEMPLATE = 'uriTemplateFormat';
@@ -97,6 +98,7 @@ class ConstraintError extends Enum
             self::FORMAT_JSON_POINTER => 'Invalid JSON pointer',
             self::FORMAT_PHONE => 'Invalid phone number',
             self::FORMAT_REGEX=> 'Invalid regex format %s',
+            self::FORMAT_RELATIVE_JSON_POINTER => 'Invalid relative JSON pointer',
             self::FORMAT_STYLE => 'Invalid style',
             self::FORMAT_TIME => 'Invalid time %s, expected format hh:mm:ss',
             self::FORMAT_URI_TEMPLATE => 'Invalid URI template format',
