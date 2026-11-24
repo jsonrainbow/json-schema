@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- fix: Do not match numeric strings to numbers in enum ([#1001](https://github.com/jsonrainbow/json-schema/pull/1001))
 - fix: Count properties evaluated by a nested unevaluatedProperties in Draft 2019-09 ([#999](https://github.com/jsonrainbow/json-schema/pull/999))
 - ci: Run PHPStan on PHP 8.5 instead of the latest PHP ([#1000](https://github.com/jsonrainbow/json-schema/pull/1000))
 - Discard parent segments that climb past the root ([#952](https://github.com/jsonrainbow/json-schema/pull/952))
