@@ -24,7 +24,7 @@ jobs:
       matrix:
         php-version:
           - "7.2"
-          - "latest"
+          - "8.5"
 
     steps:
       - name: "Checkout"
