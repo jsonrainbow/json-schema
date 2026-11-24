@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.15.1] - 2026-11-24
+
 ### Fixed
 - fix: Validate the schema against its meta-schema in strict mode ([#973](https://github.com/jsonrainbow/json-schema/pull/973))
+
 
 ## [6.15.0] - 2026-11-24
 
