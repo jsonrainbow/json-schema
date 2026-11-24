@@ -182,15 +182,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft6/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
             '[draft7/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
             '[draft2019-09/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid',
-            // Optional: ecmascript-regex — PHP uses PCRE which does not implement ECMAScript regex semantics
-            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
-            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
-            '[draft6/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
-            '[draft6/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
-            '[draft7/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
-            '[draft7/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
-            '[draft2019-09/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid',
-            '[draft2019-09/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid',
             // Optional: cross-draft — cross-draft schema resolution ($ref across drafts) is not implemented
             '[draft7/optional/cross-draft.json]: refs to future drafts are processed as future drafts: missing bar is invalid is expected to be invalid',
             '[draft2019-09/optional/cross-draft.json]: refs to future drafts are processed as future drafts: first item not a string is invalid is expected to be invalid',

@@ -22,7 +22,17 @@ class EcmaPatternConverterTest extends TestCase
         yield 'Arabic-Indic digit matches \D' => ['pattern' => '^\D$', 'subject' => '٣', 'expectedToMatch' => true];
         yield 'accented letter does not match \w' => ['pattern' => '^\w+$', 'subject' => 'é', 'expectedToMatch' => false];
         yield 'accented letter matches \W' => ['pattern' => '^\W$', 'subject' => 'é', 'expectedToMatch' => true];
-        yield 'zero width space matches \s' => ['pattern' => '^\s$', 'subject' => "\u{200B}", 'expectedToMatch' => true];
+        yield 'zero width no-break space matches \s' => ['pattern' => '^\s$', 'subject' => "\u{FEFF}", 'expectedToMatch' => true];
+        yield 'paragraph separator matches \s' => ['pattern' => '^\s$', 'subject' => "\u{2029}", 'expectedToMatch' => true];
+        yield 'em space matches \s' => ['pattern' => '^\s$', 'subject' => "\u{2003}", 'expectedToMatch' => true];
+        yield 'zero width space does not match \s' => ['pattern' => '^\s$', 'subject' => "\u{200B}", 'expectedToMatch' => false];
+        yield 'next line does not match \s' => ['pattern' => '^\s$', 'subject' => "\u{0085}", 'expectedToMatch' => false];
+        yield 'mongolian vowel separator does not match \s' => ['pattern' => '^\s$', 'subject' => "\u{180E}", 'expectedToMatch' => false];
+        yield 'zero width no-break space does not match \S' => ['pattern' => '^\S$', 'subject' => "\u{FEFF}", 'expectedToMatch' => false];
+        yield 'next line matches \S' => ['pattern' => '^\S$', 'subject' => "\u{0085}", 'expectedToMatch' => true];
+        yield 'non-whitespace control matches \S' => ['pattern' => '^\S$', 'subject' => "\u{0001}", 'expectedToMatch' => true];
+        yield '\s inside a character class' => ['pattern' => '^[\s-]+$', 'subject' => "- \u{FEFF}", 'expectedToMatch' => true];
+        yield '\S inside a character class' => ['pattern' => '^[\S]+$', 'subject' => 'a b', 'expectedToMatch' => false];
         yield '\w inside a character class' => ['pattern' => '^[\w-]+$', 'subject' => 'a-b_1', 'expectedToMatch' => true];
         yield '\w inside a character class stays ASCII' => ['pattern' => '^[\w]+$', 'subject' => 'é', 'expectedToMatch' => false];
         yield '\d inside a character class' => ['pattern' => '^[\d.]+$', 'subject' => '1.2', 'expectedToMatch' => true];

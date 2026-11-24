@@ -25,7 +25,10 @@ class EcmaPatternConverter
         'D' => '\x{0}-\x{2F}\x{3A}-\x{10FFFF}',
         'w' => 'A-Za-z0-9_',
         'W' => '\x{0}-\x{2F}\x{3A}-\x{40}\x{5B}-\x{5E}\x{60}\x{7B}-\x{10FFFF}',
-        's' => '\s\x{200B}', // Explicitly include zero width white space
+        // ECMA-262 WhiteSpace and LineTerminator: TAB, LF, VT, FF, CR, SP, NBSP, ZWNBSP, the other
+        // Space_Separator (Zs) characters, LS and PS. PCRE's \s misses U+FEFF and adds U+0085 and U+180E.
+        's' => '\x{9}-\x{D}\x{20}\x{A0}\x{1680}\x{2000}-\x{200A}\x{2028}-\x{2029}\x{202F}\x{205F}\x{3000}\x{FEFF}',
+        'S' => '\x{0}-\x{8}\x{E}-\x{1F}\x{21}-\x{9F}\x{A1}-\x{167F}\x{1681}-\x{1FFF}\x{200B}-\x{2027}\x{202A}-\x{202E}\x{2030}-\x{205E}\x{2060}-\x{2FFF}\x{3001}-\x{FEFE}\x{FF00}-\x{10FFFF}',
     ];
 
     /**
