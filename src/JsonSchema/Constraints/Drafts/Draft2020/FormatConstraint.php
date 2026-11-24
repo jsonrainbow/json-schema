@@ -12,6 +12,7 @@ use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Rfc3339;
+use JsonSchema\Tool\Validator\EmailValidator;
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use JsonSchema\Tool\Validator\UriValidator;
 
@@ -140,7 +141,7 @@ class FormatConstraint implements ConstraintInterface
                 }
                 break;
             case 'email':
-                if (filter_var($value, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE) === null) {
+                if (!EmailValidator::isValid($value)) {
                     $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
                 }
                 break;
@@ -163,6 +164,11 @@ class FormatConstraint implements ConstraintInterface
             case 'json-pointer':
                 if (!$this->validateJsonPointer($value)) {
                     $this->addError(ConstraintError::FORMAT_JSON_POINTER(), $path, ['format' => $schema->format]);
+                }
+                break;
+            case 'relative-json-pointer':
+                if (!$this->validateRelativeJsonPointer($value)) {
+                    $this->addError(ConstraintError::FORMAT_RELATIVE_JSON_POINTER(), $path, ['format' => $schema->format]);
                 }
                 break;
             default:
@@ -400,6 +406,16 @@ class FormatConstraint implements ConstraintInterface
         }
 
         return true;
+    }
+
+    private function validateRelativeJsonPointer(string $value): bool
+    {
+        // A non-negative integer without leading zeros, followed by "#" or a JSON pointer
+        if (!preg_match('/^(?:0|[1-9][0-9]*)(.*)$/sD', $value, $matches)) {
+            return false;
+        }
+
+        return $matches[1] === '#' || $this->validateJsonPointer($matches[1]);
     }
 
     private function validateRfc3339DateTime(string $value): bool

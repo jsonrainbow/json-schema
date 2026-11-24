@@ -58,6 +58,8 @@ class Draft2020Constraint extends Constraint
         $this->checkForKeyword('not', $value, $schema, $path, $i);
         $this->checkForKeyword('dependentSchemas', $value, $schema, $path, $i);
         $this->checkForKeyword('dependentRequired', $value, $schema, $path, $i);
+        // Not a Draft 2020-12 keyword, kept for compatibility with schemas written for earlier drafts
+        $this->checkForKeyword('dependencies', $value, $schema, $path, $i);
         $this->checkForKeyword('allOf', $value, $schema, $path, $i);
         $this->checkForKeyword('anyOf', $value, $schema, $path, $i);
         $this->checkForKeyword('oneOf', $value, $schema, $path, $i);

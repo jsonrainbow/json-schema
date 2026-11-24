@@ -15,6 +15,7 @@ class Factory extends \JsonSchema\Constraints\Factory
         'unevaluatedProperties' => UnevaluatedPropertiesConstraint::class,
         'dependentSchemas' => DependentSchemasConstraint::class,
         'dependentRequired' => DependentRequiredConstraint::class,
+        'dependencies' => DependenciesConstraint::class,
         'type' => TypeConstraint::class,
         'const' => ConstConstraint::class,
         'enum' => EnumConstraint::class,
