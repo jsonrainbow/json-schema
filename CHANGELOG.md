@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - test: Skip new bignum and relative-json-pointer cases of the JSON Schema Test Suite ([#995](https://github.com/jsonrainbow/json-schema/pull/995))
 
 ### Added
+- fix: Convert ECMA patterns in Draft 2019-09 unevaluatedProperties ([#998](https://github.com/jsonrainbow/json-schema/pull/998))
 - fix: Resolve $ref to anchors, URN base URIs and ids beside $ref in Draft 2019-09 ([#970](https://github.com/jsonrainbow/json-schema/pull/970))
 
 ## [6.14.0] - 2026-10-24
