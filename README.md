@@ -217,7 +217,7 @@ original data.
 [^2]: `CHECK_MODE_EARLY_COERCE` has no effect unless used in combination with `CHECK_MODE_COERCE_TYPES`. If
 enabled, the validator will use (and coerce) the first compatible type it encounters, even if the
 schema defines another type that matches directly and does not require coercion.
-[^3]: `CHECK_MODE_STRICT` only can be used for Draft-6, Draft 7 or Draft 2019-09 at this point.
+[^3]: `CHECK_MODE_STRICT` only can be used for Draft-4, Draft-6, Draft 7 or Draft 2019-09 at this point.
 
 ## Running the tests
 

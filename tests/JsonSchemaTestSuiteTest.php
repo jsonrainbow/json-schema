@@ -85,11 +85,7 @@ class JsonSchemaTestSuiteTest extends TestCase
                             $test->valid ? 'valid' : 'invalid'
                         );
 
-                        if ($this->shouldNotYieldTest($name)) {
-                            continue;
-                        }
-
-                        yield $name => [
+                        $case = [
                             'testCaseDescription' => $testCase->description,
                             'testDescription' => $test->description,
                             'schema' => $testCase->schema,
@@ -98,6 +94,16 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'draft' => DraftIdentifiers::fromConstraintName($baseDraftName),
                             'expectedValidationResult' => $test->valid,
                         ];
+
+                        if (!$this->shouldNotYieldTest($name)) {
+                            yield $name => $case;
+                        }
+
+                        // Draft-04 is validated by the legacy constraints by default, and by its own constraint set in strict mode
+                        $strictName = $name . ' (strict mode)';
+                        if ($baseDraftName === 'draft4' && !$this->shouldNotYieldTest($strictName)) {
+                            yield $strictName => array_merge($case, ['checkMode' => $case['checkMode'] | Constraint::CHECK_MODE_STRICT]);
+                        }
                     }
                 }
             }
@@ -125,6 +131,26 @@ class JsonSchemaTestSuiteTest extends TestCase
     private function shouldNotYieldTest(string $name): bool
     {
         $skip = [
+            // Draft-04 in strict mode: PHP does not natively support arbitrary-precision integers and its float precision differs from the ECMAScript model
+            '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid (strict mode)',
+            '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid (strict mode)',
+            '[draft4/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid (strict mode)',
+            // Draft-04 in strict mode: zero-width whitespace is not matched by \s, like in the other drafts
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \S matches everything but whitespace: zero-width whitespace does not match is expected to be invalid (strict mode)',
+            '[draft4/optional/ecmascript-regex.json]: ECMA 262 \s matches whitespace: zero-width whitespace matches is expected to be valid (strict mode)',
+            // Draft-04 in strict mode: the format implementation shares the limitations of the other drafts
+            '[draft4/optional/format/email.json]: validation of e-mail addresses: a domain that looks like an IPv4 address without brackets is valid is expected to be valid (strict mode)',
+            '[draft4/optional/format/email.json]: validation of e-mail addresses: a non-ASCII character in the local part is not valid is expected to be invalid (strict mode)',
+            '[draft4/optional/format/email.json]: validation of e-mail addresses: a quoted string containing only a space in the local part is valid is expected to be valid (strict mode)',
+            '[draft4/optional/format/email.json]: validation of e-mail addresses: a quoted string with a space in the local part is valid is expected to be valid (strict mode)',
+            '[draft4/optional/format/email.json]: validation of e-mail addresses: a single-label domain is valid is expected to be valid (strict mode)',
+            '[draft4/optional/format/hostname.json]: validation of host names: exceeds maximum overall length (256) is expected to be invalid (strict mode)',
+            '[draft4/optional/format/uri.json]: validation of URIs: a trailing newline after a valid URI is invalid is expected to be invalid (strict mode)',
+            '[draft4/optional/format/uri.json]: validation of URIs: incomplete percent-encoding triplet is expected to be invalid (strict mode)',
+            '[draft4/optional/format/uri.json]: validation of URIs: invalid percent-encoding with non-hex digits is expected to be invalid (strict mode)',
+            '[draft4/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid (strict mode)',
+            '[draft4/optional/format/uri.json]: validation of URIs: leading zero in an embedded IPv4 address is invalid is expected to be invalid (strict mode)',
+            '[draft4/optional/format/uri.json]: validation of URIs: lone percent sign is invalid is expected to be invalid (strict mode)',
             // Draft 2019-09 complex constraints, which aren't supported initially
             '[draft2019-09/recursiveRef.json]: $recursiveRef without $recursiveAnchor works like $ref: recursive mismatch is expected to be invalid',
             '[draft2019-09/recursiveRef.json]: $recursiveRef without using nesting: integer does not match as a property value is expected to be invalid',
