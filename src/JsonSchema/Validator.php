@@ -89,7 +89,18 @@ class Validator extends BaseConstraint
             );
         }
 
-        $validator->check($value, $schema);
+        // Stop at the first error when only the validity of the value is needed
+        $evaluationState = $this->factory->getEvaluationState();
+        $previousFailFast = $evaluationState->failFast;
+        if ($this->factory->getConfig(Constraint::CHECK_MODE_FAIL_FAST)) {
+            $evaluationState->failFast = true;
+        }
+
+        try {
+            $validator->check($value, $schema);
+        } finally {
+            $evaluationState->failFast = $previousFailFast;
+        }
 
         $this->factory->setConfig($initialCheckMode);
 

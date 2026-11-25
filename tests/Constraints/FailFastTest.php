@@ -27,6 +27,30 @@ class FailFastTest extends TestCase
     }
 
     /**
+     * @dataProvider provideCases
+     *
+     * @param list<array{string, string}> $expectedErrors
+     */
+    public function testFailFastReportsOnlyTheFirstError(string $dialect, string $schema, string $data, array $expectedErrors): void
+    {
+        $errors = $this->validate($dialect, $schema, $data, Constraint::CHECK_MODE_STRICT | Constraint::CHECK_MODE_FAIL_FAST);
+
+        self::assertCount(1, $errors);
+    }
+
+    /**
+     * @dataProvider provideDialects
+     */
+    public function testFailFastReportsNoErrorForAValidValue(string $dialect): void
+    {
+        $schema = '{"properties": {"p": {"oneOf": [{"type": "integer"}, {"items": {"anyOf": [{"type": "string"}, {"type": "boolean"}]}}]}}}';
+
+        $errors = $this->validate($dialect, $schema, '{"p": ["x", true]}', Constraint::CHECK_MODE_STRICT | Constraint::CHECK_MODE_FAIL_FAST);
+
+        self::assertSame([], $errors);
+    }
+
+    /**
      * @return \Generator<string, array{string, string, string, list<array{string, string}>}>
      */
     public static function provideCases(): \Generator

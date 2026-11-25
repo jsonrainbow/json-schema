@@ -211,6 +211,7 @@ third argument to `Validator::validate()`, or can be provided as the third argum
 | `Constraint::CHECK_MODE_DISABLE_FORMAT`         | Do not validate "format" constraints                            |
 | `Constraint::CHECK_MODE_VALIDATE_SCHEMA`        | Validate the schema as well as the provided document            |
 | `Constraint::CHECK_MODE_STRICT` [^3]            | Validate the scheme using strict mode using the specified draft |
+| `Constraint::CHECK_MODE_FAIL_FAST` [^4]         | Stop at the first error, only one error is reported             |
 
 [^1]: Please note that using `CHECK_MODE_COERCE_TYPES` or `CHECK_MODE_APPLY_DEFAULTS` will modify your
 original data.
@@ -218,6 +219,8 @@ original data.
 enabled, the validator will use (and coerce) the first compatible type it encounters, even if the
 schema defines another type that matches directly and does not require coercion.
 [^3]: `CHECK_MODE_STRICT` only can be used for Draft-6, Draft 7 or Draft 2019-09 at this point.
+[^4]: `CHECK_MODE_FAIL_FAST` only has an effect in combination with `CHECK_MODE_STRICT`. Use it when only the validity of
+the data is needed, as validation can then skip the rest of the data once an error is found.
 
 ## Running the tests
 
