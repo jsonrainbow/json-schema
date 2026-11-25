@@ -17,11 +17,17 @@ class Draft2019Constraint extends Constraint
 {
     public function __construct(?\JsonSchema\Constraints\Factory $factory = null)
     {
-        parent::__construct(new Factory(
+        $draftFactory = new Factory(
             $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
             $factory ? $factory->getUriRetriever() : new UriRetriever(),
             $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL
-        ));
+        );
+        if ($factory) {
+            // Nested schemas take part in the evaluation of the schema they belong to
+            $draftFactory->setEvaluationState($factory->getEvaluationState());
+        }
+
+        parent::__construct($draftFactory);
     }
 
     public function check(&$value, $schema = null, ?JsonPointer $path = null, $i = null): void
@@ -133,6 +139,11 @@ class Draft2019Constraint extends Constraint
      */
     protected function checkForKeyword(string $keyword, $value, $schema = null, ?JsonPointer $path = null, $i = null): void
     {
+        // The schema is invalid already, and only its validity is needed
+        if ($this->numErrors() > 0 && $this->factory->isFailFast()) {
+            return;
+        }
+
         $validator = $this->factory->createInstanceFor($keyword);
         $validator->check($value, $schema, $path, $i);
 

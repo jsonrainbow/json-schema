@@ -28,8 +28,16 @@ class NotConstraint implements ConstraintInterface
             return;
         }
 
-        $schemaConstraint = $this->factory->createInstanceFor('schema');
-        $schemaConstraint->check($value, $schema->not, $path, $i);
+        // Only the validity of the subschema is needed, its errors are never reported
+        $previousFailFast = $this->factory->startFailFast();
+        try {
+            $schemaConstraint = $this->factory->createInstanceFor('schema');
+            $schemaConstraint->check($value, $schema->not, $path, $i);
+        } finally {
+            if ($previousFailFast !== null) {
+                $this->factory->stopFailFast($previousFailFast);
+            }
+        }
 
         if (!$schemaConstraint->isValid()) {
             return;

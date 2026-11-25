@@ -85,6 +85,11 @@ class Factory
     private $instanceCache = [];
 
     /**
+     * @var EvaluationState|null
+     */
+    private $evaluationState;
+
+    /**
      * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      */
     public function __construct(
@@ -145,6 +150,66 @@ class Factory
         }
 
         return $this->checkMode & $options;
+    }
+
+    /**
+     * @internal
+     */
+    public function getEvaluationState(): EvaluationState
+    {
+        if ($this->evaluationState === null) {
+            $this->evaluationState = new EvaluationState();
+        }
+
+        return $this->evaluationState;
+    }
+
+    /**
+     * Shares the evaluation state of another factory, so that nested factories take part in the same evaluation
+     *
+     * @internal
+     */
+    public function setEvaluationState(EvaluationState $evaluationState): void
+    {
+        $this->evaluationState = $evaluationState;
+    }
+
+    /**
+     * Whether a constraint may stop at its first error, because only the validity of the value is needed
+     *
+     * @internal
+     */
+    public function isFailFast(): bool
+    {
+        return $this->getEvaluationState()->failFast;
+    }
+
+    /**
+     * Lets the constraints evaluating a subschema stop at its first error, when only its validity is needed.
+     * Returns the previous state, to be passed to stopFailFast(), or null if the check mode needs every
+     * constraint to be evaluated, because it modifies the value or throws on the first error.
+     *
+     * @internal
+     */
+    public function startFailFast(): ?bool
+    {
+        if ($this->getConfig(Constraint::CHECK_MODE_APPLY_DEFAULTS | Constraint::CHECK_MODE_COERCE_TYPES | Constraint::CHECK_MODE_EXCEPTIONS)) {
+            return null;
+        }
+
+        $evaluationState = $this->getEvaluationState();
+        $previous = $evaluationState->failFast;
+        $evaluationState->failFast = true;
+
+        return $previous;
+    }
+
+    /**
+     * @internal
+     */
+    public function stopFailFast(bool $previous): void
+    {
+        $this->getEvaluationState()->failFast = $previous;
     }
 
     public function getUriRetriever(): UriRetrieverInterface

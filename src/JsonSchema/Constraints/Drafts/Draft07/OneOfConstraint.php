@@ -28,6 +28,35 @@ class OneOfConstraint implements ConstraintInterface
             return;
         }
 
+        // Only the validity of each branch is needed to know whether exactly one of them matches. The errors of
+        // the branches are collected afterwards, by evaluating them once more, only if the oneOf fails.
+        $previousFailFast = $this->factory->startFailFast();
+        if ($previousFailFast !== null) {
+            $matchedSchema = 0;
+            try {
+                foreach ($schema->oneOf as $oneOfSchema) {
+                    $schemaConstraint = $this->factory->createInstanceFor('schema');
+                    $schemaConstraint->check($value, $oneOfSchema, $path, $i);
+                    if ($schemaConstraint->isValid()) {
+                        $matchedSchema++;
+                    }
+                }
+            } finally {
+                $this->factory->stopFailFast($previousFailFast);
+            }
+
+            if ($matchedSchema === 1) {
+                return;
+            }
+
+            if ($previousFailFast) {
+                // Only the validity of this oneOf is needed as well
+                $this->addError(ConstraintError::ONE_OF(), $path);
+
+                return;
+            }
+        }
+
         $matchedSchema = 0;
         foreach ($schema->oneOf as $oneOfSchema) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
