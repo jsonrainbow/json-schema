@@ -14,6 +14,7 @@ namespace JsonSchema;
 use JsonSchema\Constraints\BaseConstraint;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
+use JsonSchema\Exception\InvalidArgumentException;
 
 /**
  * A JsonSchema Constraint
@@ -42,11 +43,23 @@ class Validator extends BaseConstraint
      * @param mixed $value
      * @param mixed $schema
      *
+     * @throws InvalidArgumentException if the schema is neither an object, an array, a boolean nor null
+     *
      * @phpstan-param int-mask-of<Constraint::CHECK_MODE_*> $checkMode
      * @phpstan-return int-mask-of<Validator::ERROR_*>
      */
     public function validate(&$value, $schema = null, ?int $checkMode = null): int
     {
+        // A JSON string or any other scalar is not a schema, it would pass every value silently
+        if ($schema !== null && !is_object($schema) && !is_array($schema) && !is_bool($schema)) {
+            throw new InvalidArgumentException(sprintf('The schema must be an object, an array or a boolean, %s given', gettype($schema)));
+        }
+
+        // cast array schemas to object
+        if (is_array($schema)) {
+            $schema = BaseConstraint::arrayToObjectRecursive($schema);
+        }
+
         // reset errors prior to validation
         $this->reset();
 
@@ -79,6 +92,11 @@ class Validator extends BaseConstraint
         }
 
         if ($this->factory->getConfig(Constraint::CHECK_MODE_STRICT)) {
+            // The strict mode has no inline schema to fall back to, unlike SchemaConstraint
+            if (!is_object($schema)) {
+                throw new InvalidArgumentException('no schema found to verify against');
+            }
+
             $dialect = $this->factory->getDefaultDialect();
             if (property_exists($schema, '$schema')) {
                 $dialect = $schema->{'$schema'};
