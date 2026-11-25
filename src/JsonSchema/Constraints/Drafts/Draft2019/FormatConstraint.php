@@ -11,6 +11,7 @@ use JsonSchema\Constraints\ConstraintInterface;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Entity\ErrorBagProxy;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Exception\RuntimeException;
 use JsonSchema\Rfc3339;
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use JsonSchema\Tool\Validator\UriValidator;
@@ -350,6 +351,10 @@ class FormatConstraint implements ConstraintInterface
             // ZWNJ / ZWJ U+200C / U+200D
             if (preg_match('/[\x{200C}\x{200D}]/u', $label)) {
                 return false;
+            }
+
+            if (!function_exists('idn_to_ascii')) {
+                throw new RuntimeException('Validating the "idn-hostname" format requires the intl extension (ext-intl)');
             }
 
             $ascii = idn_to_ascii($label, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
