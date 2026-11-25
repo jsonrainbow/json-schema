@@ -184,9 +184,11 @@ class SchemaStorage implements SchemaStorageInterface
 
         $parentProperty = array_slice($propertyStack, -1)[0] ?? '';
         foreach ($schema as $propertyName => &$member) {
-            // A $ref is only a reference inside a schema, so data positions such as 'enum',
-            // 'const' or 'default' are left untouched, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
-            if (!self::holdsSchemas((string) $propertyName, $parentProperty)) {
+            if (
+                in_array($propertyName, ['enum', 'const'], true)
+                && !in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true)
+            ) {
+                // Enum and const don't allow $ref as a keyword, see https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/445
                 continue;
             }
 

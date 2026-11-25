@@ -591,27 +591,26 @@ JSON
     }
 
     /**
-     * A $ref is only a reference inside a schema: in a data position it is plain data, and
-     * expandRefs() must leave it as written.
+     * A $ref can be reached through a pointer into any keyword, known or not, so expandRefs()
+     * must expand it there too, or it no longer resolves against the document's base URI.
      */
-    public function testRefsInDataPositionsAreNotExpanded(): void
+    public function testRefInsideAnUnknownKeywordIsStillExpanded(): void
     {
         $schema = json_decode(<<<'JSON'
             {
-                "default": {"$ref": "other.json"},
-                "examples": [{"$ref": "other.json"}],
-                "properties": {"p": {"$ref": "other.json"}}
+                "definitions": {"int": {"type": "integer"}},
+                "properties": {"a": {"$ref": "#/unknown"}},
+                "unknown": {"$ref": "#/definitions/int"}
             }
 JSON
         , false);
+        $data = json_decode('{"a": "x"}', false);
 
-        $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema('http://example.org/root/', $schema);
-        $stored = $schemaStorage->getSchema('http://example.org/root/');
+        $validator = new Validator();
+        $validator->validate($data, $schema);
 
-        $this->assertSame('other.json', $stored->default->{'$ref'});
-        $this->assertSame('other.json', $stored->examples[0]->{'$ref'});
-        $this->assertSame('http://example.org/root/other.json#', $stored->properties->p->{'$ref'});
+        $this->assertFalse($validator->isValid());
+        $this->assertSame('type', $validator->getErrors()[0]['constraint']['name']);
     }
 
     public function testNoDoubleResolve(): void
