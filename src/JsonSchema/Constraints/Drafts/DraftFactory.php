@@ -6,6 +6,7 @@ namespace JsonSchema\Constraints\Drafts;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\TypeCheck\TypeCheckInterface;
 use JsonSchema\SchemaStorageInterface;
 use JsonSchema\UriRetrieverInterface;
 
@@ -76,5 +77,14 @@ abstract class DraftFactory extends Factory
         }
 
         return $this->parentFactory->getConfig($options);
+    }
+
+    public function getTypeCheck(): TypeCheckInterface
+    {
+        if ($this->parentFactory === null) {
+            return parent::getTypeCheck();
+        }
+
+        return $this->parentFactory->getTypeCheck();
     }
 }
