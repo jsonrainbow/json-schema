@@ -298,14 +298,18 @@ class SchemaStorage implements SchemaStorageInterface
                 continue;
             }
 
+            // A member of a schema map is a schema named by the author, not a keyword, so its
+            // name must not decide what its own members hold.
+            $memberProperty = in_array($parentProperty, self::SCHEMA_MAP_KEYWORDS, true) ? '' : (string) $propertyName;
+
             if (is_array($member)) {
                 foreach ($member as $item) {
-                    $this->registerAndScanSubschema($item, $parentId, (string) $propertyName);
+                    $this->registerAndScanSubschema($item, $parentId, $memberProperty);
                 }
                 continue;
             }
 
-            $this->registerAndScanSubschema($member, $parentId, (string) $propertyName);
+            $this->registerAndScanSubschema($member, $parentId, $memberProperty);
         }
     }
 

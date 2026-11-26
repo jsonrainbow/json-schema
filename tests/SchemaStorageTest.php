@@ -408,6 +408,16 @@ JSON
             'unexpectedUris' => [],
         ];
 
+        yield 'a subschema named after a schema map keyword keeps its data positions' => [
+            'schema' => '{"properties": {"properties": {"default": {"id": "default.json"}, "enum": [{"id": "enum.json"}], "x-unknown": {"id": "unknown.json"}, "definitions": {"x": {"id": "real.json"}}}}}',
+            'expectedUris' => ['http://example.org/root/real.json'],
+            'unexpectedUris' => [
+                'http://example.org/root/default.json',
+                'http://example.org/root/enum.json',
+                'http://example.org/root/unknown.json',
+            ],
+        ];
+
         yield 'an id inside a default value is not an identifier' => [
             'schema' => '{"default": {"wrapper": {"id": "leaked.json", "type": "string"}}}',
             'expectedUris' => [],
