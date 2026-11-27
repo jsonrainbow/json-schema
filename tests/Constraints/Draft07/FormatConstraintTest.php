@@ -65,6 +65,11 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'IDN e-mail format with trailing dot in the domain' => ['δοκιμή@example.com.', 'idn-email'];
         yield 'IDN e-mail format with consecutive dots in the local part' => ['a..b@example.com', 'idn-email'];
         yield 'IDN e-mail format with local part exceeding 64 octets' => [str_repeat('a', 65) . '@example.com', 'idn-email'];
+        yield 'Relative JSON pointer format with leading zero' => ['01/a', 'relative-json-pointer'];
+        yield 'Relative JSON pointer format with negative prefix' => ['-1/foo', 'relative-json-pointer'];
+        yield 'Relative JSON pointer format with octothorpe followed by a JSON pointer' => ['1#/foo', 'relative-json-pointer'];
+        yield 'Relative JSON pointer format with invalid escape' => ['0/~2', 'relative-json-pointer'];
+        yield 'Relative JSON pointer format with trailing new line' => ["1\n", 'relative-json-pointer'];
     }
 
     public function getValidFormats(): Generator
@@ -77,5 +82,8 @@ class FormatConstraintTest extends VeryBaseTestCase
         yield 'IRI reference format with IPvFuture literal' => ['//[V1.fe]/p', 'iri-reference'];
         yield 'IDN e-mail format' => ['실례@실례.테스트', 'idn-email'];
         yield 'IDN e-mail format with quoted local part' => ['"a b"@example.com', 'idn-email'];
+        yield 'Relative JSON pointer format' => ['2/0/baz/1/zip', 'relative-json-pointer'];
+        yield 'Relative JSON pointer format with octothorpe' => ['0#', 'relative-json-pointer'];
+        yield 'Relative JSON pointer format with multi-digit prefix only' => ['100', 'relative-json-pointer'];
     }
 }
