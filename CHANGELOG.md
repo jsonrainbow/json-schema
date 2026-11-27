@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - fix: Throw a clear exception when idn-hostname validation lacks ext-intl ([#1009](https://github.com/jsonrainbow/json-schema/pull/1009))
 
+### Added
+- feat: Support the dependencies keyword in Draft 2019-09 for compatibility ([#1006](https://github.com/jsonrainbow/json-schema/pull/1006))
+
 ## [6.15.1] - 2026-11-24
 
 ### Fixed
