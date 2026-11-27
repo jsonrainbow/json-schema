@@ -6,6 +6,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\EcmaPatternConverter;
 
 class ObjectConstraint extends Constraint
 {
@@ -53,7 +54,7 @@ class ObjectConstraint extends Constraint
     {
         $matches = [];
         foreach ($patternProperties as $pregex => $schema) {
-            $fullRegex = self::jsonPatternToPhpRegex($pregex);
+            $fullRegex = EcmaPatternConverter::toPcre((string) $pregex);
 
             // Validate the pattern before using it to test for matches
             if (@preg_match($fullRegex, '') === false) {

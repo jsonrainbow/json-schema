@@ -13,6 +13,7 @@ namespace JsonSchema\Constraints;
 
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
+use JsonSchema\Tool\EcmaPatternConverter;
 
 /**
  * The StringConstraint Constraints, validates an string against a given schema
@@ -42,7 +43,7 @@ class StringConstraint extends Constraint
         }
 
         // Verify a regex pattern
-        if (isset($schema->pattern) && !preg_match(self::jsonPatternToPhpRegex($schema->pattern), $element)) {
+        if (isset($schema->pattern) && !preg_match(EcmaPatternConverter::toPcre($schema->pattern), $element)) {
             $this->addError(ConstraintError::PATTERN(), $path, [
                 'pattern' => $schema->pattern,
             ]);

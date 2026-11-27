@@ -43,6 +43,24 @@ class PatternTest extends BaseTestCase
                 "additionalProperties": false
             }'
         ];
+        yield 'ECMA 262 \d does not match a non-ASCII digit' => [
+            '{"value": "৪২"}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "string", "pattern": "^\\\\d+$"}
+                }
+            }'
+        ];
+        yield 'ECMA 262 \w does not match a non-ASCII letter' => [
+            '{"value": "é"}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "string", "pattern": "^\\\\w$"}
+                }
+            }'
+        ];
     }
 
     public function getValidTests(): \Generator
@@ -89,6 +107,24 @@ class PatternTest extends BaseTestCase
                     "value": {"type": "string", "pattern": "^↓æ.$"}
                 },
                 "additionalProperties": false
+            }'
+        ];
+        yield 'ECMA 262 \d matches an ASCII digit' => [
+            '{"value": "42"}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "string", "pattern": "^\\\\d+$"}
+                }
+            }'
+        ];
+        yield 'A pattern with a slash' => [
+            '{"value": "a/b"}',
+            '{
+                "type": "object",
+                "properties": {
+                    "value": {"type": "string", "pattern": "^a/b$"}
+                }
             }'
         ];
     }

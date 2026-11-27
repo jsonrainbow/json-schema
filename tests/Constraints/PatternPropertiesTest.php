@@ -75,6 +75,20 @@ class PatternPropertiesTest extends BaseTestCase
                 'additionalProperties' => false
             ])
         ];
+        yield 'ECMA 262 \d does not match a non-ASCII digit in a property name' => [
+            json_encode([
+                '৪২' => 'foo',
+            ]),
+            json_encode([
+                'type' => 'object',
+                'patternProperties' => [
+                    '^\\d+$' => [
+                        'type' => 'string'
+                    ]
+                ],
+                'additionalProperties' => false
+            ])
+        ];
     }
 
     public function getValidTests(): \Generator
@@ -191,6 +205,20 @@ class PatternPropertiesTest extends BaseTestCase
                 'patternProperties' => [
                     '^[\\x{0080}-\\x{10FFFF}]+$' => [
                         'type' => ['string']
+                    ]
+                ],
+                'additionalProperties' => false
+            ])
+        ];
+        yield 'ECMA 262 \d matches an ASCII digit in a property name' => [
+            json_encode([
+                '42' => 'foo',
+            ]),
+            json_encode([
+                'type' => 'object',
+                'patternProperties' => [
+                    '^\\d+$' => [
+                        'type' => 'string'
                     ]
                 ],
                 'additionalProperties' => false
