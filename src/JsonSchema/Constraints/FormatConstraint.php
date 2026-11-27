@@ -14,6 +14,7 @@ namespace JsonSchema\Constraints;
 use JsonSchema\ConstraintError;
 use JsonSchema\Entity\JsonPointer;
 use JsonSchema\Rfc3339;
+use JsonSchema\Tool\Validator\EmailValidator;
 use JsonSchema\Tool\Validator\RelativeReferenceValidator;
 use JsonSchema\Tool\Validator\UriValidator;
 
@@ -116,7 +117,7 @@ class FormatConstraint extends Constraint
                 break;
 
             case 'email':
-                if (is_string($element) && null === filter_var($element, FILTER_VALIDATE_EMAIL, FILTER_NULL_ON_FAILURE | FILTER_FLAG_EMAIL_UNICODE)) {
+                if (is_string($element) && !EmailValidator::isValid($element)) {
                     $this->addError(ConstraintError::FORMAT_EMAIL(), $path, ['format' => $schema->format]);
                 }
                 break;

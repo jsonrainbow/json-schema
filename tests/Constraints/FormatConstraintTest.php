@@ -157,6 +157,7 @@ class FormatConstraintTest extends BaseTestCase
         yield [4.2, 'uri-reference'];
 
         yield ['info@something.edu', 'email'];
+        yield ['info@somewhere', 'email'];
         yield [42, 'email'];
         yield [4.2, 'email'];
 
@@ -231,8 +232,6 @@ class FormatConstraintTest extends BaseTestCase
         yield ['./relative:PathReference/', 'uri'];
         yield ['relativePathReference/', 'uri'];
         yield ['relative/Path:Reference/', 'uri'];
-
-        yield ['info@somewhere', 'email'];
 
         yield ['256.2.2.2', 'ip-address'];
 
