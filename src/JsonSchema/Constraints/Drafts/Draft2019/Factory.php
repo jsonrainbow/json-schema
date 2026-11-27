@@ -16,6 +16,7 @@ class Factory extends \JsonSchema\Constraints\Factory
         'additionalItems' => AdditionalItemsConstraint::class,
         'dependentSchemas' => DependentSchemasConstraint::class,
         'dependentRequired' => DependentRequiredConstraint::class,
+        'dependencies' => DependenciesConstraint::class,
         'type' => TypeConstraint::class,
         'const' => ConstConstraint::class,
         'enum' => EnumConstraint::class,
