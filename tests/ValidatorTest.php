@@ -46,6 +46,48 @@ class ValidatorTest extends TestCase
         $validator->validate($data, $schema);
     }
 
+    public function testItThrowsForAMissingSchemaInStrictMode(): void
+    {
+        $data = 'not an integer';
+
+        $validator = new Validator();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('no schema found to verify against');
+        $validator->validate($data, null, Constraint::CHECK_MODE_STRICT);
+    }
+
+    /**
+     * @dataProvider provideSchemasOfAnInvalidType
+     *
+     * @param mixed $schema
+     */
+    public function testItThrowsForASchemaOfAnInvalidType($schema, int $checkMode, string $type): void
+    {
+        $data = 'not an integer';
+
+        $validator = new Validator();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The schema must be an object, an array or a boolean, ' . $type . ' given');
+        $validator->validate($data, $schema, $checkMode);
+    }
+
+    /**
+     * @return array<string, array{mixed, int, string}>
+     */
+    public static function provideSchemasOfAnInvalidType(): array
+    {
+        return [
+            'JSON string' => ['{"type": "integer"}', Constraint::CHECK_MODE_NORMAL, 'string'],
+            'JSON string in strict mode' => ['{"type": "integer"}', Constraint::CHECK_MODE_STRICT, 'string'],
+            'JSON string with schema validation' => ['{"type": "integer"}', Constraint::CHECK_MODE_VALIDATE_SCHEMA, 'string'],
+            'integer' => [5, Constraint::CHECK_MODE_NORMAL, 'integer'],
+            'integer in strict mode' => [5, Constraint::CHECK_MODE_STRICT, 'integer'],
+            'float' => [1.5, Constraint::CHECK_MODE_NORMAL, 'double'],
+        ];
+    }
+
     public function testDeprecatedCheckDelegatesToValidate(): void
     {
         $schema = json_decode('{"type":"string"}');
