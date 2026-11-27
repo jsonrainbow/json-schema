@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- fix: Apply ECMA 262 semantics to pattern and patternProperties in the non-strict mode ([#1003](https://github.com/jsonrainbow/json-schema/pull/1003))
+
 ## [6.16.0] - 2026-11-27
 
 ### Fixed
