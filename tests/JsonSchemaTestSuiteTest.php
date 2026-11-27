@@ -85,11 +85,7 @@ class JsonSchemaTestSuiteTest extends TestCase
                             $test->valid ? 'valid' : 'invalid'
                         );
 
-                        if ($this->shouldNotYieldTest($name)) {
-                            continue;
-                        }
-
-                        yield $name => [
+                        $case = [
                             'testCaseDescription' => $testCase->description,
                             'testDescription' => $test->description,
                             'schema' => $testCase->schema,
@@ -98,6 +94,16 @@ class JsonSchemaTestSuiteTest extends TestCase
                             'draft' => DraftIdentifiers::fromConstraintName($baseDraftName),
                             'expectedValidationResult' => $test->valid,
                         ];
+
+                        if (!$this->shouldNotYieldTest($name)) {
+                            yield $name => $case;
+                        }
+
+                        // Draft-04 is validated by the legacy constraints by default, and by its own constraint set in strict mode
+                        $strictName = $name . ' (strict mode)';
+                        if ($baseDraftName === 'draft4' && !$this->shouldNotYieldTest($strictName)) {
+                            yield $strictName => array_merge($case, ['checkMode' => $case['checkMode'] | Constraint::CHECK_MODE_STRICT]);
+                        }
                     }
                 }
             }
@@ -125,6 +131,12 @@ class JsonSchemaTestSuiteTest extends TestCase
     private function shouldNotYieldTest(string $name): bool
     {
         $skip = [
+            // Draft-04 in strict mode: PHP does not natively support arbitrary-precision integers and its float precision differs from the ECMAScript model
+            '[draft4/optional/bignum.json]: integer: a bignum is an integer is expected to be valid (strict mode)',
+            '[draft4/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid (strict mode)',
+            '[draft4/optional/float-overflow.json]: all integers are multiples of 0.5, if overflow is handled: valid if optional overflow handling is implemented is expected to be valid (strict mode)',
+            // Draft-04 in strict mode: the format implementation shares the limitations of the other drafts
+            '[draft4/optional/format/hostname.json]: validation of host names: exceeds maximum overall length (256) is expected to be invalid (strict mode)',
             // Draft 2019-09 complex constraints, which aren't supported initially
             '[draft2019-09/recursiveRef.json]: $recursiveRef without $recursiveAnchor works like $ref: recursive mismatch is expected to be invalid',
             '[draft2019-09/recursiveRef.json]: $recursiveRef without using nesting: integer does not match as a property value is expected to be invalid',
@@ -145,7 +157,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/ref.json]: $ref with $recursiveAnchor: extra items disallowed for root is expected to be invalid',
             '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties with $recursiveRef: with no unevaluated properties is expected to be valid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems with $recursiveRef: with no unevaluated items is expected to be valid',
-            // Optional: Anchor, not yet implemented
             // Optional: bignum — PHP does not natively support arbitrary-precision integers/floats
             '[draft3/optional/bignum.json]: integer: a bignum is an integer is expected to be valid',
             '[draft3/optional/bignum.json]: integer: a negative bignum is an integer is expected to be valid',
@@ -188,27 +199,6 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/ecmascript-regex.json]: Python-specific regular expression syntax is not valid ECMA 262: inline comment group (?#...) is not ECMA 262 is expected to be invalid',
             '[draft2019-09/optional/format/ecmascript-regex.json]: global inline flag groups are not valid ECMA 262: a single global inline flag (?i) is expected to be invalid',
             '[draft2019-09/optional/format/ecmascript-regex.json]: global inline flag groups are not valid ECMA 262: multiple global inline flags (?ims) is expected to be invalid',
-            // Optional: email
-            '[draft4/optional/format/email.json]: validation of e-mail addresses: a quoted string with a space in the local part is valid is expected to be valid',
-            '[draft4/optional/format/email.json]: validation of e-mail addresses: a domain that looks like an IPv4 address without brackets is valid is expected to be valid',
-            '[draft4/optional/format/email.json]: validation of e-mail addresses: a quoted string containing only a space in the local part is valid is expected to be valid',
-            '[draft4/optional/format/email.json]: validation of e-mail addresses: a non-ASCII character in the local part is not valid is expected to be invalid',
-            '[draft4/optional/format/email.json]: validation of e-mail addresses: a single-label domain is valid is expected to be valid',
-            '[draft6/optional/format/email.json]: validation of e-mail addresses: a quoted string with a space in the local part is valid is expected to be valid',
-            '[draft6/optional/format/email.json]: validation of e-mail addresses: a domain that looks like an IPv4 address without brackets is valid is expected to be valid',
-            '[draft6/optional/format/email.json]: validation of e-mail addresses: a quoted string containing only a space in the local part is valid is expected to be valid',
-            '[draft6/optional/format/email.json]: validation of e-mail addresses: a non-ASCII character in the local part is not valid is expected to be invalid',
-            '[draft6/optional/format/email.json]: validation of e-mail addresses: a single-label domain is valid is expected to be valid',
-            '[draft7/optional/format/email.json]: validation of e-mail addresses: a quoted string with a space in the local part is valid is expected to be valid',
-            '[draft7/optional/format/email.json]: validation of e-mail addresses: a domain that looks like an IPv4 address without brackets is valid is expected to be valid',
-            '[draft7/optional/format/email.json]: validation of e-mail addresses: a quoted string containing only a space in the local part is valid is expected to be valid',
-            '[draft7/optional/format/email.json]: validation of e-mail addresses: a non-ASCII character in the local part is not valid is expected to be invalid',
-            '[draft7/optional/format/email.json]: validation of e-mail addresses: a single-label domain is valid is expected to be valid',
-            '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a quoted string with a space in the local part is valid is expected to be valid',
-            '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a domain that looks like an IPv4 address without brackets is valid is expected to be valid',
-            '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a quoted string containing only a space in the local part is valid is expected to be valid',
-            '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a non-ASCII character in the local part is not valid is expected to be invalid',
-            '[draft2019-09/optional/format/email.json]: validation of e-mail addresses: a single-label domain is valid is expected to be valid',
             // Optional: idn-hostname — IDN hostname format validation is not implemented
             '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: Exceptions that are DISALLOWED, left-to-right chars is expected to be invalid',
             '[draft7/optional/format/idn-hostname.json]: validation of internationalized host names: Exceptions that are DISALLOWED, right-to-left chars is expected to be invalid',
@@ -313,61 +303,11 @@ class JsonSchemaTestSuiteTest extends TestCase
             '[draft2019-09/optional/format/idn-hostname.json]: validation of separators in internationalized host names: label too long if separator ignored (ideographic full stop) is expected to be valid',
             '[draft2019-09/optional/format/idn-hostname.json]: validation of separators in internationalized host names: label too long if separator ignored (fullwidth full stop) is expected to be valid',
             '[draft2019-09/optional/format/idn-hostname.json]: validation of separators in internationalized host names: label too long if separator ignored (halfwidth ideographic full stop) is expected to be valid',
-            '[draft2019-09/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid',
             // Optional format time:
             '[draft7/optional/format/time.json]: validation of time strings: time with unknown local offset is valid is expected to be valid',
             '[draft7/optional/format/time.json]: validation of time strings: a valid time string with a 15 digit second fraction is expected to be valid',
             '[draft2019-09/optional/format/time.json]: validation of time strings: time with unknown local offset is valid is expected to be valid', // Input contains -00:00 fails on last comparison.
             '[draft2019-09/optional/format/time.json]: validation of time strings: a valid time string with a 15 digit second fraction is expected to be valid', // should be handled same as PR#940
-            // Optional format uri: Not yet implemented
-            '[draft4/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid',
-            '[draft4/optional/format/uri.json]: validation of URIs: invalid percent-encoding with non-hex digits is expected to be invalid',
-            '[draft4/optional/format/uri.json]: validation of URIs: incomplete percent-encoding triplet is expected to be invalid',
-            '[draft4/optional/format/uri.json]: validation of URIs: lone percent sign is invalid is expected to be invalid',
-            '[draft4/optional/format/uri.json]: validation of URIs: leading zero in an embedded IPv4 address is invalid is expected to be invalid',
-            '[draft4/optional/format/uri.json]: validation of URIs: a trailing newline after a valid URI is invalid is expected to be invalid',
-            '[draft6/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid',
-            '[draft6/optional/format/uri.json]: validation of URIs: invalid percent-encoding with non-hex digits is expected to be invalid',
-            '[draft6/optional/format/uri.json]: validation of URIs: incomplete percent-encoding triplet is expected to be invalid',
-            '[draft6/optional/format/uri.json]: validation of URIs: lone percent sign is invalid is expected to be invalid',
-            '[draft6/optional/format/uri.json]: validation of URIs: leading zero in an embedded IPv4 address is invalid is expected to be invalid',
-            '[draft6/optional/format/uri.json]: validation of URIs: a trailing newline after a valid URI is invalid is expected to be invalid',
-            '[draft7/optional/format/uri.json]: validation of URIs: invalid userinfo is expected to be invalid',
-            '[draft7/optional/format/uri.json]: validation of URIs: invalid percent-encoding with non-hex digits is expected to be invalid',
-            '[draft7/optional/format/uri.json]: validation of URIs: incomplete percent-encoding triplet is expected to be invalid',
-            '[draft7/optional/format/uri.json]: validation of URIs: lone percent sign is invalid is expected to be invalid',
-            '[draft7/optional/format/uri.json]: validation of URIs: leading zero in an embedded IPv4 address is invalid is expected to be invalid',
-            '[draft7/optional/format/uri.json]: validation of URIs: a trailing newline after a valid URI is invalid is expected to be invalid',
-            '[draft2019-09/optional/format/uri.json]: validation of URIs: invalid percent-encoding with non-hex digits is expected to be invalid',
-            '[draft2019-09/optional/format/uri.json]: validation of URIs: incomplete percent-encoding triplet is expected to be invalid',
-            '[draft2019-09/optional/format/uri.json]: validation of URIs: lone percent sign is invalid is expected to be invalid',
-            '[draft2019-09/optional/format/uri.json]: validation of URIs: leading zero in an embedded IPv4 address is invalid is expected to be invalid',
-            '[draft2019-09/optional/format/uri.json]: validation of URIs: a trailing newline after a valid URI is invalid is expected to be invalid',
-            // Optional format uri-reference: Not yet implemented
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: unescaped non US-ASCII characters is expected to be invalid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: a network-path reference with an empty authority is expected to be valid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: a double quote in a path is expected to be invalid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: square brackets outside an authority is expected to be invalid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: a non-numeric port in a network-path reference is expected to be invalid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: more than one at-sign in the authority is expected to be invalid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: a leading zero in the IPv4 part of an IPv6 literal is expected to be invalid',
-            '[draft6/optional/format/uri-reference.json]: validation of URI References: a colon in the first segment of a relative-path reference is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: unescaped non US-ASCII characters is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: a network-path reference with an empty authority is expected to be valid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: a double quote in a path is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: square brackets outside an authority is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: a non-numeric port in a network-path reference is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: more than one at-sign in the authority is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: a leading zero in the IPv4 part of an IPv6 literal is expected to be invalid',
-            '[draft7/optional/format/uri-reference.json]: validation of URI References: a colon in the first segment of a relative-path reference is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: unescaped non US-ASCII characters is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a network-path reference with an empty authority is expected to be valid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a double quote in a path is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: square brackets outside an authority is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a non-numeric port in a network-path reference is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: more than one at-sign in the authority is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a leading zero in the IPv4 part of an IPv6 literal is expected to be invalid',
-            '[draft2019-09/optional/format/uri-reference.json]: validation of URI References: a colon in the first segment of a relative-path reference is expected to be invalid',
             // Optional unknown keyword: Not yet implemented
             '[draft6/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches second anyOf, which has a real schema in it is expected to be valid',
             '[draft6/optional/unknownKeyword.json]: $id inside an unknown keyword is not a real identifier: type matches non-schema in third anyOf is expected to be invalid',

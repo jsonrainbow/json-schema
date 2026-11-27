@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace JsonSchema\Tests\Constraints\Draft04;
+
+use Generator;
+use JsonSchema\Constraints\Constraint;
+use JsonSchema\Constraints\Drafts\Draft04\FormatConstraint;
+use JsonSchema\Constraints\Factory;
+use JsonSchema\Tests\Constraints\VeryBaseTestCase;
+
+class FormatConstraintTest extends VeryBaseTestCase
+{
+    /**
+     * @dataProvider getInvalidFormats
+     */
+    public function testInvalidFormat($string, $format): void
+    {
+        $validator = new FormatConstraint();
+        $schema = new \stdClass();
+        $schema->format = $format;
+
+        $validator->check($string, $schema);
+
+        $this->assertCount(1, $validator->getErrors(), 'Expected 1 error');
+    }
+
+    /**
+     * @dataProvider getValidFormats
+     */
+    public function testValidFormat($string, $format): void
+    {
+        $validator = new FormatConstraint();
+        $schema = new \stdClass();
+        $schema->format = $format;
+
+        $validator->check($string, $schema);
+
+        $this->assertTrue($validator->isValid());
+    }
+
+    public function testFormatIsIgnoredWhenDisabled(): void
+    {
+        $validator = new FormatConstraint(new Factory(null, null, Constraint::CHECK_MODE_DISABLE_FORMAT));
+        $schema = new \stdClass();
+        $schema->format = 'date';
+        $value = 'not-a-date';
+
+        $validator->check($value, $schema);
+
+        $this->assertTrue($validator->isValid());
+    }
+
+    public function getInvalidFormats(): Generator
+    {
+        yield 'Date-time format with value containing null byte' => ["2020-01-01T12:34:56\x00", 'date-time'];
+        yield 'Date format with value containing null byte' => ["2020-01-01\x00", 'date'];
+        yield 'Time format with value containing null byte' => ["13:37:00\x00", 'time'];
+        yield 'URI template format with trailing new line' => ["http://example.com/{term}\n", 'uri-template'];
+    }
+
+    public function getValidFormats(): Generator
+    {
+        yield 'Date-time format with value containing high-precision fractional seconds' => ['2020-01-01T12:00:02.0000001Z', 'date-time'];
+        yield 'URI template format with non-Latin literal' => ['http://例え.jp/π/{term}', 'uri-template'];
+    }
+}

@@ -34,6 +34,8 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Query and fragment' => ['ref' => '?query#fragment'];
         yield 'Percent-encoded triplet' => ['ref' => '/%41'];
         yield 'Percent-encoded triplet in lower case' => ['ref' => '/%c3%a9'];
+        yield 'Network-path reference with an empty authority' => ['ref' => '//'];
+        yield 'Colon in a segment after a dot-segment' => ['ref' => './a:b'];
     }
 
     public function invalidRelativeReferenceDataProvider(): \Generator
@@ -45,5 +47,13 @@ class RelativeReferenceValidatorTest extends TestCase
         yield 'Incomplete percent-encoding triplet' => ['ref' => '/%A'];
         yield 'Percent-encoding with non-hex digits' => ['ref' => '/%zz'];
         yield 'Percent sign in a query' => ['ref' => '?100%'];
+        yield 'Non-ASCII character' => ['ref' => '/foobar®.txt'];
+        yield 'Double quote in a path' => ['ref' => '/a"b'];
+        yield 'Square brackets outside an authority' => ['ref' => '/[::1]'];
+        yield 'Non-numeric port' => ['ref' => '//example.com:abc/p'];
+        yield 'More than one at-sign in the authority' => ['ref' => '//a@b@example.com/'];
+        yield 'Leading zero in the IPv4 part of an IPv6 literal' => ['ref' => '//[::ffff:192.168.0.01]/p'];
+        yield 'Colon in the first segment of a relative-path reference' => ['ref' => '1:b'];
+        yield 'Trailing new line' => ['ref' => "/foo\n"];
     }
 }

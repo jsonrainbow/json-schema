@@ -87,6 +87,7 @@ class ValidatorTest extends TestCase
     {
         foreach (DraftIdentifiers::getEnumerators() as $draft) {
             switch ($draft) {
+                case DraftIdentifiers::DRAFT_4():
                 case DraftIdentifiers::DRAFT_6():
                 case DraftIdentifiers::DRAFT_7():
                 case DraftIdentifiers::DRAFT_2019_09():
