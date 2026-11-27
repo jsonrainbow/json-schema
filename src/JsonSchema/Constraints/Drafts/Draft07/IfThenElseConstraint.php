@@ -31,7 +31,15 @@ class IfThenElseConstraint implements ConstraintInterface
         $ifSchema = $schema->if;
 
         if (!is_bool($ifSchema)) {
-            $schemaConstraint->check($value, $ifSchema, $path, $i);
+            // Only the validity of the if subschema is needed, its errors are never reported
+            $previousFailFast = $this->factory->startFailFast();
+            try {
+                $schemaConstraint->check($value, $ifSchema, $path, $i);
+            } finally {
+                if ($previousFailFast !== null) {
+                    $this->factory->stopFailFast($previousFailFast);
+                }
+            }
             $meetsIfConditions = $schemaConstraint->isValid();
             $schemaConstraint->reset();
         } else {

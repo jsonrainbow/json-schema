@@ -46,6 +46,9 @@ class PropertiesConstraint implements ConstraintInterface
             }
 
             $this->addErrors($schemaConstraint->getErrors());
+            if ($this->factory->isFailFast()) {
+                return;
+            }
         }
     }
 }

@@ -29,6 +29,30 @@ class AnyOfConstraint implements ConstraintInterface
             return;
         }
 
+        // Only the validity of each branch is needed to know whether any of them matches. The errors of the
+        // branches are collected afterwards, by evaluating them once more, only if the anyOf fails.
+        $previousFailFast = $this->factory->startFailFast();
+        if ($previousFailFast !== null) {
+            try {
+                foreach ($schema->anyOf as $anyOfSchema) {
+                    $schemaConstraint = $this->factory->createInstanceFor('schema');
+                    $schemaConstraint->check($value, $anyOfSchema, $path, $i);
+                    if ($schemaConstraint->isValid()) {
+                        return;
+                    }
+                }
+            } finally {
+                $this->factory->stopFailFast($previousFailFast);
+            }
+
+            if ($previousFailFast) {
+                // Only the validity of this anyOf is needed as well
+                $this->addError(ConstraintError::ANY_OF(), $path);
+
+                return;
+            }
+        }
+
         foreach ($schema->anyOf as $anyOfSchema) {
             $schemaConstraint = $this->factory->createInstanceFor('schema');
 
