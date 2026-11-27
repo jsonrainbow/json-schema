@@ -90,6 +90,24 @@ class UnevaluatedPropertiesConstraint implements ConstraintInterface
             }
         }
 
+        if (property_exists($schema, '$recursiveRef') && is_string($schema->{'$recursiveRef'})) {
+            $reference = '$recursiveRef:' . $schema->{'$recursiveRef'};
+            if (!in_array($reference, $visitedRefs, true)) {
+                try {
+                    $visitedRefs[] = $reference;
+                    $resolvedSchema = $this->factory->resolveRecursiveRef($schema->{'$recursiveRef'});
+                    if (is_object($resolvedSchema)) {
+                        $evaluated = array_merge(
+                            $evaluated,
+                            $this->collectEvaluatedProperties($resolvedSchema, $value, $path, $visitedRefs)
+                        );
+                    }
+                } catch (\Exception $e) {
+                    // Let the normal reference validation report resolution errors.
+                }
+            }
+        }
+
         $properties = get_object_vars($value);
 
         // A nested unevaluatedProperties applies to every property its subschema has not evaluated otherwise, so

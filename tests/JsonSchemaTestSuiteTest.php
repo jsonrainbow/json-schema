@@ -126,24 +126,12 @@ class JsonSchemaTestSuiteTest extends TestCase
     {
         $skip = [
             // Draft 2019-09 complex constraints, which aren't supported initially
-            '[draft2019-09/recursiveRef.json]: $recursiveRef without $recursiveAnchor works like $ref: recursive mismatch is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef without using nesting: integer does not match as a property value is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef without using nesting: two levels, no match is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef with $recursiveAnchor: false works like $ref: integer does not match as a property value is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef with $recursiveAnchor: false works like $ref: two levels, integer does not match as a property value is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef with no $recursiveAnchor works like $ref: integer does not match as a property value is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef with no $recursiveAnchor works like $ref: two levels, integer does not match as a property value is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef with no $recursiveAnchor in the outer schema resource: leaf node does not match: recursion only uses inner schema is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: $recursiveRef with no $recursiveAnchor in the initial target schema resource: leaf node does not match: recursion uses the inner schema is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: multiple dynamic paths to the $recursiveRef keyword: recurse to integerNode - floats are not allowed is expected to be invalid',
-            '[draft2019-09/recursiveRef.json]: dynamic $recursiveRef destination (not predictable at schema compile time): integer node is expected to be invalid',
             '[draft2019-09/vocabulary.json]: schema that uses custom metaschema with with no validation vocabulary: applicator vocabulary still works is expected to be invalid',
             '[draft2019-09/vocabulary.json]: schema that uses custom metaschema with with no validation vocabulary: no validation: valid number is expected to be valid',
             '[draft2019-09/vocabulary.json]: schema that uses custom metaschema with with no validation vocabulary: no validation: invalid number, but it still validates is expected to be valid',
             '[draft2019-09/vocabulary.json]: ignore unrecognized optional vocabulary: string value is expected to be invalid',
             '[draft2019-09/vocabulary.json]: ignore unrecognized optional vocabulary: number value is expected to be valid',
             '[draft2019-09/ref.json]: $ref with $recursiveAnchor: extra items disallowed for root is expected to be invalid',
-            '[draft2019-09/unevaluatedProperties.json]: unevaluatedProperties with $recursiveRef: with no unevaluated properties is expected to be valid',
             '[draft2019-09/unevaluatedItems.json]: unevaluatedItems with $recursiveRef: with no unevaluated items is expected to be valid',
             // Optional: Anchor, not yet implemented
             // Optional: bignum — PHP does not natively support arbitrary-precision integers/floats
