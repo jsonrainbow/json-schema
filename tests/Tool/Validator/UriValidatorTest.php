@@ -50,5 +50,11 @@ class UriValidatorTest extends TestCase
         yield 'Invalid path characters with "^"' => ['uri' => 'http://example.com/^invalid'];
         yield 'Only mailto:' => ['uri' => 'mailto:'];
         yield 'Invalid email used in mailto:' => ['uri' => 'mailto:user@.com'];
+        yield 'Trailing new line' => ['uri' => "http://foo.bar/\n"];
+        yield 'Lone percent sign' => ['uri' => 'http://example.com/%'];
+        yield 'Incomplete percent-encoding triplet' => ['uri' => 'http://example.com/%A'];
+        yield 'Percent-encoding with non-hex digits' => ['uri' => 'http://example.com/%6G'];
+        yield 'Square bracket in the userinfo' => ['uri' => 'https://[@example.org/test.txt'];
+        yield 'Leading zero in the IPv4 part of an IPv6 literal' => ['uri' => 'http://[::ffff:01.2.3.4]'];
     }
 }

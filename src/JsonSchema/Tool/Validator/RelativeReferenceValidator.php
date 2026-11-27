@@ -8,6 +8,10 @@ class RelativeReferenceValidator
 {
     public static function isValid(string $ref): bool
     {
+        if (!Rfc3986::isUriReference($ref)) {
+            return false;
+        }
+
         // Relative reference pattern as per RFC 3986, Section 4.1
         $pattern = '/^(([^\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/';
 
@@ -30,10 +34,6 @@ class RelativeReferenceValidator
 
         if (preg_match('/^:\//', $ref)) {
             return false; // Invalid scheme separator
-        }
-
-        if (preg_match('/^\/\/$/', $ref)) {
-            return false; // Empty authority
         }
 
         if (preg_match('/^\/\/\/[^\/]/', $ref)) {
