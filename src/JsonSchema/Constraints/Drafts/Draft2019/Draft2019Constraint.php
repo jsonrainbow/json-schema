@@ -20,7 +20,8 @@ class Draft2019Constraint extends Constraint
         parent::__construct(new Factory(
             $factory ? $factory->getSchemaStorage() : new SchemaStorage(),
             $factory ? $factory->getUriRetriever() : new UriRetriever(),
-            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL
+            $factory ? $factory->getConfig() : Constraint::CHECK_MODE_NORMAL,
+            $factory
         ));
     }
 
@@ -101,7 +102,6 @@ class Draft2019Constraint extends Constraint
         $this->factory->removeConfig(Constraint::CHECK_MODE_APPLY_DEFAULTS);
         $this->factory->addConfig(Constraint::CHECK_MODE_TYPE_CAST);
         $validator = new self($this->factory);
-        $this->factory->setConfig($initialConfig);
 
         $metaSchema = $this->factory->getSchemaStorage()->getSchema(DraftIdentifiers::DRAFT_2019_09);
         try {
@@ -110,6 +110,9 @@ class Draft2019Constraint extends Constraint
             if ($this->factory->getConfig(Constraint::CHECK_MODE_EXCEPTIONS)) {
                 throw new InvalidSchemaException('Schema did not pass validation', 0, $e);
             }
+        } finally {
+            // the validator reads the config of this factory, so it is restored only once it is done
+            $this->factory->setConfig($initialConfig);
         }
 
         $errors = $validator->getErrors();

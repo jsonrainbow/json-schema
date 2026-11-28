@@ -6,8 +6,12 @@ namespace JsonSchema\Tests;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
+use JsonSchema\Constraints\TypeCheck\LooseTypeCheck;
+use JsonSchema\Constraints\TypeCheck\StrictTypeCheck;
 use JsonSchema\DraftIdentifiers;
 use JsonSchema\Exception\InvalidArgumentException;
+use JsonSchema\Exception\InvalidSchemaException;
+use JsonSchema\Exception\ValidationException;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -66,6 +70,111 @@ class ValidatorTest extends TestCase
         $validator->coerce($data, $schema);
 
         $this->assertTrue($validator->isValid(), 'Validation failed, but should have succeeded.');
+    }
+
+    /** @dataProvider draftsWithCheckModeChangedBetweenValidations */
+    public function testDraftConstraintsUseTheCheckModeOfEachValidation(string $schemaUri, int $firstCheckMode, int $secondCheckMode, bool $expectedValid): void
+    {
+        $schema = (object) ['$schema' => $schemaUri, 'format' => 'date-time'];
+        $validator = new Validator();
+
+        $data = 'not-a-date';
+        $validator->validate($data, $schema, $firstCheckMode);
+        $data = 'not-a-date';
+        $validator->validate($data, $schema, $secondCheckMode);
+
+        $this->assertSame($expectedValid, $validator->isValid());
+    }
+
+    public function draftsWithCheckModeChangedBetweenValidations(): \Generator
+    {
+        $checked = Constraint::CHECK_MODE_STRICT;
+        $disabled = Constraint::CHECK_MODE_STRICT | Constraint::CHECK_MODE_DISABLE_FORMAT;
+
+        foreach (self::strictModeSchemaUris() as $draft => $schemaUri) {
+            yield $draft . ', format checked after being disabled' => [$schemaUri, $disabled, $checked, false];
+            yield $draft . ', format disabled after being checked' => [$schemaUri, $checked, $disabled, true];
+        }
+    }
+
+    /** @dataProvider draftsWithSchemaValidationModes */
+    public function testDraftConstraintsRestoreTheCheckModeOfTheFactoryAfterAnInvalidSchema(string $schemaUri, int $checkMode): void
+    {
+        $factory = new Factory(null, null, $checkMode);
+        $validator = new Validator($factory);
+        $schema = (object) ['$schema' => $schemaUri, 'minLength' => 'five'];
+        $data = 'x';
+
+        try {
+            $validator->validate($data, $schema);
+        } catch (InvalidSchemaException $e) {
+        }
+
+        $this->assertSame($checkMode, $factory->getConfig());
+    }
+
+    public function draftsWithSchemaValidationModes(): \Generator
+    {
+        $validateSchema = Constraint::CHECK_MODE_STRICT | Constraint::CHECK_MODE_VALIDATE_SCHEMA | Constraint::CHECK_MODE_EXCEPTIONS;
+
+        foreach (self::strictModeSchemaUris() as $draft => $schemaUri) {
+            yield $draft . ', schema validated' => [$schemaUri, $validateSchema];
+            yield $draft . ', schema validated with defaults applied' => [$schemaUri, $validateSchema | Constraint::CHECK_MODE_APPLY_DEFAULTS];
+        }
+    }
+
+    /** @dataProvider draftFactoryClasses */
+    public function testDraftFactoryReturnsTheTypeCheckOfTheCurrentCheckMode(string $draftFactoryClass): void
+    {
+        $rootFactory = new Factory(null, null, Constraint::CHECK_MODE_STRICT);
+        $draftFactory = new $draftFactoryClass(null, null, $rootFactory->getConfig(), $rootFactory);
+        $this->assertInstanceOf(StrictTypeCheck::class, $draftFactory->getTypeCheck());
+
+        $rootFactory->addConfig(Constraint::CHECK_MODE_TYPE_CAST);
+
+        $this->assertInstanceOf(LooseTypeCheck::class, $draftFactory->getTypeCheck());
+    }
+
+    public function draftFactoryClasses(): \Generator
+    {
+        yield 'draft-06' => [\JsonSchema\Constraints\Drafts\Draft06\Factory::class];
+        yield 'draft-07' => [\JsonSchema\Constraints\Drafts\Draft07\Factory::class];
+        yield 'draft-2019-09' => [\JsonSchema\Constraints\Drafts\Draft2019\Factory::class];
+    }
+
+    /** @dataProvider draftsWithExceptionsEnabledBetweenValidations */
+    public function testDraftConstraintsThrowWhenExceptionsAreEnabledForALaterValidation(string $schemaUri): void
+    {
+        $schema = (object) ['$schema' => $schemaUri, 'type' => 'integer'];
+        $validator = new Validator();
+
+        $data = 'foo';
+        $validator->validate($data, $schema, Constraint::CHECK_MODE_STRICT);
+        $this->assertFalse($validator->isValid());
+
+        $this->expectException(ValidationException::class);
+
+        $data = 'foo';
+        $validator->validate($data, $schema, Constraint::CHECK_MODE_STRICT | Constraint::CHECK_MODE_EXCEPTIONS);
+    }
+
+    public function draftsWithExceptionsEnabledBetweenValidations(): \Generator
+    {
+        foreach (self::strictModeSchemaUris() as $draft => $schemaUri) {
+            yield $draft => [$schemaUri];
+        }
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function strictModeSchemaUris(): array
+    {
+        return [
+            'draft-06' => 'http://json-schema.org/draft-06/schema#',
+            'draft-07' => 'http://json-schema.org/draft-07/schema#',
+            'draft-2019-09' => 'https://json-schema.org/draft/2019-09/schema',
+        ];
     }
 
     /** @dataProvider draftIdentifiersNotSupportedForStrictMode */
